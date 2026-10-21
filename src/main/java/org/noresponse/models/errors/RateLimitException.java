@@ -19,14 +19,14 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import org.noresponse.models.shared.NotFoundErrorCode;
 import org.noresponse.models.shared.ProblemInvalidParam;
+import org.noresponse.models.shared.RateLimitErrorCode;
 import org.noresponse.utils.Blob;
 import org.noresponse.utils.LazySingletonValue;
 import org.noresponse.utils.Utils;
 
 @SuppressWarnings("serial")
-public class NotFoundError extends NoResponseException {
+public class RateLimitException extends NoResponseException {
 
     @Nullable
     private final Data data;
@@ -34,7 +34,7 @@ public class NotFoundError extends NoResponseException {
     @Nullable
     private final Throwable deserializationException;
 
-    public NotFoundError(
+    public RateLimitException(
             int code,
             byte[] body,
             HttpResponse<?> rawResponse,
@@ -46,29 +46,29 @@ public class NotFoundError extends NoResponseException {
     }
 
     /**
-     * Parse a response into an instance of NotFoundError. If deserialization of the response body fails,
-     * the resulting NotFoundError instance will have a null data() value and a non-null deserializationException().
+     * Parse a response into an instance of RateLimitException. If deserialization of the response body fails,
+     * the resulting RateLimitException instance will have a null data() value and a non-null deserializationException().
      */
-    public static NotFoundError from(HttpResponse<InputStream> response) {
+    public static RateLimitException from(HttpResponse<InputStream> response) {
         byte[] bytes;
         try {
             bytes = Utils.extractByteArrayFromBody(response);
         } catch (Exception e) {
-            return new NotFoundError(response.statusCode(), null, response, null, e);
+            return new RateLimitException(response.statusCode(), null, response, null, e);
         }
         try {
             Data data = Utils.mapper().readValue(bytes, Data.class);
-            return new NotFoundError(response.statusCode(), bytes, response, data, null);
+            return new RateLimitException(response.statusCode(), bytes, response, data, null);
         } catch (Exception e) {
-            return new NotFoundError(response.statusCode(), bytes, response, null, e);
+            return new RateLimitException(response.statusCode(), bytes, response, null, e);
         }
     }
 
     /**
-     * Parse a response into an instance of NotFoundError asynchronously. If deserialization of the response body fails,
-     * the resulting NotFoundError instance will have a null data() value and a non-null deserializationException().
+     * Parse a response into an instance of RateLimitException asynchronously. If deserialization of the response body fails,
+     * the resulting RateLimitException instance will have a null data() value and a non-null deserializationException().
      */
-    public static CompletableFuture<NotFoundError> fromAsync(HttpResponse<Blob> response) {
+    public static CompletableFuture<RateLimitException> fromAsync(HttpResponse<Blob> response) {
         return response.body().toByteArray().handle((bytes, err) -> {
             // if a body read error occurs, we want to transform the exception
             if (err != null) {
@@ -77,14 +77,14 @@ public class NotFoundError extends NoResponseException {
             }
 
             try {
-                return new NotFoundError(
+                return new RateLimitException(
                         response.statusCode(),
                         bytes,
                         response,
                         Utils.mapper().readValue(bytes, new TypeReference<Data>() {}),
                         null);
             } catch (Exception e) {
-                return new NotFoundError(response.statusCode(), bytes, response, null, e);
+                return new RateLimitException(response.statusCode(), bytes, response, null, e);
             }
         });
     }
@@ -132,7 +132,7 @@ public class NotFoundError extends NoResponseException {
     /**
      * Data
      *
-     * <p>HTTP 404 problem document.
+     * <p>HTTP 429 problem document.
      */
     public static class Data {
 
@@ -153,10 +153,10 @@ public class NotFoundError extends NoResponseException {
         private String instance;
 
         /**
-         * Machine codes an HTTP 404 answer can carry.
+         * Machine codes an HTTP 429 answer can carry.
          */
         @JsonProperty("code")
-        private NotFoundErrorCode code;
+        private RateLimitErrorCode code;
 
         @JsonProperty("request_id")
         private String requestId;
@@ -171,7 +171,7 @@ public class NotFoundError extends NoResponseException {
                 @JsonProperty("title") @Nonnull String title,
                 @JsonProperty("detail") @Nonnull String detail,
                 @JsonProperty("instance") @Nullable String instance,
-                @JsonProperty("code") @Nonnull NotFoundErrorCode code,
+                @JsonProperty("code") @Nonnull RateLimitErrorCode code,
                 @JsonProperty("request_id") @Nonnull String requestId,
                 @JsonProperty("invalid_params") @Nullable List<ProblemInvalidParam> invalidParams) {
             this.type =
@@ -193,7 +193,7 @@ public class NotFoundError extends NoResponseException {
                 @Nonnull String type,
                 @Nonnull String title,
                 @Nonnull String detail,
-                @Nonnull NotFoundErrorCode code,
+                @Nonnull RateLimitErrorCode code,
                 @Nonnull String requestId) {
             this(type, title, detail, null, code, requestId, null);
         }
@@ -219,9 +219,9 @@ public class NotFoundError extends NoResponseException {
         }
 
         /**
-         * Machine codes an HTTP 404 answer can carry.
+         * Machine codes an HTTP 429 answer can carry.
          */
-        public NotFoundErrorCode code() {
+        public RateLimitErrorCode code() {
             return this.code;
         }
 
@@ -258,9 +258,9 @@ public class NotFoundError extends NoResponseException {
         }
 
         /**
-         * Machine codes an HTTP 404 answer can carry.
+         * Machine codes an HTTP 429 answer can carry.
          */
-        public Data withCode(@Nonnull NotFoundErrorCode code) {
+        public Data withCode(@Nonnull RateLimitErrorCode code) {
             this.code = Utils.checkNotNull(code, "code");
             return this;
         }
@@ -332,7 +332,7 @@ public class NotFoundError extends NoResponseException {
 
             private String instance;
 
-            private NotFoundErrorCode code;
+            private RateLimitErrorCode code;
 
             private String requestId;
 
@@ -363,9 +363,9 @@ public class NotFoundError extends NoResponseException {
             }
 
             /**
-             * Machine codes an HTTP 404 answer can carry.
+             * Machine codes an HTTP 429 answer can carry.
              */
-            public Builder code(@Nonnull NotFoundErrorCode code) {
+            public Builder code(@Nonnull RateLimitErrorCode code) {
                 this.code = Utils.checkNotNull(code, "code");
                 return this;
             }
@@ -385,7 +385,7 @@ public class NotFoundError extends NoResponseException {
             }
 
             private static final LazySingletonValue<Long> _SINGLETON_VALUE_Status =
-                    new LazySingletonValue<>("status", "404", new TypeReference<Long>() {});
+                    new LazySingletonValue<>("status", "429", new TypeReference<Long>() {});
         }
     }
 }

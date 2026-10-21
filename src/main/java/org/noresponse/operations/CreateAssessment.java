@@ -24,12 +24,12 @@ import java.util.function.Function;
 import org.noresponse.SDKConfiguration;
 import org.noresponse.SecuritySource;
 import org.noresponse.models.errors.APIStatusException;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentRequest;
 import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.Assessment;
@@ -201,7 +201,7 @@ public class CreateAssessment {
             if (Utils.statusCodeMatches(response.statusCode(), "400")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/problem+json")) {
-                    throw BadRequestError.from(response);
+                    throw BadRequestException.from(response);
                 } else {
                     throw APIStatusException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -209,7 +209,7 @@ public class CreateAssessment {
             if (Utils.statusCodeMatches(response.statusCode(), "401")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/problem+json")) {
-                    throw AuthenticationError.from(response);
+                    throw AuthenticationException.from(response);
                 } else {
                     throw APIStatusException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -217,7 +217,7 @@ public class CreateAssessment {
             if (Utils.statusCodeMatches(response.statusCode(), "403")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/problem+json")) {
-                    throw PermissionDeniedError.from(response);
+                    throw PermissionDeniedException.from(response);
                 } else {
                     throw APIStatusException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -225,7 +225,7 @@ public class CreateAssessment {
             if (Utils.statusCodeMatches(response.statusCode(), "404")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/problem+json")) {
-                    throw NotFoundError.from(response);
+                    throw NotFoundException.from(response);
                 } else {
                     throw APIStatusException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -233,7 +233,7 @@ public class CreateAssessment {
             if (Utils.statusCodeMatches(response.statusCode(), "409")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/problem+json")) {
-                    throw ConflictError.from(response);
+                    throw ConflictException.from(response);
                 } else {
                     throw APIStatusException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -241,7 +241,7 @@ public class CreateAssessment {
             if (Utils.statusCodeMatches(response.statusCode(), "429")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/problem+json")) {
-                    throw RateLimitError.from(response);
+                    throw RateLimitException.from(response);
                 } else {
                     throw APIStatusException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -332,7 +332,7 @@ public class CreateAssessment {
             if (Utils.statusCodeMatches(response.statusCode(), "400")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/problem+json")) {
-                    return BadRequestError.fromAsync(response).thenCompose(CompletableFuture::failedFuture);
+                    return BadRequestException.fromAsync(response).thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
@@ -340,7 +340,7 @@ public class CreateAssessment {
             if (Utils.statusCodeMatches(response.statusCode(), "401")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/problem+json")) {
-                    return AuthenticationError.fromAsync(response).thenCompose(CompletableFuture::failedFuture);
+                    return AuthenticationException.fromAsync(response).thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
@@ -348,7 +348,7 @@ public class CreateAssessment {
             if (Utils.statusCodeMatches(response.statusCode(), "403")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/problem+json")) {
-                    return PermissionDeniedError.fromAsync(response).thenCompose(CompletableFuture::failedFuture);
+                    return PermissionDeniedException.fromAsync(response).thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
@@ -356,7 +356,7 @@ public class CreateAssessment {
             if (Utils.statusCodeMatches(response.statusCode(), "404")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/problem+json")) {
-                    return NotFoundError.fromAsync(response).thenCompose(CompletableFuture::failedFuture);
+                    return NotFoundException.fromAsync(response).thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
@@ -364,7 +364,7 @@ public class CreateAssessment {
             if (Utils.statusCodeMatches(response.statusCode(), "409")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/problem+json")) {
-                    return ConflictError.fromAsync(response).thenCompose(CompletableFuture::failedFuture);
+                    return ConflictException.fromAsync(response).thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
@@ -372,7 +372,7 @@ public class CreateAssessment {
             if (Utils.statusCodeMatches(response.statusCode(), "429")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/problem+json")) {
-                    return RateLimitError.fromAsync(response).thenCompose(CompletableFuture::failedFuture);
+                    return RateLimitException.fromAsync(response).thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }

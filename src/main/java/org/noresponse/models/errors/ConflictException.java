@@ -19,14 +19,14 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import org.noresponse.models.shared.ConflictErrorCode;
 import org.noresponse.models.shared.ProblemInvalidParam;
-import org.noresponse.models.shared.RateLimitErrorCode;
 import org.noresponse.utils.Blob;
 import org.noresponse.utils.LazySingletonValue;
 import org.noresponse.utils.Utils;
 
 @SuppressWarnings("serial")
-public class RateLimitError extends NoResponseException {
+public class ConflictException extends NoResponseException {
 
     @Nullable
     private final Data data;
@@ -34,7 +34,7 @@ public class RateLimitError extends NoResponseException {
     @Nullable
     private final Throwable deserializationException;
 
-    public RateLimitError(
+    public ConflictException(
             int code,
             byte[] body,
             HttpResponse<?> rawResponse,
@@ -46,29 +46,29 @@ public class RateLimitError extends NoResponseException {
     }
 
     /**
-     * Parse a response into an instance of RateLimitError. If deserialization of the response body fails,
-     * the resulting RateLimitError instance will have a null data() value and a non-null deserializationException().
+     * Parse a response into an instance of ConflictException. If deserialization of the response body fails,
+     * the resulting ConflictException instance will have a null data() value and a non-null deserializationException().
      */
-    public static RateLimitError from(HttpResponse<InputStream> response) {
+    public static ConflictException from(HttpResponse<InputStream> response) {
         byte[] bytes;
         try {
             bytes = Utils.extractByteArrayFromBody(response);
         } catch (Exception e) {
-            return new RateLimitError(response.statusCode(), null, response, null, e);
+            return new ConflictException(response.statusCode(), null, response, null, e);
         }
         try {
             Data data = Utils.mapper().readValue(bytes, Data.class);
-            return new RateLimitError(response.statusCode(), bytes, response, data, null);
+            return new ConflictException(response.statusCode(), bytes, response, data, null);
         } catch (Exception e) {
-            return new RateLimitError(response.statusCode(), bytes, response, null, e);
+            return new ConflictException(response.statusCode(), bytes, response, null, e);
         }
     }
 
     /**
-     * Parse a response into an instance of RateLimitError asynchronously. If deserialization of the response body fails,
-     * the resulting RateLimitError instance will have a null data() value and a non-null deserializationException().
+     * Parse a response into an instance of ConflictException asynchronously. If deserialization of the response body fails,
+     * the resulting ConflictException instance will have a null data() value and a non-null deserializationException().
      */
-    public static CompletableFuture<RateLimitError> fromAsync(HttpResponse<Blob> response) {
+    public static CompletableFuture<ConflictException> fromAsync(HttpResponse<Blob> response) {
         return response.body().toByteArray().handle((bytes, err) -> {
             // if a body read error occurs, we want to transform the exception
             if (err != null) {
@@ -77,14 +77,14 @@ public class RateLimitError extends NoResponseException {
             }
 
             try {
-                return new RateLimitError(
+                return new ConflictException(
                         response.statusCode(),
                         bytes,
                         response,
                         Utils.mapper().readValue(bytes, new TypeReference<Data>() {}),
                         null);
             } catch (Exception e) {
-                return new RateLimitError(response.statusCode(), bytes, response, null, e);
+                return new ConflictException(response.statusCode(), bytes, response, null, e);
             }
         });
     }
@@ -132,7 +132,7 @@ public class RateLimitError extends NoResponseException {
     /**
      * Data
      *
-     * <p>HTTP 429 problem document.
+     * <p>HTTP 409 problem document.
      */
     public static class Data {
 
@@ -153,10 +153,10 @@ public class RateLimitError extends NoResponseException {
         private String instance;
 
         /**
-         * Machine codes an HTTP 429 answer can carry.
+         * Machine codes an HTTP 409 answer can carry.
          */
         @JsonProperty("code")
-        private RateLimitErrorCode code;
+        private ConflictErrorCode code;
 
         @JsonProperty("request_id")
         private String requestId;
@@ -171,7 +171,7 @@ public class RateLimitError extends NoResponseException {
                 @JsonProperty("title") @Nonnull String title,
                 @JsonProperty("detail") @Nonnull String detail,
                 @JsonProperty("instance") @Nullable String instance,
-                @JsonProperty("code") @Nonnull RateLimitErrorCode code,
+                @JsonProperty("code") @Nonnull ConflictErrorCode code,
                 @JsonProperty("request_id") @Nonnull String requestId,
                 @JsonProperty("invalid_params") @Nullable List<ProblemInvalidParam> invalidParams) {
             this.type =
@@ -193,7 +193,7 @@ public class RateLimitError extends NoResponseException {
                 @Nonnull String type,
                 @Nonnull String title,
                 @Nonnull String detail,
-                @Nonnull RateLimitErrorCode code,
+                @Nonnull ConflictErrorCode code,
                 @Nonnull String requestId) {
             this(type, title, detail, null, code, requestId, null);
         }
@@ -219,9 +219,9 @@ public class RateLimitError extends NoResponseException {
         }
 
         /**
-         * Machine codes an HTTP 429 answer can carry.
+         * Machine codes an HTTP 409 answer can carry.
          */
-        public RateLimitErrorCode code() {
+        public ConflictErrorCode code() {
             return this.code;
         }
 
@@ -258,9 +258,9 @@ public class RateLimitError extends NoResponseException {
         }
 
         /**
-         * Machine codes an HTTP 429 answer can carry.
+         * Machine codes an HTTP 409 answer can carry.
          */
-        public Data withCode(@Nonnull RateLimitErrorCode code) {
+        public Data withCode(@Nonnull ConflictErrorCode code) {
             this.code = Utils.checkNotNull(code, "code");
             return this;
         }
@@ -332,7 +332,7 @@ public class RateLimitError extends NoResponseException {
 
             private String instance;
 
-            private RateLimitErrorCode code;
+            private ConflictErrorCode code;
 
             private String requestId;
 
@@ -363,9 +363,9 @@ public class RateLimitError extends NoResponseException {
             }
 
             /**
-             * Machine codes an HTTP 429 answer can carry.
+             * Machine codes an HTTP 409 answer can carry.
              */
-            public Builder code(@Nonnull RateLimitErrorCode code) {
+            public Builder code(@Nonnull ConflictErrorCode code) {
                 this.code = Utils.checkNotNull(code, "code");
                 return this;
             }
@@ -385,7 +385,7 @@ public class RateLimitError extends NoResponseException {
             }
 
             private static final LazySingletonValue<Long> _SINGLETON_VALUE_Status =
-                    new LazySingletonValue<>("status", "429", new TypeReference<Long>() {});
+                    new LazySingletonValue<>("status", "409", new TypeReference<Long>() {});
         }
     }
 }

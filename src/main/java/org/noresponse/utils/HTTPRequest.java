@@ -70,6 +70,7 @@ public class HTTPRequest {
 
     public HttpRequest build() {
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder();
+        requestBuilder.timeout(java.time.Duration.ofSeconds(60));
 
         final BodyPublisher bodyPublisher;
         if (body.isPresent()) {

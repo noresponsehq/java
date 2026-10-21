@@ -23,12 +23,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
@@ -64,12 +64,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
@@ -105,12 +105,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
@@ -157,12 +157,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
@@ -199,12 +199,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
@@ -255,12 +255,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
@@ -296,12 +296,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
@@ -343,15 +343,15 @@ public class Application {
 
 ### Errors
 
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| models/errors/BadRequestError       | 400                                 | application/problem+json            |
-| models/errors/AuthenticationError   | 401                                 | application/problem+json            |
-| models/errors/PermissionDeniedError | 403                                 | application/problem+json            |
-| models/errors/NotFoundError         | 404                                 | application/problem+json            |
-| models/errors/ConflictError         | 409                                 | application/problem+json            |
-| models/errors/RateLimitError        | 429                                 | application/problem+json            |
-| models/errors/APIStatusException    | 4XX, 5XX                            | \*/\*                               |
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
 
 ## get
 
@@ -365,12 +365,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.GetAssessmentResponse;
 
 public class Application {
@@ -399,12 +399,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.GetAssessmentResponse;
 
 public class Application {
@@ -433,12 +433,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.GetAssessmentResponse;
 
 public class Application {
@@ -467,12 +467,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.GetAssessmentResponse;
 
 public class Application {
@@ -501,12 +501,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.GetAssessmentResponse;
 
 public class Application {
@@ -541,15 +541,15 @@ public class Application {
 
 ### Errors
 
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| models/errors/BadRequestError       | 400                                 | application/problem+json            |
-| models/errors/AuthenticationError   | 401                                 | application/problem+json            |
-| models/errors/PermissionDeniedError | 403                                 | application/problem+json            |
-| models/errors/NotFoundError         | 404                                 | application/problem+json            |
-| models/errors/ConflictError         | 409                                 | application/problem+json            |
-| models/errors/RateLimitError        | 429                                 | application/problem+json            |
-| models/errors/APIStatusException    | 4XX, 5XX                            | \*/\*                               |
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
 
 ## recordOutcome
 
@@ -563,12 +563,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.RecordAssessmentOutcomeResponse;
 import org.noresponse.models.shared.AssessmentOutcomeRequest;
 import org.noresponse.models.shared.Outcome;
@@ -606,12 +606,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.RecordAssessmentOutcomeResponse;
 import org.noresponse.models.shared.AssessmentOutcomeRequest;
 import org.noresponse.models.shared.Outcome;
@@ -646,12 +646,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.RecordAssessmentOutcomeResponse;
 import org.noresponse.models.shared.AssessmentOutcomeRequest;
 import org.noresponse.models.shared.Outcome;
@@ -693,15 +693,15 @@ public class Application {
 
 ### Errors
 
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| models/errors/BadRequestError       | 400                                 | application/problem+json            |
-| models/errors/AuthenticationError   | 401                                 | application/problem+json            |
-| models/errors/PermissionDeniedError | 403                                 | application/problem+json            |
-| models/errors/NotFoundError         | 404                                 | application/problem+json            |
-| models/errors/ConflictError         | 409                                 | application/problem+json            |
-| models/errors/RateLimitError        | 429                                 | application/problem+json            |
-| models/errors/APIStatusException    | 4XX, 5XX                            | \*/\*                               |
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
 
 ## query
 
@@ -715,12 +715,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.QueryAccountAssessmentsResponse;
 import org.noresponse.models.shared.AssessmentQuery;
 
@@ -754,12 +754,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.QueryAccountAssessmentsResponse;
 import org.noresponse.models.shared.AssessmentQuery;
 
@@ -798,12 +798,12 @@ public class Application {
 
 ### Errors
 
-| Error Type                          | Status Code                         | Content Type                        |
-| ----------------------------------- | ----------------------------------- | ----------------------------------- |
-| models/errors/BadRequestError       | 400                                 | application/problem+json            |
-| models/errors/AuthenticationError   | 401                                 | application/problem+json            |
-| models/errors/PermissionDeniedError | 403                                 | application/problem+json            |
-| models/errors/NotFoundError         | 404                                 | application/problem+json            |
-| models/errors/ConflictError         | 409                                 | application/problem+json            |
-| models/errors/RateLimitError        | 429                                 | application/problem+json            |
-| models/errors/APIStatusException    | 4XX, 5XX                            | \*/\*                               |
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |

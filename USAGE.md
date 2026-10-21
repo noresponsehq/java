@@ -4,12 +4,12 @@ package hello.world;
 
 import java.lang.Exception;
 import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationError;
-import org.noresponse.models.errors.BadRequestError;
-import org.noresponse.models.errors.ConflictError;
-import org.noresponse.models.errors.NotFoundError;
-import org.noresponse.models.errors.PermissionDeniedError;
-import org.noresponse.models.errors.RateLimitError;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;

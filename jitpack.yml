@@ -1,0 +1,6 @@
+# JitPack builds the tagged release from this file. The generated build signs
+# artifacts for Maven Central; JitPack has no key, so skip signing.
+jdk:
+  - openjdk17
+install:
+  - ./gradlew -Pskip.signing publishToMavenLocal

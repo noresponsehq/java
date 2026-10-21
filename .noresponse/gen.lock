@@ -5,8 +5,8 @@ management:
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 2.0.1
-  configChecksum: 5777646151998ea02cb9bd5ecc93965e
+  releaseVersion: 2.0.2
+  configChecksum: 06e80f6d1eb49c90995e5c273198a065
 features:
   java:
     additionalDependencies: 0.1.0
@@ -28,21 +28,21 @@ trackedFiles:
   .gitattributes:
     last_write_checksum: sha1:2b27a763ec2b5c70648554e408dc254181222d09
   USAGE.md:
-    last_write_checksum: sha1:4817f4822ec69222ae92a9bb55e5fc60916be87f
+    last_write_checksum: sha1:47e0de68046fe0bf01a657fe0b3b7094bc351cc8
   build.gradle:
     last_write_checksum: sha1:9875d08db05cd49b6927e5c9ffe130c238b3536d
-  docs/models/errors/AuthenticationError.md:
-    last_write_checksum: sha1:a06af3ec220980abb0b376c839f5656b32455678
-  docs/models/errors/BadRequestError.md:
-    last_write_checksum: sha1:c6522fdaa6323aaf18f0ff4e58361b16d850006e
-  docs/models/errors/ConflictError.md:
-    last_write_checksum: sha1:95fca205b48bb83498867fcffbb457d642f3387d
-  docs/models/errors/NotFoundError.md:
-    last_write_checksum: sha1:aea77020a978c53e4d78cb19f47ff3e2e584ecd4
-  docs/models/errors/PermissionDeniedError.md:
-    last_write_checksum: sha1:a49eaf4a4c48d669d7dad975b9a0a94c2ff521a5
-  docs/models/errors/RateLimitError.md:
-    last_write_checksum: sha1:c7314a7c1eac62b25c163a8e29141a32a78c2a28
+  docs/models/errors/AuthenticationException.md:
+    last_write_checksum: sha1:7e03813d36996c8a5e880e756ee22b03170c83a2
+  docs/models/errors/BadRequestException.md:
+    last_write_checksum: sha1:765b08381f81bbce6a390f25c833106ff7a2a980
+  docs/models/errors/ConflictException.md:
+    last_write_checksum: sha1:6a577c21727cbf6c1de640bbe56a0bc174436d99
+  docs/models/errors/NotFoundException.md:
+    last_write_checksum: sha1:45adceff38f7af3d9962697748d8d9b5fa6832ab
+  docs/models/errors/PermissionDeniedException.md:
+    last_write_checksum: sha1:7052395741e76692adfd6ce8ff210d5436830cd9
+  docs/models/errors/RateLimitException.md:
+    last_write_checksum: sha1:e1149653368ad7743b15c8553de08b1b469d564c
   docs/models/operations/CreateAssessmentRequest.md:
     last_write_checksum: sha1:4452d3e69bca665d801eeec0445df26b8577e705
   docs/models/operations/CreateAssessmentResponse.md:
@@ -222,13 +222,13 @@ trackedFiles:
   docs/models/shared/WebsiteUnion.md:
     last_write_checksum: sha1:6e6179de4f7ea103254a1c1207c63843082e8c94
   docs/sdks/assessments/README.md:
-    last_write_checksum: sha1:43c678dd25fafe5b53f011ecf968ee14efae24ed
+    last_write_checksum: sha1:dc8e002e8ca9e732029aadd92f9bf8ae73ad97f0
   docs/sdks/keys/README.md:
-    last_write_checksum: sha1:60cd5fccad42ee9ca38ddf2e65d70a15eb295541
+    last_write_checksum: sha1:2e8c496817fb6b4007c93d2f0213176366c04b7a
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:2b213f353f06ab1de2731387383ca6bf3856dd0e
+    last_write_checksum: sha1:7158c58e4cff9d6bbb8564640fd3f237c2a56a6c
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -254,7 +254,7 @@ trackedFiles:
   src/main/java/org/noresponse/NoResponse.java:
     last_write_checksum: sha1:3e888aed355dc946263a0e37124d1552a89174f0
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:a563f032d8f63db0fd451aa649468e93b387624c
+    last_write_checksum: sha1:b715809cd2dbba623b82ff0ef5e21886dabf6303
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/models/errors/APIStatusException.java:
@@ -263,20 +263,20 @@ trackedFiles:
     last_write_checksum: sha1:29592bd28813d88ec63f187531fe8dda26b05ac1
   src/main/java/org/noresponse/models/errors/AuthException.java:
     last_write_checksum: sha1:156aadab1cb3c496bc114d0f9606ff95c484c5a2
-  src/main/java/org/noresponse/models/errors/AuthenticationError.java:
-    last_write_checksum: sha1:2710428bfcc649e75a49eccf75a28ce153e30b6d
-  src/main/java/org/noresponse/models/errors/BadRequestError.java:
-    last_write_checksum: sha1:4acf02160d8011d3b0a9d7063261853e678af762
-  src/main/java/org/noresponse/models/errors/ConflictError.java:
-    last_write_checksum: sha1:8b916edd84c067df59e1a174c90efa6353581663
+  src/main/java/org/noresponse/models/errors/AuthenticationException.java:
+    last_write_checksum: sha1:6d858f337883cbd3878e132627af6c2c112cfd71
+  src/main/java/org/noresponse/models/errors/BadRequestException.java:
+    last_write_checksum: sha1:8936afae52e6dc64e49caaeded65e1ae9ccd751a
+  src/main/java/org/noresponse/models/errors/ConflictException.java:
+    last_write_checksum: sha1:b93ec0c04f0be84715c949f2505a41fb53e43df5
   src/main/java/org/noresponse/models/errors/NoResponseException.java:
     last_write_checksum: sha1:168656bd0233e4493dbe29b68128fa65fb3cf6a4
-  src/main/java/org/noresponse/models/errors/NotFoundError.java:
-    last_write_checksum: sha1:65f60970a98715ef18cc1d00f110c928a8003f6c
-  src/main/java/org/noresponse/models/errors/PermissionDeniedError.java:
-    last_write_checksum: sha1:2878d1e40060699ff769bf059b807f1192c16490
-  src/main/java/org/noresponse/models/errors/RateLimitError.java:
-    last_write_checksum: sha1:d44377dfde35c033422db7234e6c42f9164dd590
+  src/main/java/org/noresponse/models/errors/NotFoundException.java:
+    last_write_checksum: sha1:d8652fc607775b659fc6700e0d5f0fec150f7a96
+  src/main/java/org/noresponse/models/errors/PermissionDeniedException.java:
+    last_write_checksum: sha1:03c13bffe0d64e0f939f6c80150523939736ea2f
+  src/main/java/org/noresponse/models/errors/RateLimitException.java:
+    last_write_checksum: sha1:ddda0c4cb4da8843736967b7545b019bc4785a8c
   src/main/java/org/noresponse/models/operations/CreateAssessmentRequest.java:
     last_write_checksum: sha1:baa42a9886a209c136dce88c25e163668da90857
   src/main/java/org/noresponse/models/operations/CreateAssessmentRequestBuilder.java:
@@ -486,17 +486,17 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/WebsiteUnion.java:
     last_write_checksum: sha1:89fce497aba4659daa54d9afa1fd1587553d58fa
   src/main/java/org/noresponse/operations/CreateAssessment.java:
-    last_write_checksum: sha1:88b8c101bd72e54f690894380ccd87604c63ae54
+    last_write_checksum: sha1:9de050f0dd1b50bf79e7db05403225d28bd9424c
   src/main/java/org/noresponse/operations/GetAssessment.java:
-    last_write_checksum: sha1:8ded308194b05522b4943f3b3105dd39944834b8
+    last_write_checksum: sha1:9579ace803ad67be49bbcff9ae16fbe698722391
   src/main/java/org/noresponse/operations/Operations.java:
     last_write_checksum: sha1:4703743459939596e9b421aab3f9642cfdf08a7d
   src/main/java/org/noresponse/operations/QueryAccountAssessments.java:
-    last_write_checksum: sha1:4ecd775a4314241b496f59e1904c52ba64d3f26e
+    last_write_checksum: sha1:41768e3366db7dd7376703800b76e3dd093fd020
   src/main/java/org/noresponse/operations/RecordAssessmentOutcome.java:
-    last_write_checksum: sha1:9db46124c7e37b417d0c1d077ed67b618abd3041
+    last_write_checksum: sha1:c6713892173ef2bb78c032dd6080ab04e1db0570
   src/main/java/org/noresponse/operations/RotateApiKey.java:
-    last_write_checksum: sha1:a47e8a536f40f3da133d988d855c69ec404dabbe
+    last_write_checksum: sha1:2c2d72016e8a8f0899a62c91a91d33a03304bca5
   src/main/java/org/noresponse/utils/AsyncHook.java:
     last_write_checksum: sha1:3764f9f40036fe64bd32bce86117f2b399cd04ef
   src/main/java/org/noresponse/utils/AsyncHooks.java:
@@ -538,7 +538,7 @@ trackedFiles:
   src/main/java/org/noresponse/utils/HTTPClient.java:
     last_write_checksum: sha1:68a9066487af12265bc9de22566c26467b6b31fd
   src/main/java/org/noresponse/utils/HTTPRequest.java:
-    last_write_checksum: sha1:c87e3487a2d280929eeaccf5ffb8547804a13b69
+    last_write_checksum: sha1:4dfc0516e38187fd40b9aa076b256fd0896e77c7
   src/main/java/org/noresponse/utils/HasSecurity.java:
     last_write_checksum: sha1:ce87906417f20a37c7102965a4ea0da5959ea300
   src/main/java/org/noresponse/utils/HeaderMetadata.java:
@@ -566,7 +566,7 @@ trackedFiles:
   src/main/java/org/noresponse/utils/NameValue.java:
     last_write_checksum: sha1:ab0f3f5ed7c8361534e280415a14fb8ef5fd2969
   src/main/java/org/noresponse/utils/NoResponseHTTPClient.java:
-    last_write_checksum: sha1:ed77abada903a77f2f17005f21c2181363c45501
+    last_write_checksum: sha1:a304b2fbfed1ea6eeaec1e40e0fd3c5788e71112
   src/main/java/org/noresponse/utils/NoResponseLogger.java:
     last_write_checksum: sha1:3489d3fc192096909b43ffc922b716e7210c52a5
   src/main/java/org/noresponse/utils/NoResponseMetadata.java:

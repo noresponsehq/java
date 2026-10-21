@@ -19,14 +19,14 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import org.noresponse.models.shared.AuthenticationErrorCode;
+import org.noresponse.models.shared.PermissionDeniedErrorCode;
 import org.noresponse.models.shared.ProblemInvalidParam;
 import org.noresponse.utils.Blob;
 import org.noresponse.utils.LazySingletonValue;
 import org.noresponse.utils.Utils;
 
 @SuppressWarnings("serial")
-public class AuthenticationError extends NoResponseException {
+public class PermissionDeniedException extends NoResponseException {
 
     @Nullable
     private final Data data;
@@ -34,7 +34,7 @@ public class AuthenticationError extends NoResponseException {
     @Nullable
     private final Throwable deserializationException;
 
-    public AuthenticationError(
+    public PermissionDeniedException(
             int code,
             byte[] body,
             HttpResponse<?> rawResponse,
@@ -46,29 +46,29 @@ public class AuthenticationError extends NoResponseException {
     }
 
     /**
-     * Parse a response into an instance of AuthenticationError. If deserialization of the response body fails,
-     * the resulting AuthenticationError instance will have a null data() value and a non-null deserializationException().
+     * Parse a response into an instance of PermissionDeniedException. If deserialization of the response body fails,
+     * the resulting PermissionDeniedException instance will have a null data() value and a non-null deserializationException().
      */
-    public static AuthenticationError from(HttpResponse<InputStream> response) {
+    public static PermissionDeniedException from(HttpResponse<InputStream> response) {
         byte[] bytes;
         try {
             bytes = Utils.extractByteArrayFromBody(response);
         } catch (Exception e) {
-            return new AuthenticationError(response.statusCode(), null, response, null, e);
+            return new PermissionDeniedException(response.statusCode(), null, response, null, e);
         }
         try {
             Data data = Utils.mapper().readValue(bytes, Data.class);
-            return new AuthenticationError(response.statusCode(), bytes, response, data, null);
+            return new PermissionDeniedException(response.statusCode(), bytes, response, data, null);
         } catch (Exception e) {
-            return new AuthenticationError(response.statusCode(), bytes, response, null, e);
+            return new PermissionDeniedException(response.statusCode(), bytes, response, null, e);
         }
     }
 
     /**
-     * Parse a response into an instance of AuthenticationError asynchronously. If deserialization of the response body fails,
-     * the resulting AuthenticationError instance will have a null data() value and a non-null deserializationException().
+     * Parse a response into an instance of PermissionDeniedException asynchronously. If deserialization of the response body fails,
+     * the resulting PermissionDeniedException instance will have a null data() value and a non-null deserializationException().
      */
-    public static CompletableFuture<AuthenticationError> fromAsync(HttpResponse<Blob> response) {
+    public static CompletableFuture<PermissionDeniedException> fromAsync(HttpResponse<Blob> response) {
         return response.body().toByteArray().handle((bytes, err) -> {
             // if a body read error occurs, we want to transform the exception
             if (err != null) {
@@ -77,14 +77,14 @@ public class AuthenticationError extends NoResponseException {
             }
 
             try {
-                return new AuthenticationError(
+                return new PermissionDeniedException(
                         response.statusCode(),
                         bytes,
                         response,
                         Utils.mapper().readValue(bytes, new TypeReference<Data>() {}),
                         null);
             } catch (Exception e) {
-                return new AuthenticationError(response.statusCode(), bytes, response, null, e);
+                return new PermissionDeniedException(response.statusCode(), bytes, response, null, e);
             }
         });
     }
@@ -132,7 +132,7 @@ public class AuthenticationError extends NoResponseException {
     /**
      * Data
      *
-     * <p>HTTP 401 problem document.
+     * <p>HTTP 403 problem document.
      */
     public static class Data {
 
@@ -153,10 +153,10 @@ public class AuthenticationError extends NoResponseException {
         private String instance;
 
         /**
-         * Machine codes an HTTP 401 answer can carry.
+         * Machine codes an HTTP 403 answer can carry.
          */
         @JsonProperty("code")
-        private AuthenticationErrorCode code;
+        private PermissionDeniedErrorCode code;
 
         @JsonProperty("request_id")
         private String requestId;
@@ -171,7 +171,7 @@ public class AuthenticationError extends NoResponseException {
                 @JsonProperty("title") @Nonnull String title,
                 @JsonProperty("detail") @Nonnull String detail,
                 @JsonProperty("instance") @Nullable String instance,
-                @JsonProperty("code") @Nonnull AuthenticationErrorCode code,
+                @JsonProperty("code") @Nonnull PermissionDeniedErrorCode code,
                 @JsonProperty("request_id") @Nonnull String requestId,
                 @JsonProperty("invalid_params") @Nullable List<ProblemInvalidParam> invalidParams) {
             this.type =
@@ -193,7 +193,7 @@ public class AuthenticationError extends NoResponseException {
                 @Nonnull String type,
                 @Nonnull String title,
                 @Nonnull String detail,
-                @Nonnull AuthenticationErrorCode code,
+                @Nonnull PermissionDeniedErrorCode code,
                 @Nonnull String requestId) {
             this(type, title, detail, null, code, requestId, null);
         }
@@ -219,9 +219,9 @@ public class AuthenticationError extends NoResponseException {
         }
 
         /**
-         * Machine codes an HTTP 401 answer can carry.
+         * Machine codes an HTTP 403 answer can carry.
          */
-        public AuthenticationErrorCode code() {
+        public PermissionDeniedErrorCode code() {
             return this.code;
         }
 
@@ -258,9 +258,9 @@ public class AuthenticationError extends NoResponseException {
         }
 
         /**
-         * Machine codes an HTTP 401 answer can carry.
+         * Machine codes an HTTP 403 answer can carry.
          */
-        public Data withCode(@Nonnull AuthenticationErrorCode code) {
+        public Data withCode(@Nonnull PermissionDeniedErrorCode code) {
             this.code = Utils.checkNotNull(code, "code");
             return this;
         }
@@ -332,7 +332,7 @@ public class AuthenticationError extends NoResponseException {
 
             private String instance;
 
-            private AuthenticationErrorCode code;
+            private PermissionDeniedErrorCode code;
 
             private String requestId;
 
@@ -363,9 +363,9 @@ public class AuthenticationError extends NoResponseException {
             }
 
             /**
-             * Machine codes an HTTP 401 answer can carry.
+             * Machine codes an HTTP 403 answer can carry.
              */
-            public Builder code(@Nonnull AuthenticationErrorCode code) {
+            public Builder code(@Nonnull PermissionDeniedErrorCode code) {
                 this.code = Utils.checkNotNull(code, "code");
                 return this;
             }
@@ -385,7 +385,7 @@ public class AuthenticationError extends NoResponseException {
             }
 
             private static final LazySingletonValue<Long> _SINGLETON_VALUE_Status =
-                    new LazySingletonValue<>("status", "401", new TypeReference<Long>() {});
+                    new LazySingletonValue<>("status", "403", new TypeReference<Long>() {});
         }
     }
 }

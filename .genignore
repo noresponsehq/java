@@ -4,3 +4,7 @@
 /src/main/java/org/noresponse/Wait.java
 /src/main/java/org/noresponse/WaitTimeoutException.java
 /src/test/
+/src/main/java/org/noresponse/IdempotencyKey.java
+/jitpack.yml
+/README.md
+/src/main/java/org/noresponse/AllAssessments.java

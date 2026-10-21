@@ -19,14 +19,14 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import org.noresponse.models.shared.PermissionDeniedErrorCode;
+import org.noresponse.models.shared.NotFoundErrorCode;
 import org.noresponse.models.shared.ProblemInvalidParam;
 import org.noresponse.utils.Blob;
 import org.noresponse.utils.LazySingletonValue;
 import org.noresponse.utils.Utils;
 
 @SuppressWarnings("serial")
-public class PermissionDeniedError extends NoResponseException {
+public class NotFoundException extends NoResponseException {
 
     @Nullable
     private final Data data;
@@ -34,7 +34,7 @@ public class PermissionDeniedError extends NoResponseException {
     @Nullable
     private final Throwable deserializationException;
 
-    public PermissionDeniedError(
+    public NotFoundException(
             int code,
             byte[] body,
             HttpResponse<?> rawResponse,
@@ -46,29 +46,29 @@ public class PermissionDeniedError extends NoResponseException {
     }
 
     /**
-     * Parse a response into an instance of PermissionDeniedError. If deserialization of the response body fails,
-     * the resulting PermissionDeniedError instance will have a null data() value and a non-null deserializationException().
+     * Parse a response into an instance of NotFoundException. If deserialization of the response body fails,
+     * the resulting NotFoundException instance will have a null data() value and a non-null deserializationException().
      */
-    public static PermissionDeniedError from(HttpResponse<InputStream> response) {
+    public static NotFoundException from(HttpResponse<InputStream> response) {
         byte[] bytes;
         try {
             bytes = Utils.extractByteArrayFromBody(response);
         } catch (Exception e) {
-            return new PermissionDeniedError(response.statusCode(), null, response, null, e);
+            return new NotFoundException(response.statusCode(), null, response, null, e);
         }
         try {
             Data data = Utils.mapper().readValue(bytes, Data.class);
-            return new PermissionDeniedError(response.statusCode(), bytes, response, data, null);
+            return new NotFoundException(response.statusCode(), bytes, response, data, null);
         } catch (Exception e) {
-            return new PermissionDeniedError(response.statusCode(), bytes, response, null, e);
+            return new NotFoundException(response.statusCode(), bytes, response, null, e);
         }
     }
 
     /**
-     * Parse a response into an instance of PermissionDeniedError asynchronously. If deserialization of the response body fails,
-     * the resulting PermissionDeniedError instance will have a null data() value and a non-null deserializationException().
+     * Parse a response into an instance of NotFoundException asynchronously. If deserialization of the response body fails,
+     * the resulting NotFoundException instance will have a null data() value and a non-null deserializationException().
      */
-    public static CompletableFuture<PermissionDeniedError> fromAsync(HttpResponse<Blob> response) {
+    public static CompletableFuture<NotFoundException> fromAsync(HttpResponse<Blob> response) {
         return response.body().toByteArray().handle((bytes, err) -> {
             // if a body read error occurs, we want to transform the exception
             if (err != null) {
@@ -77,14 +77,14 @@ public class PermissionDeniedError extends NoResponseException {
             }
 
             try {
-                return new PermissionDeniedError(
+                return new NotFoundException(
                         response.statusCode(),
                         bytes,
                         response,
                         Utils.mapper().readValue(bytes, new TypeReference<Data>() {}),
                         null);
             } catch (Exception e) {
-                return new PermissionDeniedError(response.statusCode(), bytes, response, null, e);
+                return new NotFoundException(response.statusCode(), bytes, response, null, e);
             }
         });
     }
@@ -132,7 +132,7 @@ public class PermissionDeniedError extends NoResponseException {
     /**
      * Data
      *
-     * <p>HTTP 403 problem document.
+     * <p>HTTP 404 problem document.
      */
     public static class Data {
 
@@ -153,10 +153,10 @@ public class PermissionDeniedError extends NoResponseException {
         private String instance;
 
         /**
-         * Machine codes an HTTP 403 answer can carry.
+         * Machine codes an HTTP 404 answer can carry.
          */
         @JsonProperty("code")
-        private PermissionDeniedErrorCode code;
+        private NotFoundErrorCode code;
 
         @JsonProperty("request_id")
         private String requestId;
@@ -171,7 +171,7 @@ public class PermissionDeniedError extends NoResponseException {
                 @JsonProperty("title") @Nonnull String title,
                 @JsonProperty("detail") @Nonnull String detail,
                 @JsonProperty("instance") @Nullable String instance,
-                @JsonProperty("code") @Nonnull PermissionDeniedErrorCode code,
+                @JsonProperty("code") @Nonnull NotFoundErrorCode code,
                 @JsonProperty("request_id") @Nonnull String requestId,
                 @JsonProperty("invalid_params") @Nullable List<ProblemInvalidParam> invalidParams) {
             this.type =
@@ -193,7 +193,7 @@ public class PermissionDeniedError extends NoResponseException {
                 @Nonnull String type,
                 @Nonnull String title,
                 @Nonnull String detail,
-                @Nonnull PermissionDeniedErrorCode code,
+                @Nonnull NotFoundErrorCode code,
                 @Nonnull String requestId) {
             this(type, title, detail, null, code, requestId, null);
         }
@@ -219,9 +219,9 @@ public class PermissionDeniedError extends NoResponseException {
         }
 
         /**
-         * Machine codes an HTTP 403 answer can carry.
+         * Machine codes an HTTP 404 answer can carry.
          */
-        public PermissionDeniedErrorCode code() {
+        public NotFoundErrorCode code() {
             return this.code;
         }
 
@@ -258,9 +258,9 @@ public class PermissionDeniedError extends NoResponseException {
         }
 
         /**
-         * Machine codes an HTTP 403 answer can carry.
+         * Machine codes an HTTP 404 answer can carry.
          */
-        public Data withCode(@Nonnull PermissionDeniedErrorCode code) {
+        public Data withCode(@Nonnull NotFoundErrorCode code) {
             this.code = Utils.checkNotNull(code, "code");
             return this;
         }
@@ -332,7 +332,7 @@ public class PermissionDeniedError extends NoResponseException {
 
             private String instance;
 
-            private PermissionDeniedErrorCode code;
+            private NotFoundErrorCode code;
 
             private String requestId;
 
@@ -363,9 +363,9 @@ public class PermissionDeniedError extends NoResponseException {
             }
 
             /**
-             * Machine codes an HTTP 403 answer can carry.
+             * Machine codes an HTTP 404 answer can carry.
              */
-            public Builder code(@Nonnull PermissionDeniedErrorCode code) {
+            public Builder code(@Nonnull NotFoundErrorCode code) {
                 this.code = Utils.checkNotNull(code, "code");
                 return this;
             }
@@ -385,7 +385,7 @@ public class PermissionDeniedError extends NoResponseException {
             }
 
             private static final LazySingletonValue<Long> _SINGLETON_VALUE_Status =
-                    new LazySingletonValue<>("status", "403", new TypeReference<Long>() {});
+                    new LazySingletonValue<>("status", "404", new TypeReference<Long>() {});
         }
     }
 }

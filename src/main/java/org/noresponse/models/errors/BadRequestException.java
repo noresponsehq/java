@@ -19,14 +19,14 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import org.noresponse.models.shared.ConflictErrorCode;
+import org.noresponse.models.shared.BadRequestErrorCode;
 import org.noresponse.models.shared.ProblemInvalidParam;
 import org.noresponse.utils.Blob;
 import org.noresponse.utils.LazySingletonValue;
 import org.noresponse.utils.Utils;
 
 @SuppressWarnings("serial")
-public class ConflictError extends NoResponseException {
+public class BadRequestException extends NoResponseException {
 
     @Nullable
     private final Data data;
@@ -34,7 +34,7 @@ public class ConflictError extends NoResponseException {
     @Nullable
     private final Throwable deserializationException;
 
-    public ConflictError(
+    public BadRequestException(
             int code,
             byte[] body,
             HttpResponse<?> rawResponse,
@@ -46,29 +46,29 @@ public class ConflictError extends NoResponseException {
     }
 
     /**
-     * Parse a response into an instance of ConflictError. If deserialization of the response body fails,
-     * the resulting ConflictError instance will have a null data() value and a non-null deserializationException().
+     * Parse a response into an instance of BadRequestException. If deserialization of the response body fails,
+     * the resulting BadRequestException instance will have a null data() value and a non-null deserializationException().
      */
-    public static ConflictError from(HttpResponse<InputStream> response) {
+    public static BadRequestException from(HttpResponse<InputStream> response) {
         byte[] bytes;
         try {
             bytes = Utils.extractByteArrayFromBody(response);
         } catch (Exception e) {
-            return new ConflictError(response.statusCode(), null, response, null, e);
+            return new BadRequestException(response.statusCode(), null, response, null, e);
         }
         try {
             Data data = Utils.mapper().readValue(bytes, Data.class);
-            return new ConflictError(response.statusCode(), bytes, response, data, null);
+            return new BadRequestException(response.statusCode(), bytes, response, data, null);
         } catch (Exception e) {
-            return new ConflictError(response.statusCode(), bytes, response, null, e);
+            return new BadRequestException(response.statusCode(), bytes, response, null, e);
         }
     }
 
     /**
-     * Parse a response into an instance of ConflictError asynchronously. If deserialization of the response body fails,
-     * the resulting ConflictError instance will have a null data() value and a non-null deserializationException().
+     * Parse a response into an instance of BadRequestException asynchronously. If deserialization of the response body fails,
+     * the resulting BadRequestException instance will have a null data() value and a non-null deserializationException().
      */
-    public static CompletableFuture<ConflictError> fromAsync(HttpResponse<Blob> response) {
+    public static CompletableFuture<BadRequestException> fromAsync(HttpResponse<Blob> response) {
         return response.body().toByteArray().handle((bytes, err) -> {
             // if a body read error occurs, we want to transform the exception
             if (err != null) {
@@ -77,14 +77,14 @@ public class ConflictError extends NoResponseException {
             }
 
             try {
-                return new ConflictError(
+                return new BadRequestException(
                         response.statusCode(),
                         bytes,
                         response,
                         Utils.mapper().readValue(bytes, new TypeReference<Data>() {}),
                         null);
             } catch (Exception e) {
-                return new ConflictError(response.statusCode(), bytes, response, null, e);
+                return new BadRequestException(response.statusCode(), bytes, response, null, e);
             }
         });
     }
@@ -132,7 +132,7 @@ public class ConflictError extends NoResponseException {
     /**
      * Data
      *
-     * <p>HTTP 409 problem document.
+     * <p>HTTP 400 problem document.
      */
     public static class Data {
 
@@ -153,10 +153,10 @@ public class ConflictError extends NoResponseException {
         private String instance;
 
         /**
-         * Machine codes an HTTP 409 answer can carry.
+         * Machine codes an HTTP 400 answer can carry.
          */
         @JsonProperty("code")
-        private ConflictErrorCode code;
+        private BadRequestErrorCode code;
 
         @JsonProperty("request_id")
         private String requestId;
@@ -171,7 +171,7 @@ public class ConflictError extends NoResponseException {
                 @JsonProperty("title") @Nonnull String title,
                 @JsonProperty("detail") @Nonnull String detail,
                 @JsonProperty("instance") @Nullable String instance,
-                @JsonProperty("code") @Nonnull ConflictErrorCode code,
+                @JsonProperty("code") @Nonnull BadRequestErrorCode code,
                 @JsonProperty("request_id") @Nonnull String requestId,
                 @JsonProperty("invalid_params") @Nullable List<ProblemInvalidParam> invalidParams) {
             this.type =
@@ -193,7 +193,7 @@ public class ConflictError extends NoResponseException {
                 @Nonnull String type,
                 @Nonnull String title,
                 @Nonnull String detail,
-                @Nonnull ConflictErrorCode code,
+                @Nonnull BadRequestErrorCode code,
                 @Nonnull String requestId) {
             this(type, title, detail, null, code, requestId, null);
         }
@@ -219,9 +219,9 @@ public class ConflictError extends NoResponseException {
         }
 
         /**
-         * Machine codes an HTTP 409 answer can carry.
+         * Machine codes an HTTP 400 answer can carry.
          */
-        public ConflictErrorCode code() {
+        public BadRequestErrorCode code() {
             return this.code;
         }
 
@@ -258,9 +258,9 @@ public class ConflictError extends NoResponseException {
         }
 
         /**
-         * Machine codes an HTTP 409 answer can carry.
+         * Machine codes an HTTP 400 answer can carry.
          */
-        public Data withCode(@Nonnull ConflictErrorCode code) {
+        public Data withCode(@Nonnull BadRequestErrorCode code) {
             this.code = Utils.checkNotNull(code, "code");
             return this;
         }
@@ -332,7 +332,7 @@ public class ConflictError extends NoResponseException {
 
             private String instance;
 
-            private ConflictErrorCode code;
+            private BadRequestErrorCode code;
 
             private String requestId;
 
@@ -363,9 +363,9 @@ public class ConflictError extends NoResponseException {
             }
 
             /**
-             * Machine codes an HTTP 409 answer can carry.
+             * Machine codes an HTTP 400 answer can carry.
              */
-            public Builder code(@Nonnull ConflictErrorCode code) {
+            public Builder code(@Nonnull BadRequestErrorCode code) {
                 this.code = Utils.checkNotNull(code, "code");
                 return this;
             }
@@ -385,7 +385,7 @@ public class ConflictError extends NoResponseException {
             }
 
             private static final LazySingletonValue<Long> _SINGLETON_VALUE_Status =
-                    new LazySingletonValue<>("status", "409", new TypeReference<Long>() {});
+                    new LazySingletonValue<>("status", "400", new TypeReference<Long>() {});
         }
     }
 }
