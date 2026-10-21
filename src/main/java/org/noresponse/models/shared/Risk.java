@@ -1,0 +1,450 @@
+package org.noresponse.models.shared;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import java.lang.Override;
+import java.lang.String;
+import java.util.List;
+import java.util.Optional;
+import org.noresponse.utils.LazySingletonValue;
+import org.noresponse.utils.Utils;
+
+/**
+ * Risk
+ *
+ * <p>The one risk decision for this event. score is 0 (safe) to 100 (risky): the sum of the weights of
+ * the reasons that fired, clamped to 0 to 100, from hand-set versioned weights. Every answer with a
+ * recommendation carries it, and the top-level recommendation equals risk.recommendation.
+ *
+ * <p>It names no source or provider.
+ */
+public class Risk {
+
+    @JsonProperty("score")
+    private long score;
+
+    /**
+     * low 0-29, medium 30-59, high 60-84, critical 85-100.
+     */
+    @JsonProperty("band")
+    private Band band;
+
+    /**
+     * The recommended action: allow, step_up or review. Your application applies it.
+     */
+    @JsonProperty("recommendation")
+    private Recommendation recommendation;
+
+    /**
+     * How much of the planned evidence answered; it says nothing about risk.
+     */
+    @JsonProperty("confidence")
+    private RiskConfidence confidence;
+
+    /**
+     * Version of the hand-authored heuristic weights that produced the recommendation, for example
+     * 'risk-2026-10.7'. A tenant threshold override adds a +t&lt;N&gt; suffix, e.g. 'risk-2026-10.7+t3'.
+     */
+    @JsonProperty("policy_version")
+    private String policyVersion;
+
+    /**
+     * Labels the v0 policy as hand-authored and not statistically validated.
+     */
+    @JsonProperty("policy_basis")
+    private String policyBasis;
+
+    /**
+     * Every reason that fired, highest weight first. The weights sum to score before clamping.
+     */
+    @JsonProperty("reasons")
+    private List<RiskReason> reasons;
+
+    /**
+     * A few typed facts per identifier. Every fact is optional: absent means the evidence did not answer
+     * and makes no claim, while false or 0 is a definite answer. Lanes that do not exist yet leave their
+     * members absent.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("summary")
+    private RiskSummary summary;
+
+    /**
+     * Sources counted by state, not named.
+     */
+    @JsonProperty("coverage")
+    private RiskCoverage coverage;
+
+    /**
+     * Detailed view only (response_mode=detailed, which needs the detailed scope); a standard answer
+     * leaves it out. Merged observations without provider, source, origin, raw breach record, value or
+     * score.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("details")
+    private RiskDetails details;
+
+    @JsonCreator
+    public Risk(
+            @JsonProperty("score") long score,
+            @JsonProperty("band") @Nonnull Band band,
+            @JsonProperty("recommendation") @Nonnull Recommendation recommendation,
+            @JsonProperty("confidence") @Nonnull RiskConfidence confidence,
+            @JsonProperty("policy_version") @Nonnull String policyVersion,
+            @JsonProperty("reasons") @Nonnull List<RiskReason> reasons,
+            @JsonProperty("summary") @Nullable RiskSummary summary,
+            @JsonProperty("coverage") @Nonnull RiskCoverage coverage,
+            @JsonProperty("details") @Nullable RiskDetails details) {
+        this.score = score;
+        this.band = Optional.ofNullable(band).orElseThrow(() -> new IllegalArgumentException("band cannot be null"));
+        this.recommendation = Optional.ofNullable(recommendation)
+                .orElseThrow(() -> new IllegalArgumentException("recommendation cannot be null"));
+        this.confidence = Optional.ofNullable(confidence)
+                .orElseThrow(() -> new IllegalArgumentException("confidence cannot be null"));
+        this.policyVersion = Optional.ofNullable(policyVersion)
+                .orElseThrow(() -> new IllegalArgumentException("policyVersion cannot be null"));
+        this.policyBasis = Builder._SINGLETON_VALUE_PolicyBasis.value();
+        this.reasons =
+                Optional.ofNullable(reasons).orElseThrow(() -> new IllegalArgumentException("reasons cannot be null"));
+        this.summary = summary;
+        this.coverage = Optional.ofNullable(coverage)
+                .orElseThrow(() -> new IllegalArgumentException("coverage cannot be null"));
+        this.details = details;
+    }
+
+    public Risk(
+            long score,
+            @Nonnull Band band,
+            @Nonnull Recommendation recommendation,
+            @Nonnull RiskConfidence confidence,
+            @Nonnull String policyVersion,
+            @Nonnull List<RiskReason> reasons,
+            @Nonnull RiskCoverage coverage) {
+        this(score, band, recommendation, confidence, policyVersion, reasons, null, coverage, null);
+    }
+
+    public long score() {
+        return this.score;
+    }
+
+    /**
+     * low 0-29, medium 30-59, high 60-84, critical 85-100.
+     */
+    public Band band() {
+        return this.band;
+    }
+
+    /**
+     * The recommended action: allow, step_up or review. Your application applies it.
+     */
+    public Recommendation recommendation() {
+        return this.recommendation;
+    }
+
+    /**
+     * How much of the planned evidence answered; it says nothing about risk.
+     */
+    public RiskConfidence confidence() {
+        return this.confidence;
+    }
+
+    /**
+     * Version of the hand-authored heuristic weights that produced the recommendation, for example
+     * 'risk-2026-10.7'. A tenant threshold override adds a +t&lt;N&gt; suffix, e.g. 'risk-2026-10.7+t3'.
+     */
+    public String policyVersion() {
+        return this.policyVersion;
+    }
+
+    /**
+     * Labels the v0 policy as hand-authored and not statistically validated.
+     */
+    public String policyBasis() {
+        return this.policyBasis;
+    }
+
+    /**
+     * Every reason that fired, highest weight first. The weights sum to score before clamping.
+     */
+    public List<RiskReason> reasons() {
+        return this.reasons;
+    }
+
+    /**
+     * A few typed facts per identifier. Every fact is optional: absent means the evidence did not answer
+     * and makes no claim, while false or 0 is a definite answer. Lanes that do not exist yet leave their
+     * members absent.
+     */
+    public Optional<RiskSummary> summary() {
+        return Optional.ofNullable(this.summary);
+    }
+
+    /**
+     * Sources counted by state, not named.
+     */
+    public RiskCoverage coverage() {
+        return this.coverage;
+    }
+
+    /**
+     * Detailed view only (response_mode=detailed, which needs the detailed scope); a standard answer
+     * leaves it out. Merged observations without provider, source, origin, raw breach record, value or
+     * score.
+     */
+    public Optional<RiskDetails> details() {
+        return Optional.ofNullable(this.details);
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public Risk withScore(long score) {
+        this.score = score;
+        return this;
+    }
+
+    /**
+     * low 0-29, medium 30-59, high 60-84, critical 85-100.
+     */
+    public Risk withBand(@Nonnull Band band) {
+        this.band = Utils.checkNotNull(band, "band");
+        return this;
+    }
+
+    /**
+     * The recommended action: allow, step_up or review. Your application applies it.
+     */
+    public Risk withRecommendation(@Nonnull Recommendation recommendation) {
+        this.recommendation = Utils.checkNotNull(recommendation, "recommendation");
+        return this;
+    }
+
+    /**
+     * How much of the planned evidence answered; it says nothing about risk.
+     */
+    public Risk withConfidence(@Nonnull RiskConfidence confidence) {
+        this.confidence = Utils.checkNotNull(confidence, "confidence");
+        return this;
+    }
+
+    /**
+     * Version of the hand-authored heuristic weights that produced the recommendation, for example
+     * 'risk-2026-10.7'. A tenant threshold override adds a +t&lt;N&gt; suffix, e.g. 'risk-2026-10.7+t3'.
+     */
+    public Risk withPolicyVersion(@Nonnull String policyVersion) {
+        this.policyVersion = Utils.checkNotNull(policyVersion, "policyVersion");
+        return this;
+    }
+
+    /**
+     * Every reason that fired, highest weight first. The weights sum to score before clamping.
+     */
+    public Risk withReasons(@Nonnull List<RiskReason> reasons) {
+        this.reasons = Utils.checkNotNull(reasons, "reasons");
+        return this;
+    }
+
+    /**
+     * A few typed facts per identifier. Every fact is optional: absent means the evidence did not answer
+     * and makes no claim, while false or 0 is a definite answer. Lanes that do not exist yet leave their
+     * members absent.
+     */
+    public Risk withSummary(@Nullable RiskSummary summary) {
+        this.summary = summary;
+        return this;
+    }
+
+    /**
+     * Sources counted by state, not named.
+     */
+    public Risk withCoverage(@Nonnull RiskCoverage coverage) {
+        this.coverage = Utils.checkNotNull(coverage, "coverage");
+        return this;
+    }
+
+    /**
+     * Detailed view only (response_mode=detailed, which needs the detailed scope); a standard answer
+     * leaves it out. Merged observations without provider, source, origin, raw breach record, value or
+     * score.
+     */
+    public Risk withDetails(@Nullable RiskDetails details) {
+        this.details = details;
+        return this;
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Risk other = (Risk) o;
+        return Utils.enhancedDeepEquals(this.score, other.score)
+                && Utils.enhancedDeepEquals(this.band, other.band)
+                && Utils.enhancedDeepEquals(this.recommendation, other.recommendation)
+                && Utils.enhancedDeepEquals(this.confidence, other.confidence)
+                && Utils.enhancedDeepEquals(this.policyVersion, other.policyVersion)
+                && Utils.enhancedDeepEquals(this.policyBasis, other.policyBasis)
+                && Utils.enhancedDeepEquals(this.reasons, other.reasons)
+                && Utils.enhancedDeepEquals(this.summary, other.summary)
+                && Utils.enhancedDeepEquals(this.coverage, other.coverage)
+                && Utils.enhancedDeepEquals(this.details, other.details);
+    }
+
+    @Override
+    public int hashCode() {
+        return Utils.enhancedHash(
+                score,
+                band,
+                recommendation,
+                confidence,
+                policyVersion,
+                policyBasis,
+                reasons,
+                summary,
+                coverage,
+                details);
+    }
+
+    @Override
+    public String toString() {
+        return Utils.toString(
+                Risk.class,
+                "score",
+                score,
+                "band",
+                band,
+                "recommendation",
+                recommendation,
+                "confidence",
+                confidence,
+                "policyVersion",
+                policyVersion,
+                "policyBasis",
+                policyBasis,
+                "reasons",
+                reasons,
+                "summary",
+                summary,
+                "coverage",
+                coverage,
+                "details",
+                details);
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public static final class Builder {
+
+        private long score;
+
+        private Band band;
+
+        private Recommendation recommendation;
+
+        private RiskConfidence confidence;
+
+        private String policyVersion;
+
+        private List<RiskReason> reasons;
+
+        private RiskSummary summary;
+
+        private RiskCoverage coverage;
+
+        private RiskDetails details;
+
+        private Builder() {
+            // force use of static builder() method
+        }
+
+        public Builder score(long score) {
+            this.score = score;
+            return this;
+        }
+
+        /**
+         * low 0-29, medium 30-59, high 60-84, critical 85-100.
+         */
+        public Builder band(@Nonnull Band band) {
+            this.band = Utils.checkNotNull(band, "band");
+            return this;
+        }
+
+        /**
+         * The recommended action: allow, step_up or review. Your application applies it.
+         */
+        public Builder recommendation(@Nonnull Recommendation recommendation) {
+            this.recommendation = Utils.checkNotNull(recommendation, "recommendation");
+            return this;
+        }
+
+        /**
+         * How much of the planned evidence answered; it says nothing about risk.
+         */
+        public Builder confidence(@Nonnull RiskConfidence confidence) {
+            this.confidence = Utils.checkNotNull(confidence, "confidence");
+            return this;
+        }
+
+        /**
+         * Version of the hand-authored heuristic weights that produced the recommendation, for example
+         * 'risk-2026-10.7'. A tenant threshold override adds a +t&lt;N&gt; suffix, e.g. 'risk-2026-10.7+t3'.
+         */
+        public Builder policyVersion(@Nonnull String policyVersion) {
+            this.policyVersion = Utils.checkNotNull(policyVersion, "policyVersion");
+            return this;
+        }
+
+        /**
+         * Every reason that fired, highest weight first. The weights sum to score before clamping.
+         */
+        public Builder reasons(@Nonnull List<RiskReason> reasons) {
+            this.reasons = Utils.checkNotNull(reasons, "reasons");
+            return this;
+        }
+
+        /**
+         * A few typed facts per identifier. Every fact is optional: absent means the evidence did not answer
+         * and makes no claim, while false or 0 is a definite answer. Lanes that do not exist yet leave their
+         * members absent.
+         */
+        public Builder summary(@Nullable RiskSummary summary) {
+            this.summary = summary;
+            return this;
+        }
+
+        /**
+         * Sources counted by state, not named.
+         */
+        public Builder coverage(@Nonnull RiskCoverage coverage) {
+            this.coverage = Utils.checkNotNull(coverage, "coverage");
+            return this;
+        }
+
+        /**
+         * Detailed view only (response_mode=detailed, which needs the detailed scope); a standard answer
+         * leaves it out. Merged observations without provider, source, origin, raw breach record, value or
+         * score.
+         */
+        public Builder details(@Nullable RiskDetails details) {
+            this.details = details;
+            return this;
+        }
+
+        public Risk build() {
+            return new Risk(
+                    score, band, recommendation, confidence, policyVersion, reasons, summary, coverage, details);
+        }
+
+        private static final LazySingletonValue<String> _SINGLETON_VALUE_PolicyBasis =
+                new LazySingletonValue<>("policy_basis", "\"heuristic_unvalidated\"", new TypeReference<String>() {});
+    }
+}

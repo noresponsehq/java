@@ -1,0 +1,913 @@
+lockVersion: 2.0.0
+id: 952c7f16-d386-4fe0-af81-096d641c3117
+management:
+  docChecksum: 4378a64e73e12591a581f87a653bb76a
+  docVersion: "1"
+  speakeasyVersion: internal
+  generationVersion: internal
+  releaseVersion: 2.0.0
+  configChecksum: 3c397e67dacca3ecde61d30afda11ea0
+features:
+  java:
+    additionalDependencies: 0.1.0
+    constsAndDefaults: 0.1.3
+    core: 3.57.2
+    customCodeRegions: 0.2.2
+    flattening: 2.81.1
+    globalSecurity: 2.83.4
+    globalSecurityCallbacks: 0.1.0
+    globalSecurityFlattening: 0.1.0
+    globalServerURLs: 2.83.1
+    groups: 2.81.3
+    nameOverrides: 2.81.5
+    pagination: 1.0.4
+    retries: 0.1.4
+    sdkHooks: 1.2.0
+    unions: 0.3.10
+trackedFiles:
+  .gitattributes:
+    last_write_checksum: sha1:2b27a763ec2b5c70648554e408dc254181222d09
+  USAGE.md:
+    last_write_checksum: sha1:4817f4822ec69222ae92a9bb55e5fc60916be87f
+  build.gradle:
+    last_write_checksum: sha1:9875d08db05cd49b6927e5c9ffe130c238b3536d
+  docs/models/errors/AuthenticationError.md:
+    last_write_checksum: sha1:a06af3ec220980abb0b376c839f5656b32455678
+  docs/models/errors/BadRequestError.md:
+    last_write_checksum: sha1:c6522fdaa6323aaf18f0ff4e58361b16d850006e
+  docs/models/errors/ConflictError.md:
+    last_write_checksum: sha1:95fca205b48bb83498867fcffbb457d642f3387d
+  docs/models/errors/NotFoundError.md:
+    last_write_checksum: sha1:aea77020a978c53e4d78cb19f47ff3e2e584ecd4
+  docs/models/errors/PermissionDeniedError.md:
+    last_write_checksum: sha1:a49eaf4a4c48d669d7dad975b9a0a94c2ff521a5
+  docs/models/errors/RateLimitError.md:
+    last_write_checksum: sha1:c7314a7c1eac62b25c163a8e29141a32a78c2a28
+  docs/models/operations/CreateAssessmentRequest.md:
+    last_write_checksum: sha1:4452d3e69bca665d801eeec0445df26b8577e705
+  docs/models/operations/CreateAssessmentResponse.md:
+    last_write_checksum: sha1:c282219ce29ce1e29421c0750a12370b8611671f
+  docs/models/operations/GetAssessmentRequest.md:
+    last_write_checksum: sha1:9cd38a543f8eb27d1a9ab19aad99bb1e495764c2
+  docs/models/operations/GetAssessmentResponse.md:
+    last_write_checksum: sha1:6ba6213b6adf918f29a0009e4a29aa8061f288e6
+  docs/models/operations/QueryAccountAssessmentsResponse.md:
+    last_write_checksum: sha1:02c27bc113532361043ada0fdd979be50420d441
+  docs/models/operations/RecordAssessmentOutcomeRequest.md:
+    last_write_checksum: sha1:fc89fa757d53f6cd107c702e4cc013abb9080ed8
+  docs/models/operations/RecordAssessmentOutcomeResponse.md:
+    last_write_checksum: sha1:8abe646aae337ead424da29acac7457284e373de
+  docs/models/operations/RotateApiKeyResponse.md:
+    last_write_checksum: sha1:9fb64b80ffdb1dc57efc411529cb002ca4595a22
+  docs/models/shared/AlternateName.md:
+    last_write_checksum: sha1:d54832ae6e4709d2af1bb05cb3b382cbbf09350f
+  docs/models/shared/AlternateNameUnion.md:
+    last_write_checksum: sha1:0e17d4b77bf87250c8d80ed26267ae1a4683c88f
+  docs/models/shared/Assessment.md:
+    last_write_checksum: sha1:02284379d1361036764480fe42b5c512abaec506
+  docs/models/shared/AssessmentList.md:
+    last_write_checksum: sha1:8d0f6d36387ed05be33dd20613782d9cdb2d02bc
+  docs/models/shared/AssessmentOutcome.md:
+    last_write_checksum: sha1:b709b5d88da2b0da310fd5e2fa15e6d7d23a4e9a
+  docs/models/shared/AssessmentOutcomeRequest.md:
+    last_write_checksum: sha1:a2c94e965ad3c72b79d42ea740cdfaf856f6d39c
+  docs/models/shared/AssessmentQuery.md:
+    last_write_checksum: sha1:0bd305f2ca228b969b411c682bc75ce0fa5ed558
+  docs/models/shared/AssessmentRequest.md:
+    last_write_checksum: sha1:0ac4df72880f57482ec9d85f3aebf5ad42fa3bbd
+  docs/models/shared/AssessmentRequestClientContext.md:
+    last_write_checksum: sha1:d36590fad3a3651b49b9ac090af5bee36faf9d90
+  docs/models/shared/AssessmentRequestIdentifiers.md:
+    last_write_checksum: sha1:4ca9f89fba01a6816c77fbea39584340a7fd7e58
+  docs/models/shared/AssessmentRequestPolicyContext.md:
+    last_write_checksum: sha1:a904206a0f68559295fe19f49b01c6f9a63a1f3f
+  docs/models/shared/AssessmentTiming.md:
+    last_write_checksum: sha1:c03aab9356c3dc86d00899af366f8de315a2ea1c
+  docs/models/shared/AssuranceLevel.md:
+    last_write_checksum: sha1:0e80f5fd451fde5a3869f3604c738566b7e93c71
+  docs/models/shared/AuthContext.md:
+    last_write_checksum: sha1:7675c6a9ca0ee562968675593141c58fe41e665b
+  docs/models/shared/AuthContextMfa.md:
+    last_write_checksum: sha1:456731d4eadb9c452789d50791caccead8239a12
+  docs/models/shared/AuthenticationErrorCode.md:
+    last_write_checksum: sha1:ffdaafddb2b71913ee0bec92516246e34b43ecf1
+  docs/models/shared/BadRequestErrorCode.md:
+    last_write_checksum: sha1:af0250041623cbffd472a0f816d76031596f69da
+  docs/models/shared/Band.md:
+    last_write_checksum: sha1:9b16bc1407e9bc15e20292249239417fab67388c
+  docs/models/shared/Breach.md:
+    last_write_checksum: sha1:2b29a154213542c13fed546e5a85b3260bd4638a
+  docs/models/shared/BreachExposed.md:
+    last_write_checksum: sha1:80969f6156f3720ab54663a9787ea860deece648
+  docs/models/shared/BreachKind.md:
+    last_write_checksum: sha1:a355bbe063fe923a11e72fa0c5436d17e12cd3e3
+  docs/models/shared/BreachSelector.md:
+    last_write_checksum: sha1:da984d68cb9096c06ce268bc88ff3a9bbbd05f37
+  docs/models/shared/BreachSummary.md:
+    last_write_checksum: sha1:272d905a774f12c66c2b9ee1d139e01ac701ca84
+  docs/models/shared/Confidence.md:
+    last_write_checksum: sha1:8ddbe173b8e3aaa32d8eea9ad0265575c031fa4c
+  docs/models/shared/ConflictErrorCode.md:
+    last_write_checksum: sha1:9264ab1ea658a03de424dea668232255c6e9b52a
+  docs/models/shared/Consistency.md:
+    last_write_checksum: sha1:f975b44d0dd6ae149dccf2d79de6c228a6d673f5
+  docs/models/shared/ConsistencyValue.md:
+    last_write_checksum: sha1:515cc285baf39e2bf276c94de144e7726efb5be5
+  docs/models/shared/Country.md:
+    last_write_checksum: sha1:e96d7f5882f994a8c006fa7d01ab54ce1e24b35e
+  docs/models/shared/Email.md:
+    last_write_checksum: sha1:f99424d00cec2aaabbe4970712a7ef5ba252a59f
+  docs/models/shared/EmailUnion.md:
+    last_write_checksum: sha1:65b62b87dec039b973653049a73106d1474348d6
+  docs/models/shared/FailureReason.md:
+    last_write_checksum: sha1:9827f1d8782474507fae7963aef8e9fb0c63f3b2
+  docs/models/shared/Flow.md:
+    last_write_checksum: sha1:7e62cea98b72a8f5d625445dda015d8ad2c31d26
+  docs/models/shared/Freshness.md:
+    last_write_checksum: sha1:bc3d3e93aea02b5bacf84647514cacaaf99ddd78
+  docs/models/shared/IdentifierKind.md:
+    last_write_checksum: sha1:90043f82fd184ead021bc637446df0d0abfd363e
+  docs/models/shared/IncompleteReason.md:
+    last_write_checksum: sha1:6adfa2fdc4e52c5302c0b6fddf5afa7546af252f
+  docs/models/shared/IncompleteSource.md:
+    last_write_checksum: sha1:5eb56f71b09fa32d2c5c46421c40fa004eaa42bf
+  docs/models/shared/IpSummary.md:
+    last_write_checksum: sha1:c537cbb89803ea45f3df4958198404a1e459690a
+  docs/models/shared/IpSummaryType.md:
+    last_write_checksum: sha1:b104c1b8a46aa3c398a02e6f11b4258355ff7dd6
+  docs/models/shared/KeyRotation.md:
+    last_write_checksum: sha1:e96ddfac0a94e56585748d5278fb18bda5e7e662
+  docs/models/shared/KeyRotationRequest.md:
+    last_write_checksum: sha1:d4b2763f50a150d8b4dc4cf6c6b5f196e8144212
+  docs/models/shared/Lane.md:
+    last_write_checksum: sha1:5bf146195335e0d44342bf8b76280c1fca8c3e6f
+  docs/models/shared/LineType.md:
+    last_write_checksum: sha1:cc6aef0c2643bc59bec3419463319b9f36c20fd7
+  docs/models/shared/Location.md:
+    last_write_checksum: sha1:c1ceb483ac189a20ccf7a6eb01f4a896bdfc5c1d
+  docs/models/shared/LocationUnion.md:
+    last_write_checksum: sha1:1146a1413868871e1b13852a519b7f81eec7e44d
+  docs/models/shared/NameCandidate.md:
+    last_write_checksum: sha1:e1d59e6a41f6437b5042d41eb907f7c69e160d62
+  docs/models/shared/NameCandidateUnion.md:
+    last_write_checksum: sha1:4cb28d69357e8ae48bbccacf8537f56914fefc58
+  docs/models/shared/NotFoundErrorCode.md:
+    last_write_checksum: sha1:6bb7600673a5dd77cfb4896fec2c50204e89ffb6
+  docs/models/shared/Outcome.md:
+    last_write_checksum: sha1:2734b164c88f31f3e84307b5c4628aa84302d1c9
+  docs/models/shared/PermissionDeniedErrorCode.md:
+    last_write_checksum: sha1:498b37b4d70f03959ac69afde397c791fff9a261
+  docs/models/shared/PhoneEnrichment.md:
+    last_write_checksum: sha1:1868298515f1251a09bf19fda7787b37c4372518
+  docs/models/shared/PhoneEnrichmentFields.md:
+    last_write_checksum: sha1:1d86358a1c7382cdcb4c2cad3a4b935818bfe0d1
+  docs/models/shared/Platform.md:
+    last_write_checksum: sha1:5afb33e02ca4e52edba606d8f5ea4f16dfcde193
+  docs/models/shared/ProblemInvalidParam.md:
+    last_write_checksum: sha1:3dea7a8b5d2a4e43213b651256e0b1575ff57de7
+  docs/models/shared/RateLimitErrorCode.md:
+    last_write_checksum: sha1:2041584730e7529fb72c1885ec7c1303f93f5f97
+  docs/models/shared/ReasonCode.md:
+    last_write_checksum: sha1:9ac839fcadc9af254a29df9d71deb06ad8a49459
+  docs/models/shared/ReasonIdentifier.md:
+    last_write_checksum: sha1:6280ece7fda5802ab1de0e7ca17c2532722c8cfa
+  docs/models/shared/Recommendation.md:
+    last_write_checksum: sha1:f8c259ae517c321c80f9d9dfb9fc14183ca90a5e
+  docs/models/shared/ResponseMode.md:
+    last_write_checksum: sha1:c332d0f7eb9371a53913b0c1ee6eceac3f26f48d
+  docs/models/shared/Risk.md:
+    last_write_checksum: sha1:fd841724879928194ddf1a116fe9c5ecf572b7df
+  docs/models/shared/RiskConfidence.md:
+    last_write_checksum: sha1:d3462dc5875ab8904835d084a0fe03fb13e5f140
+  docs/models/shared/RiskCoverage.md:
+    last_write_checksum: sha1:36060f8b0a524ba8bdb4e6e3b2eb9add510fb752
+  docs/models/shared/RiskDetails.md:
+    last_write_checksum: sha1:67f0a53f650bf2e0226821e580554f5780f8f3ee
+  docs/models/shared/RiskDetailsBreachName.md:
+    last_write_checksum: sha1:1f385ea9d3749eb8c0ae9f0748fcb39af8a8a0b8
+  docs/models/shared/RiskDetailsPhoneName.md:
+    last_write_checksum: sha1:b685ad7b1c254ed90871f7dbce5a5dc620dbd398
+  docs/models/shared/RiskReason.md:
+    last_write_checksum: sha1:392972081510dce29fa225de3dc06be3aed0c7c9
+  docs/models/shared/RiskSummary.md:
+    last_write_checksum: sha1:a9a04e064d3e556bfe3e0f9980cacaed9702865a
+  docs/models/shared/RiskSummaryEmail.md:
+    last_write_checksum: sha1:f8c3da9ca1061497dc7851a5ef0b05ab819a582f
+  docs/models/shared/RiskSummaryPhone.md:
+    last_write_checksum: sha1:bad8093a3cdc55908a39ecac1c6774620bf07ed0
+  docs/models/shared/RiskSummaryUsername.md:
+    last_write_checksum: sha1:d0475600a5b65a74e784ca0b701e3f0b302a0bec
+  docs/models/shared/Scope.md:
+    last_write_checksum: sha1:9fe40ea514f71a3b86d36fc8636ae37aa7b55ca0
+  docs/models/shared/Security.md:
+    last_write_checksum: sha1:3df8e79dc90d0e3906c44075e62c57c3e1fd3948
+  docs/models/shared/Signal.md:
+    last_write_checksum: sha1:262df4db464d039dcafcd522de40b80227aa2f37
+  docs/models/shared/SignalOutcome.md:
+    last_write_checksum: sha1:c6b552ab9f0d1416f109263012f6119ca2e756df
+  docs/models/shared/SocialProfile.md:
+    last_write_checksum: sha1:6ff497e29dba0f1e372541fd822cecc194812364
+  docs/models/shared/SocialProfileUnion.md:
+    last_write_checksum: sha1:80cd59b27a5613d8ce207960237aa6938c38fed0
+  docs/models/shared/Status.md:
+    last_write_checksum: sha1:df81b5925878e651b87dba68b115f7bff820b4f7
+  docs/models/shared/Timezone.md:
+    last_write_checksum: sha1:f79512d91daf2ac6647d8a27c19842acd047b9a6
+  docs/models/shared/TimezoneUnion.md:
+    last_write_checksum: sha1:d5d698db50f7504e961f1d3304a2d25ff6bb23c9
+  docs/models/shared/Transport.md:
+    last_write_checksum: sha1:148589758fb48f53926ba75f86c991050548d529
+  docs/models/shared/Website.md:
+    last_write_checksum: sha1:d74c06e5ce84474bee0eadd909b7825de8f6a3a1
+  docs/models/shared/WebsiteUnion.md:
+    last_write_checksum: sha1:6e6179de4f7ea103254a1c1207c63843082e8c94
+  docs/sdks/assessments/README.md:
+    last_write_checksum: sha1:43c678dd25fafe5b53f011ecf968ee14efae24ed
+  docs/sdks/keys/README.md:
+    last_write_checksum: sha1:60cd5fccad42ee9ca38ddf2e65d70a15eb295541
+  docs/utils/Blob.md:
+    last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
+  gradle.properties:
+    last_write_checksum: sha1:09b100761ae4caa867727ba70d99e6d262a7b030
+  gradle/wrapper/gradle-wrapper.jar:
+    last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
+  gradle/wrapper/gradle-wrapper.properties:
+    last_write_checksum: sha1:cd2b4a92ef78f65abc751f0619d159ab3f8f973e
+  gradlew:
+    last_write_checksum: sha1:680217d55865c44c2dbc51b106a01ca14152a615
+  gradlew.bat:
+    last_write_checksum: sha1:755607dcbac0ba8adba338ef00aafc1177ceb2b5
+  publishing.gradle:
+    last_write_checksum: sha1:4bd1a316aed59b9e8322280b52d0faa9e02ab476
+  settings.gradle:
+    last_write_checksum: sha1:db0828065a853264b8673dc0b271fc6b3b5dd622
+  src/main/java/org/noresponse/Assessments.java:
+    last_write_checksum: sha1:2224fe68ed44de22ceb43e9f0d993754c4667080
+  src/main/java/org/noresponse/AsyncAssessments.java:
+    last_write_checksum: sha1:5cde6f98fc33ae8c722c7db9b545e0f8464ec3df
+  src/main/java/org/noresponse/AsyncKeys.java:
+    last_write_checksum: sha1:53b176d900cdc29b33a03954b31f34aa61cefd09
+  src/main/java/org/noresponse/AsyncNoResponse.java:
+    last_write_checksum: sha1:ed6d8def747985c800724738dcb0eb1482dc858e
+  src/main/java/org/noresponse/Keys.java:
+    last_write_checksum: sha1:6026c006530d84cd00c9c854d702ab264ce0508d
+  src/main/java/org/noresponse/NoResponse.java:
+    last_write_checksum: sha1:3e888aed355dc946263a0e37124d1552a89174f0
+  src/main/java/org/noresponse/SDKConfiguration.java:
+    last_write_checksum: sha1:82919b0add7e6d808f858ecc533ab0ebaaa4e50d
+  src/main/java/org/noresponse/SecuritySource.java:
+    last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
+  src/main/java/org/noresponse/models/errors/APIStatusException.java:
+    last_write_checksum: sha1:b53d883e6ba2cf2a0a27c12666bdebfcd9019759
+  src/main/java/org/noresponse/models/errors/AsyncAPIStatusException.java:
+    last_write_checksum: sha1:29592bd28813d88ec63f187531fe8dda26b05ac1
+  src/main/java/org/noresponse/models/errors/AuthException.java:
+    last_write_checksum: sha1:156aadab1cb3c496bc114d0f9606ff95c484c5a2
+  src/main/java/org/noresponse/models/errors/AuthenticationError.java:
+    last_write_checksum: sha1:2710428bfcc649e75a49eccf75a28ce153e30b6d
+  src/main/java/org/noresponse/models/errors/BadRequestError.java:
+    last_write_checksum: sha1:4acf02160d8011d3b0a9d7063261853e678af762
+  src/main/java/org/noresponse/models/errors/ConflictError.java:
+    last_write_checksum: sha1:8b916edd84c067df59e1a174c90efa6353581663
+  src/main/java/org/noresponse/models/errors/NoResponseException.java:
+    last_write_checksum: sha1:168656bd0233e4493dbe29b68128fa65fb3cf6a4
+  src/main/java/org/noresponse/models/errors/NotFoundError.java:
+    last_write_checksum: sha1:65f60970a98715ef18cc1d00f110c928a8003f6c
+  src/main/java/org/noresponse/models/errors/PermissionDeniedError.java:
+    last_write_checksum: sha1:2878d1e40060699ff769bf059b807f1192c16490
+  src/main/java/org/noresponse/models/errors/RateLimitError.java:
+    last_write_checksum: sha1:d44377dfde35c033422db7234e6c42f9164dd590
+  src/main/java/org/noresponse/models/operations/CreateAssessmentRequest.java:
+    last_write_checksum: sha1:baa42a9886a209c136dce88c25e163668da90857
+  src/main/java/org/noresponse/models/operations/CreateAssessmentRequestBuilder.java:
+    last_write_checksum: sha1:938d1db03d73c50aed9fff05b7a100698f7f21c1
+  src/main/java/org/noresponse/models/operations/CreateAssessmentResponse.java:
+    last_write_checksum: sha1:9b8ab7f5e1b2f188b362f40a79af3fbc086b098e
+  src/main/java/org/noresponse/models/operations/GetAssessmentRequest.java:
+    last_write_checksum: sha1:63d4090f4bae767ed19d74b674511b53365be3e5
+  src/main/java/org/noresponse/models/operations/GetAssessmentRequestBuilder.java:
+    last_write_checksum: sha1:71befee2cd6edfa4edfb8cd1079d2e1e602a62c8
+  src/main/java/org/noresponse/models/operations/GetAssessmentResponse.java:
+    last_write_checksum: sha1:cbca1f54a5cf59bc104056e095e1fde36d2951fa
+  src/main/java/org/noresponse/models/operations/QueryAccountAssessmentsRequestBuilder.java:
+    last_write_checksum: sha1:45330749ea30b7735825cdf603a88071f4da2a50
+  src/main/java/org/noresponse/models/operations/QueryAccountAssessmentsResponse.java:
+    last_write_checksum: sha1:f366758628337a2213cef382f1f1e6c725d66924
+  src/main/java/org/noresponse/models/operations/RecordAssessmentOutcomeRequest.java:
+    last_write_checksum: sha1:7858231e97f5a5ffc0904df76254bfd11ec86654
+  src/main/java/org/noresponse/models/operations/RecordAssessmentOutcomeRequestBuilder.java:
+    last_write_checksum: sha1:e4269d8404f40a7cd061b0638bf96355ebefc29c
+  src/main/java/org/noresponse/models/operations/RecordAssessmentOutcomeResponse.java:
+    last_write_checksum: sha1:03178bbc961184ff9fca73582c4943684111d9fc
+  src/main/java/org/noresponse/models/operations/RotateApiKeyRequestBuilder.java:
+    last_write_checksum: sha1:db683406c37674d1cec82193a171d03a697cec87
+  src/main/java/org/noresponse/models/operations/RotateApiKeyResponse.java:
+    last_write_checksum: sha1:ee9811f0c1b8097a526ad5ee47ab701b24994aab
+  src/main/java/org/noresponse/models/operations/async/CreateAssessmentRequestBuilder.java:
+    last_write_checksum: sha1:41a5a7c2dcde1e6e19214a329696a145a3d79116
+  src/main/java/org/noresponse/models/operations/async/CreateAssessmentResponse.java:
+    last_write_checksum: sha1:37209636419abf3af6b995e8d8622eb4b31d160d
+  src/main/java/org/noresponse/models/operations/async/GetAssessmentRequestBuilder.java:
+    last_write_checksum: sha1:52e48766b24968c6a2d807b0160f5d6c021890e2
+  src/main/java/org/noresponse/models/operations/async/GetAssessmentResponse.java:
+    last_write_checksum: sha1:e3b43be9bd7df456b3eeaffdd8e4aa6bfe43749c
+  src/main/java/org/noresponse/models/operations/async/QueryAccountAssessmentsRequestBuilder.java:
+    last_write_checksum: sha1:1580e3b54ca02f5b8572796761bcd399b07df041
+  src/main/java/org/noresponse/models/operations/async/QueryAccountAssessmentsResponse.java:
+    last_write_checksum: sha1:174947a27b10ec955cd7634add576fe93a3a0589
+  src/main/java/org/noresponse/models/operations/async/RecordAssessmentOutcomeRequestBuilder.java:
+    last_write_checksum: sha1:43c83c09a59843adfb487c1d286f43d079317009
+  src/main/java/org/noresponse/models/operations/async/RecordAssessmentOutcomeResponse.java:
+    last_write_checksum: sha1:69c2e0c20be344e002c518040529e606cb80076e
+  src/main/java/org/noresponse/models/operations/async/RotateApiKeyRequestBuilder.java:
+    last_write_checksum: sha1:522fbe69b78a256b9c0ef87aa2e716ac1ff47058
+  src/main/java/org/noresponse/models/operations/async/RotateApiKeyResponse.java:
+    last_write_checksum: sha1:90fed9d7623d97452ad6237e89a28ebe0ebb984f
+  src/main/java/org/noresponse/models/shared/AlternateName.java:
+    last_write_checksum: sha1:5ac86ee2d20bbcf8aaa2949eb8247ed6ee0fc796
+  src/main/java/org/noresponse/models/shared/AlternateNameUnion.java:
+    last_write_checksum: sha1:c7135a38381ac05f926ea36c8ac2ed3f92d7eaa0
+  src/main/java/org/noresponse/models/shared/Assessment.java:
+    last_write_checksum: sha1:50b185354b217980677b958879dfd6f1f9949091
+  src/main/java/org/noresponse/models/shared/AssessmentList.java:
+    last_write_checksum: sha1:7592ec915434ea5950897e35890c888f3ce84559
+  src/main/java/org/noresponse/models/shared/AssessmentOutcome.java:
+    last_write_checksum: sha1:8e656edfadff34be2aaf5fd76ecec5eee916557b
+  src/main/java/org/noresponse/models/shared/AssessmentOutcomeRequest.java:
+    last_write_checksum: sha1:25cde50b93d94dad3945e4d9e1e88eeb9abc0dcf
+  src/main/java/org/noresponse/models/shared/AssessmentQuery.java:
+    last_write_checksum: sha1:e2cf2f272d7a08317a8c6a5d28fc72cd7fab20f4
+  src/main/java/org/noresponse/models/shared/AssessmentRequest.java:
+    last_write_checksum: sha1:dceaa886d60a11cd2f3f528dd5a4b8f228fd53b3
+  src/main/java/org/noresponse/models/shared/AssessmentRequestClientContext.java:
+    last_write_checksum: sha1:e8a07d203e27f411dbec67446d9dec13ddf6c8e4
+  src/main/java/org/noresponse/models/shared/AssessmentRequestIdentifiers.java:
+    last_write_checksum: sha1:2beddaf222aa2a8f9c1ff9b4dea3ccba0551d6a2
+  src/main/java/org/noresponse/models/shared/AssessmentRequestPolicyContext.java:
+    last_write_checksum: sha1:c434d335cb1fed5b7040ef06e51d270193b9d421
+  src/main/java/org/noresponse/models/shared/AssessmentTiming.java:
+    last_write_checksum: sha1:3dde49f74e26ad42e4e3056e023c82364ab16c96
+  src/main/java/org/noresponse/models/shared/AssuranceLevel.java:
+    last_write_checksum: sha1:cc56ce00f54db3bde785e9e0a9c28687b343e260
+  src/main/java/org/noresponse/models/shared/AuthContext.java:
+    last_write_checksum: sha1:a2aeceb33e729e32d0d9a82cefad4381a4406474
+  src/main/java/org/noresponse/models/shared/AuthContextMfa.java:
+    last_write_checksum: sha1:739853c35fb254e97a06193f53b64e8b6fd25ed4
+  src/main/java/org/noresponse/models/shared/AuthenticationErrorCode.java:
+    last_write_checksum: sha1:42936623de4dee061fa498a8e2f2e7e315b7f2b1
+  src/main/java/org/noresponse/models/shared/BadRequestErrorCode.java:
+    last_write_checksum: sha1:08328137c59b041186d3dfa6bb4a07e26be37eca
+  src/main/java/org/noresponse/models/shared/Band.java:
+    last_write_checksum: sha1:5c703e622ca40ce01065aa3ecabe8fab514f872f
+  src/main/java/org/noresponse/models/shared/Breach.java:
+    last_write_checksum: sha1:90365fa4964bae022ab2d01777ef2154ef346ae3
+  src/main/java/org/noresponse/models/shared/BreachExposed.java:
+    last_write_checksum: sha1:7d212e21f84be26d160187b130d1efa798e986b2
+  src/main/java/org/noresponse/models/shared/BreachKind.java:
+    last_write_checksum: sha1:c16c697f7d2e5d878d4b5dd68649f23b8db7ceee
+  src/main/java/org/noresponse/models/shared/BreachSelector.java:
+    last_write_checksum: sha1:248a754ad2a3de0318c3f3b98e4ead098ac83088
+  src/main/java/org/noresponse/models/shared/BreachSummary.java:
+    last_write_checksum: sha1:bdb224a2107b94a477f4695db1445653f134229d
+  src/main/java/org/noresponse/models/shared/Confidence.java:
+    last_write_checksum: sha1:ca40687fd5373ac174bb5b4795b461f2aacde7f8
+  src/main/java/org/noresponse/models/shared/ConflictErrorCode.java:
+    last_write_checksum: sha1:508514d6a8844a2640e480a5e9749dc1656d69b3
+  src/main/java/org/noresponse/models/shared/Consistency.java:
+    last_write_checksum: sha1:7eb09438e71015b116cc96f4cb9bb65572d257e3
+  src/main/java/org/noresponse/models/shared/ConsistencyValue.java:
+    last_write_checksum: sha1:1abf0065f4fdd35699b3bd13134276b75340be25
+  src/main/java/org/noresponse/models/shared/Country.java:
+    last_write_checksum: sha1:979e1cacaef116e1da50b8b32d3762df36da9197
+  src/main/java/org/noresponse/models/shared/Email.java:
+    last_write_checksum: sha1:e6c7f2473b63045e74dee1d279713159d45c51ce
+  src/main/java/org/noresponse/models/shared/EmailUnion.java:
+    last_write_checksum: sha1:387e13a2024dba1860eec62a1ce214686af46c77
+  src/main/java/org/noresponse/models/shared/FailureReason.java:
+    last_write_checksum: sha1:2a044486ef587dff1cc30e20c78f97653b482327
+  src/main/java/org/noresponse/models/shared/Flow.java:
+    last_write_checksum: sha1:cf63a829db718e7c2e73e9c8230004a3b65b90ab
+  src/main/java/org/noresponse/models/shared/Freshness.java:
+    last_write_checksum: sha1:32d0b7ad14c3569a8724f8bbf1b438bf6742be38
+  src/main/java/org/noresponse/models/shared/IdentifierKind.java:
+    last_write_checksum: sha1:962ef4c8b960b764c13b7cadd678396ce2db83ed
+  src/main/java/org/noresponse/models/shared/IncompleteReason.java:
+    last_write_checksum: sha1:2a54f8668deea3019e7c40b554be13f7a1be079f
+  src/main/java/org/noresponse/models/shared/IncompleteSource.java:
+    last_write_checksum: sha1:4ee16f745cca5db1be75760dc1243f3805bb5f43
+  src/main/java/org/noresponse/models/shared/IpSummary.java:
+    last_write_checksum: sha1:67d503727ebf6dd8bc2df155183411ff91d8c71f
+  src/main/java/org/noresponse/models/shared/IpSummaryType.java:
+    last_write_checksum: sha1:1317942b83ec54e1e8f432dda5da192d8b39ad96
+  src/main/java/org/noresponse/models/shared/KeyRotation.java:
+    last_write_checksum: sha1:2f7087c502154052b1c3748fea92615529086ac4
+  src/main/java/org/noresponse/models/shared/KeyRotationRequest.java:
+    last_write_checksum: sha1:9fe251f444e9f9dcd24041d62f9e0359f88c28ea
+  src/main/java/org/noresponse/models/shared/Lane.java:
+    last_write_checksum: sha1:9931c61f5021cdeb45682e74742e57528cfb7d2e
+  src/main/java/org/noresponse/models/shared/LineType.java:
+    last_write_checksum: sha1:3e6cecef6cb0559c03dc301f4d0344ae8b1e7c17
+  src/main/java/org/noresponse/models/shared/Location.java:
+    last_write_checksum: sha1:f8381ae8900ee7983c0ccfcb5e692b2850d85620
+  src/main/java/org/noresponse/models/shared/LocationUnion.java:
+    last_write_checksum: sha1:6cc6b1b6e6b1131a3ad7df35552a23602843b017
+  src/main/java/org/noresponse/models/shared/NameCandidate.java:
+    last_write_checksum: sha1:52f025f4e3d5df06c719f520c62da5d0b55c68dc
+  src/main/java/org/noresponse/models/shared/NameCandidateUnion.java:
+    last_write_checksum: sha1:9ebb766935c948338dfbdb23f4d8ae7cb8606517
+  src/main/java/org/noresponse/models/shared/NotFoundErrorCode.java:
+    last_write_checksum: sha1:d99f2ebc0903ff704282b3a3cbc22b4328c912f5
+  src/main/java/org/noresponse/models/shared/Outcome.java:
+    last_write_checksum: sha1:26050c51b3a7d14201fef9d32389344714f7697a
+  src/main/java/org/noresponse/models/shared/PermissionDeniedErrorCode.java:
+    last_write_checksum: sha1:b95786d11ae743f5d672d4f11587238094d0d81e
+  src/main/java/org/noresponse/models/shared/PhoneEnrichment.java:
+    last_write_checksum: sha1:293025ed0651c30724a06bdc27909d70f6ec7187
+  src/main/java/org/noresponse/models/shared/PhoneEnrichmentFields.java:
+    last_write_checksum: sha1:d8b52baadc16ef4175596fd0756c7995b3003114
+  src/main/java/org/noresponse/models/shared/Platform.java:
+    last_write_checksum: sha1:52736c796bb9f1316de31cabb2423a2e0e93bfb2
+  src/main/java/org/noresponse/models/shared/ProblemInvalidParam.java:
+    last_write_checksum: sha1:5fe1370ee8f125aac156a17c951190ceced1816f
+  src/main/java/org/noresponse/models/shared/RateLimitErrorCode.java:
+    last_write_checksum: sha1:b6ba0127300d408f1578ee3094e31bea5400aef1
+  src/main/java/org/noresponse/models/shared/ReasonCode.java:
+    last_write_checksum: sha1:3bb32c7ce2408c3bfb55c6c578b018193d62daeb
+  src/main/java/org/noresponse/models/shared/ReasonIdentifier.java:
+    last_write_checksum: sha1:d9db736c0104c6e6288c71bae1ca89a6560ebc4b
+  src/main/java/org/noresponse/models/shared/Recommendation.java:
+    last_write_checksum: sha1:918e43fe7268e05002e73485110db1bd2b21f09d
+  src/main/java/org/noresponse/models/shared/ResponseMode.java:
+    last_write_checksum: sha1:1008d038ebbd31fd03ea8e0b056bd43580c46814
+  src/main/java/org/noresponse/models/shared/Risk.java:
+    last_write_checksum: sha1:bfc7f5c4002e617d0792abb676dde70f01a6df8a
+  src/main/java/org/noresponse/models/shared/RiskConfidence.java:
+    last_write_checksum: sha1:7c67517cf3b0eed231735f6a4be1c7d4154132e2
+  src/main/java/org/noresponse/models/shared/RiskCoverage.java:
+    last_write_checksum: sha1:06186034e9d5a955428e9045fef769aadeb5dfc3
+  src/main/java/org/noresponse/models/shared/RiskDetails.java:
+    last_write_checksum: sha1:55a90a9ff651b12d9aa35a839036aa8c2753ca72
+  src/main/java/org/noresponse/models/shared/RiskDetailsBreachName.java:
+    last_write_checksum: sha1:ce563540ceaaf1ea1e72c6669b752b4c18807617
+  src/main/java/org/noresponse/models/shared/RiskDetailsPhoneName.java:
+    last_write_checksum: sha1:de73de7c6ddf3652abafe3c9cc13501e0117cb5c
+  src/main/java/org/noresponse/models/shared/RiskReason.java:
+    last_write_checksum: sha1:9e574adcd7ec33cc41cdede794a653116f865149
+  src/main/java/org/noresponse/models/shared/RiskSummary.java:
+    last_write_checksum: sha1:d9a2835a7deed9d5dbc526feb7dc315174a5b1b1
+  src/main/java/org/noresponse/models/shared/RiskSummaryEmail.java:
+    last_write_checksum: sha1:ed6bfecdfdcb8343463ccdf10e9c4bfcd53524dd
+  src/main/java/org/noresponse/models/shared/RiskSummaryPhone.java:
+    last_write_checksum: sha1:9c5521bf78eaaee9f88c3209fc74f89a0a464e6f
+  src/main/java/org/noresponse/models/shared/RiskSummaryUsername.java:
+    last_write_checksum: sha1:fa97eeefc6cfa8ccd74919a35353d447b676f02d
+  src/main/java/org/noresponse/models/shared/Scope.java:
+    last_write_checksum: sha1:318806a7f61d51e43fc9e4d97d1ed7aa7173ba7a
+  src/main/java/org/noresponse/models/shared/Security.java:
+    last_write_checksum: sha1:00b00c44a639cbb7ac54ac986cb718e03d21f198
+  src/main/java/org/noresponse/models/shared/Signal.java:
+    last_write_checksum: sha1:382761aa8bc9f371217b9eca281f4d0ab3e9fe75
+  src/main/java/org/noresponse/models/shared/SignalOutcome.java:
+    last_write_checksum: sha1:6ccd2993d0337025383745d0ab5c3da63ef5dd83
+  src/main/java/org/noresponse/models/shared/SocialProfile.java:
+    last_write_checksum: sha1:a842a249d58cc19beca782996949e097ab31e8d5
+  src/main/java/org/noresponse/models/shared/SocialProfileUnion.java:
+    last_write_checksum: sha1:5397c747307d301006f2da65386c82a9ef04a411
+  src/main/java/org/noresponse/models/shared/Status.java:
+    last_write_checksum: sha1:f6bdebae5e031ed6edc2e46c9f0fed121403c327
+  src/main/java/org/noresponse/models/shared/Timezone.java:
+    last_write_checksum: sha1:72593d69bcb8cb554b4b274e63e49a79bccd6822
+  src/main/java/org/noresponse/models/shared/TimezoneUnion.java:
+    last_write_checksum: sha1:980629788880117fc3e5d0f5f222564ff38a235a
+  src/main/java/org/noresponse/models/shared/Transport.java:
+    last_write_checksum: sha1:77eb7f2b06dd2e0f17d588e04f95a6b459a9a486
+  src/main/java/org/noresponse/models/shared/Website.java:
+    last_write_checksum: sha1:1f4d44559a1bc3579eb448f1762412b1a6f11fa1
+  src/main/java/org/noresponse/models/shared/WebsiteUnion.java:
+    last_write_checksum: sha1:89fce497aba4659daa54d9afa1fd1587553d58fa
+  src/main/java/org/noresponse/operations/CreateAssessment.java:
+    last_write_checksum: sha1:88b8c101bd72e54f690894380ccd87604c63ae54
+  src/main/java/org/noresponse/operations/GetAssessment.java:
+    last_write_checksum: sha1:8ded308194b05522b4943f3b3105dd39944834b8
+  src/main/java/org/noresponse/operations/Operations.java:
+    last_write_checksum: sha1:4703743459939596e9b421aab3f9642cfdf08a7d
+  src/main/java/org/noresponse/operations/QueryAccountAssessments.java:
+    last_write_checksum: sha1:4ecd775a4314241b496f59e1904c52ba64d3f26e
+  src/main/java/org/noresponse/operations/RecordAssessmentOutcome.java:
+    last_write_checksum: sha1:9db46124c7e37b417d0c1d077ed67b618abd3041
+  src/main/java/org/noresponse/operations/RotateApiKey.java:
+    last_write_checksum: sha1:a47e8a536f40f3da133d988d855c69ec404dabbe
+  src/main/java/org/noresponse/utils/AsyncHook.java:
+    last_write_checksum: sha1:3764f9f40036fe64bd32bce86117f2b399cd04ef
+  src/main/java/org/noresponse/utils/AsyncHooks.java:
+    last_write_checksum: sha1:f2e70d4ba789ac6fa33437c16f6768a2172e83dd
+  src/main/java/org/noresponse/utils/AsyncResponse.java:
+    last_write_checksum: sha1:3b72443c3a0d1c440ce9cf7d671d2bc2ca7bce8b
+  src/main/java/org/noresponse/utils/AsyncRetries.java:
+    last_write_checksum: sha1:e1cb27aad5c90e95b4339695119066163667926a
+  src/main/java/org/noresponse/utils/AsyncRetryableException.java:
+    last_write_checksum: sha1:33622ce253d3e44452d71fdc386d98c90b657482
+  src/main/java/org/noresponse/utils/BackoffStrategy.java:
+    last_write_checksum: sha1:172242f6f2b79d16408b7b8e06b42c4637b170b0
+  src/main/java/org/noresponse/utils/BigDecimalString.java:
+    last_write_checksum: sha1:eb48248e73b20c9690df12fa769fd8bb49ef20cd
+  src/main/java/org/noresponse/utils/BigIntegerString.java:
+    last_write_checksum: sha1:182bb437c3c3246769ad420b2dcf8cf97b5ff740
+  src/main/java/org/noresponse/utils/Blob.java:
+    last_write_checksum: sha1:19665eabd05f5f8559f303064ec9b27eafbe5381
+  src/main/java/org/noresponse/utils/BlockingParser.java:
+    last_write_checksum: sha1:c8f0a91aa2dff94c50a74414ac15367ca1696364
+  src/main/java/org/noresponse/utils/Constants.java:
+    last_write_checksum: sha1:708f00bf6c29cc239e188ef68d339d9159ed0042
+  src/main/java/org/noresponse/utils/CopiableInputStream.java:
+    last_write_checksum: sha1:8abca02b644b3ac4daa80db1a6d029a373b74422
+  src/main/java/org/noresponse/utils/Deserializers.java:
+    last_write_checksum: sha1:3331d1749d20020cca3bca4ac7c4f08a4d68fcba
+  src/main/java/org/noresponse/utils/EventStream.java:
+    last_write_checksum: sha1:6f0d55256a09f14b229d492f0e5fa3aed091c916
+  src/main/java/org/noresponse/utils/EventStreamMessage.java:
+    last_write_checksum: sha1:5e705874bd5863284560e24e522d5f926e272350
+  src/main/java/org/noresponse/utils/Exceptions.java:
+    last_write_checksum: sha1:639aae3aba6411e2ca1558331e4b8affc457a793
+  src/main/java/org/noresponse/utils/FormMetadata.java:
+    last_write_checksum: sha1:2105a3652e421420ca2a4e12cea2799be9ae1180
+  src/main/java/org/noresponse/utils/GenericTypeIdResolver.java:
+    last_write_checksum: sha1:190112398a113dbe766c7e31b6ad334f81d02c06
+  src/main/java/org/noresponse/utils/Globals.java:
+    last_write_checksum: sha1:ec4b5b6e2cb6b5aed989dd6382b11c838743229b
+  src/main/java/org/noresponse/utils/HTTPClient.java:
+    last_write_checksum: sha1:68a9066487af12265bc9de22566c26467b6b31fd
+  src/main/java/org/noresponse/utils/HTTPRequest.java:
+    last_write_checksum: sha1:c87e3487a2d280929eeaccf5ffb8547804a13b69
+  src/main/java/org/noresponse/utils/HasSecurity.java:
+    last_write_checksum: sha1:ce87906417f20a37c7102965a4ea0da5959ea300
+  src/main/java/org/noresponse/utils/HeaderMetadata.java:
+    last_write_checksum: sha1:d187db2142a522c7aa0b5df5c154d1df7a09cbc2
+  src/main/java/org/noresponse/utils/Headers.java:
+    last_write_checksum: sha1:73bdaca215970b228ebbf5151f08ca38d3083d27
+  src/main/java/org/noresponse/utils/Helpers.java:
+    last_write_checksum: sha1:9cb7dfe56c31fd91f138c0f4bd5adbafe6f07ede
+  src/main/java/org/noresponse/utils/Hook.java:
+    last_write_checksum: sha1:2de3092dd20217bbf2d0d2e7acecb9527bd6f95f
+  src/main/java/org/noresponse/utils/HookAdapters.java:
+    last_write_checksum: sha1:9904355c43ee5d6470004b2580e69617a3f3add2
+  src/main/java/org/noresponse/utils/Hooks.java:
+    last_write_checksum: sha1:6100cfd9904dc11de9b53d9340bf3cd2c02a5821
+  src/main/java/org/noresponse/utils/JSON.java:
+    last_write_checksum: sha1:e425a139e0d913e37057f7809fa9135e6d60e35b
+  src/main/java/org/noresponse/utils/LazySingletonValue.java:
+    last_write_checksum: sha1:eab4bf640f3ba57e3d4be574d6949f8fcb66a295
+  src/main/java/org/noresponse/utils/Metadata.java:
+    last_write_checksum: sha1:82d98314fd92d9c39a1d98a0812a0bee438279b5
+  src/main/java/org/noresponse/utils/Multipart.java:
+    last_write_checksum: sha1:7668a39286fde9f116778d804c7534ce59709146
+  src/main/java/org/noresponse/utils/MultipartFormMetadata.java:
+    last_write_checksum: sha1:b0d6e55418ed5d394cdf027163e97d2485ca249f
+  src/main/java/org/noresponse/utils/NameValue.java:
+    last_write_checksum: sha1:ab0f3f5ed7c8361534e280415a14fb8ef5fd2969
+  src/main/java/org/noresponse/utils/NoResponseHTTPClient.java:
+    last_write_checksum: sha1:ed77abada903a77f2f17005f21c2181363c45501
+  src/main/java/org/noresponse/utils/NoResponseLogger.java:
+    last_write_checksum: sha1:3489d3fc192096909b43ffc922b716e7210c52a5
+  src/main/java/org/noresponse/utils/NoResponseMetadata.java:
+    last_write_checksum: sha1:9c79c01c222ee077def2da79cdb31e24d8c02488
+  src/main/java/org/noresponse/utils/NonRetryableException.java:
+    last_write_checksum: sha1:ca013dfa55fb999e7e634da333e5dd627ddfc79e
+  src/main/java/org/noresponse/utils/NoresponseJacksonModule.java:
+    last_write_checksum: sha1:84475f18f780a90090241043b3abf712550bfb84
+  src/main/java/org/noresponse/utils/OneOfDeserializer.java:
+    last_write_checksum: sha1:0d6f958751b8b125ce11e0edaa5ef26076fc71a8
+  src/main/java/org/noresponse/utils/Options.java:
+    last_write_checksum: sha1:93bc9937ca854de909abcf7b467f775a16e44796
+  src/main/java/org/noresponse/utils/PathParamsMetadata.java:
+    last_write_checksum: sha1:4aff558b16780a4dd33d1786cfb429a91f42f0e0
+  src/main/java/org/noresponse/utils/QueryEncoding.java:
+    last_write_checksum: sha1:af581c5bcc2640367f741dafe9a5abbce45f30b2
+  src/main/java/org/noresponse/utils/QueryParameter.java:
+    last_write_checksum: sha1:d5f036ed9ba3c6f6aa6350dbe759633b6a605db1
+  src/main/java/org/noresponse/utils/QueryParameters.java:
+    last_write_checksum: sha1:52f90ce75c286a9d77642239ec83e809f3fbc174
+  src/main/java/org/noresponse/utils/QueryParamsMetadata.java:
+    last_write_checksum: sha1:8423a59f598b7679a04c4a78fec28258f21a5898
+  src/main/java/org/noresponse/utils/RecordingClient.java:
+    last_write_checksum: sha1:30d4d36f265a31088305c7200743b5bebf4c0c04
+  src/main/java/org/noresponse/utils/Reflections.java:
+    last_write_checksum: sha1:345baa75a7c63ee1d96e1293960133dfdb254b85
+  src/main/java/org/noresponse/utils/RequestBody.java:
+    last_write_checksum: sha1:05048aa0e1b0df7cce4609626fc655fd58b41c55
+  src/main/java/org/noresponse/utils/RequestMetadata.java:
+    last_write_checksum: sha1:42874b7b422be6f8abce560f950c6d080adc98d9
+  src/main/java/org/noresponse/utils/Response.java:
+    last_write_checksum: sha1:c6013cb890ff0ba679e4ead3d18250e8d8fc8ac4
+  src/main/java/org/noresponse/utils/ResponseWithBody.java:
+    last_write_checksum: sha1:447708b76e8301ddd6daa09aa59a9259803befa8
+  src/main/java/org/noresponse/utils/Retries.java:
+    last_write_checksum: sha1:c83a1db9c49f7290122480df802d39fae4b06f54
+  src/main/java/org/noresponse/utils/RetryConfig.java:
+    last_write_checksum: sha1:52df4e90e8b194f3fff337f6ccf881bb31f2d98f
+  src/main/java/org/noresponse/utils/RetryableException.java:
+    last_write_checksum: sha1:f740214a4875251b7baa3b31809898f1109ce6a4
+  src/main/java/org/noresponse/utils/Security.java:
+    last_write_checksum: sha1:8fe99796148ca5c267dd8214127b3c547abe14ba
+  src/main/java/org/noresponse/utils/SecurityMetadata.java:
+    last_write_checksum: sha1:68444cf044babc67259ba9b81a890f100e6d5393
+  src/main/java/org/noresponse/utils/SerializedBody.java:
+    last_write_checksum: sha1:81a3413241e45c0e3ab4d00fd7798c1381bce308
+  src/main/java/org/noresponse/utils/SessionManager.java:
+    last_write_checksum: sha1:fd38e645bdec1573b192a68f6d9d4b7f51364549
+  src/main/java/org/noresponse/utils/StreamingParser.java:
+    last_write_checksum: sha1:a2664d55058855663e6c24b11d127a54aec8068c
+  src/main/java/org/noresponse/utils/TypedObject.java:
+    last_write_checksum: sha1:e5de10811efbc77a1f8f044b2f458916a5526ce2
+  src/main/java/org/noresponse/utils/Types.java:
+    last_write_checksum: sha1:158e72724f6e59b596f8c8dadf6c491fc4a79e56
+  src/main/java/org/noresponse/utils/UnknownType.java:
+    last_write_checksum: sha1:c76240d5b36dd8d8349ee3cba16f1c169e24c0ef
+  src/main/java/org/noresponse/utils/Utf8UrlEncoder.java:
+    last_write_checksum: sha1:1e2dfd233112275c4094a70a49191561b8675bec
+  src/main/java/org/noresponse/utils/Utils.java:
+    last_write_checksum: sha1:d11b8fa7034d6084626afd7dd06c83fde5c660cd
+  src/main/java/org/noresponse/utils/pagination/AsyncPaginator.java:
+    last_write_checksum: sha1:7c70d97a5cc56c5ee4bb4891e5c25f1fe5dd2ff3
+  src/main/java/org/noresponse/utils/pagination/CursorTracker.java:
+    last_write_checksum: sha1:4fe999dfa3e5d4aa20145f881a87d5db6b3e1603
+  src/main/java/org/noresponse/utils/pagination/OffsetTracker.java:
+    last_write_checksum: sha1:3e54b7198614ce79c97201084f54b560408b59e7
+  src/main/java/org/noresponse/utils/pagination/PageTracker.java:
+    last_write_checksum: sha1:25ce941b3ef3e74fcfe50624ff9587fb9c065a34
+  src/main/java/org/noresponse/utils/pagination/Paginator.java:
+    last_write_checksum: sha1:1ed609772b0bf91f546224b721ef7315de6bc986
+  src/main/java/org/noresponse/utils/pagination/ProgressTrackerStrategy.java:
+    last_write_checksum: sha1:9f7bbcd89f3dcff69e8213472e602613b3f740b4
+  src/main/java/org/noresponse/utils/pagination/ResultsPageTracker.java:
+    last_write_checksum: sha1:0e782404a62efe2c98ad029f632a23f3340da996
+  src/main/java/org/noresponse/utils/pagination/URLTracker.java:
+    last_write_checksum: sha1:d40866eb0c95542384a1b852be0c6b6cac1c7653
+  src/main/java/org/noresponse/utils/reactive/EventStream.java:
+    last_write_checksum: sha1:deb8dbfa6dc4c810ef7c4dfc95967224c5caf15c
+  src/main/java/org/noresponse/utils/reactive/ReactiveUtils.java:
+    last_write_checksum: sha1:5daf8290e45858f0472ef293a676ff8a1643263e
+examples:
+  createAssessment:
+    minimal:
+      parameters:
+        header:
+          Idempotency-Key: "<value>"
+      requestBody:
+        application/json: {"account_id": "acct_7f3a9c", "identifiers": {"email": "new.user@example.com"}}
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "assessment_id": "<id>", "account_id": "<id>", "status": "pending", "confidence": "high", "incomplete_sources": [], "policy_version": "<value>", "policy_basis": "heuristic_unvalidated", "assessment_version": 75248, "created_at": "1730661856226", "updated_at": "1735656370961", "expires_at": "1761465925841", "timing": {"deadline_ms": 255173, "elapsed_ms": 652212}}
+        "400":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 400, "detail": "<value>", "code": "invalid_request", "request_id": "<id>"}
+        "401":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 401, "detail": "<value>", "code": "unauthorized", "request_id": "<id>"}
+        "403":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 403, "detail": "<value>", "code": "tenant_forbidden", "request_id": "<id>"}
+        "404":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 404, "detail": "<value>", "code": "not_found", "request_id": "<id>"}
+        "409":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 409, "detail": "<value>", "code": "key_rotation_in_progress", "request_id": "<id>"}
+        "429":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 429, "detail": "<value>", "code": "rate_limited", "request_id": "<id>"}
+    full:
+      parameters:
+        header:
+          Idempotency-Key: "<value>"
+      requestBody:
+        application/json: {"account_id": "acct_7f3a9c", "identifiers": {"email": "new.user@example.com", "username": "new_user_42", "phone": "+447700900123"}, "policy_context": {"flow": "signup", "region": "GB"}, "request_id": "req-2026-10-14-0001", "deadline_ms": 300}
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "assessment_id": "<id>", "account_id": "<id>", "status": "pending", "confidence": "high", "incomplete_sources": [], "policy_version": "<value>", "policy_basis": "heuristic_unvalidated", "assessment_version": 75248, "created_at": "1730661856226", "updated_at": "1735656370961", "expires_at": "1761465925841", "timing": {"deadline_ms": 255173, "elapsed_ms": 652212}}
+        "400":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 400, "detail": "<value>", "code": "invalid_request", "request_id": "<id>"}
+        "401":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 401, "detail": "<value>", "code": "unauthorized", "request_id": "<id>"}
+        "403":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 403, "detail": "<value>", "code": "tenant_forbidden", "request_id": "<id>"}
+        "404":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 404, "detail": "<value>", "code": "not_found", "request_id": "<id>"}
+        "409":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 409, "detail": "<value>", "code": "key_rotation_in_progress", "request_id": "<id>"}
+        "429":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 429, "detail": "<value>", "code": "rate_limited", "request_id": "<id>"}
+    name_and_ip:
+      parameters:
+        header:
+          Idempotency-Key: "<value>"
+      requestBody:
+        application/json: {"account_id": "acct_8412", "identifiers": {"email": "jane.doe@example.com", "username": "janedoe", "phone": "+14155550123", "name": "Jane A. Doe", "ip": "73.162.18.45"}, "policy_context": {"flow": "signup", "region": "US"}, "request_id": "req_01", "deadline_ms": 500, "response_mode": "standard"}
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "assessment_id": "<id>", "account_id": "<id>", "status": "pending", "confidence": "high", "incomplete_sources": [], "policy_version": "<value>", "policy_basis": "heuristic_unvalidated", "assessment_version": 75248, "created_at": "1730661856226", "updated_at": "1735656370961", "expires_at": "1761465925841", "timing": {"deadline_ms": 255173, "elapsed_ms": 652212}}
+        "400":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 400, "detail": "<value>", "code": "invalid_request", "request_id": "<id>"}
+        "401":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 401, "detail": "<value>", "code": "unauthorized", "request_id": "<id>"}
+        "403":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 403, "detail": "<value>", "code": "tenant_forbidden", "request_id": "<id>"}
+        "404":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 404, "detail": "<value>", "code": "not_found", "request_id": "<id>"}
+        "409":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 409, "detail": "<value>", "code": "key_rotation_in_progress", "request_id": "<id>"}
+        "429":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 429, "detail": "<value>", "code": "rate_limited", "request_id": "<id>"}
+    complete:
+      parameters:
+        header:
+          Idempotency-Key: "<value>"
+      requestBody:
+        application/json: {"account_id": "<id>", "identifiers": {}}
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "account_id": "acct_7f3a9c", "request_id": "req-2026-10-14-0001", "status": "complete", "recommendation": "step_up", "confidence": "medium", "signals": [{"type": "account_presence", "identifier": "email", "outcome": "found", "source_id": "github", "evidence_ref": "evr_01JA2Z8K6Q4V7W9XBCDEFGHJKN", "observed_at": "2026-10-14T09:00:00.210Z", "last_checked_at": "2026-10-14T09:00:00.210Z", "freshness": "fresh"}, {"type": "account_presence", "identifier": "username", "outcome": "not_found", "source_id": "gitlab", "last_checked_at": "2026-10-14T09:00:00.190Z", "freshness": "fresh"}, {"type": "breach_exposure", "identifier": "email", "outcome": "found", "source_id": "breach.corpus", "evidence_ref": "evr_01JA2Z8K6Q4V7W9XBCDEFGHJKP", "observed_at": "2025-03-02T00:00:00Z", "last_checked_at": "2026-10-14T09:00:00.150Z", "freshness": "stale"}], "incomplete_sources": [], "policy_version": "heuristic-2026-10.1", "policy_basis": "heuristic_unvalidated", "assessment_version": 2, "created_at": "2026-10-14T09:00:00.000Z", "updated_at": "2026-10-14T09:00:00.412Z", "expires_at": "2027-10-14T09:00:00.000Z", "timing": {"deadline_ms": 300, "elapsed_ms": 287}}
+    partial:
+      parameters:
+        header:
+          Idempotency-Key: "<value>"
+      requestBody:
+        application/json: {"account_id": "<id>", "identifiers": {}}
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "account_id": "acct_7f3a9c", "request_id": "req-2026-10-14-0001", "status": "partial", "recommendation": "allow", "confidence": "low", "signals": [{"type": "account_presence", "identifier": "email", "outcome": "found", "source_id": "github", "evidence_ref": "evr_01JA2Z8K6Q4V7W9XBCDEFGHJKN", "observed_at": "2026-10-14T09:00:00.210Z", "last_checked_at": "2026-10-14T09:00:00.210Z", "freshness": "fresh"}, {"type": "account_presence", "identifier": "username", "outcome": "not_found", "source_id": "gitlab", "last_checked_at": "2026-10-14T09:00:00.190Z", "freshness": "fresh"}, {"type": "account_presence", "identifier": "phone", "outcome": "unavailable", "source_id": "phone_src_04", "reason": "deferred", "freshness": "unknown"}], "incomplete_sources": [{"lane": "phone", "reason": "deferred"}], "policy_version": "heuristic-2026-10.1", "policy_basis": "heuristic_unvalidated", "assessment_version": 1, "created_at": "2026-10-14T09:00:00.000Z", "updated_at": "2026-10-14T09:00:00.412Z", "expires_at": "2027-10-14T09:00:00.000Z", "assessment_url": "/v1/assessments/asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "timing": {"deadline_ms": 300, "elapsed_ms": 287}}
+    standard:
+      parameters:
+        header:
+          Idempotency-Key: "<value>"
+      requestBody:
+        application/json: {"account_id": "<id>", "identifiers": {}}
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "assessment_id": "asm_01JB3C4D5E6F7G8H9JKMNPQRST", "account_id": "acct_8412", "request_id": "req_01", "status": "complete", "recommendation": "allow", "confidence": "high", "risk": {"score": 0, "band": "low", "recommendation": "allow", "confidence": "high", "policy_version": "risk-2026-10.3", "policy_basis": "heuristic_unvalidated", "reasons": [{"code": "voip_number", "weight": 25, "identifier": "phone"}, {"code": "breach_cooccurrence", "weight": -10, "identifier": "phone"}, {"code": "breach_name_match", "weight": -15, "identifier": "name"}, {"code": "established_accounts", "weight": -15, "identifier": "email"}, {"code": "aged_identity", "weight": -25, "identifier": "email"}], "summary": {"phone": {"line_type": "voip", "country": "US", "report_count": 0}, "email": {"disposable": false, "accounts_found": 6, "breach": {"found": true, "breach_count": 7, "first_year": 2013, "last_year": 2021, "exposed": ["email", "name", "password", "phone", "ip"], "in_credential_lists": false, "recent_password_exposure": false, "truncated": false}}, "username": {"accounts_found": 3, "breach": {"found": false, "truncated": false}}, "ip": {"country": "US", "type": "residential", "seen_in_tenant": 1}, "consistency": {"name": "match", "phone": "match", "ip": "unknown", "country": "consistent"}}, "coverage": {"answered": 14, "failed": 1, "pending": 0}}, "incomplete_sources": [], "policy_version": "risk-2026-10.3", "policy_basis": "heuristic_unvalidated", "assessment_version": 3, "created_at": "2026-10-18T11:00:00.000Z", "updated_at": "2026-10-18T11:00:04.000Z", "expires_at": "2027-10-18T11:00:00.000Z", "timing": {"deadline_ms": 500, "elapsed_ms": 4000}}
+    detailed:
+      parameters:
+        header:
+          Idempotency-Key: "<value>"
+      requestBody:
+        application/json: {"account_id": "<id>", "identifiers": {}}
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "assessment_id": "asm_01JB3C4D5E6F7G8H9JKMNPQRST", "account_id": "acct_8412", "request_id": "req_01", "status": "complete", "recommendation": "allow", "confidence": "high", "risk": {"score": 10, "band": "low", "recommendation": "allow", "confidence": "high", "policy_version": "risk-2026-10.3", "policy_basis": "heuristic_unvalidated", "reasons": [{"code": "voip_number", "weight": 25, "identifier": "phone"}, {"code": "breach_name_match", "weight": -15, "identifier": "name"}], "summary": {"phone": {"line_type": "voip", "country": "US"}, "email": {"disposable": false, "accounts_found": 1, "breach": {"found": true, "breach_count": 2, "first_year": 2016, "last_year": 2019, "exposed": ["email", "password", "password_hash"], "in_credential_lists": true, "truncated": false}}, "consistency": {"name": "match"}}, "coverage": {"answered": 4, "failed": 0, "pending": 0}, "details": {"phone_names": [{"value": "Jane Doe", "seen_by": 3}], "breaches": [{"name": "Collection #1", "category": "combolist", "kind": "credential_list", "year": 2019, "matched_on": "email", "exposed": ["email", "password"]}, {"name": "LinkedIn", "domain": "linkedin.com", "category": "social", "kind": "site_breach", "year": 2016, "month": 5, "matched_on": "email", "exposed": ["email", "password_hash"]}], "breach_names": [{"value": "Jane Doe", "seen_in": 2}]}}, "signals": [{"type": "account_presence", "identifier": "email", "outcome": "found", "source_id": "src_3f9a1c", "evidence_ref": "evr_01JB3C4D5E6F7G8H9JKMNPQRSV", "observed_at": "2026-10-18T11:00:00.180Z", "last_checked_at": "2026-10-18T11:00:00.180Z", "freshness": "fresh"}, {"type": "breach_exposure", "identifier": "email", "outcome": "found", "source_id": "src_8d27e4", "evidence_ref": "evr_01JB3C4D5E6F7G8H9JKMNPQRSW", "observed_at": "2026-10-18T11:00:01.900Z", "last_checked_at": "2026-10-18T11:00:01.900Z", "freshness": "fresh"}, {"type": "account_presence", "identifier": "phone", "outcome": "found", "source_id": "src_51b0d7", "evidence_ref": "evr_01JB3C4D5E6F7G8H9JKMNPQRSX", "observed_at": "2026-10-18T11:00:03.700Z", "last_checked_at": "2026-10-18T11:00:03.700Z", "freshness": "fresh"}], "incomplete_sources": [], "policy_version": "risk-2026-10.3", "policy_basis": "heuristic_unvalidated", "assessment_version": 2, "created_at": "2026-10-18T11:00:00.000Z", "updated_at": "2026-10-18T11:00:04.000Z", "expires_at": "2027-10-18T11:00:00.000Z", "timing": {"deadline_ms": 500, "elapsed_ms": 4000}}
+  getAssessment:
+    complete:
+      parameters:
+        path:
+          assessment_id: "<id>"
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "account_id": "acct_7f3a9c", "request_id": "req-2026-10-14-0001", "status": "complete", "recommendation": "step_up", "confidence": "medium", "signals": [{"type": "account_presence", "identifier": "email", "outcome": "found", "source_id": "github", "evidence_ref": "evr_01JA2Z8K6Q4V7W9XBCDEFGHJKN", "observed_at": "2026-10-14T09:00:00.210Z", "last_checked_at": "2026-10-14T09:00:00.210Z", "freshness": "fresh"}, {"type": "account_presence", "identifier": "username", "outcome": "not_found", "source_id": "gitlab", "last_checked_at": "2026-10-14T09:00:00.190Z", "freshness": "fresh"}, {"type": "breach_exposure", "identifier": "email", "outcome": "found", "source_id": "breach.corpus", "evidence_ref": "evr_01JA2Z8K6Q4V7W9XBCDEFGHJKP", "observed_at": "2025-03-02T00:00:00Z", "last_checked_at": "2026-10-14T09:00:00.150Z", "freshness": "stale"}], "incomplete_sources": [], "policy_version": "heuristic-2026-10.1", "policy_basis": "heuristic_unvalidated", "assessment_version": 2, "created_at": "2026-10-14T09:00:00.000Z", "updated_at": "2026-10-14T09:00:00.412Z", "expires_at": "2027-10-14T09:00:00.000Z", "timing": {"deadline_ms": 300, "elapsed_ms": 287}}
+    partial:
+      parameters:
+        path:
+          assessment_id: "<id>"
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "account_id": "acct_7f3a9c", "request_id": "req-2026-10-14-0001", "status": "partial", "recommendation": "allow", "confidence": "low", "signals": [{"type": "account_presence", "identifier": "email", "outcome": "found", "source_id": "github", "evidence_ref": "evr_01JA2Z8K6Q4V7W9XBCDEFGHJKN", "observed_at": "2026-10-14T09:00:00.210Z", "last_checked_at": "2026-10-14T09:00:00.210Z", "freshness": "fresh"}, {"type": "account_presence", "identifier": "username", "outcome": "not_found", "source_id": "gitlab", "last_checked_at": "2026-10-14T09:00:00.190Z", "freshness": "fresh"}, {"type": "account_presence", "identifier": "phone", "outcome": "unavailable", "source_id": "phone_src_04", "reason": "deferred", "freshness": "unknown"}], "incomplete_sources": [{"lane": "phone", "reason": "deferred"}], "policy_version": "heuristic-2026-10.1", "policy_basis": "heuristic_unvalidated", "assessment_version": 1, "created_at": "2026-10-14T09:00:00.000Z", "updated_at": "2026-10-14T09:00:00.412Z", "expires_at": "2027-10-14T09:00:00.000Z", "assessment_url": "/v1/assessments/asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "timing": {"deadline_ms": 300, "elapsed_ms": 287}}
+    pending:
+      parameters:
+        path:
+          assessment_id: "<id>"
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "account_id": "acct_7f3a9c", "request_id": "req-2026-10-14-0001", "status": "pending", "confidence": "unavailable", "signals": [{"type": "account_presence", "identifier": "email", "outcome": "unavailable", "source_id": "github", "reason": "timed_out", "freshness": "unknown"}, {"type": "breach_exposure", "identifier": "email", "outcome": "unavailable", "source_id": "breach.corpus", "reason": "timed_out", "freshness": "unknown"}], "incomplete_sources": [{"lane": "accounts", "reason": "timed_out"}, {"lane": "breach", "reason": "timed_out"}], "policy_version": "heuristic-2026-10.1", "policy_basis": "heuristic_unvalidated", "assessment_version": 2, "created_at": "2026-10-14T09:00:00.000Z", "updated_at": "2026-10-14T09:00:00.412Z", "expires_at": "2027-10-14T09:00:00.000Z", "assessment_url": "/v1/assessments/asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "timing": {"deadline_ms": 300, "elapsed_ms": 301}}
+    standard:
+      parameters:
+        path:
+          assessment_id: "<id>"
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "assessment_id": "asm_01JB3C4D5E6F7G8H9JKMNPQRST", "account_id": "acct_8412", "request_id": "req_01", "status": "complete", "recommendation": "allow", "confidence": "high", "risk": {"score": 0, "band": "low", "recommendation": "allow", "confidence": "high", "policy_version": "risk-2026-10.3", "policy_basis": "heuristic_unvalidated", "reasons": [{"code": "voip_number", "weight": 25, "identifier": "phone"}, {"code": "breach_cooccurrence", "weight": -10, "identifier": "phone"}, {"code": "breach_name_match", "weight": -15, "identifier": "name"}, {"code": "established_accounts", "weight": -15, "identifier": "email"}, {"code": "aged_identity", "weight": -25, "identifier": "email"}], "summary": {"phone": {"line_type": "voip", "country": "US", "report_count": 0}, "email": {"disposable": false, "accounts_found": 6, "breach": {"found": true, "breach_count": 7, "first_year": 2013, "last_year": 2021, "exposed": ["email", "name", "password", "phone", "ip"], "in_credential_lists": false, "recent_password_exposure": false, "truncated": false}}, "username": {"accounts_found": 3, "breach": {"found": false, "truncated": false}}, "ip": {"country": "US", "type": "residential", "seen_in_tenant": 1}, "consistency": {"name": "match", "phone": "match", "ip": "unknown", "country": "consistent"}}, "coverage": {"answered": 14, "failed": 1, "pending": 0}}, "incomplete_sources": [], "policy_version": "risk-2026-10.3", "policy_basis": "heuristic_unvalidated", "assessment_version": 3, "created_at": "2026-10-18T11:00:00.000Z", "updated_at": "2026-10-18T11:00:04.000Z", "expires_at": "2027-10-18T11:00:00.000Z", "timing": {"deadline_ms": 500, "elapsed_ms": 4000}}
+    detailed:
+      parameters:
+        path:
+          assessment_id: "<id>"
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "assessment_id": "asm_01JB3C4D5E6F7G8H9JKMNPQRST", "account_id": "acct_8412", "request_id": "req_01", "status": "complete", "recommendation": "allow", "confidence": "high", "risk": {"score": 10, "band": "low", "recommendation": "allow", "confidence": "high", "policy_version": "risk-2026-10.3", "policy_basis": "heuristic_unvalidated", "reasons": [{"code": "voip_number", "weight": 25, "identifier": "phone"}, {"code": "breach_name_match", "weight": -15, "identifier": "name"}], "summary": {"phone": {"line_type": "voip", "country": "US"}, "email": {"disposable": false, "accounts_found": 1, "breach": {"found": true, "breach_count": 2, "first_year": 2016, "last_year": 2019, "exposed": ["email", "password", "password_hash"], "in_credential_lists": true, "truncated": false}}, "consistency": {"name": "match"}}, "coverage": {"answered": 4, "failed": 0, "pending": 0}, "details": {"phone_names": [{"value": "Jane Doe", "seen_by": 3}], "breaches": [{"name": "Collection #1", "category": "combolist", "kind": "credential_list", "year": 2019, "matched_on": "email", "exposed": ["email", "password"]}, {"name": "LinkedIn", "domain": "linkedin.com", "category": "social", "kind": "site_breach", "year": 2016, "month": 5, "matched_on": "email", "exposed": ["email", "password_hash"]}], "breach_names": [{"value": "Jane Doe", "seen_in": 2}]}}, "signals": [{"type": "account_presence", "identifier": "email", "outcome": "found", "source_id": "src_3f9a1c", "evidence_ref": "evr_01JB3C4D5E6F7G8H9JKMNPQRSV", "observed_at": "2026-10-18T11:00:00.180Z", "last_checked_at": "2026-10-18T11:00:00.180Z", "freshness": "fresh"}, {"type": "breach_exposure", "identifier": "email", "outcome": "found", "source_id": "src_8d27e4", "evidence_ref": "evr_01JB3C4D5E6F7G8H9JKMNPQRSW", "observed_at": "2026-10-18T11:00:01.900Z", "last_checked_at": "2026-10-18T11:00:01.900Z", "freshness": "fresh"}, {"type": "account_presence", "identifier": "phone", "outcome": "found", "source_id": "src_51b0d7", "evidence_ref": "evr_01JB3C4D5E6F7G8H9JKMNPQRSX", "observed_at": "2026-10-18T11:00:03.700Z", "last_checked_at": "2026-10-18T11:00:03.700Z", "freshness": "fresh"}], "incomplete_sources": [], "policy_version": "risk-2026-10.3", "policy_basis": "heuristic_unvalidated", "assessment_version": 2, "created_at": "2026-10-18T11:00:00.000Z", "updated_at": "2026-10-18T11:00:04.000Z", "expires_at": "2027-10-18T11:00:00.000Z", "timing": {"deadline_ms": 500, "elapsed_ms": 4000}}
+  recordAssessmentOutcome:
+    abuse:
+      parameters:
+        path:
+          assessment_id: "<id>"
+        header:
+          Idempotency-Key: "<value>"
+      requestBody:
+        application/json: {"outcome": "confirmed_abuse", "observed_at": "2026-10-20T05:00:00Z", "external_ref": "case-123", "notes": "Card testing from this account; closed by trust and safety."}
+      responses:
+        "202":
+          application/json: {"id": "<id>", "assessment_id": "<id>", "outcome": "account_takeover", "received_at": "<value>"}
+        "400":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 400, "detail": "<value>", "code": "invalid_request", "request_id": "<id>"}
+        "401":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 401, "detail": "<value>", "code": "unauthorized", "request_id": "<id>"}
+        "403":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 403, "detail": "<value>", "code": "tenant_forbidden", "request_id": "<id>"}
+        "404":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 404, "detail": "<value>", "code": "not_found", "request_id": "<id>"}
+        "409":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 409, "detail": "<value>", "code": "idempotency_key_reused", "request_id": "<id>"}
+        "429":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 429, "detail": "<value>", "code": "rate_limited", "request_id": "<id>"}
+    withdrawn:
+      parameters:
+        path:
+          assessment_id: "<id>"
+        header:
+          Idempotency-Key: "<value>"
+      requestBody:
+        application/json: {"outcome": "false_positive"}
+      responses:
+        "202":
+          application/json: {"id": "<id>", "assessment_id": "<id>", "outcome": "account_takeover", "received_at": "<value>"}
+        "400":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 400, "detail": "<value>", "code": "invalid_request", "request_id": "<id>"}
+        "401":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 401, "detail": "<value>", "code": "unauthorized", "request_id": "<id>"}
+        "403":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 403, "detail": "<value>", "code": "tenant_forbidden", "request_id": "<id>"}
+        "404":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 404, "detail": "<value>", "code": "not_found", "request_id": "<id>"}
+        "409":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 409, "detail": "<value>", "code": "idempotency_key_reused", "request_id": "<id>"}
+        "429":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 429, "detail": "<value>", "code": "rate_limited", "request_id": "<id>"}
+    recorded:
+      parameters:
+        path:
+          assessment_id: "<id>"
+        header:
+          Idempotency-Key: "<value>"
+      requestBody:
+        application/json: {"outcome": "legitimate"}
+      responses:
+        "202":
+          application/json: {"id": "out_01JA2ZC0Q1R2S3T4V5W6X7Y8Z9", "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "outcome": "confirmed_abuse", "received_at": "2026-10-20T05:00:02.000Z"}
+  queryAccountAssessments:
+    firstPage:
+      requestBody:
+        application/json: {"account_id": "acct_7f3a9c", "limit": 20}
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "account_id": "<id>", "items": [], "retention_days": 365}
+        "400":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 400, "detail": "<value>", "code": "invalid_cursor", "request_id": "<id>"}
+        "401":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 401, "detail": "<value>", "code": "unauthorized", "request_id": "<id>"}
+        "403":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 403, "detail": "<value>", "code": "tenant_forbidden", "request_id": "<id>"}
+        "404":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 404, "detail": "<value>", "code": "not_found", "request_id": "<id>"}
+        "409":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 409, "detail": "<value>", "code": "idempotency_key_reused", "request_id": "<id>"}
+        "429":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 429, "detail": "<value>", "code": "rate_limited", "request_id": "<id>"}
+    page:
+      requestBody:
+        application/json: {"account_id": "<id>", "limit": 20}
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "account_id": "acct_7f3a9c", "items": [{"schema_version": "1", "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "account_id": "acct_7f3a9c", "request_id": "req-2026-10-14-0001", "status": "complete", "recommendation": "step_up", "confidence": "medium", "signals": [{"type": "account_presence", "identifier": "email", "outcome": "found", "source_id": "github", "evidence_ref": "evr_01JA2Z8K6Q4V7W9XBCDEFGHJKN", "observed_at": "2026-10-14T09:00:00.210Z", "last_checked_at": "2026-10-14T09:00:00.210Z", "freshness": "fresh"}, {"type": "account_presence", "identifier": "username", "outcome": "not_found", "source_id": "gitlab", "last_checked_at": "2026-10-14T09:00:00.190Z", "freshness": "fresh"}, {"type": "breach_exposure", "identifier": "email", "outcome": "found", "source_id": "breach.corpus", "evidence_ref": "evr_01JA2Z8K6Q4V7W9XBCDEFGHJKP", "observed_at": "2025-03-02T00:00:00Z", "last_checked_at": "2026-10-14T09:00:00.150Z", "freshness": "stale"}], "incomplete_sources": [], "policy_version": "heuristic-2026-10.1", "policy_basis": "heuristic_unvalidated", "assessment_version": 2, "created_at": "2026-10-14T09:00:00.000Z", "updated_at": "2026-10-14T09:00:00.412Z", "expires_at": "2027-10-14T09:00:00.000Z", "timing": {"deadline_ms": 300, "elapsed_ms": 287}}, {"schema_version": "1", "assessment_id": "asm_01JA2Z9Y3R5T6V7W8X9ZABCDEF", "account_id": "acct_7f3a9c", "request_id": "req-2026-10-01-0007", "status": "complete", "recommendation": "allow", "confidence": "high", "signals": [{"type": "account_presence", "identifier": "username", "outcome": "not_found", "source_id": "gitlab", "last_checked_at": "2026-10-14T09:00:00.190Z", "freshness": "fresh"}], "incomplete_sources": [], "policy_version": "heuristic-2026-10.1", "policy_basis": "heuristic_unvalidated", "assessment_version": 2, "created_at": "2026-10-01T12:00:00Z", "updated_at": "2026-10-01T12:00:05Z", "expires_at": "2027-10-01T12:00:00.000Z", "timing": {"deadline_ms": 300, "elapsed_ms": 287}}], "next_cursor": "eyJiIjoiY2hrXzAxIn0", "retention_days": 365}
+  rotateApiKey:
+    one_hour:
+      requestBody:
+        application/json: {"overlap_seconds": 3600}
+      responses:
+        "201":
+          application/json: {"key": "<key>", "key_id": "<id>", "scopes": [], "created_at": "1731308288128", "previous_key_id": "<id>", "previous_key_expires_at": "<value>"}
+        "400":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 400, "detail": "<value>", "code": "invalid_request", "request_id": "<id>"}
+        "401":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 401, "detail": "<value>", "code": "unauthorized", "request_id": "<id>"}
+        "403":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 403, "detail": "<value>", "code": "tenant_forbidden", "request_id": "<id>"}
+        "404":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 404, "detail": "<value>", "code": "not_found", "request_id": "<id>"}
+        "409":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 409, "detail": "<value>", "code": "idempotency_key_reused", "request_id": "<id>"}
+        "429":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 429, "detail": "<value>", "code": "rate_limited", "request_id": "<id>"}
+    default:
+      requestBody:
+        application/json: {}
+      responses:
+        "201":
+          application/json: {"key": "<key>", "key_id": "<id>", "scopes": [], "created_at": "1731308288128", "previous_key_id": "<id>", "previous_key_expires_at": "<value>"}
+        "400":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 400, "detail": "<value>", "code": "invalid_request", "request_id": "<id>"}
+        "401":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 401, "detail": "<value>", "code": "unauthorized", "request_id": "<id>"}
+        "403":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 403, "detail": "<value>", "code": "tenant_forbidden", "request_id": "<id>"}
+        "404":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 404, "detail": "<value>", "code": "not_found", "request_id": "<id>"}
+        "409":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 409, "detail": "<value>", "code": "idempotency_key_reused", "request_id": "<id>"}
+        "429":
+          application/problem+json: {"type": "<value>", "title": "<value>", "status": 429, "detail": "<value>", "code": "rate_limited", "request_id": "<id>"}
+    rotated:
+      requestBody:
+        application/json: {}
+      responses:
+        "201":
+          application/json: {"key": "nrk_01JA2ZC0Q1R2S3T4V5W6X7Y8Z9_0123456789abcdefghijklmnopqrstuvwxyzABCDEFA", "key_id": "01JA2ZC0Q1R2S3T4V5W6X7Y8Z9", "scopes": ["assess", "history"], "created_at": "2026-10-21T09:00:00.000Z", "previous_key_id": "01JA2Z8K6Q4V7W9XBCDEFGHJKM", "previous_key_expires_at": "2026-10-22T09:00:00.000Z"}
+examplesVersion: 1.0.2

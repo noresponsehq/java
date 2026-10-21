@@ -1,0 +1,165 @@
+package org.noresponse.models.shared;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.Nullable;
+import java.lang.Override;
+import java.lang.String;
+import java.util.List;
+import java.util.Optional;
+import org.noresponse.utils.Utils;
+
+/**
+ * RiskDetails
+ *
+ * <p>Detailed view only (response_mode=detailed, which needs the detailed scope); a standard answer
+ * leaves it out. Merged observations without provider, source, origin, raw breach record, value or
+ * score.
+ */
+public class RiskDetails {
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("phone_names")
+    private List<RiskDetailsPhoneName> phoneNames;
+
+    /**
+     * The matching breach tables, newest first, at most 50.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("breaches")
+    private List<Breach> breaches;
+
+    /**
+     * Names found next to the identifiers in breach records, merged, with the number of distinct tables
+     * each was seen in.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("breach_names")
+    private List<RiskDetailsBreachName> breachNames;
+
+    @JsonCreator
+    public RiskDetails(
+            @JsonProperty("phone_names") @Nullable List<RiskDetailsPhoneName> phoneNames,
+            @JsonProperty("breaches") @Nullable List<Breach> breaches,
+            @JsonProperty("breach_names") @Nullable List<RiskDetailsBreachName> breachNames) {
+        this.phoneNames = phoneNames;
+        this.breaches = breaches;
+        this.breachNames = breachNames;
+    }
+
+    public RiskDetails() {
+        this(null, null, null);
+    }
+
+    public Optional<List<RiskDetailsPhoneName>> phoneNames() {
+        return Optional.ofNullable(this.phoneNames);
+    }
+
+    /**
+     * The matching breach tables, newest first, at most 50.
+     */
+    public Optional<List<Breach>> breaches() {
+        return Optional.ofNullable(this.breaches);
+    }
+
+    /**
+     * Names found next to the identifiers in breach records, merged, with the number of distinct tables
+     * each was seen in.
+     */
+    public Optional<List<RiskDetailsBreachName>> breachNames() {
+        return Optional.ofNullable(this.breachNames);
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public RiskDetails withPhoneNames(@Nullable List<RiskDetailsPhoneName> phoneNames) {
+        this.phoneNames = phoneNames;
+        return this;
+    }
+
+    /**
+     * The matching breach tables, newest first, at most 50.
+     */
+    public RiskDetails withBreaches(@Nullable List<Breach> breaches) {
+        this.breaches = breaches;
+        return this;
+    }
+
+    /**
+     * Names found next to the identifiers in breach records, merged, with the number of distinct tables
+     * each was seen in.
+     */
+    public RiskDetails withBreachNames(@Nullable List<RiskDetailsBreachName> breachNames) {
+        this.breachNames = breachNames;
+        return this;
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        RiskDetails other = (RiskDetails) o;
+        return Utils.enhancedDeepEquals(this.phoneNames, other.phoneNames)
+                && Utils.enhancedDeepEquals(this.breaches, other.breaches)
+                && Utils.enhancedDeepEquals(this.breachNames, other.breachNames);
+    }
+
+    @Override
+    public int hashCode() {
+        return Utils.enhancedHash(phoneNames, breaches, breachNames);
+    }
+
+    @Override
+    public String toString() {
+        return Utils.toString(
+                RiskDetails.class, "phoneNames", phoneNames, "breaches", breaches, "breachNames", breachNames);
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public static final class Builder {
+
+        private List<RiskDetailsPhoneName> phoneNames;
+
+        private List<Breach> breaches;
+
+        private List<RiskDetailsBreachName> breachNames;
+
+        private Builder() {
+            // force use of static builder() method
+        }
+
+        public Builder phoneNames(@Nullable List<RiskDetailsPhoneName> phoneNames) {
+            this.phoneNames = phoneNames;
+            return this;
+        }
+
+        /**
+         * The matching breach tables, newest first, at most 50.
+         */
+        public Builder breaches(@Nullable List<Breach> breaches) {
+            this.breaches = breaches;
+            return this;
+        }
+
+        /**
+         * Names found next to the identifiers in breach records, merged, with the number of distinct tables
+         * each was seen in.
+         */
+        public Builder breachNames(@Nullable List<RiskDetailsBreachName> breachNames) {
+            this.breachNames = breachNames;
+            return this;
+        }
+
+        public RiskDetails build() {
+            return new RiskDetails(phoneNames, breaches, breachNames);
+        }
+    }
+}

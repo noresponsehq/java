@@ -1,0 +1,22 @@
+package org.noresponse.utils;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import org.apache.commons.io.IOUtils;
+
+public class CopiableInputStream {
+    private final byte[] bytes;
+
+    public CopiableInputStream(InputStream original) {
+        try (InputStream stream = original) {
+            this.bytes = IOUtils.toByteArray(stream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public InputStream copy() {
+        return new ByteArrayInputStream(bytes);
+    }
+}

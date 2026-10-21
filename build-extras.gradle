@@ -1,0 +1,20 @@
+// This file 
+// * is referred to in an `apply from` command in `build.gradle`
+// * can be used to customise `build.gradle`
+// * is generated once and not overwritten in SDK generation updates
+
+// Tests for the hand-written webhook and wait helpers. They read the
+// contract fixtures from tests/fixtures.
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.13.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'failed'
+        exceptionFormat 'full'
+    }
+}

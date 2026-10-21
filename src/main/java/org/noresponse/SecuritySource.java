@@ -1,0 +1,24 @@
+package org.noresponse;
+
+import org.noresponse.utils.HasSecurity;
+
+public interface SecuritySource {
+
+    HasSecurity getSecurity();
+
+    public static SecuritySource of(HasSecurity security) {
+        return new DefaultSecuritySource(security);
+    }
+
+    public static class DefaultSecuritySource implements SecuritySource {
+        private HasSecurity security;
+
+        public DefaultSecuritySource(HasSecurity security) {
+            this.security = security;
+        }
+
+        public HasSecurity getSecurity() {
+            return security;
+        }
+    }
+}
