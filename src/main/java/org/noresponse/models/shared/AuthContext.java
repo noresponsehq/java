@@ -50,7 +50,8 @@ public class AuthContext {
     private List<String> audiences;
 
     /**
-     * The verified stable subject identifier (`sub`), opaque to NoResponse.
+     * The verified stable subject identifier (`sub`), opaque to NoResponse. Required, except from a
+     * provider hook at pre_registration, where no user exists yet.
      */
     @JsonProperty("subject")
     private String subject;
@@ -148,12 +149,22 @@ public class AuthContext {
     private Boolean impersonated;
 
     /**
-     * Where the customer derived this context. Backend is the trusted integration path; browser values are
-     * treated as weak hints.
+     * Where this context was derived. Backend is the trusted integration path; browser values are treated
+     * as weak hints. provider_hook is a hosted provider hook (an Auth0 or WorkOS Action) calling at
+     * hook_point; it needs hook_point and verified false, and its authentication facts are not scored.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("transport")
     private Transport transport;
+
+    /**
+     * The provider event a provider_hook context was sent for. pre_registration runs before the user
+     * exists, so subject and the request's account_id may be absent there. Sent only with transport
+     * provider_hook.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("hook_point")
+    private HookPoint hookPoint;
 
     /**
      * Whether the customer completed signature, issuer, audience and expiry validation before calling
@@ -204,6 +215,7 @@ public class AuthContext {
             @JsonProperty("assurance_level") @Nullable AssuranceLevel assuranceLevel,
             @JsonProperty("impersonated") @Nullable Boolean impersonated,
             @JsonProperty("transport") @Nullable Transport transport,
+            @JsonProperty("hook_point") @Nullable HookPoint hookPoint,
             @JsonProperty("verified") boolean verified,
             @JsonProperty("mfa") @Nullable AuthContextMfa mfa,
             @JsonProperty("roles") @Nullable List<String> roles,
@@ -230,6 +242,7 @@ public class AuthContext {
         this.assuranceLevel = assuranceLevel;
         this.impersonated = impersonated;
         this.transport = transport;
+        this.hookPoint = hookPoint;
         this.verified = verified;
         this.mfa = mfa;
         this.roles = roles;
@@ -243,6 +256,7 @@ public class AuthContext {
                 null,
                 null,
                 subject,
+                null,
                 null,
                 null,
                 null,
@@ -295,7 +309,8 @@ public class AuthContext {
     }
 
     /**
-     * The verified stable subject identifier (`sub`), opaque to NoResponse.
+     * The verified stable subject identifier (`sub`), opaque to NoResponse. Required, except from a
+     * provider hook at pre_registration, where no user exists yet.
      */
     public String subject() {
         return this.subject;
@@ -394,11 +409,21 @@ public class AuthContext {
     }
 
     /**
-     * Where the customer derived this context. Backend is the trusted integration path; browser values are
-     * treated as weak hints.
+     * Where this context was derived. Backend is the trusted integration path; browser values are treated
+     * as weak hints. provider_hook is a hosted provider hook (an Auth0 or WorkOS Action) calling at
+     * hook_point; it needs hook_point and verified false, and its authentication facts are not scored.
      */
     public Optional<Transport> transport() {
         return Optional.ofNullable(this.transport);
+    }
+
+    /**
+     * The provider event a provider_hook context was sent for. pre_registration runs before the user
+     * exists, so subject and the request's account_id may be absent there. Sent only with transport
+     * provider_hook.
+     */
+    public Optional<HookPoint> hookPoint() {
+        return Optional.ofNullable(this.hookPoint);
     }
 
     /**
@@ -470,7 +495,8 @@ public class AuthContext {
     }
 
     /**
-     * The verified stable subject identifier (`sub`), opaque to NoResponse.
+     * The verified stable subject identifier (`sub`), opaque to NoResponse. Required, except from a
+     * provider hook at pre_registration, where no user exists yet.
      */
     public AuthContext withSubject(@Nonnull String subject) {
         this.subject = Utils.checkNotNull(subject, "subject");
@@ -583,11 +609,22 @@ public class AuthContext {
     }
 
     /**
-     * Where the customer derived this context. Backend is the trusted integration path; browser values are
-     * treated as weak hints.
+     * Where this context was derived. Backend is the trusted integration path; browser values are treated
+     * as weak hints. provider_hook is a hosted provider hook (an Auth0 or WorkOS Action) calling at
+     * hook_point; it needs hook_point and verified false, and its authentication facts are not scored.
      */
     public AuthContext withTransport(@Nullable Transport transport) {
         this.transport = transport;
+        return this;
+    }
+
+    /**
+     * The provider event a provider_hook context was sent for. pre_registration runs before the user
+     * exists, so subject and the request's account_id may be absent there. Sent only with transport
+     * provider_hook.
+     */
+    public AuthContext withHookPoint(@Nullable HookPoint hookPoint) {
+        this.hookPoint = hookPoint;
         return this;
     }
 
@@ -652,6 +689,7 @@ public class AuthContext {
                 && Utils.enhancedDeepEquals(this.assuranceLevel, other.assuranceLevel)
                 && Utils.enhancedDeepEquals(this.impersonated, other.impersonated)
                 && Utils.enhancedDeepEquals(this.transport, other.transport)
+                && Utils.enhancedDeepEquals(this.hookPoint, other.hookPoint)
                 && Utils.enhancedDeepEquals(this.verified, other.verified)
                 && Utils.enhancedDeepEquals(this.mfa, other.mfa)
                 && Utils.enhancedDeepEquals(this.roles, other.roles)
@@ -680,6 +718,7 @@ public class AuthContext {
                 assuranceLevel,
                 impersonated,
                 transport,
+                hookPoint,
                 verified,
                 mfa,
                 roles,
@@ -728,6 +767,8 @@ public class AuthContext {
                 impersonated,
                 "transport",
                 transport,
+                "hookPoint",
+                hookPoint,
                 "verified",
                 verified,
                 "mfa",
@@ -779,6 +820,8 @@ public class AuthContext {
 
         private Transport transport;
 
+        private HookPoint hookPoint;
+
         private boolean verified;
 
         private AuthContextMfa mfa;
@@ -827,7 +870,8 @@ public class AuthContext {
         }
 
         /**
-         * The verified stable subject identifier (`sub`), opaque to NoResponse.
+         * The verified stable subject identifier (`sub`), opaque to NoResponse. Required, except from a
+         * provider hook at pre_registration, where no user exists yet.
          */
         public Builder subject(@Nonnull String subject) {
             this.subject = Utils.checkNotNull(subject, "subject");
@@ -940,11 +984,22 @@ public class AuthContext {
         }
 
         /**
-         * Where the customer derived this context. Backend is the trusted integration path; browser values are
-         * treated as weak hints.
+         * Where this context was derived. Backend is the trusted integration path; browser values are treated
+         * as weak hints. provider_hook is a hosted provider hook (an Auth0 or WorkOS Action) calling at
+         * hook_point; it needs hook_point and verified false, and its authentication facts are not scored.
          */
         public Builder transport(@Nullable Transport transport) {
             this.transport = transport;
+            return this;
+        }
+
+        /**
+         * The provider event a provider_hook context was sent for. pre_registration runs before the user
+         * exists, so subject and the request's account_id may be absent there. Sent only with transport
+         * provider_hook.
+         */
+        public Builder hookPoint(@Nullable HookPoint hookPoint) {
+            this.hookPoint = hookPoint;
             return this;
         }
 
@@ -1002,6 +1057,7 @@ public class AuthContext {
                     assuranceLevel,
                     impersonated,
                     transport,
+                    hookPoint,
                     verified,
                     mfa,
                     roles,

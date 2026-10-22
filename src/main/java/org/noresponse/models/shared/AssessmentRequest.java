@@ -33,7 +33,8 @@ public class AssessmentRequest {
      * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused, as is a
      * JWT; a hex digest such as a SHA-256 is allowed.
      *
-     * <p>It travels only in request bodies.
+     * <p>It travels only in request bodies. An assessment requested by a provider hook at pre_registration,
+     * which has no account yet, carries the server-issued account_id pre: followed by its assessment_id.
      */
     @JsonProperty("account_id")
     private String accountId;
@@ -122,7 +123,8 @@ public class AssessmentRequest {
      * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused, as is a
      * JWT; a hex digest such as a SHA-256 is allowed.
      *
-     * <p>It travels only in request bodies.
+     * <p>It travels only in request bodies. An assessment requested by a provider hook at pre_registration,
+     * which has no account yet, carries the server-issued account_id pre: followed by its assessment_id.
      */
     public String accountId() {
         return this.accountId;
@@ -191,7 +193,8 @@ public class AssessmentRequest {
      * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused, as is a
      * JWT; a hex digest such as a SHA-256 is allowed.
      *
-     * <p>It travels only in request bodies.
+     * <p>It travels only in request bodies. An assessment requested by a provider hook at pre_registration,
+     * which has no account yet, carries the server-issued account_id pre: followed by its assessment_id.
      */
     public AssessmentRequest withAccountId(@Nonnull String accountId) {
         this.accountId = Utils.checkNotNull(accountId, "accountId");
@@ -334,7 +337,8 @@ public class AssessmentRequest {
          * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused, as is a
          * JWT; a hex digest such as a SHA-256 is allowed.
          *
-         * <p>It travels only in request bodies.
+         * <p>It travels only in request bodies. An assessment requested by a provider hook at pre_registration,
+         * which has no account yet, carries the server-issued account_id pre: followed by its assessment_id.
          */
         public Builder accountId(@Nonnull String accountId) {
             this.accountId = Utils.checkNotNull(accountId, "accountId");
