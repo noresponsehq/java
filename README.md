@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v2.0.17'
+    implementation 'com.github.noresponsehq:java:v2.0.18'
 }
 ```
 
@@ -34,7 +34,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v2.0.17</version>
+  <version>v2.0.18</version>
 </dependency>
 ```
 
@@ -89,6 +89,10 @@ The recommendation is `allow`, `step_up` or `review`. It is advice: your applica
 | `Wait.wait(client, assessmentId)` | Poll until the assessment is no longer pending, honouring `Retry-After`. |
 | `Webhook.constructEvent(payload, headers, secrets)` | Verify a webhook delivery and return the typed event. |
 | `client.keys().rotate(request)` | Rotate the API key that signs the request. |
+| `client.integrations().create(request)` | Register a hosted WorkOS or Auth0 integration (`integrations` scope). For Auth0 the answer's secret is shown once. Never retried. |
+| `client.integrations().listDirect()` | Every integration, oldest first, with no secrets. |
+| `client.integrations().delete(integrationId)` | Delete an integration. |
+| `client.integrations().rotate(integrationId, body)` | Replace an integration's secret. Never retried. |
 
 Each method also has a builder form, for example `client.assessments().create().idempotencyKey(key).body(request).call()`, and an asynchronous twin from `client.async()` that returns `CompletableFuture`.
 

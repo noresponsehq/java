@@ -21,6 +21,7 @@ public class Scope {
     public static final Scope HISTORY = new Scope("history");
     public static final Scope WEBHOOKS = new Scope("webhooks");
     public static final Scope DETAILED = new Scope("detailed");
+    public static final Scope INTEGRATIONS = new Scope("integrations");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -95,6 +96,7 @@ public class Scope {
         map.put("history", HISTORY);
         map.put("webhooks", WEBHOOKS);
         map.put("detailed", DETAILED);
+        map.put("integrations", INTEGRATIONS);
         return map;
     }
 
@@ -104,6 +106,7 @@ public class Scope {
         map.put("history", ScopeEnum.HISTORY);
         map.put("webhooks", ScopeEnum.WEBHOOKS);
         map.put("detailed", ScopeEnum.DETAILED);
+        map.put("integrations", ScopeEnum.INTEGRATIONS);
         return map;
     }
 
@@ -113,6 +116,7 @@ public class Scope {
         HISTORY("history"),
         WEBHOOKS("webhooks"),
         DETAILED("detailed"),
+        INTEGRATIONS("integrations"),
         ;
 
         private final String value;

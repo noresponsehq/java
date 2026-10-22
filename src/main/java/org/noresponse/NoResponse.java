@@ -15,8 +15,9 @@ import org.noresponse.utils.Utils;
  * webhooks.
  *
  * <p>Assess a signup or gateway event, poll a pending assessment, page through an account's history,
- * record what you later learned, and rotate your API key. Every response carries X-Request-ID; every
- * error is an RFC 9457 problem document.
+ * record what you later learned, rotate your API key, and register hosted endpoints that answer your
+ * WorkOS or Auth0 sign-up and sign-in hooks. Every response carries X-Request-ID; every error is an
+ * RFC 9457 problem document.
  *
  * <p>Keep the API key on your server.
  */
@@ -44,6 +45,11 @@ public class NoResponse {
     private final Keys keys;
 
     /**
+     * Hosted endpoints that answer your sign-up and sign-in hooks.
+     */
+    private final Integrations integrations;
+
+    /**
      * Signup and gateway assessments.
      */
     public Assessments assessments() {
@@ -55,6 +61,13 @@ public class NoResponse {
      */
     public Keys keys() {
         return keys;
+    }
+
+    /**
+     * Hosted endpoints that answer your sign-up and sign-in hooks.
+     */
+    public Integrations integrations() {
+        return integrations;
     }
 
     private final AsyncNoResponse asyncSDK;
@@ -209,6 +222,7 @@ public class NoResponse {
         sdkConfiguration.initialize();
         this.assessments = new Assessments(sdkConfiguration);
         this.keys = new Keys(sdkConfiguration);
+        this.integrations = new Integrations(sdkConfiguration);
         sdkConfiguration = sdkConfiguration.hooks().sdkInit(sdkConfiguration);
         this.asyncSDK = new AsyncNoResponse(this, sdkConfiguration);
     }
