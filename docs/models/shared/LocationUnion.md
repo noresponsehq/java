@@ -6,7 +6,7 @@
 ### `String`
 
 ```java
-LocationUnion value = LocationUnion.of("<value>");
+LocationUnion value = LocationUnion.of("example");
 ```
 
 ### `double`
@@ -32,8 +32,8 @@ LocationUnion value = LocationUnion.of(Location.builder()
 
 ```java
 LocationUnion value = LocationUnion.of(List.of(
-    "<value 1>",
-    "<value 2>"));
+    "example",
+    "example"));
 ```
 
 ## Consumption Patterns

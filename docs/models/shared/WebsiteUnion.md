@@ -6,7 +6,7 @@
 ### `String`
 
 ```java
-WebsiteUnion value = WebsiteUnion.of("<value>");
+WebsiteUnion value = WebsiteUnion.of("example");
 ```
 
 ### `double`
@@ -32,8 +32,8 @@ WebsiteUnion value = WebsiteUnion.of(Website.builder()
 
 ```java
 WebsiteUnion value = WebsiteUnion.of(List.of(
-    "<value 1>",
-    "<value 2>"));
+    "example",
+    "example"));
 ```
 
 ## Consumption Patterns

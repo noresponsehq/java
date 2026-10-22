@@ -22,6 +22,7 @@ Returns within the deadline (500 ms at most) with a complete, partial or pending
 package hello.world;
 
 import java.lang.Exception;
+import java.util.List;
 import org.noresponse.NoResponse;
 import org.noresponse.models.errors.AuthenticationException;
 import org.noresponse.models.errors.BadRequestException;
@@ -31,7 +32,11 @@ import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
+import org.noresponse.models.shared.AssessmentRequestClientContext;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
+import org.noresponse.models.shared.AssessmentRequestPolicyContext;
+import org.noresponse.models.shared.AuthContext;
+import org.noresponse.models.shared.AuthContextMfa;
 
 public class Application {
 
@@ -46,6 +51,50 @@ public class Application {
                 .body(AssessmentRequest.builder()
                     .accountId("<id>")
                     .identifiers(AssessmentRequestIdentifiers.builder()
+                        .email("new.user@example.com")
+                        .username("new.user")
+                        .phone("+61412345678")
+                        .name("Alex Example")
+                        .ip("203.0.113.45")
+                        .build())
+                    .policyContext(AssessmentRequestPolicyContext.builder()
+                        .region("AU")
+                        .build())
+                    .requestId("req-2026-10-14-0001")
+                    .clientContext(AssessmentRequestClientContext.builder()
+                        .timezone("Australia/Sydney")
+                        .locale("en-AU")
+                        .appVersion("4.12.0")
+                        .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36")
+                        .deviceId("dev_5c1e8a")
+                        .sessionId("sess_9b2d41")
+                        .clientObservedAt("2026-10-14T08:59:58.000Z")
+                        .build())
+                    .authContext(AuthContext.builder()
+                        .provider("clerk")
+                        .issuer("https://example-app.clerk.accounts.dev")
+                        .subject("user_2EXAMPLE")
+                        .verified(false)
+                        .audience("https://app.example.com")
+                        .audiences(List.of(
+                            "https://app.example.com"))
+                        .sessionId("sess_2EXAMPLE")
+                        .organizationId("org_2EXAMPLE")
+                        .tenantId("tenant_2EXAMPLE")
+                        .tokenId("2EXAMPLEJTI")
+                        .issuedAt("2026-10-14T08:59:40.000Z")
+                        .expiresAt("2026-10-14T09:00:40.000Z")
+                        .sessionCreatedAt("2026-10-14T08:57:00.000Z")
+                        .authTime("2026-10-14T08:55:00.000Z")
+                        .accountCreatedAt("2026-10-14T08:56:00.000Z")
+                        .mfa(AuthContextMfa.builder()
+                            .methods(List.of(
+                                "totp"))
+                            .build())
+                        .roles(List.of(
+                            "admin"))
+                        .scopes(List.of(
+                            "org:sys_profile:manage"))
                         .build())
                     .build())
                 .call();
@@ -63,6 +112,7 @@ public class Application {
 package hello.world;
 
 import java.lang.Exception;
+import java.util.List;
 import org.noresponse.NoResponse;
 import org.noresponse.models.errors.AuthenticationException;
 import org.noresponse.models.errors.BadRequestException;
@@ -72,7 +122,11 @@ import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
+import org.noresponse.models.shared.AssessmentRequestClientContext;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
+import org.noresponse.models.shared.AssessmentRequestPolicyContext;
+import org.noresponse.models.shared.AuthContext;
+import org.noresponse.models.shared.AuthContextMfa;
 
 public class Application {
 
@@ -87,6 +141,50 @@ public class Application {
                 .body(AssessmentRequest.builder()
                     .accountId("<id>")
                     .identifiers(AssessmentRequestIdentifiers.builder()
+                        .email("new.user@example.com")
+                        .username("new.user")
+                        .phone("+61412345678")
+                        .name("Alex Example")
+                        .ip("203.0.113.45")
+                        .build())
+                    .policyContext(AssessmentRequestPolicyContext.builder()
+                        .region("AU")
+                        .build())
+                    .requestId("req-2026-10-14-0001")
+                    .clientContext(AssessmentRequestClientContext.builder()
+                        .timezone("Australia/Sydney")
+                        .locale("en-AU")
+                        .appVersion("4.12.0")
+                        .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36")
+                        .deviceId("dev_5c1e8a")
+                        .sessionId("sess_9b2d41")
+                        .clientObservedAt("2026-10-14T08:59:58.000Z")
+                        .build())
+                    .authContext(AuthContext.builder()
+                        .provider("clerk")
+                        .issuer("https://example-app.clerk.accounts.dev")
+                        .subject("user_2EXAMPLE")
+                        .verified(false)
+                        .audience("https://app.example.com")
+                        .audiences(List.of(
+                            "https://app.example.com"))
+                        .sessionId("sess_2EXAMPLE")
+                        .organizationId("org_2EXAMPLE")
+                        .tenantId("tenant_2EXAMPLE")
+                        .tokenId("2EXAMPLEJTI")
+                        .issuedAt("2026-10-14T08:59:40.000Z")
+                        .expiresAt("2026-10-14T09:00:40.000Z")
+                        .sessionCreatedAt("2026-10-14T08:57:00.000Z")
+                        .authTime("2026-10-14T08:55:00.000Z")
+                        .accountCreatedAt("2026-10-14T08:56:00.000Z")
+                        .mfa(AuthContextMfa.builder()
+                            .methods(List.of(
+                                "totp"))
+                            .build())
+                        .roles(List.of(
+                            "admin"))
+                        .scopes(List.of(
+                            "org:sys_profile:manage"))
                         .build())
                     .build())
                 .call();
@@ -254,6 +352,7 @@ public class Application {
 package hello.world;
 
 import java.lang.Exception;
+import java.util.List;
 import org.noresponse.NoResponse;
 import org.noresponse.models.errors.AuthenticationException;
 import org.noresponse.models.errors.BadRequestException;
@@ -263,7 +362,11 @@ import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
+import org.noresponse.models.shared.AssessmentRequestClientContext;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
+import org.noresponse.models.shared.AssessmentRequestPolicyContext;
+import org.noresponse.models.shared.AuthContext;
+import org.noresponse.models.shared.AuthContextMfa;
 
 public class Application {
 
@@ -278,6 +381,50 @@ public class Application {
                 .body(AssessmentRequest.builder()
                     .accountId("<id>")
                     .identifiers(AssessmentRequestIdentifiers.builder()
+                        .email("new.user@example.com")
+                        .username("new.user")
+                        .phone("+61412345678")
+                        .name("Alex Example")
+                        .ip("203.0.113.45")
+                        .build())
+                    .policyContext(AssessmentRequestPolicyContext.builder()
+                        .region("AU")
+                        .build())
+                    .requestId("req-2026-10-14-0001")
+                    .clientContext(AssessmentRequestClientContext.builder()
+                        .timezone("Australia/Sydney")
+                        .locale("en-AU")
+                        .appVersion("4.12.0")
+                        .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36")
+                        .deviceId("dev_5c1e8a")
+                        .sessionId("sess_9b2d41")
+                        .clientObservedAt("2026-10-14T08:59:58.000Z")
+                        .build())
+                    .authContext(AuthContext.builder()
+                        .provider("clerk")
+                        .issuer("https://example-app.clerk.accounts.dev")
+                        .subject("user_2EXAMPLE")
+                        .verified(false)
+                        .audience("https://app.example.com")
+                        .audiences(List.of(
+                            "https://app.example.com"))
+                        .sessionId("sess_2EXAMPLE")
+                        .organizationId("org_2EXAMPLE")
+                        .tenantId("tenant_2EXAMPLE")
+                        .tokenId("2EXAMPLEJTI")
+                        .issuedAt("2026-10-14T08:59:40.000Z")
+                        .expiresAt("2026-10-14T09:00:40.000Z")
+                        .sessionCreatedAt("2026-10-14T08:57:00.000Z")
+                        .authTime("2026-10-14T08:55:00.000Z")
+                        .accountCreatedAt("2026-10-14T08:56:00.000Z")
+                        .mfa(AuthContextMfa.builder()
+                            .methods(List.of(
+                                "totp"))
+                            .build())
+                        .roles(List.of(
+                            "admin"))
+                        .scopes(List.of(
+                            "org:sys_profile:manage"))
                         .build())
                     .build())
                 .call();
@@ -295,6 +442,7 @@ public class Application {
 package hello.world;
 
 import java.lang.Exception;
+import java.util.List;
 import org.noresponse.NoResponse;
 import org.noresponse.models.errors.AuthenticationException;
 import org.noresponse.models.errors.BadRequestException;
@@ -304,7 +452,11 @@ import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
+import org.noresponse.models.shared.AssessmentRequestClientContext;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
+import org.noresponse.models.shared.AssessmentRequestPolicyContext;
+import org.noresponse.models.shared.AuthContext;
+import org.noresponse.models.shared.AuthContextMfa;
 
 public class Application {
 
@@ -319,6 +471,50 @@ public class Application {
                 .body(AssessmentRequest.builder()
                     .accountId("<id>")
                     .identifiers(AssessmentRequestIdentifiers.builder()
+                        .email("new.user@example.com")
+                        .username("new.user")
+                        .phone("+61412345678")
+                        .name("Alex Example")
+                        .ip("203.0.113.45")
+                        .build())
+                    .policyContext(AssessmentRequestPolicyContext.builder()
+                        .region("AU")
+                        .build())
+                    .requestId("req-2026-10-14-0001")
+                    .clientContext(AssessmentRequestClientContext.builder()
+                        .timezone("Australia/Sydney")
+                        .locale("en-AU")
+                        .appVersion("4.12.0")
+                        .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36")
+                        .deviceId("dev_5c1e8a")
+                        .sessionId("sess_9b2d41")
+                        .clientObservedAt("2026-10-14T08:59:58.000Z")
+                        .build())
+                    .authContext(AuthContext.builder()
+                        .provider("clerk")
+                        .issuer("https://example-app.clerk.accounts.dev")
+                        .subject("user_2EXAMPLE")
+                        .verified(false)
+                        .audience("https://app.example.com")
+                        .audiences(List.of(
+                            "https://app.example.com"))
+                        .sessionId("sess_2EXAMPLE")
+                        .organizationId("org_2EXAMPLE")
+                        .tenantId("tenant_2EXAMPLE")
+                        .tokenId("2EXAMPLEJTI")
+                        .issuedAt("2026-10-14T08:59:40.000Z")
+                        .expiresAt("2026-10-14T09:00:40.000Z")
+                        .sessionCreatedAt("2026-10-14T08:57:00.000Z")
+                        .authTime("2026-10-14T08:55:00.000Z")
+                        .accountCreatedAt("2026-10-14T08:56:00.000Z")
+                        .mfa(AuthContextMfa.builder()
+                            .methods(List.of(
+                                "totp"))
+                            .build())
+                        .roles(List.of(
+                            "admin"))
+                        .scopes(List.of(
+                            "org:sys_profile:manage"))
                         .build())
                     .build())
                 .call();
@@ -332,10 +528,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                      | Type                                                                                                                                                           | Required                                                                                                                                                       | Description                                                                                                                                                    |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `idempotencyKey`                                                                                                                                               | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours. |
-| `body`                                                                                                                                                         | [AssessmentRequest](../../models/shared/AssessmentRequest.md)                                                                                                  | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |
+| Parameter                                                                                                                                                      | Type                                                                                                                                                           | Required                                                                                                                                                       | Description                                                                                                                                                    | Example                                                                                                                                                        |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `idempotencyKey`                                                                                                                                               | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours. | signup-7f3a9c-0001                                                                                                                                             |
+| `body`                                                                                                                                                         | [AssessmentRequest](../../models/shared/AssessmentRequest.md)                                                                                                  | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |                                                                                                                                                                |
 
 ### Response
 
@@ -530,10 +726,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                         | Type                                                                                                              | Required                                                                                                          | Description                                                                                                       |
-| ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `assessmentId`                                                                                                    | *String*                                                                                                          | :heavy_check_mark:                                                                                                | Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400. |
-| `responseMode`                                                                                                    | @Nullable [ResponseMode](../../models/shared/ResponseMode.md)                                                     | :heavy_minus_sign:                                                                                                | Optional standard or separately authorised detailed customer view; raw is rejected.                               |
+| Parameter                                                                                                         | Type                                                                                                              | Required                                                                                                          | Description                                                                                                       | Example                                                                                                           |
+| ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `assessmentId`                                                                                                    | *String*                                                                                                          | :heavy_check_mark:                                                                                                | Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400. | asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                                                                    |
+| `responseMode`                                                                                                    | @Nullable [ResponseMode](../../models/shared/ResponseMode.md)                                                     | :heavy_minus_sign:                                                                                                | Optional standard or separately authorised detailed customer view; raw is rejected.                               |                                                                                                                   |
 
 ### Response
 
@@ -629,6 +825,9 @@ public class Application {
                 .idempotencyKey("<value>")
                 .body(AssessmentOutcomeRequest.builder()
                     .outcome(Outcome.LEGITIMATE)
+                    .observedAt("2026-10-14T09:04:30.000Z")
+                    .externalRef("case-48213")
+                    .notes("Chargeback filed two days after signup.")
                     .build())
                 .call();
 
@@ -681,11 +880,11 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                      | Type                                                                                                                                                           | Required                                                                                                                                                       | Description                                                                                                                                                    |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `assessmentId`                                                                                                                                                 | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.                                              |
-| `idempotencyKey`                                                                                                                                               | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours. |
-| `body`                                                                                                                                                         | [AssessmentOutcomeRequest](../../models/shared/AssessmentOutcomeRequest.md)                                                                                    | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |
+| Parameter                                                                                                                                                      | Type                                                                                                                                                           | Required                                                                                                                                                       | Description                                                                                                                                                    | Example                                                                                                                                                        |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `assessmentId`                                                                                                                                                 | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.                                              | asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                                                                                                                 |
+| `idempotencyKey`                                                                                                                                               | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours. | signup-7f3a9c-0001                                                                                                                                             |
+| `body`                                                                                                                                                         | [AssessmentOutcomeRequest](../../models/shared/AssessmentOutcomeRequest.md)                                                                                    | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |                                                                                                                                                                |
 
 ### Response
 
@@ -773,6 +972,7 @@ public class Application {
 
         AssessmentQuery req = AssessmentQuery.builder()
                 .accountId("<id>")
+                .cursor("eyJvIjoyMH0")
                 .build();
 
 

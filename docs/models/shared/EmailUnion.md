@@ -6,7 +6,7 @@
 ### `String`
 
 ```java
-EmailUnion value = EmailUnion.of("<value>");
+EmailUnion value = EmailUnion.of("example");
 ```
 
 ### `double`
@@ -32,8 +32,8 @@ EmailUnion value = EmailUnion.of(Email.builder()
 
 ```java
 EmailUnion value = EmailUnion.of(List.of(
-    "<value 1>",
-    "<value 2>"));
+    "example",
+    "example"));
 ```
 
 ## Consumption Patterns

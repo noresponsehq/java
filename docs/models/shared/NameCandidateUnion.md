@@ -6,7 +6,7 @@
 ### `String`
 
 ```java
-NameCandidateUnion value = NameCandidateUnion.of("<value>");
+NameCandidateUnion value = NameCandidateUnion.of("example");
 ```
 
 ### `double`
@@ -32,8 +32,8 @@ NameCandidateUnion value = NameCandidateUnion.of(NameCandidate.builder()
 
 ```java
 NameCandidateUnion value = NameCandidateUnion.of(List.of(
-    "<value 1>",
-    "<value 2>"));
+    "example",
+    "example"));
 ```
 
 ## Consumption Patterns

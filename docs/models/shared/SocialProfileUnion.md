@@ -6,7 +6,7 @@
 ### `String`
 
 ```java
-SocialProfileUnion value = SocialProfileUnion.of("<value>");
+SocialProfileUnion value = SocialProfileUnion.of("example");
 ```
 
 ### `double`
@@ -32,8 +32,8 @@ SocialProfileUnion value = SocialProfileUnion.of(SocialProfile.builder()
 
 ```java
 SocialProfileUnion value = SocialProfileUnion.of(List.of(
-    "<value 1>",
-    "<value 2>"));
+    "example",
+    "example"));
 ```
 
 ## Consumption Patterns

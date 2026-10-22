@@ -6,7 +6,7 @@
 ### `String`
 
 ```java
-TimezoneUnion value = TimezoneUnion.of("<value>");
+TimezoneUnion value = TimezoneUnion.of("example");
 ```
 
 ### `double`
@@ -32,8 +32,8 @@ TimezoneUnion value = TimezoneUnion.of(Timezone.builder()
 
 ```java
 TimezoneUnion value = TimezoneUnion.of(List.of(
-    "<value 1>",
-    "<value 2>"));
+    "example",
+    "example"));
 ```
 
 ## Consumption Patterns

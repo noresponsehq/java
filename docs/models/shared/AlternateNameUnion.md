@@ -6,7 +6,7 @@
 ### `String`
 
 ```java
-AlternateNameUnion value = AlternateNameUnion.of("<value>");
+AlternateNameUnion value = AlternateNameUnion.of("example");
 ```
 
 ### `double`
@@ -32,8 +32,8 @@ AlternateNameUnion value = AlternateNameUnion.of(AlternateName.builder()
 
 ```java
 AlternateNameUnion value = AlternateNameUnion.of(List.of(
-    "<value 1>",
-    "<value 2>"));
+    "example",
+    "example"));
 ```
 
 ## Consumption Patterns
