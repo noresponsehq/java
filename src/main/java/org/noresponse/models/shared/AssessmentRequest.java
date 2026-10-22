@@ -91,6 +91,18 @@ public class AssessmentRequest {
     @JsonProperty("auth_context")
     private AuthContext authContext;
 
+    /**
+     * Optional. When the signup gate issues an API key to the new account, send SHA-256 of that key, so
+     * later usage of the key, or a leaked copy, ties back to this assessment. Each SDK has a helper that
+     * computes it.
+     *
+     * <p>Send only the hash: customer keys are high-entropy, so the hash reveals nothing about them. The
+     * assessment stores it, and no response, webhook or log carries it.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("issued_credential")
+    private AssessmentRequestIssuedCredential issuedCredential;
+
     @JsonCreator
     public AssessmentRequest(
             @JsonProperty("account_id") @Nonnull String accountId,
@@ -100,7 +112,8 @@ public class AssessmentRequest {
             @JsonProperty("deadline_ms") @Nullable Long deadlineMs,
             @JsonProperty("response_mode") @Nullable ResponseMode responseMode,
             @JsonProperty("client_context") @Nullable AssessmentRequestClientContext clientContext,
-            @JsonProperty("auth_context") @Nullable AuthContext authContext) {
+            @JsonProperty("auth_context") @Nullable AuthContext authContext,
+            @JsonProperty("issued_credential") @Nullable AssessmentRequestIssuedCredential issuedCredential) {
         this.accountId = Optional.ofNullable(accountId)
                 .orElseThrow(() -> new IllegalArgumentException("accountId cannot be null"));
         this.identifiers = Optional.ofNullable(identifiers)
@@ -111,10 +124,11 @@ public class AssessmentRequest {
         this.responseMode = responseMode;
         this.clientContext = clientContext;
         this.authContext = authContext;
+        this.issuedCredential = issuedCredential;
     }
 
     public AssessmentRequest(@Nonnull String accountId, @Nonnull AssessmentRequestIdentifiers identifiers) {
-        this(accountId, identifiers, null, null, null, null, null, null);
+        this(accountId, identifiers, null, null, null, null, null, null, null);
     }
 
     /**
@@ -181,6 +195,18 @@ public class AssessmentRequest {
      */
     public Optional<AuthContext> authContext() {
         return Optional.ofNullable(this.authContext);
+    }
+
+    /**
+     * Optional. When the signup gate issues an API key to the new account, send SHA-256 of that key, so
+     * later usage of the key, or a leaked copy, ties back to this assessment. Each SDK has a helper that
+     * computes it.
+     *
+     * <p>Send only the hash: customer keys are high-entropy, so the hash reveals nothing about them. The
+     * assessment stores it, and no response, webhook or log carries it.
+     */
+    public Optional<AssessmentRequestIssuedCredential> issuedCredential() {
+        return Optional.ofNullable(this.issuedCredential);
     }
 
     public static Builder builder() {
@@ -261,6 +287,19 @@ public class AssessmentRequest {
         return this;
     }
 
+    /**
+     * Optional. When the signup gate issues an API key to the new account, send SHA-256 of that key, so
+     * later usage of the key, or a leaked copy, ties back to this assessment. Each SDK has a helper that
+     * computes it.
+     *
+     * <p>Send only the hash: customer keys are high-entropy, so the hash reveals nothing about them. The
+     * assessment stores it, and no response, webhook or log carries it.
+     */
+    public AssessmentRequest withIssuedCredential(@Nullable AssessmentRequestIssuedCredential issuedCredential) {
+        this.issuedCredential = issuedCredential;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -277,13 +316,22 @@ public class AssessmentRequest {
                 && Utils.enhancedDeepEquals(this.deadlineMs, other.deadlineMs)
                 && Utils.enhancedDeepEquals(this.responseMode, other.responseMode)
                 && Utils.enhancedDeepEquals(this.clientContext, other.clientContext)
-                && Utils.enhancedDeepEquals(this.authContext, other.authContext);
+                && Utils.enhancedDeepEquals(this.authContext, other.authContext)
+                && Utils.enhancedDeepEquals(this.issuedCredential, other.issuedCredential);
     }
 
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                accountId, identifiers, policyContext, requestId, deadlineMs, responseMode, clientContext, authContext);
+                accountId,
+                identifiers,
+                policyContext,
+                requestId,
+                deadlineMs,
+                responseMode,
+                clientContext,
+                authContext,
+                issuedCredential);
     }
 
     @Override
@@ -305,7 +353,9 @@ public class AssessmentRequest {
                 "clientContext",
                 clientContext,
                 "authContext",
-                authContext);
+                authContext,
+                "issuedCredential",
+                issuedCredential);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -326,6 +376,8 @@ public class AssessmentRequest {
         private AssessmentRequestClientContext clientContext;
 
         private AuthContext authContext;
+
+        private AssessmentRequestIssuedCredential issuedCredential;
 
         private Builder() {
             // force use of static builder() method
@@ -405,6 +457,19 @@ public class AssessmentRequest {
             return this;
         }
 
+        /**
+         * Optional. When the signup gate issues an API key to the new account, send SHA-256 of that key, so
+         * later usage of the key, or a leaked copy, ties back to this assessment. Each SDK has a helper that
+         * computes it.
+         *
+         * <p>Send only the hash: customer keys are high-entropy, so the hash reveals nothing about them. The
+         * assessment stores it, and no response, webhook or log carries it.
+         */
+        public Builder issuedCredential(@Nullable AssessmentRequestIssuedCredential issuedCredential) {
+            this.issuedCredential = issuedCredential;
+            return this;
+        }
+
         public AssessmentRequest build() {
             return new AssessmentRequest(
                     accountId,
@@ -414,7 +479,8 @@ public class AssessmentRequest {
                     deadlineMs,
                     responseMode,
                     clientContext,
-                    authContext);
+                    authContext,
+                    issuedCredential);
         }
     }
 }

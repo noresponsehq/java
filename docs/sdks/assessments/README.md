@@ -13,7 +13,7 @@ Signup and gateway assessments.
 
 ## create
 
-Returns within the deadline (500 ms at most) with a complete, partial or pending assessment: 200 carries complete or partial, 202 carries pending with Location and Retry-After. A pending answer has no recommendation; apply your own fallback for pending, 429, 503 or a timeout. Requires the assess scope. Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key with a different body answers 409 idempotency_key_reused. response_mode defaults to standard; detailed needs the detailed scope.
+Returns within the deadline (500 ms at most) with a complete, partial or pending assessment: 200 carries complete or partial, 202 carries pending with Location and Retry-After. A pending answer has no recommendation; apply your own fallback for pending, 429, 503 or a timeout. risk.block says when your block threshold was reached. Requires the assess scope. Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key with a different body answers 409 idempotency_key_reused. response_mode defaults to standard; detailed needs the detailed scope.
 
 ### Example Usage: complete
 
@@ -34,6 +34,7 @@ import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestClientContext;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
+import org.noresponse.models.shared.AssessmentRequestIssuedCredential;
 import org.noresponse.models.shared.AssessmentRequestPolicyContext;
 import org.noresponse.models.shared.AuthContext;
 import org.noresponse.models.shared.AuthContextMfa;
@@ -95,6 +96,9 @@ public class Application {
                             "admin"))
                         .scopes(List.of(
                             "org:sys_profile:manage"))
+                        .build())
+                    .issuedCredential(AssessmentRequestIssuedCredential.builder()
+                        .sha256("2bdbf5c72f2a36df0ef40fb92203612274d4546f56dba946070a6a79c2401a1b")
                         .build())
                     .build())
                 .call();
@@ -124,6 +128,7 @@ import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestClientContext;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
+import org.noresponse.models.shared.AssessmentRequestIssuedCredential;
 import org.noresponse.models.shared.AssessmentRequestPolicyContext;
 import org.noresponse.models.shared.AuthContext;
 import org.noresponse.models.shared.AuthContextMfa;
@@ -185,6 +190,9 @@ public class Application {
                             "admin"))
                         .scopes(List.of(
                             "org:sys_profile:manage"))
+                        .build())
+                    .issuedCredential(AssessmentRequestIssuedCredential.builder()
+                        .sha256("2bdbf5c72f2a36df0ef40fb92203612274d4546f56dba946070a6a79c2401a1b")
                         .build())
                     .build())
                 .call();
@@ -364,6 +372,7 @@ import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestClientContext;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
+import org.noresponse.models.shared.AssessmentRequestIssuedCredential;
 import org.noresponse.models.shared.AssessmentRequestPolicyContext;
 import org.noresponse.models.shared.AuthContext;
 import org.noresponse.models.shared.AuthContextMfa;
@@ -425,6 +434,9 @@ public class Application {
                             "admin"))
                         .scopes(List.of(
                             "org:sys_profile:manage"))
+                        .build())
+                    .issuedCredential(AssessmentRequestIssuedCredential.builder()
+                        .sha256("2bdbf5c72f2a36df0ef40fb92203612274d4546f56dba946070a6a79c2401a1b")
                         .build())
                     .build())
                 .call();
@@ -454,6 +466,7 @@ import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestClientContext;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
+import org.noresponse.models.shared.AssessmentRequestIssuedCredential;
 import org.noresponse.models.shared.AssessmentRequestPolicyContext;
 import org.noresponse.models.shared.AuthContext;
 import org.noresponse.models.shared.AuthContextMfa;
@@ -515,6 +528,9 @@ public class Application {
                             "admin"))
                         .scopes(List.of(
                             "org:sys_profile:manage"))
+                        .build())
+                    .issuedCredential(AssessmentRequestIssuedCredential.builder()
+                        .sha256("2bdbf5c72f2a36df0ef40fb92203612274d4546f56dba946070a6a79c2401a1b")
                         .build())
                     .build())
                 .call();

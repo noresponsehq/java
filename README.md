@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v2.0.15'
+    implementation 'com.github.noresponsehq:java:v2.0.17'
 }
 ```
 
@@ -34,7 +34,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v2.0.15</version>
+  <version>v2.0.17</version>
 </dependency>
 ```
 
@@ -148,6 +148,14 @@ client.assessments().get().assessmentId(id).retryConfig(RetryConfig.noRetries())
 AssessmentQuery query = AssessmentQuery.builder().accountId("acct_7f3a9c").build();
 AllAssessments.stream(client, query)
         .forEach(a -> System.out.println(a.assessmentId() + " " + a.status()));
+```
+
+## Issued keys
+
+When your signup gate issues an API key to the new account, send only its hash, as `issued_credential.sha256`; the key itself never leaves your backend.
+
+```java
+String sha256 = IssuedCredential.sha256(issuedKey); // org.noresponse.IssuedCredential
 ```
 
 ## Webhooks

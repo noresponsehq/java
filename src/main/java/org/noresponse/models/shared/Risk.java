@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Boolean;
+import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.List;
@@ -39,6 +41,26 @@ public class Risk {
      */
     @JsonProperty("recommendation")
     private Recommendation recommendation;
+
+    /**
+     * true when the tenant's block threshold is set and score reached it. A provider hook can deny the
+     * signup on it; the provider decides and enforces. It does not change recommendation.
+     *
+     * <p>It is false while blocking is off, the default, and a body from before the flag existed omits it:
+     * read absent as false.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("block")
+    private Boolean block;
+
+    /**
+     * The block threshold this answer used: block is true exactly when score is at least this value.
+     * Absent while blocking is off. NoResponse sets it per tenant on request, at or above the review
+     * threshold.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("block_threshold")
+    private Long blockThreshold;
 
     /**
      * How much of the planned evidence answered; it says nothing about risk.
@@ -94,6 +116,8 @@ public class Risk {
             @JsonProperty("score") long score,
             @JsonProperty("band") @Nonnull Band band,
             @JsonProperty("recommendation") @Nonnull Recommendation recommendation,
+            @JsonProperty("block") @Nullable Boolean block,
+            @JsonProperty("block_threshold") @Nullable Long blockThreshold,
             @JsonProperty("confidence") @Nonnull RiskConfidence confidence,
             @JsonProperty("policy_version") @Nonnull String policyVersion,
             @JsonProperty("reasons") @Nonnull List<RiskReason> reasons,
@@ -104,6 +128,8 @@ public class Risk {
         this.band = Optional.ofNullable(band).orElseThrow(() -> new IllegalArgumentException("band cannot be null"));
         this.recommendation = Optional.ofNullable(recommendation)
                 .orElseThrow(() -> new IllegalArgumentException("recommendation cannot be null"));
+        this.block = block;
+        this.blockThreshold = blockThreshold;
         this.confidence = Optional.ofNullable(confidence)
                 .orElseThrow(() -> new IllegalArgumentException("confidence cannot be null"));
         this.policyVersion = Optional.ofNullable(policyVersion)
@@ -125,7 +151,7 @@ public class Risk {
             @Nonnull String policyVersion,
             @Nonnull List<RiskReason> reasons,
             @Nonnull RiskCoverage coverage) {
-        this(score, band, recommendation, confidence, policyVersion, reasons, null, coverage, null);
+        this(score, band, recommendation, null, null, confidence, policyVersion, reasons, null, coverage, null);
     }
 
     public long score() {
@@ -144,6 +170,26 @@ public class Risk {
      */
     public Recommendation recommendation() {
         return this.recommendation;
+    }
+
+    /**
+     * true when the tenant's block threshold is set and score reached it. A provider hook can deny the
+     * signup on it; the provider decides and enforces. It does not change recommendation.
+     *
+     * <p>It is false while blocking is off, the default, and a body from before the flag existed omits it:
+     * read absent as false.
+     */
+    public Optional<Boolean> block() {
+        return Optional.ofNullable(this.block);
+    }
+
+    /**
+     * The block threshold this answer used: block is true exactly when score is at least this value.
+     * Absent while blocking is off. NoResponse sets it per tenant on request, at or above the review
+     * threshold.
+     */
+    public Optional<Long> blockThreshold() {
+        return Optional.ofNullable(this.blockThreshold);
     }
 
     /**
@@ -226,6 +272,28 @@ public class Risk {
     }
 
     /**
+     * true when the tenant's block threshold is set and score reached it. A provider hook can deny the
+     * signup on it; the provider decides and enforces. It does not change recommendation.
+     *
+     * <p>It is false while blocking is off, the default, and a body from before the flag existed omits it:
+     * read absent as false.
+     */
+    public Risk withBlock(@Nullable Boolean block) {
+        this.block = block;
+        return this;
+    }
+
+    /**
+     * The block threshold this answer used: block is true exactly when score is at least this value.
+     * Absent while blocking is off. NoResponse sets it per tenant on request, at or above the review
+     * threshold.
+     */
+    public Risk withBlockThreshold(@Nullable Long blockThreshold) {
+        this.blockThreshold = blockThreshold;
+        return this;
+    }
+
+    /**
      * How much of the planned evidence answered; it says nothing about risk.
      */
     public Risk withConfidence(@Nonnull RiskConfidence confidence) {
@@ -290,6 +358,8 @@ public class Risk {
         return Utils.enhancedDeepEquals(this.score, other.score)
                 && Utils.enhancedDeepEquals(this.band, other.band)
                 && Utils.enhancedDeepEquals(this.recommendation, other.recommendation)
+                && Utils.enhancedDeepEquals(this.block, other.block)
+                && Utils.enhancedDeepEquals(this.blockThreshold, other.blockThreshold)
                 && Utils.enhancedDeepEquals(this.confidence, other.confidence)
                 && Utils.enhancedDeepEquals(this.policyVersion, other.policyVersion)
                 && Utils.enhancedDeepEquals(this.policyBasis, other.policyBasis)
@@ -305,6 +375,8 @@ public class Risk {
                 score,
                 band,
                 recommendation,
+                block,
+                blockThreshold,
                 confidence,
                 policyVersion,
                 policyBasis,
@@ -324,6 +396,10 @@ public class Risk {
                 band,
                 "recommendation",
                 recommendation,
+                "block",
+                block,
+                "blockThreshold",
+                blockThreshold,
                 "confidence",
                 confidence,
                 "policyVersion",
@@ -348,6 +424,10 @@ public class Risk {
         private Band band;
 
         private Recommendation recommendation;
+
+        private Boolean block;
+
+        private Long blockThreshold;
 
         private RiskConfidence confidence;
 
@@ -383,6 +463,28 @@ public class Risk {
          */
         public Builder recommendation(@Nonnull Recommendation recommendation) {
             this.recommendation = Utils.checkNotNull(recommendation, "recommendation");
+            return this;
+        }
+
+        /**
+         * true when the tenant's block threshold is set and score reached it. A provider hook can deny the
+         * signup on it; the provider decides and enforces. It does not change recommendation.
+         *
+         * <p>It is false while blocking is off, the default, and a body from before the flag existed omits it:
+         * read absent as false.
+         */
+        public Builder block(@Nullable Boolean block) {
+            this.block = block;
+            return this;
+        }
+
+        /**
+         * The block threshold this answer used: block is true exactly when score is at least this value.
+         * Absent while blocking is off. NoResponse sets it per tenant on request, at or above the review
+         * threshold.
+         */
+        public Builder blockThreshold(@Nullable Long blockThreshold) {
+            this.blockThreshold = blockThreshold;
             return this;
         }
 
@@ -441,7 +543,17 @@ public class Risk {
 
         public Risk build() {
             return new Risk(
-                    score, band, recommendation, confidence, policyVersion, reasons, summary, coverage, details);
+                    score,
+                    band,
+                    recommendation,
+                    block,
+                    blockThreshold,
+                    confidence,
+                    policyVersion,
+                    reasons,
+                    summary,
+                    coverage,
+                    details);
         }
 
         private static final LazySingletonValue<String> _SINGLETON_VALUE_PolicyBasis =

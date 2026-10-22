@@ -55,13 +55,13 @@ public class AsyncAssessments {
      *
      * <p>Returns within the deadline (500 ms at most) with a complete, partial or pending assessment: 200
      * carries complete or partial, 202 carries pending with Location and Retry-After. A pending answer has
-     * no recommendation; apply your own fallback for pending, 429, 503 or a timeout. Requires the assess
-     * scope.
+     * no recommendation; apply your own fallback for pending, 429, 503 or a timeout. risk.block says when
+     * your block threshold was reached.
      *
-     * <p>Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body
-     * replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key
-     * with a different body answers 409 idempotency_key_reused. response_mode defaults to standard;
-     * detailed needs the detailed scope.
+     * <p>Requires the assess scope. Idempotency-Key is required and is bound to the body for 24 hours: the
+     * same key with the same body replays the latest assessment with Idempotent-Replayed: true and starts
+     * no new work; the same key with a different body answers 409 idempotency_key_reused. response_mode
+     * defaults to standard; detailed needs the detailed scope.
      *
      * @return The async call builder
      */
@@ -74,13 +74,13 @@ public class AsyncAssessments {
      *
      * <p>Returns within the deadline (500 ms at most) with a complete, partial or pending assessment: 200
      * carries complete or partial, 202 carries pending with Location and Retry-After. A pending answer has
-     * no recommendation; apply your own fallback for pending, 429, 503 or a timeout. Requires the assess
-     * scope.
+     * no recommendation; apply your own fallback for pending, 429, 503 or a timeout. risk.block says when
+     * your block threshold was reached.
      *
-     * <p>Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body
-     * replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key
-     * with a different body answers 409 idempotency_key_reused. response_mode defaults to standard;
-     * detailed needs the detailed scope.
+     * <p>Requires the assess scope. Idempotency-Key is required and is bound to the body for 24 hours: the
+     * same key with the same body replays the latest assessment with Idempotent-Replayed: true and starts
+     * no new work; the same key with a different body answers 409 idempotency_key_reused. response_mode
+     * defaults to standard; detailed needs the detailed scope.
      *
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours.
      * @param body POST /v1/assessments body. At least one of email, username or phone is required; name and ip only refine an assessment. No field carries a password, hash, token or breach value, and unknown members are refused. The email local part is kept as received and only the domain is lower-cased; the username is compared case-insensitively; the phone is strict E.164 and is assessed asynchronously. The whole body is capped at 32768 bytes. client_context holds bounded hints from the signup client; auth_context holds normalised claims from a session your backend has verified. Raw tokens are refused.
@@ -96,13 +96,13 @@ public class AsyncAssessments {
      *
      * <p>Returns within the deadline (500 ms at most) with a complete, partial or pending assessment: 200
      * carries complete or partial, 202 carries pending with Location and Retry-After. A pending answer has
-     * no recommendation; apply your own fallback for pending, 429, 503 or a timeout. Requires the assess
-     * scope.
+     * no recommendation; apply your own fallback for pending, 429, 503 or a timeout. risk.block says when
+     * your block threshold was reached.
      *
-     * <p>Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body
-     * replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key
-     * with a different body answers 409 idempotency_key_reused. response_mode defaults to standard;
-     * detailed needs the detailed scope.
+     * <p>Requires the assess scope. Idempotency-Key is required and is bound to the body for 24 hours: the
+     * same key with the same body replays the latest assessment with Idempotent-Replayed: true and starts
+     * no new work; the same key with a different body answers 409 idempotency_key_reused. response_mode
+     * defaults to standard; detailed needs the detailed scope.
      *
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours.
      * @param body POST /v1/assessments body. At least one of email, username or phone is required; name and ip only refine an assessment. No field carries a password, hash, token or breach value, and unknown members are refused. The email local part is kept as received and only the domain is lower-cased; the username is compared case-insensitively; the phone is strict E.164 and is assessed asynchronously. The whole body is capped at 32768 bytes. client_context holds bounded hints from the signup client; auth_context holds normalised claims from a session your backend has verified. Raw tokens are refused.
