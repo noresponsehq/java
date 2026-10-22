@@ -169,6 +169,17 @@ try {
 
 `Webhook`, `WebhookEvent` and `VerificationException` are in `org.noresponse.webhooks`. Deliveries arrive at least once and unordered. Deduplicate on `event.id()` and keep the highest `assessmentVersion()` per assessment.
 
+### Late results
+
+When a slow source settles and the recommendation rises, `LateResults.handleLateResult` verifies the `assessment.updated` delivery with `Webhook.constructEvent`, applies your policy (default: revoke sessions on `review`) and calls the provider. It lives in `org.noresponse.lateresults`; `ClerkActions`, `WorkOSActions` and `Auth0Actions` take your credentials and an optional `HttpClient`.
+
+```java
+LateResult result = LateResults.handleLateResult(rawBody, headers, secrets,
+    new ClerkActions(System.getenv("CLERK_SECRET_KEY")));
+```
+
+A provider refusal throws `ProviderActionException`; answer 5xx so NoResponse retries. WorkOS has no block, so its `ban` deletes the user permanently.
+
 ## Renamed since 2.0.0
 
 The error classes now follow the Java convention of ending in `Exception`:

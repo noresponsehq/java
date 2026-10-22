@@ -5,8 +5,8 @@ management:
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 2.0.15
-  configChecksum: 69b6b34e4b5e76a9379ba08f090857e9
+  releaseVersion: 2.0.16
+  configChecksum: d76a39c9f9cbb4f040039e2db34b9bbc
 features:
   java:
     additionalDependencies: 0.1.0
@@ -230,7 +230,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:cb87e0cc4fa4a7ab11513cd4761d9831140e3ef8
+    last_write_checksum: sha1:f2dd56b1bea7ee9b7096231eab02a93b0ff77797
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -256,7 +256,7 @@ trackedFiles:
   src/main/java/org/noresponse/NoResponse.java:
     last_write_checksum: sha1:3e888aed355dc946263a0e37124d1552a89174f0
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:b6762533f3ce3f7889fe9b41c587dd96d5736860
+    last_write_checksum: sha1:4883315fd1a4e347b7ce9e15bd039859fd2fce74
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/models/errors/APIStatusException.java:
