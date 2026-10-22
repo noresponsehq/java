@@ -44,6 +44,16 @@ class AuthTest {
                 return Auth.fromSupabase(claims, overrides);
             case "firebase":
                 return Auth.fromFirebase(claims, overrides);
+            case "cognito":
+                return Auth.fromCognito(claims, overrides);
+            case "entra":
+                return Auth.fromEntra(claims, overrides);
+            case "keycloak":
+                return Auth.fromKeycloak(claims, overrides);
+            case "ory":
+                return Auth.fromOry(claims, overrides);
+            case "ory_oauth2":
+                return Auth.fromOryOAuth2(claims, overrides);
             default:
                 return Auth.fromOIDC(provider, claims, overrides);
         }
