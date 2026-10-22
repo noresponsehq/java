@@ -35,7 +35,7 @@ import org.noresponse.utils.JSON;
  * subject or the provider is not a lowercase slug.
  */
 public final class Auth {
-    private static final String CLAIM_MAP_JSON = "{\"version\":1,\"kinds\":{\"id\":{\"pattern\":\"[A-Za-z0-9._:@/|+=~-]+\",\"maxLength\":256},\"audience\":{\"pattern\":\"[A-Za-z0-9._:/-]+\",\"maxLength\":256},\"role\":{\"pattern\":\"[A-Za-z0-9._:@/-]+\",\"maxLength\":64},\"method\":{\"pattern\":\"[A-Za-z0-9._:-]+\",\"maxLength\":32},\"issuer\":{\"pattern\":\"https://[\\\\x21-\\\\x7e]+\",\"maxLength\":256},\"time\":{\"pattern\":\"[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\\\.[0-9]+)?(Z|[+-]([01][0-9]|2[0-3]):[0-5][0-9])\",\"maxLength\":64}},\"slug\":\"[a-z0-9][a-z0-9._-]{1,31}\",\"constants\":{\"verified\":true,\"transport\":\"backend\"},\"base\":{\"issuer\":{\"op\":\"id\",\"kind\":\"issuer\",\"claims\":[\"iss\"],\"required\":true},\"subject\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"sub\"],\"required\":true},\"audiences\":{\"op\":\"list\",\"kind\":\"audience\",\"claims\":[\"aud\"],\"split\":\"whitespace\",\"max\":8},\"issued_at\":{\"op\":\"time\",\"claims\":[\"iat\"]},\"expires_at\":{\"op\":\"time\",\"claims\":[\"exp\"]},\"auth_time\":{\"op\":\"time\",\"claims\":[\"auth_time\"]},\"session_id\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"sid\"]},\"token_id\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"jti\"]}},\"providers\":{\"workos\":{\"fields\":{\"organization_id\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"org_id\"]},\"roles\":{\"op\":\"list\",\"kind\":\"role\",\"claims\":[\"roles\",\"role\"],\"split\":\"whitespace\",\"max\":32},\"scopes\":{\"op\":\"list\",\"kind\":\"role\",\"claims\":[\"permissions\"],\"split\":\"whitespace\",\"max\":32},\"impersonated\":{\"op\":\"actor\",\"claims\":[\"act\"]}}},\"clerk\":{\"disable\":[\"issued_at\"],\"fields\":{\"organization_id\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"o.id\",\"org_id\"]},\"roles\":{\"op\":\"list\",\"kind\":\"role\",\"claims\":[\"o.rol\",\"org_role\"],\"split\":\"none\",\"max\":32},\"scopes\":{\"op\":\"list\",\"kind\":\"role\",\"claims\":[\"o.per\",\"org_permissions\"],\"split\":\"comma_whitespace\",\"max\":32},\"impersonated\":{\"op\":\"actor\",\"claims\":[\"act\"]},\"mfa\":{\"op\":\"mfa_factor_age\",\"claim\":\"fva\",\"index\":1,\"unitSeconds\":60,\"maxSeconds\":315360000}}},\"auth0\":{\"fields\":{\"organization_id\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"org_id\"]},\"scopes\":{\"op\":\"list\",\"kind\":\"role\",\"claims\":[\"scope\",\"permissions\"],\"split\":\"whitespace\",\"max\":32},\"email_verified\":{\"op\":\"bool\",\"claims\":[\"email_verified\"]},\"phone_verified\":{\"op\":\"bool\",\"claims\":[\"phone_number_verified\"]},\"impersonated\":{\"op\":\"actor\",\"claims\":[\"act\"]},\"mfa\":{\"op\":\"mfa_methods\",\"kind\":\"method\",\"claim\":\"amr\",\"max\":8,\"mfaValue\":\"mfa\",\"ignore\":[\"pwd\"]}}},\"oidc\":{\"slugArgument\":true,\"fields\":{}}}}";
+    private static final String CLAIM_MAP_JSON = "{\"version\":1,\"kinds\":{\"id\":{\"pattern\":\"[A-Za-z0-9._:@/|+=~-]+\",\"maxLength\":256},\"audience\":{\"pattern\":\"[A-Za-z0-9._:/-]+\",\"maxLength\":256},\"role\":{\"pattern\":\"[A-Za-z0-9._:@/-]+\",\"maxLength\":64},\"method\":{\"pattern\":\"[A-Za-z0-9._:-]+\",\"maxLength\":32},\"issuer\":{\"pattern\":\"https://[\\\\x21-\\\\x7e]+\",\"maxLength\":256},\"time\":{\"pattern\":\"[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)(\\\\.[0-9]+)?(Z|[+-]([01][0-9]|2[0-3]):[0-5][0-9])\",\"maxLength\":64}},\"slug\":\"[a-z0-9][a-z0-9._-]{1,31}\",\"constants\":{\"verified\":true,\"transport\":\"backend\"},\"base\":{\"issuer\":{\"op\":\"id\",\"kind\":\"issuer\",\"claims\":[\"iss\"],\"required\":true},\"subject\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"sub\"],\"required\":true},\"audiences\":{\"op\":\"list\",\"kind\":\"audience\",\"claims\":[\"aud\"],\"split\":\"whitespace\",\"max\":8},\"issued_at\":{\"op\":\"time\",\"claims\":[\"iat\"]},\"expires_at\":{\"op\":\"time\",\"claims\":[\"exp\"]},\"auth_time\":{\"op\":\"time\",\"claims\":[\"auth_time\"]},\"session_id\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"sid\"]},\"token_id\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"jti\"]}},\"providers\":{\"workos\":{\"fields\":{\"organization_id\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"org_id\"]},\"roles\":{\"op\":\"list\",\"kind\":\"role\",\"claims\":[\"roles\",\"role\"],\"split\":\"whitespace\",\"max\":32},\"scopes\":{\"op\":\"list\",\"kind\":\"role\",\"claims\":[\"permissions\"],\"split\":\"whitespace\",\"max\":32},\"impersonated\":{\"op\":\"actor\",\"claims\":[\"act\"]}}},\"clerk\":{\"disable\":[\"issued_at\"],\"fields\":{\"organization_id\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"o.id\",\"org_id\"]},\"roles\":{\"op\":\"list\",\"kind\":\"role\",\"claims\":[\"o.rol\",\"org_role\"],\"split\":\"none\",\"max\":32},\"scopes\":{\"op\":\"list\",\"kind\":\"role\",\"claims\":[\"o.per\",\"org_permissions\"],\"split\":\"comma_whitespace\",\"max\":32},\"impersonated\":{\"op\":\"actor\",\"claims\":[\"act\"]},\"mfa\":{\"op\":\"mfa_factor_age\",\"claim\":\"fva\",\"index\":1,\"unitSeconds\":60,\"maxSeconds\":315360000}}},\"auth0\":{\"fields\":{\"organization_id\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"org_id\"]},\"scopes\":{\"op\":\"list\",\"kind\":\"role\",\"claims\":[\"scope\",\"permissions\"],\"split\":\"whitespace\",\"max\":32},\"email_verified\":{\"op\":\"bool\",\"claims\":[\"email_verified\"]},\"phone_verified\":{\"op\":\"bool\",\"claims\":[\"phone_number_verified\"]},\"impersonated\":{\"op\":\"actor\",\"claims\":[\"act\"]},\"mfa\":{\"op\":\"mfa_methods\",\"kind\":\"method\",\"claim\":\"amr\",\"max\":8,\"mfaValue\":\"mfa\",\"ignore\":[\"pwd\"]}}},\"supabase\":{\"disable\":[\"auth_time\"],\"fields\":{\"session_id\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"session_id\"]},\"roles\":{\"op\":\"list\",\"kind\":\"role\",\"claims\":[\"role\"],\"split\":\"none\",\"max\":1},\"mfa\":{\"op\":\"mfa_aal\",\"claim\":\"aal\",\"present\":[\"aal2\"],\"absent\":[\"aal1\"],\"amr\":\"amr\",\"methodKey\":\"method\",\"factors\":{\"totp\":\"totp\",\"mfa/phone\":\"mfa:phone\",\"mfa/webauthn\":\"mfa:webauthn\",\"mfa/recovery_code\":\"mfa:recovery_code\"}},\"assurance_level\":{\"op\":\"marker\",\"value\":\"low\",\"when\":[{\"claim\":\"is_anonymous\",\"equals\":true},{\"claim\":\"app_metadata.provider\",\"equals\":\"anonymous\"}]}}},\"firebase\":{\"disable\":[\"session_id\",\"token_id\"],\"fields\":{\"tenant_id\":{\"op\":\"id\",\"kind\":\"id\",\"claims\":[\"firebase.tenant\"]},\"mfa\":{\"op\":\"mfa_factor\",\"kind\":\"method\",\"claim\":\"firebase.sign_in_second_factor\"},\"assurance_level\":{\"op\":\"marker\",\"value\":\"low\",\"when\":[{\"claim\":\"firebase.sign_in_provider\",\"equals\":\"anonymous\"}]}}},\"oidc\":{\"slugArgument\":true,\"fields\":{}}}}";
     private static final ObjectMapper PLAIN = new ObjectMapper();
     private static final JsonNode MAP = parseMap();
     private static final Map<String, Pattern> KINDS = new HashMap<>();
@@ -78,6 +78,15 @@ public final class Auth {
         String text = value.asText();
         int limit = MAP.get("kinds").get(kind).get("maxLength").asInt();
         return text.codePointCount(0, text.length()) <= limit && KINDS.get(kind).matcher(text).matches();
+    }
+
+    private static boolean contains(JsonNode list, String text) {
+        for (JsonNode item : list) {
+            if (item.asText().equals(text)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static String lower(String value) {
@@ -188,6 +197,59 @@ public final class Auth {
                 mfa.put("age_seconds", (long) seconds);
                 return mfa;
             }
+            case "mfa_aal": {
+                JsonNode level = lookup(claims, rule.get("claim").asText());
+                if (level == null || !level.isTextual()) {
+                    return null;
+                }
+                ObjectNode mfa = f.objectNode();
+                if (contains(rule.get("absent"), level.asText())) {
+                    mfa.put("present", false);
+                    return mfa;
+                }
+                if (!contains(rule.get("present"), level.asText())) {
+                    return null;
+                }
+                JsonNode entries = lookup(claims, rule.get("amr").asText());
+                ArrayNode methods = f.arrayNode();
+                List<String> seen = new ArrayList<>();
+                if (entries != null && entries.isArray()) {
+                    for (JsonNode entry : entries) {
+                        JsonNode name = entry.isObject() ? entry.get(rule.get("methodKey").asText()) : entry;
+                        if (name == null || !name.isTextual() || !rule.get("factors").has(name.asText())) {
+                            continue;
+                        }
+                        String mapped = rule.get("factors").get(name.asText()).asText();
+                        if (!seen.contains(mapped)) {
+                            seen.add(mapped);
+                            methods.add(mapped);
+                        }
+                    }
+                }
+                mfa.put("present", true);
+                if (methods.size() > 0) {
+                    mfa.set("methods", methods);
+                }
+                return mfa;
+            }
+            case "mfa_factor": {
+                JsonNode value = lookup(claims, rule.get("claim").asText());
+                if (!matches(rule.get("kind").asText(), value)) {
+                    return null;
+                }
+                ObjectNode mfa = f.objectNode();
+                mfa.put("present", true);
+                mfa.set("methods", f.arrayNode().add(value));
+                return mfa;
+            }
+            case "marker":
+                for (JsonNode test : rule.get("when")) {
+                    JsonNode value = lookup(claims, test.get("claim").asText());
+                    if (value != null && value.equals(test.get("equals"))) {
+                        return rule.get("value");
+                    }
+                }
+                return null;
             case "mfa_methods": {
                 JsonNode value = lookup(claims, rule.get("claim").asText());
                 if (value == null || !value.isArray()) {
@@ -295,6 +357,24 @@ public final class Auth {
 
     public static AuthContext fromAuth0(Map<String, ?> claims) {
         return fromAuth0(claims, null);
+    }
+
+    /** Map verified Supabase Auth access token claims (legacy HS256 secret or JWKS). Pass the user record's contact verification as overrides. */
+    public static AuthContext fromSupabase(Map<String, ?> claims, Map<String, ?> overrides) {
+        return build("supabase", "supabase", claims, overrides);
+    }
+
+    public static AuthContext fromSupabase(Map<String, ?> claims) {
+        return fromSupabase(claims, null);
+    }
+
+    /** Map verified Firebase ID token claims from the Admin SDK verifyIdToken. Custom claims never change the mapping. */
+    public static AuthContext fromFirebase(Map<String, ?> claims, Map<String, ?> overrides) {
+        return build("firebase", "firebase", claims, overrides);
+    }
+
+    public static AuthContext fromFirebase(Map<String, ?> claims) {
+        return fromFirebase(claims, null);
     }
 
     /** Generic OIDC adapter for providers without a first-class helper. {@code provider} is a lowercase slug. */

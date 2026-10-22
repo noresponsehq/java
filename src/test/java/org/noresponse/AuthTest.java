@@ -40,6 +40,10 @@ class AuthTest {
                 return Auth.fromClerk(claims, overrides);
             case "auth0":
                 return Auth.fromAuth0(claims, overrides);
+            case "supabase":
+                return Auth.fromSupabase(claims, overrides);
+            case "firebase":
+                return Auth.fromFirebase(claims, overrides);
             default:
                 return Auth.fromOIDC(provider, claims, overrides);
         }
