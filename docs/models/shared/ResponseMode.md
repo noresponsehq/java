@@ -8,6 +8,9 @@ standard returns the consolidated risk response; detailed adds merged provider-n
 import org.noresponse.models.shared.ResponseMode;
 
 ResponseMode value = ResponseMode.STANDARD;
+
+// Open enum: use .of() to create instances from custom string values
+ResponseMode custom = ResponseMode.of("custom_value");
 ```
 
 

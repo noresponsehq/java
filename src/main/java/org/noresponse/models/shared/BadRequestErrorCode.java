@@ -26,6 +26,7 @@ public class BadRequestErrorCode {
     public static final BadRequestErrorCode INVALID_IDEMPOTENCY_KEY =
             new BadRequestErrorCode("invalid_idempotency_key");
     public static final BadRequestErrorCode INVALID_CURSOR = new BadRequestErrorCode("invalid_cursor");
+    public static final BadRequestErrorCode WEBHOOK_URL_REFUSED = new BadRequestErrorCode("webhook_url_refused");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -99,6 +100,7 @@ public class BadRequestErrorCode {
         map.put("invalid_request", INVALID_REQUEST);
         map.put("invalid_idempotency_key", INVALID_IDEMPOTENCY_KEY);
         map.put("invalid_cursor", INVALID_CURSOR);
+        map.put("webhook_url_refused", WEBHOOK_URL_REFUSED);
         return map;
     }
 
@@ -107,6 +109,7 @@ public class BadRequestErrorCode {
         map.put("invalid_request", BadRequestErrorCodeEnum.INVALID_REQUEST);
         map.put("invalid_idempotency_key", BadRequestErrorCodeEnum.INVALID_IDEMPOTENCY_KEY);
         map.put("invalid_cursor", BadRequestErrorCodeEnum.INVALID_CURSOR);
+        map.put("webhook_url_refused", BadRequestErrorCodeEnum.WEBHOOK_URL_REFUSED);
         return map;
     }
 
@@ -115,6 +118,7 @@ public class BadRequestErrorCode {
         INVALID_REQUEST("invalid_request"),
         INVALID_IDEMPOTENCY_KEY("invalid_idempotency_key"),
         INVALID_CURSOR("invalid_cursor"),
+        WEBHOOK_URL_REFUSED("webhook_url_refused"),
         ;
 
         private final String value;

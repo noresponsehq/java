@@ -24,6 +24,10 @@ public class ConflictErrorCode {
 
     public static final ConflictErrorCode IDEMPOTENCY_KEY_REUSED = new ConflictErrorCode("idempotency_key_reused");
     public static final ConflictErrorCode KEY_ROTATION_IN_PROGRESS = new ConflictErrorCode("key_rotation_in_progress");
+    public static final ConflictErrorCode WEBHOOK_ENDPOINT_LIMIT_REACHED =
+            new ConflictErrorCode("webhook_endpoint_limit_reached");
+    public static final ConflictErrorCode WEBHOOK_ENDPOINT_UNVERIFIED =
+            new ConflictErrorCode("webhook_endpoint_unverified");
     public static final ConflictErrorCode TOO_MANY_INTEGRATIONS = new ConflictErrorCode("too_many_integrations");
 
     // This map will grow whenever a Color gets created with a new
@@ -97,6 +101,8 @@ public class ConflictErrorCode {
         Map<String, ConflictErrorCode> map = new LinkedHashMap<>();
         map.put("idempotency_key_reused", IDEMPOTENCY_KEY_REUSED);
         map.put("key_rotation_in_progress", KEY_ROTATION_IN_PROGRESS);
+        map.put("webhook_endpoint_limit_reached", WEBHOOK_ENDPOINT_LIMIT_REACHED);
+        map.put("webhook_endpoint_unverified", WEBHOOK_ENDPOINT_UNVERIFIED);
         map.put("too_many_integrations", TOO_MANY_INTEGRATIONS);
         return map;
     }
@@ -105,6 +111,8 @@ public class ConflictErrorCode {
         Map<String, ConflictErrorCodeEnum> map = new HashMap<>();
         map.put("idempotency_key_reused", ConflictErrorCodeEnum.IDEMPOTENCY_KEY_REUSED);
         map.put("key_rotation_in_progress", ConflictErrorCodeEnum.KEY_ROTATION_IN_PROGRESS);
+        map.put("webhook_endpoint_limit_reached", ConflictErrorCodeEnum.WEBHOOK_ENDPOINT_LIMIT_REACHED);
+        map.put("webhook_endpoint_unverified", ConflictErrorCodeEnum.WEBHOOK_ENDPOINT_UNVERIFIED);
         map.put("too_many_integrations", ConflictErrorCodeEnum.TOO_MANY_INTEGRATIONS);
         return map;
     }
@@ -113,6 +121,8 @@ public class ConflictErrorCode {
 
         IDEMPOTENCY_KEY_REUSED("idempotency_key_reused"),
         KEY_ROTATION_IN_PROGRESS("key_rotation_in_progress"),
+        WEBHOOK_ENDPOINT_LIMIT_REACHED("webhook_endpoint_limit_reached"),
+        WEBHOOK_ENDPOINT_UNVERIFIED("webhook_endpoint_unverified"),
         TOO_MANY_INTEGRATIONS("too_many_integrations"),
         ;
 

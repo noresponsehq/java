@@ -7,9 +7,9 @@ import org.noresponse.utils.Headers;
  * webhooks.
  *
  * <p>Assess a signup or gateway event, poll a pending assessment, page through an account's history,
- * record what you later learned, rotate your API key, and register hosted endpoints that answer your
- * WorkOS or Auth0 sign-up and sign-in hooks. Every response carries X-Request-ID; every error is an
- * RFC 9457 problem document. Keep the API key on your server.
+ * record what you later learned, rotate your API key, manage your webhook endpoints, and register
+ * hosted endpoints that answer your WorkOS or Auth0 sign-up and sign-in hooks. Every response carries
+ * X-Request-ID; every error is an RFC 9457 problem document. Keep the API key on your server.
  */
 public class AsyncNoResponse {
     private static final Headers _headers = Headers.EMPTY;
@@ -25,6 +25,10 @@ public class AsyncNoResponse {
      * Hosted endpoints that answer your sign-up and sign-in hooks.
      */
     private final AsyncIntegrations integrations;
+    /**
+     * Your webhook endpoints: register, list, rotate signing keys, send test events and delete.
+     */
+    private final AsyncWebhookEndpoints webhookEndpoints;
     /**
      * Signup and gateway assessments.
      */
@@ -43,6 +47,12 @@ public class AsyncNoResponse {
     public AsyncIntegrations integrations() {
         return integrations;
     }
+    /**
+     * Your webhook endpoints: register, list, rotate signing keys, send test events and delete.
+     */
+    public AsyncWebhookEndpoints webhookEndpoints() {
+        return webhookEndpoints;
+    }
 
     private SDKConfiguration sdkConfiguration;
     private final NoResponse syncSDK;
@@ -53,6 +63,7 @@ public class AsyncNoResponse {
         this.assessments = new AsyncAssessments(syncSDK.assessments(), sdkConfiguration);
         this.keys = new AsyncKeys(syncSDK.keys(), sdkConfiguration);
         this.integrations = new AsyncIntegrations(syncSDK.integrations(), sdkConfiguration);
+        this.webhookEndpoints = new AsyncWebhookEndpoints(syncSDK.webhookEndpoints(), sdkConfiguration);
     }
 
     /**
