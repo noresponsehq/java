@@ -6,6 +6,9 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.lang.Long;
 import java.lang.String;
+import org.noresponse.models.operations.DeleteAccountRequest;
+import org.noresponse.models.operations.DeleteAccountRequestBuilder;
+import org.noresponse.models.operations.DeleteAccountResponse;
 import org.noresponse.models.operations.GetAccountRequest;
 import org.noresponse.models.operations.GetAccountRequestBuilder;
 import org.noresponse.models.operations.GetAccountResponse;
@@ -13,6 +16,7 @@ import org.noresponse.models.operations.ListAccountAssessmentsRequest;
 import org.noresponse.models.operations.ListAccountAssessmentsRequestBuilder;
 import org.noresponse.models.operations.ListAccountAssessmentsResponse;
 import org.noresponse.models.shared.ResponseMode;
+import org.noresponse.operations.DeleteAccount;
 import org.noresponse.operations.GetAccount;
 import org.noresponse.operations.ListAccountAssessments;
 import org.noresponse.utils.Headers;
@@ -96,6 +100,74 @@ public class Accounts {
         GetAccountRequest request = new GetAccountRequest(accountId);
         RequestOperation<GetAccountRequest, GetAccountResponse> operation =
                 new GetAccount.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Erase an account and its history.
+     *
+     * <p>Erases the account in the environment of your key, for an erasure request from your user: every
+     * assessment of it, with its revisions, evidence and outcomes, and the identity-graph marks its
+     * outcomes set. An assessment of the account begun before the call is refused or stopped. Afterwards
+     * the account and each erased assessment answer 404 and the history is empty.
+     *
+     * <p>When the call deleted at least one assessment, an account.deleted event goes to your verified
+     * webhook endpoints. Requires the history scope. Idempotent and safe to retry: a repeat, or an account
+     * with nothing to erase, answers 200 with assessments_deleted 0 and sends no event.
+     *
+     * <p>The account_id can be assessed again later, as a new account.
+     *
+     * @return The call builder
+     */
+    public DeleteAccountRequestBuilder delete() {
+        return new DeleteAccountRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Erase an account and its history.
+     *
+     * <p>Erases the account in the environment of your key, for an erasure request from your user: every
+     * assessment of it, with its revisions, evidence and outcomes, and the identity-graph marks its
+     * outcomes set. An assessment of the account begun before the call is refused or stopped. Afterwards
+     * the account and each erased assessment answer 404 and the history is empty.
+     *
+     * <p>When the call deleted at least one assessment, an account.deleted event goes to your verified
+     * webhook endpoints. Requires the history scope. Idempotent and safe to retry: a repeat, or an account
+     * with nothing to erase, answers 200 with assessments_deleted 0 and sends no event.
+     *
+     * <p>The account_id can be assessed again later, as a new account.
+     *
+     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public DeleteAccountResponse delete(@Nonnull String accountId) {
+        return delete(accountId, null);
+    }
+
+    /**
+     * Erase an account and its history.
+     *
+     * <p>Erases the account in the environment of your key, for an erasure request from your user: every
+     * assessment of it, with its revisions, evidence and outcomes, and the identity-graph marks its
+     * outcomes set. An assessment of the account begun before the call is refused or stopped. Afterwards
+     * the account and each erased assessment answer 404 and the history is empty.
+     *
+     * <p>When the call deleted at least one assessment, an account.deleted event goes to your verified
+     * webhook endpoints. Requires the history scope. Idempotent and safe to retry: a repeat, or an account
+     * with nothing to erase, answers 200 with assessments_deleted 0 and sends no event.
+     *
+     * <p>The account_id can be assessed again later, as a new account.
+     *
+     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public DeleteAccountResponse delete(@Nonnull String accountId, @Nullable Options options) {
+        DeleteAccountRequest request = new DeleteAccountRequest(accountId);
+        RequestOperation<DeleteAccountRequest, DeleteAccountResponse> operation =
+                new DeleteAccount.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

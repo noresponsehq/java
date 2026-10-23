@@ -179,6 +179,17 @@ public final class Webhook {
             }
             return new EndpointVerification(endpointId.asText(), challenge.asText());
         }
+        if ("account.deleted".equals(type)) {
+            JsonNode accountId = data.path("account_id");
+            JsonNode deleted = data.path("assessments_deleted");
+            JsonNode deletedAt = data.path("deleted_at");
+            if (!accountId.isTextual() || !ACCOUNT_ID.matcher(accountId.asText()).matches()
+                    || !deleted.isIntegralNumber() || deleted.asLong() < 1
+                    || !deletedAt.isTextual() || !validDateTime(deletedAt.asText())) {
+                throw new VerificationException(Code.INVALID_PAYLOAD, "Account deleted event is malformed");
+            }
+            return new AccountDeleted(accountId.asText(), deleted.asLong(), deletedAt.asText());
+        }
         if (!"assessment.updated".equals(type)) {
             throw new VerificationException(Code.INVALID_PAYLOAD, "Unknown webhook event type");
         }

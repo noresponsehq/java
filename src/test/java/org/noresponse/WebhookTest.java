@@ -24,6 +24,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.junit.jupiter.api.Test;
 import org.noresponse.models.shared.Assessment;
 import org.noresponse.models.shared.Recommendation;
+import org.noresponse.webhooks.AccountDeleted;
 import org.noresponse.webhooks.AssessmentExpired;
 import org.noresponse.webhooks.VerificationException;
 import org.noresponse.webhooks.VerificationException.Code;
@@ -216,6 +217,33 @@ class WebhookTest {
                 Webhook.verificationResponse(verification));
     }
 
+    @Test
+    void accountDeletedEvent() throws Exception {
+        JsonNode erased = fixture("valid/webhook-account-deleted.json");
+        byte[] body = raw(erased);
+        Map<String, String> secrets = Map.of("whk_sdktest01", "secret");
+        WebhookEvent event = Webhook.constructEvent(body,
+                signed(body, "secret", erased.path("id").asText(), "whk_sdktest01"), secrets, 300, NOW);
+        assertEquals("account.deleted", event.type());
+        assertFalse(event.isExpired());
+        assertFalse(event.isTest());
+        AccountDeleted deleted = event.accountDeleted().orElseThrow();
+        assertEquals("acct_7f3a9c", deleted.accountId());
+        assertEquals(3L, deleted.assessmentsDeleted());
+        assertEquals("2026-10-23T09:00:00.000Z", deleted.deletedAt());
+        assertThrows(VerificationException.class, () -> Webhook.verificationResponse(event));
+        for (java.util.function.Consumer<ObjectNode> mutate : List.<java.util.function.Consumer<ObjectNode>>of(
+                data -> data.put("assessments_deleted", 0),
+                data -> data.put("assessments_deleted", 1.5),
+                data -> data.put("account_id", "jane@example.com"),
+                data -> data.put("deleted_at", "tomorrow"))) {
+            ObjectNode bad = (ObjectNode) fixture("valid/webhook-account-deleted.json");
+            mutate.accept((ObjectNode) bad.path("data"));
+            byte[] payload = raw(bad);
+            refused(Code.INVALID_PAYLOAD, payload, signed(payload, "secret", bad.path("id").asText(), "whk_sdktest01"), secrets, NOW);
+        }
+    }
+
     // The API adds fields without a new version, so keys this SDK does not know
     // must not stop a signed event from verifying.
     @Test
@@ -224,7 +252,8 @@ class WebhookTest {
         for (String name : List.of(
                 "invalid/webhook-tenant-id.json",
                 "invalid/webhook-identifier-leak.json",
-                "invalid/webhook-expired-with-assessment-url.json")) {
+                "invalid/webhook-expired-with-assessment-url.json",
+                "invalid/webhook-account-deleted-assessment-id.json")) {
             JsonNode body = fixture(name);
             byte[] payload = raw(body);
             String id = body.path("id").asText();
@@ -240,7 +269,8 @@ class WebhookTest {
                 "invalid/webhook-unknown-event-type.json",
                 "invalid/webhook-update-pointer-only.json",
                 "invalid/webhook-update-with-expired-status.json",
-                "invalid/webhook-verification-without-challenge.json")) {
+                "invalid/webhook-verification-without-challenge.json",
+                "invalid/webhook-account-deleted-none.json")) {
             JsonNode body = fixture(name);
             byte[] payload = raw(body);
             refused(Code.INVALID_PAYLOAD, payload,

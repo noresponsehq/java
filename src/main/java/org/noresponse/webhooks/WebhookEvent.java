@@ -10,7 +10,8 @@ import org.noresponse.models.shared.Assessment;
  * <p>For type {@code assessment.updated}, {@link #assessment()} holds the
  * assessment exactly as {@code assessments().get} returns it, or
  * {@link #expired()} holds the terminal expiry notice. For
- * {@code endpoint.verification}, {@link #verification()} holds the challenge.
+ * {@code endpoint.verification}, {@link #verification()} holds the challenge. For
+ * {@code account.deleted}, {@link #accountDeleted()} names the account you erased.
  *
  * <p>{@link #isTest()} is true on an event sent by
  * {@code webhookEndpoints().sendTestEvent()}: acknowledge it and apply nothing.
@@ -57,6 +58,11 @@ public final class WebhookEvent {
 
     public Optional<EndpointVerification> verification() {
         return data instanceof EndpointVerification ? Optional.of((EndpointVerification) data) : Optional.empty();
+    }
+
+    /** Present for account.deleted: an account you erased. Delete what you hold for it. */
+    public Optional<AccountDeleted> accountDeleted() {
+        return data instanceof AccountDeleted ? Optional.of((AccountDeleted) data) : Optional.empty();
     }
 
     /**

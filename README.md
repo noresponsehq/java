@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v2.1.10'
+    implementation 'com.github.noresponsehq:java:v2.1.11'
 }
 ```
 
@@ -34,7 +34,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v2.1.10</version>
+  <version>v2.1.11</version>
 </dependency>
 ```
 
@@ -89,6 +89,7 @@ The recommendation is `allow`, `step_up` or `review`. It is advice: your applica
 | `client.assessments().query(query)` | One page of an account's history. |
 | `AllAssessments.stream(client, query)` | A lazy `Stream<Assessment>` over every page. |
 | `client.accounts().get(accountId)` | The account's one current risk: score, a decision for each flow and the assessment it comes from (`history` scope). An account with no decided assessment is a 404. |
+| `client.accounts().delete(accountId)` | Erase the account and its history in your key's environment (`history` scope). Idempotent: a repeat answers `assessmentsDeleted` 0. An `account.deleted` webhook follows when something was deleted. |
 | `client.accounts().listAssessments(accountId)` | One page of the account's history with the account id in the URL. The builder form takes `limit`, `cursor` and `responseMode`. |
 | `Wait.wait(client, assessmentId)` | Poll until the assessment is `complete`, honouring `Retry-After`, for up to 30 s. Then a `partial` answer is returned as it stands, and a `pending` one throws `WaitTimeoutException`. |
 | `Webhook.constructEvent(payload, headers, secrets)` | Verify a webhook delivery and return the typed event. |
@@ -201,6 +202,7 @@ try {
     } else {
         event.assessment().ifPresent(a -> { /* the full assessment, as get returns it */ });
         event.expired().ifPresent(e -> { /* delete what you hold for e.assessmentId() */ });
+        event.accountDeleted().ifPresent(d -> { /* account.deleted: you erased d.accountId() */ });
     }
 } catch (VerificationException e) {
     // answer 400 and do not process the delivery
