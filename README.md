@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/noresponsehq/.github/main/profile/sdk-header.png" alt="NoResponse" width="100%">
+
 # NoResponse Java SDK
 
 The Java client for the [NoResponse API](https://docs.noresponse.org): assess a signup or gateway event, wait for a pending result, page through an account's history, record what you later learned and verify webhooks.
@@ -17,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v3.0.8'
+    implementation 'com.github.noresponsehq:java:v3.0.9'
 }
 ```
 
@@ -34,7 +36,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v3.0.8</version>
+  <version>v3.0.9</version>
 </dependency>
 ```
 
