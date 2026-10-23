@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v2.1.13'
+    implementation 'com.github.noresponsehq:java:v2.1.15'
 }
 ```
 
@@ -34,7 +34,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v2.1.13</version>
+  <version>v2.1.15</version>
 </dependency>
 ```
 
@@ -86,6 +86,7 @@ The recommendation is `allow`, `step_up` or `review`. It is advice: your applica
 | `client.assessments().create(idempotencyKey, request)` | Assess identifiers. Answers 200 (complete or partial) or 202 (pending); `res.statusCode()` tells them apart. |
 | `client.assessments().get(assessmentId)` | Fetch the latest version of one assessment. |
 | `client.assessments().recordOutcome(assessmentId, idempotencyKey, request)` | Report what you later learned, for example `Outcome.CONFIRMED_ABUSE`. |
+| `client.assessments().delete(assessmentId)` | Delete one assessment (`history` scope). The answer's account names the assessment its risk now comes from, empty when none is left. A repeat answers 404. |
 | `client.assessments().query(query)` | One page of an account's history. |
 | `AllAssessments.stream(client, query)` | A lazy `Stream<Assessment>` over every page. |
 | `client.accounts().get(accountId)` | The account's one current risk: score, a decision for each flow and the assessment it comes from (`history` scope). An account with no decided assessment is a 404. |

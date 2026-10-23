@@ -7,10 +7,13 @@ import jakarta.annotation.Nullable;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 import org.noresponse.models.operations.CreateAssessmentRequest;
+import org.noresponse.models.operations.DeleteAssessmentRequest;
 import org.noresponse.models.operations.GetAssessmentRequest;
 import org.noresponse.models.operations.RecordAssessmentOutcomeRequest;
 import org.noresponse.models.operations.async.CreateAssessmentRequestBuilder;
 import org.noresponse.models.operations.async.CreateAssessmentResponse;
+import org.noresponse.models.operations.async.DeleteAssessmentRequestBuilder;
+import org.noresponse.models.operations.async.DeleteAssessmentResponse;
 import org.noresponse.models.operations.async.GetAssessmentRequestBuilder;
 import org.noresponse.models.operations.async.GetAssessmentResponse;
 import org.noresponse.models.operations.async.QueryAccountAssessmentsRequestBuilder;
@@ -22,6 +25,7 @@ import org.noresponse.models.shared.AssessmentQuery;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.ResponseMode;
 import org.noresponse.operations.CreateAssessment;
+import org.noresponse.operations.DeleteAssessment;
 import org.noresponse.operations.GetAssessment;
 import org.noresponse.operations.QueryAccountAssessments;
 import org.noresponse.operations.RecordAssessmentOutcome;
@@ -170,6 +174,66 @@ public class AsyncAssessments {
         GetAssessmentRequest request = new GetAssessmentRequest(assessmentId, responseMode);
         AsyncRequestOperation<GetAssessmentRequest, GetAssessmentResponse> operation =
                 new GetAssessment.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Delete one assessment.
+     *
+     * <p>Deletes one assessment in the environment of your key, with its versions, evidence and outcomes and
+     * the identity-graph marks its outcomes set, and scores its account again from what remains.
+     * Afterwards the assessment answers 404 and leaves the account's history. The answer names the account
+     * and the assessment its current risk now comes from; current_assessment_id is absent when the account
+     * has no assessment with a decision left.
+     *
+     * <p>Requires the history scope. An unknown, expired or already deleted assessment answers 404, so a
+     * repeat answers 404; to erase a whole account idempotently, use accounts.delete.
+     *
+     * @return The async call builder
+     */
+    public DeleteAssessmentRequestBuilder delete() {
+        return new DeleteAssessmentRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Delete one assessment.
+     *
+     * <p>Deletes one assessment in the environment of your key, with its versions, evidence and outcomes and
+     * the identity-graph marks its outcomes set, and scores its account again from what remains.
+     * Afterwards the assessment answers 404 and leaves the account's history. The answer names the account
+     * and the assessment its current risk now comes from; current_assessment_id is absent when the account
+     * has no assessment with a decision left.
+     *
+     * <p>Requires the history scope. An unknown, expired or already deleted assessment answers 404, so a
+     * repeat answers 404; to erase a whole account idempotently, use accounts.delete.
+     *
+     * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
+     * @return {@code CompletableFuture<DeleteAssessmentResponse>} - The async response
+     */
+    public CompletableFuture<DeleteAssessmentResponse> delete(@Nonnull String assessmentId) {
+        return delete(assessmentId, null);
+    }
+
+    /**
+     * Delete one assessment.
+     *
+     * <p>Deletes one assessment in the environment of your key, with its versions, evidence and outcomes and
+     * the identity-graph marks its outcomes set, and scores its account again from what remains.
+     * Afterwards the assessment answers 404 and leaves the account's history. The answer names the account
+     * and the assessment its current risk now comes from; current_assessment_id is absent when the account
+     * has no assessment with a decision left.
+     *
+     * <p>Requires the history scope. An unknown, expired or already deleted assessment answers 404, so a
+     * repeat answers 404; to erase a whole account idempotently, use accounts.delete.
+     *
+     * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
+     * @param options additional options
+     * @return {@code CompletableFuture<DeleteAssessmentResponse>} - The async response
+     */
+    public CompletableFuture<DeleteAssessmentResponse> delete(@Nonnull String assessmentId, @Nullable Options options) {
+        DeleteAssessmentRequest request = new DeleteAssessmentRequest(assessmentId);
+        AsyncRequestOperation<DeleteAssessmentRequest, DeleteAssessmentResponse> operation =
+                new DeleteAssessment.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 
