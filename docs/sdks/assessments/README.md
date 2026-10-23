@@ -48,7 +48,7 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-7f3a9c-0001")
+                .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
                     .identifiers(AssessmentRequestIdentifiers.builder()
@@ -142,7 +142,7 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-7f3a9c-0001")
+                .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
                     .identifiers(AssessmentRequestIdentifiers.builder()
@@ -232,7 +232,7 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-7f3a9c-0001")
+                .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
                     .identifiers(AssessmentRequestIdentifiers.builder()
@@ -282,7 +282,7 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-7f3a9c-0001")
+                .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
                     .identifiers(AssessmentRequestIdentifiers.builder()
@@ -327,7 +327,7 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-7f3a9c-0001")
+                .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_8412")
                     .identifiers(AssessmentRequestIdentifiers.builder()
@@ -386,7 +386,7 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-7f3a9c-0001")
+                .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
                     .identifiers(AssessmentRequestIdentifiers.builder()
@@ -480,7 +480,7 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-7f3a9c-0001")
+                .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
                     .identifiers(AssessmentRequestIdentifiers.builder()
@@ -546,7 +546,7 @@ public class Application {
 
 | Parameter                                                                                                                                                      | Type                                                                                                                                                           | Required                                                                                                                                                       | Description                                                                                                                                                    | Example                                                                                                                                                        |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `idempotencyKey`                                                                                                                                               | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours. | signup-7f3a9c-0001                                                                                                                                             |
+| `idempotencyKey`                                                                                                                                               | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours. | signup-acct_7f3a9c                                                                                                                                             |
 | `body`                                                                                                                                                         | [AssessmentRequest](../../models/shared/AssessmentRequest.md)                                                                                                  | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |                                                                                                                                                                |
 
 ### Response
@@ -795,7 +795,7 @@ public class Application {
 
         RecordAssessmentOutcomeResponse res = sdk.assessments().recordOutcome()
                 .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-                .idempotencyKey("signup-7f3a9c-0001")
+                .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentOutcomeRequest.builder()
                     .outcome(Outcome.CONFIRMED_ABUSE)
                     .observedAt("2026-10-20T05:00:00Z")
@@ -838,7 +838,7 @@ public class Application {
 
         RecordAssessmentOutcomeResponse res = sdk.assessments().recordOutcome()
                 .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-                .idempotencyKey("signup-7f3a9c-0001")
+                .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentOutcomeRequest.builder()
                     .outcome(Outcome.LEGITIMATE)
                     .observedAt("2026-10-14T09:04:30.000Z")
@@ -881,7 +881,7 @@ public class Application {
 
         RecordAssessmentOutcomeResponse res = sdk.assessments().recordOutcome()
                 .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-                .idempotencyKey("signup-7f3a9c-0001")
+                .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentOutcomeRequest.builder()
                     .outcome(Outcome.FALSE_POSITIVE)
                     .build())
@@ -899,7 +899,7 @@ public class Application {
 | Parameter                                                                                                                                                      | Type                                                                                                                                                           | Required                                                                                                                                                       | Description                                                                                                                                                    | Example                                                                                                                                                        |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `assessmentId`                                                                                                                                                 | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.                                              | asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                                                                                                                 |
-| `idempotencyKey`                                                                                                                                               | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours. | signup-7f3a9c-0001                                                                                                                                             |
+| `idempotencyKey`                                                                                                                                               | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours. | signup-acct_7f3a9c                                                                                                                                             |
 | `body`                                                                                                                                                         | [AssessmentOutcomeRequest](../../models/shared/AssessmentOutcomeRequest.md)                                                                                    | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |                                                                                                                                                                |
 
 ### Response

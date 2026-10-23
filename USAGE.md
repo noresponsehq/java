@@ -24,7 +24,7 @@ public class Application {
 
         CreateAssessmentResponse res = sdk.assessments()
                 .create()
-                .idempotencyKey("signup-7f3a9c-0001")
+                .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                         .accountId("acct_7f3a9c")
                         .identifiers(AssessmentRequestIdentifiers.builder()
