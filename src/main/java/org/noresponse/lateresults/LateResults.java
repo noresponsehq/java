@@ -15,7 +15,8 @@ import org.noresponse.webhooks.WebhookEvent;
  * recommendation rises. NoResponse sends the new version as a signed assessment.updated webhook.
  * {@link #handleLateResult} verifies that delivery with {@code Webhook.constructEvent}, picks an
  * action from your policy, and acts through the auth provider's admin API: revoke the user's
- * sessions or ban the user. It never acts on an unverified event.
+ * sessions or ban the user. It never acts on an unverified event or a test event. Every provider
+ * call treats a 404 (user or session already gone) as done, so a repeated delivery is safe.
  */
 public final class LateResults {
     private LateResults() {
@@ -26,9 +27,12 @@ public final class LateResults {
         return lateResultAction(event, LateResultPolicy.DEFAULT);
     }
 
-    /** The action your policy names for a verified event. Only a served assessment with a recommendation can act. */
+    /**
+     * The action your policy names for a verified event. Only a served assessment with a
+     * recommendation can act; a test event from the send-test-event call never does.
+     */
     public static LateResultAction lateResultAction(WebhookEvent event, LateResultPolicy policy) {
-        if (!"assessment.updated".equals(event.type()) || event.isExpired()) {
+        if (!"assessment.updated".equals(event.type()) || event.isTest() || event.isExpired()) {
             return LateResultAction.NONE;
         }
         Optional<Assessment> assessment = event.assessment();

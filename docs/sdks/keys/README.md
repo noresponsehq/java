@@ -34,7 +34,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         KeyRotationRequest req = KeyRotationRequest.builder()
@@ -72,7 +72,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         KeyRotationRequest req = KeyRotationRequest.builder()
@@ -111,7 +111,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         KeyRotationRequest req = KeyRotationRequest.builder()

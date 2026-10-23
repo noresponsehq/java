@@ -44,13 +44,13 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("<value>")
+                .idempotencyKey("signup-7f3a9c-0001")
                 .body(AssessmentRequest.builder()
-                    .accountId("<id>")
+                    .accountId("acct_7f3a9c")
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -138,13 +138,13 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("<value>")
+                .idempotencyKey("signup-7f3a9c-0001")
                 .body(AssessmentRequest.builder()
-                    .accountId("<id>")
+                    .accountId("acct_7f3a9c")
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -228,11 +228,11 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("<value>")
+                .idempotencyKey("signup-7f3a9c-0001")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
                     .identifiers(AssessmentRequestIdentifiers.builder()
@@ -278,11 +278,11 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("<value>")
+                .idempotencyKey("signup-7f3a9c-0001")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
                     .identifiers(AssessmentRequestIdentifiers.builder()
@@ -323,11 +323,11 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("<value>")
+                .idempotencyKey("signup-7f3a9c-0001")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_8412")
                     .identifiers(AssessmentRequestIdentifiers.builder()
@@ -382,13 +382,13 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("<value>")
+                .idempotencyKey("signup-7f3a9c-0001")
                 .body(AssessmentRequest.builder()
-                    .accountId("<id>")
+                    .accountId("acct_7f3a9c")
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -476,13 +476,13 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("<value>")
+                .idempotencyKey("signup-7f3a9c-0001")
                 .body(AssessmentRequest.builder()
-                    .accountId("<id>")
+                    .accountId("acct_7f3a9c")
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -590,11 +590,11 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         GetAssessmentResponse res = sdk.assessments().get()
-                .assessmentId("<id>")
+                .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
                 .call();
 
         if (res.assessment().isPresent()) {
@@ -624,11 +624,11 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         GetAssessmentResponse res = sdk.assessments().get()
-                .assessmentId("<id>")
+                .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
                 .call();
 
         if (res.assessment().isPresent()) {
@@ -658,11 +658,11 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         GetAssessmentResponse res = sdk.assessments().get()
-                .assessmentId("<id>")
+                .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
                 .call();
 
         if (res.assessment().isPresent()) {
@@ -692,11 +692,11 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         GetAssessmentResponse res = sdk.assessments().get()
-                .assessmentId("<id>")
+                .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
                 .call();
 
         if (res.assessment().isPresent()) {
@@ -726,11 +726,11 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         GetAssessmentResponse res = sdk.assessments().get()
-                .assessmentId("<id>")
+                .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
                 .call();
 
         if (res.assessment().isPresent()) {
@@ -790,12 +790,12 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         RecordAssessmentOutcomeResponse res = sdk.assessments().recordOutcome()
-                .assessmentId("<id>")
-                .idempotencyKey("<value>")
+                .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .idempotencyKey("signup-7f3a9c-0001")
                 .body(AssessmentOutcomeRequest.builder()
                     .outcome(Outcome.CONFIRMED_ABUSE)
                     .observedAt("2026-10-20T05:00:00Z")
@@ -833,12 +833,12 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         RecordAssessmentOutcomeResponse res = sdk.assessments().recordOutcome()
-                .assessmentId("<id>")
-                .idempotencyKey("<value>")
+                .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .idempotencyKey("signup-7f3a9c-0001")
                 .body(AssessmentOutcomeRequest.builder()
                     .outcome(Outcome.LEGITIMATE)
                     .observedAt("2026-10-14T09:04:30.000Z")
@@ -876,12 +876,12 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         RecordAssessmentOutcomeResponse res = sdk.assessments().recordOutcome()
-                .assessmentId("<id>")
-                .idempotencyKey("<value>")
+                .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .idempotencyKey("signup-7f3a9c-0001")
                 .body(AssessmentOutcomeRequest.builder()
                     .outcome(Outcome.FALSE_POSITIVE)
                     .build())
@@ -944,7 +944,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         AssessmentQuery req = AssessmentQuery.builder()
@@ -983,11 +983,11 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         AssessmentQuery req = AssessmentQuery.builder()
-                .accountId("<id>")
+                .accountId("acct_7f3a9c")
                 .cursor("eyJvIjoyMH0")
                 .build();
 

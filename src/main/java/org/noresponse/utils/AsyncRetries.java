@@ -86,10 +86,21 @@ public class AsyncRetries {
 
     private boolean shouldRetryIOException(Throwable e, BackoffStrategy backoff) {
         if (e instanceof ConnectException && backoff.retryConnectError()) return true;
+        return (isConnectTimeout(e) && backoff.retryConnectError())
+                || (isReadTimeout(e) && backoff.retryReadTimeoutError());
+    }
+
+    private static boolean isConnectTimeout(Throwable e) {
+        if (e instanceof java.net.http.HttpConnectTimeoutException) return true;
         String message = e.getMessage();
-        if (message == null) return false;
-        return (message.contains("Connect timed out") && backoff.retryConnectError())
-                || (message.contains("Read timed out") && backoff.retryReadTimeoutError());
+        return message != null && message.toLowerCase(java.util.Locale.ENGLISH).contains("connect timed out");
+    }
+
+    private static boolean isReadTimeout(Throwable e) {
+        if (isConnectTimeout(e)) return false;
+        if (e instanceof java.net.http.HttpTimeoutException) return true;
+        String message = e.getMessage();
+        return message != null && message.toLowerCase(java.util.Locale.ENGLISH).contains("read timed out");
     }
 
     private static long retryAfterMs(HttpResponse<Blob> response) {

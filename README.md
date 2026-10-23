@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v2.0.19'
+    implementation 'com.github.noresponsehq:java:v2.1.0'
 }
 ```
 
@@ -34,7 +34,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v2.0.19</version>
+  <version>v2.1.0</version>
 </dependency>
 ```
 
@@ -75,6 +75,8 @@ public class Signup {
 }
 ```
 
+A builder with no `apiKey(...)` reads the key from `NORESPONSE_API_KEY`, so `NoResponse.builder().build()` works too.
+
 The recommendation is `allow`, `step_up` or `review`. It is advice: your application decides what to do. A `pending` assessment has no recommendation, and a 429, a 503 or a timeout also needs your own fallback.
 
 ## Methods
@@ -88,6 +90,9 @@ The recommendation is `allow`, `step_up` or `review`. It is advice: your applica
 | `AllAssessments.stream(client, query)` | A lazy `Stream<Assessment>` over every page. |
 | `Wait.wait(client, assessmentId)` | Poll until the assessment is no longer pending, honouring `Retry-After`. |
 | `Webhook.constructEvent(payload, headers, secrets)` | Verify a webhook delivery and return the typed event. |
+| `client.webhookEndpoints().create(request)` | Register a webhook endpoint (`webhooks` scope). The signing secret is shown once. |
+| `client.webhookEndpoints().sendTestEvent(endpointId, request)` | Send an `endpoint.verification` challenge or a sample `assessment.updated` event to the endpoint. |
+| `client.webhookEndpoints().listDirect()`, `rotateSigningKey(...)`, `delete(endpointId)` | List endpoints, rotate an endpoint's signing key, delete an endpoint. |
 | `client.keys().rotate(request)` | Rotate the API key that signs the request. |
 | `client.integrations().create(request)` | Register a hosted WorkOS or Auth0 integration (`integrations` scope). For Auth0 the answer's secret is shown once. Never retried. |
 | `client.integrations().listDirect()` | Every integration, oldest first, with no secrets. |
@@ -124,7 +129,7 @@ The typed exceptions are `BadRequestException` (400), `AuthenticationException` 
 
 ## Retries and timeouts
 
-The client retries 408, 429, 5xx and connection errors with exponential backoff and jitter: 500 ms first, 8 s at most, 30 s in total. The same idempotency key is sent each time, so a retry never repeats work. Connections time out after 10 seconds and each request after 60 seconds. Change the retry policy for every call or for one:
+The client retries 408, 429, 5xx, connection errors and connect timeouts with exponential backoff and jitter: 500 ms first, 8 s at most, 30 s in total. The same idempotency key is sent each time, so a retry never repeats work. Connections time out after 10 seconds and each request after 60 seconds. Change the retry policy for every call or for one:
 
 ```java
 NoResponse client = NoResponse.builder()
@@ -164,6 +169,22 @@ String sha256 = IssuedCredential.sha256(issuedKey); // org.noresponse.IssuedCred
 
 ## Webhooks
 
+Register your endpoint with a key that has the `webhooks` scope. The signing secret is shown only in this answer, so store it, then send the verification challenge:
+
+```java
+WebhookEndpointCreated created = client.webhookEndpoints()
+        .create(WebhookEndpointRequest.builder().url("https://app.example.com/webhooks/noresponse").build())
+        .webhookEndpointCreated().orElseThrow();
+SigningSecret secret = created.signingSecret(); // store secret.keyId() and secret.secret()
+String endpointId = created.endpoint().endpointId();
+client.webhookEndpoints().sendTestEvent(endpointId,
+        WebhookTestRequest.builder().event(WebhookTestRequestEvent.ENDPOINT_VERIFICATION).build()); // webhookTest().verified()
+client.webhookEndpoints().sendTestEvent(endpointId,
+        WebhookTestRequest.builder().event(WebhookTestRequestEvent.ASSESSMENT_UPDATED).build()); // arrives with event.isTest()
+```
+
+These models are in `org.noresponse.models.shared`. `listDirect()`, `rotateSigningKey(...)` (the old key verifies for 7 more days) and `delete(endpointId)` manage the endpoint afterwards.
+
 Pass the raw request body. Re-serialising parsed JSON breaks the signature.
 
 ```java
@@ -171,15 +192,20 @@ Map<String, String> secrets = Map.of("whk_example0001", System.getenv("NORESPONS
 
 try {
     WebhookEvent event = Webhook.constructEvent(rawBody, headers, secrets);
-    event.assessment().ifPresent(a -> { /* the full assessment, as get returns it */ });
-    event.expired().ifPresent(e -> { /* delete what you hold for e.assessmentId() */ });
-    event.verification().ifPresent(v -> { /* answer with Webhook.verificationResponse(event) */ });
+    if (event.verification().isPresent()) {
+        // answer 200 with Webhook.verificationResponse(event) as JSON
+    } else if (event.isTest()) {
+        // sendTestEvent's fixed example assessment: answer 2xx and apply nothing
+    } else {
+        event.assessment().ifPresent(a -> { /* the full assessment, as get returns it */ });
+        event.expired().ifPresent(e -> { /* delete what you hold for e.assessmentId() */ });
+    }
 } catch (VerificationException e) {
     // answer 400 and do not process the delivery
 }
 ```
 
-`Webhook`, `WebhookEvent` and `VerificationException` are in `org.noresponse.webhooks`. Deliveries arrive at least once and unordered. Deduplicate on `event.id()` and keep the highest `assessmentVersion()` per assessment.
+`Webhook`, `WebhookEvent` and `VerificationException` are in `org.noresponse.webhooks`. A header that is absent or has no value is refused with `MISSING_HEADER`, a repeated one with `DUPLICATE_HEADER`. Deliveries arrive at least once and unordered. Deduplicate on `event.id()` and keep the highest `assessmentVersion()` per assessment.
 
 ### Late results
 

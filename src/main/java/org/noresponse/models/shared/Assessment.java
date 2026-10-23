@@ -162,6 +162,18 @@ public class Assessment {
     @JsonProperty("timing")
     private AssessmentTiming timing;
 
+    /**
+     * The identity fields of the auth context the assessment was made with, echoed for the tenant's own
+     * correlation: the request's auth_context, or the one a hosted provider hook (POST
+     * /hooks/{integration_id}) built, with transport provider_hook and its hook_point. Present exactly
+     * when the request carried an auth_context, and the same on every revision of the assessment. Values
+     * are as the request or the hook sent them; tokens, timestamps, roles and scopes are not echoed, and
+     * the echo does not change the score.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("auth_context")
+    private AssessmentAuthContext authContext;
+
     @JsonCreator
     public Assessment(
             @JsonProperty("assessment_id") @Nonnull String assessmentId,
@@ -179,7 +191,8 @@ public class Assessment {
             @JsonProperty("updated_at") @Nonnull String updatedAt,
             @JsonProperty("expires_at") @Nonnull String expiresAt,
             @JsonProperty("assessment_url") @Nullable String assessmentUrl,
-            @JsonProperty("timing") @Nonnull AssessmentTiming timing) {
+            @JsonProperty("timing") @Nonnull AssessmentTiming timing,
+            @JsonProperty("auth_context") @Nullable AssessmentAuthContext authContext) {
         this.schemaVersion = Builder._SINGLETON_VALUE_SchemaVersion.value();
         this.assessmentId = Optional.ofNullable(assessmentId)
                 .orElseThrow(() -> new IllegalArgumentException("assessmentId cannot be null"));
@@ -208,6 +221,7 @@ public class Assessment {
         this.assessmentUrl = assessmentUrl;
         this.timing =
                 Optional.ofNullable(timing).orElseThrow(() -> new IllegalArgumentException("timing cannot be null"));
+        this.authContext = authContext;
     }
 
     public Assessment(
@@ -238,7 +252,8 @@ public class Assessment {
                 updatedAt,
                 expiresAt,
                 null,
-                timing);
+                timing,
+                null);
     }
 
     /**
@@ -389,6 +404,18 @@ public class Assessment {
 
     public AssessmentTiming timing() {
         return this.timing;
+    }
+
+    /**
+     * The identity fields of the auth context the assessment was made with, echoed for the tenant's own
+     * correlation: the request's auth_context, or the one a hosted provider hook (POST
+     * /hooks/{integration_id}) built, with transport provider_hook and its hook_point. Present exactly
+     * when the request carried an auth_context, and the same on every revision of the assessment. Values
+     * are as the request or the hook sent them; tokens, timestamps, roles and scopes are not echoed, and
+     * the echo does not change the score.
+     */
+    public Optional<AssessmentAuthContext> authContext() {
+        return Optional.ofNullable(this.authContext);
     }
 
     public static Builder builder() {
@@ -547,6 +574,19 @@ public class Assessment {
         return this;
     }
 
+    /**
+     * The identity fields of the auth context the assessment was made with, echoed for the tenant's own
+     * correlation: the request's auth_context, or the one a hosted provider hook (POST
+     * /hooks/{integration_id}) built, with transport provider_hook and its hook_point. Present exactly
+     * when the request carried an auth_context, and the same on every revision of the assessment. Values
+     * are as the request or the hook sent them; tokens, timestamps, roles and scopes are not echoed, and
+     * the echo does not change the score.
+     */
+    public Assessment withAuthContext(@Nullable AssessmentAuthContext authContext) {
+        this.authContext = authContext;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -573,7 +613,8 @@ public class Assessment {
                 && Utils.enhancedDeepEquals(this.updatedAt, other.updatedAt)
                 && Utils.enhancedDeepEquals(this.expiresAt, other.expiresAt)
                 && Utils.enhancedDeepEquals(this.assessmentUrl, other.assessmentUrl)
-                && Utils.enhancedDeepEquals(this.timing, other.timing);
+                && Utils.enhancedDeepEquals(this.timing, other.timing)
+                && Utils.enhancedDeepEquals(this.authContext, other.authContext);
     }
 
     @Override
@@ -596,7 +637,8 @@ public class Assessment {
                 updatedAt,
                 expiresAt,
                 assessmentUrl,
-                timing);
+                timing,
+                authContext);
     }
 
     @Override
@@ -638,7 +680,9 @@ public class Assessment {
                 "assessmentUrl",
                 assessmentUrl,
                 "timing",
-                timing);
+                timing,
+                "authContext",
+                authContext);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -675,6 +719,8 @@ public class Assessment {
         private String assessmentUrl;
 
         private AssessmentTiming timing;
+
+        private AssessmentAuthContext authContext;
 
         private Builder() {
             // force use of static builder() method
@@ -832,6 +878,19 @@ public class Assessment {
             return this;
         }
 
+        /**
+         * The identity fields of the auth context the assessment was made with, echoed for the tenant's own
+         * correlation: the request's auth_context, or the one a hosted provider hook (POST
+         * /hooks/{integration_id}) built, with transport provider_hook and its hook_point. Present exactly
+         * when the request carried an auth_context, and the same on every revision of the assessment. Values
+         * are as the request or the hook sent them; tokens, timestamps, roles and scopes are not echoed, and
+         * the echo does not change the score.
+         */
+        public Builder authContext(@Nullable AssessmentAuthContext authContext) {
+            this.authContext = authContext;
+            return this;
+        }
+
         public Assessment build() {
             return new Assessment(
                     assessmentId,
@@ -849,7 +908,8 @@ public class Assessment {
                     updatedAt,
                     expiresAt,
                     assessmentUrl,
-                    timing);
+                    timing,
+                    authContext);
         }
 
         private static final LazySingletonValue<String> _SINGLETON_VALUE_SchemaVersion =

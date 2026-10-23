@@ -149,18 +149,15 @@ public class AuthContext {
     private Boolean impersonated;
 
     /**
-     * Where this context was derived. Backend is the trusted integration path; browser values are treated
-     * as weak hints. provider_hook is a hosted provider hook (an Auth0 or WorkOS Action) calling at
-     * hook_point; it needs hook_point and verified false, and its authentication facts are not scored.
+     * Where the context was derived: backend (also when the request named no transport), browser, or
+     * provider_hook for a hosted provider hook.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("transport")
     private Transport transport;
 
     /**
-     * The provider event a provider_hook context was sent for. pre_registration runs before the user
-     * exists, so subject and the request's account_id may be absent there. Sent only with transport
-     * provider_hook.
+     * The provider event a provider_hook context was sent for; absent for any other transport.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("hook_point")
@@ -409,18 +406,15 @@ public class AuthContext {
     }
 
     /**
-     * Where this context was derived. Backend is the trusted integration path; browser values are treated
-     * as weak hints. provider_hook is a hosted provider hook (an Auth0 or WorkOS Action) calling at
-     * hook_point; it needs hook_point and verified false, and its authentication facts are not scored.
+     * Where the context was derived: backend (also when the request named no transport), browser, or
+     * provider_hook for a hosted provider hook.
      */
     public Optional<Transport> transport() {
         return Optional.ofNullable(this.transport);
     }
 
     /**
-     * The provider event a provider_hook context was sent for. pre_registration runs before the user
-     * exists, so subject and the request's account_id may be absent there. Sent only with transport
-     * provider_hook.
+     * The provider event a provider_hook context was sent for; absent for any other transport.
      */
     public Optional<HookPoint> hookPoint() {
         return Optional.ofNullable(this.hookPoint);
@@ -609,9 +603,8 @@ public class AuthContext {
     }
 
     /**
-     * Where this context was derived. Backend is the trusted integration path; browser values are treated
-     * as weak hints. provider_hook is a hosted provider hook (an Auth0 or WorkOS Action) calling at
-     * hook_point; it needs hook_point and verified false, and its authentication facts are not scored.
+     * Where the context was derived: backend (also when the request named no transport), browser, or
+     * provider_hook for a hosted provider hook.
      */
     public AuthContext withTransport(@Nullable Transport transport) {
         this.transport = transport;
@@ -619,9 +612,7 @@ public class AuthContext {
     }
 
     /**
-     * The provider event a provider_hook context was sent for. pre_registration runs before the user
-     * exists, so subject and the request's account_id may be absent there. Sent only with transport
-     * provider_hook.
+     * The provider event a provider_hook context was sent for; absent for any other transport.
      */
     public AuthContext withHookPoint(@Nullable HookPoint hookPoint) {
         this.hookPoint = hookPoint;
@@ -984,9 +975,8 @@ public class AuthContext {
         }
 
         /**
-         * Where this context was derived. Backend is the trusted integration path; browser values are treated
-         * as weak hints. provider_hook is a hosted provider hook (an Auth0 or WorkOS Action) calling at
-         * hook_point; it needs hook_point and verified false, and its authentication facts are not scored.
+         * Where the context was derived: backend (also when the request named no transport), browser, or
+         * provider_hook for a hosted provider hook.
          */
         public Builder transport(@Nullable Transport transport) {
             this.transport = transport;
@@ -994,9 +984,7 @@ public class AuthContext {
         }
 
         /**
-         * The provider event a provider_hook context was sent for. pre_registration runs before the user
-         * exists, so subject and the request's account_id may be absent there. Sent only with transport
-         * provider_hook.
+         * The provider event a provider_hook context was sent for; absent for any other transport.
          */
         public Builder hookPoint(@Nullable HookPoint hookPoint) {
             this.hookPoint = hookPoint;

@@ -12,6 +12,7 @@ import java.util.Map;
  * GET /user_management/users/{id}/sessions and revokes each active one with
  * POST /user_management/sessions/revoke. WorkOS has no block or ban, so {@code ban} revokes the
  * sessions and then deletes the user (DELETE /user_management/users/{id}). Deletion is permanent.
+ * A 404 on any call (user or session already gone) counts as done, so a repeated delivery is safe.
  */
 public final class WorkOSActions implements LateResultProvider {
     public static final String DEFAULT_BASE_URL = "https://api.workos.com";
@@ -52,7 +53,7 @@ public final class WorkOSActions implements LateResultProvider {
             if (after != null) {
                 query.put("after", after);
             }
-            JsonNode body = caller.call("GET", "/user_management/users/" + user + "/sessions", query, null, false);
+            JsonNode body = caller.call("GET", "/user_management/users/" + user + "/sessions", query, null, true);
             active.addAll(ProviderCaller.activeIds(body, count));
             JsonNode next = body == null ? null : body.path("list_metadata").path("after");
             if (next == null || !next.isTextual() || next.asText().isEmpty()) {
@@ -63,7 +64,7 @@ public final class WorkOSActions implements LateResultProvider {
         for (String id : active) {
             Map<String, String> payload = new LinkedHashMap<>();
             payload.put("session_id", id);
-            caller.call("POST", "/user_management/sessions/revoke", null, payload, false);
+            caller.call("POST", "/user_management/sessions/revoke", null, payload, true);
         }
     }
 

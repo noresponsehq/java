@@ -8,7 +8,8 @@ import java.util.Map;
  * Auth0 Management API. {@code revokeSessions} deletes every session (DELETE /users/{id}/sessions)
  * and refresh token (DELETE /users/{id}/refresh-tokens). {@code ban} first sets blocked: true
  * (PATCH /users/{id}), then does the same. The token needs update:users, delete:sessions and
- * delete:refresh_tokens.
+ * delete:refresh_tokens. A 404 on any call (user already gone) counts as done, so a repeated
+ * delivery is safe.
  */
 public final class Auth0Actions implements LateResultProvider {
     private final ProviderCaller caller;
@@ -46,15 +47,15 @@ public final class Auth0Actions implements LateResultProvider {
     @Override
     public void revokeSessions(String userId) {
         String user = ProviderCaller.segment(userId);
-        caller.call("DELETE", "/users/" + user + "/sessions", null, null, false);
-        caller.call("DELETE", "/users/" + user + "/refresh-tokens", null, null, false);
+        caller.call("DELETE", "/users/" + user + "/sessions", null, null, true);
+        caller.call("DELETE", "/users/" + user + "/refresh-tokens", null, null, true);
     }
 
     @Override
     public void ban(String userId) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("blocked", true);
-        caller.call("PATCH", "/users/" + ProviderCaller.segment(userId), null, body, false);
+        caller.call("PATCH", "/users/" + ProviderCaller.segment(userId), null, body, true);
         revokeSessions(userId);
     }
 }

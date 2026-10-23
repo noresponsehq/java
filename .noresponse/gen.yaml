@@ -32,7 +32,7 @@ generation:
     generateNewTests: false
     skipResponseBodyAssertions: false
 java:
-  version: 2.0.19
+  version: 2.1.0
   additionalDependencies:
     - implementation:org.apache.httpcomponents.client5:httpclient5:5.4.2
   additionalPlugins: []
@@ -48,6 +48,7 @@ java:
   enableFormatting: true
   enableSlf4jLogging: true
   enableStreamingUploads: true
+  envVarPrefix: NORESPONSE
   explicitDocImports: true
   flattenGlobalSecurity: true
   forwardCompatibleEnumsByDefault: true

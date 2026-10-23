@@ -74,15 +74,11 @@ public class Retries {
             if (e instanceof ConnectException && retryConnectError) {
                 throw e;
             }
-            String message = e.getMessage();
-            if (message != null) {
-                if (message.contains("Connect timed out") && retryConnectError) {
-                    throw e;
-                }
-
-                if (message.contains("Read timed out") && retryReadTimeoutError) {
-                    throw e;
-                }
+            if (isConnectTimeout(e) && retryConnectError) {
+                throw e;
+            }
+            if (isReadTimeout(e) && retryReadTimeoutError) {
+                throw e;
             }
             throw new NonRetryableException(e);
         } catch (RetryableException e) {
@@ -90,6 +86,19 @@ public class Retries {
         } catch (Exception e) {
             throw new NonRetryableException(e);
         }
+    }
+
+    private static boolean isConnectTimeout(IOException e) {
+        if (e instanceof java.net.http.HttpConnectTimeoutException) return true;
+        String message = e.getMessage();
+        return message != null && message.toLowerCase(java.util.Locale.ENGLISH).contains("connect timed out");
+    }
+
+    private static boolean isReadTimeout(IOException e) {
+        if (isConnectTimeout(e)) return false;
+        if (e instanceof java.net.http.HttpTimeoutException) return true;
+        String message = e.getMessage();
+        return message != null && message.toLowerCase(java.util.Locale.ENGLISH).contains("read timed out");
     }
 
     private static long retryAfterMs(HttpResponse<InputStream> response) {

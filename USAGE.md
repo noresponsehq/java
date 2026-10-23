@@ -19,12 +19,12 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
                 .build();
 
         CreateAssessmentResponse res = sdk.assessments()
                 .create()
-                .idempotencyKey("<value>")
+                .idempotencyKey("signup-7f3a9c-0001")
                 .body(AssessmentRequest.builder()
                         .accountId("acct_7f3a9c")
                         .identifiers(AssessmentRequestIdentifiers.builder()

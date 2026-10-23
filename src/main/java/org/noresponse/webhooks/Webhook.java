@@ -11,9 +11,11 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -50,6 +52,7 @@ public final class Webhook {
      *
      * @param payload the raw request body
      * @param headers header name to values, in any letter case; each NR-Webhook-* header must appear exactly once
+     *     with a non-empty value
      * @param secrets each whk_ key id NoResponse gave you to its secret; hold both during a rotation
      * @throws VerificationException when the delivery must be refused
      */
@@ -102,13 +105,18 @@ public final class Webhook {
 
     private static Map<String, String> collect(Map<String, ? extends Collection<String>> headers) {
         Map<String, String> found = new HashMap<>();
+        Set<String> seen = new HashSet<>();
         for (Map.Entry<String, ? extends Collection<String>> header : headers.entrySet()) {
             String key = header.getKey().toLowerCase(Locale.ROOT);
             if (!REQUIRED.contains(key)) {
                 continue;
             }
+            boolean repeated = !seen.add(key);
             Collection<String> values = header.getValue();
-            if (values.size() != 1 || found.containsKey(key)) {
+            if (!repeated && (values == null || values.isEmpty())) {
+                continue;
+            }
+            if (repeated || values.size() != 1) {
                 throw new VerificationException(Code.DUPLICATE_HEADER, "Webhook header " + key + " is repeated");
             }
             found.put(key, values.iterator().next());
@@ -156,7 +164,9 @@ public final class Webhook {
             throw new VerificationException(Code.INVALID_PAYLOAD, "Webhook event envelope is malformed");
         }
         String type = body.path("type").asText();
-        return new WebhookEvent(headerId, type, body.path("created_at").asText(), data(mapper, type, data));
+        boolean test = body.path("test").isBoolean() && body.path("test").booleanValue()
+                && "assessment.updated".equals(type);
+        return new WebhookEvent(headerId, type, body.path("created_at").asText(), data(mapper, type, data), test);
     }
 
     private static Object data(ObjectMapper mapper, String type, JsonNode data) {

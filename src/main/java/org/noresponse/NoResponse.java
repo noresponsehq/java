@@ -92,6 +92,7 @@ public class NoResponse {
         private final SDKConfiguration sdkConfiguration = new SDKConfiguration();
         private String serverUrl;
         private String server;
+        private boolean securityConfigured;
 
         private Builder() {}
 
@@ -112,6 +113,7 @@ public class NoResponse {
          * @return The builder instance.
          */
         public Builder apiKey(String apiKey) {
+            this.securityConfigured = true;
             this.sdkConfiguration.setSecuritySource(
                     SecuritySource.of(
                             org.noresponse.models.shared.Security.builder()
@@ -128,6 +130,7 @@ public class NoResponse {
          */
         public Builder securitySource(SecuritySource securitySource) {
             Utils.checkNotNull(securitySource, "securitySource");
+            this.securityConfigured = true;
             this.sdkConfiguration.setSecuritySource(securitySource);
             return this;
         }
@@ -217,6 +220,16 @@ public class NoResponse {
                 sdkConfiguration.setServerIdx(0);
             }
             sdkConfiguration.setServerUrl(serverUrl);
+            if (!securityConfigured) {
+                String envSecurityValue = System.getenv("NORESPONSE_API_KEY");
+                if (envSecurityValue != null && !envSecurityValue.isEmpty()) {
+                    sdkConfiguration.setSecuritySource(
+                            SecuritySource.of(
+                                    org.noresponse.models.shared.Security.builder()
+                                            .apiKey(envSecurityValue)
+                                            .build()));
+                }
+            }
             return new NoResponse(sdkConfiguration);
         }
     }

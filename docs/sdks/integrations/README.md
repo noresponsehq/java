@@ -38,7 +38,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         IntegrationRequest req = IntegrationRequest.builder()
@@ -80,7 +80,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         IntegrationRequest req = IntegrationRequest.builder()
@@ -149,7 +149,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         ListIntegrationsResponse res = sdk.integrations().list()
@@ -203,7 +203,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         DeleteIntegrationResponse res = sdk.integrations().delete()
@@ -263,7 +263,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         RotateIntegrationSecretResponse res = sdk.integrations().rotate()
@@ -300,7 +300,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         RotateIntegrationSecretResponse res = sdk.integrations().rotate()

@@ -1,6 +1,7 @@
 package org.noresponse.lateresults;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -47,6 +48,11 @@ class LateResultsTest {
         final Map<String, List<String>> headers;
 
         Delivery(JsonNode data, String accountId) throws Exception {
+            this(data, accountId, false);
+        }
+
+        /** With test true, the body carries "test": true as a send-test-event delivery does. */
+        Delivery(JsonNode data, String accountId, boolean test) throws Exception {
             ObjectNode payload = data.deepCopy();
             if (accountId != null) {
                 payload.put("account_id", accountId);
@@ -55,6 +61,9 @@ class LateResultsTest {
             body.put("id", "evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ2");
             body.put("type", "assessment.updated");
             body.put("created_at", "2026-10-18T11:00:04Z");
+            if (test) {
+                body.put("test", true);
+            }
             body.set("data", payload);
             raw = MAPPER.writeValueAsBytes(body);
             Mac mac = Mac.getInstance("HmacSHA256");
@@ -368,6 +377,71 @@ class LateResultsTest {
             assertEquals("auth0", refused.provider());
             assertTrue(!refused.getMessage().contains("insufficient_scope") && !refused.getMessage().contains("mgmt_token"));
             assertEquals(1, mock.calls.size());
+        }
+    }
+
+    @Test
+    void aTestEventIsFlaggedAndMakesNoProviderCallEvenUnderABanPolicyWithAResolver() throws Exception {
+        JsonNode sample = fixture("valid/webhook-assessment-updated-test.json").path("data");
+        try (Mock mock = new Mock(c -> new Reply(200, "[]"))) {
+            ClerkActions clerk = new ClerkActions("sk_test_mock", mock.url() + "/v1", java.net.http.HttpClient.newHttpClient());
+            Delivery d = new Delivery(sample, null, true);
+            LateResultOptions options = LateResultOptions.builder().nowEpochSeconds(NOW)
+                    .policy(LateResultPolicy.fromWire(Map.of("step_up", "ban", "review", "ban", "allow", "ban")))
+                    .userId((accountId, event) -> "user_2EXAMPLE")
+                    .build();
+            LateResult result = LateResults.handleLateResult(d.raw, d.headers, SECRETS, clerk, options);
+            assertEquals(LateResultAction.NONE, result.action());
+            assertTrue(result.event().isTest());
+            assertTrue(result.userId().isEmpty());
+            assertEquals(0, mock.calls.size());
+
+            // The same body without the flag would ban, and an ordinary delivery is not a test.
+            Delivery real = new Delivery(sample, null, false);
+            assertFalse(Webhook.constructEvent(real.raw, real.headers, SECRETS, 300, NOW).isTest());
+            assertEquals(LateResultAction.BAN, LateResults.handleLateResult(real.raw, real.headers, SECRETS, clerk, options).action());
+        }
+    }
+
+    @Test
+    void aRepeatedBanAfterTheUserIsGoneCompletesAndA500StillThrows() throws Exception {
+        JsonNode review = fixture("valid/assessment-phone-uncovered-complete.json");
+        LateResultOptions ban = opts(LateResultPolicy.fromWire(Map.of("review", "ban")));
+        LateResultOptions revoke = opts();
+        // Every user-scoped endpoint answers 404: the user was deleted by the first delivery.
+        try (Mock mock = new Mock(c -> new Reply(404, "{\"message\":\"not found\"}"))) {
+            WorkOSActions workos = new WorkOSActions("sk_test_workos", mock.url(), java.net.http.HttpClient.newHttpClient());
+            ClerkActions clerk = new ClerkActions("sk_test_mock", mock.url() + "/v1", java.net.http.HttpClient.newHttpClient());
+            Auth0Actions auth0 = new Auth0Actions(null, mock.url() + "/api/v2", "mgmt_token", java.net.http.HttpClient.newHttpClient());
+            Delivery d = new Delivery(review, "user_GONE");
+            for (int i = 0; i < 2; i++) {
+                assertEquals(LateResultAction.BAN, LateResults.handleLateResult(d.raw, d.headers, SECRETS, workos, ban).action());
+                assertEquals(LateResultAction.BAN, LateResults.handleLateResult(d.raw, d.headers, SECRETS, clerk, ban).action());
+                assertEquals(LateResultAction.BAN, LateResults.handleLateResult(d.raw, d.headers, SECRETS, auth0, ban).action());
+                assertEquals(LateResultAction.REVOKE_SESSIONS,
+                        LateResults.handleLateResult(d.raw, d.headers, SECRETS, clerk, revoke).action());
+            }
+            assertTrue(mock.lines().contains("GET /user_management/users/user_GONE/sessions"));
+            assertTrue(mock.lines().contains("DELETE /user_management/users/user_GONE"));
+            assertTrue(mock.lines().contains("POST /v1/users/user_GONE/ban"));
+            assertTrue(mock.lines().contains("PATCH /api/v2/users/user_GONE"));
+            assertTrue(mock.lines().contains("DELETE /api/v2/users/user_GONE/refresh-tokens"));
+        }
+        // A session that vanished between the list and its revoke also counts as done.
+        try (Mock mock = new Mock(c -> c.method.equals("GET")
+                ? new Reply(200, "[{\"id\":\"sess_1\",\"status\":\"active\"}]") : new Reply(404, null))) {
+            ClerkActions clerk = new ClerkActions("sk_test_mock", mock.url() + "/v1", java.net.http.HttpClient.newHttpClient());
+            clerk.revokeSessions("user_2EXAMPLE");
+            assertEquals(List.of("GET /v1/sessions", "POST /v1/sessions/sess_1/revoke"), mock.lines());
+        }
+        try (Mock mock = new Mock(c -> new Reply(500, "{\"error\":\"boom\"}"))) {
+            WorkOSActions workos = new WorkOSActions("sk_test_workos", mock.url(), java.net.http.HttpClient.newHttpClient());
+            ClerkActions clerk = new ClerkActions("sk_test_mock", mock.url() + "/v1", java.net.http.HttpClient.newHttpClient());
+            Auth0Actions auth0 = new Auth0Actions(null, mock.url() + "/api/v2", "mgmt_token", java.net.http.HttpClient.newHttpClient());
+            for (LateResultProvider provider : new LateResultProvider[] {workos, clerk, auth0}) {
+                ProviderActionException failed = assertThrows(ProviderActionException.class, () -> provider.ban("user_X"));
+                assertEquals(500, failed.status());
+            }
         }
     }
 

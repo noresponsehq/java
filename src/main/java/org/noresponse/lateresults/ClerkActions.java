@@ -7,7 +7,8 @@ import java.util.List;
 /**
  * Clerk Backend API. {@code revokeSessions} lists the user's active sessions
  * (GET /sessions?user_id&amp;status=active) and revokes each (POST /sessions/{id}/revoke).
- * {@code ban} is POST /users/{id}/ban, which revokes every session and blocks sign-in.
+ * {@code ban} is POST /users/{id}/ban, which revokes every session and blocks sign-in. A 404 on
+ * any call (user or session already gone) counts as done, so a repeated delivery is safe.
  */
 public final class ClerkActions implements LateResultProvider {
     public static final String DEFAULT_BASE_URL = "https://api.clerk.com/v1";
@@ -45,18 +46,18 @@ public final class ClerkActions implements LateResultProvider {
         for (int offset = 0; offset < PAGE * 1000; offset += PAGE) {
             active.addAll(ProviderCaller.activeIds(caller.call("GET", "/sessions", ProviderCaller.query(
                     "user_id", userId, "status", "active", "limit", String.valueOf(PAGE),
-                    "offset", String.valueOf(offset)), null, false), count));
+                    "offset", String.valueOf(offset)), null, true), count));
             if (count[0] < PAGE) {
                 break;
             }
         }
         for (String id : active) {
-            caller.call("POST", "/sessions/" + ProviderCaller.encode(id) + "/revoke", null, null, false);
+            caller.call("POST", "/sessions/" + ProviderCaller.encode(id) + "/revoke", null, null, true);
         }
     }
 
     @Override
     public void ban(String userId) {
-        caller.call("POST", "/users/" + ProviderCaller.segment(userId) + "/ban", null, null, false);
+        caller.call("POST", "/users/" + ProviderCaller.segment(userId) + "/ban", null, null, true);
     }
 }

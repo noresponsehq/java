@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -123,6 +124,46 @@ class WebhookTest {
         Map<String, List<String>> malformed = headers(h);
         malformed.put("NR-Webhook-Signature", List.of("v2=abc"));
         refused(Code.INVALID_SIGNATURE, payload, malformed, secrets, NOW);
+    }
+
+    @Test
+    void aTestEventSaysSoAndARealOneDoesNot() throws Exception {
+        Map<String, String> secrets = Map.of("whk_sdktest01", "secret");
+        JsonNode sample = fixture("valid/webhook-assessment-updated-test.json");
+        byte[] body = raw(sample);
+        WebhookEvent event = Webhook.constructEvent(body,
+                signed(body, "secret", sample.path("id").asText(), "whk_sdktest01"), secrets, 300, NOW);
+        assertTrue(event.isTest());
+        assertTrue(event.assessment().isPresent());
+
+        JsonNode real = fixture("valid/webhook-assessment-updated.json");
+        byte[] realBody = raw(real);
+        assertFalse(Webhook.constructEvent(realBody,
+                signed(realBody, "secret", real.path("id").asText(), "whk_sdktest01"), secrets, 300, NOW).isTest());
+
+        JsonNode expired = fixture("valid/webhook-assessment-expired.json");
+        byte[] expiredBody = raw(expired);
+        assertFalse(Webhook.constructEvent(expiredBody,
+                signed(expiredBody, "secret", expired.path("id").asText(), "whk_sdktest01"), secrets, 300, NOW).isTest());
+    }
+
+    @Test
+    void emptyHeaderIsMissing() throws IOException {
+        JsonNode vector = fixture("webhook-signature-vector.json");
+        byte[] payload = vector.path("payload").asText().getBytes(StandardCharsets.UTF_8);
+        Map<String, String> secrets = Map.of(vector.path("key_id").asText(), vector.path("secret_utf8").asText());
+        for (String name : List.of("NR-Webhook-Id", "NR-Webhook-Timestamp", "NR-Webhook-Key-Id", "NR-Webhook-Signature")) {
+            Map<String, List<String>> noValues = headers(vectorHeaders(vector));
+            noValues.put(name, new ArrayList<>());
+            refused(Code.MISSING_HEADER, payload, noValues, secrets, NOW);
+            Map<String, List<String>> emptyValue = headers(vectorHeaders(vector));
+            emptyValue.put(name, List.of(""));
+            refused(Code.MISSING_HEADER, payload, emptyValue, secrets, NOW);
+            Map<String, List<String>> emptyThenReal = new LinkedHashMap<>();
+            emptyThenReal.put(name.toLowerCase(Locale.ROOT), new ArrayList<>());
+            emptyThenReal.putAll(headers(vectorHeaders(vector)));
+            refused(Code.DUPLICATE_HEADER, payload, emptyThenReal, secrets, NOW);
+        }
     }
 
     @Test

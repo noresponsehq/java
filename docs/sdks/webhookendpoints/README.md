@@ -37,7 +37,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         ListWebhookEndpointsResponse res = sdk.webhookEndpoints().list()
@@ -92,7 +92,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         WebhookEndpointRequest req = WebhookEndpointRequest.builder()
@@ -132,7 +132,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         WebhookEndpointRequest req = WebhookEndpointRequest.builder()
@@ -172,7 +172,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         WebhookEndpointRequest req = WebhookEndpointRequest.builder()
@@ -237,7 +237,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         DeleteWebhookEndpointResponse res = sdk.webhookEndpoints().delete()
@@ -297,7 +297,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         RotateWebhookSigningKeyResponse res = sdk.webhookEndpoints().rotateSigningKey()
@@ -334,7 +334,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         RotateWebhookSigningKeyResponse res = sdk.webhookEndpoints().rotateSigningKey()
@@ -400,7 +400,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         SendWebhookTestEventResponse res = sdk.webhookEndpoints().sendTestEvent()
@@ -439,7 +439,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("API_KEY", ""))
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
         SendWebhookTestEventResponse res = sdk.webhookEndpoints().sendTestEvent()
