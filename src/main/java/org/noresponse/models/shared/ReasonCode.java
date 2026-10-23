@@ -58,6 +58,7 @@ public class ReasonCode {
     public static final ReasonCode CONTEXT_LINE_COUNTRY_MISMATCH = new ReasonCode("context_line_country_mismatch");
     public static final ReasonCode PRIOR_ABUSE_LINK = new ReasonCode("prior_abuse_link");
     public static final ReasonCode TEST_SCENARIO = new ReasonCode("test_scenario");
+    public static final ReasonCode SHARED_API_KEY = new ReasonCode("shared_api_key");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -164,6 +165,7 @@ public class ReasonCode {
         map.put("context_line_country_mismatch", CONTEXT_LINE_COUNTRY_MISMATCH);
         map.put("prior_abuse_link", PRIOR_ABUSE_LINK);
         map.put("test_scenario", TEST_SCENARIO);
+        map.put("shared_api_key", SHARED_API_KEY);
         return map;
     }
 
@@ -205,6 +207,7 @@ public class ReasonCode {
         map.put("context_line_country_mismatch", ReasonCodeEnum.CONTEXT_LINE_COUNTRY_MISMATCH);
         map.put("prior_abuse_link", ReasonCodeEnum.PRIOR_ABUSE_LINK);
         map.put("test_scenario", ReasonCodeEnum.TEST_SCENARIO);
+        map.put("shared_api_key", ReasonCodeEnum.SHARED_API_KEY);
         return map;
     }
 
@@ -246,6 +249,7 @@ public class ReasonCode {
         CONTEXT_LINE_COUNTRY_MISMATCH("context_line_country_mismatch"),
         PRIOR_ABUSE_LINK("prior_abuse_link"),
         TEST_SCENARIO("test_scenario"),
+        SHARED_API_KEY("shared_api_key"),
         ;
 
         private final String value;

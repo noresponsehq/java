@@ -15,10 +15,10 @@ import org.noresponse.utils.Utils;
  * webhooks.
  *
  * <p>Assess a signup, login or purchase and get back the account's one current risk, poll a pending
- * assessment, page through an account's history, record what you later learned, rotate your API key,
- * manage your webhook endpoints, and register hosted endpoints that answer your WorkOS or Auth0
- * sign-up and sign-in hooks. Every response carries X-Request-ID; every error is an RFC 9457 problem
- * document.
+ * assessment, page through an account's history, record what you later learned, report usage of the
+ * API keys you issue to your accounts, rotate your API key, manage your webhook endpoints, and
+ * register hosted endpoints that answer your WorkOS or Auth0 sign-up and sign-in hooks. Every response
+ * carries X-Request-ID; every error is an RFC 9457 problem document.
  *
  * <p>Keep the API key on your server.
  */
@@ -44,6 +44,8 @@ public class NoResponse {
      * Your accounts, each with one current risk, and their assessment history.
      */
     private final Accounts accounts;
+
+    private final KeyUsage keyUsage;
 
     /**
      * Your own API keys.
@@ -72,6 +74,10 @@ public class NoResponse {
      */
     public Accounts accounts() {
         return accounts;
+    }
+
+    public KeyUsage keyUsage() {
+        return keyUsage;
     }
 
     /**
@@ -260,6 +266,7 @@ public class NoResponse {
         sdkConfiguration.initialize();
         this.assessments = new Assessments(sdkConfiguration);
         this.accounts = new Accounts(sdkConfiguration);
+        this.keyUsage = new KeyUsage(sdkConfiguration);
         this.keys = new Keys(sdkConfiguration);
         this.integrations = new Integrations(sdkConfiguration);
         this.webhookEndpoints = new WebhookEndpoints(sdkConfiguration);
