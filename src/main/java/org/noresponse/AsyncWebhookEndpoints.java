@@ -5,27 +5,37 @@ import static org.noresponse.operations.Operations.AsyncRequestlessOperation;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Long;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 import org.noresponse.models.operations.DeleteWebhookEndpointRequest;
+import org.noresponse.models.operations.ListWebhookDeliveriesRequest;
+import org.noresponse.models.operations.ReplayWebhookDeliveryRequest;
 import org.noresponse.models.operations.RotateWebhookSigningKeyRequest;
 import org.noresponse.models.operations.SendWebhookTestEventRequest;
 import org.noresponse.models.operations.async.CreateWebhookEndpointRequestBuilder;
 import org.noresponse.models.operations.async.CreateWebhookEndpointResponse;
 import org.noresponse.models.operations.async.DeleteWebhookEndpointRequestBuilder;
 import org.noresponse.models.operations.async.DeleteWebhookEndpointResponse;
+import org.noresponse.models.operations.async.ListWebhookDeliveriesRequestBuilder;
+import org.noresponse.models.operations.async.ListWebhookDeliveriesResponse;
 import org.noresponse.models.operations.async.ListWebhookEndpointsRequestBuilder;
 import org.noresponse.models.operations.async.ListWebhookEndpointsResponse;
+import org.noresponse.models.operations.async.ReplayWebhookDeliveryRequestBuilder;
+import org.noresponse.models.operations.async.ReplayWebhookDeliveryResponse;
 import org.noresponse.models.operations.async.RotateWebhookSigningKeyRequestBuilder;
 import org.noresponse.models.operations.async.RotateWebhookSigningKeyResponse;
 import org.noresponse.models.operations.async.SendWebhookTestEventRequestBuilder;
 import org.noresponse.models.operations.async.SendWebhookTestEventResponse;
 import org.noresponse.models.shared.WebhookEndpointRequest;
 import org.noresponse.models.shared.WebhookKeyRotationRequest;
+import org.noresponse.models.shared.WebhookReplayRequest;
 import org.noresponse.models.shared.WebhookTestRequest;
 import org.noresponse.operations.CreateWebhookEndpoint;
 import org.noresponse.operations.DeleteWebhookEndpoint;
+import org.noresponse.operations.ListWebhookDeliveries;
 import org.noresponse.operations.ListWebhookEndpoints;
+import org.noresponse.operations.ReplayWebhookDelivery;
 import org.noresponse.operations.RotateWebhookSigningKey;
 import org.noresponse.operations.SendWebhookTestEvent;
 import org.noresponse.utils.Headers;
@@ -257,6 +267,105 @@ public class AsyncWebhookEndpoints {
         SendWebhookTestEventRequest request = new SendWebhookTestEventRequest(endpointId, body);
         AsyncRequestOperation<SendWebhookTestEventRequest, SendWebhookTestEventResponse> operation =
                 new SendWebhookTestEvent.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * List an endpoint's delivery attempts.
+     *
+     * <p>Every POST the endpoint received, newest first: the event id and type, which attempt it was, whether
+     * it was a replay, delivered or failed, the response code, why it failed and how long it took.
+     * Attempts are kept for 30 days, or your retention_days when that is shorter, and are deleted with the
+     * assessment they carried. Requires the webhooks scope.
+     *
+     * <p>Read-only and safe to retry. The cursor is opaque and bound to your tenant and the endpoint; a
+     * tampered or expired cursor answers 400 invalid_cursor.
+     *
+     * @return The async call builder
+     */
+    public ListWebhookDeliveriesRequestBuilder listDeliveries() {
+        return new ListWebhookDeliveriesRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * List an endpoint's delivery attempts.
+     *
+     * <p>Every POST the endpoint received, newest first: the event id and type, which attempt it was, whether
+     * it was a replay, delivered or failed, the response code, why it failed and how long it took.
+     * Attempts are kept for 30 days, or your retention_days when that is shorter, and are deleted with the
+     * assessment they carried. Requires the webhooks scope.
+     *
+     * <p>Read-only and safe to retry. The cursor is opaque and bound to your tenant and the endpoint; a
+     * tampered or expired cursor answers 400 invalid_cursor.
+     *
+     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * @return {@code CompletableFuture<ListWebhookDeliveriesResponse>} - The async response
+     */
+    public CompletableFuture<ListWebhookDeliveriesResponse> listDeliveries(@Nonnull String endpointId) {
+        return listDeliveries(endpointId, null, null, null);
+    }
+
+    /**
+     * List an endpoint's delivery attempts.
+     *
+     * <p>Every POST the endpoint received, newest first: the event id and type, which attempt it was, whether
+     * it was a replay, delivered or failed, the response code, why it failed and how long it took.
+     * Attempts are kept for 30 days, or your retention_days when that is shorter, and are deleted with the
+     * assessment they carried. Requires the webhooks scope.
+     *
+     * <p>Read-only and safe to retry. The cursor is opaque and bound to your tenant and the endpoint; a
+     * tampered or expired cursor answers 400 invalid_cursor.
+     *
+     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * @param limit Attempts per page.
+     * @param cursor next_cursor from the previous page, unchanged.
+     * @param options additional options
+     * @return {@code CompletableFuture<ListWebhookDeliveriesResponse>} - The async response
+     */
+    public CompletableFuture<ListWebhookDeliveriesResponse> listDeliveries(
+            @Nonnull String endpointId, @Nullable Long limit, @Nullable String cursor, @Nullable Options options) {
+        ListWebhookDeliveriesRequest request = new ListWebhookDeliveriesRequest(endpointId, limit, cursor);
+        AsyncRequestOperation<ListWebhookDeliveriesRequest, ListWebhookDeliveriesResponse> operation =
+                new ListWebhookDeliveries.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Send one delivery again.
+     *
+     * <p>Queues the event for the endpoint again: the same event id and body it received, with a new
+     * NR-Webhook-Timestamp and a signature from the endpoint's current signing key, retried like any other
+     * delivery and listed with replay: true. Your receiver deduplicates on the event id. The endpoint must
+     * be verified.
+     *
+     * <p>Requires the webhooks scope. Not idempotent: each call, a retry included, sends the event again.
+     *
+     * @return The async call builder
+     */
+    public ReplayWebhookDeliveryRequestBuilder replayDelivery() {
+        return new ReplayWebhookDeliveryRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Send one delivery again.
+     *
+     * <p>Queues the event for the endpoint again: the same event id and body it received, with a new
+     * NR-Webhook-Timestamp and a signature from the endpoint's current signing key, retried like any other
+     * delivery and listed with replay: true. Your receiver deduplicates on the event id. The endpoint must
+     * be verified.
+     *
+     * <p>Requires the webhooks scope. Not idempotent: each call, a retry included, sends the event again.
+     *
+     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * @param eventId The evt_ id of a delivery the endpoint's log holds, as GET /v1/webhooks/{endpoint_id}/deliveries lists it. An id that is malformed, not sent to this endpoint, past the log's retention or another tenant's answers 404.
+     * @param body POST /v1/webhooks/{endpoint_id}/deliveries/{event_id}/replay body: an empty object.
+     * @return {@code CompletableFuture<ReplayWebhookDeliveryResponse>} - The async response
+     */
+    public CompletableFuture<ReplayWebhookDeliveryResponse> replayDelivery(
+            @Nonnull String endpointId, @Nonnull String eventId, @Nonnull WebhookReplayRequest body) {
+        ReplayWebhookDeliveryRequest request = new ReplayWebhookDeliveryRequest(endpointId, eventId, body);
+        AsyncRequestOperation<ReplayWebhookDeliveryRequest, ReplayWebhookDeliveryResponse> operation =
+                new ReplayWebhookDelivery.Async(sdkConfiguration, _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 }

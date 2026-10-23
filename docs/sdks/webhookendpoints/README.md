@@ -11,6 +11,8 @@ Your webhook endpoints: register, list, rotate signing keys, send test events an
 * [delete](#delete) - Delete a webhook endpoint.
 * [rotateSigningKey](#rotatesigningkey) - Rotate an endpoint's signing key.
 * [sendTestEvent](#sendtestevent) - Send a test event to an endpoint.
+* [listDeliveries](#listdeliveries) - List an endpoint's delivery attempts.
+* [replayDelivery](#replaydelivery) - Send one delivery again.
 
 ## list
 
@@ -466,6 +468,176 @@ public class Application {
 ### Response
 
 **[SendWebhookTestEventResponse](../../models/operations/SendWebhookTestEventResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## listDeliveries
+
+Every POST the endpoint received, newest first: the event id and type, which attempt it was, whether it was a replay, delivered or failed, the response code, why it failed and how long it took. Attempts are kept for 30 days, or your retention_days when that is shorter, and are deleted with the assessment they carried. Requires the webhooks scope. Read-only and safe to retry. The cursor is opaque and bound to your tenant and the endpoint; a tampered or expired cursor answers 400 invalid_cursor.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="listWebhookDeliveries" method="get" path="/v1/webhooks/{endpoint_id}/deliveries" example="attempts" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.ListWebhookDeliveriesResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+
+        sdk.webhookEndpoints().listDeliveries()
+                .endpointId("whe_01JA2ZD0E1F2G3H4J5K6M7N8P9")
+                .limit(20L)
+                .callAsStream()
+                .forEach((ListWebhookDeliveriesResponse item) -> {
+                   // handle page
+                });
+
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                 | Type                                                                                      | Required                                                                                  | Description                                                                               | Example                                                                                   |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `endpointId`                                                                              | *String*                                                                                  | :heavy_check_mark:                                                                        | The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404. | whe_01JA2ZD0E1F2G3H4J5K6M7N8P9                                                            |
+| `limit`                                                                                   | @Nullable *long*                                                                          | :heavy_minus_sign:                                                                        | Attempts per page.                                                                        |                                                                                           |
+| `cursor`                                                                                  | @Nullable *String*                                                                        | :heavy_minus_sign:                                                                        | next_cursor from the previous page, unchanged.                                            |                                                                                           |
+
+### Response
+
+**[ListWebhookDeliveriesResponse](../../models/operations/ListWebhookDeliveriesResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## replayDelivery
+
+Queues the event for the endpoint again: the same event id and body it received, with a new NR-Webhook-Timestamp and a signature from the endpoint's current signing key, retried like any other delivery and listed with replay: true. Your receiver deduplicates on the event id. The endpoint must be verified. Requires the webhooks scope. Not idempotent: each call, a retry included, sends the event again.
+
+### Example Usage: empty
+
+<!-- UsageSnippet language="java" operationID="replayWebhookDelivery" method="post" path="/v1/webhooks/{endpoint_id}/deliveries/{event_id}/replay" example="empty" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.ReplayWebhookDeliveryResponse;
+import org.noresponse.models.shared.WebhookReplayRequest;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        ReplayWebhookDeliveryResponse res = sdk.webhookEndpoints().replayDelivery()
+                .endpointId("whe_01JA2ZD0E1F2G3H4J5K6M7N8P9")
+                .eventId("evt_01JA2ZD3K4M5N6P7Q8R9S0T1V2")
+                .body(WebhookReplayRequest.builder()
+                    .build())
+                .call();
+
+        if (res.webhookReplay().isPresent()) {
+            System.out.println(res.webhookReplay().get());
+        }
+    }
+}
+```
+### Example Usage: replay
+
+<!-- UsageSnippet language="java" operationID="replayWebhookDelivery" method="post" path="/v1/webhooks/{endpoint_id}/deliveries/{event_id}/replay" example="replay" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.ReplayWebhookDeliveryResponse;
+import org.noresponse.models.shared.WebhookReplayRequest;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        ReplayWebhookDeliveryResponse res = sdk.webhookEndpoints().replayDelivery()
+                .endpointId("whe_01JA2ZD0E1F2G3H4J5K6M7N8P9")
+                .eventId("evt_01JA2ZD3K4M5N6P7Q8R9S0T1V2")
+                .body(WebhookReplayRequest.builder()
+                    .build())
+                .call();
+
+        if (res.webhookReplay().isPresent()) {
+            System.out.println(res.webhookReplay().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                                | Type                                                                                                                                                                                                                     | Required                                                                                                                                                                                                                 | Description                                                                                                                                                                                                              | Example                                                                                                                                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `endpointId`                                                                                                                                                                                                             | *String*                                                                                                                                                                                                                 | :heavy_check_mark:                                                                                                                                                                                                       | The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.                                                                                                                                | whe_01JA2ZD0E1F2G3H4J5K6M7N8P9                                                                                                                                                                                           |
+| `eventId`                                                                                                                                                                                                                | *String*                                                                                                                                                                                                                 | :heavy_check_mark:                                                                                                                                                                                                       | The evt_ id of a delivery the endpoint's log holds, as GET /v1/webhooks/{endpoint_id}/deliveries lists it. An id that is malformed, not sent to this endpoint, past the log's retention or another tenant's answers 404. | evt_01JA2ZD3K4M5N6P7Q8R9S0T1V2                                                                                                                                                                                           |
+| `body`                                                                                                                                                                                                                   | [WebhookReplayRequest](../../models/shared/WebhookReplayRequest.md)                                                                                                                                                      | :heavy_check_mark:                                                                                                                                                                                                       | N/A                                                                                                                                                                                                                      |                                                                                                                                                                                                                          |
+
+### Response
+
+**[ReplayWebhookDeliveryResponse](../../models/operations/ReplayWebhookDeliveryResponse.md)**
 
 ### Errors
 
