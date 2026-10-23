@@ -57,6 +57,7 @@ public class ReasonCode {
     public static final ReasonCode CONTEXT_LOCALE_MISMATCH = new ReasonCode("context_locale_mismatch");
     public static final ReasonCode CONTEXT_LINE_COUNTRY_MISMATCH = new ReasonCode("context_line_country_mismatch");
     public static final ReasonCode PRIOR_ABUSE_LINK = new ReasonCode("prior_abuse_link");
+    public static final ReasonCode TEST_SCENARIO = new ReasonCode("test_scenario");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -162,6 +163,7 @@ public class ReasonCode {
         map.put("context_locale_mismatch", CONTEXT_LOCALE_MISMATCH);
         map.put("context_line_country_mismatch", CONTEXT_LINE_COUNTRY_MISMATCH);
         map.put("prior_abuse_link", PRIOR_ABUSE_LINK);
+        map.put("test_scenario", TEST_SCENARIO);
         return map;
     }
 
@@ -202,6 +204,7 @@ public class ReasonCode {
         map.put("context_locale_mismatch", ReasonCodeEnum.CONTEXT_LOCALE_MISMATCH);
         map.put("context_line_country_mismatch", ReasonCodeEnum.CONTEXT_LINE_COUNTRY_MISMATCH);
         map.put("prior_abuse_link", ReasonCodeEnum.PRIOR_ABUSE_LINK);
+        map.put("test_scenario", ReasonCodeEnum.TEST_SCENARIO);
         return map;
     }
 
@@ -242,6 +245,7 @@ public class ReasonCode {
         CONTEXT_LOCALE_MISMATCH("context_locale_mismatch"),
         CONTEXT_LINE_COUNTRY_MISMATCH("context_line_country_mismatch"),
         PRIOR_ABUSE_LINK("prior_abuse_link"),
+        TEST_SCENARIO("test_scenario"),
         ;
 
         private final String value;

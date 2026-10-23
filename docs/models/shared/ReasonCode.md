@@ -53,3 +53,4 @@ ReasonCode custom = ReasonCode.of("custom_value");
 | `CONTEXT_LOCALE_MISMATCH`       | context_locale_mismatch         |
 | `CONTEXT_LINE_COUNTRY_MISMATCH` | context_line_country_mismatch   |
 | `PRIOR_ABUSE_LINK`              | prior_abuse_link                |
+| `TEST_SCENARIO`                 | test_scenario                   |
