@@ -75,6 +75,19 @@ class AuthTest {
     }
 
     @Test
+    void dateAndInstantClaimsAreEpochSeconds() throws IOException {
+        // Nimbus and jjwt hand back exp, iat and nbf as java.util.Date.
+        Map<String, Object> claims = new java.util.HashMap<>();
+        claims.put("iss", "https://issuer.example.com");
+        claims.put("sub", "user_1");
+        claims.put("iat", new java.util.Date(1700000000000L));
+        claims.put("exp", java.time.Instant.ofEpochSecond(1700003600L));
+        JsonNode got = MAPPER.readTree(JSON.getMapper().writeValueAsString(Auth.fromOIDC("acme", claims, null)));
+        assertEquals("2023-11-14T22:13:20Z", got.path("issued_at").asText(), got.toString());
+        assertEquals("2023-11-14T23:13:20Z", got.path("expires_at").asText(), got.toString());
+    }
+
+    @Test
     void embeddedClaimMapIsTheContractMap() throws IOException {
         ObjectNode table = (ObjectNode) fixture("auth-context-claim-map.json");
         table.remove("description");
