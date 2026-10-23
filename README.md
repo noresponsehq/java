@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v2.1.5'
+    implementation 'com.github.noresponsehq:java:v2.1.6'
 }
 ```
 
@@ -34,7 +34,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v2.1.5</version>
+  <version>v2.1.6</version>
 </dependency>
 ```
 
@@ -219,6 +219,8 @@ LateResult result = LateResults.handleLateResult(rawBody, headers, secrets,
 ```
 
 A provider refusal throws `ProviderActionException`; answer 5xx so NoResponse retries. WorkOS has no block, so its `ban` deletes the user permanently.
+
+If your app has its own login, `new LogOnlyActions()` logs what it would revoke or ban (at INFO on the `org.noresponse.lateresults` `System.Logger`, or pass a `Consumer<String>`) and calls nothing. Use it to try the handler, then implement `LateResultProvider` yourself: `name()`, `revokeSessions(userId)` and `ban(userId)`.
 
 ## Renamed since 2.0.0
 

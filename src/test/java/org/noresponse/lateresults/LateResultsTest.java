@@ -453,4 +453,27 @@ class LateResultsTest {
         assertThrows(IllegalArgumentException.class, () -> new WorkOSActions(null));
         assertThrows(IllegalArgumentException.class, () -> new Auth0Actions(null, "token"));
     }
+
+    @Test
+    void logOnlyActionsLogWhatTheyWouldRevokeOrBanAndCallNothing() throws Exception {
+        JsonNode review = fixture("valid/assessment-phone-uncovered-complete.json");
+        List<String> lines = new ArrayList<>();
+        LogOnlyActions logOnly = new LogOnlyActions(lines::add);
+        assertEquals("log_only", logOnly.name());
+        Delivery d = new Delivery(review, "usr_8f2k1");
+        LateResult revoked = LateResults.handleLateResult(d.raw, d.headers, SECRETS, logOnly, opts());
+        assertEquals(LateResultAction.REVOKE_SESSIONS, revoked.action());
+        assertEquals("usr_8f2k1", revoked.userId().orElseThrow());
+        LateResult banned = LateResults.handleLateResult(d.raw, d.headers, SECRETS, logOnly,
+                opts(LateResultPolicy.fromWire(Map.of("review", "ban"))));
+        assertEquals(LateResultAction.BAN, banned.action());
+        assertEquals(List.of(
+                "NoResponse late result (log only): would revoke every session of user usr_8f2k1",
+                "NoResponse late result (log only): would ban user usr_8f2k1 and end their sessions"), lines);
+        Delivery test = new Delivery(review, "usr_8f2k1", true);
+        assertEquals(LateResultAction.NONE, LateResults.handleLateResult(test.raw, test.headers, SECRETS, logOnly, opts()).action());
+        assertEquals(2, lines.size());
+        assertThrows(IllegalArgumentException.class, () -> logOnly.ban(""));
+        new LogOnlyActions().revokeSessions("usr_8f2k1");
+    }
 }
