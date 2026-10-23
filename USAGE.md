@@ -11,6 +11,7 @@ import org.noresponse.models.errors.NotFoundException;
 import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
+import org.noresponse.models.shared.AssessmentFlow;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
 
@@ -30,6 +31,7 @@ public class Application {
                         .identifiers(AssessmentRequestIdentifiers.builder()
                                 .email("new.user@example.com")
                                 .build())
+                        .flow(AssessmentFlow.SIGNUP)
                         .build())
                 .call();
 

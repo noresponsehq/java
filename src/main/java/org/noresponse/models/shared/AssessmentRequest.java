@@ -43,6 +43,25 @@ public class AssessmentRequest {
     private String accountId;
 
     /**
+     * The customer event an assessment is made for: signup (a new account), login (a returning sign-in) or
+     * purchase (a payment or credit grant). The account's risk is reported with the decision for this
+     * flow.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("flow")
+    private AssessmentFlow flow;
+
+    /**
+     * How long the synchronous answer waits for sources. quick waits only for the fast sources, those that
+     * answer within 500 ms of ingress (or deadline_ms when lower); full waits for the whole budget, up to
+     * 3000 ms. Sources still running at the cut continue asynchronously and update the assessment either
+     * way.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("depth")
+    private Depth depth;
+
+    /**
      * At least one of email, username or phone. name and ip refine the match and travel beside a lookup
      * identifier; a body with only name or ip is refused with 400.
      */
@@ -109,6 +128,8 @@ public class AssessmentRequest {
     @JsonCreator
     public AssessmentRequest(
             @JsonProperty("account_id") @Nonnull String accountId,
+            @JsonProperty("flow") @Nullable AssessmentFlow flow,
+            @JsonProperty("depth") @Nullable Depth depth,
             @JsonProperty("identifiers") @Nonnull AssessmentRequestIdentifiers identifiers,
             @JsonProperty("policy_context") @Nullable AssessmentRequestPolicyContext policyContext,
             @JsonProperty("request_id") @Nullable String requestId,
@@ -119,6 +140,8 @@ public class AssessmentRequest {
             @JsonProperty("issued_credential") @Nullable AssessmentRequestIssuedCredential issuedCredential) {
         this.accountId = Optional.ofNullable(accountId)
                 .orElseThrow(() -> new IllegalArgumentException("accountId cannot be null"));
+        this.flow = flow;
+        this.depth = depth;
         this.identifiers = Optional.ofNullable(identifiers)
                 .orElseThrow(() -> new IllegalArgumentException("identifiers cannot be null"));
         this.policyContext = policyContext;
@@ -131,7 +154,7 @@ public class AssessmentRequest {
     }
 
     public AssessmentRequest(@Nonnull String accountId, @Nonnull AssessmentRequestIdentifiers identifiers) {
-        this(accountId, identifiers, null, null, null, null, null, null, null);
+        this(accountId, null, null, identifiers, null, null, null, null, null, null, null);
     }
 
     /**
@@ -148,6 +171,25 @@ public class AssessmentRequest {
      */
     public String accountId() {
         return this.accountId;
+    }
+
+    /**
+     * The customer event an assessment is made for: signup (a new account), login (a returning sign-in) or
+     * purchase (a payment or credit grant). The account's risk is reported with the decision for this
+     * flow.
+     */
+    public Optional<AssessmentFlow> flow() {
+        return Optional.ofNullable(this.flow);
+    }
+
+    /**
+     * How long the synchronous answer waits for sources. quick waits only for the fast sources, those that
+     * answer within 500 ms of ingress (or deadline_ms when lower); full waits for the whole budget, up to
+     * 3000 ms. Sources still running at the cut continue asynchronously and update the assessment either
+     * way.
+     */
+    public Optional<Depth> depth() {
+        return Optional.ofNullable(this.depth);
     }
 
     /**
@@ -237,6 +279,27 @@ public class AssessmentRequest {
     }
 
     /**
+     * The customer event an assessment is made for: signup (a new account), login (a returning sign-in) or
+     * purchase (a payment or credit grant). The account's risk is reported with the decision for this
+     * flow.
+     */
+    public AssessmentRequest withFlow(@Nullable AssessmentFlow flow) {
+        this.flow = flow;
+        return this;
+    }
+
+    /**
+     * How long the synchronous answer waits for sources. quick waits only for the fast sources, those that
+     * answer within 500 ms of ingress (or deadline_ms when lower); full waits for the whole budget, up to
+     * 3000 ms. Sources still running at the cut continue asynchronously and update the assessment either
+     * way.
+     */
+    public AssessmentRequest withDepth(@Nullable Depth depth) {
+        this.depth = depth;
+        return this;
+    }
+
+    /**
      * At least one of email, username or phone. name and ip refine the match and travel beside a lookup
      * identifier; a body with only name or ip is refused with 400.
      */
@@ -319,6 +382,8 @@ public class AssessmentRequest {
         }
         AssessmentRequest other = (AssessmentRequest) o;
         return Utils.enhancedDeepEquals(this.accountId, other.accountId)
+                && Utils.enhancedDeepEquals(this.flow, other.flow)
+                && Utils.enhancedDeepEquals(this.depth, other.depth)
                 && Utils.enhancedDeepEquals(this.identifiers, other.identifiers)
                 && Utils.enhancedDeepEquals(this.policyContext, other.policyContext)
                 && Utils.enhancedDeepEquals(this.requestId, other.requestId)
@@ -333,6 +398,8 @@ public class AssessmentRequest {
     public int hashCode() {
         return Utils.enhancedHash(
                 accountId,
+                flow,
+                depth,
                 identifiers,
                 policyContext,
                 requestId,
@@ -349,6 +416,10 @@ public class AssessmentRequest {
                 AssessmentRequest.class,
                 "accountId",
                 accountId,
+                "flow",
+                flow,
+                "depth",
+                depth,
                 "identifiers",
                 identifiers,
                 "policyContext",
@@ -371,6 +442,10 @@ public class AssessmentRequest {
     public static final class Builder {
 
         private String accountId;
+
+        private AssessmentFlow flow;
+
+        private Depth depth;
 
         private AssessmentRequestIdentifiers identifiers;
 
@@ -406,6 +481,27 @@ public class AssessmentRequest {
          */
         public Builder accountId(@Nonnull String accountId) {
             this.accountId = Utils.checkNotNull(accountId, "accountId");
+            return this;
+        }
+
+        /**
+         * The customer event an assessment is made for: signup (a new account), login (a returning sign-in) or
+         * purchase (a payment or credit grant). The account's risk is reported with the decision for this
+         * flow.
+         */
+        public Builder flow(@Nullable AssessmentFlow flow) {
+            this.flow = flow;
+            return this;
+        }
+
+        /**
+         * How long the synchronous answer waits for sources. quick waits only for the fast sources, those that
+         * answer within 500 ms of ingress (or deadline_ms when lower); full waits for the whole budget, up to
+         * 3000 ms. Sources still running at the cut continue asynchronously and update the assessment either
+         * way.
+         */
+        public Builder depth(@Nullable Depth depth) {
+            this.depth = depth;
             return this;
         }
 
@@ -485,6 +581,8 @@ public class AssessmentRequest {
         public AssessmentRequest build() {
             return new AssessmentRequest(
                     accountId,
+                    flow,
+                    depth,
                     identifiers,
                     policyContext,
                     requestId,

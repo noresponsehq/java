@@ -218,10 +218,10 @@ import org.noresponse.models.errors.NotFoundException;
 import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
+import org.noresponse.models.shared.AssessmentFlow;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
 import org.noresponse.models.shared.AssessmentRequestPolicyContext;
-import org.noresponse.models.shared.Flow;
 
 public class Application {
 
@@ -240,8 +240,8 @@ public class Application {
                         .username("new_user_42")
                         .phone("+447700900123")
                         .build())
+                    .flow(AssessmentFlow.SIGNUP)
                     .policyContext(AssessmentRequestPolicyContext.builder()
-                        .flow(Flow.SIGNUP)
                         .region("GB")
                         .build())
                     .requestId("req-2026-10-14-0001")
@@ -270,6 +270,7 @@ import org.noresponse.models.errors.NotFoundException;
 import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
+import org.noresponse.models.shared.AssessmentFlow;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
 
@@ -288,6 +289,7 @@ public class Application {
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .build())
+                    .flow(AssessmentFlow.SIGNUP)
                     .build())
                 .call();
 
@@ -312,10 +314,10 @@ import org.noresponse.models.errors.NotFoundException;
 import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
+import org.noresponse.models.shared.AssessmentFlow;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
 import org.noresponse.models.shared.AssessmentRequestPolicyContext;
-import org.noresponse.models.shared.Flow;
 import org.noresponse.models.shared.ResponseMode;
 
 public class Application {
@@ -337,8 +339,8 @@ public class Application {
                         .name("Jane A. Doe")
                         .ip("73.162.18.45")
                         .build())
+                    .flow(AssessmentFlow.SIGNUP)
                     .policyContext(AssessmentRequestPolicyContext.builder()
-                        .flow(Flow.SIGNUP)
                         .region("US")
                         .build())
                     .requestId("req_01")

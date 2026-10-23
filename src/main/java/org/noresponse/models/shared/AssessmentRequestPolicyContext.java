@@ -12,7 +12,8 @@ import org.noresponse.utils.Utils;
 
 public class AssessmentRequestPolicyContext {
     /**
-     * The provider flow the assessment gates. Absent means signup.
+     * The provider flow the assessment gates. Use the top-level flow instead; this member is ignored when
+     * the top-level flow is present. Absent means signup.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("flow")
@@ -37,7 +38,8 @@ public class AssessmentRequestPolicyContext {
     }
 
     /**
-     * The provider flow the assessment gates. Absent means signup.
+     * The provider flow the assessment gates. Use the top-level flow instead; this member is ignored when
+     * the top-level flow is present. Absent means signup.
      */
     public Optional<Flow> flow() {
         return Optional.ofNullable(this.flow);
@@ -55,7 +57,8 @@ public class AssessmentRequestPolicyContext {
     }
 
     /**
-     * The provider flow the assessment gates. Absent means signup.
+     * The provider flow the assessment gates. Use the top-level flow instead; this member is ignored when
+     * the top-level flow is present. Absent means signup.
      */
     public AssessmentRequestPolicyContext withFlow(@Nullable Flow flow) {
         this.flow = flow;
@@ -104,7 +107,8 @@ public class AssessmentRequestPolicyContext {
         }
 
         /**
-         * The provider flow the assessment gates. Absent means signup.
+         * The provider flow the assessment gates. Use the top-level flow instead; this member is ignored when
+         * the top-level flow is present. Absent means signup.
          */
         public Builder flow(@Nullable Flow flow) {
             this.flow = flow;
