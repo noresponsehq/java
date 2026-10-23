@@ -193,7 +193,7 @@ public final class Webhook {
             }
             return new AccountDeleted(accountId.asText(), deleted.asLong(), deletedAt.asText());
         }
-        if ("tenant.deleted".equals(type)) {
+        if ("workspace.deleted".equals(type)) {
             JsonNode workspaceId = data.path("workspace_id");
             JsonNode environment = data.path("environment");
             JsonNode deletedAt = data.path("deleted_at");
@@ -201,9 +201,9 @@ public final class Webhook {
                     || !environment.isTextual()
                     || !("live".equals(environment.asText()) || "test".equals(environment.asText()))
                     || !deletedAt.isTextual() || !validDateTime(deletedAt.asText())) {
-                throw new VerificationException(Code.INVALID_PAYLOAD, "Tenant deleted event is malformed");
+                throw new VerificationException(Code.INVALID_PAYLOAD, "Workspace deleted event is malformed");
             }
-            return new TenantDeleted(workspaceId.asText(), environment.asText(), deletedAt.asText());
+            return new WorkspaceDeleted(workspaceId.asText(), environment.asText(), deletedAt.asText());
         }
         if ("webhook_endpoint.disabled".equals(type)) {
             JsonNode endpointId = data.path("endpoint_id");
@@ -252,7 +252,7 @@ public final class Webhook {
         try {
             Account parsed = mapper.treeToValue(account, Account.class);
             AccountDecisionsByFlow before = mapper.treeToValue(previous, AccountDecisionsByFlow.class);
-            if (parsed == null || before == null || parsed.risk().reasons() == null || before.signup() == null
+            if (parsed == null || before == null || parsed.risk().reasons() == null || before.accountCreation() == null
                     || before.login() == null || before.purchase() == null) {
                 throw new VerificationException(Code.INVALID_PAYLOAD, "Account risk changed event is malformed");
             }

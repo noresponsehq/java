@@ -19,7 +19,7 @@ public class RecordAssessmentOutcomeRequest {
 
     /**
      * Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the
-     * tenant principal and bound to the canonical body for 24 hours.
+     * workspace principal and bound to the canonical body for 24 hours.
      */
     @NoResponseMetadata("header:style=simple,explode=false,name=Idempotency-Key")
     private String idempotencyKey;
@@ -47,7 +47,7 @@ public class RecordAssessmentOutcomeRequest {
 
     /**
      * Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the
-     * tenant principal and bound to the canonical body for 24 hours.
+     * workspace principal and bound to the canonical body for 24 hours.
      */
     public String idempotencyKey() {
         return this.idempotencyKey;
@@ -72,7 +72,7 @@ public class RecordAssessmentOutcomeRequest {
 
     /**
      * Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the
-     * tenant principal and bound to the canonical body for 24 hours.
+     * workspace principal and bound to the canonical body for 24 hours.
      */
     public RecordAssessmentOutcomeRequest withIdempotencyKey(@Nonnull String idempotencyKey) {
         this.idempotencyKey = Utils.checkNotNull(idempotencyKey, "idempotencyKey");
@@ -139,7 +139,7 @@ public class RecordAssessmentOutcomeRequest {
 
         /**
          * Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the
-         * tenant principal and bound to the canonical body for 24 hours.
+         * workspace principal and bound to the canonical body for 24 hours.
          */
         public Builder idempotencyKey(@Nonnull String idempotencyKey) {
             this.idempotencyKey = Utils.checkNotNull(idempotencyKey, "idempotencyKey");

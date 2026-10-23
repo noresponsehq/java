@@ -32,7 +32,7 @@ import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 
 /**
- * Signup and gateway assessments.
+ * Assessments of account creation, login and purchase.
  */
 public class Assessments {
     private static final Headers _headers = Headers.EMPTY;
@@ -56,12 +56,12 @@ public class Assessments {
     /**
      * Assess identifiers for a signup or gateway decision.
      *
-     * <p>Assesses one signup, login or purchase (flow) and answers with the account's one current risk:
-     * account.risk.decision is the decision for this flow (allow, step_up, review or block, where block
-     * means your block threshold was reached), and detail holds this assessment's own facts. depth sets
-     * how long the answer waits for sources: quick waits only for the fast ones (500 ms), full for the
-     * whole budget (3000 ms at most); it defaults to full for signup and purchase and quick for login. 200
-     * carries complete or partial, 202 carries pending with Location and Retry-After.
+     * <p>Assesses one account creation, login or purchase (flow) and answers with the account's one current
+     * risk: account.risk.decision is the decision for this flow (allow, step_up, review or block, where
+     * block means your block threshold was reached), and detail holds this assessment's own facts. depth
+     * sets how long the answer waits for sources: quick waits only for the fast ones (500 ms), full for
+     * the whole budget (3000 ms at most); it defaults to full for account_creation and purchase and quick
+     * for login. 200 carries complete or partial, 202 carries pending with Location and Retry-After.
      *
      * <p>While the account's first assessment is pending, account is absent: apply your own fallback for
      * that, 429, 503 or a timeout. NoResponse blocks nothing itself; you decide. Requires the assess
@@ -81,12 +81,12 @@ public class Assessments {
     /**
      * Assess identifiers for a signup or gateway decision.
      *
-     * <p>Assesses one signup, login or purchase (flow) and answers with the account's one current risk:
-     * account.risk.decision is the decision for this flow (allow, step_up, review or block, where block
-     * means your block threshold was reached), and detail holds this assessment's own facts. depth sets
-     * how long the answer waits for sources: quick waits only for the fast ones (500 ms), full for the
-     * whole budget (3000 ms at most); it defaults to full for signup and purchase and quick for login. 200
-     * carries complete or partial, 202 carries pending with Location and Retry-After.
+     * <p>Assesses one account creation, login or purchase (flow) and answers with the account's one current
+     * risk: account.risk.decision is the decision for this flow (allow, step_up, review or block, where
+     * block means your block threshold was reached), and detail holds this assessment's own facts. depth
+     * sets how long the answer waits for sources: quick waits only for the fast ones (500 ms), full for
+     * the whole budget (3000 ms at most); it defaults to full for account_creation and purchase and quick
+     * for login. 200 carries complete or partial, 202 carries pending with Location and Retry-After.
      *
      * <p>While the account's first assessment is pending, account is absent: apply your own fallback for
      * that, 429, 503 or a timeout. NoResponse blocks nothing itself; you decide. Requires the assess
@@ -97,8 +97,8 @@ public class Assessments {
      * with a different body answers 409 idempotency_key_reused. response_mode defaults to standard;
      * detailed needs the detailed scope.
      *
-     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours.
-     * @param body POST /v1/assessments body. At least one of email, username or phone is required; name and ip only refine an assessment. No field carries a password, hash, token or breach value, and unknown members are refused. The email local part is kept as received and only the domain is lower-cased; the username is compared case-insensitively; the phone is strict E.164 and is assessed asynchronously. The whole body is capped at 32768 bytes. client_context holds bounded hints from the signup client; auth_context holds normalised claims from a session your backend has verified. Raw tokens are refused.
+     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
+     * @param body POST /v1/assessments body. At least one of email, username or phone is required; name and ip only refine an assessment. No field carries a password, hash, token or breach value, and unknown members are refused. The email local part is kept as received and only the domain is lower-cased; the username is compared case-insensitively; the phone is strict E.164 and is assessed asynchronously. The whole body is capped at 32768 bytes. client_context holds bounded hints from the client of the user; auth_context holds normalised claims from a session your backend has verified. Raw tokens are refused.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
@@ -109,12 +109,12 @@ public class Assessments {
     /**
      * Assess identifiers for a signup or gateway decision.
      *
-     * <p>Assesses one signup, login or purchase (flow) and answers with the account's one current risk:
-     * account.risk.decision is the decision for this flow (allow, step_up, review or block, where block
-     * means your block threshold was reached), and detail holds this assessment's own facts. depth sets
-     * how long the answer waits for sources: quick waits only for the fast ones (500 ms), full for the
-     * whole budget (3000 ms at most); it defaults to full for signup and purchase and quick for login. 200
-     * carries complete or partial, 202 carries pending with Location and Retry-After.
+     * <p>Assesses one account creation, login or purchase (flow) and answers with the account's one current
+     * risk: account.risk.decision is the decision for this flow (allow, step_up, review or block, where
+     * block means your block threshold was reached), and detail holds this assessment's own facts. depth
+     * sets how long the answer waits for sources: quick waits only for the fast ones (500 ms), full for
+     * the whole budget (3000 ms at most); it defaults to full for account_creation and purchase and quick
+     * for login. 200 carries complete or partial, 202 carries pending with Location and Retry-After.
      *
      * <p>While the account's first assessment is pending, account is absent: apply your own fallback for
      * that, 429, 503 or a timeout. NoResponse blocks nothing itself; you decide. Requires the assess
@@ -125,8 +125,8 @@ public class Assessments {
      * with a different body answers 409 idempotency_key_reused. response_mode defaults to standard;
      * detailed needs the detailed scope.
      *
-     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours.
-     * @param body POST /v1/assessments body. At least one of email, username or phone is required; name and ip only refine an assessment. No field carries a password, hash, token or breach value, and unknown members are refused. The email local part is kept as received and only the domain is lower-cased; the username is compared case-insensitively; the phone is strict E.164 and is assessed asynchronously. The whole body is capped at 32768 bytes. client_context holds bounded hints from the signup client; auth_context holds normalised claims from a session your backend has verified. Raw tokens are refused.
+     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
+     * @param body POST /v1/assessments body. At least one of email, username or phone is required; name and ip only refine an assessment. No field carries a password, hash, token or breach value, and unknown members are refused. The email local part is kept as received and only the domain is lower-cased; the username is compared case-insensitively; the phone is strict E.164 and is assessed asynchronously. The whole body is capped at 32768 bytes. client_context holds bounded hints from the client of the user; auth_context holds normalised claims from a session your backend has verified. Raw tokens are refused.
      * @param options additional options
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
@@ -146,7 +146,7 @@ public class Assessments {
      * history scope. While status is pending, or partial with a source still running, the response carries
      * Retry-After; poll no faster than it says.
      *
-     * <p>Another tenant's assessment, an unknown or expired assessment and a malformed assessment_id all
+     * <p>Another workspace's assessment, an unknown or expired assessment and a malformed assessment_id all
      * answer 404 not_found. response_mode=detailed needs the detailed scope.
      *
      * @return The call builder
@@ -162,7 +162,7 @@ public class Assessments {
      * history scope. While status is pending, or partial with a source still running, the response carries
      * Retry-After; poll no faster than it says.
      *
-     * <p>Another tenant's assessment, an unknown or expired assessment and a malformed assessment_id all
+     * <p>Another workspace's assessment, an unknown or expired assessment and a malformed assessment_id all
      * answer 404 not_found. response_mode=detailed needs the detailed scope.
      *
      * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
@@ -180,7 +180,7 @@ public class Assessments {
      * history scope. While status is pending, or partial with a source still running, the response carries
      * Retry-After; poll no faster than it says.
      *
-     * <p>Another tenant's assessment, an unknown or expired assessment and a malformed assessment_id all
+     * <p>Another workspace's assessment, an unknown or expired assessment and a malformed assessment_id all
      * answer 404 not_found. response_mode=detailed needs the detailed scope.
      *
      * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
@@ -288,8 +288,8 @@ public class Assessments {
      * unknown, expired or foreign assessment answers 404 not_found.
      *
      * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
-     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours.
-     * @param body POST /v1/assessments/{assessment_id}/outcomes body: what the provider later learned about the account it assessed. The assessment is named by the path and the tenant by the API key, so neither is a body member. Idempotency-Key is required and binds the body as it does on POST /v1/assessments.
+     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
+     * @param body POST /v1/assessments/{assessment_id}/outcomes body: what the provider later learned about the account it assessed. The assessment is named by the path and the workspace by the API key, so neither is a body member. Idempotency-Key is required and binds the body as it does on POST /v1/assessments.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
@@ -310,8 +310,8 @@ public class Assessments {
      * unknown, expired or foreign assessment answers 404 not_found.
      *
      * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
-     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours.
-     * @param body POST /v1/assessments/{assessment_id}/outcomes body: what the provider later learned about the account it assessed. The assessment is named by the path and the tenant by the API key, so neither is a body member. Idempotency-Key is required and binds the body as it does on POST /v1/assessments.
+     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
+     * @param body POST /v1/assessments/{assessment_id}/outcomes body: what the provider later learned about the account it assessed. The assessment is named by the path and the workspace by the API key, so neither is a body member. Idempotency-Key is required and binds the body as it does on POST /v1/assessments.
      * @param options additional options
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
@@ -334,7 +334,7 @@ public class Assessments {
      * logs. Requires the history scope. Read-only and safe to retry.
      *
      * <p>Newest first, each at its latest assessment_version. An account with no assessments answers 200 with
-     * empty items. The cursor is opaque and bound to your tenant and the account; a tampered or expired
+     * empty items. The cursor is opaque and bound to your workspace and the account; a tampered or expired
      * cursor answers 400 invalid_cursor.
      *
      * <p>response_mode=detailed needs the detailed scope.
@@ -352,7 +352,7 @@ public class Assessments {
      * logs. Requires the history scope. Read-only and safe to retry.
      *
      * <p>Newest first, each at its latest assessment_version. An account with no assessments answers 200 with
-     * empty items. The cursor is opaque and bound to your tenant and the account; a tampered or expired
+     * empty items. The cursor is opaque and bound to your workspace and the account; a tampered or expired
      * cursor answers 400 invalid_cursor.
      *
      * <p>response_mode=detailed needs the detailed scope.
@@ -372,7 +372,7 @@ public class Assessments {
      * logs. Requires the history scope. Read-only and safe to retry.
      *
      * <p>Newest first, each at its latest assessment_version. An account with no assessments answers 200 with
-     * empty items. The cursor is opaque and bound to your tenant and the account; a tampered or expired
+     * empty items. The cursor is opaque and bound to your workspace and the account; a tampered or expired
      * cursor answers 400 invalid_cursor.
      *
      * <p>response_mode=detailed needs the detailed scope.

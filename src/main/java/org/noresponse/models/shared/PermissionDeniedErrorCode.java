@@ -22,7 +22,8 @@ import java.util.Optional;
  */
 public class PermissionDeniedErrorCode {
 
-    public static final PermissionDeniedErrorCode TENANT_FORBIDDEN = new PermissionDeniedErrorCode("tenant_forbidden");
+    public static final PermissionDeniedErrorCode WORKSPACE_FORBIDDEN =
+            new PermissionDeniedErrorCode("workspace_forbidden");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -93,19 +94,19 @@ public class PermissionDeniedErrorCode {
 
     private static final Map<String, PermissionDeniedErrorCode> createValuesMap() {
         Map<String, PermissionDeniedErrorCode> map = new LinkedHashMap<>();
-        map.put("tenant_forbidden", TENANT_FORBIDDEN);
+        map.put("workspace_forbidden", WORKSPACE_FORBIDDEN);
         return map;
     }
 
     private static final Map<String, PermissionDeniedErrorCodeEnum> createEnumsMap() {
         Map<String, PermissionDeniedErrorCodeEnum> map = new HashMap<>();
-        map.put("tenant_forbidden", PermissionDeniedErrorCodeEnum.TENANT_FORBIDDEN);
+        map.put("workspace_forbidden", PermissionDeniedErrorCodeEnum.WORKSPACE_FORBIDDEN);
         return map;
     }
 
     public enum PermissionDeniedErrorCodeEnum {
 
-        TENANT_FORBIDDEN("tenant_forbidden"),
+        WORKSPACE_FORBIDDEN("workspace_forbidden"),
         ;
 
         private final String value;

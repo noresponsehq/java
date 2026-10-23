@@ -21,17 +21,17 @@ import org.noresponse.utils.Utils;
  *
  * <p>The email local part is kept as received and only the domain is lower-cased; the username is
  * compared case-insensitively; the phone is strict E.164 and is assessed asynchronously. The whole
- * body is capped at 32768 bytes. client_context holds bounded hints from the signup client;
+ * body is capped at 32768 bytes. client_context holds bounded hints from the client of the user;
  * auth_context holds normalised claims from a session your backend has verified.
  *
  * <p>Raw tokens are refused.
  */
 public class AssessmentRequest {
     /**
-     * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-     * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-     * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-     * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+     * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+     * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+     * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+     * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -43,9 +43,9 @@ public class AssessmentRequest {
     private String accountId;
 
     /**
-     * The customer event an assessment is made for: signup (a new account), login (a returning sign-in) or
-     * purchase (a payment or credit grant). The account's risk is reported with the decision for this
-     * flow.
+     * The event an assessment is made for: account_creation (a user creates an account), login (a user
+     * returns to an existing account) or purchase (a payment or a credit grant). The account's risk is
+     * reported with the decision for this flow.
      */
     @JsonProperty("flow")
     private Flow flow;
@@ -99,9 +99,9 @@ public class AssessmentRequest {
     private ResponseMode responseMode;
 
     /**
-     * Optional context observed by your signup client. The server parses these hints into coarse features,
-     * leaves raw user_agent and opaque ids out of every answer, and weighs a mismatch with the other
-     * evidence.
+     * Optional context observed by the client of the user. The server parses these hints into coarse
+     * features, leaves raw user_agent and opaque ids out of every answer, and weighs a mismatch with the
+     * other evidence.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("client_context")
@@ -116,7 +116,7 @@ public class AssessmentRequest {
     private AuthContext authContext;
 
     /**
-     * Optional. When the signup gate issues an API key to the new account, send SHA-256 of that key, so
+     * Optional. When your platform issues an API key to the new account, send SHA-256 of that key, so
      * later usage of the key, or a leaked copy, ties back to this assessment. Each SDK has a helper that
      * computes it.
      *
@@ -161,10 +161,10 @@ public class AssessmentRequest {
     }
 
     /**
-     * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-     * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-     * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-     * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+     * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+     * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+     * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+     * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -177,9 +177,9 @@ public class AssessmentRequest {
     }
 
     /**
-     * The customer event an assessment is made for: signup (a new account), login (a returning sign-in) or
-     * purchase (a payment or credit grant). The account's risk is reported with the decision for this
-     * flow.
+     * The event an assessment is made for: account_creation (a user creates an account), login (a user
+     * returns to an existing account) or purchase (a payment or a credit grant). The account's risk is
+     * reported with the decision for this flow.
      */
     public Flow flow() {
         return this.flow;
@@ -235,9 +235,9 @@ public class AssessmentRequest {
     }
 
     /**
-     * Optional context observed by your signup client. The server parses these hints into coarse features,
-     * leaves raw user_agent and opaque ids out of every answer, and weighs a mismatch with the other
-     * evidence.
+     * Optional context observed by the client of the user. The server parses these hints into coarse
+     * features, leaves raw user_agent and opaque ids out of every answer, and weighs a mismatch with the
+     * other evidence.
      */
     public Optional<AssessmentRequestClientContext> clientContext() {
         return Optional.ofNullable(this.clientContext);
@@ -252,7 +252,7 @@ public class AssessmentRequest {
     }
 
     /**
-     * Optional. When the signup gate issues an API key to the new account, send SHA-256 of that key, so
+     * Optional. When your platform issues an API key to the new account, send SHA-256 of that key, so
      * later usage of the key, or a leaked copy, ties back to this assessment. Each SDK has a helper that
      * computes it.
      *
@@ -268,10 +268,10 @@ public class AssessmentRequest {
     }
 
     /**
-     * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-     * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-     * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-     * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+     * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+     * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+     * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+     * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -285,9 +285,9 @@ public class AssessmentRequest {
     }
 
     /**
-     * The customer event an assessment is made for: signup (a new account), login (a returning sign-in) or
-     * purchase (a payment or credit grant). The account's risk is reported with the decision for this
-     * flow.
+     * The event an assessment is made for: account_creation (a user creates an account), login (a user
+     * returns to an existing account) or purchase (a payment or a credit grant). The account's risk is
+     * reported with the decision for this flow.
      */
     public AssessmentRequest withFlow(@Nonnull Flow flow) {
         this.flow = Utils.checkNotNull(flow, "flow");
@@ -350,9 +350,9 @@ public class AssessmentRequest {
     }
 
     /**
-     * Optional context observed by your signup client. The server parses these hints into coarse features,
-     * leaves raw user_agent and opaque ids out of every answer, and weighs a mismatch with the other
-     * evidence.
+     * Optional context observed by the client of the user. The server parses these hints into coarse
+     * features, leaves raw user_agent and opaque ids out of every answer, and weighs a mismatch with the
+     * other evidence.
      */
     public AssessmentRequest withClientContext(@Nullable AssessmentRequestClientContext clientContext) {
         this.clientContext = clientContext;
@@ -369,7 +369,7 @@ public class AssessmentRequest {
     }
 
     /**
-     * Optional. When the signup gate issues an API key to the new account, send SHA-256 of that key, so
+     * Optional. When your platform issues an API key to the new account, send SHA-256 of that key, so
      * later usage of the key, or a leaked copy, ties back to this assessment. Each SDK has a helper that
      * computes it.
      *
@@ -477,10 +477,10 @@ public class AssessmentRequest {
         }
 
         /**
-         * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-         * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-         * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-         * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+         * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+         * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+         * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+         * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
          * internal id is a common pseudonymous scheme.
          *
          * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -494,9 +494,9 @@ public class AssessmentRequest {
         }
 
         /**
-         * The customer event an assessment is made for: signup (a new account), login (a returning sign-in) or
-         * purchase (a payment or credit grant). The account's risk is reported with the decision for this
-         * flow.
+         * The event an assessment is made for: account_creation (a user creates an account), login (a user
+         * returns to an existing account) or purchase (a payment or a credit grant). The account's risk is
+         * reported with the decision for this flow.
          */
         public Builder flow(@Nonnull Flow flow) {
             this.flow = Utils.checkNotNull(flow, "flow");
@@ -559,9 +559,9 @@ public class AssessmentRequest {
         }
 
         /**
-         * Optional context observed by your signup client. The server parses these hints into coarse features,
-         * leaves raw user_agent and opaque ids out of every answer, and weighs a mismatch with the other
-         * evidence.
+         * Optional context observed by the client of the user. The server parses these hints into coarse
+         * features, leaves raw user_agent and opaque ids out of every answer, and weighs a mismatch with the
+         * other evidence.
          */
         public Builder clientContext(@Nullable AssessmentRequestClientContext clientContext) {
             this.clientContext = clientContext;
@@ -578,7 +578,7 @@ public class AssessmentRequest {
         }
 
         /**
-         * Optional. When the signup gate issues an API key to the new account, send SHA-256 of that key, so
+         * Optional. When your platform issues an API key to the new account, send SHA-256 of that key, so
          * later usage of the key, or a leaked copy, ties back to this assessment. Each SDK has a helper that
          * computes it.
          *

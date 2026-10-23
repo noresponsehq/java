@@ -34,9 +34,9 @@ public class AsyncKeyUsage {
     }
 
     /**
-     * Report requests made with API keys your signup gate issued.
+     * Report requests made with API keys your platform issued.
      *
-     * <p>Records requests made with API keys your signup gate issued to your accounts, one event per request:
+     * <p>Records requests made with API keys your platform issued to your accounts, one event per request:
      * the key's SHA-256 (the issued_credential.sha256 the account's assessment carried), the client IP,
      * the time and optionally the user agent, model and token counts. Most callers use the SDK's usage
      * buffer, which batches events and sends them in the background. Sampling is allowed: sample_rate
@@ -58,9 +58,9 @@ public class AsyncKeyUsage {
     }
 
     /**
-     * Report requests made with API keys your signup gate issued.
+     * Report requests made with API keys your platform issued.
      *
-     * <p>Records requests made with API keys your signup gate issued to your accounts, one event per request:
+     * <p>Records requests made with API keys your platform issued to your accounts, one event per request:
      * the key's SHA-256 (the issued_credential.sha256 the account's assessment carried), the client IP,
      * the time and optionally the user agent, model and token counts. Most callers use the SDK's usage
      * buffer, which batches events and sends them in the background. Sampling is allowed: sample_rate
@@ -75,8 +75,8 @@ public class AsyncKeyUsage {
      * addresses, or 3 or more countries, within 24 hours, every account whose assessment carried that key
      * gets the shared_api_key reason for 30 days.
      *
-     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours.
-     * @param body POST /v1/key_usage/batches body: facts about requests made with API keys your signup gate issued to your accounts, one event per request. Each event names the key by the SHA-256 that the assessment's issued_credential.sha256 carried, not the key itself. The SDKs buffer events and send them in the background. A batch holds 1 to 500 events and at most 256 KiB. Idempotency-Key is required and binds the body as on POST /v1/assessments, so a retried batch is counted once.
+     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
+     * @param body POST /v1/key_usage/batches body: facts about requests made with API keys your platform issued to your accounts, one event per request. Each event names the key by the SHA-256 that the assessment's issued_credential.sha256 carried, not the key itself. The SDKs buffer events and send them in the background. A batch holds 1 to 500 events and at most 256 KiB. Idempotency-Key is required and binds the body as on POST /v1/assessments, so a retried batch is counted once.
      * @return {@code CompletableFuture<RecordKeyUsageResponse>} - The async response
      */
     public CompletableFuture<RecordKeyUsageResponse> record(
@@ -85,9 +85,9 @@ public class AsyncKeyUsage {
     }
 
     /**
-     * Report requests made with API keys your signup gate issued.
+     * Report requests made with API keys your platform issued.
      *
-     * <p>Records requests made with API keys your signup gate issued to your accounts, one event per request:
+     * <p>Records requests made with API keys your platform issued to your accounts, one event per request:
      * the key's SHA-256 (the issued_credential.sha256 the account's assessment carried), the client IP,
      * the time and optionally the user agent, model and token counts. Most callers use the SDK's usage
      * buffer, which batches events and sends them in the background. Sampling is allowed: sample_rate
@@ -102,8 +102,8 @@ public class AsyncKeyUsage {
      * addresses, or 3 or more countries, within 24 hours, every account whose assessment carried that key
      * gets the shared_api_key reason for 30 days.
      *
-     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours.
-     * @param body POST /v1/key_usage/batches body: facts about requests made with API keys your signup gate issued to your accounts, one event per request. Each event names the key by the SHA-256 that the assessment's issued_credential.sha256 carried, not the key itself. The SDKs buffer events and send them in the background. A batch holds 1 to 500 events and at most 256 KiB. Idempotency-Key is required and binds the body as on POST /v1/assessments, so a retried batch is counted once.
+     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
+     * @param body POST /v1/key_usage/batches body: facts about requests made with API keys your platform issued to your accounts, one event per request. Each event names the key by the SHA-256 that the assessment's issued_credential.sha256 carried, not the key itself. The SDKs buffer events and send them in the background. A batch holds 1 to 500 events and at most 256 KiB. Idempotency-Key is required and binds the body as on POST /v1/assessments, so a retried batch is counted once.
      * @param options additional options
      * @return {@code CompletableFuture<RecordKeyUsageResponse>} - The async response
      */

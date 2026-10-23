@@ -18,7 +18,7 @@ import org.noresponse.utils.Utils;
 /**
  * AssessmentList
  *
- * <p>Body of the 200 answer to POST /v1/assessments/query: one page of the calling tenant's unexpired
+ * <p>Body of the 200 answer to POST /v1/assessments/query: one page of the calling workspace's unexpired
  * assessments for one account, newest first, each at its latest assessment_version, as its detail; the
  * account's current risk is GET /v1/accounts/{account_id}. Every item's account_id equals the page's.
  * An assessment past its expires_at is not listed.
@@ -33,10 +33,10 @@ public class AssessmentList {
     private String schemaVersion;
 
     /**
-     * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-     * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-     * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-     * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+     * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+     * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+     * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+     * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -51,8 +51,9 @@ public class AssessmentList {
     private List<AssessmentDetail> items;
 
     /**
-     * Opaque cursor for the next page, bound to your tenant and the account_id it was issued for. Pass it
-     * back unchanged in the next query; a tampered, foreign or expired cursor answers 400 invalid_cursor.
+     * Opaque cursor for the next page, bound to your workspace and the account_id it was issued for. Pass
+     * it back unchanged in the next query; a tampered, foreign or expired cursor answers 400
+     * invalid_cursor.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("next_cursor")
@@ -92,10 +93,10 @@ public class AssessmentList {
     }
 
     /**
-     * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-     * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-     * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-     * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+     * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+     * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+     * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+     * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -112,8 +113,9 @@ public class AssessmentList {
     }
 
     /**
-     * Opaque cursor for the next page, bound to your tenant and the account_id it was issued for. Pass it
-     * back unchanged in the next query; a tampered, foreign or expired cursor answers 400 invalid_cursor.
+     * Opaque cursor for the next page, bound to your workspace and the account_id it was issued for. Pass
+     * it back unchanged in the next query; a tampered, foreign or expired cursor answers 400
+     * invalid_cursor.
      */
     public Optional<String> nextCursor() {
         return Optional.ofNullable(this.nextCursor);
@@ -132,10 +134,10 @@ public class AssessmentList {
     }
 
     /**
-     * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-     * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-     * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-     * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+     * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+     * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+     * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+     * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -154,8 +156,9 @@ public class AssessmentList {
     }
 
     /**
-     * Opaque cursor for the next page, bound to your tenant and the account_id it was issued for. Pass it
-     * back unchanged in the next query; a tampered, foreign or expired cursor answers 400 invalid_cursor.
+     * Opaque cursor for the next page, bound to your workspace and the account_id it was issued for. Pass
+     * it back unchanged in the next query; a tampered, foreign or expired cursor answers 400
+     * invalid_cursor.
      */
     public AssessmentList withNextCursor(@Nullable String nextCursor) {
         this.nextCursor = nextCursor;
@@ -224,10 +227,10 @@ public class AssessmentList {
         }
 
         /**
-         * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-         * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-         * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-         * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+         * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+         * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+         * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+         * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
          * internal id is a common pseudonymous scheme.
          *
          * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -246,8 +249,9 @@ public class AssessmentList {
         }
 
         /**
-         * Opaque cursor for the next page, bound to your tenant and the account_id it was issued for. Pass it
-         * back unchanged in the next query; a tampered, foreign or expired cursor answers 400 invalid_cursor.
+         * Opaque cursor for the next page, bound to your workspace and the account_id it was issued for. Pass
+         * it back unchanged in the next query; a tampered, foreign or expired cursor answers 400
+         * invalid_cursor.
          */
         public Builder nextCursor(@Nullable String nextCursor) {
             this.nextCursor = nextCursor;

@@ -15,9 +15,9 @@ import org.noresponse.utils.Utils;
 /**
  * IntegrationRequest
  *
- * <p>POST /v1/integrations body. Registers a hosted endpoint for one authentication provider. The tenant
- * is the API key that signs the request, so the body has no tenant field and refuses one like any
- * other unknown member.
+ * <p>POST /v1/integrations body. Registers a hosted endpoint for one authentication provider. The
+ * workspace is the API key that signs the request, so the body has no workspace field and refuses one
+ * like any other unknown member.
  *
  * <p>A WorkOS integration needs signing_secret, the Actions secret shown in the WorkOS dashboard, which
  * NoResponse uses to verify each Action request and to sign its answer. An Auth0 integration sends no

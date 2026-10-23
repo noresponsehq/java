@@ -25,10 +25,10 @@ public class Application {
 
         CreateAssessmentResponse res = sdk.assessments()
                 .create()
-                .idempotencyKey("signup-acct_7f3a9c")
+                .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                         .accountId("acct_7f3a9c")
-                        .flow(Flow.SIGNUP)
+                        .flow(Flow.ACCOUNT_CREATION)
                         .identifiers(AssessmentRequestIdentifiers.builder()
                                 .email("new.user@example.com")
                                 .build())

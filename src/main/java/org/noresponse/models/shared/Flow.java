@@ -18,13 +18,13 @@ import java.util.Optional;
 /**
  * Flow
  *
- * <p>The customer event an assessment is made for: signup (a new account), login (a returning sign-in) or
- * purchase (a payment or credit grant). The account's risk is reported with the decision for this
- * flow.
+ * <p>The event an assessment is made for: account_creation (a user creates an account), login (a user
+ * returns to an existing account) or purchase (a payment or a credit grant). The account's risk is
+ * reported with the decision for this flow.
  */
 public class Flow {
 
-    public static final Flow SIGNUP = new Flow("signup");
+    public static final Flow ACCOUNT_CREATION = new Flow("account_creation");
     public static final Flow LOGIN = new Flow("login");
     public static final Flow PURCHASE = new Flow("purchase");
 
@@ -97,7 +97,7 @@ public class Flow {
 
     private static final Map<String, Flow> createValuesMap() {
         Map<String, Flow> map = new LinkedHashMap<>();
-        map.put("signup", SIGNUP);
+        map.put("account_creation", ACCOUNT_CREATION);
         map.put("login", LOGIN);
         map.put("purchase", PURCHASE);
         return map;
@@ -105,7 +105,7 @@ public class Flow {
 
     private static final Map<String, FlowEnum> createEnumsMap() {
         Map<String, FlowEnum> map = new HashMap<>();
-        map.put("signup", FlowEnum.SIGNUP);
+        map.put("account_creation", FlowEnum.ACCOUNT_CREATION);
         map.put("login", FlowEnum.LOGIN);
         map.put("purchase", FlowEnum.PURCHASE);
         return map;
@@ -113,7 +113,7 @@ public class Flow {
 
     public enum FlowEnum {
 
-        SIGNUP("signup"),
+        ACCOUNT_CREATION("account_creation"),
         LOGIN("login"),
         PURCHASE("purchase"),
         ;

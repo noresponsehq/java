@@ -30,7 +30,7 @@ import org.noresponse.webhooks.AccountDeleted;
 import org.noresponse.webhooks.AccountRiskChanged;
 import org.noresponse.webhooks.AssessmentExpired;
 import org.noresponse.webhooks.EndpointDisabled;
-import org.noresponse.webhooks.TenantDeleted;
+import org.noresponse.webhooks.WorkspaceDeleted;
 import org.noresponse.webhooks.VerificationException;
 import org.noresponse.webhooks.VerificationException.Code;
 import org.noresponse.webhooks.Webhook;
@@ -249,7 +249,7 @@ class WebhookTest {
         }
     }
 
-    private static final String TENANT_DELETED = "{\"id\":\"evt_01JA2ZD3K4M5N6P7Q8R9S0T1V2\",\"type\":\"tenant.deleted\","
+    private static final String WORKSPACE_DELETED = "{\"id\":\"evt_01JA2ZD3K4M5N6P7Q8R9S0T1V2\",\"type\":\"workspace.deleted\","
             + "\"created_at\":\"2026-10-23T10:00:00.000Z\",\"data\":{\"workspace_id\":\"tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM\","
             + "\"environment\":\"live\",\"deleted_at\":\"2026-10-23T10:00:00.000Z\"}}";
     private static final String ENDPOINT_DISABLED = "{\"id\":\"evt_01JA2ZD3K4M5N6P7Q8R9S0T1V3\",\"type\":\"webhook_endpoint.disabled\","
@@ -267,22 +267,22 @@ class WebhookTest {
     }
 
     @Test
-    void tenantDeletedEvent() throws Exception {
-        byte[] body = TENANT_DELETED.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+    void workspaceDeletedEvent() throws Exception {
+        byte[] body = WORKSPACE_DELETED.getBytes(java.nio.charset.StandardCharsets.UTF_8);
         WebhookEvent event = Webhook.constructEvent(body,
                 signed(body, "secret", "evt_01JA2ZD3K4M5N6P7Q8R9S0T1V2", "whk_sdktest01"), Map.of("whk_sdktest01", "secret"), 300, NOW);
-        assertEquals("tenant.deleted", event.type());
+        assertEquals("workspace.deleted", event.type());
         assertEquals("evt_01JA2ZD3K4M5N6P7Q8R9S0T1V2", event.id());
         assertEquals("2026-10-23T10:00:00.000Z", event.createdAt());
         assertFalse(event.isExpired());
         assertFalse(event.isTest());
         assertFalse(event.accountDeleted().isPresent());
-        TenantDeleted deleted = event.tenantDeleted().orElseThrow();
+        WorkspaceDeleted deleted = event.workspaceDeleted().orElseThrow();
         assertEquals("tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM", deleted.workspaceId());
         assertEquals("live", deleted.environment());
         assertEquals("2026-10-23T10:00:00.000Z", deleted.deletedAt());
         assertThrows(VerificationException.class, () -> Webhook.verificationResponse(event));
-        refusesChangedData(TENANT_DELETED, List.<java.util.function.Consumer<ObjectNode>>of(
+        refusesChangedData(WORKSPACE_DELETED, List.<java.util.function.Consumer<ObjectNode>>of(
                 data -> data.remove("workspace_id"),
                 data -> data.put("workspace_id", "-tnt"),
                 data -> data.put("workspace_id", "tnt/01"),
@@ -341,10 +341,10 @@ class WebhookTest {
         assertEquals("2026-10-23T09:00:04.812Z", account.updatedAt());
         AccountDecisionsByFlow now = account.decisionsByFlow();
         assertEquals(List.of("review", "review", "review"),
-                List.of(now.signup().value(), now.login().value(), now.purchase().value()));
+                List.of(now.accountCreation().value(), now.login().value(), now.purchase().value()));
         AccountDecisionsByFlow before = data.previousDecisionsByFlow();
         assertEquals(List.of("allow", "allow", "allow"),
-                List.of(before.signup().value(), before.login().value(), before.purchase().value()));
+                List.of(before.accountCreation().value(), before.login().value(), before.purchase().value()));
         assertThrows(VerificationException.class, () -> Webhook.verificationResponse(event));
         for (java.util.function.Consumer<ObjectNode> mutate : List.<java.util.function.Consumer<ObjectNode>>of(
                 data2 -> data2.remove("previous_decisions_by_flow"),

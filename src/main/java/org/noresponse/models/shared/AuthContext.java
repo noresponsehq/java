@@ -71,7 +71,7 @@ public class AuthContext {
     private String organizationId;
 
     /**
-     * The provider tenant identifier, when distinct from organization_id.
+     * The provider workspace identifier, when distinct from organization_id.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tenant_id")
@@ -328,7 +328,7 @@ public class AuthContext {
     }
 
     /**
-     * The provider tenant identifier, when distinct from organization_id.
+     * The provider workspace identifier, when distinct from organization_id.
      */
     public Optional<String> tenantId() {
         return Optional.ofNullable(this.tenantId);
@@ -514,7 +514,7 @@ public class AuthContext {
     }
 
     /**
-     * The provider tenant identifier, when distinct from organization_id.
+     * The provider workspace identifier, when distinct from organization_id.
      */
     public AuthContext withTenantId(@Nullable String tenantId) {
         this.tenantId = tenantId;
@@ -886,7 +886,7 @@ public class AuthContext {
         }
 
         /**
-         * The provider tenant identifier, when distinct from organization_id.
+         * The provider workspace identifier, when distinct from organization_id.
          */
         public Builder tenantId(@Nullable String tenantId) {
             this.tenantId = tenantId;

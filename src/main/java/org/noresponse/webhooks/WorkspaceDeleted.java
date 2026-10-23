@@ -5,12 +5,12 @@ package org.noresponse.webhooks;
  * torn down: the last event this endpoint receives. {@link #environment()} is
  * {@code live} or {@code test}.
  */
-public final class TenantDeleted {
+public final class WorkspaceDeleted {
     private final String workspaceId;
     private final String environment;
     private final String deletedAt;
 
-    public TenantDeleted(String workspaceId, String environment, String deletedAt) {
+    public WorkspaceDeleted(String workspaceId, String environment, String deletedAt) {
         this.workspaceId = workspaceId;
         this.environment = environment;
         this.deletedAt = deletedAt;

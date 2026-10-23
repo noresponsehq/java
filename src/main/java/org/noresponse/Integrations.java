@@ -96,7 +96,7 @@ public class Integrations {
     }
 
     /**
-     * List the tenant's integrations.
+     * List the workspace's integrations.
      *
      * <p>Every integration, oldest first. Listings carry no secrets. Requires the integrations scope.
      *
@@ -107,7 +107,7 @@ public class Integrations {
     }
 
     /**
-     * List the tenant's integrations.
+     * List the workspace's integrations.
      *
      * <p>Every integration, oldest first. Listings carry no secrets. Requires the integrations scope.
      *
@@ -119,7 +119,7 @@ public class Integrations {
     }
 
     /**
-     * List the tenant's integrations.
+     * List the workspace's integrations.
      *
      * <p>Every integration, oldest first. Listings carry no secrets. Requires the integrations scope.
      *
@@ -153,7 +153,7 @@ public class Integrations {
      * from the provider first. Requires the integrations scope. An unknown or already deleted integration
      * answers 404.
      *
-     * @param integrationId Path segment, matched case-sensitively. A value that does not match the integration_id shape, or another tenant's id, answers 404.
+     * @param integrationId Path segment, matched case-sensitively. A value that does not match the integration_id shape, or another workspace's id, answers 404.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
@@ -168,7 +168,7 @@ public class Integrations {
      * from the provider first. Requires the integrations scope. An unknown or already deleted integration
      * answers 404.
      *
-     * @param integrationId Path segment, matched case-sensitively. A value that does not match the integration_id shape, or another tenant's id, answers 404.
+     * @param integrationId Path segment, matched case-sensitively. A value that does not match the integration_id shape, or another workspace's id, answers 404.
      * @param options additional options
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
@@ -204,7 +204,7 @@ public class Integrations {
      *
      * <p>Requires the integrations scope. Not idempotent: a retry after a lost answer rotates again.
      *
-     * @param integrationId Path segment, matched case-sensitively. A value that does not match the integration_id shape, or another tenant's id, answers 404.
+     * @param integrationId Path segment, matched case-sensitively. A value that does not match the integration_id shape, or another workspace's id, answers 404.
      * @param body POST /v1/integrations/{integration_id}/rotate body. For an Auth0 integration send {}: NoResponse generates a new shared secret and returns it once. For a WorkOS integration send the new signing_secret after regenerating it in the WorkOS dashboard. Either way the previous secret is still accepted for 24 hours, so the provider can be switched over without a refused call.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails

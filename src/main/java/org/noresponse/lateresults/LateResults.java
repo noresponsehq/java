@@ -12,7 +12,7 @@ import org.noresponse.webhooks.WebhookEvent;
 /**
  * Late-result handlers. Hand-written; not generated.
  *
- * <p>An assessment can be revised after the signup was allowed: a slow source settles and the
+ * <p>An assessment can be revised after the account creation was allowed: a slow source settles and the
  * account's decision rises. NoResponse sends the new version as a signed assessment.updated webhook.
  * {@link #handleLateResult} verifies that delivery with {@code Webhook.constructEvent}, picks an
  * action from your policy, and acts through the auth provider's admin API: revoke the user's

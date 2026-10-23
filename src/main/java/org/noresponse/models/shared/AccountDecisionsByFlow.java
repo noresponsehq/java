@@ -12,15 +12,15 @@ import org.noresponse.utils.Utils;
  * AccountDecisionsByFlow
  *
  * <p>The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
- * has not set uses its signup thresholds, so the flows differ only where it set them.
+ * has not set uses its account_creation thresholds, so the flows differ only where it set them.
  */
 public class AccountDecisionsByFlow {
     /**
      * block when the score reached your block threshold (risk.block of the assessment), otherwise the
      * assessment's recommendation. Your application applies it.
      */
-    @JsonProperty("signup")
-    private AccountDecision signup;
+    @JsonProperty("account_creation")
+    private AccountDecision accountCreation;
 
     /**
      * block when the score reached your block threshold (risk.block of the assessment), otherwise the
@@ -38,11 +38,11 @@ public class AccountDecisionsByFlow {
 
     @JsonCreator
     public AccountDecisionsByFlow(
-            @JsonProperty("signup") @Nonnull AccountDecision signup,
+            @JsonProperty("account_creation") @Nonnull AccountDecision accountCreation,
             @JsonProperty("login") @Nonnull AccountDecision login,
             @JsonProperty("purchase") @Nonnull AccountDecision purchase) {
-        this.signup =
-                Optional.ofNullable(signup).orElseThrow(() -> new IllegalArgumentException("signup cannot be null"));
+        this.accountCreation = Optional.ofNullable(accountCreation)
+                .orElseThrow(() -> new IllegalArgumentException("accountCreation cannot be null"));
         this.login = Optional.ofNullable(login).orElseThrow(() -> new IllegalArgumentException("login cannot be null"));
         this.purchase = Optional.ofNullable(purchase)
                 .orElseThrow(() -> new IllegalArgumentException("purchase cannot be null"));
@@ -52,8 +52,8 @@ public class AccountDecisionsByFlow {
      * block when the score reached your block threshold (risk.block of the assessment), otherwise the
      * assessment's recommendation. Your application applies it.
      */
-    public AccountDecision signup() {
-        return this.signup;
+    public AccountDecision accountCreation() {
+        return this.accountCreation;
     }
 
     /**
@@ -80,8 +80,8 @@ public class AccountDecisionsByFlow {
      * block when the score reached your block threshold (risk.block of the assessment), otherwise the
      * assessment's recommendation. Your application applies it.
      */
-    public AccountDecisionsByFlow withSignup(@Nonnull AccountDecision signup) {
-        this.signup = Utils.checkNotNull(signup, "signup");
+    public AccountDecisionsByFlow withAccountCreation(@Nonnull AccountDecision accountCreation) {
+        this.accountCreation = Utils.checkNotNull(accountCreation, "accountCreation");
         return this;
     }
 
@@ -112,25 +112,26 @@ public class AccountDecisionsByFlow {
             return false;
         }
         AccountDecisionsByFlow other = (AccountDecisionsByFlow) o;
-        return Utils.enhancedDeepEquals(this.signup, other.signup)
+        return Utils.enhancedDeepEquals(this.accountCreation, other.accountCreation)
                 && Utils.enhancedDeepEquals(this.login, other.login)
                 && Utils.enhancedDeepEquals(this.purchase, other.purchase);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(signup, login, purchase);
+        return Utils.enhancedHash(accountCreation, login, purchase);
     }
 
     @Override
     public String toString() {
-        return Utils.toString(AccountDecisionsByFlow.class, "signup", signup, "login", login, "purchase", purchase);
+        return Utils.toString(
+                AccountDecisionsByFlow.class, "accountCreation", accountCreation, "login", login, "purchase", purchase);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
 
-        private AccountDecision signup;
+        private AccountDecision accountCreation;
 
         private AccountDecision login;
 
@@ -144,8 +145,8 @@ public class AccountDecisionsByFlow {
          * block when the score reached your block threshold (risk.block of the assessment), otherwise the
          * assessment's recommendation. Your application applies it.
          */
-        public Builder signup(@Nonnull AccountDecision signup) {
-            this.signup = Utils.checkNotNull(signup, "signup");
+        public Builder accountCreation(@Nonnull AccountDecision accountCreation) {
+            this.accountCreation = Utils.checkNotNull(accountCreation, "accountCreation");
             return this;
         }
 
@@ -168,7 +169,7 @@ public class AccountDecisionsByFlow {
         }
 
         public AccountDecisionsByFlow build() {
-            return new AccountDecisionsByFlow(signup, login, purchase);
+            return new AccountDecisionsByFlow(accountCreation, login, purchase);
         }
     }
 }

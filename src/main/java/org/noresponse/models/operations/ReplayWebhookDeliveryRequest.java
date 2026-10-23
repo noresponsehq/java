@@ -11,7 +11,7 @@ import org.noresponse.utils.Utils;
 
 public class ReplayWebhookDeliveryRequest {
     /**
-     * The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
      */
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=endpoint_id")
     private String endpointId;
@@ -19,7 +19,7 @@ public class ReplayWebhookDeliveryRequest {
     /**
      * The evt_ id of a delivery the endpoint's log holds, as GET /v1/webhooks/{endpoint_id}/deliveries
      * lists it. An id that is malformed, not sent to this endpoint, past the log's retention or another
-     * tenant's answers 404.
+     * workspace's answers 404.
      */
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=event_id")
     private String eventId;
@@ -38,7 +38,7 @@ public class ReplayWebhookDeliveryRequest {
     }
 
     /**
-     * The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
      */
     public String endpointId() {
         return this.endpointId;
@@ -47,7 +47,7 @@ public class ReplayWebhookDeliveryRequest {
     /**
      * The evt_ id of a delivery the endpoint's log holds, as GET /v1/webhooks/{endpoint_id}/deliveries
      * lists it. An id that is malformed, not sent to this endpoint, past the log's retention or another
-     * tenant's answers 404.
+     * workspace's answers 404.
      */
     public String eventId() {
         return this.eventId;
@@ -62,7 +62,7 @@ public class ReplayWebhookDeliveryRequest {
     }
 
     /**
-     * The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
      */
     public ReplayWebhookDeliveryRequest withEndpointId(@Nonnull String endpointId) {
         this.endpointId = Utils.checkNotNull(endpointId, "endpointId");
@@ -72,7 +72,7 @@ public class ReplayWebhookDeliveryRequest {
     /**
      * The evt_ id of a delivery the endpoint's log holds, as GET /v1/webhooks/{endpoint_id}/deliveries
      * lists it. An id that is malformed, not sent to this endpoint, past the log's retention or another
-     * tenant's answers 404.
+     * workspace's answers 404.
      */
     public ReplayWebhookDeliveryRequest withEventId(@Nonnull String eventId) {
         this.eventId = Utils.checkNotNull(eventId, "eventId");
@@ -123,7 +123,7 @@ public class ReplayWebhookDeliveryRequest {
         }
 
         /**
-         * The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+         * The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
          */
         public Builder endpointId(@Nonnull String endpointId) {
             this.endpointId = Utils.checkNotNull(endpointId, "endpointId");
@@ -133,7 +133,7 @@ public class ReplayWebhookDeliveryRequest {
         /**
          * The evt_ id of a delivery the endpoint's log holds, as GET /v1/webhooks/{endpoint_id}/deliveries
          * lists it. An id that is malformed, not sent to this endpoint, past the log's retention or another
-         * tenant's answers 404.
+         * workspace's answers 404.
          */
         public Builder eventId(@Nonnull String eventId) {
             this.eventId = Utils.checkNotNull(eventId, "eventId");

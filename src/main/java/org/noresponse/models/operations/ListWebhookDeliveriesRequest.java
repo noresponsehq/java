@@ -14,7 +14,7 @@ import org.noresponse.utils.Utils;
 
 public class ListWebhookDeliveriesRequest {
     /**
-     * The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
      */
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=endpoint_id")
     private String endpointId;
@@ -44,7 +44,7 @@ public class ListWebhookDeliveriesRequest {
     }
 
     /**
-     * The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
      */
     public String endpointId() {
         return this.endpointId;
@@ -69,7 +69,7 @@ public class ListWebhookDeliveriesRequest {
     }
 
     /**
-     * The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
      */
     public ListWebhookDeliveriesRequest withEndpointId(@Nonnull String endpointId) {
         this.endpointId = Utils.checkNotNull(endpointId, "endpointId");
@@ -131,7 +131,7 @@ public class ListWebhookDeliveriesRequest {
         }
 
         /**
-         * The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+         * The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
          */
         public Builder endpointId(@Nonnull String endpointId) {
             this.endpointId = Utils.checkNotNull(endpointId, "endpointId");

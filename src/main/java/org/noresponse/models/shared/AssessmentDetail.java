@@ -31,16 +31,16 @@ public class AssessmentDetail {
 
     /**
      * Opaque, server-assigned assessment id: 'asm_' and a 26-character Crockford base32 ULID. Unique
-     * within the tenant; another tenant's assessment id answers 404.
+     * within the workspace; another workspace's assessment id answers 404.
      */
     @JsonProperty("assessment_id")
     private String assessmentId;
 
     /**
-     * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-     * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-     * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-     * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+     * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+     * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+     * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+     * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -113,7 +113,8 @@ public class AssessmentDetail {
 
     /**
      * Version of the hand-authored heuristic weights that produced the recommendation, for example
-     * 'risk-2026-10.7'. A tenant threshold override adds a +t&lt;N&gt; suffix, e.g. 'risk-2026-10.7+t3'.
+     * 'risk-2026-10.7'. A workspace threshold override adds a +t&lt;N&gt; suffix, e.g.
+     * 'risk-2026-10.7+t3'.
      */
     @JsonProperty("policy_version")
     private String policyVersion;
@@ -164,7 +165,7 @@ public class AssessmentDetail {
     private AssessmentDetailTiming timing;
 
     /**
-     * The identity fields of the auth context the assessment was made with, echoed for the tenant's own
+     * The identity fields of the auth context the assessment was made with, echoed for the workspace's own
      * correlation: the request's auth_context, or the one a hosted provider hook (POST
      * /hooks/{integration_id}) built, with transport provider_hook and its hook_point. Present exactly
      * when the request carried an auth_context, and the same on every revision of the assessment. Values
@@ -266,17 +267,17 @@ public class AssessmentDetail {
 
     /**
      * Opaque, server-assigned assessment id: 'asm_' and a 26-character Crockford base32 ULID. Unique
-     * within the tenant; another tenant's assessment id answers 404.
+     * within the workspace; another workspace's assessment id answers 404.
      */
     public String assessmentId() {
         return this.assessmentId;
     }
 
     /**
-     * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-     * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-     * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-     * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+     * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+     * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+     * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+     * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -353,7 +354,8 @@ public class AssessmentDetail {
 
     /**
      * Version of the hand-authored heuristic weights that produced the recommendation, for example
-     * 'risk-2026-10.7'. A tenant threshold override adds a +t&lt;N&gt; suffix, e.g. 'risk-2026-10.7+t3'.
+     * 'risk-2026-10.7'. A workspace threshold override adds a +t&lt;N&gt; suffix, e.g.
+     * 'risk-2026-10.7+t3'.
      */
     public String policyVersion() {
         return this.policyVersion;
@@ -411,7 +413,7 @@ public class AssessmentDetail {
     }
 
     /**
-     * The identity fields of the auth context the assessment was made with, echoed for the tenant's own
+     * The identity fields of the auth context the assessment was made with, echoed for the workspace's own
      * correlation: the request's auth_context, or the one a hosted provider hook (POST
      * /hooks/{integration_id}) built, with transport provider_hook and its hook_point. Present exactly
      * when the request carried an auth_context, and the same on every revision of the assessment. Values
@@ -428,7 +430,7 @@ public class AssessmentDetail {
 
     /**
      * Opaque, server-assigned assessment id: 'asm_' and a 26-character Crockford base32 ULID. Unique
-     * within the tenant; another tenant's assessment id answers 404.
+     * within the workspace; another workspace's assessment id answers 404.
      */
     public AssessmentDetail withAssessmentId(@Nonnull String assessmentId) {
         this.assessmentId = Utils.checkNotNull(assessmentId, "assessmentId");
@@ -436,10 +438,10 @@ public class AssessmentDetail {
     }
 
     /**
-     * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-     * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-     * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-     * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+     * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+     * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+     * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+     * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -524,7 +526,8 @@ public class AssessmentDetail {
 
     /**
      * Version of the hand-authored heuristic weights that produced the recommendation, for example
-     * 'risk-2026-10.7'. A tenant threshold override adds a +t&lt;N&gt; suffix, e.g. 'risk-2026-10.7+t3'.
+     * 'risk-2026-10.7'. A workspace threshold override adds a +t&lt;N&gt; suffix, e.g.
+     * 'risk-2026-10.7+t3'.
      */
     public AssessmentDetail withPolicyVersion(@Nonnull String policyVersion) {
         this.policyVersion = Utils.checkNotNull(policyVersion, "policyVersion");
@@ -582,7 +585,7 @@ public class AssessmentDetail {
     }
 
     /**
-     * The identity fields of the auth context the assessment was made with, echoed for the tenant's own
+     * The identity fields of the auth context the assessment was made with, echoed for the workspace's own
      * correlation: the request's auth_context, or the one a hosted provider hook (POST
      * /hooks/{integration_id}) built, with transport provider_hook and its hook_point. Present exactly
      * when the request carried an auth_context, and the same on every revision of the assessment. Values
@@ -735,7 +738,7 @@ public class AssessmentDetail {
 
         /**
          * Opaque, server-assigned assessment id: 'asm_' and a 26-character Crockford base32 ULID. Unique
-         * within the tenant; another tenant's assessment id answers 404.
+         * within the workspace; another workspace's assessment id answers 404.
          */
         public Builder assessmentId(@Nonnull String assessmentId) {
             this.assessmentId = Utils.checkNotNull(assessmentId, "assessmentId");
@@ -743,10 +746,10 @@ public class AssessmentDetail {
         }
 
         /**
-         * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-         * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-         * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-         * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+         * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+         * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+         * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+         * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
          * internal id is a common pseudonymous scheme.
          *
          * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -831,7 +834,8 @@ public class AssessmentDetail {
 
         /**
          * Version of the hand-authored heuristic weights that produced the recommendation, for example
-         * 'risk-2026-10.7'. A tenant threshold override adds a +t&lt;N&gt; suffix, e.g. 'risk-2026-10.7+t3'.
+         * 'risk-2026-10.7'. A workspace threshold override adds a +t&lt;N&gt; suffix, e.g.
+         * 'risk-2026-10.7+t3'.
          */
         public Builder policyVersion(@Nonnull String policyVersion) {
             this.policyVersion = Utils.checkNotNull(policyVersion, "policyVersion");
@@ -889,7 +893,7 @@ public class AssessmentDetail {
         }
 
         /**
-         * The identity fields of the auth context the assessment was made with, echoed for the tenant's own
+         * The identity fields of the auth context the assessment was made with, echoed for the workspace's own
          * correlation: the request's auth_context, or the one a hosted provider hook (POST
          * /hooks/{integration_id}) built, with transport provider_hook and its hook_point. Present exactly
          * when the request carried an auth_context, and the same on every revision of the assessment. Values

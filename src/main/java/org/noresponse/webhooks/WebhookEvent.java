@@ -12,7 +12,7 @@ import org.noresponse.models.shared.Assessment;
  * {@link #expired()} holds the terminal expiry notice. For
  * {@code endpoint.verification}, {@link #verification()} holds the challenge. For
  * {@code account.deleted}, {@link #accountDeleted()} names the account you erased. For
- * {@code tenant.deleted}, {@link #tenantDeleted()} names the deleted workspace. For
+ * {@code workspace.deleted}, {@link #workspaceDeleted()} names the deleted workspace. For
  * {@code webhook_endpoint.disabled}, {@link #endpointDisabled()} names the disabled endpoint. For
  * {@code account.risk_changed}, {@link #accountRiskChanged()} holds the account with its new
  * decisions and the decisions it replaced.
@@ -70,11 +70,11 @@ public final class WebhookEvent {
     }
 
     /**
-     * Present for tenant.deleted: the workspace was deleted. It is the last event this endpoint
+     * Present for workspace.deleted: the workspace was deleted. It is the last event this endpoint
      * receives.
      */
-    public Optional<TenantDeleted> tenantDeleted() {
-        return data instanceof TenantDeleted ? Optional.of((TenantDeleted) data) : Optional.empty();
+    public Optional<WorkspaceDeleted> workspaceDeleted() {
+        return data instanceof WorkspaceDeleted ? Optional.of((WorkspaceDeleted) data) : Optional.empty();
     }
 
     /**

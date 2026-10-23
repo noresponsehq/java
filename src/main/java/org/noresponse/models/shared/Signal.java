@@ -33,9 +33,9 @@ public class Signal {
     private SignalOutcome outcome;
 
     /**
-     * Opaque, tenant-scoped projection of the source that produced a signal. It stays stable for your
-     * tenant while the projection key is unchanged and reveals no upstream provider, feed, breach table or
-     * source record.
+     * Opaque, workspace-scoped projection of the source that produced a signal. It stays stable for your
+     * workspace while the projection key is unchanged and reveals no upstream provider, feed, breach table
+     * or source record.
      */
     @JsonProperty("source_id")
     private String sourceId;
@@ -146,9 +146,9 @@ public class Signal {
     }
 
     /**
-     * Opaque, tenant-scoped projection of the source that produced a signal. It stays stable for your
-     * tenant while the projection key is unchanged and reveals no upstream provider, feed, breach table or
-     * source record.
+     * Opaque, workspace-scoped projection of the source that produced a signal. It stays stable for your
+     * workspace while the projection key is unchanged and reveals no upstream provider, feed, breach table
+     * or source record.
      */
     public String sourceId() {
         return this.sourceId;
@@ -231,9 +231,9 @@ public class Signal {
     }
 
     /**
-     * Opaque, tenant-scoped projection of the source that produced a signal. It stays stable for your
-     * tenant while the projection key is unchanged and reveals no upstream provider, feed, breach table or
-     * source record.
+     * Opaque, workspace-scoped projection of the source that produced a signal. It stays stable for your
+     * workspace while the projection key is unchanged and reveals no upstream provider, feed, breach table
+     * or source record.
      */
     public Signal withSourceId(@Nonnull String sourceId) {
         this.sourceId = Utils.checkNotNull(sourceId, "sourceId");
@@ -408,9 +408,9 @@ public class Signal {
         }
 
         /**
-         * Opaque, tenant-scoped projection of the source that produced a signal. It stays stable for your
-         * tenant while the projection key is unchanged and reveals no upstream provider, feed, breach table or
-         * source record.
+         * Opaque, workspace-scoped projection of the source that produced a signal. It stays stable for your
+         * workspace while the projection key is unchanged and reveals no upstream provider, feed, breach table
+         * or source record.
          */
         public Builder sourceId(@Nonnull String sourceId) {
             this.sourceId = Utils.checkNotNull(sourceId, "sourceId");

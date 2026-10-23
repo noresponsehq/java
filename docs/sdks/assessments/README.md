@@ -2,7 +2,7 @@
 
 ## Overview
 
-Signup and gateway assessments.
+Assessments of account creation, login and purchase.
 
 ### Available Operations
 
@@ -14,7 +14,7 @@ Signup and gateway assessments.
 
 ## create
 
-Assesses one signup, login or purchase (flow) and answers with the account's one current risk: account.risk.decision is the decision for this flow (allow, step_up, review or block, where block means your block threshold was reached), and detail holds this assessment's own facts. depth sets how long the answer waits for sources: quick waits only for the fast ones (500 ms), full for the whole budget (3000 ms at most); it defaults to full for signup and purchase and quick for login. 200 carries complete or partial, 202 carries pending with Location and Retry-After. While the account's first assessment is pending, account is absent: apply your own fallback for that, 429, 503 or a timeout. NoResponse blocks nothing itself; you decide. Requires the assess scope. Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key with a different body answers 409 idempotency_key_reused. response_mode defaults to standard; detailed needs the detailed scope.
+Assesses one account creation, login or purchase (flow) and answers with the account's one current risk: account.risk.decision is the decision for this flow (allow, step_up, review or block, where block means your block threshold was reached), and detail holds this assessment's own facts. depth sets how long the answer waits for sources: quick waits only for the fast ones (500 ms), full for the whole budget (3000 ms at most); it defaults to full for account_creation and purchase and quick for login. 200 carries complete or partial, 202 carries pending with Location and Retry-After. While the account's first assessment is pending, account is absent: apply your own fallback for that, 429, 503 or a timeout. NoResponse blocks nothing itself; you decide. Requires the assess scope. Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key with a different body answers 409 idempotency_key_reused. response_mode defaults to standard; detailed needs the detailed scope.
 
 ### Example Usage: complete
 
@@ -50,10 +50,10 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-acct_7f3a9c")
+                .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
-                    .flow(Flow.SIGNUP)
+                    .flow(Flow.ACCOUNT_CREATION)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -146,10 +146,10 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-acct_7f3a9c")
+                .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
-                    .flow(Flow.SIGNUP)
+                    .flow(Flow.ACCOUNT_CREATION)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -237,10 +237,10 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-acct_7f3a9c")
+                .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
-                    .flow(Flow.SIGNUP)
+                    .flow(Flow.ACCOUNT_CREATION)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new_user_42")
@@ -294,10 +294,10 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-acct_7f3a9c")
+                .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
-                    .flow(Flow.SIGNUP)
+                    .flow(Flow.ACCOUNT_CREATION)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -384,10 +384,10 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-acct_7f3a9c")
+                .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
-                    .flow(Flow.SIGNUP)
+                    .flow(Flow.ACCOUNT_CREATION)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .build())
@@ -430,10 +430,10 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-acct_7f3a9c")
+                .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_8412")
-                    .flow(Flow.SIGNUP)
+                    .flow(Flow.ACCOUNT_CREATION)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("jane.doe@example.com")
                         .username("janedoe")
@@ -490,10 +490,10 @@ public class Application {
             .build();
 
         CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-acct_7f3a9c")
+                .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
-                    .flow(Flow.SIGNUP)
+                    .flow(Flow.ACCOUNT_CREATION)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -555,10 +555,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                      | Type                                                                                                                                                           | Required                                                                                                                                                       | Description                                                                                                                                                    | Example                                                                                                                                                        |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `idempotencyKey`                                                                                                                                               | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours. | signup-acct_7f3a9c                                                                                                                                             |
-| `body`                                                                                                                                                         | [AssessmentRequest](../../models/shared/AssessmentRequest.md)                                                                                                  | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |                                                                                                                                                                |
+| Parameter                                                                                                                                                         | Type                                                                                                                                                              | Required                                                                                                                                                          | Description                                                                                                                                                       | Example                                                                                                                                                           |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `idempotencyKey`                                                                                                                                                  | *String*                                                                                                                                                          | :heavy_check_mark:                                                                                                                                                | Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours. | account-acct_7f3a9c                                                                                                                                               |
+| `body`                                                                                                                                                            | [AssessmentRequest](../../models/shared/AssessmentRequest.md)                                                                                                     | :heavy_check_mark:                                                                                                                                                | N/A                                                                                                                                                               |                                                                                                                                                                   |
 
 ### Response
 
@@ -578,7 +578,7 @@ public class Application {
 
 ## get
 
-Returns the highest assessment_version, with the account's current risk. Requires the assess or history scope. While status is pending, or partial with a source still running, the response carries Retry-After; poll no faster than it says. Another tenant's assessment, an unknown or expired assessment and a malformed assessment_id all answer 404 not_found. response_mode=detailed needs the detailed scope.
+Returns the highest assessment_version, with the account's current risk. Requires the assess or history scope. While status is pending, or partial with a source still running, the response carries Retry-After; poll no faster than it says. Another workspace's assessment, an unknown or expired assessment and a malformed assessment_id all answer 404 not_found. response_mode=detailed needs the detailed scope.
 
 ### Example Usage: complete
 
@@ -935,7 +935,7 @@ public class Application {
 
         RecordAssessmentOutcomeResponse res = sdk.assessments().recordOutcome()
                 .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-                .idempotencyKey("signup-acct_7f3a9c")
+                .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentOutcomeRequest.builder()
                     .outcome(Outcome.CONFIRMED_ABUSE)
                     .observedAt("2026-10-20T05:00:00Z")
@@ -978,12 +978,12 @@ public class Application {
 
         RecordAssessmentOutcomeResponse res = sdk.assessments().recordOutcome()
                 .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-                .idempotencyKey("signup-acct_7f3a9c")
+                .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentOutcomeRequest.builder()
                     .outcome(Outcome.LEGITIMATE)
                     .observedAt("2026-10-14T09:04:30.000Z")
                     .externalRef("case-48213")
-                    .notes("Chargeback filed two days after signup.")
+                    .notes("Chargeback filed two days after account creation.")
                     .build())
                 .call();
 
@@ -1021,7 +1021,7 @@ public class Application {
 
         RecordAssessmentOutcomeResponse res = sdk.assessments().recordOutcome()
                 .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-                .idempotencyKey("signup-acct_7f3a9c")
+                .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentOutcomeRequest.builder()
                     .outcome(Outcome.FALSE_POSITIVE)
                     .build())
@@ -1036,11 +1036,11 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                      | Type                                                                                                                                                           | Required                                                                                                                                                       | Description                                                                                                                                                    | Example                                                                                                                                                        |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `assessmentId`                                                                                                                                                 | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.                                              | asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                                                                                                                 |
-| `idempotencyKey`                                                                                                                                               | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours. | signup-acct_7f3a9c                                                                                                                                             |
-| `body`                                                                                                                                                         | [AssessmentOutcomeRequest](../../models/shared/AssessmentOutcomeRequest.md)                                                                                    | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |                                                                                                                                                                |
+| Parameter                                                                                                                                                         | Type                                                                                                                                                              | Required                                                                                                                                                          | Description                                                                                                                                                       | Example                                                                                                                                                           |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `assessmentId`                                                                                                                                                    | *String*                                                                                                                                                          | :heavy_check_mark:                                                                                                                                                | Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.                                                 | asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                                                                                                                    |
+| `idempotencyKey`                                                                                                                                                  | *String*                                                                                                                                                          | :heavy_check_mark:                                                                                                                                                | Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours. | account-acct_7f3a9c                                                                                                                                               |
+| `body`                                                                                                                                                            | [AssessmentOutcomeRequest](../../models/shared/AssessmentOutcomeRequest.md)                                                                                       | :heavy_check_mark:                                                                                                                                                | N/A                                                                                                                                                               |                                                                                                                                                                   |
 
 ### Response
 
@@ -1060,7 +1060,7 @@ public class Application {
 
 ## query
 
-History is a POST with account_id in the body so an account identifier stays out of URLs and access logs. Requires the history scope. Read-only and safe to retry. Newest first, each at its latest assessment_version. An account with no assessments answers 200 with empty items. The cursor is opaque and bound to your tenant and the account; a tampered or expired cursor answers 400 invalid_cursor. response_mode=detailed needs the detailed scope.
+History is a POST with account_id in the body so an account identifier stays out of URLs and access logs. Requires the history scope. Read-only and safe to retry. Newest first, each at its latest assessment_version. An account with no assessments answers 200 with empty items. The cursor is opaque and bound to your workspace and the account; a tampered or expired cursor answers 400 invalid_cursor. response_mode=detailed needs the detailed scope.
 
 ### Example Usage: firstPage
 

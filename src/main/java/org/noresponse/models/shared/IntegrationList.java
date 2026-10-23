@@ -12,8 +12,8 @@ import org.noresponse.utils.Utils;
 /**
  * IntegrationList
  *
- * <p>GET /v1/integrations: every integration of the tenant, oldest first, at most 10. No secret is ever
- * listed.
+ * <p>GET /v1/integrations: every integration of the workspace, oldest first, at most 10. No secret is
+ * ever listed.
  */
 public class IntegrationList {
 

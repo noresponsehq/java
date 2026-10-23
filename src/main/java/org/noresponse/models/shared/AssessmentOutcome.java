@@ -17,14 +17,14 @@ import org.noresponse.utils.Utils;
 public class AssessmentOutcome {
     /**
      * Opaque, server-assigned id of one recorded outcome: 'out_' and a 26-character Crockford base32 ULID.
-     * Unique within the tenant.
+     * Unique within the workspace.
      */
     @JsonProperty("id")
     private String id;
 
     /**
      * Opaque, server-assigned assessment id: 'asm_' and a 26-character Crockford base32 ULID. Unique
-     * within the tenant; another tenant's assessment id answers 404.
+     * within the workspace; another workspace's assessment id answers 404.
      */
     @JsonProperty("assessment_id")
     private String assessmentId;
@@ -32,7 +32,7 @@ public class AssessmentOutcome {
     /**
      * What the provider later learned about the assessed account. confirmed_abuse, account_takeover and
      * chargeback report abuse; false_positive and legitimate withdraw an earlier abuse report of this
-     * tenant for the assessment; unknown is recorded only. Outcomes are append-only and the latest one
+     * workspace for the assessment; unknown is recorded only. Outcomes are append-only and the latest one
      * recorded for an assessment wins.
      */
     @JsonProperty("outcome")
@@ -61,7 +61,7 @@ public class AssessmentOutcome {
 
     /**
      * Opaque, server-assigned id of one recorded outcome: 'out_' and a 26-character Crockford base32 ULID.
-     * Unique within the tenant.
+     * Unique within the workspace.
      */
     public String id() {
         return this.id;
@@ -69,7 +69,7 @@ public class AssessmentOutcome {
 
     /**
      * Opaque, server-assigned assessment id: 'asm_' and a 26-character Crockford base32 ULID. Unique
-     * within the tenant; another tenant's assessment id answers 404.
+     * within the workspace; another workspace's assessment id answers 404.
      */
     public String assessmentId() {
         return this.assessmentId;
@@ -78,7 +78,7 @@ public class AssessmentOutcome {
     /**
      * What the provider later learned about the assessed account. confirmed_abuse, account_takeover and
      * chargeback report abuse; false_positive and legitimate withdraw an earlier abuse report of this
-     * tenant for the assessment; unknown is recorded only. Outcomes are append-only and the latest one
+     * workspace for the assessment; unknown is recorded only. Outcomes are append-only and the latest one
      * recorded for an assessment wins.
      */
     public Outcome outcome() {
@@ -98,7 +98,7 @@ public class AssessmentOutcome {
 
     /**
      * Opaque, server-assigned id of one recorded outcome: 'out_' and a 26-character Crockford base32 ULID.
-     * Unique within the tenant.
+     * Unique within the workspace.
      */
     public AssessmentOutcome withId(@Nonnull String id) {
         this.id = Utils.checkNotNull(id, "id");
@@ -107,7 +107,7 @@ public class AssessmentOutcome {
 
     /**
      * Opaque, server-assigned assessment id: 'asm_' and a 26-character Crockford base32 ULID. Unique
-     * within the tenant; another tenant's assessment id answers 404.
+     * within the workspace; another workspace's assessment id answers 404.
      */
     public AssessmentOutcome withAssessmentId(@Nonnull String assessmentId) {
         this.assessmentId = Utils.checkNotNull(assessmentId, "assessmentId");
@@ -117,7 +117,7 @@ public class AssessmentOutcome {
     /**
      * What the provider later learned about the assessed account. confirmed_abuse, account_takeover and
      * chargeback report abuse; false_positive and legitimate withdraw an earlier abuse report of this
-     * tenant for the assessment; unknown is recorded only. Outcomes are append-only and the latest one
+     * workspace for the assessment; unknown is recorded only. Outcomes are append-only and the latest one
      * recorded for an assessment wins.
      */
     public AssessmentOutcome withOutcome(@Nonnull Outcome outcome) {
@@ -184,7 +184,7 @@ public class AssessmentOutcome {
 
         /**
          * Opaque, server-assigned id of one recorded outcome: 'out_' and a 26-character Crockford base32 ULID.
-         * Unique within the tenant.
+         * Unique within the workspace.
          */
         public Builder id(@Nonnull String id) {
             this.id = Utils.checkNotNull(id, "id");
@@ -193,7 +193,7 @@ public class AssessmentOutcome {
 
         /**
          * Opaque, server-assigned assessment id: 'asm_' and a 26-character Crockford base32 ULID. Unique
-         * within the tenant; another tenant's assessment id answers 404.
+         * within the workspace; another workspace's assessment id answers 404.
          */
         public Builder assessmentId(@Nonnull String assessmentId) {
             this.assessmentId = Utils.checkNotNull(assessmentId, "assessmentId");
@@ -203,7 +203,7 @@ public class AssessmentOutcome {
         /**
          * What the provider later learned about the assessed account. confirmed_abuse, account_takeover and
          * chargeback report abuse; false_positive and legitimate withdraw an earlier abuse report of this
-         * tenant for the assessment; unknown is recorded only. Outcomes are append-only and the latest one
+         * workspace for the assessment; unknown is recorded only. Outcomes are append-only and the latest one
          * recorded for an assessment wins.
          */
         public Builder outcome(@Nonnull Outcome outcome) {

@@ -20,7 +20,7 @@ import java.util.Optional;
  *
  * <p>What the provider later learned about the assessed account. confirmed_abuse, account_takeover and
  * chargeback report abuse; false_positive and legitimate withdraw an earlier abuse report of this
- * tenant for the assessment; unknown is recorded only. Outcomes are append-only and the latest one
+ * workspace for the assessment; unknown is recorded only. Outcomes are append-only and the latest one
  * recorded for an assessment wins.
  */
 public class Outcome {

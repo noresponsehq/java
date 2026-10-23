@@ -63,7 +63,7 @@ public class WebhookEndpoints {
     }
 
     /**
-     * List the tenant's webhook endpoints.
+     * List the workspace's webhook endpoints.
      *
      * <p>Lists your webhook endpoints in every state, ordered by endpoint_id, with the ids of their signing
      * keys and without secrets. Requires the webhooks scope.
@@ -75,7 +75,7 @@ public class WebhookEndpoints {
     }
 
     /**
-     * List the tenant's webhook endpoints.
+     * List the workspace's webhook endpoints.
      *
      * <p>Lists your webhook endpoints in every state, ordered by endpoint_id, with the ids of their signing
      * keys and without secrets. Requires the webhooks scope.
@@ -88,7 +88,7 @@ public class WebhookEndpoints {
     }
 
     /**
-     * List the tenant's webhook endpoints.
+     * List the workspace's webhook endpoints.
      *
      * <p>Lists your webhook endpoints in every state, ordered by endpoint_id, with the ids of their signing
      * keys and without secrets. Requires the webhooks scope.
@@ -167,7 +167,7 @@ public class WebhookEndpoints {
      *
      * <p>An endpoint that is already gone answers 404.
      *
-     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
@@ -183,7 +183,7 @@ public class WebhookEndpoints {
      *
      * <p>An endpoint that is already gone answers 404.
      *
-     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
      * @param options additional options
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
@@ -221,7 +221,7 @@ public class WebhookEndpoints {
      * <p>Rotation is not idempotent: a retry after a lost answer issues another key, which replaces the
      * first.
      *
-     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
      * @param body POST /v1/webhooks/{endpoint_id}/rotate body: an empty object. The old key keeps verifying for 7 days.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
@@ -262,7 +262,7 @@ public class WebhookEndpoints {
      *
      * <p>Requires the webhooks scope.
      *
-     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
      * @param body POST /v1/webhooks/{endpoint_id}/test body: which event to send.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
@@ -282,7 +282,7 @@ public class WebhookEndpoints {
      * Attempts are kept for 30 days, or your retention_days when that is shorter, and are deleted with the
      * assessment they carried. Requires the webhooks scope.
      *
-     * <p>Read-only and safe to retry. The cursor is opaque and bound to your tenant and the endpoint; a
+     * <p>Read-only and safe to retry. The cursor is opaque and bound to your workspace and the endpoint; a
      * tampered or expired cursor answers 400 invalid_cursor.
      *
      * @return The call builder
@@ -299,10 +299,10 @@ public class WebhookEndpoints {
      * Attempts are kept for 30 days, or your retention_days when that is shorter, and are deleted with the
      * assessment they carried. Requires the webhooks scope.
      *
-     * <p>Read-only and safe to retry. The cursor is opaque and bound to your tenant and the endpoint; a
+     * <p>Read-only and safe to retry. The cursor is opaque and bound to your workspace and the endpoint; a
      * tampered or expired cursor answers 400 invalid_cursor.
      *
-     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
@@ -318,10 +318,10 @@ public class WebhookEndpoints {
      * Attempts are kept for 30 days, or your retention_days when that is shorter, and are deleted with the
      * assessment they carried. Requires the webhooks scope.
      *
-     * <p>Read-only and safe to retry. The cursor is opaque and bound to your tenant and the endpoint; a
+     * <p>Read-only and safe to retry. The cursor is opaque and bound to your workspace and the endpoint; a
      * tampered or expired cursor answers 400 invalid_cursor.
      *
-     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
+     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
      * @param limit Attempts per page.
      * @param cursor next_cursor from the previous page, unchanged.
      * @param options additional options
@@ -362,8 +362,8 @@ public class WebhookEndpoints {
      *
      * <p>Requires the webhooks scope. Not idempotent: each call, a retry included, sends the event again.
      *
-     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another tenant's answers 404.
-     * @param eventId The evt_ id of a delivery the endpoint's log holds, as GET /v1/webhooks/{endpoint_id}/deliveries lists it. An id that is malformed, not sent to this endpoint, past the log's retention or another tenant's answers 404.
+     * @param endpointId The endpoint's whe_ id. An id that is unknown, malformed or another workspace's answers 404.
+     * @param eventId The evt_ id of a delivery the endpoint's log holds, as GET /v1/webhooks/{endpoint_id}/deliveries lists it. An id that is malformed, not sent to this endpoint, past the log's retention or another workspace's answers 404.
      * @param body POST /v1/webhooks/{endpoint_id}/deliveries/{event_id}/replay body: an empty object.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails

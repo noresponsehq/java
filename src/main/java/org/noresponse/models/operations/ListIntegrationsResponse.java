@@ -31,7 +31,7 @@ public class ListIntegrationsResponse implements Response {
     private HttpResponse<InputStream> rawResponse;
 
     /**
-     * Every integration of the tenant, oldest first, without secrets.
+     * Every integration of the workspace, oldest first, without secrets.
      */
     private IntegrationList integrationList;
 
@@ -85,7 +85,7 @@ public class ListIntegrationsResponse implements Response {
     }
 
     /**
-     * Every integration of the tenant, oldest first, without secrets.
+     * Every integration of the workspace, oldest first, without secrets.
      */
     public Optional<IntegrationList> integrationList() {
         return Optional.ofNullable(this.integrationList);
@@ -124,7 +124,7 @@ public class ListIntegrationsResponse implements Response {
     }
 
     /**
-     * Every integration of the tenant, oldest first, without secrets.
+     * Every integration of the workspace, oldest first, without secrets.
      */
     public ListIntegrationsResponse withIntegrationList(@Nullable IntegrationList integrationList) {
         this.integrationList = integrationList;
@@ -215,7 +215,7 @@ public class ListIntegrationsResponse implements Response {
         }
 
         /**
-         * Every integration of the tenant, oldest first, without secrets.
+         * Every integration of the workspace, oldest first, without secrets.
          */
         public Builder integrationList(@Nullable IntegrationList integrationList) {
             this.integrationList = integrationList;

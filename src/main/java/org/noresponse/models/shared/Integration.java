@@ -26,7 +26,7 @@ import org.noresponse.utils.Utils;
 public class Integration {
     /**
      * Opaque, server-assigned integration id: int_ and a 26-character Crockford base32 ULID. Another
-     * tenant's integration id answers 404.
+     * workspace's integration id answers 404.
      */
     @JsonProperty("integration_id")
     private String integrationId;
@@ -111,7 +111,7 @@ public class Integration {
 
     /**
      * Opaque, server-assigned integration id: int_ and a 26-character Crockford base32 ULID. Another
-     * tenant's integration id answers 404.
+     * workspace's integration id answers 404.
      */
     public String integrationId() {
         return this.integrationId;
@@ -172,7 +172,7 @@ public class Integration {
 
     /**
      * Opaque, server-assigned integration id: int_ and a 26-character Crockford base32 ULID. Another
-     * tenant's integration id answers 404.
+     * workspace's integration id answers 404.
      */
     public Integration withIntegrationId(@Nonnull String integrationId) {
         this.integrationId = Utils.checkNotNull(integrationId, "integrationId");
@@ -307,7 +307,7 @@ public class Integration {
 
         /**
          * Opaque, server-assigned integration id: int_ and a 26-character Crockford base32 ULID. Another
-         * tenant's integration id answers 404.
+         * workspace's integration id answers 404.
          */
         public Builder integrationId(@Nonnull String integrationId) {
             this.integrationId = Utils.checkNotNull(integrationId, "integrationId");

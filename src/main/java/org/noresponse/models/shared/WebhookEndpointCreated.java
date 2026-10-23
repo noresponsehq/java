@@ -17,7 +17,7 @@ import org.noresponse.utils.Utils;
  */
 public class WebhookEndpointCreated {
     /**
-     * One of the tenant's registered webhook endpoints. Signing secrets are not part of it: a secret is
+     * One of the workspace's registered webhook endpoints. Signing secrets are not part of it: a secret is
      * shown once, when it is issued (POST /v1/webhooks and POST /v1/webhooks/{endpoint_id}/rotate).
      */
     @JsonProperty("endpoint")
@@ -41,7 +41,7 @@ public class WebhookEndpointCreated {
     }
 
     /**
-     * One of the tenant's registered webhook endpoints. Signing secrets are not part of it: a secret is
+     * One of the workspace's registered webhook endpoints. Signing secrets are not part of it: a secret is
      * shown once, when it is issued (POST /v1/webhooks and POST /v1/webhooks/{endpoint_id}/rotate).
      */
     public WebhookEndpoint endpoint() {
@@ -61,7 +61,7 @@ public class WebhookEndpointCreated {
     }
 
     /**
-     * One of the tenant's registered webhook endpoints. Signing secrets are not part of it: a secret is
+     * One of the workspace's registered webhook endpoints. Signing secrets are not part of it: a secret is
      * shown once, when it is issued (POST /v1/webhooks and POST /v1/webhooks/{endpoint_id}/rotate).
      */
     public WebhookEndpointCreated withEndpoint(@Nonnull WebhookEndpoint endpoint) {
@@ -113,7 +113,7 @@ public class WebhookEndpointCreated {
         }
 
         /**
-         * One of the tenant's registered webhook endpoints. Signing secrets are not part of it: a secret is
+         * One of the workspace's registered webhook endpoints. Signing secrets are not part of it: a secret is
          * shown once, when it is issued (POST /v1/webhooks and POST /v1/webhooks/{endpoint_id}/rotate).
          */
         public Builder endpoint(@Nonnull WebhookEndpoint endpoint) {

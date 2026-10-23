@@ -14,7 +14,7 @@ import org.noresponse.utils.Utils;
 /**
  * IpSummary
  *
- * <p>Facts about the submitted IP from the offline database and this tenant's own recent assessments.
+ * <p>Facts about the submitted IP from the offline database and this workspace's own recent assessments.
  * Every member is optional; absent makes no claim.
  */
 public class IpSummary {
@@ -33,20 +33,21 @@ public class IpSummary {
     private IpSummaryType type;
 
     /**
-     * Assessments in this tenant with the same IP in the last 24 hours, this one included. A count only.
+     * Assessments in this workspace with the same IP in the last 24 hours, this one included. A count
+     * only.
      */
     @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("seen_in_tenant")
-    private Long seenInTenant;
+    @JsonProperty("seen_in_workspace")
+    private Long seenInWorkspace;
 
     @JsonCreator
     public IpSummary(
             @JsonProperty("country") @Nullable String country,
             @JsonProperty("type") @Nullable IpSummaryType type,
-            @JsonProperty("seen_in_tenant") @Nullable Long seenInTenant) {
+            @JsonProperty("seen_in_workspace") @Nullable Long seenInWorkspace) {
         this.country = country;
         this.type = type;
-        this.seenInTenant = seenInTenant;
+        this.seenInWorkspace = seenInWorkspace;
     }
 
     public IpSummary() {
@@ -68,10 +69,11 @@ public class IpSummary {
     }
 
     /**
-     * Assessments in this tenant with the same IP in the last 24 hours, this one included. A count only.
+     * Assessments in this workspace with the same IP in the last 24 hours, this one included. A count
+     * only.
      */
-    public Optional<Long> seenInTenant() {
-        return Optional.ofNullable(this.seenInTenant);
+    public Optional<Long> seenInWorkspace() {
+        return Optional.ofNullable(this.seenInWorkspace);
     }
 
     public static Builder builder() {
@@ -95,10 +97,11 @@ public class IpSummary {
     }
 
     /**
-     * Assessments in this tenant with the same IP in the last 24 hours, this one included. A count only.
+     * Assessments in this workspace with the same IP in the last 24 hours, this one included. A count
+     * only.
      */
-    public IpSummary withSeenInTenant(@Nullable Long seenInTenant) {
-        this.seenInTenant = seenInTenant;
+    public IpSummary withSeenInWorkspace(@Nullable Long seenInWorkspace) {
+        this.seenInWorkspace = seenInWorkspace;
         return this;
     }
 
@@ -113,17 +116,17 @@ public class IpSummary {
         IpSummary other = (IpSummary) o;
         return Utils.enhancedDeepEquals(this.country, other.country)
                 && Utils.enhancedDeepEquals(this.type, other.type)
-                && Utils.enhancedDeepEquals(this.seenInTenant, other.seenInTenant);
+                && Utils.enhancedDeepEquals(this.seenInWorkspace, other.seenInWorkspace);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(country, type, seenInTenant);
+        return Utils.enhancedHash(country, type, seenInWorkspace);
     }
 
     @Override
     public String toString() {
-        return Utils.toString(IpSummary.class, "country", country, "type", type, "seenInTenant", seenInTenant);
+        return Utils.toString(IpSummary.class, "country", country, "type", type, "seenInWorkspace", seenInWorkspace);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -133,7 +136,7 @@ public class IpSummary {
 
         private IpSummaryType type;
 
-        private Long seenInTenant;
+        private Long seenInWorkspace;
 
         private Builder() {
             // force use of static builder() method
@@ -156,15 +159,16 @@ public class IpSummary {
         }
 
         /**
-         * Assessments in this tenant with the same IP in the last 24 hours, this one included. A count only.
+         * Assessments in this workspace with the same IP in the last 24 hours, this one included. A count
+         * only.
          */
-        public Builder seenInTenant(@Nullable Long seenInTenant) {
-            this.seenInTenant = seenInTenant;
+        public Builder seenInWorkspace(@Nullable Long seenInWorkspace) {
+            this.seenInWorkspace = seenInWorkspace;
             return this;
         }
 
         public IpSummary build() {
-            return new IpSummary(country, type, seenInTenant);
+            return new IpSummary(country, type, seenInWorkspace);
         }
     }
 }

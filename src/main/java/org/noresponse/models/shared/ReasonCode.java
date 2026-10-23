@@ -33,7 +33,7 @@ public class ReasonCode {
     public static final ReasonCode PROXY_IP = new ReasonCode("proxy_ip");
     public static final ReasonCode SEEN_BEFORE = new ReasonCode("seen_before");
     public static final ReasonCode SHARED_IP = new ReasonCode("shared_ip");
-    public static final ReasonCode MANY_RECENT_SIGNUPS = new ReasonCode("many_recent_signups");
+    public static final ReasonCode MANY_RECENT_ACCOUNTS = new ReasonCode("many_recent_accounts");
     public static final ReasonCode ESTABLISHED_ACCOUNTS = new ReasonCode("established_accounts");
     public static final ReasonCode AGED_IDENTITY = new ReasonCode("aged_identity");
     public static final ReasonCode BREACH_NAME_MATCH = new ReasonCode("breach_name_match");
@@ -140,7 +140,7 @@ public class ReasonCode {
         map.put("proxy_ip", PROXY_IP);
         map.put("seen_before", SEEN_BEFORE);
         map.put("shared_ip", SHARED_IP);
-        map.put("many_recent_signups", MANY_RECENT_SIGNUPS);
+        map.put("many_recent_accounts", MANY_RECENT_ACCOUNTS);
         map.put("established_accounts", ESTABLISHED_ACCOUNTS);
         map.put("aged_identity", AGED_IDENTITY);
         map.put("breach_name_match", BREACH_NAME_MATCH);
@@ -182,7 +182,7 @@ public class ReasonCode {
         map.put("proxy_ip", ReasonCodeEnum.PROXY_IP);
         map.put("seen_before", ReasonCodeEnum.SEEN_BEFORE);
         map.put("shared_ip", ReasonCodeEnum.SHARED_IP);
-        map.put("many_recent_signups", ReasonCodeEnum.MANY_RECENT_SIGNUPS);
+        map.put("many_recent_accounts", ReasonCodeEnum.MANY_RECENT_ACCOUNTS);
         map.put("established_accounts", ReasonCodeEnum.ESTABLISHED_ACCOUNTS);
         map.put("aged_identity", ReasonCodeEnum.AGED_IDENTITY);
         map.put("breach_name_match", ReasonCodeEnum.BREACH_NAME_MATCH);
@@ -224,7 +224,7 @@ public class ReasonCode {
         PROXY_IP("proxy_ip"),
         SEEN_BEFORE("seen_before"),
         SHARED_IP("shared_ip"),
-        MANY_RECENT_SIGNUPS("many_recent_signups"),
+        MANY_RECENT_ACCOUNTS("many_recent_accounts"),
         ESTABLISHED_ACCOUNTS("established_accounts"),
         AGED_IDENTITY("aged_identity"),
         BREACH_NAME_MATCH("breach_name_match"),

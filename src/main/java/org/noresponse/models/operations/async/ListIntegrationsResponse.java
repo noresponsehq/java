@@ -32,7 +32,7 @@ public class ListIntegrationsResponse implements AsyncResponse {
     private HttpResponse<Blob> rawResponse;
 
     /**
-     * Every integration of the tenant, oldest first, without secrets.
+     * Every integration of the workspace, oldest first, without secrets.
      */
     private IntegrationList integrationList;
 
@@ -86,7 +86,7 @@ public class ListIntegrationsResponse implements AsyncResponse {
     }
 
     /**
-     * Every integration of the tenant, oldest first, without secrets.
+     * Every integration of the workspace, oldest first, without secrets.
      */
     public Optional<IntegrationList> integrationList() {
         return Optional.ofNullable(this.integrationList);
@@ -125,7 +125,7 @@ public class ListIntegrationsResponse implements AsyncResponse {
     }
 
     /**
-     * Every integration of the tenant, oldest first, without secrets.
+     * Every integration of the workspace, oldest first, without secrets.
      */
     public ListIntegrationsResponse withIntegrationList(@Nullable IntegrationList integrationList) {
         this.integrationList = integrationList;
@@ -216,7 +216,7 @@ public class ListIntegrationsResponse implements AsyncResponse {
         }
 
         /**
-         * Every integration of the tenant, oldest first, without secrets.
+         * Every integration of the workspace, oldest first, without secrets.
          */
         public Builder integrationList(@Nullable IntegrationList integrationList) {
             this.integrationList = integrationList;

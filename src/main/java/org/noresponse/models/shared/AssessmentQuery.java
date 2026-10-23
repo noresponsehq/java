@@ -25,10 +25,10 @@ import org.noresponse.utils.Utils;
  */
 public class AssessmentQuery {
     /**
-     * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-     * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-     * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-     * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+     * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+     * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+     * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+     * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -44,7 +44,8 @@ public class AssessmentQuery {
     private Long limit;
 
     /**
-     * next_cursor from the previous page, unchanged. Opaque, MAC'd and bound to the tenant and account_id.
+     * next_cursor from the previous page, unchanged. Opaque, MAC'd and bound to the workspace and
+     * account_id.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("cursor")
@@ -76,10 +77,10 @@ public class AssessmentQuery {
     }
 
     /**
-     * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-     * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-     * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-     * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+     * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+     * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+     * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+     * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -96,7 +97,8 @@ public class AssessmentQuery {
     }
 
     /**
-     * next_cursor from the previous page, unchanged. Opaque, MAC'd and bound to the tenant and account_id.
+     * next_cursor from the previous page, unchanged. Opaque, MAC'd and bound to the workspace and
+     * account_id.
      */
     public Optional<String> cursor() {
         return Optional.ofNullable(this.cursor);
@@ -115,10 +117,10 @@ public class AssessmentQuery {
     }
 
     /**
-     * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-     * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-     * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-     * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+     * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+     * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+     * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+     * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -137,7 +139,8 @@ public class AssessmentQuery {
     }
 
     /**
-     * next_cursor from the previous page, unchanged. Opaque, MAC'd and bound to the tenant and account_id.
+     * next_cursor from the previous page, unchanged. Opaque, MAC'd and bound to the workspace and
+     * account_id.
      */
     public AssessmentQuery withCursor(@Nullable String cursor) {
         this.cursor = cursor;
@@ -203,10 +206,10 @@ public class AssessmentQuery {
         }
 
         /**
-         * Your own opaque identifier for the account being checked, scoped to your tenant. Use an id you mint,
-         * with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an Auth0
-         * user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by the
-         * pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
+         * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
+         * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
+         * Auth0 user id such as 'auth0|64abc' passes unchanged; '@', '+', '$' and whitespace are refused by
+         * the pattern, as is an exact-shape JWT; a hex digest such as a SHA-256 is allowed, because hashing an
          * internal id is a common pseudonymous scheme.
          *
          * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
@@ -225,7 +228,8 @@ public class AssessmentQuery {
         }
 
         /**
-         * next_cursor from the previous page, unchanged. Opaque, MAC'd and bound to the tenant and account_id.
+         * next_cursor from the previous page, unchanged. Opaque, MAC'd and bound to the workspace and
+         * account_id.
          */
         public Builder cursor(@Nullable String cursor) {
             this.cursor = cursor;

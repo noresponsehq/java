@@ -14,7 +14,7 @@ import org.noresponse.utils.Utils;
  * Account
  *
  * <p>Body of the 200 answer to GET /v1/accounts/{account_id}: the one current risk of one of the calling
- * tenant's accounts. It is the risk of the account's latest assessment that has a decision (status
+ * workspace's accounts. It is the risk of the account's latest assessment that has a decision (status
  * complete or partial), by created_at and then assessment_id, scored exactly as GET
  * /v1/assessments/{assessment_id} scores that assessment, plus the account's own reason shared_api_key
  * when a key issued to the account was used from many IP addresses or countries (POST
@@ -29,7 +29,7 @@ public class Account {
     private String schemaVersion;
 
     /**
-     * The account_id the tenant sends with its assessments.
+     * The account_id the workspace sends with its assessments.
      */
     @JsonProperty("id")
     private String id;
@@ -39,7 +39,7 @@ public class Account {
 
     /**
      * The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
-     * has not set uses its signup thresholds, so the flows differ only where it set them.
+     * has not set uses its account_creation thresholds, so the flows differ only where it set them.
      */
     @JsonProperty("decisions_by_flow")
     private AccountDecisionsByFlow decisionsByFlow;
@@ -82,7 +82,7 @@ public class Account {
     }
 
     /**
-     * The account_id the tenant sends with its assessments.
+     * The account_id the workspace sends with its assessments.
      */
     public String id() {
         return this.id;
@@ -94,7 +94,7 @@ public class Account {
 
     /**
      * The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
-     * has not set uses its signup thresholds, so the flows differ only where it set them.
+     * has not set uses its account_creation thresholds, so the flows differ only where it set them.
      */
     public AccountDecisionsByFlow decisionsByFlow() {
         return this.decisionsByFlow;
@@ -119,7 +119,7 @@ public class Account {
     }
 
     /**
-     * The account_id the tenant sends with its assessments.
+     * The account_id the workspace sends with its assessments.
      */
     public Account withId(@Nonnull String id) {
         this.id = Utils.checkNotNull(id, "id");
@@ -133,7 +133,7 @@ public class Account {
 
     /**
      * The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
-     * has not set uses its signup thresholds, so the flows differ only where it set them.
+     * has not set uses its account_creation thresholds, so the flows differ only where it set them.
      */
     public Account withDecisionsByFlow(@Nonnull AccountDecisionsByFlow decisionsByFlow) {
         this.decisionsByFlow = Utils.checkNotNull(decisionsByFlow, "decisionsByFlow");
@@ -214,7 +214,7 @@ public class Account {
         }
 
         /**
-         * The account_id the tenant sends with its assessments.
+         * The account_id the workspace sends with its assessments.
          */
         public Builder id(@Nonnull String id) {
             this.id = Utils.checkNotNull(id, "id");
@@ -228,7 +228,7 @@ public class Account {
 
         /**
          * The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
-         * has not set uses its signup thresholds, so the flows differ only where it set them.
+         * has not set uses its account_creation thresholds, so the flows differ only where it set them.
          */
         public Builder decisionsByFlow(@Nonnull AccountDecisionsByFlow decisionsByFlow) {
             this.decisionsByFlow = Utils.checkNotNull(decisionsByFlow, "decisionsByFlow");

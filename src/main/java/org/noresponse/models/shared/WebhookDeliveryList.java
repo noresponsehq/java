@@ -17,7 +17,7 @@ import org.noresponse.utils.Utils;
  *
  * <p>The 200 answer of GET /v1/webhooks/{endpoint_id}/deliveries: one page of the endpoint's delivery
  * attempts, newest first. Each item is one POST to the endpoint. Attempts are kept for 30 days, or the
- * tenant's retention_days when that is shorter, and are deleted with the assessment they carried.
+ * workspace's retention_days when that is shorter, and are deleted with the assessment they carried.
  *
  * <p>next_cursor is present only when another page exists.
  */
@@ -32,7 +32,7 @@ public class WebhookDeliveryList {
     private List<WebhookDeliveryAttempt> items;
 
     /**
-     * Opaque cursor for the next page, MAC'd by the server and bound to the tenant and endpoint it was
+     * Opaque cursor for the next page, MAC'd by the server and bound to the workspace and endpoint it was
      * issued for. Pass it back unchanged as cursor; a tampered, foreign or expired cursor answers 400
      * invalid_cursor.
      */
@@ -67,7 +67,7 @@ public class WebhookDeliveryList {
     }
 
     /**
-     * Opaque cursor for the next page, MAC'd by the server and bound to the tenant and endpoint it was
+     * Opaque cursor for the next page, MAC'd by the server and bound to the workspace and endpoint it was
      * issued for. Pass it back unchanged as cursor; a tampered, foreign or expired cursor answers 400
      * invalid_cursor.
      */
@@ -93,7 +93,7 @@ public class WebhookDeliveryList {
     }
 
     /**
-     * Opaque cursor for the next page, MAC'd by the server and bound to the tenant and endpoint it was
+     * Opaque cursor for the next page, MAC'd by the server and bound to the workspace and endpoint it was
      * issued for. Pass it back unchanged as cursor; a tampered, foreign or expired cursor answers 400
      * invalid_cursor.
      */
@@ -154,7 +154,7 @@ public class WebhookDeliveryList {
         }
 
         /**
-         * Opaque cursor for the next page, MAC'd by the server and bound to the tenant and endpoint it was
+         * Opaque cursor for the next page, MAC'd by the server and bound to the workspace and endpoint it was
          * issued for. Pass it back unchanged as cursor; a tampered, foreign or expired cursor answers 400
          * invalid_cursor.
          */

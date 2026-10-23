@@ -11,7 +11,7 @@ import org.noresponse.utils.Utils;
 public class DeleteIntegrationRequest {
     /**
      * Path segment, matched case-sensitively. A value that does not match the integration_id shape, or
-     * another tenant's id, answers 404.
+     * another workspace's id, answers 404.
      */
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=integration_id")
     private String integrationId;
@@ -24,7 +24,7 @@ public class DeleteIntegrationRequest {
 
     /**
      * Path segment, matched case-sensitively. A value that does not match the integration_id shape, or
-     * another tenant's id, answers 404.
+     * another workspace's id, answers 404.
      */
     public String integrationId() {
         return this.integrationId;
@@ -36,7 +36,7 @@ public class DeleteIntegrationRequest {
 
     /**
      * Path segment, matched case-sensitively. A value that does not match the integration_id shape, or
-     * another tenant's id, answers 404.
+     * another workspace's id, answers 404.
      */
     public DeleteIntegrationRequest withIntegrationId(@Nonnull String integrationId) {
         this.integrationId = Utils.checkNotNull(integrationId, "integrationId");
@@ -76,7 +76,7 @@ public class DeleteIntegrationRequest {
 
         /**
          * Path segment, matched case-sensitively. A value that does not match the integration_id shape, or
-         * another tenant's id, answers 404.
+         * another workspace's id, answers 404.
          */
         public Builder integrationId(@Nonnull String integrationId) {
             this.integrationId = Utils.checkNotNull(integrationId, "integrationId");

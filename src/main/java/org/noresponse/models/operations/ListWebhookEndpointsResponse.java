@@ -31,7 +31,7 @@ public class ListWebhookEndpointsResponse implements Response {
     private HttpResponse<InputStream> rawResponse;
 
     /**
-     * Every endpoint of the calling tenant.
+     * Every endpoint of the calling workspace.
      */
     private WebhookEndpointList webhookEndpointList;
 
@@ -85,7 +85,7 @@ public class ListWebhookEndpointsResponse implements Response {
     }
 
     /**
-     * Every endpoint of the calling tenant.
+     * Every endpoint of the calling workspace.
      */
     public Optional<WebhookEndpointList> webhookEndpointList() {
         return Optional.ofNullable(this.webhookEndpointList);
@@ -124,7 +124,7 @@ public class ListWebhookEndpointsResponse implements Response {
     }
 
     /**
-     * Every endpoint of the calling tenant.
+     * Every endpoint of the calling workspace.
      */
     public ListWebhookEndpointsResponse withWebhookEndpointList(@Nullable WebhookEndpointList webhookEndpointList) {
         this.webhookEndpointList = webhookEndpointList;
@@ -215,7 +215,7 @@ public class ListWebhookEndpointsResponse implements Response {
         }
 
         /**
-         * Every endpoint of the calling tenant.
+         * Every endpoint of the calling workspace.
          */
         public Builder webhookEndpointList(@Nullable WebhookEndpointList webhookEndpointList) {
             this.webhookEndpointList = webhookEndpointList;

@@ -14,7 +14,7 @@ import org.noresponse.utils.Utils;
 /**
  * AssessmentDeletion
  *
- * <p>Body of the 200 answer to DELETE /v1/assessments/{assessment_id}: one of the calling tenant's
+ * <p>Body of the 200 answer to DELETE /v1/assessments/{assessment_id}: one of the calling workspace's
  * assessments was deleted, with its versions, evidence, outcomes and the identity-graph marks its
  * outcomes set. Afterwards GET /v1/assessments/{assessment_id} answers 404 and the assessment leaves
  * the account's history. The account is scored again from what remains: account.current_assessment_id

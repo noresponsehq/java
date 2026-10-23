@@ -2,7 +2,7 @@
 
 # NoResponse Java SDK
 
-The Java client for the [NoResponse API](https://docs.noresponse.org): assess a signup or gateway event, wait for a pending result, page through an account's history, record what you later learned and verify webhooks.
+The Java client for the [NoResponse API](https://docs.noresponse.org): assess an account creation, login or purchase, wait for a pending result, page through an account's history, record what you later learned and verify webhooks.
 
 Call it from your server only. The API key must never reach a browser or an app.
 
@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v4.0.1'
+    implementation 'com.github.noresponsehq:java:v5.0.0'
 }
 ```
 
@@ -36,7 +36,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v4.0.1</version>
+  <version>v5.0.0</version>
 </dependency>
 ```
 
@@ -61,7 +61,7 @@ public class Signup {
         CreateAssessmentResponse res = client.assessments().create(
                 IdempotencyKey.generate(),
                 AssessmentRequest.builder()
-                        .flow(Flow.SIGNUP)
+                        .flow(Flow.ACCOUNT_CREATION)
                         .accountId("acct_7f3a9c")
                         .identifiers(AssessmentRequestIdentifiers.builder()
                                 .email("new.user@example.com")
@@ -170,7 +170,7 @@ AllAssessments.stream(client, query)
 
 ## Issued keys
 
-When your signup gate issues an API key to the new account, send only its hash, as `issued_credential.sha256`; the key itself never leaves your backend.
+When your platform issues an API key to the new account, send only its hash, as `issued_credential.sha256`; the key itself never leaves your backend.
 
 ```java
 String sha256 = IssuedCredential.sha256(issuedKey); // org.noresponse.IssuedCredential
@@ -209,7 +209,7 @@ try {
         event.assessment().ifPresent(a -> { /* the full assessment, as get returns it */ });
         event.expired().ifPresent(e -> { /* delete what you hold for e.assessmentId() */ });
         event.accountDeleted().ifPresent(d -> { /* account.deleted: you erased d.accountId() */ });
-        event.tenantDeleted().ifPresent(t -> { /* tenant.deleted: the workspace is gone; the last event here */ });
+        event.workspaceDeleted().ifPresent(t -> { /* workspace.deleted: the workspace is gone; the last event here */ });
         event.endpointDisabled().ifPresent(d -> { /* d.endpointId() failed for 72 hours: fix it, verify it again */ });
         event.accountRiskChanged().ifPresent(c -> {
             /* account.risk_changed: c.account() is the Account accounts().get returns, with its new

@@ -78,7 +78,7 @@ public class Accounts {
      * <p>An account with no unexpired assessment that has a decision answers 404 not_found, and a malformed
      * account_id answers 400 invalid_request.
      *
-     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
@@ -100,7 +100,7 @@ public class Accounts {
      * <p>An account with no unexpired assessment that has a decision answers 404 not_found, and a malformed
      * account_id answers 400 invalid_request.
      *
-     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @param options additional options
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
@@ -146,7 +146,7 @@ public class Accounts {
      *
      * <p>The account_id can be assessed again later, as a new account.
      *
-     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
@@ -168,7 +168,7 @@ public class Accounts {
      *
      * <p>The account_id can be assessed again later, as a new account.
      *
-     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @param options additional options
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
@@ -188,7 +188,7 @@ public class Accounts {
      * retry.
      *
      * <p>An account with no assessments answers 200 with empty items. The cursor is opaque and bound to your
-     * tenant and the account; a tampered or expired cursor answers 400 invalid_cursor.
+     * workspace and the account; a tampered or expired cursor answers 400 invalid_cursor.
      * response_mode=detailed needs the detailed scope.
      *
      * <p>The account_id travels in the URL; use POST /v1/assessments/query to keep it out of access logs.
@@ -207,12 +207,12 @@ public class Accounts {
      * retry.
      *
      * <p>An account with no assessments answers 200 with empty items. The cursor is opaque and bound to your
-     * tenant and the account; a tampered or expired cursor answers 400 invalid_cursor.
+     * workspace and the account; a tampered or expired cursor answers 400 invalid_cursor.
      * response_mode=detailed needs the detailed scope.
      *
      * <p>The account_id travels in the URL; use POST /v1/assessments/query to keep it out of access logs.
      *
-     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
@@ -228,12 +228,12 @@ public class Accounts {
      * retry.
      *
      * <p>An account with no assessments answers 200 with empty items. The cursor is opaque and bound to your
-     * tenant and the account; a tampered or expired cursor answers 400 invalid_cursor.
+     * workspace and the account; a tampered or expired cursor answers 400 invalid_cursor.
      * response_mode=detailed needs the detailed scope.
      *
      * <p>The account_id travels in the URL; use POST /v1/assessments/query to keep it out of access logs.
      *
-     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @param limit Items per page.
      * @param cursor next_cursor from the previous page, unchanged.
      * @param responseMode standard returns the consolidated risk response; detailed adds merged provider-neutral facts when the key has detailed scope. There is no raw mode.

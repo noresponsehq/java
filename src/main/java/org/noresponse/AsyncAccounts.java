@@ -79,7 +79,7 @@ public class AsyncAccounts {
      * <p>An account with no unexpired assessment that has a decision answers 404 not_found, and a malformed
      * account_id answers 400 invalid_request.
      *
-     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @return {@code CompletableFuture<GetAccountResponse>} - The async response
      */
     public CompletableFuture<GetAccountResponse> get(@Nonnull String accountId) {
@@ -100,7 +100,7 @@ public class AsyncAccounts {
      * <p>An account with no unexpired assessment that has a decision answers 404 not_found, and a malformed
      * account_id answers 400 invalid_request.
      *
-     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @param options additional options
      * @return {@code CompletableFuture<GetAccountResponse>} - The async response
      */
@@ -145,7 +145,7 @@ public class AsyncAccounts {
      *
      * <p>The account_id can be assessed again later, as a new account.
      *
-     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @return {@code CompletableFuture<DeleteAccountResponse>} - The async response
      */
     public CompletableFuture<DeleteAccountResponse> delete(@Nonnull String accountId) {
@@ -166,7 +166,7 @@ public class AsyncAccounts {
      *
      * <p>The account_id can be assessed again later, as a new account.
      *
-     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @param options additional options
      * @return {@code CompletableFuture<DeleteAccountResponse>} - The async response
      */
@@ -185,7 +185,7 @@ public class AsyncAccounts {
      * retry.
      *
      * <p>An account with no assessments answers 200 with empty items. The cursor is opaque and bound to your
-     * tenant and the account; a tampered or expired cursor answers 400 invalid_cursor.
+     * workspace and the account; a tampered or expired cursor answers 400 invalid_cursor.
      * response_mode=detailed needs the detailed scope.
      *
      * <p>The account_id travels in the URL; use POST /v1/assessments/query to keep it out of access logs.
@@ -204,12 +204,12 @@ public class AsyncAccounts {
      * retry.
      *
      * <p>An account with no assessments answers 200 with empty items. The cursor is opaque and bound to your
-     * tenant and the account; a tampered or expired cursor answers 400 invalid_cursor.
+     * workspace and the account; a tampered or expired cursor answers 400 invalid_cursor.
      * response_mode=detailed needs the detailed scope.
      *
      * <p>The account_id travels in the URL; use POST /v1/assessments/query to keep it out of access logs.
      *
-     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @return {@code CompletableFuture<ListAccountAssessmentsResponse>} - The async response
      */
     public CompletableFuture<ListAccountAssessmentsResponse> listAssessments(@Nonnull String accountId) {
@@ -224,12 +224,12 @@ public class AsyncAccounts {
      * retry.
      *
      * <p>An account with no assessments answers 200 with empty items. The cursor is opaque and bound to your
-     * tenant and the account; a tampered or expired cursor answers 400 invalid_cursor.
+     * workspace and the account; a tampered or expired cursor answers 400 invalid_cursor.
      * response_mode=detailed needs the detailed scope.
      *
      * <p>The account_id travels in the URL; use POST /v1/assessments/query to keep it out of access logs.
      *
-     * @param accountId The account_id the tenant sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @param limit Items per page.
      * @param cursor next_cursor from the previous page, unchanged.
      * @param responseMode standard returns the consolidated risk response; detailed adds merged provider-neutral facts when the key has detailed scope. There is no raw mode.

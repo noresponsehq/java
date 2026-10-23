@@ -32,7 +32,7 @@ class MockServerTest {
         CreateAssessmentResponse res = client().assessments().create()
                 .idempotencyKey("mock-server-smoke-0001")
                 .body(AssessmentRequest.builder()
-                        .flow(Flow.SIGNUP)
+                        .flow(Flow.ACCOUNT_CREATION)
                         .accountId("acct_7f3a9c")
                         .identifiers(AssessmentRequestIdentifiers.builder().email("new.user@example.com").build())
                         .build())

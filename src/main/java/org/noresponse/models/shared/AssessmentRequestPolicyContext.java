@@ -17,7 +17,7 @@ import org.noresponse.utils.Utils;
  */
 public class AssessmentRequestPolicyContext {
     /**
-     * ISO 3166-1 alpha-2 region of the signup, as the provider determines it.
+     * ISO 3166-1 alpha-2 region of the user, as the provider determines it.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("region")
@@ -33,7 +33,7 @@ public class AssessmentRequestPolicyContext {
     }
 
     /**
-     * ISO 3166-1 alpha-2 region of the signup, as the provider determines it.
+     * ISO 3166-1 alpha-2 region of the user, as the provider determines it.
      */
     public Optional<String> region() {
         return Optional.ofNullable(this.region);
@@ -44,7 +44,7 @@ public class AssessmentRequestPolicyContext {
     }
 
     /**
-     * ISO 3166-1 alpha-2 region of the signup, as the provider determines it.
+     * ISO 3166-1 alpha-2 region of the user, as the provider determines it.
      */
     public AssessmentRequestPolicyContext withRegion(@Nullable String region) {
         this.region = region;
@@ -83,7 +83,7 @@ public class AssessmentRequestPolicyContext {
         }
 
         /**
-         * ISO 3166-1 alpha-2 region of the signup, as the provider determines it.
+         * ISO 3166-1 alpha-2 region of the user, as the provider determines it.
          */
         public Builder region(@Nullable String region) {
             this.region = region;

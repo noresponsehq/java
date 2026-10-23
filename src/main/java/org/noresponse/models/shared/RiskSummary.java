@@ -32,7 +32,7 @@ public class RiskSummary {
     private RiskSummaryUsername username;
 
     /**
-     * Facts about the submitted IP from the offline database and this tenant's own recent assessments.
+     * Facts about the submitted IP from the offline database and this workspace's own recent assessments.
      * Every member is optional; absent makes no claim.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -78,7 +78,7 @@ public class RiskSummary {
     }
 
     /**
-     * Facts about the submitted IP from the offline database and this tenant's own recent assessments.
+     * Facts about the submitted IP from the offline database and this workspace's own recent assessments.
      * Every member is optional; absent makes no claim.
      */
     public Optional<IpSummary> ip() {
@@ -113,7 +113,7 @@ public class RiskSummary {
     }
 
     /**
-     * Facts about the submitted IP from the offline database and this tenant's own recent assessments.
+     * Facts about the submitted IP from the offline database and this workspace's own recent assessments.
      * Every member is optional; absent makes no claim.
      */
     public RiskSummary withIp(@Nullable IpSummary ip) {
@@ -200,7 +200,7 @@ public class RiskSummary {
         }
 
         /**
-         * Facts about the submitted IP from the offline database and this tenant's own recent assessments.
+         * Facts about the submitted IP from the offline database and this workspace's own recent assessments.
          * Every member is optional; absent makes no claim.
          */
         public Builder ip(@Nullable IpSummary ip) {

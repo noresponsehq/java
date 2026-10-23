@@ -43,8 +43,8 @@ public class Risk {
     private Recommendation recommendation;
 
     /**
-     * true when the tenant's block threshold is set and score reached it. A provider hook can deny the
-     * signup on it; the provider decides and enforces. It does not change recommendation.
+     * true when the workspace's block threshold is set and score reached it. A provider hook can deny the
+     * account creation on it; the provider decides and enforces. It does not change recommendation.
      *
      * <p>It is false while blocking is off, the default, and a body from before the flag existed omits it:
      * read absent as false.
@@ -55,7 +55,7 @@ public class Risk {
 
     /**
      * The block threshold this answer used: block is true exactly when score is at least this value.
-     * Absent while blocking is off. NoResponse sets it per tenant on request, at or above the review
+     * Absent while blocking is off. NoResponse sets it per workspace on request, at or above the review
      * threshold.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -70,7 +70,8 @@ public class Risk {
 
     /**
      * Version of the hand-authored heuristic weights that produced the recommendation, for example
-     * 'risk-2026-10.7'. A tenant threshold override adds a +t&lt;N&gt; suffix, e.g. 'risk-2026-10.7+t3'.
+     * 'risk-2026-10.7'. A workspace threshold override adds a +t&lt;N&gt; suffix, e.g.
+     * 'risk-2026-10.7+t3'.
      */
     @JsonProperty("policy_version")
     private String policyVersion;
@@ -173,8 +174,8 @@ public class Risk {
     }
 
     /**
-     * true when the tenant's block threshold is set and score reached it. A provider hook can deny the
-     * signup on it; the provider decides and enforces. It does not change recommendation.
+     * true when the workspace's block threshold is set and score reached it. A provider hook can deny the
+     * account creation on it; the provider decides and enforces. It does not change recommendation.
      *
      * <p>It is false while blocking is off, the default, and a body from before the flag existed omits it:
      * read absent as false.
@@ -185,7 +186,7 @@ public class Risk {
 
     /**
      * The block threshold this answer used: block is true exactly when score is at least this value.
-     * Absent while blocking is off. NoResponse sets it per tenant on request, at or above the review
+     * Absent while blocking is off. NoResponse sets it per workspace on request, at or above the review
      * threshold.
      */
     public Optional<Long> blockThreshold() {
@@ -201,7 +202,8 @@ public class Risk {
 
     /**
      * Version of the hand-authored heuristic weights that produced the recommendation, for example
-     * 'risk-2026-10.7'. A tenant threshold override adds a +t&lt;N&gt; suffix, e.g. 'risk-2026-10.7+t3'.
+     * 'risk-2026-10.7'. A workspace threshold override adds a +t&lt;N&gt; suffix, e.g.
+     * 'risk-2026-10.7+t3'.
      */
     public String policyVersion() {
         return this.policyVersion;
@@ -272,8 +274,8 @@ public class Risk {
     }
 
     /**
-     * true when the tenant's block threshold is set and score reached it. A provider hook can deny the
-     * signup on it; the provider decides and enforces. It does not change recommendation.
+     * true when the workspace's block threshold is set and score reached it. A provider hook can deny the
+     * account creation on it; the provider decides and enforces. It does not change recommendation.
      *
      * <p>It is false while blocking is off, the default, and a body from before the flag existed omits it:
      * read absent as false.
@@ -285,7 +287,7 @@ public class Risk {
 
     /**
      * The block threshold this answer used: block is true exactly when score is at least this value.
-     * Absent while blocking is off. NoResponse sets it per tenant on request, at or above the review
+     * Absent while blocking is off. NoResponse sets it per workspace on request, at or above the review
      * threshold.
      */
     public Risk withBlockThreshold(@Nullable Long blockThreshold) {
@@ -303,7 +305,8 @@ public class Risk {
 
     /**
      * Version of the hand-authored heuristic weights that produced the recommendation, for example
-     * 'risk-2026-10.7'. A tenant threshold override adds a +t&lt;N&gt; suffix, e.g. 'risk-2026-10.7+t3'.
+     * 'risk-2026-10.7'. A workspace threshold override adds a +t&lt;N&gt; suffix, e.g.
+     * 'risk-2026-10.7+t3'.
      */
     public Risk withPolicyVersion(@Nonnull String policyVersion) {
         this.policyVersion = Utils.checkNotNull(policyVersion, "policyVersion");
@@ -467,8 +470,8 @@ public class Risk {
         }
 
         /**
-         * true when the tenant's block threshold is set and score reached it. A provider hook can deny the
-         * signup on it; the provider decides and enforces. It does not change recommendation.
+         * true when the workspace's block threshold is set and score reached it. A provider hook can deny the
+         * account creation on it; the provider decides and enforces. It does not change recommendation.
          *
          * <p>It is false while blocking is off, the default, and a body from before the flag existed omits it:
          * read absent as false.
@@ -480,7 +483,7 @@ public class Risk {
 
         /**
          * The block threshold this answer used: block is true exactly when score is at least this value.
-         * Absent while blocking is off. NoResponse sets it per tenant on request, at or above the review
+         * Absent while blocking is off. NoResponse sets it per workspace on request, at or above the review
          * threshold.
          */
         public Builder blockThreshold(@Nullable Long blockThreshold) {
@@ -498,7 +501,8 @@ public class Risk {
 
         /**
          * Version of the hand-authored heuristic weights that produced the recommendation, for example
-         * 'risk-2026-10.7'. A tenant threshold override adds a +t&lt;N&gt; suffix, e.g. 'risk-2026-10.7+t3'.
+         * 'risk-2026-10.7'. A workspace threshold override adds a +t&lt;N&gt; suffix, e.g.
+         * 'risk-2026-10.7+t3'.
          */
         public Builder policyVersion(@Nonnull String policyVersion) {
             this.policyVersion = Utils.checkNotNull(policyVersion, "policyVersion");

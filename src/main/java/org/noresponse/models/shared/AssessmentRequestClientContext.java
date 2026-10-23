@@ -14,9 +14,9 @@ import org.noresponse.utils.Utils;
 /**
  * AssessmentRequestClientContext
  *
- * <p>Optional context observed by your signup client. The server parses these hints into coarse features,
- * leaves raw user_agent and opaque ids out of every answer, and weighs a mismatch with the other
- * evidence.
+ * <p>Optional context observed by the client of the user. The server parses these hints into coarse
+ * features, leaves raw user_agent and opaque ids out of every answer, and weighs a mismatch with the
+ * other evidence.
  */
 public class AssessmentRequestClientContext {
     /**
@@ -49,15 +49,15 @@ public class AssessmentRequestClientContext {
     private String appVersion;
 
     /**
-     * The raw User-Agent header of the signup request, at most 512 characters. It is parsed into coarse
-     * features and left out of every answer.
+     * The raw User-Agent header of the request that the user sent, at most 512 characters. It is parsed
+     * into coarse features and left out of every answer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("user_agent")
     private String userAgent;
 
     /**
-     * Tenant-scoped opaque identifier your application mints and rotates when the account or device
+     * Workspace-scoped opaque identifier your application mints and rotates when the account or device
      * changes. Send an id of your own, not a hardware fingerprint.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -65,7 +65,7 @@ public class AssessmentRequestClientContext {
     private String deviceId;
 
     /**
-     * Opaque signup session identifier. It is used for tenant-scoped velocity and replay checks only.
+     * Opaque signup session identifier. It is used for workspace-scoped velocity and replay checks only.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("session_id")
@@ -143,15 +143,15 @@ public class AssessmentRequestClientContext {
     }
 
     /**
-     * The raw User-Agent header of the signup request, at most 512 characters. It is parsed into coarse
-     * features and left out of every answer.
+     * The raw User-Agent header of the request that the user sent, at most 512 characters. It is parsed
+     * into coarse features and left out of every answer.
      */
     public Optional<String> userAgent() {
         return Optional.ofNullable(this.userAgent);
     }
 
     /**
-     * Tenant-scoped opaque identifier your application mints and rotates when the account or device
+     * Workspace-scoped opaque identifier your application mints and rotates when the account or device
      * changes. Send an id of your own, not a hardware fingerprint.
      */
     public Optional<String> deviceId() {
@@ -159,7 +159,7 @@ public class AssessmentRequestClientContext {
     }
 
     /**
-     * Opaque signup session identifier. It is used for tenant-scoped velocity and replay checks only.
+     * Opaque signup session identifier. It is used for workspace-scoped velocity and replay checks only.
      */
     public Optional<String> sessionId() {
         return Optional.ofNullable(this.sessionId);
@@ -219,8 +219,8 @@ public class AssessmentRequestClientContext {
     }
 
     /**
-     * The raw User-Agent header of the signup request, at most 512 characters. It is parsed into coarse
-     * features and left out of every answer.
+     * The raw User-Agent header of the request that the user sent, at most 512 characters. It is parsed
+     * into coarse features and left out of every answer.
      */
     public AssessmentRequestClientContext withUserAgent(@Nullable String userAgent) {
         this.userAgent = userAgent;
@@ -228,7 +228,7 @@ public class AssessmentRequestClientContext {
     }
 
     /**
-     * Tenant-scoped opaque identifier your application mints and rotates when the account or device
+     * Workspace-scoped opaque identifier your application mints and rotates when the account or device
      * changes. Send an id of your own, not a hardware fingerprint.
      */
     public AssessmentRequestClientContext withDeviceId(@Nullable String deviceId) {
@@ -237,7 +237,7 @@ public class AssessmentRequestClientContext {
     }
 
     /**
-     * Opaque signup session identifier. It is used for tenant-scoped velocity and replay checks only.
+     * Opaque signup session identifier. It is used for workspace-scoped velocity and replay checks only.
      */
     public AssessmentRequestClientContext withSessionId(@Nullable String sessionId) {
         this.sessionId = sessionId;
@@ -379,8 +379,8 @@ public class AssessmentRequestClientContext {
         }
 
         /**
-         * The raw User-Agent header of the signup request, at most 512 characters. It is parsed into coarse
-         * features and left out of every answer.
+         * The raw User-Agent header of the request that the user sent, at most 512 characters. It is parsed
+         * into coarse features and left out of every answer.
          */
         public Builder userAgent(@Nullable String userAgent) {
             this.userAgent = userAgent;
@@ -388,7 +388,7 @@ public class AssessmentRequestClientContext {
         }
 
         /**
-         * Tenant-scoped opaque identifier your application mints and rotates when the account or device
+         * Workspace-scoped opaque identifier your application mints and rotates when the account or device
          * changes. Send an id of your own, not a hardware fingerprint.
          */
         public Builder deviceId(@Nullable String deviceId) {
@@ -397,7 +397,7 @@ public class AssessmentRequestClientContext {
         }
 
         /**
-         * Opaque signup session identifier. It is used for tenant-scoped velocity and replay checks only.
+         * Opaque signup session identifier. It is used for workspace-scoped velocity and replay checks only.
          */
         public Builder sessionId(@Nullable String sessionId) {
             this.sessionId = sessionId;

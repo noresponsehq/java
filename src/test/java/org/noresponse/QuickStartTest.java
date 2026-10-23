@@ -66,7 +66,7 @@ class QuickStartTest {
         CreateAssessmentResponse res = client.assessments().create(
                 IdempotencyKey.generate(),
                 AssessmentRequest.builder()
-                        .flow(Flow.SIGNUP)
+                        .flow(Flow.ACCOUNT_CREATION)
                         .accountId("acct_7f3a9c")
                         .identifiers(AssessmentRequestIdentifiers.builder().email("new.user@example.com").build())
                         .build());
