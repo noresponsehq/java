@@ -86,4 +86,33 @@ class WaitTest {
         assertEquals(Status.PENDING, e.last().status());
         assertEquals(List.of(2000L, 2000L), slept);
     }
+
+    @Test
+    void keepsPollingAPartialAnswerUntilComplete() throws Exception {
+        NoResponse client = client(new String[][] {
+            {"assessment-partial.json", null}, {"assessment-partial.json", "2"}, {"assessment-complete.json", null}});
+        List<Long> slept = new ArrayList<>();
+        AtomicLong now = new AtomicLong();
+        Assessment result = Wait.wait(client, ID, Duration.ofSeconds(30), millis -> {
+            slept.add(millis);
+            now.addAndGet(Duration.ofMillis(millis).toNanos());
+        }, now::get);
+        assertEquals(Status.COMPLETE, result.status());
+        assertEquals(List.of(1000L, 2000L), slept);
+        assertEquals(3, authorizations.size());
+    }
+
+    @Test
+    void returnsTheLatestPartialAnswerAtTheTimeout() throws Exception {
+        NoResponse client = client(new String[][] {{"assessment-pending.json", "1"}, {"assessment-partial.json", null}});
+        List<Long> slept = new ArrayList<>();
+        AtomicLong now = new AtomicLong();
+        Assessment result = Wait.wait(client, ID, Duration.ofMillis(3500), millis -> {
+            slept.add(millis);
+            now.addAndGet(Duration.ofMillis(millis).toNanos());
+        }, now::get);
+        assertEquals(Status.PARTIAL, result.status());
+        assertEquals(List.of(1000L, 1000L, 1000L), slept);
+        assertEquals(4, authorizations.size());
+    }
 }

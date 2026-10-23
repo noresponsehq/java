@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.9
+
+No changes detected.
+
 ## 2.1.8
 
 * `sdk.webhookEndpoints.listDeliveries()`: **Added**

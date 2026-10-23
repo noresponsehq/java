@@ -90,7 +90,7 @@ The recommendation is `allow`, `step_up` or `review`. It is advice: your applica
 | `AllAssessments.stream(client, query)` | A lazy `Stream<Assessment>` over every page. |
 | `client.accounts().get(accountId)` | The account's one current risk: score, a decision for each flow and the assessment it comes from (`history` scope). An account with no decided assessment is a 404. |
 | `client.accounts().listAssessments(accountId)` | One page of the account's history with the account id in the URL. The builder form takes `limit`, `cursor` and `responseMode`. |
-| `Wait.wait(client, assessmentId)` | Poll until the assessment is no longer pending, honouring `Retry-After`. |
+| `Wait.wait(client, assessmentId)` | Poll until the assessment is `complete`, honouring `Retry-After`, for up to 30 s. Then a `partial` answer is returned as it stands, and a `pending` one throws `WaitTimeoutException`. |
 | `Webhook.constructEvent(payload, headers, secrets)` | Verify a webhook delivery and return the typed event. |
 | `client.webhookEndpoints().create(request)` | Register a webhook endpoint (`webhooks` scope). The signing secret is shown once. |
 | `client.webhookEndpoints().sendTestEvent(endpointId, request)` | Send an `endpoint.verification` challenge or a sample `assessment.updated` event to the endpoint. |

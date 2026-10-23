@@ -8,7 +8,7 @@ import org.noresponse.models.operations.GetAssessmentResponse;
 import org.noresponse.models.shared.Assessment;
 import org.noresponse.models.shared.Status;
 
-/** Wait for a pending assessment. Hand-written beside the generated client. */
+/** Wait for an assessment to complete. Hand-written beside the generated client. */
 public final class Wait {
     /** How long {@link #wait(NoResponse, String)} polls before giving up. */
     public static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(30);
@@ -23,10 +23,12 @@ public final class Wait {
     }
 
     /**
-     * Poll {@code assessments().get} until the assessment is no longer pending,
+     * Poll {@code assessments().get} until the assessment's status is complete,
      * sleeping for the Retry-After the API sends (at least 1 s) between polls.
+     * After 30 seconds a partial answer is returned as it stands, its status
+     * still {@code PARTIAL}.
      *
-     * @throws WaitTimeoutException once 30 seconds have passed
+     * @throws WaitTimeoutException once 30 seconds have passed while the assessment is still pending
      * @throws InterruptedException if the thread is interrupted while sleeping
      */
     public static Assessment wait(NoResponse client, String assessmentId) throws InterruptedException {
@@ -34,9 +36,10 @@ public final class Wait {
     }
 
     /**
-     * Poll with an explicit timeout, sleeper and nanosecond clock.
+     * Poll with an explicit timeout, sleeper and nanosecond clock. When the
+     * timeout passes, a partial answer is returned as it stands.
      *
-     * @throws WaitTimeoutException once the timeout has passed
+     * @throws WaitTimeoutException once the timeout has passed while the assessment is still pending
      * @throws InterruptedException if the thread is interrupted while sleeping
      */
     public static Assessment wait(NoResponse client, String assessmentId, Duration timeout, Sleeper sleeper,
@@ -46,11 +49,14 @@ public final class Wait {
             GetAssessmentResponse response = client.assessments().get(assessmentId);
             Assessment assessment = response.assessment().orElseThrow(
                     () -> new IllegalStateException("The API answered without an assessment"));
-            if (!Status.PENDING.equals(assessment.status())) {
+            if (Status.COMPLETE.equals(assessment.status())) {
                 return assessment;
             }
             long delay = retryAfterMillis(response.headers());
             if (nanoClock.getAsLong() + Duration.ofMillis(delay).toNanos() > deadline) {
+                if (Status.PARTIAL.equals(assessment.status())) {
+                    return assessment;
+                }
                 throw new WaitTimeoutException(assessmentId, assessment);
             }
             sleeper.sleep(delay);
