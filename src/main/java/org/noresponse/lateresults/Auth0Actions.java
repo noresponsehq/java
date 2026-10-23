@@ -20,6 +20,10 @@ import java.util.Map;
  * login session cannot be ended, so {@code revokeSessions} blocks the user before deleting the
  * refresh tokens, and {@link #act} reports BAN. Unblock the user in the dashboard to undo it. Any
  * other refusal, such as 403 insufficient_scope, throws.
+ *
+ * <p>A 429 from the Management API is waited out and retried: Retry-After, else X-RateLimit-Reset,
+ * else 250 ms doubling, at most 4 retries a call and 3 s of waiting a revoke or ban. Past that the
+ * 429 throws as {@link ProviderActionException}.
  */
 public final class Auth0Actions implements LateResultProvider {
     private static final int PAGE = 100;
@@ -64,10 +68,11 @@ public final class Auth0Actions implements LateResultProvider {
     @Override
     public void ban(String userId) {
         String user = ProviderCaller.segment(userId);
-        block(user);
+        ProviderCaller call = caller.retryingRateLimits();
+        block(call, user);
         // The block already ends a session the plan cannot delete.
-        deleteSessions(user);
-        deleteRefreshTokens(userId, user);
+        deleteSessions(call, user);
+        deleteRefreshTokens(call, userId, user);
     }
 
     /** Bans or revokes and returns the action that ran: BAN when revoking had to block the user. */
@@ -82,12 +87,13 @@ public final class Auth0Actions implements LateResultProvider {
 
     private LateResultAction revoke(String userId) {
         String user = ProviderCaller.segment(userId);
-        boolean ended = deleteSessions(user);
+        ProviderCaller call = caller.retryingRateLimits();
+        boolean ended = deleteSessions(call, user);
         // Without the sessions API a login session survives; blocking is the only way to end it.
         if (!ended) {
-            block(user);
+            block(call, user);
         }
-        deleteRefreshTokens(userId, user);
+        deleteRefreshTokens(call, userId, user);
         return ended ? LateResultAction.REVOKE_SESSIONS : LateResultAction.BAN;
     }
 
@@ -96,14 +102,14 @@ public final class Auth0Actions implements LateResultProvider {
         return e.status() == 403 && "feature_not_enabled".equals(e.code());
     }
 
-    private void block(String user) {
+    private static void block(ProviderCaller caller, String user) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("blocked", true);
         caller.call("PATCH", "/users/" + user, null, body, true);
     }
 
     /** End every session; false when the plan has no sessions API. */
-    private boolean deleteSessions(String user) {
+    private static boolean deleteSessions(ProviderCaller caller, String user) {
         try {
             caller.call("DELETE", "/users/" + user + "/sessions", null, null, true);
             return true;
@@ -115,7 +121,7 @@ public final class Auth0Actions implements LateResultProvider {
         }
     }
 
-    private void deleteRefreshTokens(String userId, String user) {
+    private static void deleteRefreshTokens(ProviderCaller caller, String userId, String user) {
         try {
             caller.call("DELETE", "/users/" + user + "/refresh-tokens", null, null, true);
             return;

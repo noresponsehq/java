@@ -103,10 +103,16 @@ class LateResultsTest {
     private static final class Reply {
         final int status;
         final String body;
+        final Map<String, String> headers;
 
         Reply(int status, String body) {
+            this(status, body, Map.of());
+        }
+
+        Reply(int status, String body, Map<String, String> headers) {
             this.status = status;
             this.body = body;
+            this.headers = headers;
         }
     }
 
@@ -140,6 +146,7 @@ class LateResultsTest {
                 }
                 byte[] out = reply.body == null ? new byte[0] : reply.body.getBytes(StandardCharsets.UTF_8);
                 exchange.getResponseHeaders().add("Content-Type", "application/json");
+                reply.headers.forEach((k, v) -> exchange.getResponseHeaders().add(k, v));
                 if (out.length == 0) {
                     exchange.sendResponseHeaders(reply.status, -1);
                 } else {
@@ -615,6 +622,51 @@ class LateResultsTest {
             assertEquals(403, refused.status());
             assertEquals("insufficient_scope", refused.code());
             assertEquals(List.of("DELETE /api/v2/users/auth0%7Cabc/sessions"), scoped.lines());
+        }
+    }
+
+    private static final String TOO_MANY = "{\"statusCode\":429,\"error\":\"Too Many Requests\","
+            + "\"message\":\"Global limit has been reached\",\"errorCode\":\"too_many_requests\"}";
+
+    @Test
+    void auth0WaitsOutA429FromTheManagementApiAndRetriesTheCall() throws Exception {
+        Auth0WithoutSessionsApi tenant = new Auth0WithoutSessionsApi("auth0%7Cabc", false);
+        // One 429 each: Retry-After, an X-RateLimit-Reset already past, and no header (the backoff).
+        Map<String, Map<String, String>> limited = Collections.synchronizedMap(new LinkedHashMap<>());
+        limited.put("GET refresh_token", Map.of("Retry-After", "0"));
+        limited.put("DELETE /api/v2/device-credentials/dcr_a",
+                Map.of("X-RateLimit-Reset", Long.toString(System.currentTimeMillis() / 1000 - 5)));
+        limited.put("DELETE /api/v2/device-credentials/dcr_b", Map.of());
+        Function<Call, Reply> route = c -> {
+            String key = c.method.equals("GET") ? "GET " + c.query.get("type") : c.line();
+            Map<String, String> headers = limited.remove(key);
+            return headers != null ? new Reply(429, TOO_MANY, headers) : tenant.apply(c);
+        };
+        try (Mock mock = new Mock(route)) {
+            Auth0Actions auth0 = new Auth0Actions(null, mock.url() + "/api/v2", "mgmt_token", null);
+            Delivery d = new Delivery(view("review"), "auth0|abc");
+            assertEquals(LateResultAction.BAN, LateResults.handleLateResult(d.raw, d.headers, SECRETS, auth0, opts()).action());
+            assertTrue(tenant.blocked);
+            assertTrue(tenant.credentials.isEmpty());
+            assertTrue(limited.isEmpty());
+            List<String> lines = mock.lines();
+            assertEquals(3, Collections.frequency(lines, "GET /api/v2/device-credentials"));
+            assertEquals(2, Collections.frequency(lines, "DELETE /api/v2/device-credentials/dcr_a"));
+            assertEquals(2, Collections.frequency(lines, "DELETE /api/v2/device-credentials/dcr_b"));
+        }
+    }
+
+    @Test
+    void auth0ThrowsA429AtOnceWhenTheWaitItAsksForPassesTheBudget() throws Exception {
+        try (Mock mock = new Mock(c -> new Reply(429, TOO_MANY, Map.of("Retry-After", "60")))) {
+            Auth0Actions auth0 = new Auth0Actions(null, mock.url() + "/api/v2", "mgmt_token", null);
+            long started = System.nanoTime();
+            ProviderActionException limited = assertThrows(ProviderActionException.class,
+                    () -> auth0.act(LateResultAction.REVOKE_SESSIONS, "auth0|abc"));
+            assertEquals(429, limited.status());
+            assertEquals("too_many_requests", limited.code());
+            assertTrue(System.nanoTime() - started < 1_000_000_000L);
+            assertEquals(1, mock.calls.size());
         }
     }
 

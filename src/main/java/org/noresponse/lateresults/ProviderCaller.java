@@ -23,12 +23,67 @@ final class ProviderCaller {
     private final String base;
     private final String authorization;
     private final HttpClient client;
+    private final boolean retryRateLimits;
+    /** Time spent waiting out 429s so far, in one action. */
+    private long waitedMillis;
+
+    /*
+     * Rate limits. Auth0 answers 429 when the Management API rate limit is hit, and a 429 means it
+     * did not act, so the call is safe to send again, a DELETE included. One revoke or ban waits at
+     * most RATE_LIMIT_BUDGET_MILLIS in all, and each call retries at most RATE_LIMIT_RETRIES times:
+     * it waits Retry-After seconds, else until X-RateLimit-Reset (Unix seconds), else 250 ms, 500
+     * ms, 1 s, 2 s. A wait that would pass the budget is not started: the 429 throws at once as
+     * ProviderActionException, the webhook answers 5xx and NoResponse delivers it again later. The
+     * budget keeps the handler inside the 5 s a delivery has to be answered.
+     */
+    static final int RATE_LIMIT_RETRIES = 4;
+    static final long RATE_LIMIT_BUDGET_MILLIS = 3_000;
+    static final long RATE_LIMIT_BACKOFF_MILLIS = 250;
 
     ProviderCaller(String name, String baseUrl, String authorization, HttpClient client) {
+        this(name, baseUrl, authorization, client, false);
+    }
+
+    private ProviderCaller(String name, String baseUrl, String authorization, HttpClient client, boolean retryRateLimits) {
         this.name = name;
         this.base = baseUrl.replaceAll("/+$", "");
         this.authorization = authorization;
         this.client = client != null ? client : HttpClient.newHttpClient();
+        this.retryRateLimits = retryRateLimits;
+    }
+
+    /** A caller with the same settings that waits out 429s, with its own budget: make one per action. */
+    ProviderCaller retryingRateLimits() {
+        return new ProviderCaller(name, base, authorization, client, true);
+    }
+
+    /**
+     * How long a 429 asks to wait, in milliseconds, capped at an hour so a huge header cannot overflow;
+     * anything past the budget gives up anyway.
+     */
+    static long rateLimitWaitMillis(HttpResponse<?> response, int retry) {
+        Double after = number(response.headers().firstValue("Retry-After").orElse(null));
+        if (after != null && after >= 0) {
+            return (long) Math.ceil(Math.min(after, 3600) * 1000);
+        }
+        Double reset = number(response.headers().firstValue("X-RateLimit-Reset").orElse(null));
+        if (reset != null) {
+            double left = reset - System.currentTimeMillis() / 1000.0;
+            return (long) Math.ceil(Math.max(0, Math.min(left, 3600)) * 1000);
+        }
+        return RATE_LIMIT_BACKOFF_MILLIS << retry;
+    }
+
+    private static Double number(String text) {
+        if (text == null || text.isBlank()) {
+            return null;
+        }
+        try {
+            double value = Double.parseDouble(text.trim());
+            return Double.isFinite(value) ? value : null;
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     /** Send one request. Returns the parsed JSON body, or null when empty, unparseable or an allowed 404. */
@@ -55,14 +110,26 @@ final class ProviderCaller {
             request.header("Content-Type", "application/json");
         }
         request.method(method, publisher);
+        HttpRequest built = request.build();
         HttpResponse<String> response;
-        try {
-            response = client.send(request.build(), HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new IllegalStateException(name + " " + method + " " + path + " was interrupted", e);
+        for (int retry = 0; ; retry++) {
+            try {
+                response = client.send(built, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+                if (response.statusCode() != 429 || !retryRateLimits || retry >= RATE_LIMIT_RETRIES) {
+                    break;
+                }
+                long wait = rateLimitWaitMillis(response, retry);
+                if (waitedMillis + wait > RATE_LIMIT_BUDGET_MILLIS) {
+                    break;
+                }
+                waitedMillis += wait;
+                Thread.sleep(wait);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new IllegalStateException(name + " " + method + " " + path + " was interrupted", e);
+            }
         }
         int status = response.statusCode();
         if (allow404 && status == 404) {
