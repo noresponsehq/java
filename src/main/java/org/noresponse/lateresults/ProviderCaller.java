@@ -69,7 +69,8 @@ final class ProviderCaller {
             return null;
         }
         if (status < 200 || status > 299) {
-            throw new ProviderActionException(name, status, name + " " + method + " " + path + " answered " + status);
+            throw new ProviderActionException(name, status, name + " " + method + " " + path + " answered " + status,
+                    errorCode(response.body()));
         }
         String text = response.body();
         if (text == null || text.isEmpty()) {
@@ -80,6 +81,25 @@ final class ProviderCaller {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    /** The error code in a provider's error body: Auth0's errorCode, or a top-level code; null when absent. */
+    static String errorCode(String text) {
+        if (text == null || text.isEmpty()) {
+            return null;
+        }
+        try {
+            JsonNode body = MAPPER.readTree(text);
+            for (String field : new String[] {"errorCode", "code"}) {
+                JsonNode code = body == null ? null : body.get(field);
+                if (code != null && code.isTextual() && !code.asText().isEmpty()) {
+                    return code.asText();
+                }
+            }
+        } catch (IOException e) {
+            return null;
+        }
+        return null;
     }
 
     /** Percent-encode one path segment or query component; | becomes %7C and space %20. */

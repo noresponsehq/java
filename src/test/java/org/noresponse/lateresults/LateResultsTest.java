@@ -476,4 +476,160 @@ class LateResultsTest {
         assertThrows(IllegalArgumentException.class, () -> logOnly.ban(""));
         new LogOnlyActions().revokeSessions("usr_8f2k1");
     }
+
+    private static final String FEATURE_NOT_ENABLED = "{\"statusCode\":403,\"error\":\"Forbidden\","
+            + "\"message\":\"This feature is not enabled for this tenant.\",\"errorCode\":\"feature_not_enabled\"}";
+
+    /**
+     * An Auth0 tenant on a plan without the sessions API, as a Free tenant answers: both bulk endpoints
+     * refuse with 403 feature_not_enabled, while /device-credentials and PATCH /users/{id} work. It keeps
+     * the refresh tokens and the blocked flag, so a repeated delivery sees what the first left.
+     */
+    private static final class Auth0WithoutSessionsApi implements Function<Call, Reply> {
+        final String escaped;
+        final boolean refreshTokensApi;
+        volatile boolean blocked;
+        final List<String[]> credentials = Collections.synchronizedList(new ArrayList<>(List.of(
+                new String[] {"dcr_a", "refresh_token"}, new String[] {"dcr_b", "refresh_token"},
+                new String[] {"dcr_r", "rotating_refresh_token"})));
+
+        Auth0WithoutSessionsApi(String escaped, boolean refreshTokensApi) {
+            this.escaped = escaped;
+            this.refreshTokensApi = refreshTokensApi;
+        }
+
+        @Override
+        public synchronized Reply apply(Call c) {
+            String user = "/api/v2/users/" + escaped;
+            if (c.method.equals("DELETE") && c.path.equals(user + "/sessions")) {
+                return new Reply(403, FEATURE_NOT_ENABLED);
+            }
+            if (c.method.equals("DELETE") && c.path.equals(user + "/refresh-tokens")) {
+                if (!refreshTokensApi) {
+                    return new Reply(403, FEATURE_NOT_ENABLED);
+                }
+                credentials.clear();
+                return new Reply(202, null);
+            }
+            if (c.method.equals("PATCH") && c.path.equals(user)) {
+                blocked = c.body.contains("\"blocked\":true");
+                return new Reply(200, "{\"blocked\":" + blocked + "}");
+            }
+            if (c.method.equals("GET") && c.path.equals("/api/v2/device-credentials")) {
+                StringBuilder out = new StringBuilder("[");
+                for (String[] d : new ArrayList<>(credentials)) {
+                    if (d[1].equals(c.query.get("type"))) {
+                        out.append(out.length() > 1 ? "," : "").append("{\"id\":\"").append(d[0]).append("\",\"type\":\"")
+                                .append(d[1]).append("\"}");
+                    }
+                }
+                return new Reply(200, out.append("]").toString());
+            }
+            if (c.method.equals("DELETE") && c.path.startsWith("/api/v2/device-credentials/")) {
+                String id = c.path.substring("/api/v2/device-credentials/".length());
+                return credentials.removeIf(d -> d[0].equals(id)) ? new Reply(204, null)
+                        : new Reply(404, "{\"errorCode\":\"inexistent_device_credential\"}");
+            }
+            return null;
+        }
+    }
+
+    @Test
+    void auth0WithoutTheSessionsApiBlocksDeletesDeviceCredentialsAndReportsBan() throws Exception {
+        JsonNode review = fixture("valid/assessment-phone-uncovered-complete.json");
+        String id = "auth0|64abc0de1234567890abcdef";
+        String escaped = "auth0%7C64abc0de1234567890abcdef";
+        Auth0WithoutSessionsApi tenant = new Auth0WithoutSessionsApi(escaped, false);
+        try (Mock mock = new Mock(tenant)) {
+            Auth0Actions auth0 = new Auth0Actions(null, mock.url() + "/api/v2", "mgmt_token", null);
+            Delivery d = new Delivery(review, id);
+            LateResult result = LateResults.handleLateResult(d.raw, d.headers, SECRETS, auth0, opts());
+            assertEquals(LateResultAction.BAN, result.action());
+            assertEquals(id, result.userId().orElseThrow());
+            assertTrue(tenant.blocked);
+            assertTrue(tenant.credentials.isEmpty());
+            assertEquals(List.of("DELETE /api/v2/users/" + escaped + "/sessions",
+                    "PATCH /api/v2/users/" + escaped,
+                    "DELETE /api/v2/users/" + escaped + "/refresh-tokens",
+                    "GET /api/v2/device-credentials",
+                    "GET /api/v2/device-credentials",
+                    "DELETE /api/v2/device-credentials/dcr_a",
+                    "DELETE /api/v2/device-credentials/dcr_b",
+                    "DELETE /api/v2/device-credentials/dcr_r"), mock.lines());
+            assertEquals("refresh_token", mock.calls.get(3).query.get("type"));
+            assertEquals("rotating_refresh_token", mock.calls.get(4).query.get("type"));
+            assertEquals(escaped, mock.calls.get(3).query.get("user_id"));
+            mock.assertEveryCall("Bearer mgmt_token");
+
+            // The same delivery again: still blocked, nothing left to delete, same report.
+            mock.calls.clear();
+            assertEquals(LateResultAction.BAN, LateResults.handleLateResult(d.raw, d.headers, SECRETS, auth0, opts()).action());
+            assertTrue(tenant.blocked);
+            assertFalse(mock.lines().stream().anyMatch(l -> l.startsWith("DELETE /api/v2/device-credentials/")));
+
+            // ban blocks first, and the plan refusing the sessions endpoint is no failure.
+            tenant.blocked = false;
+            tenant.credentials.add(new String[] {"dcr_c", "refresh_token"});
+            mock.calls.clear();
+            LateResult banned = LateResults.handleLateResult(d.raw, d.headers, SECRETS, auth0,
+                    opts(LateResultPolicy.fromWire(Map.of("review", "ban"))));
+            assertEquals(LateResultAction.BAN, banned.action());
+            assertEquals("PATCH", mock.calls.get(0).method);
+            assertTrue(tenant.blocked);
+            assertTrue(tenant.credentials.isEmpty());
+
+            // Called directly, revokeSessions takes the same fallback.
+            tenant.blocked = false;
+            auth0.revokeSessions(id);
+            assertTrue(tenant.blocked);
+        }
+    }
+
+    @Test
+    void auth0WithRefreshTokensButNoSessionsApiStillBlocksAndAScopeRefusalNeverFallsBack() throws Exception {
+        JsonNode review = fixture("valid/assessment-phone-uncovered-complete.json");
+        Delivery d = new Delivery(review, "auth0|abc");
+        Auth0WithoutSessionsApi tenant = new Auth0WithoutSessionsApi("auth0%7Cabc", true);
+        try (Mock mock = new Mock(tenant)) {
+            Auth0Actions auth0 = new Auth0Actions(null, mock.url() + "/api/v2", "t", null);
+            assertEquals(LateResultAction.BAN, LateResults.handleLateResult(d.raw, d.headers, SECRETS, auth0, opts()).action());
+            assertTrue(tenant.blocked);
+            assertFalse(mock.lines().contains("GET /api/v2/device-credentials"));
+        }
+        String scope = "{\"statusCode\":403,\"error\":\"Forbidden\",\"message\":\"Insufficient scope\",\"errorCode\":\"insufficient_scope\"}";
+        try (Mock scoped = new Mock(c -> c.method.equals("DELETE") ? new Reply(403, scope) : new Reply(200, "{}"))) {
+            Auth0Actions auth0 = new Auth0Actions(null, scoped.url() + "/api/v2", "t", null);
+            ProviderActionException refused = assertThrows(ProviderActionException.class,
+                    () -> LateResults.handleLateResult(d.raw, d.headers, SECRETS, auth0, opts()));
+            assertEquals(403, refused.status());
+            assertEquals("insufficient_scope", refused.code());
+            assertEquals(List.of("DELETE /api/v2/users/auth0%7Cabc/sessions"), scoped.lines());
+        }
+    }
+
+    @Test
+    void aProviderWithoutItsOwnActReportsTheActionAskedFor() throws Exception {
+        List<String> done = new ArrayList<>();
+        LateResultProvider plain = new LateResultProvider() {
+            @Override
+            public String name() {
+                return "plain";
+            }
+
+            @Override
+            public void revokeSessions(String userId) {
+                done.add("revoke " + userId);
+            }
+
+            @Override
+            public void ban(String userId) {
+                done.add("ban " + userId);
+            }
+        };
+        Delivery d = new Delivery(fixture("valid/assessment-phone-uncovered-complete.json"), "u_1");
+        assertEquals(LateResultAction.REVOKE_SESSIONS, LateResults.handleLateResult(d.raw, d.headers, SECRETS, plain, opts()).action());
+        assertEquals(LateResultAction.BAN, LateResults.handleLateResult(d.raw, d.headers, SECRETS, plain,
+                opts(LateResultPolicy.fromWire(Map.of("review", "ban")))).action());
+        assertEquals(List.of("revoke u_1", "ban u_1"), done);
+    }
 }

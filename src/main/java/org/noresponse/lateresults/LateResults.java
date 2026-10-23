@@ -83,11 +83,7 @@ public final class LateResults {
         if (userId == null || userId.isEmpty()) {
             return new LateResult(event, LateResultAction.NONE, null);
         }
-        if (action == LateResultAction.BAN) {
-            provider.ban(userId);
-        } else {
-            provider.revokeSessions(userId);
-        }
-        return new LateResult(event, action, userId);
+        LateResultAction ran = provider.act(action, userId);
+        return new LateResult(event, ran != null ? ran : action, userId);
     }
 }

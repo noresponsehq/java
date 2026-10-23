@@ -20,7 +20,11 @@ public final class LateResult {
         return event;
     }
 
-    /** The action taken. NONE when the policy, the event or the user id called for nothing. */
+    /**
+     * The action that ran. NONE when the policy, the event or the user id called for nothing. It can be
+     * stronger than the policy's action when the provider had to fall back: {@link Auth0Actions} reports
+     * BAN when it blocked the user because the tenant's plan cannot end sessions.
+     */
     public LateResultAction action() {
         return action;
     }
