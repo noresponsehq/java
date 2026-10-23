@@ -18,6 +18,10 @@ public class AsyncNoResponse {
      */
     private final AsyncAssessments assessments;
     /**
+     * Your accounts, each with one current risk, and their assessment history.
+     */
+    private final AsyncAccounts accounts;
+    /**
      * Your own API keys.
      */
     private final AsyncKeys keys;
@@ -34,6 +38,12 @@ public class AsyncNoResponse {
      */
     public AsyncAssessments assessments() {
         return assessments;
+    }
+    /**
+     * Your accounts, each with one current risk, and their assessment history.
+     */
+    public AsyncAccounts accounts() {
+        return accounts;
     }
     /**
      * Your own API keys.
@@ -61,6 +71,7 @@ public class AsyncNoResponse {
         this.syncSDK = syncSDK;
         this.sdkConfiguration = sdkConfiguration;
         this.assessments = new AsyncAssessments(syncSDK.assessments(), sdkConfiguration);
+        this.accounts = new AsyncAccounts(syncSDK.accounts(), sdkConfiguration);
         this.keys = new AsyncKeys(syncSDK.keys(), sdkConfiguration);
         this.integrations = new AsyncIntegrations(syncSDK.integrations(), sdkConfiguration);
         this.webhookEndpoints = new AsyncWebhookEndpoints(syncSDK.webhookEndpoints(), sdkConfiguration);

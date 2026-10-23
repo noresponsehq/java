@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 1154b96455629ed85a6987823fbb8772
+  docChecksum: 526526e5582d19f3ac292a8627322dbf
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 2.1.1
-  configChecksum: 6645d2df04735c37166d36905ad99c21
+  releaseVersion: 2.1.2
+  configChecksum: 5f1de80e76a968081129e3037b2c3ee7
 features:
   java:
     additionalDependencies: 0.1.0
@@ -60,10 +60,18 @@ trackedFiles:
     last_write_checksum: sha1:31b6c054b41024102ecf724683b8d474d8483d8f
   docs/models/operations/DeleteWebhookEndpointResponse.md:
     last_write_checksum: sha1:2a14a87e26b56504e0aac35d3ad14813f5d416c2
+  docs/models/operations/GetAccountRequest.md:
+    last_write_checksum: sha1:fe2d3cf4935ab5c1e0715a150608fa704a183fc4
+  docs/models/operations/GetAccountResponse.md:
+    last_write_checksum: sha1:58ed88913b9d4dde1bfeed7087050810977efef5
   docs/models/operations/GetAssessmentRequest.md:
     last_write_checksum: sha1:e40b879aa44b1ef3ee800d2ccb89e3e170613736
   docs/models/operations/GetAssessmentResponse.md:
     last_write_checksum: sha1:6ba6213b6adf918f29a0009e4a29aa8061f288e6
+  docs/models/operations/ListAccountAssessmentsRequest.md:
+    last_write_checksum: sha1:fc2d580864bad0ce7b287dd54ed923b615ee56a0
+  docs/models/operations/ListAccountAssessmentsResponse.md:
+    last_write_checksum: sha1:186277ef7ffd5ce2cf4d7a81a8e2c95e2cecc55a
   docs/models/operations/ListIntegrationsResponse.md:
     last_write_checksum: sha1:c38cf6a004c4fa38218f4bd0ca9ce1eb1476efc1
   docs/models/operations/ListWebhookEndpointsResponse.md:
@@ -88,24 +96,34 @@ trackedFiles:
     last_write_checksum: sha1:d808661306adbbacc1dfd0987e6909f3c9a41bad
   docs/models/operations/SendWebhookTestEventResponse.md:
     last_write_checksum: sha1:59cf094041d0196ec16297b9f182f4634af7f431
+  docs/models/shared/Account.md:
+    last_write_checksum: sha1:46b7dbed0094253762969827be614e9fd2001b35
+  docs/models/shared/AccountDecision.md:
+    last_write_checksum: sha1:25bd3172391b9ed484d63956628918c63e1081f6
+  docs/models/shared/AccountDecisionsByFlow.md:
+    last_write_checksum: sha1:531ff92a7933b5248b5ba9b13eaed0d38989eb4a
+  docs/models/shared/AccountRisk.md:
+    last_write_checksum: sha1:941225d45bb7cb9ac22efef9d7a3b9d73719d247
+  docs/models/shared/AccountRiskReason.md:
+    last_write_checksum: sha1:d9f7ea813880394d38146beed241da620d67d9f1
   docs/models/shared/AlternateName.md:
     last_write_checksum: sha1:d54832ae6e4709d2af1bb05cb3b382cbbf09350f
   docs/models/shared/AlternateNameUnion.md:
     last_write_checksum: sha1:7144407680d957779aba7a9c7c4e1a00546bdfdb
   docs/models/shared/Assessment.md:
-    last_write_checksum: sha1:ede81a024180855c718f0a5542fc9d0335a553ad
+    last_write_checksum: sha1:ad032c54f45a75c9efeff34efd7cc4be99169830
   docs/models/shared/AssessmentAuthContext.md:
     last_write_checksum: sha1:25b2f07f3006412668f12c75ebd9a4319605719a
   docs/models/shared/AssessmentList.md:
-    last_write_checksum: sha1:f46623f85cfaefc9f8140456209e5adf6fd8cb48
+    last_write_checksum: sha1:bf8d8603275ea20fdd564eee85a2f1bed32cce2e
   docs/models/shared/AssessmentOutcome.md:
     last_write_checksum: sha1:f33788ee24d5d650bc5b8a51808d036709763efc
   docs/models/shared/AssessmentOutcomeRequest.md:
     last_write_checksum: sha1:67929183e38765e3ddbb2a59083987e5ed6aefe2
   docs/models/shared/AssessmentQuery.md:
-    last_write_checksum: sha1:c91a340742f429b10d46747b09517c1212908295
+    last_write_checksum: sha1:ab9c00a5bd1aa881f3261a3b4454fca74079df8e
   docs/models/shared/AssessmentRequest.md:
-    last_write_checksum: sha1:8f599a6a3991ec466c3f84544e4199e7313383c0
+    last_write_checksum: sha1:594ea88f8301eb5aaad04ab05e5b933ad0a374ba
   docs/models/shared/AssessmentRequestClientContext.md:
     last_write_checksum: sha1:4d04b614b3f7565ca927b06c16bd82a485c364d6
   docs/models/shared/AssessmentRequestIdentifiers.md:
@@ -292,6 +310,8 @@ trackedFiles:
     last_write_checksum: sha1:d74c06e5ce84474bee0eadd909b7825de8f6a3a1
   docs/models/shared/WebsiteUnion.md:
     last_write_checksum: sha1:3da0a21b8d0704243ad448b2e83d0df729d3b92a
+  docs/sdks/accounts/README.md:
+    last_write_checksum: sha1:bbf05a08fd186024e437585504f5a1c6e43f34ed
   docs/sdks/assessments/README.md:
     last_write_checksum: sha1:d70474c9b43cba91400971b47749a569a082e113
   docs/sdks/integrations/README.md:
@@ -303,7 +323,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:a419b31adb6eb291d68de95d1b5348d691e68de2
+    last_write_checksum: sha1:5d907d4887bb1eafa107ad9dc1dc7d1a65f81366
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -316,8 +336,12 @@ trackedFiles:
     last_write_checksum: sha1:4bd1a316aed59b9e8322280b52d0faa9e02ab476
   settings.gradle:
     last_write_checksum: sha1:db0828065a853264b8673dc0b271fc6b3b5dd622
+  src/main/java/org/noresponse/Accounts.java:
+    last_write_checksum: sha1:5641fb9707a01740e97c70ccc59170a635d4d3dd
   src/main/java/org/noresponse/Assessments.java:
     last_write_checksum: sha1:7c81f9acdc37b059c42c42a044afc018e6a049fa
+  src/main/java/org/noresponse/AsyncAccounts.java:
+    last_write_checksum: sha1:3d6830a857a37cf4bf271d72b78ffa982e454cdd
   src/main/java/org/noresponse/AsyncAssessments.java:
     last_write_checksum: sha1:088b5bc800907d9e40c62d36e6e14c7c35bd7adf
   src/main/java/org/noresponse/AsyncIntegrations.java:
@@ -325,7 +349,7 @@ trackedFiles:
   src/main/java/org/noresponse/AsyncKeys.java:
     last_write_checksum: sha1:53b176d900cdc29b33a03954b31f34aa61cefd09
   src/main/java/org/noresponse/AsyncNoResponse.java:
-    last_write_checksum: sha1:59ea7637b4ff1e8c4a747d1cbbd8df2a98557c29
+    last_write_checksum: sha1:75833eea29dca507f19c9efca3bf06d4565b6918
   src/main/java/org/noresponse/AsyncWebhookEndpoints.java:
     last_write_checksum: sha1:85b5e7f9c473b1d47befa88c85fba4d1081b96f1
   src/main/java/org/noresponse/Integrations.java:
@@ -333,9 +357,9 @@ trackedFiles:
   src/main/java/org/noresponse/Keys.java:
     last_write_checksum: sha1:6026c006530d84cd00c9c854d702ab264ce0508d
   src/main/java/org/noresponse/NoResponse.java:
-    last_write_checksum: sha1:ec05f8a909b011e1d1cb1417730b14488d48f44f
+    last_write_checksum: sha1:bc9b1ec004cb9df78b9624232e9c52cd47aa31fa
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:6548b5e837ebdfba903a5c46a0ae2763328606b9
+    last_write_checksum: sha1:2495822c16254ede7e355abb13b532d9a887358e
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/WebhookEndpoints.java:
@@ -386,12 +410,24 @@ trackedFiles:
     last_write_checksum: sha1:487f38ccd915a3928c7b6a2a74d0e7a8b05e1d8a
   src/main/java/org/noresponse/models/operations/DeleteWebhookEndpointResponse.java:
     last_write_checksum: sha1:62db3731444ba6a49c15cbc155d75f0ecabfac18
+  src/main/java/org/noresponse/models/operations/GetAccountRequest.java:
+    last_write_checksum: sha1:d5e886e264677ddded7ec064bfcea1bf7a51cf6c
+  src/main/java/org/noresponse/models/operations/GetAccountRequestBuilder.java:
+    last_write_checksum: sha1:75c2b20cfa1052a3c40caacdff912db1b8d984f4
+  src/main/java/org/noresponse/models/operations/GetAccountResponse.java:
+    last_write_checksum: sha1:e50ab80bac94ca7db03b7089d42c00c8756a636a
   src/main/java/org/noresponse/models/operations/GetAssessmentRequest.java:
     last_write_checksum: sha1:63d4090f4bae767ed19d74b674511b53365be3e5
   src/main/java/org/noresponse/models/operations/GetAssessmentRequestBuilder.java:
     last_write_checksum: sha1:71befee2cd6edfa4edfb8cd1079d2e1e602a62c8
   src/main/java/org/noresponse/models/operations/GetAssessmentResponse.java:
     last_write_checksum: sha1:cbca1f54a5cf59bc104056e095e1fde36d2951fa
+  src/main/java/org/noresponse/models/operations/ListAccountAssessmentsRequest.java:
+    last_write_checksum: sha1:6d8ccf7d5d131422ec7cd2e131c1f365ffebaff6
+  src/main/java/org/noresponse/models/operations/ListAccountAssessmentsRequestBuilder.java:
+    last_write_checksum: sha1:c21dd2a2eec8d4c90d9d40861c9c17268c04d4d9
+  src/main/java/org/noresponse/models/operations/ListAccountAssessmentsResponse.java:
+    last_write_checksum: sha1:e0219456ce2ea007a8cd11bb93c67b4d9724eedb
   src/main/java/org/noresponse/models/operations/ListIntegrationsRequestBuilder.java:
     last_write_checksum: sha1:f018405f07f0f8a6a07744b70157967cd495ff6e
   src/main/java/org/noresponse/models/operations/ListIntegrationsResponse.java:
@@ -452,10 +488,18 @@ trackedFiles:
     last_write_checksum: sha1:2ab3ebe031af7e140fbb66e338028b365fe577d8
   src/main/java/org/noresponse/models/operations/async/DeleteWebhookEndpointResponse.java:
     last_write_checksum: sha1:ae8079d3309ee58b6813ab57a393df7c161044bd
+  src/main/java/org/noresponse/models/operations/async/GetAccountRequestBuilder.java:
+    last_write_checksum: sha1:3e77b6e325cbfcd5ad57fe49e102d4a74546bb7a
+  src/main/java/org/noresponse/models/operations/async/GetAccountResponse.java:
+    last_write_checksum: sha1:a5fc62d39b8e01dc7c524c2f356e2b9ae34f97c2
   src/main/java/org/noresponse/models/operations/async/GetAssessmentRequestBuilder.java:
     last_write_checksum: sha1:52e48766b24968c6a2d807b0160f5d6c021890e2
   src/main/java/org/noresponse/models/operations/async/GetAssessmentResponse.java:
     last_write_checksum: sha1:e3b43be9bd7df456b3eeaffdd8e4aa6bfe43749c
+  src/main/java/org/noresponse/models/operations/async/ListAccountAssessmentsRequestBuilder.java:
+    last_write_checksum: sha1:69804890ef580c4d44d6e700e306cdbc364699fa
+  src/main/java/org/noresponse/models/operations/async/ListAccountAssessmentsResponse.java:
+    last_write_checksum: sha1:4e6db9556019e0757c2a00c71a1c312abac03be4
   src/main/java/org/noresponse/models/operations/async/ListIntegrationsRequestBuilder.java:
     last_write_checksum: sha1:17bc1055467cfb1d358dfa8d2d132219b2650d86
   src/main/java/org/noresponse/models/operations/async/ListIntegrationsResponse.java:
@@ -488,24 +532,34 @@ trackedFiles:
     last_write_checksum: sha1:5bf0a04b1ca454df96fad8ee38b400f94f023d03
   src/main/java/org/noresponse/models/operations/async/SendWebhookTestEventResponse.java:
     last_write_checksum: sha1:4dd10acbd64f032df42bc4e754c7cba4d4e74688
+  src/main/java/org/noresponse/models/shared/Account.java:
+    last_write_checksum: sha1:9e5db8c69862743446bcc8d227b07c23bafd47a6
+  src/main/java/org/noresponse/models/shared/AccountDecision.java:
+    last_write_checksum: sha1:093b3f32990b8a5fe3c430a7347d29defc204944
+  src/main/java/org/noresponse/models/shared/AccountDecisionsByFlow.java:
+    last_write_checksum: sha1:1b7dc4e100ec2751e4b2238ff0c8c0c9f7ced9c2
+  src/main/java/org/noresponse/models/shared/AccountRisk.java:
+    last_write_checksum: sha1:196bcc1b617130047853eef227fe7931d9525fec
+  src/main/java/org/noresponse/models/shared/AccountRiskReason.java:
+    last_write_checksum: sha1:465ed5eada8110a2f8bd80c786077bc6123806ff
   src/main/java/org/noresponse/models/shared/AlternateName.java:
     last_write_checksum: sha1:5ac86ee2d20bbcf8aaa2949eb8247ed6ee0fc796
   src/main/java/org/noresponse/models/shared/AlternateNameUnion.java:
     last_write_checksum: sha1:c7135a38381ac05f926ea36c8ac2ed3f92d7eaa0
   src/main/java/org/noresponse/models/shared/Assessment.java:
-    last_write_checksum: sha1:3dc9fa4af2819db6a48fe9005b35f1e8697d7edf
+    last_write_checksum: sha1:95d1cd408f30eb73ab0452358fbb140c436c2fea
   src/main/java/org/noresponse/models/shared/AssessmentAuthContext.java:
     last_write_checksum: sha1:79ad4cfc54617ee620c36a40eb04a675d54c806a
   src/main/java/org/noresponse/models/shared/AssessmentList.java:
-    last_write_checksum: sha1:a4e61a8b053dbfa09869a940f14f5d31ec5ab3c7
+    last_write_checksum: sha1:ae5d7230c9b15aeaf518e847cfc91d931a286ac4
   src/main/java/org/noresponse/models/shared/AssessmentOutcome.java:
     last_write_checksum: sha1:8e656edfadff34be2aaf5fd76ecec5eee916557b
   src/main/java/org/noresponse/models/shared/AssessmentOutcomeRequest.java:
     last_write_checksum: sha1:25cde50b93d94dad3945e4d9e1e88eeb9abc0dcf
   src/main/java/org/noresponse/models/shared/AssessmentQuery.java:
-    last_write_checksum: sha1:a6433b49903f50f587a7dbd07388ee946bc88724
+    last_write_checksum: sha1:7d54c3e8d44850986dafb35b42b6b5821740ceb6
   src/main/java/org/noresponse/models/shared/AssessmentRequest.java:
-    last_write_checksum: sha1:729037bc5a52440b1e24304948ef7a51576366ff
+    last_write_checksum: sha1:c389aff9446722366247e12f59cb6e9e62108a77
   src/main/java/org/noresponse/models/shared/AssessmentRequestClientContext.java:
     last_write_checksum: sha1:e8a07d203e27f411dbec67446d9dec13ddf6c8e4
   src/main/java/org/noresponse/models/shared/AssessmentRequestIdentifiers.java:
@@ -702,8 +756,12 @@ trackedFiles:
     last_write_checksum: sha1:38bb9712d4615a061f6324d3c212308b602d813e
   src/main/java/org/noresponse/operations/DeleteWebhookEndpoint.java:
     last_write_checksum: sha1:a8bdbe7003c3ab2fbb7f1ae46c5dec71388f29ee
+  src/main/java/org/noresponse/operations/GetAccount.java:
+    last_write_checksum: sha1:1fe8201c23304a0dba189bf134026b30898bddd0
   src/main/java/org/noresponse/operations/GetAssessment.java:
     last_write_checksum: sha1:9579ace803ad67be49bbcff9ae16fbe698722391
+  src/main/java/org/noresponse/operations/ListAccountAssessments.java:
+    last_write_checksum: sha1:7c8b86146056d9311a5738a5738acb774bd31bc5
   src/main/java/org/noresponse/operations/ListIntegrations.java:
     last_write_checksum: sha1:8f1b4ff52c96e2a53290054990caebbe081602da
   src/main/java/org/noresponse/operations/ListWebhookEndpoints.java:
@@ -1089,6 +1147,31 @@ examples:
     page:
       requestBody:
         application/json: {"account_id": "acct_7f3a9c", "limit": 20, "cursor": "eyJvIjoyMH0"}
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "account_id": "acct_7f3a9c", "items": [{"schema_version": "1", "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "account_id": "acct_7f3a9c", "request_id": "req-2026-10-14-0001", "status": "complete", "recommendation": "step_up", "confidence": "medium", "signals": [{"type": "account_presence", "identifier": "email", "outcome": "found", "source_id": "github", "evidence_ref": "evr_01JA2Z8K6Q4V7W9XBCDEFGHJKN", "observed_at": "2026-10-14T09:00:00.210Z", "last_checked_at": "2026-10-14T09:00:00.210Z", "freshness": "fresh"}, {"type": "account_presence", "identifier": "username", "outcome": "not_found", "source_id": "gitlab", "last_checked_at": "2026-10-14T09:00:00.190Z", "freshness": "fresh"}, {"type": "breach_exposure", "identifier": "email", "outcome": "found", "source_id": "breach.corpus", "evidence_ref": "evr_01JA2Z8K6Q4V7W9XBCDEFGHJKP", "observed_at": "2025-03-02T00:00:00Z", "last_checked_at": "2026-10-14T09:00:00.150Z", "freshness": "stale"}], "incomplete_sources": [], "policy_version": "heuristic-2026-10.1", "policy_basis": "heuristic_unvalidated", "assessment_version": 2, "created_at": "2026-10-14T09:00:00.000Z", "updated_at": "2026-10-14T09:00:00.412Z", "expires_at": "2027-10-14T09:00:00.000Z", "timing": {"deadline_ms": 300, "elapsed_ms": 287}}, {"schema_version": "1", "assessment_id": "asm_01JA2Z9Y3R5T6V7W8X9ZABCDEF", "account_id": "acct_7f3a9c", "request_id": "req-2026-10-01-0007", "status": "complete", "recommendation": "allow", "confidence": "high", "signals": [{"type": "account_presence", "identifier": "username", "outcome": "not_found", "source_id": "gitlab", "last_checked_at": "2026-10-14T09:00:00.190Z", "freshness": "fresh"}], "incomplete_sources": [], "policy_version": "heuristic-2026-10.1", "policy_basis": "heuristic_unvalidated", "assessment_version": 2, "created_at": "2026-10-01T12:00:00Z", "updated_at": "2026-10-01T12:00:05Z", "expires_at": "2027-10-01T12:00:00.000Z", "timing": {"deadline_ms": 300, "elapsed_ms": 287}}], "next_cursor": "eyJiIjoiY2hrXzAxIn0", "retention_days": 365}
+  getAccount:
+    current:
+      parameters:
+        path:
+          account_id: "acct_7f3a9c"
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "id": "acct_7f3a9c", "risk": {"score": 35, "decision": "step_up", "reasons": [{"code": "new_email", "weight": 20, "identifier": "email"}, {"code": "proxy_ip", "weight": 15, "identifier": "ip"}]}, "decisions_by_flow": {"signup": "step_up", "login": "step_up", "purchase": "step_up"}, "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "updated_at": "2026-10-14T09:00:00.412Z"}
+    blocked:
+      parameters:
+        path:
+          account_id: "acct_7f3a9c"
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "id": "acct_7f3a9c", "risk": {"score": 90, "decision": "block", "reasons": [{"code": "disposable_email", "weight": 40, "identifier": "email"}, {"code": "proxy_ip", "weight": 30, "identifier": "ip"}, {"code": "many_recent_signups", "weight": 20}]}, "decisions_by_flow": {"signup": "block", "login": "block", "purchase": "block"}, "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "updated_at": "2026-10-14T09:00:00.412Z"}
+  listAccountAssessments:
+    page:
+      parameters:
+        path:
+          account_id: "acct_7f3a9c"
+        query:
+          limit: 20
       responses:
         "200":
           application/json: {"schema_version": "1", "account_id": "acct_7f3a9c", "items": [{"schema_version": "1", "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "account_id": "acct_7f3a9c", "request_id": "req-2026-10-14-0001", "status": "complete", "recommendation": "step_up", "confidence": "medium", "signals": [{"type": "account_presence", "identifier": "email", "outcome": "found", "source_id": "github", "evidence_ref": "evr_01JA2Z8K6Q4V7W9XBCDEFGHJKN", "observed_at": "2026-10-14T09:00:00.210Z", "last_checked_at": "2026-10-14T09:00:00.210Z", "freshness": "fresh"}, {"type": "account_presence", "identifier": "username", "outcome": "not_found", "source_id": "gitlab", "last_checked_at": "2026-10-14T09:00:00.190Z", "freshness": "fresh"}, {"type": "breach_exposure", "identifier": "email", "outcome": "found", "source_id": "breach.corpus", "evidence_ref": "evr_01JA2Z8K6Q4V7W9XBCDEFGHJKP", "observed_at": "2025-03-02T00:00:00Z", "last_checked_at": "2026-10-14T09:00:00.150Z", "freshness": "stale"}], "incomplete_sources": [], "policy_version": "heuristic-2026-10.1", "policy_basis": "heuristic_unvalidated", "assessment_version": 2, "created_at": "2026-10-14T09:00:00.000Z", "updated_at": "2026-10-14T09:00:00.412Z", "expires_at": "2027-10-14T09:00:00.000Z", "timing": {"deadline_ms": 300, "elapsed_ms": 287}}, {"schema_version": "1", "assessment_id": "asm_01JA2Z9Y3R5T6V7W8X9ZABCDEF", "account_id": "acct_7f3a9c", "request_id": "req-2026-10-01-0007", "status": "complete", "recommendation": "allow", "confidence": "high", "signals": [{"type": "account_presence", "identifier": "username", "outcome": "not_found", "source_id": "gitlab", "last_checked_at": "2026-10-14T09:00:00.190Z", "freshness": "fresh"}], "incomplete_sources": [], "policy_version": "heuristic-2026-10.1", "policy_basis": "heuristic_unvalidated", "assessment_version": 2, "created_at": "2026-10-01T12:00:00Z", "updated_at": "2026-10-01T12:00:05Z", "expires_at": "2027-10-01T12:00:00.000Z", "timing": {"deadline_ms": 300, "elapsed_ms": 287}}], "next_cursor": "eyJiIjoiY2hrXzAxIn0", "retention_days": 365}

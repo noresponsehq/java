@@ -40,6 +40,11 @@ public class NoResponse {
     private final Assessments assessments;
 
     /**
+     * Your accounts, each with one current risk, and their assessment history.
+     */
+    private final Accounts accounts;
+
+    /**
      * Your own API keys.
      */
     private final Keys keys;
@@ -59,6 +64,13 @@ public class NoResponse {
      */
     public Assessments assessments() {
         return assessments;
+    }
+
+    /**
+     * Your accounts, each with one current risk, and their assessment history.
+     */
+    public Accounts accounts() {
+        return accounts;
     }
 
     /**
@@ -246,6 +258,7 @@ public class NoResponse {
     private NoResponse(SDKConfiguration sdkConfiguration) {
         sdkConfiguration.initialize();
         this.assessments = new Assessments(sdkConfiguration);
+        this.accounts = new Accounts(sdkConfiguration);
         this.keys = new Keys(sdkConfiguration);
         this.integrations = new Integrations(sdkConfiguration);
         this.webhookEndpoints = new WebhookEndpoints(sdkConfiguration);
