@@ -28,14 +28,17 @@ public class WebhookReplay {
     @JsonProperty("event_id")
     private String eventId;
 
+    /**
+     * The event's type, as its body's type: assessment.updated, account.deleted or account.risk_changed.
+     */
     @JsonProperty("event_type")
-    private EventType eventType;
+    private String eventType;
 
     @JsonCreator
     public WebhookReplay(
             @JsonProperty("endpoint_id") @Nonnull String endpointId,
             @JsonProperty("event_id") @Nonnull String eventId,
-            @JsonProperty("event_type") @Nonnull EventType eventType) {
+            @JsonProperty("event_type") @Nonnull String eventType) {
         this.endpointId = Optional.ofNullable(endpointId)
                 .orElseThrow(() -> new IllegalArgumentException("endpointId cannot be null"));
         this.eventId =
@@ -59,7 +62,10 @@ public class WebhookReplay {
         return this.eventId;
     }
 
-    public EventType eventType() {
+    /**
+     * The event's type, as its body's type: assessment.updated, account.deleted or account.risk_changed.
+     */
+    public String eventType() {
         return this.eventType;
     }
 
@@ -84,7 +90,10 @@ public class WebhookReplay {
         return this;
     }
 
-    public WebhookReplay withEventType(@Nonnull EventType eventType) {
+    /**
+     * The event's type, as its body's type: assessment.updated, account.deleted or account.risk_changed.
+     */
+    public WebhookReplay withEventType(@Nonnull String eventType) {
         this.eventType = Utils.checkNotNull(eventType, "eventType");
         return this;
     }
@@ -121,7 +130,7 @@ public class WebhookReplay {
 
         private String eventId;
 
-        private EventType eventType;
+        private String eventType;
 
         private Builder() {
             // force use of static builder() method
@@ -144,7 +153,10 @@ public class WebhookReplay {
             return this;
         }
 
-        public Builder eventType(@Nonnull EventType eventType) {
+        /**
+         * The event's type, as its body's type: assessment.updated, account.deleted or account.risk_changed.
+         */
+        public Builder eventType(@Nonnull String eventType) {
             this.eventType = Utils.checkNotNull(eventType, "eventType");
             return this;
         }

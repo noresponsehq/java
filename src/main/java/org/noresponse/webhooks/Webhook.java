@@ -19,6 +19,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import org.noresponse.models.shared.Account;
+import org.noresponse.models.shared.AccountDecisionsByFlow;
 import org.noresponse.models.shared.Assessment;
 import org.noresponse.utils.JSON;
 import org.noresponse.webhooks.VerificationException.Code;
@@ -214,6 +216,9 @@ public final class Webhook {
             }
             return new EndpointDisabled(endpointId.asText(), failingSince.asText(), disabledAt.asText());
         }
+        if ("account.risk_changed".equals(type)) {
+            return accountRiskChanged(mapper, data);
+        }
         if (!"assessment.updated".equals(type)) {
             throw new VerificationException(Code.INVALID_PAYLOAD, "Unknown webhook event type");
         }
@@ -233,6 +238,27 @@ public final class Webhook {
             return mapper.treeToValue(data, Assessment.class);
         } catch (IOException | IllegalArgumentException e) {
             throw new VerificationException(Code.INVALID_PAYLOAD, "Webhook data is not an assessment");
+        }
+    }
+
+    private static AccountRiskChanged accountRiskChanged(ObjectMapper mapper, JsonNode data) {
+        JsonNode account = data.path("account");
+        JsonNode previous = data.path("previous_decisions_by_flow");
+        // The generated decoder fills a missing number with 0, so the score is checked here.
+        if (!account.isObject() || !previous.isObject() || !account.path("risk").path("score").isIntegralNumber()
+                || !account.path("id").isTextual() || !ACCOUNT_ID.matcher(account.path("id").asText()).matches()) {
+            throw new VerificationException(Code.INVALID_PAYLOAD, "Account risk changed event is malformed");
+        }
+        try {
+            Account parsed = mapper.treeToValue(account, Account.class);
+            AccountDecisionsByFlow before = mapper.treeToValue(previous, AccountDecisionsByFlow.class);
+            if (parsed == null || before == null || parsed.risk().reasons() == null || before.signup() == null
+                    || before.login() == null || before.purchase() == null) {
+                throw new VerificationException(Code.INVALID_PAYLOAD, "Account risk changed event is malformed");
+            }
+            return new AccountRiskChanged(parsed, before);
+        } catch (IOException | IllegalArgumentException e) {
+            throw new VerificationException(Code.INVALID_PAYLOAD, "Account risk changed event is malformed");
         }
     }
 

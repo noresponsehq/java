@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v3.0.9'
+    implementation 'com.github.noresponsehq:java:v4.0.0'
 }
 ```
 
@@ -36,7 +36,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v3.0.9</version>
+  <version>v4.0.0</version>
 </dependency>
 ```
 
@@ -211,6 +211,10 @@ try {
         event.accountDeleted().ifPresent(d -> { /* account.deleted: you erased d.accountId() */ });
         event.tenantDeleted().ifPresent(t -> { /* tenant.deleted: the workspace is gone; the last event here */ });
         event.endpointDisabled().ifPresent(d -> { /* d.endpointId() failed for 72 hours: fix it, verify it again */ });
+        event.accountRiskChanged().ifPresent(c -> {
+            /* account.risk_changed: c.account() is the Account accounts().get returns, with its new
+               decisionsByFlow(); c.previousDecisionsByFlow() holds the decisions it replaced */
+        });
     }
 } catch (VerificationException e) {
     // answer 400 and do not process the delivery
@@ -228,7 +232,7 @@ LateResult result = LateResults.handleLateResult(rawBody, headers, secrets,
     new ClerkActions(System.getenv("CLERK_SECRET_KEY")));
 ```
 
-A provider refusal throws `ProviderActionException`; answer 5xx so NoResponse retries. WorkOS has no block, so its `ban` deletes the user permanently.
+An `account.risk_changed` event acts on nothing: the handler acts on the `assessment.updated` that changed the decision. A provider refusal throws `ProviderActionException`; answer 5xx so NoResponse retries. WorkOS has no block, so its `ban` deletes the user permanently.
 
 If your app has its own login, `new LogOnlyActions()` logs what it would revoke or ban (at INFO on the `org.noresponse.lateresults` `System.Logger`, or pass a `Consumer<String>`) and calls nothing. Use it to try the handler, then implement `LateResultProvider` yourself: `name()`, `revokeSessions(userId)` and `ban(userId)`.
 

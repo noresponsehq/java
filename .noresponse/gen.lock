@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: cb90dcc0457fc681deb74417af95c3ae
+  docChecksum: 85acd391e54a7b9ed9e0e1251e92cb8c
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 3.0.9
-  configChecksum: 05c835566efcf2c05bced931fbde534d
+  releaseVersion: 4.0.0
+  configChecksum: fb4574c56218dacff04b8a6d6d6776cc
 features:
   java:
     additionalDependencies: 0.1.0
@@ -200,8 +200,6 @@ trackedFiles:
     last_write_checksum: sha1:f99424d00cec2aaabbe4970712a7ef5ba252a59f
   docs/models/shared/EmailUnion.md:
     last_write_checksum: sha1:7a651625b8f5f1e102141531f8bcd9eb341601ad
-  docs/models/shared/EventType.md:
-    last_write_checksum: sha1:a6eaf5644325442adec6081838d35d4e69c2b984
   docs/models/shared/Failure.md:
     last_write_checksum: sha1:6b1f0d8c540f51daee66a4c96ff32259580c9553
   docs/models/shared/FailureReason.md:
@@ -327,7 +325,7 @@ trackedFiles:
   docs/models/shared/Transport.md:
     last_write_checksum: sha1:fdd4ac5f07ad57d845a056e05ee95bea021e610d
   docs/models/shared/WebhookDeliveryAttempt.md:
-    last_write_checksum: sha1:e53138c3337b07f1bb363b0d8c59b8a8c7059f89
+    last_write_checksum: sha1:cd63ef8a9e305900393d06746acb1772c0f08034
   docs/models/shared/WebhookDeliveryAttemptStatus.md:
     last_write_checksum: sha1:3077f5290550ea9f5434bd15da8abd47d1f5797a
   docs/models/shared/WebhookDeliveryList.md:
@@ -347,7 +345,7 @@ trackedFiles:
   docs/models/shared/WebhookKeyRotationRequest.md:
     last_write_checksum: sha1:24f9c44d1ebe5a3280d981b0455b8c8e2d2b038c
   docs/models/shared/WebhookReplay.md:
-    last_write_checksum: sha1:5fefda57cbf629c3b08993dc2482ddad7f91a83a
+    last_write_checksum: sha1:4020dbaae0a3ff59fb2a74824586b84bd58fe122
   docs/models/shared/WebhookReplayRequest.md:
     last_write_checksum: sha1:5575baa2f60f6bc8cd384cb27bb492d98491463d
   docs/models/shared/WebhookTest.md:
@@ -375,7 +373,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:4af416b413e146ddc87976324dc884b9846cbcc7
+    last_write_checksum: sha1:fa93af0d324e4e902368cdc461b068877690b485
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -415,7 +413,7 @@ trackedFiles:
   src/main/java/org/noresponse/NoResponse.java:
     last_write_checksum: sha1:8228c0228b2155cacd19219b175d4a4a898e6263
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:a530285373f1e71138e16b04e34d0158d651ce4a
+    last_write_checksum: sha1:905dd656050c07c295f226d6df4f7bd5b56130c4
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/WebhookEndpoints.java:
@@ -722,8 +720,6 @@ trackedFiles:
     last_write_checksum: sha1:e6c7f2473b63045e74dee1d279713159d45c51ce
   src/main/java/org/noresponse/models/shared/EmailUnion.java:
     last_write_checksum: sha1:387e13a2024dba1860eec62a1ce214686af46c77
-  src/main/java/org/noresponse/models/shared/EventType.java:
-    last_write_checksum: sha1:77b273a54d8b87f9e9469d97c92f3dfa6400f229
   src/main/java/org/noresponse/models/shared/Failure.java:
     last_write_checksum: sha1:d3ff8fcca77f45915bff3b434867a611c6c750f3
   src/main/java/org/noresponse/models/shared/FailureReason.java:
@@ -849,7 +845,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/Transport.java:
     last_write_checksum: sha1:f9b2c1467f2935015881f79d8cd54e15b63b0401
   src/main/java/org/noresponse/models/shared/WebhookDeliveryAttempt.java:
-    last_write_checksum: sha1:91143169228a8753d942368aaa63858963279df4
+    last_write_checksum: sha1:9fbbd622daf132e095d49679f211b04593792323
   src/main/java/org/noresponse/models/shared/WebhookDeliveryAttemptStatus.java:
     last_write_checksum: sha1:09a2b8adbc11663671a387d972ded3174135a5a0
   src/main/java/org/noresponse/models/shared/WebhookDeliveryList.java:
@@ -869,7 +865,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/WebhookKeyRotationRequest.java:
     last_write_checksum: sha1:84b65968e9cde9b4b8902a55cccecbb2b86b3ca2
   src/main/java/org/noresponse/models/shared/WebhookReplay.java:
-    last_write_checksum: sha1:c2a6bfcd77064617dd43a776f9305f6c24c5858c
+    last_write_checksum: sha1:fbf89e5b5eddcfeb2a9a5f686b946ddbab0f801e
   src/main/java/org/noresponse/models/shared/WebhookReplayRequest.java:
     last_write_checksum: sha1:06615335a454a7ad486f1d66696d9609bf66393e
   src/main/java/org/noresponse/models/shared/WebhookTest.java:

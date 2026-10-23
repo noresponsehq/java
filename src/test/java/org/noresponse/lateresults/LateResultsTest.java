@@ -58,13 +58,18 @@ class LateResultsTest {
 
         /** With test true, the body carries "test": true as a send-test-event delivery does. */
         Delivery(JsonNode data, String accountId, boolean test) throws Exception {
+            this(data, accountId, test, "assessment.updated");
+        }
+
+        /** A delivery of another event type, such as account.risk_changed. */
+        Delivery(JsonNode data, String accountId, boolean test, String type) throws Exception {
             ObjectNode payload = data.deepCopy();
             if (accountId != null) {
                 ((ObjectNode) payload.get("detail")).put("account_id", accountId);
             }
             ObjectNode body = MAPPER.createObjectNode();
             body.put("id", "evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ2");
-            body.put("type", "assessment.updated");
+            body.put("type", type);
             body.put("created_at", "2026-10-18T11:00:04Z");
             if (test) {
                 body.put("test", true);
@@ -385,6 +390,15 @@ class LateResultsTest {
                 assertEquals(LateResultAction.NONE,
                         LateResults.handleLateResult(quiet.raw, quiet.headers, SECRETS, auth0, opts()).action());
             }
+            // account.risk_changed is verified and typed, and acts on nothing: the
+            // assessment.updated that moved the decision does.
+            Delivery changed = new Delivery(fixture("valid/webhook-account-risk-changed.json").path("data"), null, false,
+                    "account.risk_changed");
+            LateResult ignored = LateResults.handleLateResult(changed.raw, changed.headers, SECRETS, auth0, opts());
+            assertEquals(LateResultAction.NONE, ignored.action());
+            assertEquals("account.risk_changed", ignored.event().type());
+            assertEquals("review", ignored.event().accountRiskChanged().orElseThrow().account().decisionsByFlow().login().value());
+            assertEquals(LateResultAction.NONE, LateResults.lateResultAction(ignored.event(), LateResultPolicy.fromWire(Map.of("review", "ban"))));
             LateResultOptions unmapped = LateResultOptions.builder().nowEpochSeconds(NOW).userId((a, e) -> null).build();
             assertEquals(LateResultAction.NONE,
                     LateResults.handleLateResult(d.raw, d.headers, SECRETS, auth0, unmapped).action());

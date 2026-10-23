@@ -20,8 +20,11 @@ public class WebhookDeliveryAttempt {
     @JsonProperty("event_id")
     private String eventId;
 
+    /**
+     * The event's type, as its body's type: assessment.updated, account.deleted or account.risk_changed.
+     */
     @JsonProperty("event_type")
-    private EventType eventType;
+    private String eventType;
 
     /**
      * Which attempt of this delivery this was: 1 for the first send, up to 9 with retries. A replay counts
@@ -73,7 +76,7 @@ public class WebhookDeliveryAttempt {
     @JsonCreator
     public WebhookDeliveryAttempt(
             @JsonProperty("event_id") @Nonnull String eventId,
-            @JsonProperty("event_type") @Nonnull EventType eventType,
+            @JsonProperty("event_type") @Nonnull String eventType,
             @JsonProperty("attempt") long attempt,
             @JsonProperty("replay") boolean replay,
             @JsonProperty("status") @Nonnull WebhookDeliveryAttemptStatus status,
@@ -98,7 +101,7 @@ public class WebhookDeliveryAttempt {
 
     public WebhookDeliveryAttempt(
             @Nonnull String eventId,
-            @Nonnull EventType eventType,
+            @Nonnull String eventType,
             long attempt,
             boolean replay,
             @Nonnull WebhookDeliveryAttemptStatus status,
@@ -115,7 +118,10 @@ public class WebhookDeliveryAttempt {
         return this.eventId;
     }
 
-    public EventType eventType() {
+    /**
+     * The event's type, as its body's type: assessment.updated, account.deleted or account.risk_changed.
+     */
+    public String eventType() {
         return this.eventType;
     }
 
@@ -184,7 +190,10 @@ public class WebhookDeliveryAttempt {
         return this;
     }
 
-    public WebhookDeliveryAttempt withEventType(@Nonnull EventType eventType) {
+    /**
+     * The event's type, as its body's type: assessment.updated, account.deleted or account.risk_changed.
+     */
+    public WebhookDeliveryAttempt withEventType(@Nonnull String eventType) {
         this.eventType = Utils.checkNotNull(eventType, "eventType");
         return this;
     }
@@ -303,7 +312,7 @@ public class WebhookDeliveryAttempt {
 
         private String eventId;
 
-        private EventType eventType;
+        private String eventType;
 
         private long attempt;
 
@@ -332,7 +341,10 @@ public class WebhookDeliveryAttempt {
             return this;
         }
 
-        public Builder eventType(@Nonnull EventType eventType) {
+        /**
+         * The event's type, as its body's type: assessment.updated, account.deleted or account.risk_changed.
+         */
+        public Builder eventType(@Nonnull String eventType) {
             this.eventType = Utils.checkNotNull(eventType, "eventType");
             return this;
         }

@@ -24,7 +24,10 @@ import javax.crypto.spec.SecretKeySpec;
 import org.junit.jupiter.api.Test;
 import org.noresponse.models.shared.Assessment;
 import org.noresponse.models.shared.AccountDecision;
+import org.noresponse.models.shared.Account;
+import org.noresponse.models.shared.AccountDecisionsByFlow;
 import org.noresponse.webhooks.AccountDeleted;
+import org.noresponse.webhooks.AccountRiskChanged;
 import org.noresponse.webhooks.AssessmentExpired;
 import org.noresponse.webhooks.EndpointDisabled;
 import org.noresponse.webhooks.TenantDeleted;
@@ -309,6 +312,52 @@ class WebhookTest {
                 data -> data.remove("failing_since"),
                 data -> data.put("disabled_at", "now"),
                 data -> data.remove("disabled_at")));
+    }
+
+    @Test
+    void accountRiskChangedEvent() throws Exception {
+        JsonNode changed = fixture("valid/webhook-account-risk-changed.json");
+        byte[] body = raw(changed);
+        Map<String, String> secrets = Map.of("whk_sdktest01", "secret");
+        WebhookEvent event = Webhook.constructEvent(body,
+                signed(body, "secret", changed.path("id").asText(), "whk_sdktest01"), secrets, 300, NOW);
+        assertEquals("account.risk_changed", event.type());
+        assertEquals(changed.path("id").asText(), event.id());
+        assertFalse(event.isExpired());
+        assertFalse(event.isTest());
+        assertTrue(event.assessment().isEmpty());
+        assertTrue(event.accountDeleted().isEmpty());
+        AccountRiskChanged data = event.accountRiskChanged().orElseThrow();
+        // data.account() is the same type accounts().get returns.
+        Account account = data.account();
+        assertEquals("acct_7f3a9c", account.id());
+        assertEquals("1", account.schemaVersion());
+        assertEquals(70L, account.risk().score());
+        assertEquals(AccountDecision.of("review"), account.risk().decision());
+        assertEquals(2, account.risk().reasons().size());
+        assertEquals(55L, account.risk().reasons().get(0).weight());
+        assertEquals("recent_password_exposure", account.risk().reasons().get(0).code().value());
+        assertEquals("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", account.assessmentId());
+        assertEquals("2026-10-23T09:00:04.812Z", account.updatedAt());
+        AccountDecisionsByFlow now = account.decisionsByFlow();
+        assertEquals(List.of("review", "review", "review"),
+                List.of(now.signup().value(), now.login().value(), now.purchase().value()));
+        AccountDecisionsByFlow before = data.previousDecisionsByFlow();
+        assertEquals(List.of("allow", "allow", "allow"),
+                List.of(before.signup().value(), before.login().value(), before.purchase().value()));
+        assertThrows(VerificationException.class, () -> Webhook.verificationResponse(event));
+        for (java.util.function.Consumer<ObjectNode> mutate : List.<java.util.function.Consumer<ObjectNode>>of(
+                data2 -> data2.remove("previous_decisions_by_flow"),
+                data2 -> ((ObjectNode) data2.path("previous_decisions_by_flow")).remove("login"),
+                data2 -> ((ObjectNode) data2.path("account")).remove("decisions_by_flow"),
+                data2 -> ((ObjectNode) data2.path("account").path("risk")).remove("score"),
+                data2 -> data2.put("account", "acct_7f3a9c"),
+                data2 -> ((ObjectNode) data2.path("account")).put("id", "jane@example.com"))) {
+            ObjectNode bad = (ObjectNode) fixture("valid/webhook-account-risk-changed.json");
+            mutate.accept((ObjectNode) bad.path("data"));
+            byte[] payload = raw(bad);
+            refused(Code.INVALID_PAYLOAD, payload, signed(payload, "secret", bad.path("id").asText(), "whk_sdktest01"), secrets, NOW);
+        }
     }
 
     // The API adds fields without a new version, so keys this SDK does not know

@@ -13,7 +13,9 @@ import org.noresponse.models.shared.Assessment;
  * {@code endpoint.verification}, {@link #verification()} holds the challenge. For
  * {@code account.deleted}, {@link #accountDeleted()} names the account you erased. For
  * {@code tenant.deleted}, {@link #tenantDeleted()} names the deleted workspace. For
- * {@code webhook_endpoint.disabled}, {@link #endpointDisabled()} names the disabled endpoint.
+ * {@code webhook_endpoint.disabled}, {@link #endpointDisabled()} names the disabled endpoint. For
+ * {@code account.risk_changed}, {@link #accountRiskChanged()} holds the account with its new
+ * decisions and the decisions it replaced.
  *
  * <p>{@link #isTest()} is true on an event sent by
  * {@code webhookEndpoints().sendTestEvent()}: acknowledge it and apply nothing.
@@ -81,6 +83,14 @@ public final class WebhookEvent {
      */
     public Optional<EndpointDisabled> endpointDisabled() {
         return data instanceof EndpointDisabled ? Optional.of((EndpointDisabled) data) : Optional.empty();
+    }
+
+    /**
+     * Present for account.risk_changed: the account's decision for at least one flow changed. Its
+     * account is the same {@code Account} that {@code accounts().get} returns.
+     */
+    public Optional<AccountRiskChanged> accountRiskChanged() {
+        return data instanceof AccountRiskChanged ? Optional.of((AccountRiskChanged) data) : Optional.empty();
     }
 
     /**
