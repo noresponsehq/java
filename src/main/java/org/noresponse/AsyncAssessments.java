@@ -57,15 +57,21 @@ public class AsyncAssessments {
     /**
      * Assess identifiers for a signup or gateway decision.
      *
-     * <p>Returns within the deadline (3000 ms at most) with a complete, partial or pending assessment: 200
-     * carries complete or partial, 202 carries pending with Location and Retry-After. A pending answer has
-     * no recommendation; apply your own fallback for pending, 429, 503 or a timeout. risk.block says when
-     * your block threshold was reached.
+     * <p>Assesses one signup, login or purchase (flow) and answers with the account's one current risk:
+     * account.risk.decision is the decision for this flow (allow, step_up, review or block, where block
+     * means your block threshold was reached), and detail holds this assessment's own facts. depth sets
+     * how long the answer waits for sources: quick waits only for the fast ones (500 ms), full for the
+     * whole budget (3000 ms at most); it defaults to full for signup and purchase and quick for login. 200
+     * carries complete or partial, 202 carries pending with Location and Retry-After.
      *
-     * <p>Requires the assess scope. Idempotency-Key is required and is bound to the body for 24 hours: the
-     * same key with the same body replays the latest assessment with Idempotent-Replayed: true and starts
-     * no new work; the same key with a different body answers 409 idempotency_key_reused. response_mode
-     * defaults to standard; detailed needs the detailed scope.
+     * <p>While the account's first assessment is pending, account is absent: apply your own fallback for
+     * that, 429, 503 or a timeout. NoResponse blocks nothing itself; you decide. Requires the assess
+     * scope.
+     *
+     * <p>Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body
+     * replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key
+     * with a different body answers 409 idempotency_key_reused. response_mode defaults to standard;
+     * detailed needs the detailed scope.
      *
      * @return The async call builder
      */
@@ -76,15 +82,21 @@ public class AsyncAssessments {
     /**
      * Assess identifiers for a signup or gateway decision.
      *
-     * <p>Returns within the deadline (3000 ms at most) with a complete, partial or pending assessment: 200
-     * carries complete or partial, 202 carries pending with Location and Retry-After. A pending answer has
-     * no recommendation; apply your own fallback for pending, 429, 503 or a timeout. risk.block says when
-     * your block threshold was reached.
+     * <p>Assesses one signup, login or purchase (flow) and answers with the account's one current risk:
+     * account.risk.decision is the decision for this flow (allow, step_up, review or block, where block
+     * means your block threshold was reached), and detail holds this assessment's own facts. depth sets
+     * how long the answer waits for sources: quick waits only for the fast ones (500 ms), full for the
+     * whole budget (3000 ms at most); it defaults to full for signup and purchase and quick for login. 200
+     * carries complete or partial, 202 carries pending with Location and Retry-After.
      *
-     * <p>Requires the assess scope. Idempotency-Key is required and is bound to the body for 24 hours: the
-     * same key with the same body replays the latest assessment with Idempotent-Replayed: true and starts
-     * no new work; the same key with a different body answers 409 idempotency_key_reused. response_mode
-     * defaults to standard; detailed needs the detailed scope.
+     * <p>While the account's first assessment is pending, account is absent: apply your own fallback for
+     * that, 429, 503 or a timeout. NoResponse blocks nothing itself; you decide. Requires the assess
+     * scope.
+     *
+     * <p>Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body
+     * replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key
+     * with a different body answers 409 idempotency_key_reused. response_mode defaults to standard;
+     * detailed needs the detailed scope.
      *
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours.
      * @param body POST /v1/assessments body. At least one of email, username or phone is required; name and ip only refine an assessment. No field carries a password, hash, token or breach value, and unknown members are refused. The email local part is kept as received and only the domain is lower-cased; the username is compared case-insensitively; the phone is strict E.164 and is assessed asynchronously. The whole body is capped at 32768 bytes. client_context holds bounded hints from the signup client; auth_context holds normalised claims from a session your backend has verified. Raw tokens are refused.
@@ -98,15 +110,21 @@ public class AsyncAssessments {
     /**
      * Assess identifiers for a signup or gateway decision.
      *
-     * <p>Returns within the deadline (3000 ms at most) with a complete, partial or pending assessment: 200
-     * carries complete or partial, 202 carries pending with Location and Retry-After. A pending answer has
-     * no recommendation; apply your own fallback for pending, 429, 503 or a timeout. risk.block says when
-     * your block threshold was reached.
+     * <p>Assesses one signup, login or purchase (flow) and answers with the account's one current risk:
+     * account.risk.decision is the decision for this flow (allow, step_up, review or block, where block
+     * means your block threshold was reached), and detail holds this assessment's own facts. depth sets
+     * how long the answer waits for sources: quick waits only for the fast ones (500 ms), full for the
+     * whole budget (3000 ms at most); it defaults to full for signup and purchase and quick for login. 200
+     * carries complete or partial, 202 carries pending with Location and Retry-After.
      *
-     * <p>Requires the assess scope. Idempotency-Key is required and is bound to the body for 24 hours: the
-     * same key with the same body replays the latest assessment with Idempotent-Replayed: true and starts
-     * no new work; the same key with a different body answers 409 idempotency_key_reused. response_mode
-     * defaults to standard; detailed needs the detailed scope.
+     * <p>While the account's first assessment is pending, account is absent: apply your own fallback for
+     * that, 429, 503 or a timeout. NoResponse blocks nothing itself; you decide. Requires the assess
+     * scope.
+     *
+     * <p>Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body
+     * replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key
+     * with a different body answers 409 idempotency_key_reused. response_mode defaults to standard;
+     * detailed needs the detailed scope.
      *
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the tenant principal and bound to the canonical body for 24 hours.
      * @param body POST /v1/assessments body. At least one of email, username or phone is required; name and ip only refine an assessment. No field carries a password, hash, token or breach value, and unknown members are refused. The email local part is kept as received and only the domain is lower-cased; the username is compared case-insensitively; the phone is strict E.164 and is assessed asynchronously. The whole body is capped at 32768 bytes. client_context holds bounded hints from the signup client; auth_context holds normalised claims from a session your backend has verified. Raw tokens are refused.
@@ -124,9 +142,9 @@ public class AsyncAssessments {
     /**
      * Poll the authoritative assessment of one assessment.
      *
-     * <p>Returns the highest assessment_version. Requires the assess or history scope. While status is
-     * pending, or partial with a source still running, the response carries Retry-After; poll no faster
-     * than it says.
+     * <p>Returns the highest assessment_version, with the account's current risk. Requires the assess or
+     * history scope. While status is pending, or partial with a source still running, the response carries
+     * Retry-After; poll no faster than it says.
      *
      * <p>Another tenant's assessment, an unknown or expired assessment and a malformed assessment_id all
      * answer 404 not_found. response_mode=detailed needs the detailed scope.
@@ -140,9 +158,9 @@ public class AsyncAssessments {
     /**
      * Poll the authoritative assessment of one assessment.
      *
-     * <p>Returns the highest assessment_version. Requires the assess or history scope. While status is
-     * pending, or partial with a source still running, the response carries Retry-After; poll no faster
-     * than it says.
+     * <p>Returns the highest assessment_version, with the account's current risk. Requires the assess or
+     * history scope. While status is pending, or partial with a source still running, the response carries
+     * Retry-After; poll no faster than it says.
      *
      * <p>Another tenant's assessment, an unknown or expired assessment and a malformed assessment_id all
      * answer 404 not_found. response_mode=detailed needs the detailed scope.
@@ -157,9 +175,9 @@ public class AsyncAssessments {
     /**
      * Poll the authoritative assessment of one assessment.
      *
-     * <p>Returns the highest assessment_version. Requires the assess or history scope. While status is
-     * pending, or partial with a source still running, the response carries Retry-After; poll no faster
-     * than it says.
+     * <p>Returns the highest assessment_version, with the account's current risk. Requires the assess or
+     * history scope. While status is pending, or partial with a source still running, the response carries
+     * Retry-After; poll no faster than it says.
      *
      * <p>Another tenant's assessment, an unknown or expired assessment and a malformed assessment_id all
      * answer 404 not_found. response_mode=detailed needs the detailed scope.

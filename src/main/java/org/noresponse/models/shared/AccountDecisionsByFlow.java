@@ -11,8 +11,8 @@ import org.noresponse.utils.Utils;
 /**
  * AccountDecisionsByFlow
  *
- * <p>The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three equal
- * risk.decision.
+ * <p>The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three are
+ * equal.
  */
 public class AccountDecisionsByFlow {
     /**

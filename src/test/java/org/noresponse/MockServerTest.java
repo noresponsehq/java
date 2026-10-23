@@ -9,6 +9,7 @@ import org.noresponse.models.operations.CreateAssessmentResponse;
 import org.noresponse.models.operations.GetAssessmentResponse;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
+import org.noresponse.models.shared.Flow;
 
 /**
  * Smoke test of the client against the mock server.
@@ -31,13 +32,14 @@ class MockServerTest {
         CreateAssessmentResponse res = client().assessments().create()
                 .idempotencyKey("mock-server-smoke-0001")
                 .body(AssessmentRequest.builder()
+                        .flow(Flow.SIGNUP)
                         .accountId("acct_7f3a9c")
                         .identifiers(AssessmentRequestIdentifiers.builder().email("new.user@example.com").build())
                         .build())
                 .call();
         assertTrue(res.assessment().isPresent());
-        assertTrue(res.assessment().get().assessmentId().startsWith("asm_"));
-        assertEquals("acct_7f3a9c", res.assessment().get().accountId());
+        assertTrue(res.assessment().get().id().startsWith("asm_"));
+        assertEquals("acct_7f3a9c", res.assessment().get().detail().accountId());
     }
 
     @Test
@@ -46,6 +48,6 @@ class MockServerTest {
                 .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
                 .call();
         assertTrue(res.assessment().isPresent());
-        assertTrue(res.assessment().get().assessmentId().startsWith("asm_"));
+        assertTrue(res.assessment().get().id().startsWith("asm_"));
     }
 }

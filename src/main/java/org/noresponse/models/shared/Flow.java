@@ -1,39 +1,131 @@
 package org.noresponse.models.shared;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.lang.Override;
 import java.lang.String;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
 /**
+ * Wrapper for an "open" enum that can handle unknown values from API responses
+ * without runtime errors. Instances are immutable singletons with reference equality.
+ * Use {@code asEnum()} for switch expressions.
+ */
+/**
  * Flow
  *
- * <p>The provider flow the assessment gates. Use the top-level flow instead; this member is ignored when
- * the top-level flow is present. Absent means signup.
+ * <p>The customer event an assessment is made for: signup (a new account), login (a returning sign-in) or
+ * purchase (a payment or credit grant). The account's risk is reported with the decision for this
+ * flow.
  */
-public enum Flow {
-    SIGNUP("signup"),
-    LOGIN("login"),
-    RECOVERY("recovery"),
-    PROFILE_CHANGE("profile_change");
+public class Flow {
 
-    @JsonValue
+    public static final Flow SIGNUP = new Flow("signup");
+    public static final Flow LOGIN = new Flow("login");
+    public static final Flow PURCHASE = new Flow("purchase");
+
+    // This map will grow whenever a Color gets created with a new
+    // unrecognized value (a potential memory leak if the user is not
+    // careful). Keep this field lower case to avoid clashing with
+    // generated member names which will always be upper cased (Java
+    // convention)
+    private static final Map<String, Flow> values = createValuesMap();
+    private static final Map<String, FlowEnum> enums = createEnumsMap();
+
     private final String value;
 
-    Flow(String value) {
+    private Flow(String value) {
         this.value = value;
     }
 
+    /**
+     * Returns a Flow with the given value. For a specific value the
+     * returned object will always be a singleton so reference equality
+     * is satisfied when the values are the same.
+     *
+     * @param value value to be wrapped as Flow
+     */
+    @JsonCreator
+    public static Flow of(String value) {
+        synchronized (Flow.class) {
+            return values.computeIfAbsent(value, v -> new Flow(v));
+        }
+    }
+
+    @JsonValue
     public String value() {
         return value;
     }
 
-    public static Optional<Flow> fromValue(String value) {
-        for (Flow o : Flow.values()) {
-            if (Objects.deepEquals(o.value, value)) {
-                return Optional.of(o);
-            }
+    public Optional<FlowEnum> asEnum() {
+        return Optional.ofNullable(enums.getOrDefault(value, null));
+    }
+
+    public boolean isKnown() {
+        return asEnum().isPresent();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
+
+    @Override
+    public boolean equals(java.lang.Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        Flow other = (Flow) obj;
+        return Objects.equals(value, other.value);
+    }
+
+    @Override
+    public String toString() {
+        return "Flow [value=" + value + "]";
+    }
+
+    // return an array just like an enum
+    public static Flow[] values() {
+        synchronized (Flow.class) {
+            return values.values().toArray(new Flow[] {});
         }
-        return Optional.empty();
+    }
+
+    private static final Map<String, Flow> createValuesMap() {
+        Map<String, Flow> map = new LinkedHashMap<>();
+        map.put("signup", SIGNUP);
+        map.put("login", LOGIN);
+        map.put("purchase", PURCHASE);
+        return map;
+    }
+
+    private static final Map<String, FlowEnum> createEnumsMap() {
+        Map<String, FlowEnum> map = new HashMap<>();
+        map.put("signup", FlowEnum.SIGNUP);
+        map.put("login", FlowEnum.LOGIN);
+        map.put("purchase", FlowEnum.PURCHASE);
+        return map;
+    }
+
+    public enum FlowEnum {
+
+        SIGNUP("signup"),
+        LOGIN("login"),
+        PURCHASE("purchase"),
+        ;
+
+        private final String value;
+
+        private FlowEnum(String value) {
+            this.value = value;
+        }
+
+        public String value() {
+            return value;
+        }
     }
 }

@@ -60,7 +60,7 @@ class WaitTest {
     @Test
     void pollsUntilCompleteHonouringRetryAfter() throws Exception {
         NoResponse client = client(new String[][] {
-            {"assessment-pending.json", "3"}, {"assessment-pending.json", "0"}, {"assessment-complete.json", null}});
+            {"assessment-view-pending.json", "3"}, {"assessment-view-pending.json", "0"}, {"assessment-view-complete.json", null}});
         List<Long> slept = new ArrayList<>();
         AtomicLong now = new AtomicLong();
         Assessment result = Wait.wait(client, ID, Duration.ofSeconds(30), millis -> {
@@ -75,7 +75,7 @@ class WaitTest {
 
     @Test
     void timesOutWithTheLastPendingAssessment() throws Exception {
-        NoResponse client = client(new String[][] {{"assessment-pending.json", "2"}});
+        NoResponse client = client(new String[][] {{"assessment-view-pending.json", "2"}});
         List<Long> slept = new ArrayList<>();
         AtomicLong now = new AtomicLong();
         WaitTimeoutException e = assertThrows(WaitTimeoutException.class, () -> Wait.wait(client, ID,
@@ -90,7 +90,7 @@ class WaitTest {
     @Test
     void keepsPollingAPartialAnswerUntilComplete() throws Exception {
         NoResponse client = client(new String[][] {
-            {"assessment-partial.json", null}, {"assessment-partial.json", "2"}, {"assessment-complete.json", null}});
+            {"assessment-view-partial.json", null}, {"assessment-view-partial.json", "2"}, {"assessment-view-complete.json", null}});
         List<Long> slept = new ArrayList<>();
         AtomicLong now = new AtomicLong();
         Assessment result = Wait.wait(client, ID, Duration.ofSeconds(30), millis -> {
@@ -104,7 +104,7 @@ class WaitTest {
 
     @Test
     void returnsTheLatestPartialAnswerAtTheTimeout() throws Exception {
-        NoResponse client = client(new String[][] {{"assessment-pending.json", "1"}, {"assessment-partial.json", null}});
+        NoResponse client = client(new String[][] {{"assessment-view-pending.json", "1"}, {"assessment-view-partial.json", null}});
         List<Long> slept = new ArrayList<>();
         AtomicLong now = new AtomicLong();
         Assessment result = Wait.wait(client, ID, Duration.ofMillis(3500), millis -> {

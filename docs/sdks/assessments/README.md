@@ -14,7 +14,7 @@ Signup and gateway assessments.
 
 ## create
 
-Returns within the deadline (3000 ms at most) with a complete, partial or pending assessment: 200 carries complete or partial, 202 carries pending with Location and Retry-After. A pending answer has no recommendation; apply your own fallback for pending, 429, 503 or a timeout. risk.block says when your block threshold was reached. Requires the assess scope. Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key with a different body answers 409 idempotency_key_reused. response_mode defaults to standard; detailed needs the detailed scope.
+Assesses one signup, login or purchase (flow) and answers with the account's one current risk: account.risk.decision is the decision for this flow (allow, step_up, review or block, where block means your block threshold was reached), and detail holds this assessment's own facts. depth sets how long the answer waits for sources: quick waits only for the fast ones (500 ms), full for the whole budget (3000 ms at most); it defaults to full for signup and purchase and quick for login. 200 carries complete or partial, 202 carries pending with Location and Retry-After. While the account's first assessment is pending, account is absent: apply your own fallback for that, 429, 503 or a timeout. NoResponse blocks nothing itself; you decide. Requires the assess scope. Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key with a different body answers 409 idempotency_key_reused. response_mode defaults to standard; detailed needs the detailed scope.
 
 ### Example Usage: complete
 
@@ -39,6 +39,7 @@ import org.noresponse.models.shared.AssessmentRequestIssuedCredential;
 import org.noresponse.models.shared.AssessmentRequestPolicyContext;
 import org.noresponse.models.shared.AuthContext;
 import org.noresponse.models.shared.AuthContextMfa;
+import org.noresponse.models.shared.Flow;
 
 public class Application {
 
@@ -52,6 +53,7 @@ public class Application {
                 .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
+                    .flow(Flow.SIGNUP)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -76,7 +78,7 @@ public class Application {
                         .provider("clerk")
                         .issuer("https://example-app.clerk.accounts.dev")
                         .subject("user_2EXAMPLE")
-                        .verified(false)
+                        .verified(true)
                         .audience("https://app.example.com")
                         .audiences(List.of(
                             "https://app.example.com"))
@@ -133,6 +135,7 @@ import org.noresponse.models.shared.AssessmentRequestIssuedCredential;
 import org.noresponse.models.shared.AssessmentRequestPolicyContext;
 import org.noresponse.models.shared.AuthContext;
 import org.noresponse.models.shared.AuthContextMfa;
+import org.noresponse.models.shared.Flow;
 
 public class Application {
 
@@ -146,6 +149,7 @@ public class Application {
                 .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
+                    .flow(Flow.SIGNUP)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -170,7 +174,7 @@ public class Application {
                         .provider("clerk")
                         .issuer("https://example-app.clerk.accounts.dev")
                         .subject("user_2EXAMPLE")
-                        .verified(false)
+                        .verified(true)
                         .audience("https://app.example.com")
                         .audiences(List.of(
                             "https://app.example.com"))
@@ -219,10 +223,10 @@ import org.noresponse.models.errors.NotFoundException;
 import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
-import org.noresponse.models.shared.AssessmentFlow;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
 import org.noresponse.models.shared.AssessmentRequestPolicyContext;
+import org.noresponse.models.shared.Flow;
 
 public class Application {
 
@@ -236,17 +240,113 @@ public class Application {
                 .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
+                    .flow(Flow.SIGNUP)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new_user_42")
                         .phone("+447700900123")
                         .build())
-                    .flow(AssessmentFlow.SIGNUP)
                     .policyContext(AssessmentRequestPolicyContext.builder()
                         .region("GB")
                         .build())
                     .requestId("req-2026-10-14-0001")
                     .deadlineMs(300L)
+                    .build())
+                .call();
+
+        if (res.assessment().isPresent()) {
+            System.out.println(res.assessment().get());
+        }
+    }
+}
+```
+### Example Usage: login
+
+<!-- UsageSnippet language="java" operationID="createAssessment" method="post" path="/v1/assessments" example="login" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.List;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.CreateAssessmentResponse;
+import org.noresponse.models.shared.AssessmentRequest;
+import org.noresponse.models.shared.AssessmentRequestClientContext;
+import org.noresponse.models.shared.AssessmentRequestIdentifiers;
+import org.noresponse.models.shared.AssessmentRequestIssuedCredential;
+import org.noresponse.models.shared.AssessmentRequestPolicyContext;
+import org.noresponse.models.shared.AuthContext;
+import org.noresponse.models.shared.AuthContextMfa;
+import org.noresponse.models.shared.Flow;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        CreateAssessmentResponse res = sdk.assessments().create()
+                .idempotencyKey("signup-acct_7f3a9c")
+                .body(AssessmentRequest.builder()
+                    .accountId("acct_7f3a9c")
+                    .flow(Flow.SIGNUP)
+                    .identifiers(AssessmentRequestIdentifiers.builder()
+                        .email("new.user@example.com")
+                        .username("new.user")
+                        .phone("+61412345678")
+                        .name("Alex Example")
+                        .ip("203.0.113.45")
+                        .build())
+                    .policyContext(AssessmentRequestPolicyContext.builder()
+                        .region("AU")
+                        .build())
+                    .requestId("req-2026-10-14-0001")
+                    .clientContext(AssessmentRequestClientContext.builder()
+                        .timezone("Australia/Sydney")
+                        .locale("en-AU")
+                        .appVersion("4.12.0")
+                        .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36")
+                        .deviceId("dev_5c1e8a")
+                        .sessionId("sess_9b2d41")
+                        .clientObservedAt("2026-10-14T08:59:58.000Z")
+                        .build())
+                    .authContext(AuthContext.builder()
+                        .provider("clerk")
+                        .issuer("https://example-app.clerk.accounts.dev")
+                        .subject("user_2EXAMPLE")
+                        .verified(true)
+                        .audience("https://app.example.com")
+                        .audiences(List.of(
+                            "https://app.example.com"))
+                        .sessionId("sess_2EXAMPLE")
+                        .organizationId("org_2EXAMPLE")
+                        .tenantId("tenant_2EXAMPLE")
+                        .tokenId("2EXAMPLEJTI")
+                        .issuedAt("2026-10-14T08:59:40.000Z")
+                        .expiresAt("2026-10-14T09:00:40.000Z")
+                        .sessionCreatedAt("2026-10-14T08:57:00.000Z")
+                        .authTime("2026-10-14T08:55:00.000Z")
+                        .accountCreatedAt("2026-10-14T08:56:00.000Z")
+                        .mfa(AuthContextMfa.builder()
+                            .methods(List.of(
+                                "totp"))
+                            .build())
+                        .roles(List.of(
+                            "admin"))
+                        .scopes(List.of(
+                            "org:sys_profile:manage"))
+                        .build())
+                    .issuedCredential(AssessmentRequestIssuedCredential.builder()
+                        .sha256("2bdbf5c72f2a36df0ef40fb92203612274d4546f56dba946070a6a79c2401a1b")
+                        .build())
                     .build())
                 .call();
 
@@ -271,9 +371,9 @@ import org.noresponse.models.errors.NotFoundException;
 import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
-import org.noresponse.models.shared.AssessmentFlow;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
+import org.noresponse.models.shared.Flow;
 
 public class Application {
 
@@ -287,10 +387,10 @@ public class Application {
                 .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
+                    .flow(Flow.SIGNUP)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .build())
-                    .flow(AssessmentFlow.SIGNUP)
                     .build())
                 .call();
 
@@ -315,10 +415,10 @@ import org.noresponse.models.errors.NotFoundException;
 import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
-import org.noresponse.models.shared.AssessmentFlow;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
 import org.noresponse.models.shared.AssessmentRequestPolicyContext;
+import org.noresponse.models.shared.Flow;
 import org.noresponse.models.shared.ResponseMode;
 
 public class Application {
@@ -333,6 +433,7 @@ public class Application {
                 .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_8412")
+                    .flow(Flow.SIGNUP)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("jane.doe@example.com")
                         .username("janedoe")
@@ -340,7 +441,6 @@ public class Application {
                         .name("Jane A. Doe")
                         .ip("73.162.18.45")
                         .build())
-                    .flow(AssessmentFlow.SIGNUP)
                     .policyContext(AssessmentRequestPolicyContext.builder()
                         .region("US")
                         .build())
@@ -379,6 +479,7 @@ import org.noresponse.models.shared.AssessmentRequestIssuedCredential;
 import org.noresponse.models.shared.AssessmentRequestPolicyContext;
 import org.noresponse.models.shared.AuthContext;
 import org.noresponse.models.shared.AuthContextMfa;
+import org.noresponse.models.shared.Flow;
 
 public class Application {
 
@@ -392,6 +493,7 @@ public class Application {
                 .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
+                    .flow(Flow.SIGNUP)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -416,101 +518,7 @@ public class Application {
                         .provider("clerk")
                         .issuer("https://example-app.clerk.accounts.dev")
                         .subject("user_2EXAMPLE")
-                        .verified(false)
-                        .audience("https://app.example.com")
-                        .audiences(List.of(
-                            "https://app.example.com"))
-                        .sessionId("sess_2EXAMPLE")
-                        .organizationId("org_2EXAMPLE")
-                        .tenantId("tenant_2EXAMPLE")
-                        .tokenId("2EXAMPLEJTI")
-                        .issuedAt("2026-10-14T08:59:40.000Z")
-                        .expiresAt("2026-10-14T09:00:40.000Z")
-                        .sessionCreatedAt("2026-10-14T08:57:00.000Z")
-                        .authTime("2026-10-14T08:55:00.000Z")
-                        .accountCreatedAt("2026-10-14T08:56:00.000Z")
-                        .mfa(AuthContextMfa.builder()
-                            .methods(List.of(
-                                "totp"))
-                            .build())
-                        .roles(List.of(
-                            "admin"))
-                        .scopes(List.of(
-                            "org:sys_profile:manage"))
-                        .build())
-                    .issuedCredential(AssessmentRequestIssuedCredential.builder()
-                        .sha256("2bdbf5c72f2a36df0ef40fb92203612274d4546f56dba946070a6a79c2401a1b")
-                        .build())
-                    .build())
-                .call();
-
-        if (res.assessment().isPresent()) {
-            System.out.println(res.assessment().get());
-        }
-    }
-}
-```
-### Example Usage: standard
-
-<!-- UsageSnippet language="java" operationID="createAssessment" method="post" path="/v1/assessments" example="standard" -->
-```java
-package hello.world;
-
-import java.lang.Exception;
-import java.util.List;
-import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationException;
-import org.noresponse.models.errors.BadRequestException;
-import org.noresponse.models.errors.ConflictException;
-import org.noresponse.models.errors.NotFoundException;
-import org.noresponse.models.errors.PermissionDeniedException;
-import org.noresponse.models.errors.RateLimitException;
-import org.noresponse.models.operations.CreateAssessmentResponse;
-import org.noresponse.models.shared.AssessmentRequest;
-import org.noresponse.models.shared.AssessmentRequestClientContext;
-import org.noresponse.models.shared.AssessmentRequestIdentifiers;
-import org.noresponse.models.shared.AssessmentRequestIssuedCredential;
-import org.noresponse.models.shared.AssessmentRequestPolicyContext;
-import org.noresponse.models.shared.AuthContext;
-import org.noresponse.models.shared.AuthContextMfa;
-
-public class Application {
-
-    public static void main(String[] args) throws Exception {
-
-        NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
-            .build();
-
-        CreateAssessmentResponse res = sdk.assessments().create()
-                .idempotencyKey("signup-acct_7f3a9c")
-                .body(AssessmentRequest.builder()
-                    .accountId("acct_7f3a9c")
-                    .identifiers(AssessmentRequestIdentifiers.builder()
-                        .email("new.user@example.com")
-                        .username("new.user")
-                        .phone("+61412345678")
-                        .name("Alex Example")
-                        .ip("203.0.113.45")
-                        .build())
-                    .policyContext(AssessmentRequestPolicyContext.builder()
-                        .region("AU")
-                        .build())
-                    .requestId("req-2026-10-14-0001")
-                    .clientContext(AssessmentRequestClientContext.builder()
-                        .timezone("Australia/Sydney")
-                        .locale("en-AU")
-                        .appVersion("4.12.0")
-                        .userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36")
-                        .deviceId("dev_5c1e8a")
-                        .sessionId("sess_9b2d41")
-                        .clientObservedAt("2026-10-14T08:59:58.000Z")
-                        .build())
-                    .authContext(AuthContext.builder()
-                        .provider("clerk")
-                        .issuer("https://example-app.clerk.accounts.dev")
-                        .subject("user_2EXAMPLE")
-                        .verified(false)
+                        .verified(true)
                         .audience("https://app.example.com")
                         .audiences(List.of(
                             "https://app.example.com"))
@@ -570,7 +578,7 @@ public class Application {
 
 ## get
 
-Returns the highest assessment_version. Requires the assess or history scope. While status is pending, or partial with a source still running, the response carries Retry-After; poll no faster than it says. Another tenant's assessment, an unknown or expired assessment and a malformed assessment_id all answer 404 not_found. response_mode=detailed needs the detailed scope.
+Returns the highest assessment_version, with the account's current risk. Requires the assess or history scope. While status is pending, or partial with a source still running, the response carries Retry-After; poll no faster than it says. Another tenant's assessment, an unknown or expired assessment and a malformed assessment_id all answer 404 not_found. response_mode=detailed needs the detailed scope.
 
 ### Example Usage: complete
 
@@ -609,6 +617,40 @@ public class Application {
 ### Example Usage: detailed
 
 <!-- UsageSnippet language="java" operationID="getAssessment" method="get" path="/v1/assessments/{assessment_id}" example="detailed" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.GetAssessmentResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        GetAssessmentResponse res = sdk.assessments().get()
+                .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .call();
+
+        if (res.assessment().isPresent()) {
+            System.out.println(res.assessment().get());
+        }
+    }
+}
+```
+### Example Usage: login
+
+<!-- UsageSnippet language="java" operationID="getAssessment" method="get" path="/v1/assessments/{assessment_id}" example="login" -->
 ```java
 package hello.world;
 
@@ -708,9 +750,9 @@ public class Application {
     }
 }
 ```
-### Example Usage: standard
+### Example Usage: pending_known_account
 
-<!-- UsageSnippet language="java" operationID="getAssessment" method="get" path="/v1/assessments/{assessment_id}" example="standard" -->
+<!-- UsageSnippet language="java" operationID="getAssessment" method="get" path="/v1/assessments/{assessment_id}" example="pending_known_account" -->
 ```java
 package hello.world;
 

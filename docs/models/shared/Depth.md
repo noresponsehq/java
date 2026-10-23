@@ -8,6 +8,9 @@ How long the synchronous answer waits for sources. quick waits only for the fast
 import org.noresponse.models.shared.Depth;
 
 Depth value = Depth.QUICK;
+
+// Open enum: use .of() to create instances from custom string values
+Depth custom = Depth.of("custom_value");
 ```
 
 

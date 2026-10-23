@@ -11,9 +11,9 @@ import org.noresponse.models.errors.NotFoundException;
 import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
-import org.noresponse.models.shared.AssessmentFlow;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
+import org.noresponse.models.shared.Flow;
 
 public class Application {
 
@@ -28,10 +28,10 @@ public class Application {
                 .idempotencyKey("signup-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                         .accountId("acct_7f3a9c")
+                        .flow(Flow.SIGNUP)
                         .identifiers(AssessmentRequestIdentifiers.builder()
                                 .email("new.user@example.com")
                                 .build())
-                        .flow(AssessmentFlow.SIGNUP)
                         .build())
                 .call();
 

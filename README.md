@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v2.1.15'
+    implementation 'com.github.noresponsehq:java:v3.0.0'
 }
 ```
 
@@ -34,7 +34,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v2.1.15</version>
+  <version>v3.0.0</version>
 </dependency>
 ```
 
@@ -44,10 +44,11 @@ Maven:
 import org.noresponse.IdempotencyKey;
 import org.noresponse.NoResponse;
 import org.noresponse.models.operations.CreateAssessmentResponse;
+import org.noresponse.models.shared.AccountRisk;
 import org.noresponse.models.shared.Assessment;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
-import org.noresponse.models.shared.Status;
+import org.noresponse.models.shared.Flow;
 
 public class Signup {
     public static void main(String[] args) {
@@ -58,6 +59,7 @@ public class Signup {
         CreateAssessmentResponse res = client.assessments().create(
                 IdempotencyKey.generate(),
                 AssessmentRequest.builder()
+                        .flow(Flow.SIGNUP)
                         .accountId("acct_7f3a9c")
                         .identifiers(AssessmentRequestIdentifiers.builder()
                                 .email("new.user@example.com")
@@ -65,19 +67,20 @@ public class Signup {
                         .build());
 
         Assessment assessment = res.assessment().orElseThrow();
-        if (Status.PENDING.equals(assessment.status())) {
-            // No recommendation yet. Apply your own fallback, then wait for the
-            // webhook or call Wait.wait(client, assessment.assessmentId()).
+        if (assessment.account().isEmpty()) {
+            // The account's first assessment is still pending. Apply your own
+            // fallback, then wait for the webhook or call Wait.wait(client, assessment.id()).
             return;
         }
-        System.out.println(assessment.recommendation().get() + " " + assessment.risk().get().score());
+        AccountRisk risk = assessment.account().get().risk();
+        System.out.println(risk.decision() + " " + risk.score());
     }
 }
 ```
 
 A builder with no `apiKey(...)` reads the key from `NORESPONSE_API_KEY`, so `NoResponse.builder().build()` works too.
 
-The recommendation is `allow`, `step_up` or `review`. It is advice: your application decides what to do. A `pending` assessment has no recommendation, and a 429, a 503 or a timeout also needs your own fallback.
+Act on `account().get().risk().decision()`: `allow`, `step_up`, `review` or `block` (the tenant's block threshold was reached), decided for the request's `flow` (`SIGNUP`, `LOGIN` or `PURCHASE`). This assessment's own facts (score, recommendation, signals, `assessmentVersion()`) are under `detail()`. `account()` is empty while the account's first assessment is pending, and a 429, a 503 or a timeout also needs your own fallback.
 
 ## Methods
 
@@ -88,7 +91,7 @@ The recommendation is `allow`, `step_up` or `review`. It is advice: your applica
 | `client.assessments().recordOutcome(assessmentId, idempotencyKey, request)` | Report what you later learned, for example `Outcome.CONFIRMED_ABUSE`. |
 | `client.assessments().delete(assessmentId)` | Delete one assessment (`history` scope). The answer's account names the assessment its risk now comes from, empty when none is left. A repeat answers 404. |
 | `client.assessments().query(query)` | One page of an account's history. |
-| `AllAssessments.stream(client, query)` | A lazy `Stream<Assessment>` over every page. |
+| `AllAssessments.stream(client, query)` | A lazy `Stream<AssessmentDetail>` over every page. |
 | `client.accounts().get(accountId)` | The account's one current risk: score, a decision for each flow and the assessment it comes from (`history` scope). An account with no decided assessment is a 404. |
 | `client.accounts().delete(accountId)` | Erase the account and its history in your key's environment (`history` scope). Idempotent: a repeat answers `assessmentsDeleted` 0. An `account.deleted` webhook follows when something was deleted. |
 | `client.accounts().listAssessments(accountId)` | One page of the account's history with the account id in the URL. The builder form takes `limit`, `cursor` and `responseMode`. |
@@ -210,11 +213,11 @@ try {
 }
 ```
 
-`Webhook`, `WebhookEvent` and `VerificationException` are in `org.noresponse.webhooks`. A header that is absent or has no value is refused with `MISSING_HEADER`, a repeated one with `DUPLICATE_HEADER`. Deliveries arrive at least once and unordered. Deduplicate on `event.id()` and keep the highest `assessmentVersion()` per assessment.
+`Webhook`, `WebhookEvent` and `VerificationException` are in `org.noresponse.webhooks`. A header that is absent or has no value is refused with `MISSING_HEADER`, a repeated one with `DUPLICATE_HEADER`. Deliveries arrive at least once and unordered. Deduplicate on `event.id()` and keep the highest `detail().assessmentVersion()` per assessment.
 
 ### Late results
 
-When a slow source settles and the recommendation rises, `LateResults.handleLateResult` verifies the `assessment.updated` delivery with `Webhook.constructEvent`, applies your policy (default: revoke sessions on `review`) and calls the provider. It lives in `org.noresponse.lateresults`; `ClerkActions`, `WorkOSActions` and `Auth0Actions` take your credentials and an optional `HttpClient`.
+When a slow source settles and the account's decision rises, `LateResults.handleLateResult` verifies the `assessment.updated` delivery with `Webhook.constructEvent`, applies your policy to `account.risk.decision` (default: revoke sessions on `review` and `block`) and calls the provider. It lives in `org.noresponse.lateresults`; `ClerkActions`, `WorkOSActions` and `Auth0Actions` take your credentials and an optional `HttpClient`.
 
 ```java
 LateResult result = LateResults.handleLateResult(rawBody, headers, secrets,

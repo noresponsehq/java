@@ -10,15 +10,12 @@ import java.lang.String;
 import java.util.Optional;
 import org.noresponse.utils.Utils;
 
+/**
+ * AssessmentRequestPolicyContext
+ *
+ * <p>Optional policy inputs: region.
+ */
 public class AssessmentRequestPolicyContext {
-    /**
-     * The provider flow the assessment gates. Use the top-level flow instead; this member is ignored when
-     * the top-level flow is present. Absent means signup.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("flow")
-    private Flow flow;
-
     /**
      * ISO 3166-1 alpha-2 region of the signup, as the provider determines it.
      */
@@ -27,22 +24,12 @@ public class AssessmentRequestPolicyContext {
     private String region;
 
     @JsonCreator
-    public AssessmentRequestPolicyContext(
-            @JsonProperty("flow") @Nullable Flow flow, @JsonProperty("region") @Nullable String region) {
-        this.flow = flow;
+    public AssessmentRequestPolicyContext(@JsonProperty("region") @Nullable String region) {
         this.region = region;
     }
 
     public AssessmentRequestPolicyContext() {
-        this(null, null);
-    }
-
-    /**
-     * The provider flow the assessment gates. Use the top-level flow instead; this member is ignored when
-     * the top-level flow is present. Absent means signup.
-     */
-    public Optional<Flow> flow() {
-        return Optional.ofNullable(this.flow);
+        this(null);
     }
 
     /**
@@ -54,15 +41,6 @@ public class AssessmentRequestPolicyContext {
 
     public static Builder builder() {
         return new Builder();
-    }
-
-    /**
-     * The provider flow the assessment gates. Use the top-level flow instead; this member is ignored when
-     * the top-level flow is present. Absent means signup.
-     */
-    public AssessmentRequestPolicyContext withFlow(@Nullable Flow flow) {
-        this.flow = flow;
-        return this;
     }
 
     /**
@@ -82,37 +60,26 @@ public class AssessmentRequestPolicyContext {
             return false;
         }
         AssessmentRequestPolicyContext other = (AssessmentRequestPolicyContext) o;
-        return Utils.enhancedDeepEquals(this.flow, other.flow) && Utils.enhancedDeepEquals(this.region, other.region);
+        return Utils.enhancedDeepEquals(this.region, other.region);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(flow, region);
+        return Utils.enhancedHash(region);
     }
 
     @Override
     public String toString() {
-        return Utils.toString(AssessmentRequestPolicyContext.class, "flow", flow, "region", region);
+        return Utils.toString(AssessmentRequestPolicyContext.class, "region", region);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
 
-        private Flow flow;
-
         private String region;
 
         private Builder() {
             // force use of static builder() method
-        }
-
-        /**
-         * The provider flow the assessment gates. Use the top-level flow instead; this member is ignored when
-         * the top-level flow is present. Absent means signup.
-         */
-        public Builder flow(@Nullable Flow flow) {
-            this.flow = flow;
-            return this;
         }
 
         /**
@@ -124,7 +91,7 @@ public class AssessmentRequestPolicyContext {
         }
 
         public AssessmentRequestPolicyContext build() {
-            return new AssessmentRequestPolicyContext(flow, region);
+            return new AssessmentRequestPolicyContext(region);
         }
     }
 }

@@ -44,7 +44,7 @@ public final class LateResultOptions {
         private long toleranceSeconds = Webhook.DEFAULT_TOLERANCE_SECONDS;
         private Long nowEpochSeconds;
 
-        /** Recommendation to action. Defaults to {@link LateResultPolicy#DEFAULT}. */
+        /** Account decision to action. Defaults to {@link LateResultPolicy#DEFAULT}. */
         public Builder policy(LateResultPolicy policy) {
             this.policy = policy;
             return this;

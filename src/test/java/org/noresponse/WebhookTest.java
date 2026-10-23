@@ -23,7 +23,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.junit.jupiter.api.Test;
 import org.noresponse.models.shared.Assessment;
-import org.noresponse.models.shared.Recommendation;
+import org.noresponse.models.shared.AccountDecision;
 import org.noresponse.webhooks.AccountDeleted;
 import org.noresponse.webhooks.AssessmentExpired;
 import org.noresponse.webhooks.VerificationException;
@@ -91,9 +91,9 @@ class WebhookTest {
         assertEquals(h.get("NR-Webhook-Id"), event.id());
         assertEquals("2026-10-14T09:00:02.000Z", event.createdAt());
         Assessment assessment = event.assessment().orElseThrow();
-        assertEquals("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", assessment.assessmentId());
-        assertEquals(2L, assessment.assessmentVersion());
-        assertEquals(Recommendation.STEP_UP, assessment.risk().orElseThrow().recommendation());
+        assertEquals("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", assessment.id());
+        assertEquals(2L, assessment.detail().assessmentVersion());
+        assertEquals(AccountDecision.STEP_UP, assessment.account().orElseThrow().risk().decision());
         assertFalse(event.isExpired());
     }
 
@@ -169,7 +169,7 @@ class WebhookTest {
 
     @Test
     void rotationAndEventId() throws Exception {
-        JsonNode complete = fixture("valid/assessment-complete.json");
+        JsonNode complete = fixture("valid/assessment-view-complete.json");
         ObjectNode event = MAPPER.createObjectNode();
         event.put("id", "evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ2");
         event.put("type", "assessment.updated");
@@ -181,13 +181,13 @@ class WebhookTest {
         byte[] body = raw(event);
         WebhookEvent verified = Webhook.constructEvent(body,
                 signed(body, "new-secret", "evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ2", "whk_sdktest02"), both, 300, NOW);
-        assertEquals(complete.path("assessment_id").asText(), verified.assessment().orElseThrow().assessmentId());
+        assertEquals(complete.path("id").asText(), verified.assessment().orElseThrow().id());
         refused(Code.INVALID_PAYLOAD, body, signed(body, "new-secret", "evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ9", "whk_sdktest02"),
                 both, NOW);
 
         ObjectNode pointer = event.deepCopy();
         ObjectNode data = MAPPER.createObjectNode();
-        data.put("assessment_id", complete.path("assessment_id").asText());
+        data.put("assessment_id", complete.path("id").asText());
         data.put("assessment_url", "/v1/assessments/x");
         pointer.set("data", data);
         byte[] pointerBody = raw(pointer);

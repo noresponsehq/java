@@ -42,7 +42,12 @@ class LateResultsTest {
         return MAPPER.readTree(Files.readAllBytes(FIXTURES.resolve(name)));
     }
 
-    /** A signed assessment.updated delivery, optionally overriding account_id. */
+    /** A complete assessment whose account decision is the one given. */
+    private static ObjectNode view(String decision) throws IOException {
+        return with(fixture("valid/assessment-view-complete.json"), "complete", decision);
+    }
+
+    /** A signed assessment.updated delivery, optionally overriding detail.account_id. */
     private static final class Delivery {
         final byte[] raw;
         final Map<String, List<String>> headers;
@@ -55,7 +60,7 @@ class LateResultsTest {
         Delivery(JsonNode data, String accountId, boolean test) throws Exception {
             ObjectNode payload = data.deepCopy();
             if (accountId != null) {
-                payload.put("account_id", accountId);
+                ((ObjectNode) payload.get("detail")).put("account_id", accountId);
             }
             ObjectNode body = MAPPER.createObjectNode();
             body.put("id", "evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ2");
@@ -187,26 +192,24 @@ class LateResultsTest {
         return Webhook.constructEvent(d.raw, d.headers, SECRETS, 300, NOW);
     }
 
-    private static ObjectNode with(JsonNode data, String status, String recommendation) {
+    /** A copy with this status and account decision; a null decision removes the account. */
+    private static ObjectNode with(JsonNode data, String status, String decision) {
         ObjectNode copy = data.deepCopy();
         copy.put("status", status);
-        if (recommendation == null) {
-            copy.remove("recommendation");
-            copy.remove("risk");
+        ((ObjectNode) copy.get("detail")).put("status", status);
+        if (decision == null) {
+            copy.remove("account");
         } else {
-            copy.put("recommendation", recommendation);
-            if (copy.has("risk")) {
-                ((ObjectNode) copy.get("risk")).put("recommendation", recommendation);
-            }
+            ((ObjectNode) copy.get("account").get("risk")).put("decision", decision);
         }
         return copy;
     }
 
     @Test
-    void defaultPolicyRevokesOnReviewAndDoesNothingOnAllowStepUpPendingOrExpiry() throws Exception {
-        JsonNode review = fixture("valid/assessment-phone-uncovered-complete.json");
-        JsonNode stepUp = fixture("valid/assessment-complete.json");
-        JsonNode pending = fixture("valid/assessment-pending.json");
+    void defaultPolicyRevokesOnReviewOrBlockAndDoesNothingOnAllowStepUpPendingOrExpiry() throws Exception {
+        JsonNode review = view("review");
+        JsonNode stepUp = view("step_up");
+        JsonNode pending = fixture("valid/assessment-view-pending.json");
         JsonNode expired = fixture("valid/webhook-assessment-expired.json").path("data");
         assertEquals(LateResultAction.REVOKE_SESSIONS, LateResults.lateResultAction(event(with(review, "complete", "review"))));
         assertEquals(LateResultAction.NONE, LateResults.lateResultAction(event(with(stepUp, "complete", "step_up"))));
@@ -218,19 +221,27 @@ class LateResultsTest {
         assertEquals(LateResultAction.NONE, LateResults.lateResultAction(event(with(review, "complete", "review")), stepUpBan));
         assertThrows(IllegalArgumentException.class, () -> LateResultPolicy.fromWire(Map.of("review", "delete")));
         assertEquals(Map.of("allow", LateResultAction.NONE, "step_up", LateResultAction.NONE,
-                "review", LateResultAction.REVOKE_SESSIONS), LateResultPolicy.DEFAULT.asMap());
+                "review", LateResultAction.REVOKE_SESSIONS, "block", LateResultAction.REVOKE_SESSIONS),
+                LateResultPolicy.DEFAULT.asMap());
         assertEquals("revoke_sessions", LateResultAction.REVOKE_SESSIONS.wire());
 
-        // The recommendation falls back to risk.recommendation when the top-level one is absent.
-        ObjectNode riskOnly = with(fixture("valid/assessment-risk.json"), "complete", "review");
-        riskOnly.remove("recommendation");
-        assertTrue(riskOnly.has("risk"));
-        assertEquals(LateResultAction.REVOKE_SESSIONS, LateResults.lateResultAction(event(riskOnly)));
+        // block is the account decision; the assessment's own recommendation is never read.
+        JsonNode block = fixture("valid/assessment-view-block.json");
+        assertEquals("review", block.path("detail").path("recommendation").asText());
+        assertEquals(LateResultAction.REVOKE_SESSIONS, LateResults.lateResultAction(event(block)));
+        assertEquals(LateResultAction.BAN,
+                LateResults.lateResultAction(event(block), LateResultPolicy.fromWire(Map.of("block", "ban"))));
+        // A pending assessment never acts, even when it carries an earlier decided account.
+        assertEquals(LateResultAction.NONE, LateResults.lateResultAction(
+                event(fixture("valid/assessment-view-pending-known-account.json")),
+                LateResultPolicy.fromWire(Map.of("allow", "ban"))));
+        assertEquals(LateResultAction.NONE, LateResults.lateResultAction(
+                event(with(fixture("valid/assessment-view-pending-known-account.json"), "pending", "review"))));
     }
 
     @Test
     void clerkReviewRevokesEachActiveSessionAndABanPolicyBansTheUser() throws Exception {
-        JsonNode review = fixture("valid/assessment-phone-uncovered-complete.json");
+        JsonNode review = view("review");
         try (Mock mock = new Mock(c -> {
             if (c.method.equals("GET") && c.path.equals("/v1/sessions")) {
                 return new Reply(200, "0".equals(c.query.get("offset"))
@@ -249,7 +260,7 @@ class LateResultsTest {
             LateResult result = LateResults.handleLateResult(d.raw, d.headers, SECRETS, clerk, opts());
             assertEquals(LateResultAction.REVOKE_SESSIONS, result.action());
             assertEquals("user_2EXAMPLE", result.userId().orElseThrow());
-            assertEquals(review.path("assessment_id").asText(), result.event().assessment().orElseThrow().assessmentId());
+            assertEquals(review.path("id").asText(), result.event().assessment().orElseThrow().id());
             assertEquals(List.of("GET /v1/sessions", "POST /v1/sessions/sess_1/revoke", "POST /v1/sessions/sess_2/revoke"),
                     mock.lines());
             assertEquals(Map.of("user_id", "user_2EXAMPLE", "status", "active", "limit", "100", "offset", "0"),
@@ -266,7 +277,7 @@ class LateResultsTest {
 
     @Test
     void workosRevokePagesThroughTheSessionsAndBanRevokesThenDeletesTheUser() throws Exception {
-        JsonNode stepUp = fixture("valid/assessment-complete.json");
+        JsonNode stepUp = view("step_up");
         try (Mock mock = new Mock(c -> {
             if (c.method.equals("GET") && c.path.equals("/user_management/users/user_01WORKOS/sessions")) {
                 return c.query.get("after") == null
@@ -309,7 +320,7 @@ class LateResultsTest {
 
     @Test
     void auth0ReviewDeletesSessionsAndRefreshTokensBanBlocksFirstAndThePipeIsEscaped() throws Exception {
-        JsonNode review = fixture("valid/assessment-phone-uncovered-complete.json");
+        JsonNode review = view("review");
         String id = "auth0|64abc0de1234567890abcdef";
         String escaped = "auth0%7C64abc0de1234567890abcdef";
         try (Mock mock = new Mock(c -> {
@@ -346,7 +357,7 @@ class LateResultsTest {
 
     @Test
     void unverifiedQuietOrUnmappedEventsMakeNoProviderCallAndARefusalThrows() throws Exception {
-        JsonNode review = fixture("valid/assessment-phone-uncovered-complete.json");
+        JsonNode review = view("review");
         try (Mock mock = new Mock(c -> c.method.equals("DELETE") ? new Reply(403, "{\"error\":\"insufficient_scope\"}") : null)) {
             Auth0Actions auth0 = new Auth0Actions(null, mock.url() + "/api/v2", "mgmt_token", java.net.http.HttpClient.newHttpClient());
             Delivery d = new Delivery(review, "auth0|abc");
@@ -361,8 +372,8 @@ class LateResultsTest {
             VerificationException late = assertThrows(VerificationException.class, () -> LateResults.handleLateResult(
                     d.raw, d.headers, SECRETS, auth0, LateResultOptions.builder().nowEpochSeconds(NOW + 301).build()));
             assertEquals(Code.INVALID_TIMESTAMP, late.code());
-            for (JsonNode data : new JsonNode[] {fixture("valid/assessment-complete.json"),
-                    fixture("valid/assessment-pending.json"), fixture("valid/webhook-assessment-expired.json").path("data")}) {
+            for (JsonNode data : new JsonNode[] {view("step_up"),
+                    fixture("valid/assessment-view-pending.json"), fixture("valid/webhook-assessment-expired.json").path("data")}) {
                 Delivery quiet = new Delivery(data, null);
                 assertEquals(LateResultAction.NONE,
                         LateResults.handleLateResult(quiet.raw, quiet.headers, SECRETS, auth0, opts()).action());
@@ -405,7 +416,7 @@ class LateResultsTest {
 
     @Test
     void aRepeatedBanAfterTheUserIsGoneCompletesAndA500StillThrows() throws Exception {
-        JsonNode review = fixture("valid/assessment-phone-uncovered-complete.json");
+        JsonNode review = view("review");
         LateResultOptions ban = opts(LateResultPolicy.fromWire(Map.of("review", "ban")));
         LateResultOptions revoke = opts();
         // Every user-scoped endpoint answers 404: the user was deleted by the first delivery.
@@ -456,7 +467,7 @@ class LateResultsTest {
 
     @Test
     void logOnlyActionsLogWhatTheyWouldRevokeOrBanAndCallNothing() throws Exception {
-        JsonNode review = fixture("valid/assessment-phone-uncovered-complete.json");
+        JsonNode review = view("review");
         List<String> lines = new ArrayList<>();
         LogOnlyActions logOnly = new LogOnlyActions(lines::add);
         assertEquals("log_only", logOnly.name());
@@ -536,7 +547,7 @@ class LateResultsTest {
 
     @Test
     void auth0WithoutTheSessionsApiBlocksDeletesDeviceCredentialsAndReportsBan() throws Exception {
-        JsonNode review = fixture("valid/assessment-phone-uncovered-complete.json");
+        JsonNode review = view("review");
         String id = "auth0|64abc0de1234567890abcdef";
         String escaped = "auth0%7C64abc0de1234567890abcdef";
         Auth0WithoutSessionsApi tenant = new Auth0WithoutSessionsApi(escaped, false);
@@ -587,7 +598,7 @@ class LateResultsTest {
 
     @Test
     void auth0WithRefreshTokensButNoSessionsApiStillBlocksAndAScopeRefusalNeverFallsBack() throws Exception {
-        JsonNode review = fixture("valid/assessment-phone-uncovered-complete.json");
+        JsonNode review = view("review");
         Delivery d = new Delivery(review, "auth0|abc");
         Auth0WithoutSessionsApi tenant = new Auth0WithoutSessionsApi("auth0%7Cabc", true);
         try (Mock mock = new Mock(tenant)) {
@@ -626,7 +637,7 @@ class LateResultsTest {
                 done.add("ban " + userId);
             }
         };
-        Delivery d = new Delivery(fixture("valid/assessment-phone-uncovered-complete.json"), "u_1");
+        Delivery d = new Delivery(view("review"), "u_1");
         assertEquals(LateResultAction.REVOKE_SESSIONS, LateResults.handleLateResult(d.raw, d.headers, SECRETS, plain, opts()).action());
         assertEquals(LateResultAction.BAN, LateResults.handleLateResult(d.raw, d.headers, SECRETS, plain,
                 opts(LateResultPolicy.fromWire(Map.of("review", "ban")))).action());

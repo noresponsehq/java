@@ -19,8 +19,9 @@ import org.noresponse.utils.Utils;
  * AssessmentList
  *
  * <p>Body of the 200 answer to POST /v1/assessments/query: one page of the calling tenant's unexpired
- * assessments for one account, newest first, each at its latest assessment_version. Every item's
- * account_id equals the page's. An assessment past its expires_at is not listed.
+ * assessments for one account, newest first, each at its latest assessment_version, as its detail; the
+ * account's current risk is GET /v1/accounts/{account_id}. Every item's account_id equals the page's.
+ * An assessment past its expires_at is not listed.
  *
  * <p>next_cursor is present only when another page exists.
  */
@@ -47,7 +48,7 @@ public class AssessmentList {
     private String accountId;
 
     @JsonProperty("items")
-    private List<Assessment> items;
+    private List<AssessmentDetail> items;
 
     /**
      * Opaque cursor for the next page, bound to your tenant and the account_id it was issued for. Pass it
@@ -68,7 +69,7 @@ public class AssessmentList {
     @JsonCreator
     public AssessmentList(
             @JsonProperty("account_id") @Nonnull String accountId,
-            @JsonProperty("items") @Nonnull List<Assessment> items,
+            @JsonProperty("items") @Nonnull List<AssessmentDetail> items,
             @JsonProperty("next_cursor") @Nullable String nextCursor,
             @JsonProperty("retention_days") @Nullable Long retentionDays) {
         this.schemaVersion = Builder._SINGLETON_VALUE_SchemaVersion.value();
@@ -79,7 +80,7 @@ public class AssessmentList {
         this.retentionDays = Optional.ofNullable(retentionDays).orElse(Builder._SINGLETON_VALUE_RetentionDays.value());
     }
 
-    public AssessmentList(@Nonnull String accountId, @Nonnull List<Assessment> items) {
+    public AssessmentList(@Nonnull String accountId, @Nonnull List<AssessmentDetail> items) {
         this(accountId, items, null, null);
     }
 
@@ -106,7 +107,7 @@ public class AssessmentList {
         return this.accountId;
     }
 
-    public List<Assessment> items() {
+    public List<AssessmentDetail> items() {
         return this.items;
     }
 
@@ -147,7 +148,7 @@ public class AssessmentList {
         return this;
     }
 
-    public AssessmentList withItems(@Nonnull List<Assessment> items) {
+    public AssessmentList withItems(@Nonnull List<AssessmentDetail> items) {
         this.items = Utils.checkNotNull(items, "items");
         return this;
     }
@@ -212,7 +213,7 @@ public class AssessmentList {
 
         private String accountId;
 
-        private List<Assessment> items;
+        private List<AssessmentDetail> items;
 
         private String nextCursor;
 
@@ -239,7 +240,7 @@ public class AssessmentList {
             return this;
         }
 
-        public Builder items(@Nonnull List<Assessment> items) {
+        public Builder items(@Nonnull List<AssessmentDetail> items) {
             this.items = Utils.checkNotNull(items, "items");
             return this;
         }

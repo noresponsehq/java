@@ -47,9 +47,8 @@ public class AssessmentRequest {
      * purchase (a payment or credit grant). The account's risk is reported with the decision for this
      * flow.
      */
-    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("flow")
-    private AssessmentFlow flow;
+    private Flow flow;
 
     /**
      * How long the synchronous answer waits for sources. quick waits only for the fast sources, those that
@@ -68,6 +67,9 @@ public class AssessmentRequest {
     @JsonProperty("identifiers")
     private AssessmentRequestIdentifiers identifiers;
 
+    /**
+     * Optional policy inputs: region.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("policy_context")
     private AssessmentRequestPolicyContext policyContext;
@@ -128,7 +130,7 @@ public class AssessmentRequest {
     @JsonCreator
     public AssessmentRequest(
             @JsonProperty("account_id") @Nonnull String accountId,
-            @JsonProperty("flow") @Nullable AssessmentFlow flow,
+            @JsonProperty("flow") @Nonnull Flow flow,
             @JsonProperty("depth") @Nullable Depth depth,
             @JsonProperty("identifiers") @Nonnull AssessmentRequestIdentifiers identifiers,
             @JsonProperty("policy_context") @Nullable AssessmentRequestPolicyContext policyContext,
@@ -140,7 +142,7 @@ public class AssessmentRequest {
             @JsonProperty("issued_credential") @Nullable AssessmentRequestIssuedCredential issuedCredential) {
         this.accountId = Optional.ofNullable(accountId)
                 .orElseThrow(() -> new IllegalArgumentException("accountId cannot be null"));
-        this.flow = flow;
+        this.flow = Optional.ofNullable(flow).orElseThrow(() -> new IllegalArgumentException("flow cannot be null"));
         this.depth = depth;
         this.identifiers = Optional.ofNullable(identifiers)
                 .orElseThrow(() -> new IllegalArgumentException("identifiers cannot be null"));
@@ -153,8 +155,9 @@ public class AssessmentRequest {
         this.issuedCredential = issuedCredential;
     }
 
-    public AssessmentRequest(@Nonnull String accountId, @Nonnull AssessmentRequestIdentifiers identifiers) {
-        this(accountId, null, null, identifiers, null, null, null, null, null, null, null);
+    public AssessmentRequest(
+            @Nonnull String accountId, @Nonnull Flow flow, @Nonnull AssessmentRequestIdentifiers identifiers) {
+        this(accountId, flow, null, identifiers, null, null, null, null, null, null, null);
     }
 
     /**
@@ -178,8 +181,8 @@ public class AssessmentRequest {
      * purchase (a payment or credit grant). The account's risk is reported with the decision for this
      * flow.
      */
-    public Optional<AssessmentFlow> flow() {
-        return Optional.ofNullable(this.flow);
+    public Flow flow() {
+        return this.flow;
     }
 
     /**
@@ -200,6 +203,9 @@ public class AssessmentRequest {
         return this.identifiers;
     }
 
+    /**
+     * Optional policy inputs: region.
+     */
     public Optional<AssessmentRequestPolicyContext> policyContext() {
         return Optional.ofNullable(this.policyContext);
     }
@@ -283,8 +289,8 @@ public class AssessmentRequest {
      * purchase (a payment or credit grant). The account's risk is reported with the decision for this
      * flow.
      */
-    public AssessmentRequest withFlow(@Nullable AssessmentFlow flow) {
-        this.flow = flow;
+    public AssessmentRequest withFlow(@Nonnull Flow flow) {
+        this.flow = Utils.checkNotNull(flow, "flow");
         return this;
     }
 
@@ -308,6 +314,9 @@ public class AssessmentRequest {
         return this;
     }
 
+    /**
+     * Optional policy inputs: region.
+     */
     public AssessmentRequest withPolicyContext(@Nullable AssessmentRequestPolicyContext policyContext) {
         this.policyContext = policyContext;
         return this;
@@ -443,7 +452,7 @@ public class AssessmentRequest {
 
         private String accountId;
 
-        private AssessmentFlow flow;
+        private Flow flow;
 
         private Depth depth;
 
@@ -489,8 +498,8 @@ public class AssessmentRequest {
          * purchase (a payment or credit grant). The account's risk is reported with the decision for this
          * flow.
          */
-        public Builder flow(@Nullable AssessmentFlow flow) {
-            this.flow = flow;
+        public Builder flow(@Nonnull Flow flow) {
+            this.flow = Utils.checkNotNull(flow, "flow");
             return this;
         }
 
@@ -514,6 +523,9 @@ public class AssessmentRequest {
             return this;
         }
 
+        /**
+         * Optional policy inputs: region.
+         */
         public Builder policyContext(@Nullable AssessmentRequestPolicyContext policyContext) {
             this.policyContext = policyContext;
             return this;

@@ -36,8 +36,8 @@ public class Account {
     private AccountRisk risk;
 
     /**
-     * The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three equal
-     * risk.decision.
+     * The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three are
+     * equal.
      */
     @JsonProperty("decisions_by_flow")
     private AccountDecisionsByFlow decisionsByFlow;
@@ -91,8 +91,8 @@ public class Account {
     }
 
     /**
-     * The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three equal
-     * risk.decision.
+     * The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three are
+     * equal.
      */
     public AccountDecisionsByFlow decisionsByFlow() {
         return this.decisionsByFlow;
@@ -130,8 +130,8 @@ public class Account {
     }
 
     /**
-     * The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three equal
-     * risk.decision.
+     * The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three are
+     * equal.
      */
     public Account withDecisionsByFlow(@Nonnull AccountDecisionsByFlow decisionsByFlow) {
         this.decisionsByFlow = Utils.checkNotNull(decisionsByFlow, "decisionsByFlow");
@@ -225,8 +225,8 @@ public class Account {
         }
 
         /**
-         * The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three equal
-         * risk.decision.
+         * The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three are
+         * equal.
          */
         public Builder decisionsByFlow(@Nonnull AccountDecisionsByFlow decisionsByFlow) {
             this.decisionsByFlow = Utils.checkNotNull(decisionsByFlow, "decisionsByFlow");

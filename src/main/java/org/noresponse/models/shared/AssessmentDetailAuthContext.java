@@ -12,7 +12,7 @@ import java.util.Optional;
 import org.noresponse.utils.Utils;
 
 /**
- * AssessmentAuthContext
+ * AssessmentDetailAuthContext
  *
  * <p>The identity fields of the auth context the assessment was made with, echoed for the tenant's own
  * correlation: the request's auth_context, or the one a hosted provider hook (POST
@@ -21,7 +21,7 @@ import org.noresponse.utils.Utils;
  * are as the request or the hook sent them; tokens, timestamps, roles and scopes are not echoed, and
  * the echo does not change the score.
  */
-public class AssessmentAuthContext {
+public class AssessmentDetailAuthContext {
     /**
      * The provider slug the context named.
      */
@@ -76,7 +76,7 @@ public class AssessmentAuthContext {
     private HookPoint hookPoint;
 
     @JsonCreator
-    public AssessmentAuthContext(
+    public AssessmentDetailAuthContext(
             @JsonProperty("provider") @Nonnull String provider,
             @JsonProperty("issuer") @Nonnull String issuer,
             @JsonProperty("subject") @Nullable String subject,
@@ -98,7 +98,7 @@ public class AssessmentAuthContext {
         this.hookPoint = hookPoint;
     }
 
-    public AssessmentAuthContext(
+    public AssessmentDetailAuthContext(
             @Nonnull String provider, @Nonnull String issuer, boolean verified, @Nonnull Transport transport) {
         this(provider, issuer, null, null, null, verified, transport, null);
     }
@@ -167,7 +167,7 @@ public class AssessmentAuthContext {
     /**
      * The provider slug the context named.
      */
-    public AssessmentAuthContext withProvider(@Nonnull String provider) {
+    public AssessmentDetailAuthContext withProvider(@Nonnull String provider) {
         this.provider = Utils.checkNotNull(provider, "provider");
         return this;
     }
@@ -175,7 +175,7 @@ public class AssessmentAuthContext {
     /**
      * The issuer the context named.
      */
-    public AssessmentAuthContext withIssuer(@Nonnull String issuer) {
+    public AssessmentDetailAuthContext withIssuer(@Nonnull String issuer) {
         this.issuer = Utils.checkNotNull(issuer, "issuer");
         return this;
     }
@@ -183,7 +183,7 @@ public class AssessmentAuthContext {
     /**
      * The subject the context named; absent when it named none (a pre_registration hook).
      */
-    public AssessmentAuthContext withSubject(@Nullable String subject) {
+    public AssessmentDetailAuthContext withSubject(@Nullable String subject) {
         this.subject = subject;
         return this;
     }
@@ -191,7 +191,7 @@ public class AssessmentAuthContext {
     /**
      * The session identifier the context named, when it named one.
      */
-    public AssessmentAuthContext withSessionId(@Nullable String sessionId) {
+    public AssessmentDetailAuthContext withSessionId(@Nullable String sessionId) {
         this.sessionId = sessionId;
         return this;
     }
@@ -199,7 +199,7 @@ public class AssessmentAuthContext {
     /**
      * The organization identifier the context named, when it named one.
      */
-    public AssessmentAuthContext withOrganizationId(@Nullable String organizationId) {
+    public AssessmentDetailAuthContext withOrganizationId(@Nullable String organizationId) {
         this.organizationId = organizationId;
         return this;
     }
@@ -207,7 +207,7 @@ public class AssessmentAuthContext {
     /**
      * The verified flag the context carried. A provider_hook context is always false.
      */
-    public AssessmentAuthContext withVerified(boolean verified) {
+    public AssessmentDetailAuthContext withVerified(boolean verified) {
         this.verified = verified;
         return this;
     }
@@ -216,7 +216,7 @@ public class AssessmentAuthContext {
      * Where the context was derived: backend (also when the request named no transport), browser, or
      * provider_hook for a hosted provider hook.
      */
-    public AssessmentAuthContext withTransport(@Nonnull Transport transport) {
+    public AssessmentDetailAuthContext withTransport(@Nonnull Transport transport) {
         this.transport = Utils.checkNotNull(transport, "transport");
         return this;
     }
@@ -224,7 +224,7 @@ public class AssessmentAuthContext {
     /**
      * The provider event a provider_hook context was sent for; absent for any other transport.
      */
-    public AssessmentAuthContext withHookPoint(@Nullable HookPoint hookPoint) {
+    public AssessmentDetailAuthContext withHookPoint(@Nullable HookPoint hookPoint) {
         this.hookPoint = hookPoint;
         return this;
     }
@@ -237,7 +237,7 @@ public class AssessmentAuthContext {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        AssessmentAuthContext other = (AssessmentAuthContext) o;
+        AssessmentDetailAuthContext other = (AssessmentDetailAuthContext) o;
         return Utils.enhancedDeepEquals(this.provider, other.provider)
                 && Utils.enhancedDeepEquals(this.issuer, other.issuer)
                 && Utils.enhancedDeepEquals(this.subject, other.subject)
@@ -257,7 +257,7 @@ public class AssessmentAuthContext {
     @Override
     public String toString() {
         return Utils.toString(
-                AssessmentAuthContext.class,
+                AssessmentDetailAuthContext.class,
                 "provider",
                 provider,
                 "issuer",
@@ -364,8 +364,8 @@ public class AssessmentAuthContext {
             return this;
         }
 
-        public AssessmentAuthContext build() {
-            return new AssessmentAuthContext(
+        public AssessmentDetailAuthContext build() {
+            return new AssessmentDetailAuthContext(
                     provider, issuer, subject, sessionId, organizationId, verified, transport, hookPoint);
         }
     }

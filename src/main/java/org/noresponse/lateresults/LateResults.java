@@ -3,8 +3,9 @@ package org.noresponse.lateresults;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
+import org.noresponse.models.shared.Account;
 import org.noresponse.models.shared.Assessment;
-import org.noresponse.models.shared.Recommendation;
+import org.noresponse.models.shared.Status;
 import org.noresponse.webhooks.Webhook;
 import org.noresponse.webhooks.WebhookEvent;
 
@@ -12,7 +13,7 @@ import org.noresponse.webhooks.WebhookEvent;
  * Late-result handlers. Hand-written; not generated.
  *
  * <p>An assessment can be revised after the signup was allowed: a slow source settles and the
- * recommendation rises. NoResponse sends the new version as a signed assessment.updated webhook.
+ * account's decision rises. NoResponse sends the new version as a signed assessment.updated webhook.
  * {@link #handleLateResult} verifies that delivery with {@code Webhook.constructEvent}, picks an
  * action from your policy, and acts through the auth provider's admin API: revoke the user's
  * sessions or ban the user. It never acts on an unverified event or a test event. Every provider
@@ -28,8 +29,9 @@ public final class LateResults {
     }
 
     /**
-     * The action your policy names for a verified event. Only a served assessment with a
-     * recommendation can act; a test event from the send-test-event call never does.
+     * The action your policy names for a verified event, from the account's decision
+     * ({@code account.risk.decision}). Only a served assessment that carries the account can act; a
+     * pending assessment and a test event from the send-test-event call never do.
      */
     public static LateResultAction lateResultAction(WebhookEvent event, LateResultPolicy policy) {
         if (!"assessment.updated".equals(event.type()) || event.isTest() || event.isExpired()) {
@@ -40,18 +42,11 @@ public final class LateResults {
             return LateResultAction.NONE;
         }
         Assessment a = assessment.get();
-        Recommendation recommendation = a.recommendation().orElse(null);
-        if (recommendation == null && a.risk().isPresent()) {
-            recommendation = a.risk().get().recommendation();
-        }
-        if (recommendation == null) {
+        Optional<Account> account = a.account();
+        if (Status.PENDING.equals(a.status()) || !account.isPresent()) {
             return LateResultAction.NONE;
         }
-        String value = recommendation.value();
-        if (!"allow".equals(value) && !"step_up".equals(value) && !"review".equals(value)) {
-            return LateResultAction.NONE;
-        }
-        return policy.actionFor(value);
+        return policy.actionFor(account.get().risk().decision().value());
     }
 
     public static LateResult handleLateResult(byte[] payload, Map<String, ? extends Collection<String>> headers,
@@ -78,7 +73,7 @@ public final class LateResults {
         if (action == LateResultAction.NONE) {
             return new LateResult(event, LateResultAction.NONE, null);
         }
-        String accountId = event.assessment().orElseThrow().accountId();
+        String accountId = event.assessment().orElseThrow().detail().accountId();
         String userId = options.userId() != null ? options.userId().apply(accountId, event) : accountId;
         if (userId == null || userId.isEmpty()) {
             return new LateResult(event, LateResultAction.NONE, null);

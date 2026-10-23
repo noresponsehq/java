@@ -6,7 +6,7 @@ import java.lang.Override;
 import java.lang.String;
 import org.noresponse.utils.Utils;
 
-public class AssessmentTiming {
+public class AssessmentDetailTiming {
     /**
      * The budget the server applied to the synchronous answer.
      */
@@ -20,7 +20,8 @@ public class AssessmentTiming {
     private long elapsedMs;
 
     @JsonCreator
-    public AssessmentTiming(@JsonProperty("deadline_ms") long deadlineMs, @JsonProperty("elapsed_ms") long elapsedMs) {
+    public AssessmentDetailTiming(
+            @JsonProperty("deadline_ms") long deadlineMs, @JsonProperty("elapsed_ms") long elapsedMs) {
         this.deadlineMs = deadlineMs;
         this.elapsedMs = elapsedMs;
     }
@@ -46,7 +47,7 @@ public class AssessmentTiming {
     /**
      * The budget the server applied to the synchronous answer.
      */
-    public AssessmentTiming withDeadlineMs(long deadlineMs) {
+    public AssessmentDetailTiming withDeadlineMs(long deadlineMs) {
         this.deadlineMs = deadlineMs;
         return this;
     }
@@ -54,7 +55,7 @@ public class AssessmentTiming {
     /**
      * Server time from HTTP ingress to this revision of the assessment.
      */
-    public AssessmentTiming withElapsedMs(long elapsedMs) {
+    public AssessmentDetailTiming withElapsedMs(long elapsedMs) {
         this.elapsedMs = elapsedMs;
         return this;
     }
@@ -67,7 +68,7 @@ public class AssessmentTiming {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        AssessmentTiming other = (AssessmentTiming) o;
+        AssessmentDetailTiming other = (AssessmentDetailTiming) o;
         return Utils.enhancedDeepEquals(this.deadlineMs, other.deadlineMs)
                 && Utils.enhancedDeepEquals(this.elapsedMs, other.elapsedMs);
     }
@@ -79,7 +80,7 @@ public class AssessmentTiming {
 
     @Override
     public String toString() {
-        return Utils.toString(AssessmentTiming.class, "deadlineMs", deadlineMs, "elapsedMs", elapsedMs);
+        return Utils.toString(AssessmentDetailTiming.class, "deadlineMs", deadlineMs, "elapsedMs", elapsedMs);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -109,8 +110,8 @@ public class AssessmentTiming {
             return this;
         }
 
-        public AssessmentTiming build() {
-            return new AssessmentTiming(deadlineMs, elapsedMs);
+        public AssessmentDetailTiming build() {
+            return new AssessmentDetailTiming(deadlineMs, elapsedMs);
         }
     }
 }

@@ -20,12 +20,14 @@ import org.junit.jupiter.api.Test;
 import org.noresponse.models.errors.NoResponseException;
 import org.noresponse.models.errors.NotFoundException;
 import org.noresponse.models.operations.CreateAssessmentResponse;
+import org.noresponse.models.shared.AccountDecision;
 import org.noresponse.models.shared.Assessment;
 import org.noresponse.utils.BackoffStrategy;
 import org.noresponse.utils.RetryConfig;
 import org.noresponse.models.shared.AssessmentQuery;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentRequestIdentifiers;
+import org.noresponse.models.shared.Flow;
 
 /** Runs the README quick start and its error handling against a local server. */
 class QuickStartTest {
@@ -58,19 +60,21 @@ class QuickStartTest {
 
     @Test
     void createReadsLikeTheReadme() throws IOException {
-        byte[] body = Files.readAllBytes(Paths.get("tests", "fixtures", "valid", "assessment-complete.json"));
+        byte[] body = Files.readAllBytes(Paths.get("tests", "fixtures", "valid", "assessment-view-complete.json"));
         NoResponse client = client(200, "application/json", body);
 
         CreateAssessmentResponse res = client.assessments().create(
                 IdempotencyKey.generate(),
                 AssessmentRequest.builder()
+                        .flow(Flow.SIGNUP)
                         .accountId("acct_7f3a9c")
                         .identifiers(AssessmentRequestIdentifiers.builder().email("new.user@example.com").build())
                         .build());
 
         Assessment assessment = res.assessment().orElseThrow();
         assertEquals(200, res.statusCode());
-        assertTrue(assessment.recommendation().isPresent());
+        assertEquals(AccountDecision.ALLOW, assessment.account().orElseThrow().risk().decision());
+        assertTrue(assessment.detail().recommendation().isPresent());
         assertEquals(1, idempotencyKeys.size());
         assertEquals(36, idempotencyKeys.get(0).length());
     }
