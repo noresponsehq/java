@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v3.0.4'
+    implementation 'com.github.noresponsehq:java:v3.0.5'
 }
 ```
 
@@ -34,7 +34,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v3.0.4</version>
+  <version>v3.0.5</version>
 </dependency>
 ```
 
@@ -207,6 +207,8 @@ try {
         event.assessment().ifPresent(a -> { /* the full assessment, as get returns it */ });
         event.expired().ifPresent(e -> { /* delete what you hold for e.assessmentId() */ });
         event.accountDeleted().ifPresent(d -> { /* account.deleted: you erased d.accountId() */ });
+        event.tenantDeleted().ifPresent(t -> { /* tenant.deleted: the workspace is gone; the last event here */ });
+        event.endpointDisabled().ifPresent(d -> { /* d.endpointId() failed for 72 hours: fix it, verify it again */ });
     }
 } catch (VerificationException e) {
     // answer 400 and do not process the delivery

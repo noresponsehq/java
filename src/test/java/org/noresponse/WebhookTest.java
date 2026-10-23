@@ -26,6 +26,8 @@ import org.noresponse.models.shared.Assessment;
 import org.noresponse.models.shared.AccountDecision;
 import org.noresponse.webhooks.AccountDeleted;
 import org.noresponse.webhooks.AssessmentExpired;
+import org.noresponse.webhooks.EndpointDisabled;
+import org.noresponse.webhooks.TenantDeleted;
 import org.noresponse.webhooks.VerificationException;
 import org.noresponse.webhooks.VerificationException.Code;
 import org.noresponse.webhooks.Webhook;
@@ -242,6 +244,71 @@ class WebhookTest {
             byte[] payload = raw(bad);
             refused(Code.INVALID_PAYLOAD, payload, signed(payload, "secret", bad.path("id").asText(), "whk_sdktest01"), secrets, NOW);
         }
+    }
+
+    private static final String TENANT_DELETED = "{\"id\":\"evt_01JA2ZD3K4M5N6P7Q8R9S0T1V2\",\"type\":\"tenant.deleted\","
+            + "\"created_at\":\"2026-10-23T10:00:00.000Z\",\"data\":{\"workspace_id\":\"tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM\","
+            + "\"environment\":\"live\",\"deleted_at\":\"2026-10-23T10:00:00.000Z\"}}";
+    private static final String ENDPOINT_DISABLED = "{\"id\":\"evt_01JA2ZD3K4M5N6P7Q8R9S0T1V3\",\"type\":\"webhook_endpoint.disabled\","
+            + "\"created_at\":\"2026-10-23T10:00:00.000Z\",\"data\":{\"endpoint_id\":\"whe_01JA2ZD0E1F2G3H4J5K6M7N8P9\","
+            + "\"failing_since\":\"2026-10-20T10:00:00.000Z\",\"disabled_at\":\"2026-10-23T10:00:00.000Z\"}}";
+
+    private static void refusesChangedData(String original, List<java.util.function.Consumer<ObjectNode>> mutations) throws Exception {
+        Map<String, String> secrets = Map.of("whk_sdktest01", "secret");
+        for (java.util.function.Consumer<ObjectNode> mutate : mutations) {
+            ObjectNode bad = (ObjectNode) MAPPER.readTree(original);
+            mutate.accept((ObjectNode) bad.path("data"));
+            byte[] payload = raw(bad);
+            refused(Code.INVALID_PAYLOAD, payload, signed(payload, "secret", bad.path("id").asText(), "whk_sdktest01"), secrets, NOW);
+        }
+    }
+
+    @Test
+    void tenantDeletedEvent() throws Exception {
+        byte[] body = TENANT_DELETED.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+        WebhookEvent event = Webhook.constructEvent(body,
+                signed(body, "secret", "evt_01JA2ZD3K4M5N6P7Q8R9S0T1V2", "whk_sdktest01"), Map.of("whk_sdktest01", "secret"), 300, NOW);
+        assertEquals("tenant.deleted", event.type());
+        assertEquals("evt_01JA2ZD3K4M5N6P7Q8R9S0T1V2", event.id());
+        assertEquals("2026-10-23T10:00:00.000Z", event.createdAt());
+        assertFalse(event.isExpired());
+        assertFalse(event.isTest());
+        assertFalse(event.accountDeleted().isPresent());
+        TenantDeleted deleted = event.tenantDeleted().orElseThrow();
+        assertEquals("tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM", deleted.workspaceId());
+        assertEquals("live", deleted.environment());
+        assertEquals("2026-10-23T10:00:00.000Z", deleted.deletedAt());
+        assertThrows(VerificationException.class, () -> Webhook.verificationResponse(event));
+        refusesChangedData(TENANT_DELETED, List.<java.util.function.Consumer<ObjectNode>>of(
+                data -> data.remove("workspace_id"),
+                data -> data.put("workspace_id", "-tnt"),
+                data -> data.put("workspace_id", "tnt/01"),
+                data -> data.put("environment", "staging"),
+                data -> data.remove("environment"),
+                data -> data.put("deleted_at", "tomorrow"),
+                data -> data.remove("deleted_at")));
+    }
+
+    @Test
+    void endpointDisabledEvent() throws Exception {
+        byte[] body = ENDPOINT_DISABLED.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+        WebhookEvent event = Webhook.constructEvent(body,
+                signed(body, "secret", "evt_01JA2ZD3K4M5N6P7Q8R9S0T1V3", "whk_sdktest01"), Map.of("whk_sdktest01", "secret"), 300, NOW);
+        assertEquals("webhook_endpoint.disabled", event.type());
+        assertFalse(event.isExpired());
+        assertFalse(event.isTest());
+        EndpointDisabled disabled = event.endpointDisabled().orElseThrow();
+        assertEquals("whe_01JA2ZD0E1F2G3H4J5K6M7N8P9", disabled.endpointId());
+        assertEquals("2026-10-20T10:00:00.000Z", disabled.failingSince());
+        assertEquals("2026-10-23T10:00:00.000Z", disabled.disabledAt());
+        assertThrows(VerificationException.class, () -> Webhook.verificationResponse(event));
+        refusesChangedData(ENDPOINT_DISABLED, List.<java.util.function.Consumer<ObjectNode>>of(
+                data -> data.put("endpoint_id", "whk_01JA2ZD0E1F2G3H4J5K6M7N8P9"),
+                data -> data.remove("endpoint_id"),
+                data -> data.put("failing_since", "three days ago"),
+                data -> data.remove("failing_since"),
+                data -> data.put("disabled_at", "now"),
+                data -> data.remove("disabled_at")));
     }
 
     // The API adds fields without a new version, so keys this SDK does not know

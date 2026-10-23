@@ -43,6 +43,7 @@ public final class Webhook {
     private static final Pattern ASSESSMENT_ID = Pattern.compile("asm_[0-9A-HJKMNP-TV-Z]{26}");
     private static final Pattern ACCOUNT_ID = Pattern.compile("[A-Za-z0-9][A-Za-z0-9._:|-]{0,127}");
     private static final Pattern ENDPOINT_ID = Pattern.compile("whe_[0-9A-HJKMNP-TV-Z]{26}");
+    private static final Pattern WORKSPACE_ID = Pattern.compile("[A-Za-z0-9][A-Za-z0-9_.-]{0,122}");
 
     private Webhook() {
     }
@@ -189,6 +190,29 @@ public final class Webhook {
                 throw new VerificationException(Code.INVALID_PAYLOAD, "Account deleted event is malformed");
             }
             return new AccountDeleted(accountId.asText(), deleted.asLong(), deletedAt.asText());
+        }
+        if ("tenant.deleted".equals(type)) {
+            JsonNode workspaceId = data.path("workspace_id");
+            JsonNode environment = data.path("environment");
+            JsonNode deletedAt = data.path("deleted_at");
+            if (!workspaceId.isTextual() || !WORKSPACE_ID.matcher(workspaceId.asText()).matches()
+                    || !environment.isTextual()
+                    || !("live".equals(environment.asText()) || "test".equals(environment.asText()))
+                    || !deletedAt.isTextual() || !validDateTime(deletedAt.asText())) {
+                throw new VerificationException(Code.INVALID_PAYLOAD, "Tenant deleted event is malformed");
+            }
+            return new TenantDeleted(workspaceId.asText(), environment.asText(), deletedAt.asText());
+        }
+        if ("webhook_endpoint.disabled".equals(type)) {
+            JsonNode endpointId = data.path("endpoint_id");
+            JsonNode failingSince = data.path("failing_since");
+            JsonNode disabledAt = data.path("disabled_at");
+            if (!endpointId.isTextual() || !ENDPOINT_ID.matcher(endpointId.asText()).matches()
+                    || !failingSince.isTextual() || !validDateTime(failingSince.asText())
+                    || !disabledAt.isTextual() || !validDateTime(disabledAt.asText())) {
+                throw new VerificationException(Code.INVALID_PAYLOAD, "Endpoint disabled event is malformed");
+            }
+            return new EndpointDisabled(endpointId.asText(), failingSince.asText(), disabledAt.asText());
         }
         if (!"assessment.updated".equals(type)) {
             throw new VerificationException(Code.INVALID_PAYLOAD, "Unknown webhook event type");

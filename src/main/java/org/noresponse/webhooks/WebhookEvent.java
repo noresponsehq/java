@@ -11,7 +11,9 @@ import org.noresponse.models.shared.Assessment;
  * assessment exactly as {@code assessments().get} returns it, or
  * {@link #expired()} holds the terminal expiry notice. For
  * {@code endpoint.verification}, {@link #verification()} holds the challenge. For
- * {@code account.deleted}, {@link #accountDeleted()} names the account you erased.
+ * {@code account.deleted}, {@link #accountDeleted()} names the account you erased. For
+ * {@code tenant.deleted}, {@link #tenantDeleted()} names the deleted workspace. For
+ * {@code webhook_endpoint.disabled}, {@link #endpointDisabled()} names the disabled endpoint.
  *
  * <p>{@link #isTest()} is true on an event sent by
  * {@code webhookEndpoints().sendTestEvent()}: acknowledge it and apply nothing.
@@ -63,6 +65,22 @@ public final class WebhookEvent {
     /** Present for account.deleted: an account you erased. Delete what you hold for it. */
     public Optional<AccountDeleted> accountDeleted() {
         return data instanceof AccountDeleted ? Optional.of((AccountDeleted) data) : Optional.empty();
+    }
+
+    /**
+     * Present for tenant.deleted: the workspace was deleted. It is the last event this endpoint
+     * receives.
+     */
+    public Optional<TenantDeleted> tenantDeleted() {
+        return data instanceof TenantDeleted ? Optional.of((TenantDeleted) data) : Optional.empty();
+    }
+
+    /**
+     * Present for webhook_endpoint.disabled: another endpoint of this environment failed for 72
+     * hours and is disabled until it is verified again.
+     */
+    public Optional<EndpointDisabled> endpointDisabled() {
+        return data instanceof EndpointDisabled ? Optional.of((EndpointDisabled) data) : Optional.empty();
     }
 
     /**
