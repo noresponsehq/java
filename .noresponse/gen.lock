@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 526526e5582d19f3ac292a8627322dbf
+  docChecksum: 16091f4f82fad51b757ebd4ffb288274
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 2.1.2
-  configChecksum: 5f1de80e76a968081129e3037b2c3ee7
+  releaseVersion: 2.1.3
+  configChecksum: edd7335799f0385a2cf398e44fe70ea9
 features:
   java:
     additionalDependencies: 0.1.0
@@ -201,7 +201,7 @@ trackedFiles:
   docs/models/shared/IpSummaryType.md:
     last_write_checksum: sha1:b104c1b8a46aa3c398a02e6f11b4258355ff7dd6
   docs/models/shared/KeyRotation.md:
-    last_write_checksum: sha1:ef2b19f3a91304241b3d34bcbdf3ccecd1135227
+    last_write_checksum: sha1:8f08f461bc4b776136e60f267dda2946efae16e5
   docs/models/shared/KeyRotationRequest.md:
     last_write_checksum: sha1:d4b2763f50a150d8b4dc4cf6c6b5f196e8144212
   docs/models/shared/Lane.md:
@@ -323,7 +323,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:5d907d4887bb1eafa107ad9dc1dc7d1a65f81366
+    last_write_checksum: sha1:0623e5e4c73d6ab84dfe259af357f23519038970
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -359,7 +359,7 @@ trackedFiles:
   src/main/java/org/noresponse/NoResponse.java:
     last_write_checksum: sha1:bc9b1ec004cb9df78b9624232e9c52cd47aa31fa
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:2495822c16254ede7e355abb13b532d9a887358e
+    last_write_checksum: sha1:866e8b7a7ea8fd7b55807c54843247952328601c
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/WebhookEndpoints.java:
@@ -637,7 +637,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/IpSummaryType.java:
     last_write_checksum: sha1:1317942b83ec54e1e8f432dda5da192d8b39ad96
   src/main/java/org/noresponse/models/shared/KeyRotation.java:
-    last_write_checksum: sha1:2f7087c502154052b1c3748fea92615529086ac4
+    last_write_checksum: sha1:cadb90999c3c93a84abe3bb5f5eaf267c7029751
   src/main/java/org/noresponse/models/shared/KeyRotationRequest.java:
     last_write_checksum: sha1:9fe251f444e9f9dcd24041d62f9e0359f88c28ea
   src/main/java/org/noresponse/models/shared/Lane.java:
@@ -1181,7 +1181,7 @@ examples:
         application/json: {"overlap_seconds": 3600}
       responses:
         "201":
-          application/json: {"key": "nrk_01JA2Z8K6Q4V7W9XBCDEFGHJKM_k3Yx8pQ2mN7vR4tW6zB9cD1eF5gH0jL4sP9uV2wX7yA", "key_id": "01JA2Z8K6Q4V7W9XBCDEFGHJKM", "scopes": [], "created_at": "2026-10-14T09:10:00.000Z", "previous_key_id": "01JA2Z8K6Q4V7W9XBCDEFGHJKN", "previous_key_expires_at": "2026-10-15T09:10:00.000Z"}
+          application/json: {"key": "nrk_live_01JA2Z8K6Q4V7W9XBCDEFGHJKM_k3Yx8pQ2mN7vR4tW6zB9cD1eF5gH0jL4sP9uV2wX7yA", "key_id": "01JA2Z8K6Q4V7W9XBCDEFGHJKM", "scopes": [], "created_at": "2026-10-14T09:10:00.000Z", "previous_key_id": "01JA2Z8K6Q4V7W9XBCDEFGHJKN", "previous_key_expires_at": "2026-10-15T09:10:00.000Z"}
         "400":
           application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 400, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "webhook_url_refused", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
         "401":
@@ -1199,7 +1199,7 @@ examples:
         application/json: {}
       responses:
         "201":
-          application/json: {"key": "nrk_01JA2Z8K6Q4V7W9XBCDEFGHJKM_k3Yx8pQ2mN7vR4tW6zB9cD1eF5gH0jL4sP9uV2wX7yA", "key_id": "01JA2Z8K6Q4V7W9XBCDEFGHJKM", "scopes": [], "created_at": "2026-10-14T09:10:00.000Z", "previous_key_id": "01JA2Z8K6Q4V7W9XBCDEFGHJKN", "previous_key_expires_at": "2026-10-15T09:10:00.000Z"}
+          application/json: {"key": "nrk_live_01JA2Z8K6Q4V7W9XBCDEFGHJKM_k3Yx8pQ2mN7vR4tW6zB9cD1eF5gH0jL4sP9uV2wX7yA", "key_id": "01JA2Z8K6Q4V7W9XBCDEFGHJKM", "scopes": [], "created_at": "2026-10-14T09:10:00.000Z", "previous_key_id": "01JA2Z8K6Q4V7W9XBCDEFGHJKN", "previous_key_expires_at": "2026-10-15T09:10:00.000Z"}
         "400":
           application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 400, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "webhook_url_refused", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
         "401":
@@ -1217,7 +1217,7 @@ examples:
         application/json: {}
       responses:
         "201":
-          application/json: {"key": "nrk_01JA2ZC0Q1R2S3T4V5W6X7Y8Z9_0123456789abcdefghijklmnopqrstuvwxyzABCDEFA", "key_id": "01JA2ZC0Q1R2S3T4V5W6X7Y8Z9", "scopes": ["assess", "history"], "created_at": "2026-10-21T09:00:00.000Z", "previous_key_id": "01JA2Z8K6Q4V7W9XBCDEFGHJKM", "previous_key_expires_at": "2026-10-22T09:00:00.000Z"}
+          application/json: {"key": "nrk_live_01JA2ZC0Q1R2S3T4V5W6X7Y8Z9_0123456789abcdefghijklmnopqrstuvwxyzABCDEFA", "key_id": "01JA2ZC0Q1R2S3T4V5W6X7Y8Z9", "scopes": ["assess", "history"], "created_at": "2026-10-21T09:00:00.000Z", "previous_key_id": "01JA2Z8K6Q4V7W9XBCDEFGHJKM", "previous_key_expires_at": "2026-10-22T09:00:00.000Z"}
   createIntegration:
     auth0:
       requestBody:

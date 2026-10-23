@@ -13,12 +13,12 @@ import org.noresponse.utils.Utils;
  * KeyRotation
  *
  * <p>The 201 answer of POST /v1/keys/rotate: the new key, shown once, and when the key that was presented
- * stops working. The new key has the scopes of the presented key.
+ * stops working. The new key has the scopes and the environment of the presented key.
  */
 public class KeyRotation {
     /**
-     * The new credential, nrk_&lt;key id&gt;_&lt;secret&gt;. It is shown only in this answer; store it
-     * now.
+     * The new credential, nrk_&lt;mode&gt;_&lt;key id&gt;_&lt;secret&gt;, in the environment of the
+     * presented key: nrk_live_ or nrk_test_. It is shown only in this answer; store it now.
      */
     @JsonProperty("key")
     private String key;
@@ -71,8 +71,8 @@ public class KeyRotation {
     }
 
     /**
-     * The new credential, nrk_&lt;key id&gt;_&lt;secret&gt;. It is shown only in this answer; store it
-     * now.
+     * The new credential, nrk_&lt;mode&gt;_&lt;key id&gt;_&lt;secret&gt;, in the environment of the
+     * presented key: nrk_live_ or nrk_test_. It is shown only in this answer; store it now.
      */
     public String key() {
         return this.key;
@@ -115,8 +115,8 @@ public class KeyRotation {
     }
 
     /**
-     * The new credential, nrk_&lt;key id&gt;_&lt;secret&gt;. It is shown only in this answer; store it
-     * now.
+     * The new credential, nrk_&lt;mode&gt;_&lt;key id&gt;_&lt;secret&gt;, in the environment of the
+     * presented key: nrk_live_ or nrk_test_. It is shown only in this answer; store it now.
      */
     public KeyRotation withKey(@Nonnull String key) {
         this.key = Utils.checkNotNull(key, "key");
@@ -220,8 +220,8 @@ public class KeyRotation {
         }
 
         /**
-         * The new credential, nrk_&lt;key id&gt;_&lt;secret&gt;. It is shown only in this answer; store it
-         * now.
+         * The new credential, nrk_&lt;mode&gt;_&lt;key id&gt;_&lt;secret&gt;, in the environment of the
+         * presented key: nrk_live_ or nrk_test_. It is shown only in this answer; store it now.
          */
         public Builder key(@Nonnull String key) {
             this.key = Utils.checkNotNull(key, "key");
