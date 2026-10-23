@@ -38,8 +38,8 @@ public class Account {
     private AccountRisk risk;
 
     /**
-     * The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three are
-     * equal.
+     * The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
+     * has not set uses its signup thresholds, so the flows differ only where it set them.
      */
     @JsonProperty("decisions_by_flow")
     private AccountDecisionsByFlow decisionsByFlow;
@@ -93,8 +93,8 @@ public class Account {
     }
 
     /**
-     * The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three are
-     * equal.
+     * The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
+     * has not set uses its signup thresholds, so the flows differ only where it set them.
      */
     public AccountDecisionsByFlow decisionsByFlow() {
         return this.decisionsByFlow;
@@ -132,8 +132,8 @@ public class Account {
     }
 
     /**
-     * The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three are
-     * equal.
+     * The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
+     * has not set uses its signup thresholds, so the flows differ only where it set them.
      */
     public Account withDecisionsByFlow(@Nonnull AccountDecisionsByFlow decisionsByFlow) {
         this.decisionsByFlow = Utils.checkNotNull(decisionsByFlow, "decisionsByFlow");
@@ -227,8 +227,8 @@ public class Account {
         }
 
         /**
-         * The decision for each flow. Every flow uses the tenant's signup thresholds today, so all three are
-         * equal.
+         * The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
+         * has not set uses its signup thresholds, so the flows differ only where it set them.
          */
         public Builder decisionsByFlow(@Nonnull AccountDecisionsByFlow decisionsByFlow) {
             this.decisionsByFlow = Utils.checkNotNull(decisionsByFlow, "decisionsByFlow");
