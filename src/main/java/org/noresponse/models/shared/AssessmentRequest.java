@@ -59,8 +59,8 @@ public class AssessmentRequest {
     private String requestId;
 
     /**
-     * Optional tighter budget, 50 to 500 ms, measured from the moment the request reaches NoResponse.
-     * Absent means the 500 ms ceiling; a value above it is refused with 400 rather than clamped.
+     * Optional tighter budget, 50 to 3000 ms, measured from the moment the request reaches NoResponse.
+     * Absent means the 3000 ms ceiling; a value above it is refused with 400 rather than clamped.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("deadline_ms")
@@ -165,8 +165,8 @@ public class AssessmentRequest {
     }
 
     /**
-     * Optional tighter budget, 50 to 500 ms, measured from the moment the request reaches NoResponse.
-     * Absent means the 500 ms ceiling; a value above it is refused with 400 rather than clamped.
+     * Optional tighter budget, 50 to 3000 ms, measured from the moment the request reaches NoResponse.
+     * Absent means the 3000 ms ceiling; a value above it is refused with 400 rather than clamped.
      */
     public Optional<Long> deadlineMs() {
         return Optional.ofNullable(this.deadlineMs);
@@ -251,8 +251,8 @@ public class AssessmentRequest {
     }
 
     /**
-     * Optional tighter budget, 50 to 500 ms, measured from the moment the request reaches NoResponse.
-     * Absent means the 500 ms ceiling; a value above it is refused with 400 rather than clamped.
+     * Optional tighter budget, 50 to 3000 ms, measured from the moment the request reaches NoResponse.
+     * Absent means the 3000 ms ceiling; a value above it is refused with 400 rather than clamped.
      */
     public AssessmentRequest withDeadlineMs(@Nullable Long deadlineMs) {
         this.deadlineMs = deadlineMs;
@@ -421,8 +421,8 @@ public class AssessmentRequest {
         }
 
         /**
-         * Optional tighter budget, 50 to 500 ms, measured from the moment the request reaches NoResponse.
-         * Absent means the 500 ms ceiling; a value above it is refused with 400 rather than clamped.
+         * Optional tighter budget, 50 to 3000 ms, measured from the moment the request reaches NoResponse.
+         * Absent means the 3000 ms ceiling; a value above it is refused with 400 rather than clamped.
          */
         public Builder deadlineMs(@Nullable Long deadlineMs) {
             this.deadlineMs = deadlineMs;

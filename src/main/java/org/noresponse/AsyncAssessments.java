@@ -53,7 +53,7 @@ public class AsyncAssessments {
     /**
      * Assess identifiers for a signup or gateway decision.
      *
-     * <p>Returns within the deadline (500 ms at most) with a complete, partial or pending assessment: 200
+     * <p>Returns within the deadline (3000 ms at most) with a complete, partial or pending assessment: 200
      * carries complete or partial, 202 carries pending with Location and Retry-After. A pending answer has
      * no recommendation; apply your own fallback for pending, 429, 503 or a timeout. risk.block says when
      * your block threshold was reached.
@@ -72,7 +72,7 @@ public class AsyncAssessments {
     /**
      * Assess identifiers for a signup or gateway decision.
      *
-     * <p>Returns within the deadline (500 ms at most) with a complete, partial or pending assessment: 200
+     * <p>Returns within the deadline (3000 ms at most) with a complete, partial or pending assessment: 200
      * carries complete or partial, 202 carries pending with Location and Retry-After. A pending answer has
      * no recommendation; apply your own fallback for pending, 429, 503 or a timeout. risk.block says when
      * your block threshold was reached.
@@ -94,7 +94,7 @@ public class AsyncAssessments {
     /**
      * Assess identifiers for a signup or gateway decision.
      *
-     * <p>Returns within the deadline (500 ms at most) with a complete, partial or pending assessment: 200
+     * <p>Returns within the deadline (3000 ms at most) with a complete, partial or pending assessment: 200
      * carries complete or partial, 202 carries pending with Location and Retry-After. A pending answer has
      * no recommendation; apply your own fallback for pending, 429, 503 or a timeout. risk.block says when
      * your block threshold was reached.
