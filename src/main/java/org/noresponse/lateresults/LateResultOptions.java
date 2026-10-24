@@ -1,8 +1,8 @@
 package org.noresponse.lateresults;
 
 import java.util.function.BiFunction;
-import org.noresponse.webhooks.Webhook;
-import org.noresponse.webhooks.WebhookEvent;
+import org.noresponse.models.shared.WebhookEvent;
+import org.noresponse.webhookverification.Webhook;
 
 /** Options for {@link LateResults#handleLateResult}. Build with {@link #builder()}. */
 public final class LateResultOptions {

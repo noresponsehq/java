@@ -1,13 +1,18 @@
 package org.noresponse.lateresults;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import org.noresponse.models.shared.Account;
+import org.noresponse.models.shared.AccountRiskChanged;
+import org.noresponse.models.shared.AccountRiskChangedEvent;
 import org.noresponse.models.shared.Assessment;
+import org.noresponse.models.shared.AssessmentUpdatedEvent;
 import org.noresponse.models.shared.Status;
-import org.noresponse.webhooks.Webhook;
-import org.noresponse.webhooks.WebhookEvent;
+import org.noresponse.models.shared.WebhookEvent;
+import org.noresponse.webhookverification.Webhook;
 
 /**
  * Late-result handlers. Hand-written; not generated.
@@ -34,20 +39,15 @@ public final class LateResults {
      * pending assessment and a test event from the send-test-event call never do.
      */
     public static LateResultAction lateResultAction(WebhookEvent event, LateResultPolicy policy) {
-        if (event.isTest() || event.isExpired()) {
-            return LateResultAction.NONE;
-        }
-        if ("account.risk_changed".equals(event.type())) {
+        if (event instanceof AccountRiskChangedEvent) {
             // The event is sent when any flow's decision changes; sessions are about the login
             // decision, so an unchanged login decision acts on nothing.
-            return event.accountRiskChanged().map(change -> {
-                String login = change.account().decisionsByFlow().login().value();
-                if (login.equals(change.previousDecisionsByFlow().login().value())) { return LateResultAction.NONE; }
-                return policy.actionFor(login);
-            }).orElse(LateResultAction.NONE);
+            AccountRiskChanged change = ((AccountRiskChangedEvent) event).data();
+            String login = change.account().decisionsByFlow().login().value();
+            if (login.equals(change.previousDecisionsByFlow().login().value())) { return LateResultAction.NONE; }
+            return policy.actionFor(login);
         }
-        if (!"assessment.updated".equals(event.type())) { return LateResultAction.NONE; }
-        Optional<Assessment> assessment = event.assessment();
+        Optional<Assessment> assessment = servedAssessment(event);
         if (!assessment.isPresent()) {
             return LateResultAction.NONE;
         }
@@ -59,6 +59,21 @@ public final class LateResults {
         return policy.actionFor(account.get().risk().decision().value());
     }
 
+    /**
+     * The assessment of an assessment.updated event that is neither a test event from the
+     * send-test-event call nor the terminal expiry notice.
+     */
+    private static Optional<Assessment> servedAssessment(WebhookEvent event) {
+        if (!(event instanceof AssessmentUpdatedEvent)) {
+            return Optional.empty();
+        }
+        AssessmentUpdatedEvent updated = (AssessmentUpdatedEvent) event;
+        if (updated.test().orElse(false)) {
+            return Optional.empty();
+        }
+        return updated.data().assessment();
+    }
+
     public static LateResult handleLateResult(byte[] payload, Map<String, ? extends Collection<String>> headers,
             Map<String, String> secrets, LateResultProvider provider) {
         return handleLateResult(payload, headers, secrets, provider, LateResultOptions.builder().build());
@@ -68,7 +83,7 @@ public final class LateResults {
      * Verify a webhook delivery and apply your policy to it.
      *
      * <p>The payload, headers, secrets and tolerance are what {@code Webhook.constructEvent} takes; a
-     * delivery that fails verification throws {@code VerificationException} before any provider
+     * delivery that fails verification throws {@code WebhookVerificationException} before any provider
      * call. Deduplicate on {@code result.event().id()} and ignore versions older than one you have
      * acted on.
      *
@@ -76,16 +91,16 @@ public final class LateResults {
      */
     public static LateResult handleLateResult(byte[] payload, Map<String, ? extends Collection<String>> headers,
             Map<String, String> secrets, LateResultProvider provider, LateResultOptions options) {
-        long now = options.nowEpochSeconds() != null ? options.nowEpochSeconds()
-                : java.time.Instant.now().getEpochSecond();
-        WebhookEvent event = Webhook.constructEvent(payload, headers, secrets, options.toleranceSeconds(), now);
+        long now = options.nowEpochSeconds() != null ? options.nowEpochSeconds() : Instant.now().getEpochSecond();
+        WebhookEvent event = Webhook.constructEvent(
+                payload, headers, secrets, Duration.ofSeconds(options.toleranceSeconds()), Instant.ofEpochSecond(now));
         LateResultAction action = lateResultAction(event, options.policy());
         if (action == LateResultAction.NONE) {
             return new LateResult(event, LateResultAction.NONE, null);
         }
-        String accountId = "account.risk_changed".equals(event.type())
-                ? event.accountRiskChanged().orElseThrow().account().id()
-                : event.assessment().orElseThrow().detail().accountId();
+        String accountId = event instanceof AccountRiskChangedEvent
+                ? ((AccountRiskChangedEvent) event).data().account().id()
+                : servedAssessment(event).orElseThrow().detail().accountId();
         String userId = options.userId() != null ? options.userId().apply(accountId, event) : accountId;
         if (userId == null || userId.isEmpty()) {
             return new LateResult(event, LateResultAction.NONE, null);

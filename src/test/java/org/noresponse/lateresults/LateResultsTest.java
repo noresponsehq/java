@@ -16,6 +16,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -25,10 +27,12 @@ import java.util.function.Function;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.junit.jupiter.api.Test;
-import org.noresponse.webhooks.VerificationException;
-import org.noresponse.webhooks.VerificationException.Code;
-import org.noresponse.webhooks.Webhook;
-import org.noresponse.webhooks.WebhookEvent;
+import org.noresponse.models.shared.AccountRiskChangedEvent;
+import org.noresponse.models.shared.AssessmentUpdatedEvent;
+import org.noresponse.models.shared.WebhookEvent;
+import org.noresponse.webhookverification.Webhook;
+import org.noresponse.webhookverification.WebhookVerificationException;
+import org.noresponse.webhookverification.WebhookVerificationException.Code;
 
 class LateResultsTest {
     private static final Path FIXTURES = Paths.get("tests", "fixtures");
@@ -201,7 +205,16 @@ class LateResultsTest {
 
     private static WebhookEvent event(JsonNode data) throws Exception {
         Delivery d = new Delivery(data, null);
-        return Webhook.constructEvent(d.raw, d.headers, SECRETS, 300, NOW);
+        return constructEvent(d);
+    }
+
+    private static WebhookEvent constructEvent(Delivery d) {
+        return Webhook.constructEvent(d.raw, d.headers, SECRETS, Duration.ofSeconds(300), Instant.ofEpochSecond(NOW));
+    }
+
+    /** A test event from the send-test-event call: assessment.updated with test true. */
+    private static boolean isTest(WebhookEvent event) {
+        return event instanceof AssessmentUpdatedEvent && ((AssessmentUpdatedEvent) event).test().orElse(false);
     }
 
     /** A copy with this status and account decision; a null decision removes the account. */
@@ -272,7 +285,7 @@ class LateResultsTest {
             LateResult result = LateResults.handleLateResult(d.raw, d.headers, SECRETS, clerk, opts());
             assertEquals(LateResultAction.REVOKE_SESSIONS, result.action());
             assertEquals("user_2EXAMPLE", result.userId().orElseThrow());
-            assertEquals(review.path("id").asText(), result.event().assessment().orElseThrow().id());
+            assertEquals(review.path("id").asText(), ((AssessmentUpdatedEvent) result.event()).data().assessment().orElseThrow().id());
             assertEquals(List.of("GET /v1/sessions", "POST /v1/sessions/sess_1/revoke", "POST /v1/sessions/sess_2/revoke"),
                     mock.lines());
             assertEquals(Map.of("user_id", "user_2EXAMPLE", "status", "active", "limit", "100", "offset", "0"),
@@ -373,15 +386,15 @@ class LateResultsTest {
         try (Mock mock = new Mock(c -> c.method.equals("DELETE") ? new Reply(403, "{\"error\":\"insufficient_scope\"}") : null)) {
             Auth0Actions auth0 = new Auth0Actions(null, mock.url() + "/api/v2", "mgmt_token", java.net.http.HttpClient.newHttpClient());
             Delivery d = new Delivery(review, "auth0|abc");
-            VerificationException wrong = assertThrows(VerificationException.class, () -> LateResults.handleLateResult(
+            WebhookVerificationException wrong = assertThrows(WebhookVerificationException.class, () -> LateResults.handleLateResult(
                     d.raw, d.headers, Map.of(KEY, "wrong"), auth0, opts()));
             assertEquals(Code.INVALID_SIGNATURE, wrong.code());
             byte[] tampered = new byte[d.raw.length + 1];
             System.arraycopy(d.raw, 0, tampered, 0, d.raw.length);
             tampered[d.raw.length] = ' ';
-            assertThrows(VerificationException.class,
+            assertThrows(WebhookVerificationException.class,
                     () -> LateResults.handleLateResult(tampered, d.headers, SECRETS, auth0, opts()));
-            VerificationException late = assertThrows(VerificationException.class, () -> LateResults.handleLateResult(
+            WebhookVerificationException late = assertThrows(WebhookVerificationException.class, () -> LateResults.handleLateResult(
                     d.raw, d.headers, SECRETS, auth0, LateResultOptions.builder().nowEpochSeconds(NOW + 301).build()));
             assertEquals(Code.INVALID_TIMESTAMP, late.code());
             for (JsonNode data : new JsonNode[] {view("step_up"),
@@ -397,7 +410,7 @@ class LateResultsTest {
             LateResult ignored = LateResults.handleLateResult(changed.raw, changed.headers, SECRETS, auth0, noUser);
             assertEquals(LateResultAction.NONE, ignored.action());
             assertEquals("account.risk_changed", ignored.event().type());
-            assertEquals("review", ignored.event().accountRiskChanged().orElseThrow().account().decisionsByFlow().login().value());
+            assertEquals("review", ((AccountRiskChangedEvent) ignored.event()).data().account().decisionsByFlow().login().value());
             assertEquals(LateResultAction.BAN, LateResults.lateResultAction(ignored.event(), LateResultPolicy.fromWire(Map.of("review", "ban"))));
             LateResultOptions unmapped = LateResultOptions.builder().nowEpochSeconds(NOW).userId((a, e) -> null).build();
             assertEquals(LateResultAction.NONE,
@@ -424,13 +437,13 @@ class LateResultsTest {
                     .build();
             LateResult result = LateResults.handleLateResult(d.raw, d.headers, SECRETS, clerk, options);
             assertEquals(LateResultAction.NONE, result.action());
-            assertTrue(result.event().isTest());
+            assertTrue(isTest(result.event()));
             assertTrue(result.userId().isEmpty());
             assertEquals(0, mock.calls.size());
 
             // The same body without the flag would ban, and an ordinary delivery is not a test.
             Delivery real = new Delivery(sample, null, false);
-            assertFalse(Webhook.constructEvent(real.raw, real.headers, SECRETS, 300, NOW).isTest());
+            assertFalse(isTest(constructEvent(real)));
             assertEquals(LateResultAction.BAN, LateResults.handleLateResult(real.raw, real.headers, SECRETS, clerk, options).action());
         }
     }

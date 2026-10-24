@@ -1,7 +1,7 @@
 package org.noresponse.lateresults;
 
 import java.util.Optional;
-import org.noresponse.webhooks.WebhookEvent;
+import org.noresponse.models.shared.WebhookEvent;
 
 /** The outcome of {@link LateResults#handleLateResult}. */
 public final class LateResult {
@@ -15,7 +15,7 @@ public final class LateResult {
         this.userId = userId;
     }
 
-    /** The verified event. Answer an endpoint.verification with {@code Webhook.verificationResponse(event)}. */
+    /** The verified event. Answer an endpoint.verification by returning its challenge in a {@code WebhookVerificationResponse}. */
     public WebhookEvent event() {
         return event;
     }

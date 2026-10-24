@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v5.1.1'
+    implementation 'com.github.noresponsehq:java:v6.0.0'
 }
 ```
 
@@ -36,7 +36,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v5.1.1</version>
+  <version>v6.0.0</version>
 </dependency>
 ```
 
@@ -189,7 +189,7 @@ String endpointId = created.endpoint().endpointId();
 client.webhookEndpoints().sendTestEvent(endpointId,
         WebhookTestRequest.builder().event(WebhookTestRequestEvent.ENDPOINT_VERIFICATION).build()); // webhookTest().verified()
 client.webhookEndpoints().sendTestEvent(endpointId,
-        WebhookTestRequest.builder().event(WebhookTestRequestEvent.ASSESSMENT_UPDATED).build()); // arrives with event.isTest()
+        WebhookTestRequest.builder().event(WebhookTestRequestEvent.ASSESSMENT_UPDATED).build()); // arrives with test() true
 ```
 
 These models are in `org.noresponse.models.shared`. `listDirect()`, `rotateSigningKey(...)` (the old key verifies for 7 more days) and `delete(endpointId)` manage the endpoint afterwards.
@@ -201,27 +201,34 @@ Map<String, String> secrets = Map.of("whk_example0001", System.getenv("NORESPONS
 
 try {
     WebhookEvent event = Webhook.constructEvent(rawBody, headers, secrets);
-    if (event.verification().isPresent()) {
-        // answer 200 with Webhook.verificationResponse(event) as JSON
-    } else if (event.isTest()) {
-        // sendTestEvent's fixed example assessment: answer 2xx and apply nothing
-    } else {
-        event.assessment().ifPresent(a -> { /* the full assessment, as get returns it */ });
-        event.expired().ifPresent(e -> { /* delete what you hold for e.assessmentId() */ });
-        event.accountDeleted().ifPresent(d -> { /* account.deleted: you erased d.accountId() */ });
-        event.workspaceDeleted().ifPresent(t -> { /* workspace.deleted: the workspace is gone; the last event here */ });
-        event.endpointDisabled().ifPresent(d -> { /* d.endpointId() failed for 72 hours: fix it, verify it again */ });
-        event.accountRiskChanged().ifPresent(c -> {
-            /* account.risk_changed: c.account() is the Account accounts().get returns, with its new
-               decisionsByFlow(); c.previousDecisionsByFlow() holds the decisions it replaced */
-        });
+    if (event instanceof EndpointVerificationEvent) {
+        String challenge = ((EndpointVerificationEvent) event).data().challenge();
+        // answer 200 with new WebhookVerificationResponse(challenge) as JSON
+    } else if (event instanceof AssessmentUpdatedEvent) {
+        AssessmentUpdatedEvent updated = (AssessmentUpdatedEvent) event;
+        if (updated.test().orElse(false)) {
+            // sendTestEvent's fixed example assessment: answer 2xx and apply nothing
+        } else {
+            updated.data().assessment().ifPresent(a -> { /* the full assessment, as get returns it */ });
+            updated.data().assessmentExpired().ifPresent(e -> { /* delete what you hold for e.assessmentId() */ });
+        }
+    } else if (event instanceof AccountDeletedEvent) {
+        // account.deleted: you erased ((AccountDeletedEvent) event).data().accountId()
+    } else if (event instanceof WorkspaceDeletedEvent) {
+        // workspace.deleted: the workspace is gone; the last event here
+    } else if (event instanceof WebhookEndpointDisabledEvent) {
+        // data().endpointId() failed for 72 hours: fix it, verify it again
+    } else if (event instanceof AccountRiskChangedEvent) {
+        /* account.risk_changed: data().account() is the Account accounts().get returns, with its new
+           decisionsByFlow(); data().previousDecisionsByFlow() holds the decisions it replaced */
     }
-} catch (VerificationException e) {
+} catch (WebhookVerificationException e) {
     // answer 400 and do not process the delivery
 }
 ```
 
-`Webhook`, `WebhookEvent` and `VerificationException` are in `org.noresponse.webhooks`. A header that is absent or has no value is refused with `MISSING_HEADER`, a repeated one with `DUPLICATE_HEADER`. Deliveries arrive at least once and unordered. Deduplicate on `event.id()` and keep the highest `detail().assessmentVersion()` per assessment.
+`Webhook` and `WebhookVerificationException` are in `org.noresponse.webhookverification`; `WebhookEvent`, its event classes and `WebhookVerificationResponse` are in `org.noresponse.models.shared`. A header that is absent or has no value is refused with `Code.MISSING_HEADER`, a repeated one with `Code.DUPLICATE_HEADER`. `constructEvent(payload, headers, secrets, tolerance, now)` takes a `Duration` and an `Instant`. Deliveries arrive at least once and unordered. Deduplicate on the event's `id()` and keep the highest `detail().assessmentVersion()` per assessment.
+
 
 ### Late results
 

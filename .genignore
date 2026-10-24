@@ -1,6 +1,5 @@
 # Hand-written files beside the generated client.
 /build-extras.gradle
-/src/main/java/org/noresponse/webhooks/
 /src/main/java/org/noresponse/Wait.java
 /src/main/java/org/noresponse/WaitTimeoutException.java
 /src/test/
