@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v6.0.1'
+    implementation 'com.github.noresponsehq:java:v7.0.0'
 }
 ```
 
@@ -36,7 +36,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v6.0.1</version>
+  <version>v7.0.0</version>
 </dependency>
 ```
 
@@ -230,18 +230,19 @@ try {
 `Webhook` and `WebhookVerificationException` are in `org.noresponse.webhookverification`; `WebhookEvent`, its event classes and `WebhookVerificationResponse` are in `org.noresponse.models.shared`. A header that is absent or has no value is refused with `Code.MISSING_HEADER`, a repeated one with `Code.DUPLICATE_HEADER`. `constructEvent(payload, headers, secrets, tolerance, now)` takes a `Duration` and an `Instant`. Deliveries arrive at least once and unordered. Deduplicate on the event's `id()` and keep the highest `detail().assessmentVersion()` per assessment.
 
 
-### Late results
+### Late enforcement
 
-When a slow source settles and the account's decision rises, `LateResults.handleLateResult` verifies the `assessment.updated` delivery with `Webhook.constructEvent`, applies your policy to `account.risk.decision` (default: revoke sessions on `review` and `block`) and calls the provider. It lives in `org.noresponse.lateresults`; `ClerkActions`, `WorkOSActions` and `Auth0Actions` take your credentials and an optional `HttpClient`.
+`account.risk_changed` only wakes your handler. `LateResults.handleRiskChange` (in `org.noresponse.lateresults`) verifies the delivery with `Webhook.constructEvent`, reads the account's current risk with `accounts().get`, asks your `getAccountState` where the account is in your own flow, and acts on the decision of that state's flow: an `onboarding` account fails onboarding, a `provisional` one is refused activation, an `active` one is restricted on `block` and has its sessions revoked on `review` or `block`. Each action, or `none`, is recorded with `accounts().recordEnforcement` at the `riskVersion` read. The rules and the Clerk, WorkOS and Auth0 calls come from one table shared by every SDK, and nothing deletes a user: WorkOS has no ban, so it writes `noresponse_state` to the user's metadata (gate sign-in on it) and revokes the sessions.
 
 ```java
-LateResult result = LateResults.handleLateResult(rawBody, headers, secrets,
-    new ClerkActions(System.getenv("CLERK_SECRET_KEY")));
+var options = new LateResults.EnforcementOptions(
+        LateResults.identityProvider("clerk", new LateResults.IdentityProviderOptions(System.getenv("CLERK_SECRET_KEY"))),
+        account -> new LateResults.AccountStateAnswer(states.of(account.id()), null, enforced.of(account.id())))
+    .flow("login", new LateResults.FlowPolicy(true)); // unrestrict once login is allow again (opt-in)
+LateResults.EnforcementResult result = LateResults.handleRiskChange(client, rawBody, headers, secrets, options);
 ```
 
-An `account.risk_changed` event acts on its new `login` decision when that decision changed; one that moved only another flow's decision acts on nothing. A provider refusal throws `ProviderActionException`; answer 5xx so NoResponse retries. WorkOS has no block, so its `ban` deletes the user permanently.
-
-If your app has its own login, `new LogOnlyActions()` logs what it would revoke or ban (at INFO on the `org.noresponse.lateresults` `System.Logger`, or pass a `Consumer<String>`) and calls nothing. Use it to try the handler, then implement `LateResultProvider` yourself: `name()`, `revokeSessions(userId)` and `ban(userId)`.
+Store `result.riskVersion()` and return it as `enforcedRiskVersion`, so a replayed or older event changes nothing. A provider refusal is recorded as failed and thrown as `ProviderActionException`; answer 5xx so NoResponse delivers it again. To catch up, pass each account from `accounts().listChanged()` with `unenforced` true to `LateResults.enforceAccount`. For your own user store, `LateResults.customProvider(Map.of("restrict", userId -> ...))` runs one handler per action.
 
 ## Renamed since 2.0.0
 

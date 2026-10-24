@@ -5,8 +5,8 @@ management:
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 6.0.1
-  configChecksum: d8e9789d0383541a968b22e855127c6d
+  releaseVersion: 7.0.0
+  configChecksum: c3c01dc8ad1fd3f32d2b8fa749197619
 features:
   java:
     additionalDependencies: 0.1.0
@@ -441,7 +441,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:9961b986417bd27782bf1ea9a8b4d408ec671365
+    last_write_checksum: sha1:f7cf7c24b353c4e3fcfca9fa6640c3bcbb5239a2
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -481,7 +481,7 @@ trackedFiles:
   src/main/java/org/noresponse/NoResponse.java:
     last_write_checksum: sha1:5b15379be191ae0a62bc1e8897b36cf629641480
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:e9a8f2db650498f5420cf793bc0884c29f010058
+    last_write_checksum: sha1:752e24c76120714585b9b275835187f3c77ec92d
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/WebhookEndpoints.java:
