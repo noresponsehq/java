@@ -34,9 +34,19 @@ public final class LateResults {
      * pending assessment and a test event from the send-test-event call never do.
      */
     public static LateResultAction lateResultAction(WebhookEvent event, LateResultPolicy policy) {
-        if (!"assessment.updated".equals(event.type()) || event.isTest() || event.isExpired()) {
+        if (event.isTest() || event.isExpired()) {
             return LateResultAction.NONE;
         }
+        if ("account.risk_changed".equals(event.type())) {
+            // The event is sent when any flow's decision changes; sessions are about the login
+            // decision, so an unchanged login decision acts on nothing.
+            return event.accountRiskChanged().map(change -> {
+                String login = change.account().decisionsByFlow().login().value();
+                if (login.equals(change.previousDecisionsByFlow().login().value())) { return LateResultAction.NONE; }
+                return policy.actionFor(login);
+            }).orElse(LateResultAction.NONE);
+        }
+        if (!"assessment.updated".equals(event.type())) { return LateResultAction.NONE; }
         Optional<Assessment> assessment = event.assessment();
         if (!assessment.isPresent()) {
             return LateResultAction.NONE;
@@ -73,7 +83,9 @@ public final class LateResults {
         if (action == LateResultAction.NONE) {
             return new LateResult(event, LateResultAction.NONE, null);
         }
-        String accountId = event.assessment().orElseThrow().detail().accountId();
+        String accountId = "account.risk_changed".equals(event.type())
+                ? event.accountRiskChanged().orElseThrow().account().id()
+                : event.assessment().orElseThrow().detail().accountId();
         String userId = options.userId() != null ? options.userId().apply(accountId, event) : accountId;
         if (userId == null || userId.isEmpty()) {
             return new LateResult(event, LateResultAction.NONE, null);

@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v5.0.1'
+    implementation 'com.github.noresponsehq:java:v5.1.0'
 }
 ```
 
@@ -36,7 +36,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v5.0.1</version>
+  <version>v5.1.0</version>
 </dependency>
 ```
 
@@ -232,7 +232,7 @@ LateResult result = LateResults.handleLateResult(rawBody, headers, secrets,
     new ClerkActions(System.getenv("CLERK_SECRET_KEY")));
 ```
 
-An `account.risk_changed` event acts on nothing: the handler acts on the `assessment.updated` that changed the decision. A provider refusal throws `ProviderActionException`; answer 5xx so NoResponse retries. WorkOS has no block, so its `ban` deletes the user permanently.
+An `account.risk_changed` event acts on its new `login` decision when that decision changed; one that moved only another flow's decision acts on nothing. A provider refusal throws `ProviderActionException`; answer 5xx so NoResponse retries. WorkOS has no block, so its `ban` deletes the user permanently.
 
 If your app has its own login, `new LogOnlyActions()` logs what it would revoke or ban (at INFO on the `org.noresponse.lateresults` `System.Logger`, or pass a `Consumer<String>`) and calls nothing. Use it to try the handler, then implement `LateResultProvider` yourself: `name()`, `revokeSessions(userId)` and `ban(userId)`.
 

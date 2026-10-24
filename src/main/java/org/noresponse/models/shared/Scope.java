@@ -19,6 +19,7 @@ public class Scope {
 
     public static final Scope ASSESS = new Scope("assess");
     public static final Scope HISTORY = new Scope("history");
+    public static final Scope DELETE = new Scope("delete");
     public static final Scope WEBHOOKS = new Scope("webhooks");
     public static final Scope DETAILED = new Scope("detailed");
     public static final Scope INTEGRATIONS = new Scope("integrations");
@@ -94,6 +95,7 @@ public class Scope {
         Map<String, Scope> map = new LinkedHashMap<>();
         map.put("assess", ASSESS);
         map.put("history", HISTORY);
+        map.put("delete", DELETE);
         map.put("webhooks", WEBHOOKS);
         map.put("detailed", DETAILED);
         map.put("integrations", INTEGRATIONS);
@@ -104,6 +106,7 @@ public class Scope {
         Map<String, ScopeEnum> map = new HashMap<>();
         map.put("assess", ScopeEnum.ASSESS);
         map.put("history", ScopeEnum.HISTORY);
+        map.put("delete", ScopeEnum.DELETE);
         map.put("webhooks", ScopeEnum.WEBHOOKS);
         map.put("detailed", ScopeEnum.DETAILED);
         map.put("integrations", ScopeEnum.INTEGRATIONS);
@@ -114,6 +117,7 @@ public class Scope {
 
         ASSESS("assess"),
         HISTORY("history"),
+        DELETE("delete"),
         WEBHOOKS("webhooks"),
         DETAILED("detailed"),
         INTEGRATIONS("integrations"),

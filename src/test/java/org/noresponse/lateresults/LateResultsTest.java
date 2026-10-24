@@ -390,15 +390,15 @@ class LateResultsTest {
                 assertEquals(LateResultAction.NONE,
                         LateResults.handleLateResult(quiet.raw, quiet.headers, SECRETS, auth0, opts()).action());
             }
-            // account.risk_changed is verified and typed, and acts on nothing: the
-            // assessment.updated that moved the decision does.
+            // account.risk_changed carries a separate account decision.
             Delivery changed = new Delivery(fixture("valid/webhook-account-risk-changed.json").path("data"), null, false,
                     "account.risk_changed");
-            LateResult ignored = LateResults.handleLateResult(changed.raw, changed.headers, SECRETS, auth0, opts());
+            LateResultOptions noUser = LateResultOptions.builder().nowEpochSeconds(NOW).userId((a, e) -> null).build();
+            LateResult ignored = LateResults.handleLateResult(changed.raw, changed.headers, SECRETS, auth0, noUser);
             assertEquals(LateResultAction.NONE, ignored.action());
             assertEquals("account.risk_changed", ignored.event().type());
             assertEquals("review", ignored.event().accountRiskChanged().orElseThrow().account().decisionsByFlow().login().value());
-            assertEquals(LateResultAction.NONE, LateResults.lateResultAction(ignored.event(), LateResultPolicy.fromWire(Map.of("review", "ban"))));
+            assertEquals(LateResultAction.BAN, LateResults.lateResultAction(ignored.event(), LateResultPolicy.fromWire(Map.of("review", "ban"))));
             LateResultOptions unmapped = LateResultOptions.builder().nowEpochSeconds(NOW).userId((a, e) -> null).build();
             assertEquals(LateResultAction.NONE,
                     LateResults.handleLateResult(d.raw, d.headers, SECRETS, auth0, unmapped).action());

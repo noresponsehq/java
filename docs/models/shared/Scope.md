@@ -18,6 +18,7 @@ Scope custom = Scope.of("custom_value");
 | -------------- | -------------- |
 | `ASSESS`       | assess         |
 | `HISTORY`      | history        |
+| `DELETE`       | delete         |
 | `WEBHOOKS`     | webhooks       |
 | `DETAILED`     | detailed       |
 | `INTEGRATIONS` | integrations   |
