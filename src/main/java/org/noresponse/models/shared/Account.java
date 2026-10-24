@@ -56,13 +56,24 @@ public class Account {
     @JsonProperty("updated_at")
     private String updatedAt;
 
+    /**
+     * The version of the account's current risk. It increases every time the account's current risk or
+     * decisions_by_flow changes, and does not decrease. Of two copies of an account, the one with the
+     * higher risk_version is newer.
+     *
+     * <p>account.risk_changed carries the risk_version that its change made.
+     */
+    @JsonProperty("risk_version")
+    private long riskVersion;
+
     @JsonCreator
     public Account(
             @JsonProperty("id") @Nonnull String id,
             @JsonProperty("risk") @Nonnull AccountRisk risk,
             @JsonProperty("decisions_by_flow") @Nonnull AccountDecisionsByFlow decisionsByFlow,
             @JsonProperty("assessment_id") @Nonnull String assessmentId,
-            @JsonProperty("updated_at") @Nonnull String updatedAt) {
+            @JsonProperty("updated_at") @Nonnull String updatedAt,
+            @JsonProperty("risk_version") long riskVersion) {
         this.schemaVersion = Builder._SINGLETON_VALUE_SchemaVersion.value();
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.risk = Optional.ofNullable(risk).orElseThrow(() -> new IllegalArgumentException("risk cannot be null"));
@@ -72,6 +83,7 @@ public class Account {
                 .orElseThrow(() -> new IllegalArgumentException("assessmentId cannot be null"));
         this.updatedAt = Optional.ofNullable(updatedAt)
                 .orElseThrow(() -> new IllegalArgumentException("updatedAt cannot be null"));
+        this.riskVersion = riskVersion;
     }
 
     /**
@@ -112,6 +124,17 @@ public class Account {
      */
     public String updatedAt() {
         return this.updatedAt;
+    }
+
+    /**
+     * The version of the account's current risk. It increases every time the account's current risk or
+     * decisions_by_flow changes, and does not decrease. Of two copies of an account, the one with the
+     * higher risk_version is newer.
+     *
+     * <p>account.risk_changed carries the risk_version that its change made.
+     */
+    public long riskVersion() {
+        return this.riskVersion;
     }
 
     public static Builder builder() {
@@ -156,6 +179,18 @@ public class Account {
         return this;
     }
 
+    /**
+     * The version of the account's current risk. It increases every time the account's current risk or
+     * decisions_by_flow changes, and does not decrease. Of two copies of an account, the one with the
+     * higher risk_version is newer.
+     *
+     * <p>account.risk_changed carries the risk_version that its change made.
+     */
+    public Account withRiskVersion(long riskVersion) {
+        this.riskVersion = riskVersion;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -170,12 +205,13 @@ public class Account {
                 && Utils.enhancedDeepEquals(this.risk, other.risk)
                 && Utils.enhancedDeepEquals(this.decisionsByFlow, other.decisionsByFlow)
                 && Utils.enhancedDeepEquals(this.assessmentId, other.assessmentId)
-                && Utils.enhancedDeepEquals(this.updatedAt, other.updatedAt);
+                && Utils.enhancedDeepEquals(this.updatedAt, other.updatedAt)
+                && Utils.enhancedDeepEquals(this.riskVersion, other.riskVersion);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(schemaVersion, id, risk, decisionsByFlow, assessmentId, updatedAt);
+        return Utils.enhancedHash(schemaVersion, id, risk, decisionsByFlow, assessmentId, updatedAt, riskVersion);
     }
 
     @Override
@@ -193,7 +229,9 @@ public class Account {
                 "assessmentId",
                 assessmentId,
                 "updatedAt",
-                updatedAt);
+                updatedAt,
+                "riskVersion",
+                riskVersion);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -208,6 +246,8 @@ public class Account {
         private String assessmentId;
 
         private String updatedAt;
+
+        private long riskVersion;
 
         private Builder() {
             // force use of static builder() method
@@ -251,8 +291,20 @@ public class Account {
             return this;
         }
 
+        /**
+         * The version of the account's current risk. It increases every time the account's current risk or
+         * decisions_by_flow changes, and does not decrease. Of two copies of an account, the one with the
+         * higher risk_version is newer.
+         *
+         * <p>account.risk_changed carries the risk_version that its change made.
+         */
+        public Builder riskVersion(long riskVersion) {
+            this.riskVersion = riskVersion;
+            return this;
+        }
+
         public Account build() {
-            return new Account(id, risk, decisionsByFlow, assessmentId, updatedAt);
+            return new Account(id, risk, decisionsByFlow, assessmentId, updatedAt, riskVersion);
         }
 
         private static final LazySingletonValue<String> _SINGLETON_VALUE_SchemaVersion =
