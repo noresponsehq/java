@@ -12,26 +12,43 @@ import org.noresponse.utils.Utils;
  * AccountDecisionsByFlow
  *
  * <p>The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
- * has not set uses its account_creation thresholds, so the flows differ only where it set them.
+ * has not set uses its account_creation thresholds, so the flows differ only where it set them. The
+ * flow of the current assessment is held while that flow's admission is held and the assessment's
+ * investigation has not completed.
  */
 public class AccountDecisionsByFlow {
     /**
      * block when the score reached your block threshold (risk.block of the assessment), otherwise the
-     * assessment's recommendation. Your application applies it.
+     * assessment's recommendation. held only for a flow whose admission is held (settings
+     * flows.&lt;flow&gt;.admission), when the account's current assessment was made for that flow and its
+     * investigation has not completed (status partial): the final decision arrives as account.risk_changed
+     * when the investigation completes, decided by its score, or when the hold's deadline (hold_seconds
+     * after the assessment was created) passes first, as the flow's on_expiry action or the decision the
+     * evidence so far gives, whichever is stricter. Your application applies it.
      */
     @JsonProperty("account_creation")
     private AccountDecision accountCreation;
 
     /**
      * block when the score reached your block threshold (risk.block of the assessment), otherwise the
-     * assessment's recommendation. Your application applies it.
+     * assessment's recommendation. held only for a flow whose admission is held (settings
+     * flows.&lt;flow&gt;.admission), when the account's current assessment was made for that flow and its
+     * investigation has not completed (status partial): the final decision arrives as account.risk_changed
+     * when the investigation completes, decided by its score, or when the hold's deadline (hold_seconds
+     * after the assessment was created) passes first, as the flow's on_expiry action or the decision the
+     * evidence so far gives, whichever is stricter. Your application applies it.
      */
     @JsonProperty("login")
     private AccountDecision login;
 
     /**
      * block when the score reached your block threshold (risk.block of the assessment), otherwise the
-     * assessment's recommendation. Your application applies it.
+     * assessment's recommendation. held only for a flow whose admission is held (settings
+     * flows.&lt;flow&gt;.admission), when the account's current assessment was made for that flow and its
+     * investigation has not completed (status partial): the final decision arrives as account.risk_changed
+     * when the investigation completes, decided by its score, or when the hold's deadline (hold_seconds
+     * after the assessment was created) passes first, as the flow's on_expiry action or the decision the
+     * evidence so far gives, whichever is stricter. Your application applies it.
      */
     @JsonProperty("purchase")
     private AccountDecision purchase;
@@ -50,7 +67,12 @@ public class AccountDecisionsByFlow {
 
     /**
      * block when the score reached your block threshold (risk.block of the assessment), otherwise the
-     * assessment's recommendation. Your application applies it.
+     * assessment's recommendation. held only for a flow whose admission is held (settings
+     * flows.&lt;flow&gt;.admission), when the account's current assessment was made for that flow and its
+     * investigation has not completed (status partial): the final decision arrives as account.risk_changed
+     * when the investigation completes, decided by its score, or when the hold's deadline (hold_seconds
+     * after the assessment was created) passes first, as the flow's on_expiry action or the decision the
+     * evidence so far gives, whichever is stricter. Your application applies it.
      */
     public AccountDecision accountCreation() {
         return this.accountCreation;
@@ -58,7 +80,12 @@ public class AccountDecisionsByFlow {
 
     /**
      * block when the score reached your block threshold (risk.block of the assessment), otherwise the
-     * assessment's recommendation. Your application applies it.
+     * assessment's recommendation. held only for a flow whose admission is held (settings
+     * flows.&lt;flow&gt;.admission), when the account's current assessment was made for that flow and its
+     * investigation has not completed (status partial): the final decision arrives as account.risk_changed
+     * when the investigation completes, decided by its score, or when the hold's deadline (hold_seconds
+     * after the assessment was created) passes first, as the flow's on_expiry action or the decision the
+     * evidence so far gives, whichever is stricter. Your application applies it.
      */
     public AccountDecision login() {
         return this.login;
@@ -66,7 +93,12 @@ public class AccountDecisionsByFlow {
 
     /**
      * block when the score reached your block threshold (risk.block of the assessment), otherwise the
-     * assessment's recommendation. Your application applies it.
+     * assessment's recommendation. held only for a flow whose admission is held (settings
+     * flows.&lt;flow&gt;.admission), when the account's current assessment was made for that flow and its
+     * investigation has not completed (status partial): the final decision arrives as account.risk_changed
+     * when the investigation completes, decided by its score, or when the hold's deadline (hold_seconds
+     * after the assessment was created) passes first, as the flow's on_expiry action or the decision the
+     * evidence so far gives, whichever is stricter. Your application applies it.
      */
     public AccountDecision purchase() {
         return this.purchase;
@@ -78,7 +110,12 @@ public class AccountDecisionsByFlow {
 
     /**
      * block when the score reached your block threshold (risk.block of the assessment), otherwise the
-     * assessment's recommendation. Your application applies it.
+     * assessment's recommendation. held only for a flow whose admission is held (settings
+     * flows.&lt;flow&gt;.admission), when the account's current assessment was made for that flow and its
+     * investigation has not completed (status partial): the final decision arrives as account.risk_changed
+     * when the investigation completes, decided by its score, or when the hold's deadline (hold_seconds
+     * after the assessment was created) passes first, as the flow's on_expiry action or the decision the
+     * evidence so far gives, whichever is stricter. Your application applies it.
      */
     public AccountDecisionsByFlow withAccountCreation(@Nonnull AccountDecision accountCreation) {
         this.accountCreation = Utils.checkNotNull(accountCreation, "accountCreation");
@@ -87,7 +124,12 @@ public class AccountDecisionsByFlow {
 
     /**
      * block when the score reached your block threshold (risk.block of the assessment), otherwise the
-     * assessment's recommendation. Your application applies it.
+     * assessment's recommendation. held only for a flow whose admission is held (settings
+     * flows.&lt;flow&gt;.admission), when the account's current assessment was made for that flow and its
+     * investigation has not completed (status partial): the final decision arrives as account.risk_changed
+     * when the investigation completes, decided by its score, or when the hold's deadline (hold_seconds
+     * after the assessment was created) passes first, as the flow's on_expiry action or the decision the
+     * evidence so far gives, whichever is stricter. Your application applies it.
      */
     public AccountDecisionsByFlow withLogin(@Nonnull AccountDecision login) {
         this.login = Utils.checkNotNull(login, "login");
@@ -96,7 +138,12 @@ public class AccountDecisionsByFlow {
 
     /**
      * block when the score reached your block threshold (risk.block of the assessment), otherwise the
-     * assessment's recommendation. Your application applies it.
+     * assessment's recommendation. held only for a flow whose admission is held (settings
+     * flows.&lt;flow&gt;.admission), when the account's current assessment was made for that flow and its
+     * investigation has not completed (status partial): the final decision arrives as account.risk_changed
+     * when the investigation completes, decided by its score, or when the hold's deadline (hold_seconds
+     * after the assessment was created) passes first, as the flow's on_expiry action or the decision the
+     * evidence so far gives, whichever is stricter. Your application applies it.
      */
     public AccountDecisionsByFlow withPurchase(@Nonnull AccountDecision purchase) {
         this.purchase = Utils.checkNotNull(purchase, "purchase");
@@ -143,7 +190,12 @@ public class AccountDecisionsByFlow {
 
         /**
          * block when the score reached your block threshold (risk.block of the assessment), otherwise the
-         * assessment's recommendation. Your application applies it.
+         * assessment's recommendation. held only for a flow whose admission is held (settings
+         * flows.&lt;flow&gt;.admission), when the account's current assessment was made for that flow and its
+         * investigation has not completed (status partial): the final decision arrives as account.risk_changed
+         * when the investigation completes, decided by its score, or when the hold's deadline (hold_seconds
+         * after the assessment was created) passes first, as the flow's on_expiry action or the decision the
+         * evidence so far gives, whichever is stricter. Your application applies it.
          */
         public Builder accountCreation(@Nonnull AccountDecision accountCreation) {
             this.accountCreation = Utils.checkNotNull(accountCreation, "accountCreation");
@@ -152,7 +204,12 @@ public class AccountDecisionsByFlow {
 
         /**
          * block when the score reached your block threshold (risk.block of the assessment), otherwise the
-         * assessment's recommendation. Your application applies it.
+         * assessment's recommendation. held only for a flow whose admission is held (settings
+         * flows.&lt;flow&gt;.admission), when the account's current assessment was made for that flow and its
+         * investigation has not completed (status partial): the final decision arrives as account.risk_changed
+         * when the investigation completes, decided by its score, or when the hold's deadline (hold_seconds
+         * after the assessment was created) passes first, as the flow's on_expiry action or the decision the
+         * evidence so far gives, whichever is stricter. Your application applies it.
          */
         public Builder login(@Nonnull AccountDecision login) {
             this.login = Utils.checkNotNull(login, "login");
@@ -161,7 +218,12 @@ public class AccountDecisionsByFlow {
 
         /**
          * block when the score reached your block threshold (risk.block of the assessment), otherwise the
-         * assessment's recommendation. Your application applies it.
+         * assessment's recommendation. held only for a flow whose admission is held (settings
+         * flows.&lt;flow&gt;.admission), when the account's current assessment was made for that flow and its
+         * investigation has not completed (status partial): the final decision arrives as account.risk_changed
+         * when the investigation completes, decided by its score, or when the hold's deadline (hold_seconds
+         * after the assessment was created) passes first, as the flow's on_expiry action or the decision the
+         * evidence so far gives, whichever is stricter. Your application applies it.
          */
         public Builder purchase(@Nonnull AccountDecision purchase) {
             this.purchase = Utils.checkNotNull(purchase, "purchase");

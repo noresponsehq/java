@@ -16,7 +16,7 @@ public class SDKConfiguration {
 
     private static final String LANGUAGE = "java";
     public static final String OPENAPI_DOC_VERSION = "1";
-    public static final String SDK_VERSION = "7.0.0";
+    public static final String SDK_VERSION = "7.0.1";
     public static final String GEN_VERSION = "internal";
     private static final String BASE_PACKAGE = "org.noresponse";
     public static final String USER_AGENT = String.format(

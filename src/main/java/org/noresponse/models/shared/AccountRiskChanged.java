@@ -35,7 +35,9 @@ public class AccountRiskChanged {
 
     /**
      * The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
-     * has not set uses its account_creation thresholds, so the flows differ only where it set them.
+     * has not set uses its account_creation thresholds, so the flows differ only where it set them. The
+     * flow of the current assessment is held while that flow's admission is held and the assessment's
+     * investigation has not completed.
      */
     @JsonProperty("previous_decisions_by_flow")
     private AccountDecisionsByFlow previousDecisionsByFlow;
@@ -65,7 +67,9 @@ public class AccountRiskChanged {
 
     /**
      * The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
-     * has not set uses its account_creation thresholds, so the flows differ only where it set them.
+     * has not set uses its account_creation thresholds, so the flows differ only where it set them. The
+     * flow of the current assessment is held while that flow's admission is held and the assessment's
+     * investigation has not completed.
      */
     public AccountDecisionsByFlow previousDecisionsByFlow() {
         return this.previousDecisionsByFlow;
@@ -91,7 +95,9 @@ public class AccountRiskChanged {
 
     /**
      * The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
-     * has not set uses its account_creation thresholds, so the flows differ only where it set them.
+     * has not set uses its account_creation thresholds, so the flows differ only where it set them. The
+     * flow of the current assessment is held while that flow's admission is held and the assessment's
+     * investigation has not completed.
      */
     public AccountRiskChanged withPreviousDecisionsByFlow(@Nonnull AccountDecisionsByFlow previousDecisionsByFlow) {
         this.previousDecisionsByFlow = Utils.checkNotNull(previousDecisionsByFlow, "previousDecisionsByFlow");
@@ -149,7 +155,9 @@ public class AccountRiskChanged {
 
         /**
          * The decision for each flow: the account's score under that flow's thresholds. A flow the workspace
-         * has not set uses its account_creation thresholds, so the flows differ only where it set them.
+         * has not set uses its account_creation thresholds, so the flows differ only where it set them. The
+         * flow of the current assessment is held while that flow's admission is held and the assessment's
+         * investigation has not completed.
          */
         public Builder previousDecisionsByFlow(@Nonnull AccountDecisionsByFlow previousDecisionsByFlow) {
             this.previousDecisionsByFlow = Utils.checkNotNull(previousDecisionsByFlow, "previousDecisionsByFlow");

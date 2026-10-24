@@ -19,7 +19,12 @@ import java.util.Optional;
  * AccountDecision
  *
  * <p>block when the score reached your block threshold (risk.block of the assessment), otherwise the
- * assessment's recommendation. Your application applies it.
+ * assessment's recommendation. held only for a flow whose admission is held (settings
+ * flows.&lt;flow&gt;.admission), when the account's current assessment was made for that flow and its
+ * investigation has not completed (status partial): the final decision arrives as account.risk_changed
+ * when the investigation completes, decided by its score, or when the hold's deadline (hold_seconds
+ * after the assessment was created) passes first, as the flow's on_expiry action or the decision the
+ * evidence so far gives, whichever is stricter. Your application applies it.
  */
 public class AccountDecision {
 
@@ -27,6 +32,7 @@ public class AccountDecision {
     public static final AccountDecision STEP_UP = new AccountDecision("step_up");
     public static final AccountDecision REVIEW = new AccountDecision("review");
     public static final AccountDecision BLOCK = new AccountDecision("block");
+    public static final AccountDecision HELD = new AccountDecision("held");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -101,6 +107,7 @@ public class AccountDecision {
         map.put("step_up", STEP_UP);
         map.put("review", REVIEW);
         map.put("block", BLOCK);
+        map.put("held", HELD);
         return map;
     }
 
@@ -110,6 +117,7 @@ public class AccountDecision {
         map.put("step_up", AccountDecisionEnum.STEP_UP);
         map.put("review", AccountDecisionEnum.REVIEW);
         map.put("block", AccountDecisionEnum.BLOCK);
+        map.put("held", AccountDecisionEnum.HELD);
         return map;
     }
 
@@ -119,6 +127,7 @@ public class AccountDecision {
         STEP_UP("step_up"),
         REVIEW("review"),
         BLOCK("block"),
+        HELD("held"),
         ;
 
         private final String value;
