@@ -24,6 +24,7 @@ public class IntegrationPlatform {
 
     public static final IntegrationPlatform WORKOS = new IntegrationPlatform("workos");
     public static final IntegrationPlatform AUTH0 = new IntegrationPlatform("auth0");
+    public static final IntegrationPlatform SUPABASE = new IntegrationPlatform("supabase");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -96,6 +97,7 @@ public class IntegrationPlatform {
         Map<String, IntegrationPlatform> map = new LinkedHashMap<>();
         map.put("workos", WORKOS);
         map.put("auth0", AUTH0);
+        map.put("supabase", SUPABASE);
         return map;
     }
 
@@ -103,6 +105,7 @@ public class IntegrationPlatform {
         Map<String, IntegrationPlatformEnum> map = new HashMap<>();
         map.put("workos", IntegrationPlatformEnum.WORKOS);
         map.put("auth0", IntegrationPlatformEnum.AUTH0);
+        map.put("supabase", IntegrationPlatformEnum.SUPABASE);
         return map;
     }
 
@@ -110,6 +113,7 @@ public class IntegrationPlatform {
 
         WORKOS("workos"),
         AUTH0("auth0"),
+        SUPABASE("supabase"),
         ;
 
         private final String value;

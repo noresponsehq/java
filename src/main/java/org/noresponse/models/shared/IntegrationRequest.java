@@ -20,7 +20,9 @@ import org.noresponse.utils.Utils;
  * like any other unknown member.
  *
  * <p>A WorkOS integration needs signing_secret, the Actions secret shown in the WorkOS dashboard, which
- * NoResponse uses to verify each Action request and to sign its answer. An Auth0 integration sends no
+ * NoResponse uses to verify each Action request and to sign its answer. A Supabase integration needs
+ * signing_secret, the hook secret Supabase generates for a Before User Created HTTPS hook (v1,whsec_
+ * and base64), which NoResponse uses to verify each call. An Auth0 integration sends no
  * signing_secret: NoResponse generates the shared secret and returns it once.
  */
 public class IntegrationRequest {
@@ -31,17 +33,20 @@ public class IntegrationRequest {
     private IntegrationPlatform platform;
 
     /**
-     * The provider events the endpoint scores. Default both: pre_registration (WorkOS user registration
-     * Action, Auth0 pre-user-registration trigger) and post_login (WorkOS authentication Action, Auth0
-     * post-login trigger). An event that is not listed is answered allow without an assessment.
+     * The provider events the endpoint scores. Default every hook point the platform has: pre_registration
+     * (WorkOS user registration Action, Auth0 pre-user-registration trigger, Supabase Before User Created
+     * hook) and post_login (WorkOS authentication Action, Auth0 post-login trigger). Supabase has only
+     * pre_registration, so a Supabase integration that lists post_login is refused.
+     *
+     * <p>An event that is not listed is answered allow without an assessment.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("hook_points")
     private List<IntegrationHookPoint> hookPoints;
 
     /**
-     * The WorkOS Actions signing secret, as the WorkOS dashboard shows it: 16 to 256 printable ASCII
-     * characters with no spaces. It is stored sealed and is not returned.
+     * The WorkOS Actions signing secret or the Supabase hook secret, as the provider's dashboard shows it:
+     * 16 to 256 printable ASCII characters with no spaces. It is stored sealed and is not returned.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("signing_secret")
@@ -70,17 +75,20 @@ public class IntegrationRequest {
     }
 
     /**
-     * The provider events the endpoint scores. Default both: pre_registration (WorkOS user registration
-     * Action, Auth0 pre-user-registration trigger) and post_login (WorkOS authentication Action, Auth0
-     * post-login trigger). An event that is not listed is answered allow without an assessment.
+     * The provider events the endpoint scores. Default every hook point the platform has: pre_registration
+     * (WorkOS user registration Action, Auth0 pre-user-registration trigger, Supabase Before User Created
+     * hook) and post_login (WorkOS authentication Action, Auth0 post-login trigger). Supabase has only
+     * pre_registration, so a Supabase integration that lists post_login is refused.
+     *
+     * <p>An event that is not listed is answered allow without an assessment.
      */
     public Optional<List<IntegrationHookPoint>> hookPoints() {
         return Optional.ofNullable(this.hookPoints);
     }
 
     /**
-     * The WorkOS Actions signing secret, as the WorkOS dashboard shows it: 16 to 256 printable ASCII
-     * characters with no spaces. It is stored sealed and is not returned.
+     * The WorkOS Actions signing secret or the Supabase hook secret, as the provider's dashboard shows it:
+     * 16 to 256 printable ASCII characters with no spaces. It is stored sealed and is not returned.
      */
     public Optional<String> signingSecret() {
         return Optional.ofNullable(this.signingSecret);
@@ -99,9 +107,12 @@ public class IntegrationRequest {
     }
 
     /**
-     * The provider events the endpoint scores. Default both: pre_registration (WorkOS user registration
-     * Action, Auth0 pre-user-registration trigger) and post_login (WorkOS authentication Action, Auth0
-     * post-login trigger). An event that is not listed is answered allow without an assessment.
+     * The provider events the endpoint scores. Default every hook point the platform has: pre_registration
+     * (WorkOS user registration Action, Auth0 pre-user-registration trigger, Supabase Before User Created
+     * hook) and post_login (WorkOS authentication Action, Auth0 post-login trigger). Supabase has only
+     * pre_registration, so a Supabase integration that lists post_login is refused.
+     *
+     * <p>An event that is not listed is answered allow without an assessment.
      */
     public IntegrationRequest withHookPoints(@Nullable List<IntegrationHookPoint> hookPoints) {
         this.hookPoints = hookPoints;
@@ -109,8 +120,8 @@ public class IntegrationRequest {
     }
 
     /**
-     * The WorkOS Actions signing secret, as the WorkOS dashboard shows it: 16 to 256 printable ASCII
-     * characters with no spaces. It is stored sealed and is not returned.
+     * The WorkOS Actions signing secret or the Supabase hook secret, as the provider's dashboard shows it:
+     * 16 to 256 printable ASCII characters with no spaces. It is stored sealed and is not returned.
      */
     public IntegrationRequest withSigningSecret(@Nullable String signingSecret) {
         this.signingSecret = signingSecret;
@@ -170,9 +181,12 @@ public class IntegrationRequest {
         }
 
         /**
-         * The provider events the endpoint scores. Default both: pre_registration (WorkOS user registration
-         * Action, Auth0 pre-user-registration trigger) and post_login (WorkOS authentication Action, Auth0
-         * post-login trigger). An event that is not listed is answered allow without an assessment.
+         * The provider events the endpoint scores. Default every hook point the platform has: pre_registration
+         * (WorkOS user registration Action, Auth0 pre-user-registration trigger, Supabase Before User Created
+         * hook) and post_login (WorkOS authentication Action, Auth0 post-login trigger). Supabase has only
+         * pre_registration, so a Supabase integration that lists post_login is refused.
+         *
+         * <p>An event that is not listed is answered allow without an assessment.
          */
         public Builder hookPoints(@Nullable List<IntegrationHookPoint> hookPoints) {
             this.hookPoints = hookPoints;
@@ -180,8 +194,8 @@ public class IntegrationRequest {
         }
 
         /**
-         * The WorkOS Actions signing secret, as the WorkOS dashboard shows it: 16 to 256 printable ASCII
-         * characters with no spaces. It is stored sealed and is not returned.
+         * The WorkOS Actions signing secret or the Supabase hook secret, as the provider's dashboard shows it:
+         * 16 to 256 printable ASCII characters with no spaces. It is stored sealed and is not returned.
          */
         public Builder signingSecret(@Nullable String signingSecret) {
             this.signingSecret = signingSecret;

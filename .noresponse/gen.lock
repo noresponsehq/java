@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 3de8c05b3e053b374313eb653dacdf5b
+  docChecksum: 6024a7b17386757a6c50dc7eb2e5edef
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 7.1.5
-  configChecksum: f6830e4be630858a05a6bf55d24316ac
+  releaseVersion: 7.1.6
+  configChecksum: f313a55c48eb291c3f713b291a482d51
 features:
   java:
     additionalDependencies: 0.1.0
@@ -297,11 +297,11 @@ trackedFiles:
   docs/models/shared/IntegrationList.md:
     last_write_checksum: sha1:17addc4efde2aea910086d4b8cb3894694bcda69
   docs/models/shared/IntegrationPlatform.md:
-    last_write_checksum: sha1:4d6c310b4b025cc269139b464976b8963373f880
+    last_write_checksum: sha1:4fdabfc17b77e8c8a693e9204f6f1393f7439a6a
   docs/models/shared/IntegrationRequest.md:
-    last_write_checksum: sha1:27343837aa38d138ce7709ca08cab3f6a557c762
+    last_write_checksum: sha1:3fbb590e4039b5b8eda65ba0080834cf6e79700d
   docs/models/shared/IntegrationRotationRequest.md:
-    last_write_checksum: sha1:779299754cc9f6c3760e7a05b584ae1b011642af
+    last_write_checksum: sha1:5f82ca0397be7d08fe41efb69302a1c3b10f5893
   docs/models/shared/IpSummary.md:
     last_write_checksum: sha1:8e36c11443235e287b53fa6f710532cc298fd058
   docs/models/shared/IpSummaryType.md:
@@ -487,7 +487,7 @@ trackedFiles:
   docs/sdks/assessments/README.md:
     last_write_checksum: sha1:6d53a19fbbd309b193863dc63ba73110b71bf328
   docs/sdks/integrations/README.md:
-    last_write_checksum: sha1:1f85ea1eb21579346ab60b9bac46ed9e19ebdff9
+    last_write_checksum: sha1:06e34285f130ba04bf48f93b26716ee6f771f602
   docs/sdks/keys/README.md:
     last_write_checksum: sha1:5cdf0f02f4deb29b70f628b23670e9e2edfa7a45
   docs/sdks/keyusage/README.md:
@@ -499,7 +499,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:4b721f862be7187e7592c0a414f33079dab549c4
+    last_write_checksum: sha1:dff5ea6f13ca0436649febee7aa20b816978335d
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -521,27 +521,27 @@ trackedFiles:
   src/main/java/org/noresponse/AsyncAssessments.java:
     last_write_checksum: sha1:869e24af0ddf75053a256938f4c832b89bff949f
   src/main/java/org/noresponse/AsyncIntegrations.java:
-    last_write_checksum: sha1:57c0ae2eb28605f64272109fd48bb8ad06fde810
+    last_write_checksum: sha1:4a00dc1a1ee01fa512a93e393bb77be8c92cdda5
   src/main/java/org/noresponse/AsyncKeyUsage.java:
     last_write_checksum: sha1:f77312e7a35509c2625018b2479f444a9cc38a1d
   src/main/java/org/noresponse/AsyncKeys.java:
     last_write_checksum: sha1:741496f33d4485957026efdbbf133d7f713981c9
   src/main/java/org/noresponse/AsyncNoResponse.java:
-    last_write_checksum: sha1:5bde6aebc7d6392899e90e3e7b9c2ddb4f70a342
+    last_write_checksum: sha1:a49a2a5c54e686061b4c31bc39db940ccada235b
   src/main/java/org/noresponse/AsyncSettings.java:
     last_write_checksum: sha1:c79b0ba80c423f3d9e784aeacca85050e13552e6
   src/main/java/org/noresponse/AsyncWebhookEndpoints.java:
     last_write_checksum: sha1:a973f874ca4cf3a693b7221cab14256996fd960e
   src/main/java/org/noresponse/Integrations.java:
-    last_write_checksum: sha1:f4df195f9a424de06cdca64af37f35f1d91563d1
+    last_write_checksum: sha1:5519815150df2536ccb68ec7b4ec441145b7ae09
   src/main/java/org/noresponse/KeyUsage.java:
     last_write_checksum: sha1:dd31c627b1739df08a817ad9814bf431938d4716
   src/main/java/org/noresponse/Keys.java:
     last_write_checksum: sha1:f2414fcfd370b311c010c413da3a89d9d52c3285
   src/main/java/org/noresponse/NoResponse.java:
-    last_write_checksum: sha1:c947b98b3affcfa22b6d10b89607f5393af6eeb4
+    last_write_checksum: sha1:8170ffa18bbdf350b7652e964fa4878ad09545aa
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:18c24ad92d278cd9b3519647415a961b1a1b909e
+    last_write_checksum: sha1:6bf4f5c0a184dab94c71346780a7c8829a60e861
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -985,11 +985,11 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/IntegrationList.java:
     last_write_checksum: sha1:75cfd6490486e73c3b4efe809ff7970f04f4e3b8
   src/main/java/org/noresponse/models/shared/IntegrationPlatform.java:
-    last_write_checksum: sha1:5f05a3f34cb5f43d7e005724bdf755f43ada145d
+    last_write_checksum: sha1:4a94979c79538beaba06885e846a7e7e8ad93644
   src/main/java/org/noresponse/models/shared/IntegrationRequest.java:
-    last_write_checksum: sha1:214280384b73c23079f5d8cc34e374fdd8a0a039
+    last_write_checksum: sha1:aa2dcddf66f3cd8d09e8df23b2ebde41266ed45b
   src/main/java/org/noresponse/models/shared/IntegrationRotationRequest.java:
-    last_write_checksum: sha1:6d4d60c33ca8837175c209826e55a8cbb2cae36e
+    last_write_checksum: sha1:47037affb6858539468a6fcbe3bc4646472d6697
   src/main/java/org/noresponse/models/shared/IpSummary.java:
     last_write_checksum: sha1:2b4674056becc95bd56a228fb05321ea1f24fe44
   src/main/java/org/noresponse/models/shared/IpSummaryType.java:
@@ -1884,6 +1884,24 @@ examples:
       responses:
         "201":
           application/json: {"integration_id": "int_01JA2Z9M3R5T8W1YBCDEFGHJKN", "platform": "workos", "hook_points": ["pre_registration", "post_login"], "url": "https://api.noresponse.org/hooks/int_01JA2Z9M3R5T8W1YBCDEFGHJKN", "created_at": "2026-10-14T09:05:00.000Z"}
+    supabase:
+      requestBody:
+        application/json: {"platform": "supabase", "signing_secret": "v1,whsec_dGVzdC1zdXBhYmFzZS1ob29rLXNlY3JldC1ub3QtcmVhbA=="}
+      responses:
+        "201":
+          application/json: {"integration_id": "int_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "platform": "supabase", "hook_points": ["post_login"], "url": "https://api.noresponse.org/hooks/int_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "secret": "nri_k3Yx8pQ2mN7vR4tW6zB9cD1eF5gH0jL4sP9uV2wX7yA", "created_at": "2026-10-14T09:00:00.000Z", "rotated_at": "2026-10-15T09:00:00.000Z", "previous_secret_expires_at": "2026-10-16T09:00:00.000Z"}
+        "400":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 400, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "invalid_request", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "401":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 401, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "unauthorized", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "403":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 403, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "role_forbidden", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "404":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 404, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "not_found", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "409":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 409, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "risk_version_ahead", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "429":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 429, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "rate_limited", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
   listIntegrations:
     list:
       responses:

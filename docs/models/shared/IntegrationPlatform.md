@@ -16,7 +16,8 @@ IntegrationPlatform custom = IntegrationPlatform.of("custom_value");
 
 ## Values
 
-| Name     | Value    |
-| -------- | -------- |
-| `WORKOS` | workos   |
-| `AUTH0`  | auth0    |
+| Name       | Value      |
+| ---------- | ---------- |
+| `WORKOS`   | workos     |
+| `AUTH0`    | auth0      |
+| `SUPABASE` | supabase   |

@@ -50,18 +50,20 @@ public class Integrations {
     /**
      * Register a hosted provider integration.
      *
-     * <p>Registers a WorkOS or Auth0 integration and returns its hosted endpoint, url, so a sign-up or
-     * sign-in is scored with no server of your own. For WorkOS, send the Actions signing secret from the
-     * WorkOS dashboard and point the user registration and authentication Actions at url. For Auth0, the
-     * answer's secret is the shared secret of the NoResponse Auth0 Action, shown once: store it as an
-     * Action secret.
+     * <p>Registers a WorkOS, Auth0 or Supabase integration and returns its hosted endpoint, url, so a sign-up
+     * or sign-in is scored with no server of your own. For WorkOS, send the Actions signing secret from
+     * the WorkOS dashboard and point the user registration and authentication Actions at url. For
+     * Supabase, send the hook secret Supabase generates (v1,whsec_...) and set url as the Before User
+     * Created hook's HTTPS endpoint.
      *
-     * <p>hook_points defaults to both pre_registration and post_login; an event that is not listed is allowed
-     * without an assessment. The endpoint waits for the full assessment for at most 2.5 seconds (WorkOS)
-     * or 4.5 seconds (Auth0), denies only when risk.block is true and allows on any failure. Requires the
-     * integrations scope; at most 10 per account.
+     * <p>For Auth0, the answer's secret is the shared secret of the NoResponse Auth0 Action, shown once:
+     * store it as an Action secret. hook_points defaults to every hook point the platform has (Supabase
+     * has only pre_registration); an event that is not listed is allowed without an assessment. The
+     * endpoint waits for the full assessment for at most 2.5 seconds (WorkOS, Supabase) or 4.5 seconds
+     * (Auth0), denies only when risk.block is true and allows on any failure.
      *
-     * <p>Not idempotent: a retry after a lost answer registers another integration.
+     * <p>Requires the integrations scope; at most 10 per account. Not idempotent: a retry after a lost answer
+     * registers another integration.
      *
      * @return The call builder
      */
@@ -72,18 +74,20 @@ public class Integrations {
     /**
      * Register a hosted provider integration.
      *
-     * <p>Registers a WorkOS or Auth0 integration and returns its hosted endpoint, url, so a sign-up or
-     * sign-in is scored with no server of your own. For WorkOS, send the Actions signing secret from the
-     * WorkOS dashboard and point the user registration and authentication Actions at url. For Auth0, the
-     * answer's secret is the shared secret of the NoResponse Auth0 Action, shown once: store it as an
-     * Action secret.
+     * <p>Registers a WorkOS, Auth0 or Supabase integration and returns its hosted endpoint, url, so a sign-up
+     * or sign-in is scored with no server of your own. For WorkOS, send the Actions signing secret from
+     * the WorkOS dashboard and point the user registration and authentication Actions at url. For
+     * Supabase, send the hook secret Supabase generates (v1,whsec_...) and set url as the Before User
+     * Created hook's HTTPS endpoint.
      *
-     * <p>hook_points defaults to both pre_registration and post_login; an event that is not listed is allowed
-     * without an assessment. The endpoint waits for the full assessment for at most 2.5 seconds (WorkOS)
-     * or 4.5 seconds (Auth0), denies only when risk.block is true and allows on any failure. Requires the
-     * integrations scope; at most 10 per account.
+     * <p>For Auth0, the answer's secret is the shared secret of the NoResponse Auth0 Action, shown once:
+     * store it as an Action secret. hook_points defaults to every hook point the platform has (Supabase
+     * has only pre_registration); an event that is not listed is allowed without an assessment. The
+     * endpoint waits for the full assessment for at most 2.5 seconds (WorkOS, Supabase) or 4.5 seconds
+     * (Auth0), denies only when risk.block is true and allows on any failure.
      *
-     * <p>Not idempotent: a retry after a lost answer registers another integration.
+     * <p>Requires the integrations scope; at most 10 per account. Not idempotent: a retry after a lost answer
+     * registers another integration.
      *
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -184,7 +188,8 @@ public class Integrations {
      * Replace an integration's secret.
      *
      * <p>For Auth0, send {} and the answer's secret is the new shared secret, shown once. For WorkOS,
-     * regenerate the Actions secret in the WorkOS dashboard and send it as signing_secret. The replaced
+     * regenerate the Actions secret in the WorkOS dashboard and send it as signing_secret; for Supabase,
+     * generate a new hook secret in the Supabase dashboard and send it as signing_secret. The replaced
      * secret is still accepted for 24 hours (previous_secret_expires_at).
      *
      * <p>Requires the integrations scope. Not idempotent: a retry after a lost answer rotates again.
@@ -199,13 +204,14 @@ public class Integrations {
      * Replace an integration's secret.
      *
      * <p>For Auth0, send {} and the answer's secret is the new shared secret, shown once. For WorkOS,
-     * regenerate the Actions secret in the WorkOS dashboard and send it as signing_secret. The replaced
+     * regenerate the Actions secret in the WorkOS dashboard and send it as signing_secret; for Supabase,
+     * generate a new hook secret in the Supabase dashboard and send it as signing_secret. The replaced
      * secret is still accepted for 24 hours (previous_secret_expires_at).
      *
      * <p>Requires the integrations scope. Not idempotent: a retry after a lost answer rotates again.
      *
      * @param integrationId Path segment, matched case-sensitively. A value that does not match the integration_id shape, or another workspace's id, answers 404.
-     * @param body POST /v1/integrations/{integration_id}/rotate body. For an Auth0 integration send {}: NoResponse generates a new shared secret and returns it once. For a WorkOS integration send the new signing_secret after regenerating it in the WorkOS dashboard. Either way the previous secret is still accepted for 24 hours, so the provider can be switched over without a refused call.
+     * @param body POST /v1/integrations/{integration_id}/rotate body. For an Auth0 integration send {}: NoResponse generates a new shared secret and returns it once. For a WorkOS or Supabase integration send the new signing_secret after regenerating it in the provider's dashboard. Either way the previous secret is still accepted for 24 hours, so the provider can be switched over without a refused call.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
