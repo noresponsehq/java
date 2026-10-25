@@ -18,13 +18,15 @@ import java.util.Optional;
 /**
  * Lane
  *
- * <p>An evidence lane: accounts (account presence for email and username), phone, breach and ip.
+ * <p>An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
+ * email domain's registration) and ip.
  */
 public class Lane {
 
     public static final Lane ACCOUNTS = new Lane("accounts");
     public static final Lane PHONE = new Lane("phone");
     public static final Lane BREACH = new Lane("breach");
+    public static final Lane DOMAIN = new Lane("domain");
     public static final Lane IP = new Lane("ip");
 
     // This map will grow whenever a Color gets created with a new
@@ -99,6 +101,7 @@ public class Lane {
         map.put("accounts", ACCOUNTS);
         map.put("phone", PHONE);
         map.put("breach", BREACH);
+        map.put("domain", DOMAIN);
         map.put("ip", IP);
         return map;
     }
@@ -108,6 +111,7 @@ public class Lane {
         map.put("accounts", LaneEnum.ACCOUNTS);
         map.put("phone", LaneEnum.PHONE);
         map.put("breach", LaneEnum.BREACH);
+        map.put("domain", LaneEnum.DOMAIN);
         map.put("ip", LaneEnum.IP);
         return map;
     }
@@ -117,6 +121,7 @@ public class Lane {
         ACCOUNTS("accounts"),
         PHONE("phone"),
         BREACH("breach"),
+        DOMAIN("domain"),
         IP("ip"),
         ;
 

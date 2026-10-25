@@ -16,7 +16,8 @@ import org.noresponse.utils.Utils;
  */
 public class IncompleteSource {
     /**
-     * An evidence lane: accounts (account presence for email and username), phone, breach and ip.
+     * An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
+     * email domain's registration) and ip.
      */
     @JsonProperty("lane")
     private Lane lane;
@@ -39,7 +40,8 @@ public class IncompleteSource {
     }
 
     /**
-     * An evidence lane: accounts (account presence for email and username), phone, breach and ip.
+     * An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
+     * email domain's registration) and ip.
      */
     public Lane lane() {
         return this.lane;
@@ -60,7 +62,8 @@ public class IncompleteSource {
     }
 
     /**
-     * An evidence lane: accounts (account presence for email and username), phone, breach and ip.
+     * An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
+     * email domain's registration) and ip.
      */
     public IncompleteSource withLane(@Nonnull Lane lane) {
         this.lane = Utils.checkNotNull(lane, "lane");
@@ -112,7 +115,8 @@ public class IncompleteSource {
         }
 
         /**
-         * An evidence lane: accounts (account presence for email and username), phone, breach and ip.
+         * An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
+         * email domain's registration) and ip.
          */
         public Builder lane(@Nonnull Lane lane) {
             this.lane = Utils.checkNotNull(lane, "lane");
