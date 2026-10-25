@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v7.1.2'
+    implementation 'com.github.noresponsehq:java:v7.1.3'
 }
 ```
 
@@ -39,7 +39,7 @@ dependencies {
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v7.1.2</version>
+  <version>v7.1.3</version>
 </dependency>
 ```
 
@@ -250,7 +250,7 @@ try {
 
 ### Late enforcement
 
-`account.risk_changed` only wakes your handler. `LateResults.handleRiskChange` (in `org.noresponse.lateresults`) verifies the delivery with `Webhook.constructEvent`, reads the account's current risk with `accounts().get`, asks your `getAccountState` where the account is in your own flow, and acts on the decision of that state's flow: an `onboarding` account fails onboarding, a `provisional` one is refused activation, an `active` one is restricted on `block` and has its sessions revoked on `review` or `block`. Each action, or `none`, is recorded with `accounts().recordEnforcement` at the `riskVersion` read. The rules and the Clerk, WorkOS and Auth0 calls come from one table shared by every SDK, and nothing deletes a user: WorkOS has no ban, so it writes `noresponse_state` to the user's metadata (gate sign-in on it) and revokes the sessions.
+`account.risk_changed` only wakes your handler. `LateResults.handleRiskChange` (in `org.noresponse.lateresults`) verifies the delivery with `Webhook.constructEvent`, reads the account's current risk with `accounts().get`, asks your `getAccountState` where the account is in your own flow, and acts on the decision of that state's flow: an `onboarding` account fails onboarding, a `provisional` one is refused activation, an `active` one is restricted on `block` and has its sessions revoked on `review` or `block`. Each action, or `none`, is recorded with `accounts().recordEnforcement` at the `riskVersion` read. The rules and the Clerk, WorkOS and Auth0 calls come from one table shared by every SDK, and nothing deletes a user: WorkOS has no ban on a user, so it writes `noresponse_state` to the user's metadata (gate sign-in on it) and revokes the sessions.
 
 ```java
 var options = new LateResults.EnforcementOptions(
