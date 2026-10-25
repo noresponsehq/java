@@ -62,6 +62,8 @@ public class ReasonCode {
     public static final ReasonCode YOUNG_EMAIL_DOMAIN = new ReasonCode("young_email_domain");
     public static final ReasonCode EMAIL_DOMAIN_NO_MX = new ReasonCode("email_domain_no_mx");
     public static final ReasonCode EMAIL_DOMAIN_NONEXISTENT = new ReasonCode("email_domain_nonexistent");
+    public static final ReasonCode FORUM_SANCTIONED = new ReasonCode("forum_sanctioned");
+    public static final ReasonCode PRIOR_PAYMENT_ABUSE = new ReasonCode("prior_payment_abuse");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -172,6 +174,8 @@ public class ReasonCode {
         map.put("young_email_domain", YOUNG_EMAIL_DOMAIN);
         map.put("email_domain_no_mx", EMAIL_DOMAIN_NO_MX);
         map.put("email_domain_nonexistent", EMAIL_DOMAIN_NONEXISTENT);
+        map.put("forum_sanctioned", FORUM_SANCTIONED);
+        map.put("prior_payment_abuse", PRIOR_PAYMENT_ABUSE);
         return map;
     }
 
@@ -217,6 +221,8 @@ public class ReasonCode {
         map.put("young_email_domain", ReasonCodeEnum.YOUNG_EMAIL_DOMAIN);
         map.put("email_domain_no_mx", ReasonCodeEnum.EMAIL_DOMAIN_NO_MX);
         map.put("email_domain_nonexistent", ReasonCodeEnum.EMAIL_DOMAIN_NONEXISTENT);
+        map.put("forum_sanctioned", ReasonCodeEnum.FORUM_SANCTIONED);
+        map.put("prior_payment_abuse", ReasonCodeEnum.PRIOR_PAYMENT_ABUSE);
         return map;
     }
 
@@ -262,6 +268,8 @@ public class ReasonCode {
         YOUNG_EMAIL_DOMAIN("young_email_domain"),
         EMAIL_DOMAIN_NO_MX("email_domain_no_mx"),
         EMAIL_DOMAIN_NONEXISTENT("email_domain_nonexistent"),
+        FORUM_SANCTIONED("forum_sanctioned"),
+        PRIOR_PAYMENT_ABUSE("prior_payment_abuse"),
         ;
 
         private final String value;
