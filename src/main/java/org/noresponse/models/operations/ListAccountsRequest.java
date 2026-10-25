@@ -26,8 +26,8 @@ public class ListAccountsRequest {
     private Long limit;
 
     /**
-     * true lists only accounts with a decision other than allow for some flow and no applied enforcement
-     * at their current risk_version.
+     * true lists only accounts with no applied enforcement at their current risk_version that have a
+     * decision other than allow for some flow or a hold no later applied enforcement resolved.
      */
     @NoResponseMetadata("queryParam:style=form,explode=true,name=unenforced")
     private Boolean unenforced;
@@ -58,8 +58,8 @@ public class ListAccountsRequest {
     }
 
     /**
-     * true lists only accounts with a decision other than allow for some flow and no applied enforcement
-     * at their current risk_version.
+     * true lists only accounts with no applied enforcement at their current risk_version that have a
+     * decision other than allow for some flow or a hold no later applied enforcement resolved.
      */
     public Optional<Boolean> unenforced() {
         return Optional.ofNullable(this.unenforced);
@@ -86,8 +86,8 @@ public class ListAccountsRequest {
     }
 
     /**
-     * true lists only accounts with a decision other than allow for some flow and no applied enforcement
-     * at their current risk_version.
+     * true lists only accounts with no applied enforcement at their current risk_version that have a
+     * decision other than allow for some flow or a hold no later applied enforcement resolved.
      */
     public ListAccountsRequest withUnenforced(@Nullable Boolean unenforced) {
         this.unenforced = unenforced;
@@ -149,8 +149,8 @@ public class ListAccountsRequest {
         }
 
         /**
-         * true lists only accounts with a decision other than allow for some flow and no applied enforcement
-         * at their current risk_version.
+         * true lists only accounts with no applied enforcement at their current risk_version that have a
+         * decision other than allow for some flow or a hold no later applied enforcement resolved.
          */
         public Builder unenforced(@Nullable Boolean unenforced) {
             this.unenforced = unenforced;

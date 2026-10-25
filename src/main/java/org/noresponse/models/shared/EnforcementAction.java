@@ -21,7 +21,8 @@ import java.util.Optional;
  * <p>What the workspace did in its identity provider: revoke_sessions (signed the account out
  * everywhere), restrict (limited what the account can do), unrestrict (lifted an earlier restriction),
  * fail_onboarding (stopped an account that was still onboarding), reject_activation (refused to
- * activate a provisional account) or none (decided to take no action).
+ * activate a provisional account), activate (let a held onboarding or provisional account in) or none
+ * (decided to take no action).
  */
 public class EnforcementAction {
 
@@ -30,6 +31,7 @@ public class EnforcementAction {
     public static final EnforcementAction UNRESTRICT = new EnforcementAction("unrestrict");
     public static final EnforcementAction FAIL_ONBOARDING = new EnforcementAction("fail_onboarding");
     public static final EnforcementAction REJECT_ACTIVATION = new EnforcementAction("reject_activation");
+    public static final EnforcementAction ACTIVATE = new EnforcementAction("activate");
     public static final EnforcementAction NONE = new EnforcementAction("none");
 
     // This map will grow whenever a Color gets created with a new
@@ -106,6 +108,7 @@ public class EnforcementAction {
         map.put("unrestrict", UNRESTRICT);
         map.put("fail_onboarding", FAIL_ONBOARDING);
         map.put("reject_activation", REJECT_ACTIVATION);
+        map.put("activate", ACTIVATE);
         map.put("none", NONE);
         return map;
     }
@@ -117,6 +120,7 @@ public class EnforcementAction {
         map.put("unrestrict", EnforcementActionEnum.UNRESTRICT);
         map.put("fail_onboarding", EnforcementActionEnum.FAIL_ONBOARDING);
         map.put("reject_activation", EnforcementActionEnum.REJECT_ACTIVATION);
+        map.put("activate", EnforcementActionEnum.ACTIVATE);
         map.put("none", EnforcementActionEnum.NONE);
         return map;
     }
@@ -128,6 +132,7 @@ public class EnforcementAction {
         UNRESTRICT("unrestrict"),
         FAIL_ONBOARDING("fail_onboarding"),
         REJECT_ACTIVATION("reject_activation"),
+        ACTIVATE("activate"),
         NONE("none"),
         ;
 

@@ -114,7 +114,7 @@ public class Accounts {
      *
      * @param changedSince next_cursor from an earlier page, unchanged. Absent, the list starts from the oldest change.
      * @param limit Most accounts per page.
-     * @param unenforced true lists only accounts with a decision other than allow for some flow and no applied enforcement at their current risk_version.
+     * @param unenforced true lists only accounts with no applied enforcement at their current risk_version that have a decision other than allow for some flow or a hold no later applied enforcement resolved.
      * @param options additional options
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails

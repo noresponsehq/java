@@ -58,7 +58,8 @@ public class Enforcement {
      * What the workspace did in its identity provider: revoke_sessions (signed the account out
      * everywhere), restrict (limited what the account can do), unrestrict (lifted an earlier restriction),
      * fail_onboarding (stopped an account that was still onboarding), reject_activation (refused to
-     * activate a provisional account) or none (decided to take no action).
+     * activate a provisional account), activate (let a held onboarding or provisional account in) or none
+     * (decided to take no action).
      */
     @JsonProperty("action")
     private EnforcementAction action;
@@ -178,7 +179,8 @@ public class Enforcement {
      * What the workspace did in its identity provider: revoke_sessions (signed the account out
      * everywhere), restrict (limited what the account can do), unrestrict (lifted an earlier restriction),
      * fail_onboarding (stopped an account that was still onboarding), reject_activation (refused to
-     * activate a provisional account) or none (decided to take no action).
+     * activate a provisional account), activate (let a held onboarding or provisional account in) or none
+     * (decided to take no action).
      */
     public EnforcementAction action() {
         return this.action;
@@ -268,7 +270,8 @@ public class Enforcement {
      * What the workspace did in its identity provider: revoke_sessions (signed the account out
      * everywhere), restrict (limited what the account can do), unrestrict (lifted an earlier restriction),
      * fail_onboarding (stopped an account that was still onboarding), reject_activation (refused to
-     * activate a provisional account) or none (decided to take no action).
+     * activate a provisional account), activate (let a held onboarding or provisional account in) or none
+     * (decided to take no action).
      */
     public Enforcement withAction(@Nonnull EnforcementAction action) {
         this.action = Utils.checkNotNull(action, "action");
@@ -440,7 +443,8 @@ public class Enforcement {
          * What the workspace did in its identity provider: revoke_sessions (signed the account out
          * everywhere), restrict (limited what the account can do), unrestrict (lifted an earlier restriction),
          * fail_onboarding (stopped an account that was still onboarding), reject_activation (refused to
-         * activate a provisional account) or none (decided to take no action).
+         * activate a provisional account), activate (let a held onboarding or provisional account in) or none
+         * (decided to take no action).
          */
         public Builder action(@Nonnull EnforcementAction action) {
             this.action = Utils.checkNotNull(action, "action");

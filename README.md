@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v7.1.0'
+    implementation 'com.github.noresponsehq:java:v7.1.1'
 }
 ```
 
@@ -36,7 +36,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v7.1.0</version>
+  <version>v7.1.1</version>
 </dependency>
 ```
 
@@ -244,7 +244,7 @@ LateResults.EnforcementResult result = LateResults.handleRiskChange(client, rawB
 
 Store `result.riskVersion()` and return it as `enforcedRiskVersion`, so a replayed or older event changes nothing. A provider refusal is recorded as failed and thrown as `ProviderActionException`; answer 5xx so NoResponse delivers it again. To catch up, pass each account from `accounts().listChanged()` with `unenforced` true to `LateResults.enforceAccount`. For your own user store, `LateResults.customProvider(Map.of("restrict", userId -> ...))` runs one handler per action.
 
-A held flow (workspace settings `admission: held`) answers `held` until its investigation completes or `hold_seconds` pass, and the handler records `none` for it. When the final decision arrives as `account.risk_changed`, an `onboarding` or `provisional` account fails onboarding or is refused activation on `review` or `block`. On `allow` the handler does nothing, so admit the account yourself from the result's account. See https://docs.noresponse.org/guides/late-results.
+A held flow (workspace settings `admission: held`) answers `held` until its investigation completes or `hold_seconds` pass, and the handler records `none` for it. When the final decision arrives as `account.risk_changed`, an `onboarding` or `provisional` account fails onboarding or is refused activation on `review` or `block`. On `allow` the handler records `activate` (no provider call; a custom provider runs its own `activate`), so admit the account when the result's enforcements hold it. An account at `allow` that needs no change, such as an `active` one after a held login, is recorded as `none`. Either way the account leaves the unenforced list. See https://docs.noresponse.org/guides/late-results.
 
 ## Renamed since 2.0.0
 
