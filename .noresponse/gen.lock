@@ -5,8 +5,8 @@ management:
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 7.0.7
-  configChecksum: cb889bd543eed72ba468ae2f86fb49bc
+  releaseVersion: 7.0.8
+  configChecksum: 020d42e132236cc85802a62858c58aa8
 features:
   java:
     additionalDependencies: 0.1.0
@@ -389,7 +389,7 @@ trackedFiles:
   docs/models/shared/WebhookEndpointState.md:
     last_write_checksum: sha1:93334b410fd3f3a5ff73570de73b55a7504ea09f
   docs/models/shared/WebhookEvent.md:
-    last_write_checksum: sha1:65c1eafb37f6ca047494d82610bf79d8e3b07ed1
+    last_write_checksum: sha1:ca49ecc0776fa007b2d05724a49b65a797bf5053
   docs/models/shared/WebhookKeyRotation.md:
     last_write_checksum: sha1:0663fc26f832bd915cb51f150ab7b3476152ad0e
   docs/models/shared/WebhookKeyRotationRequest.md:
@@ -441,7 +441,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:ce6208c140bf22f82153e9ad8fb533cb78db2e9f
+    last_write_checksum: sha1:7beae8f924f4edb7bf6d4db92f5f681ff7517a1f
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -481,7 +481,7 @@ trackedFiles:
   src/main/java/org/noresponse/NoResponse.java:
     last_write_checksum: sha1:5b15379be191ae0a62bc1e8897b36cf629641480
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:42160e144d42324b055c03a00353e47206b5fdfc
+    last_write_checksum: sha1:ccdd194199b01704ae2a3d6b03f23a665a8179ab
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/WebhookEndpoints.java:

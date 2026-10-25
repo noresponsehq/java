@@ -1,5 +1,9 @@
 # Changelog
 
+## 7.0.8
+
+No changes detected.
+
 ## 7.0.7
 
 No changes detected.
