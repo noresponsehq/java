@@ -1,14 +1,14 @@
-# Scope
+# KeyScope
 
 ## Example Usage
 
 ```java
-import org.noresponse.models.shared.Scope;
+import org.noresponse.models.shared.KeyScope;
 
-Scope value = Scope.ASSESS;
+KeyScope value = KeyScope.ASSESS;
 
 // Open enum: use .of() to create instances from custom string values
-Scope custom = Scope.of("custom_value");
+KeyScope custom = KeyScope.of("custom_value");
 ```
 
 
@@ -22,3 +22,4 @@ Scope custom = Scope.of("custom_value");
 | `WEBHOOKS`     | webhooks       |
 | `DETAILED`     | detailed       |
 | `INTEGRATIONS` | integrations   |
+| `MANAGEMENT`   | management     |

@@ -30,6 +30,8 @@ public class ConflictErrorCode {
             new ConflictErrorCode("webhook_endpoint_unverified");
     public static final ConflictErrorCode TOO_MANY_INTEGRATIONS = new ConflictErrorCode("too_many_integrations");
     public static final ConflictErrorCode RISK_VERSION_AHEAD = new ConflictErrorCode("risk_version_ahead");
+    public static final ConflictErrorCode KEY_LIMIT_REACHED = new ConflictErrorCode("key_limit_reached");
+    public static final ConflictErrorCode SELF_REVOCATION = new ConflictErrorCode("self_revocation");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -106,6 +108,8 @@ public class ConflictErrorCode {
         map.put("webhook_endpoint_unverified", WEBHOOK_ENDPOINT_UNVERIFIED);
         map.put("too_many_integrations", TOO_MANY_INTEGRATIONS);
         map.put("risk_version_ahead", RISK_VERSION_AHEAD);
+        map.put("key_limit_reached", KEY_LIMIT_REACHED);
+        map.put("self_revocation", SELF_REVOCATION);
         return map;
     }
 
@@ -117,6 +121,8 @@ public class ConflictErrorCode {
         map.put("webhook_endpoint_unverified", ConflictErrorCodeEnum.WEBHOOK_ENDPOINT_UNVERIFIED);
         map.put("too_many_integrations", ConflictErrorCodeEnum.TOO_MANY_INTEGRATIONS);
         map.put("risk_version_ahead", ConflictErrorCodeEnum.RISK_VERSION_AHEAD);
+        map.put("key_limit_reached", ConflictErrorCodeEnum.KEY_LIMIT_REACHED);
+        map.put("self_revocation", ConflictErrorCodeEnum.SELF_REVOCATION);
         return map;
     }
 
@@ -128,6 +134,8 @@ public class ConflictErrorCode {
         WEBHOOK_ENDPOINT_UNVERIFIED("webhook_endpoint_unverified"),
         TOO_MANY_INTEGRATIONS("too_many_integrations"),
         RISK_VERSION_AHEAD("risk_version_ahead"),
+        KEY_LIMIT_REACHED("key_limit_reached"),
+        SELF_REVOCATION("self_revocation"),
         ;
 
         private final String value;

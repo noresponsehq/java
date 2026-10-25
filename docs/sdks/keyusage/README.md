@@ -82,7 +82,6 @@ import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.RecordKeyUsageResponse;
 import org.noresponse.models.shared.KeyUsageBatchRequest;
-import org.noresponse.models.shared.KeyUsageEvent;
 
 public class Application {
 
@@ -95,14 +94,7 @@ public class Application {
         RecordKeyUsageResponse res = sdk.keyUsage().record()
                 .idempotencyKey("account-acct_7f3a9c")
                 .body(KeyUsageBatchRequest.builder()
-                    .events(List.of(
-                        KeyUsageEvent.builder()
-                            .keySha256("2bdbf5c72f2a36df0ef40fb92203612274d4546f56dba946070a6a79c2401a1b")
-                            .ip("203.0.113.24")
-                            .occurredAt("2026-10-23T09:14:07.000Z")
-                            .userAgent("python-requests/2.32.3")
-                            .model("gpt-4o-mini")
-                            .build()))
+                    .events(List.of())
                     .build())
                 .call();
 

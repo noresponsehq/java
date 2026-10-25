@@ -33,7 +33,7 @@ public class KeyRotation {
      * The scopes of the new key: those of the presented key.
      */
     @JsonProperty("scopes")
-    private List<Scope> scopes;
+    private List<KeyRotationScope> scopes;
 
     @JsonProperty("created_at")
     private String createdAt;
@@ -54,7 +54,7 @@ public class KeyRotation {
     public KeyRotation(
             @JsonProperty("key") @Nonnull String key,
             @JsonProperty("key_id") @Nonnull String keyId,
-            @JsonProperty("scopes") @Nonnull List<Scope> scopes,
+            @JsonProperty("scopes") @Nonnull List<KeyRotationScope> scopes,
             @JsonProperty("created_at") @Nonnull String createdAt,
             @JsonProperty("previous_key_id") @Nonnull String previousKeyId,
             @JsonProperty("previous_key_expires_at") @Nonnull String previousKeyExpiresAt) {
@@ -88,7 +88,7 @@ public class KeyRotation {
     /**
      * The scopes of the new key: those of the presented key.
      */
-    public List<Scope> scopes() {
+    public List<KeyRotationScope> scopes() {
         return this.scopes;
     }
 
@@ -134,7 +134,7 @@ public class KeyRotation {
     /**
      * The scopes of the new key: those of the presented key.
      */
-    public KeyRotation withScopes(@Nonnull List<Scope> scopes) {
+    public KeyRotation withScopes(@Nonnull List<KeyRotationScope> scopes) {
         this.scopes = Utils.checkNotNull(scopes, "scopes");
         return this;
     }
@@ -207,7 +207,7 @@ public class KeyRotation {
 
         private String keyId;
 
-        private List<Scope> scopes;
+        private List<KeyRotationScope> scopes;
 
         private String createdAt;
 
@@ -239,7 +239,7 @@ public class KeyRotation {
         /**
          * The scopes of the new key: those of the presented key.
          */
-        public Builder scopes(@Nonnull List<Scope> scopes) {
+        public Builder scopes(@Nonnull List<KeyRotationScope> scopes) {
             this.scopes = Utils.checkNotNull(scopes, "scopes");
             return this;
         }

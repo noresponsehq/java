@@ -19,3 +19,4 @@ PermissionDeniedErrorCode custom = PermissionDeniedErrorCode.of("custom_value");
 | Name                  | Value                 |
 | --------------------- | --------------------- |
 | `WORKSPACE_FORBIDDEN` | workspace_forbidden   |
+| `ROLE_FORBIDDEN`      | role_forbidden        |

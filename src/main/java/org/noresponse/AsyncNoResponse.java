@@ -36,6 +36,8 @@ public class AsyncNoResponse {
      * Your webhook endpoints: register, list, rotate signing keys, send test events and delete.
      */
     private final AsyncWebhookEndpoints webhookEndpoints;
+
+    private final AsyncSettings settings;
     /**
      * Assessments of account creation, login and purchase.
      */
@@ -71,6 +73,10 @@ public class AsyncNoResponse {
         return webhookEndpoints;
     }
 
+    public AsyncSettings settings() {
+        return settings;
+    }
+
     private SDKConfiguration sdkConfiguration;
     private final NoResponse syncSDK;
 
@@ -83,6 +89,7 @@ public class AsyncNoResponse {
         this.keys = new AsyncKeys(syncSDK.keys(), sdkConfiguration);
         this.integrations = new AsyncIntegrations(syncSDK.integrations(), sdkConfiguration);
         this.webhookEndpoints = new AsyncWebhookEndpoints(syncSDK.webhookEndpoints(), sdkConfiguration);
+        this.settings = new AsyncSettings(syncSDK.settings(), sdkConfiguration);
     }
 
     /**

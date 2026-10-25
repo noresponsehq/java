@@ -24,6 +24,7 @@ public class PermissionDeniedErrorCode {
 
     public static final PermissionDeniedErrorCode WORKSPACE_FORBIDDEN =
             new PermissionDeniedErrorCode("workspace_forbidden");
+    public static final PermissionDeniedErrorCode ROLE_FORBIDDEN = new PermissionDeniedErrorCode("role_forbidden");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -95,18 +96,21 @@ public class PermissionDeniedErrorCode {
     private static final Map<String, PermissionDeniedErrorCode> createValuesMap() {
         Map<String, PermissionDeniedErrorCode> map = new LinkedHashMap<>();
         map.put("workspace_forbidden", WORKSPACE_FORBIDDEN);
+        map.put("role_forbidden", ROLE_FORBIDDEN);
         return map;
     }
 
     private static final Map<String, PermissionDeniedErrorCodeEnum> createEnumsMap() {
         Map<String, PermissionDeniedErrorCodeEnum> map = new HashMap<>();
         map.put("workspace_forbidden", PermissionDeniedErrorCodeEnum.WORKSPACE_FORBIDDEN);
+        map.put("role_forbidden", PermissionDeniedErrorCodeEnum.ROLE_FORBIDDEN);
         return map;
     }
 
     public enum PermissionDeniedErrorCodeEnum {
 
         WORKSPACE_FORBIDDEN("workspace_forbidden"),
+        ROLE_FORBIDDEN("role_forbidden"),
         ;
 
         private final String value;
