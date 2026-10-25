@@ -1,14 +1,16 @@
-<img src="https://raw.githubusercontent.com/noresponsehq/.github/main/profile/sdk-header.png" alt="NoResponse" width="100%">
+<a href="https://noresponse.org"><img src="https://raw.githubusercontent.com/noresponsehq/.github/main/profile/sdk-header.png" alt="NoResponse · Identity Intelligence" width="100%"></a>
 
-# NoResponse Java SDK
+# NoResponse for Java
 
-The Java client for the [NoResponse API](https://docs.noresponse.org): assess an account creation, login or purchase, wait for a pending result, page through an account's history, record what you later learned and verify webhooks.
+Assess sign-ups, logins and purchases with the NoResponse Identity Intelligence API.
 
-Call it from your server only. The API key must never reach a browser or an app.
+Java 11+ · Gradle and Maven through JitPack.
+
+[Documentation](https://docs.noresponse.org/sdks/java) · [API reference](https://docs.noresponse.org/api-reference) · [Releases](https://github.com/noresponsehq/java/releases)
 
 ## Install
 
-Java 11 or later. The SDK is built by [JitPack](https://jitpack.io/#noresponsehq/java) from the tagged release.
+[JitPack](https://jitpack.io/#noresponsehq/java) builds the SDK from the tagged release.
 
 Gradle:
 
@@ -19,11 +21,12 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v7.1.1'
+    implementation 'com.github.noresponsehq:java:v7.1.2'
 }
 ```
 
-Maven:
+<details>
+<summary>Use Maven instead</summary>
 
 ```xml
 <repositories>
@@ -36,9 +39,11 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v7.1.1</version>
+  <version>v7.1.2</version>
 </dependency>
 ```
+
+</details>
 
 ## Quick start
 
@@ -83,6 +88,19 @@ public class Signup {
 A builder with no `apiKey(...)` reads the key from `NORESPONSE_API_KEY`, so `NoResponse.builder().build()` works too.
 
 Act on `account().get().risk().decision()`: `allow`, `step_up`, `review` or `block` (the tenant's block threshold was reached), decided for the request's `flow` (`SIGNUP`, `LOGIN` or `PURCHASE`). This assessment's own facts (score, recommendation, signals, `assessmentVersion()`) are under `detail()`. `account()` is empty while the account's first assessment is pending, and a 429, a 503 or a timeout also needs your own fallback.
+
+## Go further
+
+| Task | Guide |
+| --- | --- |
+| Configure this client and explore its methods | [Java SDK guide](https://docs.noresponse.org/sdks/java) |
+| Act when an account's decision changes | [Late results](https://docs.noresponse.org/guides/late-results) |
+| Explore request and response fields | [API reference](https://docs.noresponse.org/api-reference) |
+
+<details>
+<summary><strong>SDK reference</strong> · configuration, methods, errors and webhooks</summary>
+
+[Methods](#methods) · [Idempotency keys](#idempotency-keys) · [Errors](#errors) · [Retries and timeouts](#retries-and-timeouts) · [Paging](#paging) · [Issued keys](#issued-keys) · [Webhooks](#webhooks) · [Renamed since 2.0.0](#renamed-since-200)
 
 ## Methods
 
@@ -260,3 +278,12 @@ The error classes now follow the Java convention of ending in `Exception`:
 | `RateLimitError` | `RateLimitException` |
 
 They stay in `org.noresponse.models.errors`. New: `IdempotencyKey.generate()` and `AllAssessments.stream(...)`. Requests now time out after 60 seconds and connections after 10; 2.0.0 had no timeout.
+
+</details>
+
+## Support
+
+[Open an issue](https://github.com/noresponsehq/java/issues) and include the request ID from the response or error.
+Keep API keys and personal data out of issues.
+
+[Apache-2.0](LICENSE).
