@@ -121,7 +121,7 @@ WebhookEvent value = AccountRiskChangedEvent.builder()
                 .decision(AccountDecision.HELD)
                 .reasons(List.of(
                     AccountRiskReason.builder()
-                        .code(ReasonCode.PROXY_IP)
+                        .code(ReasonCode.SHARED_IP)
                         .weight(327234L)
                         .build()))
                 .build())

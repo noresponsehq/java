@@ -64,6 +64,12 @@ public class ReasonCode {
     public static final ReasonCode EMAIL_DOMAIN_NONEXISTENT = new ReasonCode("email_domain_nonexistent");
     public static final ReasonCode FORUM_SANCTIONED = new ReasonCode("forum_sanctioned");
     public static final ReasonCode PRIOR_PAYMENT_ABUSE = new ReasonCode("prior_payment_abuse");
+    public static final ReasonCode IP_HISTORY_MATCH = new ReasonCode("ip_history_match");
+    public static final ReasonCode IDENTITY_ATTRIBUTE_CONFLICT = new ReasonCode("identity_attribute_conflict");
+    public static final ReasonCode IMPOSSIBLE_IDENTITY_AGE = new ReasonCode("impossible_identity_age");
+    public static final ReasonCode BREACH_SHARED_IP = new ReasonCode("breach_shared_ip");
+    public static final ReasonCode NATIONALITY_MISMATCH = new ReasonCode("nationality_mismatch");
+    public static final ReasonCode MINOR_IDENTITY = new ReasonCode("minor_identity");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -176,6 +182,12 @@ public class ReasonCode {
         map.put("email_domain_nonexistent", EMAIL_DOMAIN_NONEXISTENT);
         map.put("forum_sanctioned", FORUM_SANCTIONED);
         map.put("prior_payment_abuse", PRIOR_PAYMENT_ABUSE);
+        map.put("ip_history_match", IP_HISTORY_MATCH);
+        map.put("identity_attribute_conflict", IDENTITY_ATTRIBUTE_CONFLICT);
+        map.put("impossible_identity_age", IMPOSSIBLE_IDENTITY_AGE);
+        map.put("breach_shared_ip", BREACH_SHARED_IP);
+        map.put("nationality_mismatch", NATIONALITY_MISMATCH);
+        map.put("minor_identity", MINOR_IDENTITY);
         return map;
     }
 
@@ -223,6 +235,12 @@ public class ReasonCode {
         map.put("email_domain_nonexistent", ReasonCodeEnum.EMAIL_DOMAIN_NONEXISTENT);
         map.put("forum_sanctioned", ReasonCodeEnum.FORUM_SANCTIONED);
         map.put("prior_payment_abuse", ReasonCodeEnum.PRIOR_PAYMENT_ABUSE);
+        map.put("ip_history_match", ReasonCodeEnum.IP_HISTORY_MATCH);
+        map.put("identity_attribute_conflict", ReasonCodeEnum.IDENTITY_ATTRIBUTE_CONFLICT);
+        map.put("impossible_identity_age", ReasonCodeEnum.IMPOSSIBLE_IDENTITY_AGE);
+        map.put("breach_shared_ip", ReasonCodeEnum.BREACH_SHARED_IP);
+        map.put("nationality_mismatch", ReasonCodeEnum.NATIONALITY_MISMATCH);
+        map.put("minor_identity", ReasonCodeEnum.MINOR_IDENTITY);
         return map;
     }
 
@@ -270,6 +288,12 @@ public class ReasonCode {
         EMAIL_DOMAIN_NONEXISTENT("email_domain_nonexistent"),
         FORUM_SANCTIONED("forum_sanctioned"),
         PRIOR_PAYMENT_ABUSE("prior_payment_abuse"),
+        IP_HISTORY_MATCH("ip_history_match"),
+        IDENTITY_ATTRIBUTE_CONFLICT("identity_attribute_conflict"),
+        IMPOSSIBLE_IDENTITY_AGE("impossible_identity_age"),
+        BREACH_SHARED_IP("breach_shared_ip"),
+        NATIONALITY_MISMATCH("nationality_mismatch"),
+        MINOR_IDENTITY("minor_identity"),
         ;
 
         private final String value;

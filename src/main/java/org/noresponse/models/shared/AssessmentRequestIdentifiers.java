@@ -48,7 +48,8 @@ public class AssessmentRequestIdentifiers {
 
     /**
      * The full name as the user typed it, 1 to 128 characters with no control or invisible characters. It
-     * is used only to match names in the evidence.
+     * is searched in breach data and matched against names in the evidence. A row holding the signup's own
+     * email or username confirms the name; rows sharing another identifier add to the identity's history.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("name")
@@ -116,7 +117,8 @@ public class AssessmentRequestIdentifiers {
 
     /**
      * The full name as the user typed it, 1 to 128 characters with no control or invisible characters. It
-     * is used only to match names in the evidence.
+     * is searched in breach data and matched against names in the evidence. A row holding the signup's own
+     * email or username confirms the name; rows sharing another identifier add to the identity's history.
      */
     public Optional<String> name() {
         return Optional.ofNullable(this.name);
@@ -173,7 +175,8 @@ public class AssessmentRequestIdentifiers {
 
     /**
      * The full name as the user typed it, 1 to 128 characters with no control or invisible characters. It
-     * is used only to match names in the evidence.
+     * is searched in breach data and matched against names in the evidence. A row holding the signup's own
+     * email or username confirms the name; rows sharing another identifier add to the identity's history.
      */
     public AssessmentRequestIdentifiers withName(@Nullable String name) {
         this.name = name;
@@ -282,7 +285,8 @@ public class AssessmentRequestIdentifiers {
 
         /**
          * The full name as the user typed it, 1 to 128 characters with no control or invisible characters. It
-         * is used only to match names in the evidence.
+         * is searched in breach data and matched against names in the evidence. A row holding the signup's own
+         * email or username confirms the name; rows sharing another identifier add to the identity's history.
          */
         public Builder name(@Nullable String name) {
             this.name = name;

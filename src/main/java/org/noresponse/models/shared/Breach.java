@@ -64,8 +64,8 @@ public class Breach {
     private Long month;
 
     /**
-     * The submitted identifier a breach table matched on: email or username. Phone and name are not breach
-     * selectors.
+     * The submitted email or username whose own search matched the table. A submitted full name is
+     * searched as well, and what it finds feeds the identity's reasons rather than this list.
      */
     @JsonProperty("matched_on")
     private BreachSelector matchedOn;
@@ -144,8 +144,8 @@ public class Breach {
     }
 
     /**
-     * The submitted identifier a breach table matched on: email or username. Phone and name are not breach
-     * selectors.
+     * The submitted email or username whose own search matched the table. A submitted full name is
+     * searched as well, and what it finds feeds the identity's reasons rather than this list.
      */
     public BreachSelector matchedOn() {
         return this.matchedOn;
@@ -210,8 +210,8 @@ public class Breach {
     }
 
     /**
-     * The submitted identifier a breach table matched on: email or username. Phone and name are not breach
-     * selectors.
+     * The submitted email or username whose own search matched the table. A submitted full name is
+     * searched as well, and what it finds feeds the identity's reasons rather than this list.
      */
     public Breach withMatchedOn(@Nonnull BreachSelector matchedOn) {
         this.matchedOn = Utils.checkNotNull(matchedOn, "matchedOn");
@@ -343,8 +343,8 @@ public class Breach {
         }
 
         /**
-         * The submitted identifier a breach table matched on: email or username. Phone and name are not breach
-         * selectors.
+         * The submitted email or username whose own search matched the table. A submitted full name is
+         * searched as well, and what it finds feeds the identity's reasons rather than this list.
          */
         public Builder matchedOn(@Nonnull BreachSelector matchedOn) {
             this.matchedOn = Utils.checkNotNull(matchedOn, "matchedOn");
