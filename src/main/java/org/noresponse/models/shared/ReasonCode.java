@@ -59,6 +59,9 @@ public class ReasonCode {
     public static final ReasonCode PRIOR_ABUSE_LINK = new ReasonCode("prior_abuse_link");
     public static final ReasonCode TEST_SCENARIO = new ReasonCode("test_scenario");
     public static final ReasonCode SHARED_API_KEY = new ReasonCode("shared_api_key");
+    public static final ReasonCode YOUNG_EMAIL_DOMAIN = new ReasonCode("young_email_domain");
+    public static final ReasonCode EMAIL_DOMAIN_NO_MX = new ReasonCode("email_domain_no_mx");
+    public static final ReasonCode EMAIL_DOMAIN_NONEXISTENT = new ReasonCode("email_domain_nonexistent");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -166,6 +169,9 @@ public class ReasonCode {
         map.put("prior_abuse_link", PRIOR_ABUSE_LINK);
         map.put("test_scenario", TEST_SCENARIO);
         map.put("shared_api_key", SHARED_API_KEY);
+        map.put("young_email_domain", YOUNG_EMAIL_DOMAIN);
+        map.put("email_domain_no_mx", EMAIL_DOMAIN_NO_MX);
+        map.put("email_domain_nonexistent", EMAIL_DOMAIN_NONEXISTENT);
         return map;
     }
 
@@ -208,6 +214,9 @@ public class ReasonCode {
         map.put("prior_abuse_link", ReasonCodeEnum.PRIOR_ABUSE_LINK);
         map.put("test_scenario", ReasonCodeEnum.TEST_SCENARIO);
         map.put("shared_api_key", ReasonCodeEnum.SHARED_API_KEY);
+        map.put("young_email_domain", ReasonCodeEnum.YOUNG_EMAIL_DOMAIN);
+        map.put("email_domain_no_mx", ReasonCodeEnum.EMAIL_DOMAIN_NO_MX);
+        map.put("email_domain_nonexistent", ReasonCodeEnum.EMAIL_DOMAIN_NONEXISTENT);
         return map;
     }
 
@@ -250,6 +259,9 @@ public class ReasonCode {
         PRIOR_ABUSE_LINK("prior_abuse_link"),
         TEST_SCENARIO("test_scenario"),
         SHARED_API_KEY("shared_api_key"),
+        YOUNG_EMAIL_DOMAIN("young_email_domain"),
+        EMAIL_DOMAIN_NO_MX("email_domain_no_mx"),
+        EMAIL_DOMAIN_NONEXISTENT("email_domain_nonexistent"),
         ;
 
         private final String value;
