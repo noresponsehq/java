@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v7.0.1'
+    implementation 'com.github.noresponsehq:java:v7.0.2'
 }
 ```
 
@@ -36,7 +36,7 @@ Maven:
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v7.0.1</version>
+  <version>v7.0.2</version>
 </dependency>
 ```
 
@@ -209,7 +209,7 @@ try {
         if (updated.test().orElse(false)) {
             // sendTestEvent's fixed example assessment: answer 2xx and apply nothing
         } else {
-            updated.data().assessment().ifPresent(a -> { /* the full assessment, as get returns it */ });
+            // any other assessment.updated reports progress only: apply nothing
             updated.data().assessmentExpired().ifPresent(e -> { /* delete what you hold for e.assessmentId() */ });
         }
     } else if (event instanceof AccountDeletedEvent) {
@@ -219,15 +219,15 @@ try {
     } else if (event instanceof WebhookEndpointDisabledEvent) {
         // data().endpointId() failed for 72 hours: fix it, verify it again
     } else if (event instanceof AccountRiskChangedEvent) {
-        /* account.risk_changed: data().account() is the Account accounts().get returns, with its new
-           decisionsByFlow(); data().previousDecisionsByFlow() holds the decisions it replaced */
+        /* account.risk_changed, the one event to act on: a flow's decision changed, at
+           data().account().riskVersion(). This verifier alone does not enforce it: use handleRiskChange (below) as this endpoint's receiver. */
     }
 } catch (WebhookVerificationException e) {
     // answer 400 and do not process the delivery
 }
 ```
 
-`Webhook` and `WebhookVerificationException` are in `org.noresponse.webhookverification`; `WebhookEvent`, its event classes and `WebhookVerificationResponse` are in `org.noresponse.models.shared`. A header that is absent or has no value is refused with `Code.MISSING_HEADER`, a repeated one with `Code.DUPLICATE_HEADER`. `constructEvent(payload, headers, secrets, tolerance, now)` takes a `Duration` and an `Instant`. Deliveries arrive at least once and unordered. Deduplicate on the event's `id()` and keep the highest `detail().assessmentVersion()` per assessment.
+`Webhook` and `WebhookVerificationException` are in `org.noresponse.webhookverification`; `WebhookEvent`, its event classes and `WebhookVerificationResponse` are in `org.noresponse.models.shared`. A header that is absent or has no value is refused with `Code.MISSING_HEADER`, a repeated one with `Code.DUPLICATE_HEADER`. `constructEvent(payload, headers, secrets, tolerance, now)` takes a `Duration` and an `Instant`. Deliveries arrive at least once and unordered. Deduplicate on the event's `id()`, and act on `account.risk_changed` through the account's current risk.
 
 
 ### Late enforcement
@@ -243,6 +243,8 @@ LateResults.EnforcementResult result = LateResults.handleRiskChange(client, rawB
 ```
 
 Store `result.riskVersion()` and return it as `enforcedRiskVersion`, so a replayed or older event changes nothing. A provider refusal is recorded as failed and thrown as `ProviderActionException`; answer 5xx so NoResponse delivers it again. To catch up, pass each account from `accounts().listChanged()` with `unenforced` true to `LateResults.enforceAccount`. For your own user store, `LateResults.customProvider(Map.of("restrict", userId -> ...))` runs one handler per action.
+
+A held flow (workspace settings `admission: held`) answers `held` until its investigation completes or `hold_seconds` pass, and the handler records `none` for it. When the final decision arrives as `account.risk_changed`, an `onboarding` or `provisional` account fails onboarding or is refused activation on `review` or `block`. On `allow` the handler does nothing, so admit the account yourself from the result's account. See https://docs.noresponse.org/guides/late-results.
 
 ## Renamed since 2.0.0
 
