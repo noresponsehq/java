@@ -39,18 +39,29 @@ public class RiskDetails {
     @JsonProperty("breach_names")
     private List<RiskDetailsBreachName> breachNames;
 
+    /**
+     * The identity's dated footprint events, newest first, at most 100: the year and month, what happened
+     * (created, last_active, breached), the site, its category, the kind of evidence and the identifier it
+     * belongs to. No breach value: dates are coarsened to the month.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("events")
+    private List<RiskDetailsEvent> events;
+
     @JsonCreator
     public RiskDetails(
             @JsonProperty("phone_names") @Nullable List<RiskDetailsPhoneName> phoneNames,
             @JsonProperty("breaches") @Nullable List<Breach> breaches,
-            @JsonProperty("breach_names") @Nullable List<RiskDetailsBreachName> breachNames) {
+            @JsonProperty("breach_names") @Nullable List<RiskDetailsBreachName> breachNames,
+            @JsonProperty("events") @Nullable List<RiskDetailsEvent> events) {
         this.phoneNames = phoneNames;
         this.breaches = breaches;
         this.breachNames = breachNames;
+        this.events = events;
     }
 
     public RiskDetails() {
-        this(null, null, null);
+        this(null, null, null, null);
     }
 
     public Optional<List<RiskDetailsPhoneName>> phoneNames() {
@@ -70,6 +81,15 @@ public class RiskDetails {
      */
     public Optional<List<RiskDetailsBreachName>> breachNames() {
         return Optional.ofNullable(this.breachNames);
+    }
+
+    /**
+     * The identity's dated footprint events, newest first, at most 100: the year and month, what happened
+     * (created, last_active, breached), the site, its category, the kind of evidence and the identifier it
+     * belongs to. No breach value: dates are coarsened to the month.
+     */
+    public Optional<List<RiskDetailsEvent>> events() {
+        return Optional.ofNullable(this.events);
     }
 
     public static Builder builder() {
@@ -98,6 +118,16 @@ public class RiskDetails {
         return this;
     }
 
+    /**
+     * The identity's dated footprint events, newest first, at most 100: the year and month, what happened
+     * (created, last_active, breached), the site, its category, the kind of evidence and the identifier it
+     * belongs to. No breach value: dates are coarsened to the month.
+     */
+    public RiskDetails withEvents(@Nullable List<RiskDetailsEvent> events) {
+        this.events = events;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -109,18 +139,27 @@ public class RiskDetails {
         RiskDetails other = (RiskDetails) o;
         return Utils.enhancedDeepEquals(this.phoneNames, other.phoneNames)
                 && Utils.enhancedDeepEquals(this.breaches, other.breaches)
-                && Utils.enhancedDeepEquals(this.breachNames, other.breachNames);
+                && Utils.enhancedDeepEquals(this.breachNames, other.breachNames)
+                && Utils.enhancedDeepEquals(this.events, other.events);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(phoneNames, breaches, breachNames);
+        return Utils.enhancedHash(phoneNames, breaches, breachNames, events);
     }
 
     @Override
     public String toString() {
         return Utils.toString(
-                RiskDetails.class, "phoneNames", phoneNames, "breaches", breaches, "breachNames", breachNames);
+                RiskDetails.class,
+                "phoneNames",
+                phoneNames,
+                "breaches",
+                breaches,
+                "breachNames",
+                breachNames,
+                "events",
+                events);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -131,6 +170,8 @@ public class RiskDetails {
         private List<Breach> breaches;
 
         private List<RiskDetailsBreachName> breachNames;
+
+        private List<RiskDetailsEvent> events;
 
         private Builder() {
             // force use of static builder() method
@@ -158,8 +199,18 @@ public class RiskDetails {
             return this;
         }
 
+        /**
+         * The identity's dated footprint events, newest first, at most 100: the year and month, what happened
+         * (created, last_active, breached), the site, its category, the kind of evidence and the identifier it
+         * belongs to. No breach value: dates are coarsened to the month.
+         */
+        public Builder events(@Nullable List<RiskDetailsEvent> events) {
+            this.events = events;
+            return this;
+        }
+
         public RiskDetails build() {
-            return new RiskDetails(phoneNames, breaches, breachNames);
+            return new RiskDetails(phoneNames, breaches, breachNames, events);
         }
     }
 }

@@ -29,7 +29,9 @@ public class AccountRisk {
     private AccountDecision decision;
 
     /**
-     * Every reason that fired, highest weight first. The weights sum to score before clamping.
+     * Every reason that fired: risk-raising reasons first, then neutral, then risk-lowering, each
+     * strongest impact band first and then by code. The policy's numeric weights are kept private, so a
+     * reason carries only its direction and impact band.
      */
     @JsonProperty("reasons")
     private List<AccountRiskReason> reasons;
@@ -67,7 +69,9 @@ public class AccountRisk {
     }
 
     /**
-     * Every reason that fired, highest weight first. The weights sum to score before clamping.
+     * Every reason that fired: risk-raising reasons first, then neutral, then risk-lowering, each
+     * strongest impact band first and then by code. The policy's numeric weights are kept private, so a
+     * reason carries only its direction and impact band.
      */
     public List<AccountRiskReason> reasons() {
         return this.reasons;
@@ -100,7 +104,9 @@ public class AccountRisk {
     }
 
     /**
-     * Every reason that fired, highest weight first. The weights sum to score before clamping.
+     * Every reason that fired: risk-raising reasons first, then neutral, then risk-lowering, each
+     * strongest impact band first and then by code. The policy's numeric weights are kept private, so a
+     * reason carries only its direction and impact band.
      */
     public AccountRisk withReasons(@Nonnull List<AccountRiskReason> reasons) {
         this.reasons = Utils.checkNotNull(reasons, "reasons");
@@ -167,7 +173,9 @@ public class AccountRisk {
         }
 
         /**
-         * Every reason that fired, highest weight first. The weights sum to score before clamping.
+         * Every reason that fired: risk-raising reasons first, then neutral, then risk-lowering, each
+         * strongest impact band first and then by code. The policy's numeric weights are kept private, so a
+         * reason carries only its direction and impact band.
          */
         public Builder reasons(@Nonnull List<AccountRiskReason> reasons) {
             this.reasons = Utils.checkNotNull(reasons, "reasons");

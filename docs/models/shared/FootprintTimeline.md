@@ -1,0 +1,15 @@
+# FootprintTimeline
+
+One identifier's dated footprint across every source: the first and last year any event was seen, the years between them, the latest year a source dated activity (omitted when none did), how many distinct sites and which kinds of evidence saw it.
+
+
+## Fields
+
+| Field                                                            | Setter Type                                                      | Getter Type                                                      | Required                                                         | Description                                                      |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `firstSeenYear`                                                  | *long*                                                           | *long*                                                           | :heavy_check_mark:                                               | N/A                                                              |
+| `lastSeenYear`                                                   | *long*                                                           | *long*                                                           | :heavy_check_mark:                                               | N/A                                                              |
+| `spanYears`                                                      | *long*                                                           | *long*                                                           | :heavy_check_mark:                                               | N/A                                                              |
+| `lastActiveYear`                                                 | @Nullable *long*                                                 | Optional\<*long*>                                                | :heavy_minus_sign:                                               | N/A                                                              |
+| `sites`                                                          | *long*                                                           | *long*                                                           | :heavy_check_mark:                                               | N/A                                                              |
+| `families`                                                       | List\<[FootprintFamily](../../models/shared/FootprintFamily.md)> | List\<[FootprintFamily](../../models/shared/FootprintFamily.md)> | :heavy_check_mark:                                               | N/A                                                              |

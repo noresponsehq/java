@@ -4,13 +4,24 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Deprecated;
+import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
+import org.noresponse.utils.LazySingletonValue;
 import org.noresponse.utils.Utils;
 
+/**
+ * AccountRiskReason
+ *
+ * <p>One reason that fired. direction is whether it raises or lowers the score, or is neutral
+ * (informational, it moves nothing). impact is a coarse band of how much it moves the score: none for
+ * a neutral reason, otherwise low, medium or high.
+ */
 public class AccountRiskReason {
     /**
      * A stable reason code. New codes may appear; ignore any you do not know.
@@ -18,8 +29,11 @@ public class AccountRiskReason {
     @JsonProperty("code")
     private ReasonCode code;
 
-    @JsonProperty("weight")
-    private long weight;
+    @JsonProperty("direction")
+    private Direction direction;
+
+    @JsonProperty("impact")
+    private Impact impact;
 
     /**
      * The submitted identifier or client context field a reason concerns; absent when it concerns the
@@ -29,18 +43,34 @@ public class AccountRiskReason {
     @JsonProperty("identifier")
     private ReasonIdentifier identifier;
 
+    /**
+     * Deprecated and always 0: the policy's weights are not published. It is sent so that SDK versions
+     * that require it keep reading reasons. Read direction and impact.
+     *
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("weight")
+    @Deprecated
+    private Long weight;
+
     @JsonCreator
     public AccountRiskReason(
             @JsonProperty("code") @Nonnull ReasonCode code,
-            @JsonProperty("weight") long weight,
+            @JsonProperty("direction") @Nonnull Direction direction,
+            @JsonProperty("impact") @Nonnull Impact impact,
             @JsonProperty("identifier") @Nullable ReasonIdentifier identifier) {
         this.code = Optional.ofNullable(code).orElseThrow(() -> new IllegalArgumentException("code cannot be null"));
-        this.weight = weight;
+        this.direction = Optional.ofNullable(direction)
+                .orElseThrow(() -> new IllegalArgumentException("direction cannot be null"));
+        this.impact =
+                Optional.ofNullable(impact).orElseThrow(() -> new IllegalArgumentException("impact cannot be null"));
         this.identifier = identifier;
+        this.weight = Builder._SINGLETON_VALUE_Weight.value();
     }
 
-    public AccountRiskReason(@Nonnull ReasonCode code, long weight) {
-        this(code, weight, null);
+    public AccountRiskReason(@Nonnull ReasonCode code, @Nonnull Direction direction, @Nonnull Impact impact) {
+        this(code, direction, impact, null);
     }
 
     /**
@@ -50,8 +80,12 @@ public class AccountRiskReason {
         return this.code;
     }
 
-    public long weight() {
-        return this.weight;
+    public Direction direction() {
+        return this.direction;
+    }
+
+    public Impact impact() {
+        return this.impact;
     }
 
     /**
@@ -60,6 +94,17 @@ public class AccountRiskReason {
      */
     public Optional<ReasonIdentifier> identifier() {
         return Optional.ofNullable(this.identifier);
+    }
+
+    /**
+     * Deprecated and always 0: the policy's weights are not published. It is sent so that SDK versions
+     * that require it keep reading reasons. Read direction and impact.
+     *
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+     */
+    @Deprecated
+    public Optional<Long> weight() {
+        return Optional.ofNullable(this.weight);
     }
 
     public static Builder builder() {
@@ -74,8 +119,13 @@ public class AccountRiskReason {
         return this;
     }
 
-    public AccountRiskReason withWeight(long weight) {
-        this.weight = weight;
+    public AccountRiskReason withDirection(@Nonnull Direction direction) {
+        this.direction = Utils.checkNotNull(direction, "direction");
+        return this;
+    }
+
+    public AccountRiskReason withImpact(@Nonnull Impact impact) {
+        this.impact = Utils.checkNotNull(impact, "impact");
         return this;
     }
 
@@ -98,18 +148,31 @@ public class AccountRiskReason {
         }
         AccountRiskReason other = (AccountRiskReason) o;
         return Utils.enhancedDeepEquals(this.code, other.code)
-                && Utils.enhancedDeepEquals(this.weight, other.weight)
-                && Utils.enhancedDeepEquals(this.identifier, other.identifier);
+                && Utils.enhancedDeepEquals(this.direction, other.direction)
+                && Utils.enhancedDeepEquals(this.impact, other.impact)
+                && Utils.enhancedDeepEquals(this.identifier, other.identifier)
+                && Utils.enhancedDeepEquals(this.weight, other.weight);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(code, weight, identifier);
+        return Utils.enhancedHash(code, direction, impact, identifier, weight);
     }
 
     @Override
     public String toString() {
-        return Utils.toString(AccountRiskReason.class, "code", code, "weight", weight, "identifier", identifier);
+        return Utils.toString(
+                AccountRiskReason.class,
+                "code",
+                code,
+                "direction",
+                direction,
+                "impact",
+                impact,
+                "identifier",
+                identifier,
+                "weight",
+                weight);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -117,7 +180,9 @@ public class AccountRiskReason {
 
         private ReasonCode code;
 
-        private long weight;
+        private Direction direction;
+
+        private Impact impact;
 
         private ReasonIdentifier identifier;
 
@@ -133,8 +198,13 @@ public class AccountRiskReason {
             return this;
         }
 
-        public Builder weight(long weight) {
-            this.weight = weight;
+        public Builder direction(@Nonnull Direction direction) {
+            this.direction = Utils.checkNotNull(direction, "direction");
+            return this;
+        }
+
+        public Builder impact(@Nonnull Impact impact) {
+            this.impact = Utils.checkNotNull(impact, "impact");
             return this;
         }
 
@@ -148,7 +218,10 @@ public class AccountRiskReason {
         }
 
         public AccountRiskReason build() {
-            return new AccountRiskReason(code, weight, identifier);
+            return new AccountRiskReason(code, direction, impact, identifier);
         }
+
+        private static final LazySingletonValue<Long> _SINGLETON_VALUE_Weight =
+                new LazySingletonValue<>("weight", "0", new TypeReference<Long>() {});
     }
 }
