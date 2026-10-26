@@ -1093,10 +1093,12 @@ public class Application {
 
 
         sdk.assessments().query()
+                .request(req)
                 .callAsStream()
                 .forEach((QueryAccountAssessmentsResponse item) -> {
                    // handle page
                 });
+
 
     }
 }
@@ -1133,10 +1135,12 @@ public class Application {
 
 
         sdk.assessments().query()
+                .request(req)
                 .callAsStream()
                 .forEach((QueryAccountAssessmentsResponse item) -> {
                    // handle page
                 });
+
 
     }
 }

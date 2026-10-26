@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 0a59a3bc4b8b13baeea2fb888f597720
+  docChecksum: b4bf7f0b389145966b947a76a669ec27
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 8.0.0
-  configChecksum: 04badb1596d829471d6361b79f80392f
+  releaseVersion: 8.0.1
+  configChecksum: 826a51d9c923a79509138a4ce4ecb2ce
 features:
   java:
     additionalDependencies: 0.1.0
@@ -505,9 +505,9 @@ trackedFiles:
   docs/models/webhooks/WebhookEndpointDisabledResponse.md:
     last_write_checksum: sha1:0f642c692e8c593f7d42b2debc960197b1a9ce4f
   docs/sdks/accounts/README.md:
-    last_write_checksum: sha1:148e91e76cc2c91eaf63eebc6b059ac0c7116c0b
+    last_write_checksum: sha1:dcd0b0d78acf41bead999c349625dfe83b5dc97d
   docs/sdks/assessments/README.md:
-    last_write_checksum: sha1:7aa02d171c45fb09e58663b07006e8cad5a63f74
+    last_write_checksum: sha1:74c1df0c77f81c6c3a7f7c0eead09860e53d6ab3
   docs/sdks/integrations/README.md:
     last_write_checksum: sha1:06e34285f130ba04bf48f93b26716ee6f771f602
   docs/sdks/keys/README.md:
@@ -517,11 +517,11 @@ trackedFiles:
   docs/sdks/settings/README.md:
     last_write_checksum: sha1:946ffb4870713fc97f5585aec2481f43c36bd1d5
   docs/sdks/webhookendpoints/README.md:
-    last_write_checksum: sha1:436cab2cc7c1d526d5dc9f4e8a1a7550cc62fec8
+    last_write_checksum: sha1:5f1c681d40f0e1116991a22b29de19e255e71cfc
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:44c1c2325018edd78b9d84ef8fb4e0070bd91670
+    last_write_checksum: sha1:db2acff1a6f2dabb32cef5d79d999125794d0cc9
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -563,7 +563,7 @@ trackedFiles:
   src/main/java/org/noresponse/NoResponse.java:
     last_write_checksum: sha1:8170ffa18bbdf350b7652e964fa4878ad09545aa
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:293bbf30e5e4d4d89fe4f78927f43fd4fe7beee6
+    last_write_checksum: sha1:8522b395517951f80513594ed374d3cf44dc4ad5
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
