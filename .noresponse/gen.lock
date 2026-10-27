@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: b0088276ef6ebb8930cb06000568b4b1
+  docChecksum: a66ac30c114046ff365fd3860cdf4d3a
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 8.0.3
-  configChecksum: 3fb2079947a711732d5d56a9ae46498d
+  releaseVersion: 8.1.0
+  configChecksum: 93e22dd9883eed7afd45db04ee3fae52
 features:
   java:
     additionalDependencies: 0.1.0
@@ -165,9 +165,9 @@ trackedFiles:
   docs/models/shared/AccountRisk.md:
     last_write_checksum: sha1:5565c2855c24444c9cd4322963293f1278d3f4f1
   docs/models/shared/AccountRiskChanged.md:
-    last_write_checksum: sha1:a4efc9a9d1de0a4440562e83783913c7c5cdab58
+    last_write_checksum: sha1:39b3100b0d123a3852c2f5df3c6ecda5da68935c
   docs/models/shared/AccountRiskChangedEvent.md:
-    last_write_checksum: sha1:991dd2e88570913dea7f689f3967c32c5b858313
+    last_write_checksum: sha1:1d035557042ee03578a54257af2b485ddb790a11
   docs/models/shared/AccountRiskReason.md:
     last_write_checksum: sha1:b65141def4c719cccdafa2d7e7a703e9fe48a302
   docs/models/shared/Admission.md:
@@ -521,7 +521,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:079843970053e06bb62b3696111852e4dee78e0c
+    last_write_checksum: sha1:ae602d614810e33c9703420f782f551897ed7466
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -563,7 +563,7 @@ trackedFiles:
   src/main/java/org/noresponse/NoResponse.java:
     last_write_checksum: sha1:8170ffa18bbdf350b7652e964fa4878ad09545aa
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:560fd2d0dc317c03fe900229121131c68f4c23c1
+    last_write_checksum: sha1:5a89d93e901b08bd5f8fabb7403de5de60b55606
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -875,9 +875,9 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/AccountRisk.java:
     last_write_checksum: sha1:b7b6baefa26cc443071920564dedf8b9b15e2fd2
   src/main/java/org/noresponse/models/shared/AccountRiskChanged.java:
-    last_write_checksum: sha1:6f99fdfb369ea3749ce8b6b7f5330c0ba327aa3f
+    last_write_checksum: sha1:033e9f426d9375efb84bb81b7cfce270b1119bd8
   src/main/java/org/noresponse/models/shared/AccountRiskChangedEvent.java:
-    last_write_checksum: sha1:324f76e6aa07c9f813998b023994ee41cfa3a511
+    last_write_checksum: sha1:12fe9c1dfa2ac46b8cddbd07aa9750bb2b9a4a8d
   src/main/java/org/noresponse/models/shared/AccountRiskReason.java:
     last_write_checksum: sha1:e8f271f2390501d2037b277d7a799a98bb904c5a
   src/main/java/org/noresponse/models/shared/Admission.java:

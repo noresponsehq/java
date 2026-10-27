@@ -1,8 +1,12 @@
 package org.noresponse.models.shared;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
@@ -14,11 +18,13 @@ import org.noresponse.utils.Utils;
  * <p>The account's decision for at least one flow changed. account is the account as GET
  * /v1/accounts/{account_id} answers it for the revision that made the change: its new score, decision,
  * reasons and decisions_by_flow, and the assessment the risk comes from. previous_decisions_by_flow
- * are the decisions it replaced, so account.decisions_by_flow differs from them for at least one flow.
+ * are the decisions it replaced, so account.decisions_by_flow differs from them for at least one flow,
+ * and previous_risk_version is the risk_version they were announced at.
  *
- * <p>On the account's first decision, previous_decisions_by_flow is allow for every flow. Events of one
- * account are not ordered: account.risk_version orders them, so keep the account with the highest
- * risk_version and ignore an event whose account is older than the one held.
+ * <p>On the account's first event no decision was announced before: previous_risk_version is absent and
+ * previous_decisions_by_flow is allow for every flow, the decisions an account has before its first
+ * event. Events of one account are not ordered: account.risk_version orders them, so keep the account
+ * with the highest risk_version and ignore an event whose account is older than the one held.
  */
 public class AccountRiskChanged {
     /**
@@ -42,14 +48,29 @@ public class AccountRiskChanged {
     @JsonProperty("previous_decisions_by_flow")
     private AccountDecisionsByFlow previousDecisionsByFlow;
 
+    /**
+     * The account's risk_version when previous_decisions_by_flow were announced, always lower than
+     * account.risk_version. Absent on the account's first event, when no decision was announced before,
+     * and on the first event after the account was deleted.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("previous_risk_version")
+    private Long previousRiskVersion;
+
     @JsonCreator
     public AccountRiskChanged(
             @JsonProperty("account") @Nonnull Account account,
-            @JsonProperty("previous_decisions_by_flow") @Nonnull AccountDecisionsByFlow previousDecisionsByFlow) {
+            @JsonProperty("previous_decisions_by_flow") @Nonnull AccountDecisionsByFlow previousDecisionsByFlow,
+            @JsonProperty("previous_risk_version") @Nullable Long previousRiskVersion) {
         this.account =
                 Optional.ofNullable(account).orElseThrow(() -> new IllegalArgumentException("account cannot be null"));
         this.previousDecisionsByFlow = Optional.ofNullable(previousDecisionsByFlow)
                 .orElseThrow(() -> new IllegalArgumentException("previousDecisionsByFlow cannot be null"));
+        this.previousRiskVersion = previousRiskVersion;
+    }
+
+    public AccountRiskChanged(@Nonnull Account account, @Nonnull AccountDecisionsByFlow previousDecisionsByFlow) {
+        this(account, previousDecisionsByFlow, null);
     }
 
     /**
@@ -73,6 +94,15 @@ public class AccountRiskChanged {
      */
     public AccountDecisionsByFlow previousDecisionsByFlow() {
         return this.previousDecisionsByFlow;
+    }
+
+    /**
+     * The account's risk_version when previous_decisions_by_flow were announced, always lower than
+     * account.risk_version. Absent on the account's first event, when no decision was announced before,
+     * and on the first event after the account was deleted.
+     */
+    public Optional<Long> previousRiskVersion() {
+        return Optional.ofNullable(this.previousRiskVersion);
     }
 
     public static Builder builder() {
@@ -104,6 +134,16 @@ public class AccountRiskChanged {
         return this;
     }
 
+    /**
+     * The account's risk_version when previous_decisions_by_flow were announced, always lower than
+     * account.risk_version. Absent on the account's first event, when no decision was announced before,
+     * and on the first event after the account was deleted.
+     */
+    public AccountRiskChanged withPreviousRiskVersion(@Nullable Long previousRiskVersion) {
+        this.previousRiskVersion = previousRiskVersion;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -114,18 +154,25 @@ public class AccountRiskChanged {
         }
         AccountRiskChanged other = (AccountRiskChanged) o;
         return Utils.enhancedDeepEquals(this.account, other.account)
-                && Utils.enhancedDeepEquals(this.previousDecisionsByFlow, other.previousDecisionsByFlow);
+                && Utils.enhancedDeepEquals(this.previousDecisionsByFlow, other.previousDecisionsByFlow)
+                && Utils.enhancedDeepEquals(this.previousRiskVersion, other.previousRiskVersion);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(account, previousDecisionsByFlow);
+        return Utils.enhancedHash(account, previousDecisionsByFlow, previousRiskVersion);
     }
 
     @Override
     public String toString() {
         return Utils.toString(
-                AccountRiskChanged.class, "account", account, "previousDecisionsByFlow", previousDecisionsByFlow);
+                AccountRiskChanged.class,
+                "account",
+                account,
+                "previousDecisionsByFlow",
+                previousDecisionsByFlow,
+                "previousRiskVersion",
+                previousRiskVersion);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -134,6 +181,8 @@ public class AccountRiskChanged {
         private Account account;
 
         private AccountDecisionsByFlow previousDecisionsByFlow;
+
+        private Long previousRiskVersion;
 
         private Builder() {
             // force use of static builder() method
@@ -164,8 +213,18 @@ public class AccountRiskChanged {
             return this;
         }
 
+        /**
+         * The account's risk_version when previous_decisions_by_flow were announced, always lower than
+         * account.risk_version. Absent on the account's first event, when no decision was announced before,
+         * and on the first event after the account was deleted.
+         */
+        public Builder previousRiskVersion(@Nullable Long previousRiskVersion) {
+            this.previousRiskVersion = previousRiskVersion;
+            return this;
+        }
+
         public AccountRiskChanged build() {
-            return new AccountRiskChanged(account, previousDecisionsByFlow);
+            return new AccountRiskChanged(account, previousDecisionsByFlow, previousRiskVersion);
         }
     }
 }

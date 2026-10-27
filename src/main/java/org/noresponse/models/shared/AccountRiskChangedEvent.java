@@ -52,11 +52,13 @@ public class AccountRiskChangedEvent implements WebhookEvent {
      * The account's decision for at least one flow changed. account is the account as GET
      * /v1/accounts/{account_id} answers it for the revision that made the change: its new score, decision,
      * reasons and decisions_by_flow, and the assessment the risk comes from. previous_decisions_by_flow
-     * are the decisions it replaced, so account.decisions_by_flow differs from them for at least one flow.
+     * are the decisions it replaced, so account.decisions_by_flow differs from them for at least one flow,
+     * and previous_risk_version is the risk_version they were announced at.
      *
-     * <p>On the account's first decision, previous_decisions_by_flow is allow for every flow. Events of one
-     * account are not ordered: account.risk_version orders them, so keep the account with the highest
-     * risk_version and ignore an event whose account is older than the one held.
+     * <p>On the account's first event no decision was announced before: previous_risk_version is absent and
+     * previous_decisions_by_flow is allow for every flow, the decisions an account has before its first
+     * event. Events of one account are not ordered: account.risk_version orders them, so keep the account
+     * with the highest risk_version and ignore an event whose account is older than the one held.
      */
     @JsonProperty("data")
     private AccountRiskChanged data;
@@ -115,11 +117,13 @@ public class AccountRiskChangedEvent implements WebhookEvent {
      * The account's decision for at least one flow changed. account is the account as GET
      * /v1/accounts/{account_id} answers it for the revision that made the change: its new score, decision,
      * reasons and decisions_by_flow, and the assessment the risk comes from. previous_decisions_by_flow
-     * are the decisions it replaced, so account.decisions_by_flow differs from them for at least one flow.
+     * are the decisions it replaced, so account.decisions_by_flow differs from them for at least one flow,
+     * and previous_risk_version is the risk_version they were announced at.
      *
-     * <p>On the account's first decision, previous_decisions_by_flow is allow for every flow. Events of one
-     * account are not ordered: account.risk_version orders them, so keep the account with the highest
-     * risk_version and ignore an event whose account is older than the one held.
+     * <p>On the account's first event no decision was announced before: previous_risk_version is absent and
+     * previous_decisions_by_flow is allow for every flow, the decisions an account has before its first
+     * event. Events of one account are not ordered: account.risk_version orders them, so keep the account
+     * with the highest risk_version and ignore an event whose account is older than the one held.
      */
     public AccountRiskChanged data() {
         return this.data;
@@ -160,11 +164,13 @@ public class AccountRiskChangedEvent implements WebhookEvent {
      * The account's decision for at least one flow changed. account is the account as GET
      * /v1/accounts/{account_id} answers it for the revision that made the change: its new score, decision,
      * reasons and decisions_by_flow, and the assessment the risk comes from. previous_decisions_by_flow
-     * are the decisions it replaced, so account.decisions_by_flow differs from them for at least one flow.
+     * are the decisions it replaced, so account.decisions_by_flow differs from them for at least one flow,
+     * and previous_risk_version is the risk_version they were announced at.
      *
-     * <p>On the account's first decision, previous_decisions_by_flow is allow for every flow. Events of one
-     * account are not ordered: account.risk_version orders them, so keep the account with the highest
-     * risk_version and ignore an event whose account is older than the one held.
+     * <p>On the account's first event no decision was announced before: previous_risk_version is absent and
+     * previous_decisions_by_flow is allow for every flow, the decisions an account has before its first
+     * event. Events of one account are not ordered: account.risk_version orders them, so keep the account
+     * with the highest risk_version and ignore an event whose account is older than the one held.
      */
     public AccountRiskChangedEvent withData(@Nonnull AccountRiskChanged data) {
         this.data = Utils.checkNotNull(data, "data");
@@ -254,11 +260,13 @@ public class AccountRiskChangedEvent implements WebhookEvent {
          * The account's decision for at least one flow changed. account is the account as GET
          * /v1/accounts/{account_id} answers it for the revision that made the change: its new score, decision,
          * reasons and decisions_by_flow, and the assessment the risk comes from. previous_decisions_by_flow
-         * are the decisions it replaced, so account.decisions_by_flow differs from them for at least one flow.
+         * are the decisions it replaced, so account.decisions_by_flow differs from them for at least one flow,
+         * and previous_risk_version is the risk_version they were announced at.
          *
-         * <p>On the account's first decision, previous_decisions_by_flow is allow for every flow. Events of one
-         * account are not ordered: account.risk_version orders them, so keep the account with the highest
-         * risk_version and ignore an event whose account is older than the one held.
+         * <p>On the account's first event no decision was announced before: previous_risk_version is absent and
+         * previous_decisions_by_flow is allow for every flow, the decisions an account has before its first
+         * event. Events of one account are not ordered: account.risk_version orders them, so keep the account
+         * with the highest risk_version and ignore an event whose account is older than the one held.
          */
         public Builder data(@Nonnull AccountRiskChanged data) {
             this.data = Utils.checkNotNull(data, "data");
