@@ -39,22 +39,31 @@ public class RiskReason {
     @JsonProperty("identifier")
     private ReasonIdentifier identifier;
 
+    /**
+     * The list entry a list_match reason applied. No other reason carries it.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("list_entry_id")
+    private String listEntryId;
+
     @JsonCreator
     public RiskReason(
             @JsonProperty("code") @Nonnull ReasonCode code,
             @JsonProperty("direction") @Nonnull Direction direction,
             @JsonProperty("impact") @Nonnull Impact impact,
-            @JsonProperty("identifier") @Nullable ReasonIdentifier identifier) {
+            @JsonProperty("identifier") @Nullable ReasonIdentifier identifier,
+            @JsonProperty("list_entry_id") @Nullable String listEntryId) {
         this.code = Optional.ofNullable(code).orElseThrow(() -> new IllegalArgumentException("code cannot be null"));
         this.direction = Optional.ofNullable(direction)
                 .orElseThrow(() -> new IllegalArgumentException("direction cannot be null"));
         this.impact =
                 Optional.ofNullable(impact).orElseThrow(() -> new IllegalArgumentException("impact cannot be null"));
         this.identifier = identifier;
+        this.listEntryId = listEntryId;
     }
 
     public RiskReason(@Nonnull ReasonCode code, @Nonnull Direction direction, @Nonnull Impact impact) {
-        this(code, direction, impact, null);
+        this(code, direction, impact, null, null);
     }
 
     /**
@@ -78,6 +87,13 @@ public class RiskReason {
      */
     public Optional<ReasonIdentifier> identifier() {
         return Optional.ofNullable(this.identifier);
+    }
+
+    /**
+     * The list entry a list_match reason applied. No other reason carries it.
+     */
+    public Optional<String> listEntryId() {
+        return Optional.ofNullable(this.listEntryId);
     }
 
     public static Builder builder() {
@@ -111,6 +127,14 @@ public class RiskReason {
         return this;
     }
 
+    /**
+     * The list entry a list_match reason applied. No other reason carries it.
+     */
+    public RiskReason withListEntryId(@Nullable String listEntryId) {
+        this.listEntryId = listEntryId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -123,18 +147,29 @@ public class RiskReason {
         return Utils.enhancedDeepEquals(this.code, other.code)
                 && Utils.enhancedDeepEquals(this.direction, other.direction)
                 && Utils.enhancedDeepEquals(this.impact, other.impact)
-                && Utils.enhancedDeepEquals(this.identifier, other.identifier);
+                && Utils.enhancedDeepEquals(this.identifier, other.identifier)
+                && Utils.enhancedDeepEquals(this.listEntryId, other.listEntryId);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(code, direction, impact, identifier);
+        return Utils.enhancedHash(code, direction, impact, identifier, listEntryId);
     }
 
     @Override
     public String toString() {
         return Utils.toString(
-                RiskReason.class, "code", code, "direction", direction, "impact", impact, "identifier", identifier);
+                RiskReason.class,
+                "code",
+                code,
+                "direction",
+                direction,
+                "impact",
+                impact,
+                "identifier",
+                identifier,
+                "listEntryId",
+                listEntryId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -147,6 +182,8 @@ public class RiskReason {
         private Impact impact;
 
         private ReasonIdentifier identifier;
+
+        private String listEntryId;
 
         private Builder() {
             // force use of static builder() method
@@ -179,8 +216,16 @@ public class RiskReason {
             return this;
         }
 
+        /**
+         * The list entry a list_match reason applied. No other reason carries it.
+         */
+        public Builder listEntryId(@Nullable String listEntryId) {
+            this.listEntryId = listEntryId;
+            return this;
+        }
+
         public RiskReason build() {
-            return new RiskReason(code, direction, impact, identifier);
+            return new RiskReason(code, direction, impact, identifier, listEntryId);
         }
     }
 }

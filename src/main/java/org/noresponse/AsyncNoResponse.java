@@ -39,6 +39,8 @@ public class AsyncNoResponse {
     private final AsyncWebhookEndpoints webhookEndpoints;
 
     private final AsyncSettings settings;
+
+    private final AsyncLists lists;
     /**
      * Assessments of account creation, login and purchase.
      */
@@ -78,6 +80,10 @@ public class AsyncNoResponse {
         return settings;
     }
 
+    public AsyncLists lists() {
+        return lists;
+    }
+
     private SDKConfiguration sdkConfiguration;
     private final NoResponse syncSDK;
 
@@ -91,6 +97,7 @@ public class AsyncNoResponse {
         this.integrations = new AsyncIntegrations(syncSDK.integrations(), sdkConfiguration);
         this.webhookEndpoints = new AsyncWebhookEndpoints(syncSDK.webhookEndpoints(), sdkConfiguration);
         this.settings = new AsyncSettings(syncSDK.settings(), sdkConfiguration);
+        this.lists = new AsyncLists(syncSDK.lists(), sdkConfiguration);
     }
 
     /**
