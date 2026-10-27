@@ -57,6 +57,31 @@ public class WebhookEndpoint {
     private String verifiedAt;
 
     /**
+     * The first failed delivery attempt of the endpoint's current failure streak. Absent while its latest
+     * attempt succeeded, before any attempt failed, and after it is verified again.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("failing_since")
+    private String failingSince;
+
+    /**
+     * The latest failed delivery attempt of the current failure streak; present exactly when failing_since
+     * is. A failure more than 2 hours after it starts a new streak.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("last_failure_at")
+    private String lastFailureAt;
+
+    /**
+     * When the endpoint was disabled after failing continuously for 72 hours, as in the
+     * webhook_endpoint.disabled event. Present while state is disabled; absent before and after it is
+     * verified again.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("disabled_at")
+    private String disabledAt;
+
+    /**
      * The keys a receiver may see in NR-Webhook-Key-Id, oldest first. The last one signs every new
      * delivery; an older one keeps verifying until its expires_at.
      */
@@ -71,6 +96,9 @@ public class WebhookEndpoint {
             @JsonProperty("response_mode") @Nonnull ResponseMode responseMode,
             @JsonProperty("created_at") @Nonnull String createdAt,
             @JsonProperty("verified_at") @Nullable String verifiedAt,
+            @JsonProperty("failing_since") @Nullable String failingSince,
+            @JsonProperty("last_failure_at") @Nullable String lastFailureAt,
+            @JsonProperty("disabled_at") @Nullable String disabledAt,
             @JsonProperty("signing_keys") @Nonnull List<SigningKey> signingKeys) {
         this.endpointId = Optional.ofNullable(endpointId)
                 .orElseThrow(() -> new IllegalArgumentException("endpointId cannot be null"));
@@ -81,6 +109,9 @@ public class WebhookEndpoint {
         this.createdAt = Optional.ofNullable(createdAt)
                 .orElseThrow(() -> new IllegalArgumentException("createdAt cannot be null"));
         this.verifiedAt = verifiedAt;
+        this.failingSince = failingSince;
+        this.lastFailureAt = lastFailureAt;
+        this.disabledAt = disabledAt;
         this.signingKeys = Optional.ofNullable(signingKeys)
                 .orElseThrow(() -> new IllegalArgumentException("signingKeys cannot be null"));
     }
@@ -92,7 +123,7 @@ public class WebhookEndpoint {
             @Nonnull ResponseMode responseMode,
             @Nonnull String createdAt,
             @Nonnull List<SigningKey> signingKeys) {
-        this(endpointId, url, state, responseMode, createdAt, null, signingKeys);
+        this(endpointId, url, state, responseMode, createdAt, null, null, null, null, signingKeys);
     }
 
     /**
@@ -135,6 +166,31 @@ public class WebhookEndpoint {
      */
     public Optional<String> verifiedAt() {
         return Optional.ofNullable(this.verifiedAt);
+    }
+
+    /**
+     * The first failed delivery attempt of the endpoint's current failure streak. Absent while its latest
+     * attempt succeeded, before any attempt failed, and after it is verified again.
+     */
+    public Optional<String> failingSince() {
+        return Optional.ofNullable(this.failingSince);
+    }
+
+    /**
+     * The latest failed delivery attempt of the current failure streak; present exactly when failing_since
+     * is. A failure more than 2 hours after it starts a new streak.
+     */
+    public Optional<String> lastFailureAt() {
+        return Optional.ofNullable(this.lastFailureAt);
+    }
+
+    /**
+     * When the endpoint was disabled after failing continuously for 72 hours, as in the
+     * webhook_endpoint.disabled event. Present while state is disabled; absent before and after it is
+     * verified again.
+     */
+    public Optional<String> disabledAt() {
+        return Optional.ofNullable(this.disabledAt);
     }
 
     /**
@@ -198,6 +254,34 @@ public class WebhookEndpoint {
     }
 
     /**
+     * The first failed delivery attempt of the endpoint's current failure streak. Absent while its latest
+     * attempt succeeded, before any attempt failed, and after it is verified again.
+     */
+    public WebhookEndpoint withFailingSince(@Nullable String failingSince) {
+        this.failingSince = failingSince;
+        return this;
+    }
+
+    /**
+     * The latest failed delivery attempt of the current failure streak; present exactly when failing_since
+     * is. A failure more than 2 hours after it starts a new streak.
+     */
+    public WebhookEndpoint withLastFailureAt(@Nullable String lastFailureAt) {
+        this.lastFailureAt = lastFailureAt;
+        return this;
+    }
+
+    /**
+     * When the endpoint was disabled after failing continuously for 72 hours, as in the
+     * webhook_endpoint.disabled event. Present while state is disabled; absent before and after it is
+     * verified again.
+     */
+    public WebhookEndpoint withDisabledAt(@Nullable String disabledAt) {
+        this.disabledAt = disabledAt;
+        return this;
+    }
+
+    /**
      * The keys a receiver may see in NR-Webhook-Key-Id, oldest first. The last one signs every new
      * delivery; an older one keeps verifying until its expires_at.
      */
@@ -221,12 +305,25 @@ public class WebhookEndpoint {
                 && Utils.enhancedDeepEquals(this.responseMode, other.responseMode)
                 && Utils.enhancedDeepEquals(this.createdAt, other.createdAt)
                 && Utils.enhancedDeepEquals(this.verifiedAt, other.verifiedAt)
+                && Utils.enhancedDeepEquals(this.failingSince, other.failingSince)
+                && Utils.enhancedDeepEquals(this.lastFailureAt, other.lastFailureAt)
+                && Utils.enhancedDeepEquals(this.disabledAt, other.disabledAt)
                 && Utils.enhancedDeepEquals(this.signingKeys, other.signingKeys);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(endpointId, url, state, responseMode, createdAt, verifiedAt, signingKeys);
+        return Utils.enhancedHash(
+                endpointId,
+                url,
+                state,
+                responseMode,
+                createdAt,
+                verifiedAt,
+                failingSince,
+                lastFailureAt,
+                disabledAt,
+                signingKeys);
     }
 
     @Override
@@ -245,6 +342,12 @@ public class WebhookEndpoint {
                 createdAt,
                 "verifiedAt",
                 verifiedAt,
+                "failingSince",
+                failingSince,
+                "lastFailureAt",
+                lastFailureAt,
+                "disabledAt",
+                disabledAt,
                 "signingKeys",
                 signingKeys);
     }
@@ -263,6 +366,12 @@ public class WebhookEndpoint {
         private String createdAt;
 
         private String verifiedAt;
+
+        private String failingSince;
+
+        private String lastFailureAt;
+
+        private String disabledAt;
 
         private List<SigningKey> signingKeys;
 
@@ -319,6 +428,34 @@ public class WebhookEndpoint {
         }
 
         /**
+         * The first failed delivery attempt of the endpoint's current failure streak. Absent while its latest
+         * attempt succeeded, before any attempt failed, and after it is verified again.
+         */
+        public Builder failingSince(@Nullable String failingSince) {
+            this.failingSince = failingSince;
+            return this;
+        }
+
+        /**
+         * The latest failed delivery attempt of the current failure streak; present exactly when failing_since
+         * is. A failure more than 2 hours after it starts a new streak.
+         */
+        public Builder lastFailureAt(@Nullable String lastFailureAt) {
+            this.lastFailureAt = lastFailureAt;
+            return this;
+        }
+
+        /**
+         * When the endpoint was disabled after failing continuously for 72 hours, as in the
+         * webhook_endpoint.disabled event. Present while state is disabled; absent before and after it is
+         * verified again.
+         */
+        public Builder disabledAt(@Nullable String disabledAt) {
+            this.disabledAt = disabledAt;
+            return this;
+        }
+
+        /**
          * The keys a receiver may see in NR-Webhook-Key-Id, oldest first. The last one signs every new
          * delivery; an older one keeps verifying until its expires_at.
          */
@@ -328,7 +465,17 @@ public class WebhookEndpoint {
         }
 
         public WebhookEndpoint build() {
-            return new WebhookEndpoint(endpointId, url, state, responseMode, createdAt, verifiedAt, signingKeys);
+            return new WebhookEndpoint(
+                    endpointId,
+                    url,
+                    state,
+                    responseMode,
+                    createdAt,
+                    verifiedAt,
+                    failingSince,
+                    lastFailureAt,
+                    disabledAt,
+                    signingKeys);
         }
     }
 }

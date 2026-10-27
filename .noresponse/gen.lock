@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: a66ac30c114046ff365fd3860cdf4d3a
+  docChecksum: e88a110d06294be10b86cc05da2346e4
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 8.1.0
-  configChecksum: 93e22dd9883eed7afd45db04ee3fae52
+  releaseVersion: 8.1.1
+  configChecksum: 1223dd96cee5644b0c3de57a74ebbedd
 features:
   java:
     additionalDependencies: 0.1.0
@@ -453,7 +453,7 @@ trackedFiles:
   docs/models/shared/WebhookDeliveryList.md:
     last_write_checksum: sha1:352eeb6669ee2f225597731bab20c06a5a89760e
   docs/models/shared/WebhookEndpoint.md:
-    last_write_checksum: sha1:04ec796ed14ea02cc4ae4b66180dd85cb1e5aaa5
+    last_write_checksum: sha1:641c01f9381fddcac45c8e2f9e27650c2d47e375
   docs/models/shared/WebhookEndpointCreated.md:
     last_write_checksum: sha1:c132742d8766e0a74cbd4675a41eff06c22d8273
   docs/models/shared/WebhookEndpointDisabled.md:
@@ -521,7 +521,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:ae602d614810e33c9703420f782f551897ed7466
+    last_write_checksum: sha1:d1acce8c0ffbb96d6c33bea2cb940e95c54c52fd
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -563,7 +563,7 @@ trackedFiles:
   src/main/java/org/noresponse/NoResponse.java:
     last_write_checksum: sha1:8170ffa18bbdf350b7652e964fa4878ad09545aa
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:5a89d93e901b08bd5f8fabb7403de5de60b55606
+    last_write_checksum: sha1:4d4430c9ea710e5721f218efdfe6a63edf38bab7
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -1165,7 +1165,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/WebhookDeliveryList.java:
     last_write_checksum: sha1:24ca272701b7b3f8aedc614625430d3307806bce
   src/main/java/org/noresponse/models/shared/WebhookEndpoint.java:
-    last_write_checksum: sha1:d540810757a7ee0f0af285abc6c880bfa4de4062
+    last_write_checksum: sha1:33dea4e1910a681f52699d309cc7779d139c2084
   src/main/java/org/noresponse/models/shared/WebhookEndpointCreated.java:
     last_write_checksum: sha1:c5b9b74a6f574367d12a22d40306bad1ed7ac544
   src/main/java/org/noresponse/models/shared/WebhookEndpointDisabled.java:
@@ -2004,14 +2004,14 @@ examples:
     endpoints:
       responses:
         "200":
-          application/json: {"items": [{"endpoint_id": "whe_01JA2ZD0E1F2G3H4J5K6M7N8P9", "url": "https://hooks.example.com/noresponse", "state": "verified", "response_mode": "standard", "created_at": "2026-10-22T09:00:00.000Z", "verified_at": "2026-10-22T09:00:05.000Z", "signing_keys": [{"key_id": "whk_01JA2Z9A1B2C3D4E5F6G7H8J9K", "created_at": "2026-10-22T09:00:00.000Z", "expires_at": "2026-10-29T10:00:00.000Z"}, {"key_id": "whk_01JA2ZD1M2N3P4Q5R6S7T8V9W0", "created_at": "2026-10-22T10:00:00.000Z"}]}]}
+          application/json: {"items": [{"endpoint_id": "whe_01JA2ZD0E1F2G3H4J5K6M7N8P9", "url": "https://hooks.example.com/noresponse", "state": "verified", "response_mode": "standard", "created_at": "2026-10-22T09:00:00.000Z", "verified_at": "2026-10-22T09:00:05.000Z", "signing_keys": [{"key_id": "whk_01JA2Z9A1B2C3D4E5F6G7H8J9K", "created_at": "2026-10-22T09:00:00.000Z", "expires_at": "2026-10-29T10:00:00.000Z"}, {"key_id": "whk_01JA2ZD1M2N3P4Q5R6S7T8V9W0", "created_at": "2026-10-22T10:00:00.000Z"}]}, {"endpoint_id": "whe_01JA2ZD9Q8R7S6T5V4W3X2Y1Z0", "url": "https://hooks.example.com/noresponse-backup", "state": "disabled", "response_mode": "standard", "created_at": "2026-10-19T08:00:00.000Z", "verified_at": "2026-10-19T08:00:04.000Z", "failing_since": "2026-10-20T09:58:31.000Z", "last_failure_at": "2026-10-23T10:00:00.000Z", "disabled_at": "2026-10-23T10:00:00.000Z", "signing_keys": [{"key_id": "whk_01JA2Z7B3C4D5E6F7G8H9J0K1M", "created_at": "2026-10-19T08:00:00.000Z"}]}]}
   createWebhookEndpoint:
     standard:
       requestBody:
         application/json: {"url": "https://hooks.example.com/noresponse"}
       responses:
         "201":
-          application/json: {"endpoint": {"endpoint_id": "whe_01JA2ZD0E1F2G3H4J5K6M7N8P9", "url": "https://hooks.example.com/noresponse", "state": "unverified", "response_mode": "standard", "created_at": "2026-10-22T09:00:00.000Z", "verified_at": "2026-10-22T09:00:05.000Z", "signing_keys": [{"key_id": "whk_01JA2ZD1M2N3P4Q5R6S7T8V9W0", "created_at": "2026-10-22T09:00:00.000Z", "expires_at": "2026-10-29T10:00:00.000Z"}]}, "signing_secret": {"key_id": "whk_01JA2ZD1M2N3P4Q5R6S7T8V9W0", "secret": "Zm9yLWRvY3Mtb25seS1ub3QtYS1yZWFsLXNlY3JldDA", "created_at": "2026-10-22T09:00:00.000Z"}}
+          application/json: {"endpoint": {"endpoint_id": "whe_01JA2ZD0E1F2G3H4J5K6M7N8P9", "url": "https://hooks.example.com/noresponse", "state": "unverified", "response_mode": "standard", "created_at": "2026-10-22T09:00:00.000Z", "verified_at": "2026-10-22T09:00:05.000Z", "failing_since": "2026-10-20T09:58:31.000Z", "last_failure_at": "2026-10-23T10:00:00.000Z", "disabled_at": "2026-10-23T10:00:00.000Z", "signing_keys": [{"key_id": "whk_01JA2ZD1M2N3P4Q5R6S7T8V9W0", "created_at": "2026-10-22T09:00:00.000Z", "expires_at": "2026-10-29T10:00:00.000Z"}]}, "signing_secret": {"key_id": "whk_01JA2ZD1M2N3P4Q5R6S7T8V9W0", "secret": "Zm9yLWRvY3Mtb25seS1ub3QtYS1yZWFsLXNlY3JldDA", "created_at": "2026-10-22T09:00:00.000Z"}}
         "400":
           application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 400, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "webhook_url_refused", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
         "401":
@@ -2029,7 +2029,7 @@ examples:
         application/json: {"url": "https://hooks.example.com:8443/noresponse/detailed", "response_mode": "detailed"}
       responses:
         "201":
-          application/json: {"endpoint": {"endpoint_id": "whe_01JA2ZD0E1F2G3H4J5K6M7N8P9", "url": "https://hooks.example.com/noresponse", "state": "unverified", "response_mode": "standard", "created_at": "2026-10-22T09:00:00.000Z", "verified_at": "2026-10-22T09:00:05.000Z", "signing_keys": [{"key_id": "whk_01JA2ZD1M2N3P4Q5R6S7T8V9W0", "created_at": "2026-10-22T09:00:00.000Z", "expires_at": "2026-10-29T10:00:00.000Z"}]}, "signing_secret": {"key_id": "whk_01JA2ZD1M2N3P4Q5R6S7T8V9W0", "secret": "Zm9yLWRvY3Mtb25seS1ub3QtYS1yZWFsLXNlY3JldDA", "created_at": "2026-10-22T09:00:00.000Z"}}
+          application/json: {"endpoint": {"endpoint_id": "whe_01JA2ZD0E1F2G3H4J5K6M7N8P9", "url": "https://hooks.example.com/noresponse", "state": "unverified", "response_mode": "standard", "created_at": "2026-10-22T09:00:00.000Z", "verified_at": "2026-10-22T09:00:05.000Z", "failing_since": "2026-10-20T09:58:31.000Z", "last_failure_at": "2026-10-23T10:00:00.000Z", "disabled_at": "2026-10-23T10:00:00.000Z", "signing_keys": [{"key_id": "whk_01JA2ZD1M2N3P4Q5R6S7T8V9W0", "created_at": "2026-10-22T09:00:00.000Z", "expires_at": "2026-10-29T10:00:00.000Z"}]}, "signing_secret": {"key_id": "whk_01JA2ZD1M2N3P4Q5R6S7T8V9W0", "secret": "Zm9yLWRvY3Mtb25seS1ub3QtYS1yZWFsLXNlY3JldDA", "created_at": "2026-10-22T09:00:00.000Z"}}
         "400":
           application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 400, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "webhook_url_refused", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
         "401":
