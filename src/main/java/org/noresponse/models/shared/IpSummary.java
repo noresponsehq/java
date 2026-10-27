@@ -33,6 +33,14 @@ public class IpSummary {
     private IpSummaryType type;
 
     /**
+     * Autonomous system number of the network that announces the address, from the offline database.
+     * Absent when unknown.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("asn")
+    private Long asn;
+
+    /**
      * Assessments in this workspace with the same IP in the last 24 hours, this one included. A count
      * only.
      */
@@ -44,14 +52,16 @@ public class IpSummary {
     public IpSummary(
             @JsonProperty("country") @Nullable String country,
             @JsonProperty("type") @Nullable IpSummaryType type,
+            @JsonProperty("asn") @Nullable Long asn,
             @JsonProperty("seen_in_workspace") @Nullable Long seenInWorkspace) {
         this.country = country;
         this.type = type;
+        this.asn = asn;
         this.seenInWorkspace = seenInWorkspace;
     }
 
     public IpSummary() {
-        this(null, null, null);
+        this(null, null, null, null);
     }
 
     /**
@@ -66,6 +76,14 @@ public class IpSummary {
      */
     public Optional<IpSummaryType> type() {
         return Optional.ofNullable(this.type);
+    }
+
+    /**
+     * Autonomous system number of the network that announces the address, from the offline database.
+     * Absent when unknown.
+     */
+    public Optional<Long> asn() {
+        return Optional.ofNullable(this.asn);
     }
 
     /**
@@ -97,6 +115,15 @@ public class IpSummary {
     }
 
     /**
+     * Autonomous system number of the network that announces the address, from the offline database.
+     * Absent when unknown.
+     */
+    public IpSummary withAsn(@Nullable Long asn) {
+        this.asn = asn;
+        return this;
+    }
+
+    /**
      * Assessments in this workspace with the same IP in the last 24 hours, this one included. A count
      * only.
      */
@@ -116,17 +143,19 @@ public class IpSummary {
         IpSummary other = (IpSummary) o;
         return Utils.enhancedDeepEquals(this.country, other.country)
                 && Utils.enhancedDeepEquals(this.type, other.type)
+                && Utils.enhancedDeepEquals(this.asn, other.asn)
                 && Utils.enhancedDeepEquals(this.seenInWorkspace, other.seenInWorkspace);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(country, type, seenInWorkspace);
+        return Utils.enhancedHash(country, type, asn, seenInWorkspace);
     }
 
     @Override
     public String toString() {
-        return Utils.toString(IpSummary.class, "country", country, "type", type, "seenInWorkspace", seenInWorkspace);
+        return Utils.toString(
+                IpSummary.class, "country", country, "type", type, "asn", asn, "seenInWorkspace", seenInWorkspace);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -135,6 +164,8 @@ public class IpSummary {
         private String country;
 
         private IpSummaryType type;
+
+        private Long asn;
 
         private Long seenInWorkspace;
 
@@ -159,6 +190,15 @@ public class IpSummary {
         }
 
         /**
+         * Autonomous system number of the network that announces the address, from the offline database.
+         * Absent when unknown.
+         */
+        public Builder asn(@Nullable Long asn) {
+            this.asn = asn;
+            return this;
+        }
+
+        /**
          * Assessments in this workspace with the same IP in the last 24 hours, this one included. A count
          * only.
          */
@@ -168,7 +208,7 @@ public class IpSummary {
         }
 
         public IpSummary build() {
-            return new IpSummary(country, type, seenInWorkspace);
+            return new IpSummary(country, type, asn, seenInWorkspace);
         }
     }
 }
