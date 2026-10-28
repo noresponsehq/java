@@ -83,7 +83,8 @@ public class Assessments {
      * <p>Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body
      * replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key
      * with a different body answers 409 idempotency_key_reused. response_mode defaults to standard;
-     * detailed needs the detailed scope.
+     * detailed needs the detailed scope. The answer leaves out detail.identifiers: you hold what you sent,
+     * and a key with the history scope gets them back with GET.
      *
      * @return The call builder
      */
@@ -108,7 +109,8 @@ public class Assessments {
      * <p>Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body
      * replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key
      * with a different body answers 409 idempotency_key_reused. response_mode defaults to standard;
-     * detailed needs the detailed scope.
+     * detailed needs the detailed scope. The answer leaves out detail.identifiers: you hold what you sent,
+     * and a key with the history scope gets them back with GET.
      *
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
      * @param body POST /v1/assessments body. At least one of email, username or phone is required; name and ip only refine an assessment. No field carries a password, hash, token or breach value, and unknown members are refused. The email local part is kept as received and only the domain is lower-cased; the username is compared case-insensitively; the phone is strict E.164 and is assessed asynchronously. The whole body is capped at 32768 bytes. client_context holds bounded hints from the client of the user; auth_context holds normalised claims from a session your backend has verified. Raw tokens are refused.
@@ -136,7 +138,8 @@ public class Assessments {
      * <p>Idempotency-Key is required and is bound to the body for 24 hours: the same key with the same body
      * replays the latest assessment with Idempotent-Replayed: true and starts no new work; the same key
      * with a different body answers 409 idempotency_key_reused. response_mode defaults to standard;
-     * detailed needs the detailed scope.
+     * detailed needs the detailed scope. The answer leaves out detail.identifiers: you hold what you sent,
+     * and a key with the history scope gets them back with GET.
      *
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
      * @param body POST /v1/assessments body. At least one of email, username or phone is required; name and ip only refine an assessment. No field carries a password, hash, token or breach value, and unknown members are refused. The email local part is kept as received and only the domain is lower-cased; the username is compared case-insensitively; the phone is strict E.164 and is assessed asynchronously. The whole body is capped at 32768 bytes. client_context holds bounded hints from the client of the user; auth_context holds normalised claims from a session your backend has verified. Raw tokens are refused.
@@ -160,7 +163,8 @@ public class Assessments {
      * Retry-After; poll no faster than it says.
      *
      * <p>Another workspace's assessment, an unknown or expired assessment and a malformed assessment_id all
-     * answer 404 not_found. response_mode=detailed needs the detailed scope.
+     * answer 404 not_found. response_mode=detailed needs the detailed scope. A key with the history scope
+     * also gets detail.identifiers, the identifiers the assessment was sent, exactly as received.
      *
      * @return The call builder
      */
@@ -176,7 +180,8 @@ public class Assessments {
      * Retry-After; poll no faster than it says.
      *
      * <p>Another workspace's assessment, an unknown or expired assessment and a malformed assessment_id all
-     * answer 404 not_found. response_mode=detailed needs the detailed scope.
+     * answer 404 not_found. response_mode=detailed needs the detailed scope. A key with the history scope
+     * also gets detail.identifiers, the identifiers the assessment was sent, exactly as received.
      *
      * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
      * @return The response from the API call
@@ -194,7 +199,8 @@ public class Assessments {
      * Retry-After; poll no faster than it says.
      *
      * <p>Another workspace's assessment, an unknown or expired assessment and a malformed assessment_id all
-     * answer 404 not_found. response_mode=detailed needs the detailed scope.
+     * answer 404 not_found. response_mode=detailed needs the detailed scope. A key with the history scope
+     * also gets detail.identifiers, the identifiers the assessment was sent, exactly as received.
      *
      * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
      * @param responseMode standard returns the consolidated risk response; detailed adds merged provider-neutral facts when the key has detailed scope. There is no raw mode.
@@ -350,7 +356,8 @@ public class Assessments {
      * empty items. The cursor is opaque and bound to your workspace and the account; a tampered or expired
      * cursor answers 400 invalid_cursor.
      *
-     * <p>response_mode=detailed needs the detailed scope.
+     * <p>response_mode=detailed needs the detailed scope. Each item's identifiers holds the identifiers its
+     * assessment was sent, exactly as received.
      *
      * @return The call builder
      */
@@ -368,7 +375,8 @@ public class Assessments {
      * empty items. The cursor is opaque and bound to your workspace and the account; a tampered or expired
      * cursor answers 400 invalid_cursor.
      *
-     * <p>response_mode=detailed needs the detailed scope.
+     * <p>response_mode=detailed needs the detailed scope. Each item's identifiers holds the identifiers its
+     * assessment was sent, exactly as received.
      *
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -388,7 +396,8 @@ public class Assessments {
      * empty items. The cursor is opaque and bound to your workspace and the account; a tampered or expired
      * cursor answers 400 invalid_cursor.
      *
-     * <p>response_mode=detailed needs the detailed scope.
+     * <p>response_mode=detailed needs the detailed scope. Each item's identifiers holds the identifiers its
+     * assessment was sent, exactly as received.
      *
      * @param request The request object containing all the parameters for the API call.
      * @param options additional options
@@ -407,7 +416,8 @@ public class Assessments {
      * <p>Search retained assessments created in [from,to), over at most 366 days. Filters use each assessment
      * decision, rather than the current account decision. Results can change between pages.
      *
-     * <p>Keep the assessment version to retrieve the exact decision later. This read does not require an
+     * <p>Keep the assessment version to retrieve the exact decision later. Each item's detail.identifiers
+     * holds the identifiers its assessment was sent, exactly as received. This read does not require an
      * idempotency key.
      *
      * @return The call builder
@@ -422,7 +432,8 @@ public class Assessments {
      * <p>Search retained assessments created in [from,to), over at most 366 days. Filters use each assessment
      * decision, rather than the current account decision. Results can change between pages.
      *
-     * <p>Keep the assessment version to retrieve the exact decision later. This read does not require an
+     * <p>Keep the assessment version to retrieve the exact decision later. Each item's detail.identifiers
+     * holds the identifiers its assessment was sent, exactly as received. This read does not require an
      * idempotency key.
      *
      * @param request The request object containing all the parameters for the API call.
@@ -439,7 +450,8 @@ public class Assessments {
      * <p>Search retained assessments created in [from,to), over at most 366 days. Filters use each assessment
      * decision, rather than the current account decision. Results can change between pages.
      *
-     * <p>Keep the assessment version to retrieve the exact decision later. This read does not require an
+     * <p>Keep the assessment version to retrieve the exact decision later. Each item's detail.identifiers
+     * holds the identifiers its assessment was sent, exactly as received. This read does not require an
      * idempotency key.
      *
      * @param request The request object containing all the parameters for the API call.
@@ -460,6 +472,8 @@ public class Assessments {
      * response excludes the current account decision. Current retention and response-mode permissions
      * still apply.
      *
+     * <p>detail.identifiers holds the identifiers the assessment was sent, exactly as received.
+     *
      * @return The call builder
      */
     public GetAssessmentVersionRequestBuilder retrieveVersion() {
@@ -472,6 +486,8 @@ public class Assessments {
      * <p>Retrieve a retained assessment version with its original decision, policy, flow and depth. This
      * response excludes the current account decision. Current retention and response-mode permissions
      * still apply.
+     *
+     * <p>detail.identifiers holds the identifiers the assessment was sent, exactly as received.
      *
      * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
      * @param version The stored assessment_version, in canonical decimal form. An unavailable or malformed version answers 404.
@@ -488,6 +504,8 @@ public class Assessments {
      * <p>Retrieve a retained assessment version with its original decision, policy, flow and depth. This
      * response excludes the current account decision. Current retention and response-mode permissions
      * still apply.
+     *
+     * <p>detail.identifiers holds the identifiers the assessment was sent, exactly as received.
      *
      * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
      * @param responseMode standard returns the consolidated risk response; detailed adds merged provider-neutral facts when the key has detailed scope. There is no raw mode.

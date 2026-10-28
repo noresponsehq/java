@@ -302,7 +302,8 @@ public class AsyncAccounts {
      * workspace and the account; a tampered or expired cursor answers 400 invalid_cursor.
      * response_mode=detailed needs the detailed scope.
      *
-     * <p>The account_id travels in the URL; use POST /v1/assessments/query to keep it out of access logs.
+     * <p>Each item's identifiers holds the identifiers its assessment was sent, exactly as received. The
+     * account_id travels in the URL; use POST /v1/assessments/query to keep it out of access logs.
      *
      * @return The async call builder
      */
@@ -321,7 +322,8 @@ public class AsyncAccounts {
      * workspace and the account; a tampered or expired cursor answers 400 invalid_cursor.
      * response_mode=detailed needs the detailed scope.
      *
-     * <p>The account_id travels in the URL; use POST /v1/assessments/query to keep it out of access logs.
+     * <p>Each item's identifiers holds the identifiers its assessment was sent, exactly as received. The
+     * account_id travels in the URL; use POST /v1/assessments/query to keep it out of access logs.
      *
      * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @return {@code CompletableFuture<ListAccountAssessmentsResponse>} - The async response
@@ -341,7 +343,8 @@ public class AsyncAccounts {
      * workspace and the account; a tampered or expired cursor answers 400 invalid_cursor.
      * response_mode=detailed needs the detailed scope.
      *
-     * <p>The account_id travels in the URL; use POST /v1/assessments/query to keep it out of access logs.
+     * <p>Each item's identifiers holds the identifiers its assessment was sent, exactly as received. The
+     * account_id travels in the URL; use POST /v1/assessments/query to keep it out of access logs.
      *
      * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @param limit Items per page.
@@ -760,12 +763,14 @@ public class AsyncAccounts {
      * Export an account
      *
      * <p>Retrieve one consistent snapshot of retained customer-accessible records, including assessment
-     * revisions, account decisions, feedback, key associations, enforcements and request diagnostics.
-     * Secrets, restricted source information, other customers' data and legacy free-text notes are
-     * excluded. The same standard/detailed permissions apply.
+     * revisions, account decisions, feedback, key associations, enforcements and request diagnostics. Each
+     * assessment revision's detail.identifiers holds the identifiers that assessment was sent, exactly as
+     * received. Secrets, restricted source information, other customers' data and legacy free-text notes
+     * are excluded.
      *
-     * <p>An export exceeding 10000 records or 8 MiB returns export_too_large without a partial result.
-     * Historical decisions that were not captured are identified as an exclusion.
+     * <p>The same standard/detailed permissions apply. An export exceeding 10000 records or 8 MiB returns
+     * export_too_large without a partial result. Historical decisions that were not captured are
+     * identified as an exclusion.
      *
      * @return The async call builder
      */
@@ -777,12 +782,14 @@ public class AsyncAccounts {
      * Export an account
      *
      * <p>Retrieve one consistent snapshot of retained customer-accessible records, including assessment
-     * revisions, account decisions, feedback, key associations, enforcements and request diagnostics.
-     * Secrets, restricted source information, other customers' data and legacy free-text notes are
-     * excluded. The same standard/detailed permissions apply.
+     * revisions, account decisions, feedback, key associations, enforcements and request diagnostics. Each
+     * assessment revision's detail.identifiers holds the identifiers that assessment was sent, exactly as
+     * received. Secrets, restricted source information, other customers' data and legacy free-text notes
+     * are excluded.
      *
-     * <p>An export exceeding 10000 records or 8 MiB returns export_too_large without a partial result.
-     * Historical decisions that were not captured are identified as an exclusion.
+     * <p>The same standard/detailed permissions apply. An export exceeding 10000 records or 8 MiB returns
+     * export_too_large without a partial result. Historical decisions that were not captured are
+     * identified as an exclusion.
      *
      * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @return {@code CompletableFuture<ExportAccountResponse>} - The async response
@@ -795,12 +802,14 @@ public class AsyncAccounts {
      * Export an account
      *
      * <p>Retrieve one consistent snapshot of retained customer-accessible records, including assessment
-     * revisions, account decisions, feedback, key associations, enforcements and request diagnostics.
-     * Secrets, restricted source information, other customers' data and legacy free-text notes are
-     * excluded. The same standard/detailed permissions apply.
+     * revisions, account decisions, feedback, key associations, enforcements and request diagnostics. Each
+     * assessment revision's detail.identifiers holds the identifiers that assessment was sent, exactly as
+     * received. Secrets, restricted source information, other customers' data and legacy free-text notes
+     * are excluded.
      *
-     * <p>An export exceeding 10000 records or 8 MiB returns export_too_large without a partial result.
-     * Historical decisions that were not captured are identified as an exclusion.
+     * <p>The same standard/detailed permissions apply. An export exceeding 10000 records or 8 MiB returns
+     * export_too_large without a partial result. Historical decisions that were not captured are
+     * identified as an exclusion.
      *
      * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
      * @param responseMode standard returns the consolidated risk response; detailed adds merged provider-neutral facts when the key has detailed scope. There is no raw mode.

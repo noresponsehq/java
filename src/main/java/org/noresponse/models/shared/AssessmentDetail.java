@@ -52,6 +52,17 @@ public class AssessmentDetail {
     private String accountId;
 
     /**
+     * The identifiers an assessment was sent: each member of the request's identifiers object exactly as
+     * received, before the server normalised it (the email domain keeps its case, the name its Unicode
+     * form). A member the request did not send is absent. NoResponse keeps them encrypted under the
+     * workspace's own key, does not index or log them, and deletes them with the assessment: on DELETE of
+     * the assessment or its account, at its expires_at, and with the workspace.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("identifiers")
+    private SentIdentifiers identifiers;
+
+    /**
      * An optional provider correlation id, echoed back. It is not an idempotency key. Refuses an
      * exact-shape JWT or a bare 40, 64 or 128 character hex digest; a UUID is accepted.
      */
@@ -181,6 +192,7 @@ public class AssessmentDetail {
     public AssessmentDetail(
             @JsonProperty("assessment_id") @Nonnull String assessmentId,
             @JsonProperty("account_id") @Nonnull String accountId,
+            @JsonProperty("identifiers") @Nullable SentIdentifiers identifiers,
             @JsonProperty("request_id") @Nullable String requestId,
             @JsonProperty("status") @Nonnull Status status,
             @JsonProperty("recommendation") @Nullable Recommendation recommendation,
@@ -201,6 +213,7 @@ public class AssessmentDetail {
                 .orElseThrow(() -> new IllegalArgumentException("assessmentId cannot be null"));
         this.accountId = Optional.ofNullable(accountId)
                 .orElseThrow(() -> new IllegalArgumentException("accountId cannot be null"));
+        this.identifiers = identifiers;
         this.requestId = requestId;
         this.status =
                 Optional.ofNullable(status).orElseThrow(() -> new IllegalArgumentException("status cannot be null"));
@@ -242,6 +255,7 @@ public class AssessmentDetail {
         this(
                 assessmentId,
                 accountId,
+                null,
                 null,
                 status,
                 null,
@@ -288,6 +302,17 @@ public class AssessmentDetail {
      */
     public String accountId() {
         return this.accountId;
+    }
+
+    /**
+     * The identifiers an assessment was sent: each member of the request's identifiers object exactly as
+     * received, before the server normalised it (the email domain keeps its case, the name its Unicode
+     * form). A member the request did not send is absent. NoResponse keeps them encrypted under the
+     * workspace's own key, does not index or log them, and deletes them with the assessment: on DELETE of
+     * the assessment or its account, at its expires_at, and with the workspace.
+     */
+    public Optional<SentIdentifiers> identifiers() {
+        return Optional.ofNullable(this.identifiers);
     }
 
     /**
@@ -457,6 +482,18 @@ public class AssessmentDetail {
     }
 
     /**
+     * The identifiers an assessment was sent: each member of the request's identifiers object exactly as
+     * received, before the server normalised it (the email domain keeps its case, the name its Unicode
+     * form). A member the request did not send is absent. NoResponse keeps them encrypted under the
+     * workspace's own key, does not index or log them, and deletes them with the assessment: on DELETE of
+     * the assessment or its account, at its expires_at, and with the workspace.
+     */
+    public AssessmentDetail withIdentifiers(@Nullable SentIdentifiers identifiers) {
+        this.identifiers = identifiers;
+        return this;
+    }
+
+    /**
      * An optional provider correlation id, echoed back. It is not an idempotency key. Refuses an
      * exact-shape JWT or a bare 40, 64 or 128 character hex digest; a UUID is accepted.
      */
@@ -612,6 +649,7 @@ public class AssessmentDetail {
         return Utils.enhancedDeepEquals(this.schemaVersion, other.schemaVersion)
                 && Utils.enhancedDeepEquals(this.assessmentId, other.assessmentId)
                 && Utils.enhancedDeepEquals(this.accountId, other.accountId)
+                && Utils.enhancedDeepEquals(this.identifiers, other.identifiers)
                 && Utils.enhancedDeepEquals(this.requestId, other.requestId)
                 && Utils.enhancedDeepEquals(this.status, other.status)
                 && Utils.enhancedDeepEquals(this.recommendation, other.recommendation)
@@ -636,6 +674,7 @@ public class AssessmentDetail {
                 schemaVersion,
                 assessmentId,
                 accountId,
+                identifiers,
                 requestId,
                 status,
                 recommendation,
@@ -664,6 +703,8 @@ public class AssessmentDetail {
                 assessmentId,
                 "accountId",
                 accountId,
+                "identifiers",
+                identifiers,
                 "requestId",
                 requestId,
                 "status",
@@ -704,6 +745,8 @@ public class AssessmentDetail {
         private String assessmentId;
 
         private String accountId;
+
+        private SentIdentifiers identifiers;
 
         private String requestId;
 
@@ -762,6 +805,18 @@ public class AssessmentDetail {
          */
         public Builder accountId(@Nonnull String accountId) {
             this.accountId = Utils.checkNotNull(accountId, "accountId");
+            return this;
+        }
+
+        /**
+         * The identifiers an assessment was sent: each member of the request's identifiers object exactly as
+         * received, before the server normalised it (the email domain keeps its case, the name its Unicode
+         * form). A member the request did not send is absent. NoResponse keeps them encrypted under the
+         * workspace's own key, does not index or log them, and deletes them with the assessment: on DELETE of
+         * the assessment or its account, at its expires_at, and with the workspace.
+         */
+        public Builder identifiers(@Nullable SentIdentifiers identifiers) {
+            this.identifiers = identifiers;
             return this;
         }
 
@@ -913,6 +968,7 @@ public class AssessmentDetail {
             return new AssessmentDetail(
                     assessmentId,
                     accountId,
+                    identifiers,
                     requestId,
                     status,
                     recommendation,
