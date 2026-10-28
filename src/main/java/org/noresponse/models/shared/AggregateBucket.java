@@ -36,6 +36,15 @@ public class AggregateBucket {
     @JsonProperty("score_histogram")
     private List<AggregateScoreCount> scoreHistogram;
 
+    /**
+     * With metric score_outcomes: the score_histogram's first answers whose assessment has a reported
+     * outcome, by its latest. A bin's count less its score_outcomes is the first answers with none
+     * reported.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("score_outcomes")
+    private List<AggregateScoreOutcome> scoreOutcomes;
+
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("late_flips")
     private List<AggregateLateFlip> lateFlips;
@@ -46,16 +55,18 @@ public class AggregateBucket {
             @JsonProperty("count") @Nullable Long count,
             @JsonProperty("groups") @Nullable List<AggregateGroup> groups,
             @JsonProperty("score_histogram") @Nullable List<AggregateScoreCount> scoreHistogram,
+            @JsonProperty("score_outcomes") @Nullable List<AggregateScoreOutcome> scoreOutcomes,
             @JsonProperty("late_flips") @Nullable List<AggregateLateFlip> lateFlips) {
         this.start = Optional.ofNullable(start).orElseThrow(() -> new IllegalArgumentException("start cannot be null"));
         this.count = count;
         this.groups = groups;
         this.scoreHistogram = scoreHistogram;
+        this.scoreOutcomes = scoreOutcomes;
         this.lateFlips = lateFlips;
     }
 
     public AggregateBucket(@Nonnull String start) {
-        this(start, null, null, null, null);
+        this(start, null, null, null, null, null);
     }
 
     public String start() {
@@ -78,6 +89,15 @@ public class AggregateBucket {
 
     public Optional<List<AggregateScoreCount>> scoreHistogram() {
         return Optional.ofNullable(this.scoreHistogram);
+    }
+
+    /**
+     * With metric score_outcomes: the score_histogram's first answers whose assessment has a reported
+     * outcome, by its latest. A bin's count less its score_outcomes is the first answers with none
+     * reported.
+     */
+    public Optional<List<AggregateScoreOutcome>> scoreOutcomes() {
+        return Optional.ofNullable(this.scoreOutcomes);
     }
 
     public Optional<List<AggregateLateFlip>> lateFlips() {
@@ -114,6 +134,16 @@ public class AggregateBucket {
         return this;
     }
 
+    /**
+     * With metric score_outcomes: the score_histogram's first answers whose assessment has a reported
+     * outcome, by its latest. A bin's count less its score_outcomes is the first answers with none
+     * reported.
+     */
+    public AggregateBucket withScoreOutcomes(@Nullable List<AggregateScoreOutcome> scoreOutcomes) {
+        this.scoreOutcomes = scoreOutcomes;
+        return this;
+    }
+
     public AggregateBucket withLateFlips(@Nullable List<AggregateLateFlip> lateFlips) {
         this.lateFlips = lateFlips;
         return this;
@@ -132,12 +162,13 @@ public class AggregateBucket {
                 && Utils.enhancedDeepEquals(this.count, other.count)
                 && Utils.enhancedDeepEquals(this.groups, other.groups)
                 && Utils.enhancedDeepEquals(this.scoreHistogram, other.scoreHistogram)
+                && Utils.enhancedDeepEquals(this.scoreOutcomes, other.scoreOutcomes)
                 && Utils.enhancedDeepEquals(this.lateFlips, other.lateFlips);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(start, count, groups, scoreHistogram, lateFlips);
+        return Utils.enhancedHash(start, count, groups, scoreHistogram, scoreOutcomes, lateFlips);
     }
 
     @Override
@@ -152,6 +183,8 @@ public class AggregateBucket {
                 groups,
                 "scoreHistogram",
                 scoreHistogram,
+                "scoreOutcomes",
+                scoreOutcomes,
                 "lateFlips",
                 lateFlips);
     }
@@ -166,6 +199,8 @@ public class AggregateBucket {
         private List<AggregateGroup> groups;
 
         private List<AggregateScoreCount> scoreHistogram;
+
+        private List<AggregateScoreOutcome> scoreOutcomes;
 
         private List<AggregateLateFlip> lateFlips;
 
@@ -199,13 +234,23 @@ public class AggregateBucket {
             return this;
         }
 
+        /**
+         * With metric score_outcomes: the score_histogram's first answers whose assessment has a reported
+         * outcome, by its latest. A bin's count less its score_outcomes is the first answers with none
+         * reported.
+         */
+        public Builder scoreOutcomes(@Nullable List<AggregateScoreOutcome> scoreOutcomes) {
+            this.scoreOutcomes = scoreOutcomes;
+            return this;
+        }
+
         public Builder lateFlips(@Nullable List<AggregateLateFlip> lateFlips) {
             this.lateFlips = lateFlips;
             return this;
         }
 
         public AggregateBucket build() {
-            return new AggregateBucket(start, count, groups, scoreHistogram, lateFlips);
+            return new AggregateBucket(start, count, groups, scoreHistogram, scoreOutcomes, lateFlips);
         }
     }
 }

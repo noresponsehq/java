@@ -19,6 +19,7 @@ public class AssessmentAggregateMetric {
 
     public static final AssessmentAggregateMetric COUNT = new AssessmentAggregateMetric("count");
     public static final AssessmentAggregateMetric SCORE_HISTOGRAM = new AssessmentAggregateMetric("score_histogram");
+    public static final AssessmentAggregateMetric SCORE_OUTCOMES = new AssessmentAggregateMetric("score_outcomes");
     public static final AssessmentAggregateMetric LATE_FLIPS = new AssessmentAggregateMetric("late_flips");
 
     // This map will grow whenever a Color gets created with a new
@@ -92,6 +93,7 @@ public class AssessmentAggregateMetric {
         Map<String, AssessmentAggregateMetric> map = new LinkedHashMap<>();
         map.put("count", COUNT);
         map.put("score_histogram", SCORE_HISTOGRAM);
+        map.put("score_outcomes", SCORE_OUTCOMES);
         map.put("late_flips", LATE_FLIPS);
         return map;
     }
@@ -100,6 +102,7 @@ public class AssessmentAggregateMetric {
         Map<String, AssessmentAggregateMetricEnum> map = new HashMap<>();
         map.put("count", AssessmentAggregateMetricEnum.COUNT);
         map.put("score_histogram", AssessmentAggregateMetricEnum.SCORE_HISTOGRAM);
+        map.put("score_outcomes", AssessmentAggregateMetricEnum.SCORE_OUTCOMES);
         map.put("late_flips", AssessmentAggregateMetricEnum.LATE_FLIPS);
         return map;
     }
@@ -108,6 +111,7 @@ public class AssessmentAggregateMetric {
 
         COUNT("count"),
         SCORE_HISTOGRAM("score_histogram"),
+        SCORE_OUTCOMES("score_outcomes"),
         LATE_FLIPS("late_flips"),
         ;
 

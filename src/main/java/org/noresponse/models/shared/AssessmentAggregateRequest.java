@@ -62,8 +62,12 @@ public class AssessmentAggregateRequest {
 
     /**
      * count: each bucket's count and groups. score_histogram: first answers by flow and 5-point score
-     * bucket. late_flips: changes of an assessment's account decision for its flow after its first answer,
-     * by from, to and delay.
+     * bucket. score_outcomes: the histogram's first answers that have a reported outcome, by flow, 5-point
+     * score bucket and the latest outcome reported for the assessment (POST
+     * /v1/assessments/{assessment_id}/outcomes); the rest of a bin has none reported.
+     *
+     * <p>late_flips: changes of an assessment's account decision for its flow after its first answer, by
+     * from, to and delay.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("metrics")
@@ -185,8 +189,12 @@ public class AssessmentAggregateRequest {
 
     /**
      * count: each bucket's count and groups. score_histogram: first answers by flow and 5-point score
-     * bucket. late_flips: changes of an assessment's account decision for its flow after its first answer,
-     * by from, to and delay.
+     * bucket. score_outcomes: the histogram's first answers that have a reported outcome, by flow, 5-point
+     * score bucket and the latest outcome reported for the assessment (POST
+     * /v1/assessments/{assessment_id}/outcomes); the rest of a bin has none reported.
+     *
+     * <p>late_flips: changes of an assessment's account decision for its flow after its first answer, by
+     * from, to and delay.
      */
     public Optional<List<AssessmentAggregateRequestMetric>> metrics() {
         return Optional.ofNullable(this.metrics);
@@ -285,8 +293,12 @@ public class AssessmentAggregateRequest {
 
     /**
      * count: each bucket's count and groups. score_histogram: first answers by flow and 5-point score
-     * bucket. late_flips: changes of an assessment's account decision for its flow after its first answer,
-     * by from, to and delay.
+     * bucket. score_outcomes: the histogram's first answers that have a reported outcome, by flow, 5-point
+     * score bucket and the latest outcome reported for the assessment (POST
+     * /v1/assessments/{assessment_id}/outcomes); the rest of a bin has none reported.
+     *
+     * <p>late_flips: changes of an assessment's account decision for its flow after its first answer, by
+     * from, to and delay.
      */
     public AssessmentAggregateRequest withMetrics(@Nullable List<AssessmentAggregateRequestMetric> metrics) {
         this.metrics = metrics;
@@ -473,8 +485,12 @@ public class AssessmentAggregateRequest {
 
         /**
          * count: each bucket's count and groups. score_histogram: first answers by flow and 5-point score
-         * bucket. late_flips: changes of an assessment's account decision for its flow after its first answer,
-         * by from, to and delay.
+         * bucket. score_outcomes: the histogram's first answers that have a reported outcome, by flow, 5-point
+         * score bucket and the latest outcome reported for the assessment (POST
+         * /v1/assessments/{assessment_id}/outcomes); the rest of a bin has none reported.
+         *
+         * <p>late_flips: changes of an assessment's account decision for its flow after its first answer, by
+         * from, to and delay.
          */
         public Builder metrics(@Nullable List<AssessmentAggregateRequestMetric> metrics) {
             this.metrics = metrics;

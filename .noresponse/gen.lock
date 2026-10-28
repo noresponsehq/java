@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: bd7a39251380c8052bb2a358d7847156
+  docChecksum: 706615fc2a298d8b1a8d2c29fb2ffe49
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 8.3.0
-  configChecksum: e8f5775ca64b00ef3ab54230140c01f1
+  releaseVersion: 8.4.0
+  configChecksum: 9a7dc091ac131f713946695ccee979c8
 features:
   java:
     additionalDependencies: 0.1.0
@@ -247,7 +247,7 @@ trackedFiles:
   docs/models/shared/Admission.md:
     last_write_checksum: sha1:a196319b18a46e1b875723d3a06f34ce172f0104
   docs/models/shared/AggregateBucket.md:
-    last_write_checksum: sha1:786b1980a95e0dc2b1beeebe305f217e1e178272
+    last_write_checksum: sha1:8656d8ca3a534245607500171fb7ea3c0ce8642a
   docs/models/shared/AggregateDimension.md:
     last_write_checksum: sha1:d8010773076a9bdadb4456c7d62a630c6e993393
   docs/models/shared/AggregateGroup.md:
@@ -256,6 +256,8 @@ trackedFiles:
     last_write_checksum: sha1:0548a836f047925266671025d92503f1b8db7203
   docs/models/shared/AggregateScoreCount.md:
     last_write_checksum: sha1:e9280a944a8d3d99800da7579d5dd288817e8d8d
+  docs/models/shared/AggregateScoreOutcome.md:
+    last_write_checksum: sha1:06d3401c389a44c6fb67053e64afadcb37d6fa21
   docs/models/shared/Agreement.md:
     last_write_checksum: sha1:e1eae330760ff6fb61af9026dcfe8e56bd60aae0
   docs/models/shared/AlternateName.md:
@@ -269,11 +271,11 @@ trackedFiles:
   docs/models/shared/AssessmentAggregate.md:
     last_write_checksum: sha1:b31cda92d29376d61ae221bd50b99c4f42aadfca
   docs/models/shared/AssessmentAggregateMetric.md:
-    last_write_checksum: sha1:16a0557e597c20ee4e111dd374e9659084247c38
+    last_write_checksum: sha1:ed3045f5caad40c35e7bbb7e73265fb8d084bf89
   docs/models/shared/AssessmentAggregateRequest.md:
-    last_write_checksum: sha1:8f334f3b075cffb63a5ed1d7e1f1a052ec2190b9
+    last_write_checksum: sha1:e638e1ba75c3353d35ab280e6416b8179662e62f
   docs/models/shared/AssessmentAggregateRequestMetric.md:
-    last_write_checksum: sha1:e65e068d812b28c2e58126eecad13c6ac6d5a072
+    last_write_checksum: sha1:69761ee6e813eba6c3e9a3495087c54995fafa7d
   docs/models/shared/AssessmentDeletion.md:
     last_write_checksum: sha1:6dc09a74d43c36051534957d667a70250b9e23f2
   docs/models/shared/AssessmentDeletionAccount.md:
@@ -647,7 +649,7 @@ trackedFiles:
   docs/sdks/accounts/README.md:
     last_write_checksum: sha1:044f22a5a7f4935f682718e9b21939be1ed06761
   docs/sdks/assessments/README.md:
-    last_write_checksum: sha1:9a5d56fcef57f506dde261be0c96da16f48b0b94
+    last_write_checksum: sha1:2305bf6acd076b6c41077fbbb6f8e7288411fcc8
   docs/sdks/integrations/README.md:
     last_write_checksum: sha1:06e34285f130ba04bf48f93b26716ee6f771f602
   docs/sdks/keys/README.md:
@@ -665,7 +667,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:118438216774d488816476c79c395850c1f6a165
+    last_write_checksum: sha1:b6e98216a019d6acb796749157b45f7dd20e00db
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -681,11 +683,11 @@ trackedFiles:
   src/main/java/org/noresponse/Accounts.java:
     last_write_checksum: sha1:a292f7d7849fa81c3e83e9cc4b72e9d5bda25872
   src/main/java/org/noresponse/Assessments.java:
-    last_write_checksum: sha1:07151f165bf8c65879bff51c5c98c970b9265609
+    last_write_checksum: sha1:d3652db995e1168c19e5aaa6ac4689f054fb49ca
   src/main/java/org/noresponse/AsyncAccounts.java:
     last_write_checksum: sha1:b7c0e1f7b06ca1ee1ddcbbce17d4037a3e2444bf
   src/main/java/org/noresponse/AsyncAssessments.java:
-    last_write_checksum: sha1:92330d1e2955c1cf9147bcb6c3628636b2c6de64
+    last_write_checksum: sha1:9d79a8e22d03506d73508e82e4d5322c25c8fe35
   src/main/java/org/noresponse/AsyncIntegrations.java:
     last_write_checksum: sha1:4a00dc1a1ee01fa512a93e393bb77be8c92cdda5
   src/main/java/org/noresponse/AsyncKeyUsage.java:
@@ -715,7 +717,7 @@ trackedFiles:
   src/main/java/org/noresponse/Requests.java:
     last_write_checksum: sha1:aaa1e1c0e6c0002431ed77c98dbce24e44cc1e35
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:342d03a425bed206edb3febe62a18a13be85bb6e
+    last_write_checksum: sha1:5523afba95d1a255c1a9fa483641bc00e17f3c94
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -1199,7 +1201,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/Admission.java:
     last_write_checksum: sha1:ee941781c23a57e745b275db086a236abf18a13b
   src/main/java/org/noresponse/models/shared/AggregateBucket.java:
-    last_write_checksum: sha1:2f46b81f58a2ee5841c4435c17eb72e6c6e603da
+    last_write_checksum: sha1:dfb45c5f08e0cdcda53e2460a812897f43e55fbd
   src/main/java/org/noresponse/models/shared/AggregateDimension.java:
     last_write_checksum: sha1:bc8f70a757905e7c9fcec18ac2f74bf0e8c6090d
   src/main/java/org/noresponse/models/shared/AggregateGroup.java:
@@ -1208,6 +1210,8 @@ trackedFiles:
     last_write_checksum: sha1:e1ced6056977632ba0b6de3f23a597ee238c4d48
   src/main/java/org/noresponse/models/shared/AggregateScoreCount.java:
     last_write_checksum: sha1:372fbea4f801bcc2427adb8b0e39a99c3aa97e58
+  src/main/java/org/noresponse/models/shared/AggregateScoreOutcome.java:
+    last_write_checksum: sha1:344e3142b698421abd0dc06ba608df7ca42270a2
   src/main/java/org/noresponse/models/shared/Agreement.java:
     last_write_checksum: sha1:596a41203f923641ed73011bae0bd505961d687e
   src/main/java/org/noresponse/models/shared/AlternateName.java:
@@ -1221,11 +1225,11 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/AssessmentAggregate.java:
     last_write_checksum: sha1:804c7c1decbda0fb83de86829152bab24e268a7a
   src/main/java/org/noresponse/models/shared/AssessmentAggregateMetric.java:
-    last_write_checksum: sha1:c30f2d1785f9119dc8bd037acc75cb9acf293e64
+    last_write_checksum: sha1:02e30b50500525b6aebe554efe95a99d0fbc24a4
   src/main/java/org/noresponse/models/shared/AssessmentAggregateRequest.java:
-    last_write_checksum: sha1:d4f98fa8ff1f085ce5eee36018b5508b8a257b04
+    last_write_checksum: sha1:ef9ba693985ba637061674d98988089a8edeb8d6
   src/main/java/org/noresponse/models/shared/AssessmentAggregateRequestMetric.java:
-    last_write_checksum: sha1:4779d880937d7274177952505d4302e9582b8ea8
+    last_write_checksum: sha1:3b31eb0d4c883cc9cdbbdb823741c33b52eb1765
   src/main/java/org/noresponse/models/shared/AssessmentDeletion.java:
     last_write_checksum: sha1:e7d707eee4b60e76b395cbbe80e388bf57e32d35
   src/main/java/org/noresponse/models/shared/AssessmentDeletionAccount.java:
