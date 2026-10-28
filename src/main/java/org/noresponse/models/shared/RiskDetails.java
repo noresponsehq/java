@@ -25,7 +25,7 @@ public class RiskDetails {
     private List<RiskDetailsPhoneName> phoneNames;
 
     /**
-     * The matching breach tables, newest first, at most 50.
+     * The matching breach tables, newest first, at most 100.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("breaches")
@@ -40,7 +40,7 @@ public class RiskDetails {
     private List<RiskDetailsBreachName> breachNames;
 
     /**
-     * The identity's dated footprint events, newest first, at most 100: the year and month, what happened
+     * The identity's dated footprint events, newest first, at most 300: the year and month, what happened
      * (created, last_active, breached), the site, its category, the kind of evidence and the identifier it
      * belongs to. No breach value: dates are coarsened to the month.
      */
@@ -69,7 +69,7 @@ public class RiskDetails {
     }
 
     /**
-     * The matching breach tables, newest first, at most 50.
+     * The matching breach tables, newest first, at most 100.
      */
     public Optional<List<Breach>> breaches() {
         return Optional.ofNullable(this.breaches);
@@ -84,7 +84,7 @@ public class RiskDetails {
     }
 
     /**
-     * The identity's dated footprint events, newest first, at most 100: the year and month, what happened
+     * The identity's dated footprint events, newest first, at most 300: the year and month, what happened
      * (created, last_active, breached), the site, its category, the kind of evidence and the identifier it
      * belongs to. No breach value: dates are coarsened to the month.
      */
@@ -102,7 +102,7 @@ public class RiskDetails {
     }
 
     /**
-     * The matching breach tables, newest first, at most 50.
+     * The matching breach tables, newest first, at most 100.
      */
     public RiskDetails withBreaches(@Nullable List<Breach> breaches) {
         this.breaches = breaches;
@@ -119,7 +119,7 @@ public class RiskDetails {
     }
 
     /**
-     * The identity's dated footprint events, newest first, at most 100: the year and month, what happened
+     * The identity's dated footprint events, newest first, at most 300: the year and month, what happened
      * (created, last_active, breached), the site, its category, the kind of evidence and the identifier it
      * belongs to. No breach value: dates are coarsened to the month.
      */
@@ -183,7 +183,7 @@ public class RiskDetails {
         }
 
         /**
-         * The matching breach tables, newest first, at most 50.
+         * The matching breach tables, newest first, at most 100.
          */
         public Builder breaches(@Nullable List<Breach> breaches) {
             this.breaches = breaches;
@@ -200,7 +200,7 @@ public class RiskDetails {
         }
 
         /**
-         * The identity's dated footprint events, newest first, at most 100: the year and month, what happened
+         * The identity's dated footprint events, newest first, at most 300: the year and month, what happened
          * (created, last_active, breached), the site, its category, the kind of evidence and the identifier it
          * belongs to. No breach value: dates are coarsened to the month.
          */
