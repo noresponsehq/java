@@ -71,6 +71,7 @@ public class ReasonCode {
     public static final ReasonCode BREACH_SHARED_IP = new ReasonCode("breach_shared_ip");
     public static final ReasonCode NATIONALITY_MISMATCH = new ReasonCode("nationality_mismatch");
     public static final ReasonCode MINOR_IDENTITY = new ReasonCode("minor_identity");
+    public static final ReasonCode REPORTED_ACCOUNT_ABUSE = new ReasonCode("reported_account_abuse");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -190,6 +191,7 @@ public class ReasonCode {
         map.put("breach_shared_ip", BREACH_SHARED_IP);
         map.put("nationality_mismatch", NATIONALITY_MISMATCH);
         map.put("minor_identity", MINOR_IDENTITY);
+        map.put("reported_account_abuse", REPORTED_ACCOUNT_ABUSE);
         return map;
     }
 
@@ -244,6 +246,7 @@ public class ReasonCode {
         map.put("breach_shared_ip", ReasonCodeEnum.BREACH_SHARED_IP);
         map.put("nationality_mismatch", ReasonCodeEnum.NATIONALITY_MISMATCH);
         map.put("minor_identity", ReasonCodeEnum.MINOR_IDENTITY);
+        map.put("reported_account_abuse", ReasonCodeEnum.REPORTED_ACCOUNT_ABUSE);
         return map;
     }
 
@@ -298,6 +301,7 @@ public class ReasonCode {
         BREACH_SHARED_IP("breach_shared_ip"),
         NATIONALITY_MISMATCH("nationality_mismatch"),
         MINOR_IDENTITY("minor_identity"),
+        REPORTED_ACCOUNT_ABUSE("reported_account_abuse"),
         ;
 
         private final String value;

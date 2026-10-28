@@ -11,6 +11,13 @@ Your accounts, each with one current risk, and their assessment history.
 * [delete](#delete) - Erase an account and its history.
 * [listAssessments](#listassessments) - Page through one account's unexpired assessments.
 * [recordEnforcement](#recordenforcement) - Record what you did to an account in your identity provider.
+* [recordOutcome](#recordoutcome) - Record or correct an account outcome
+* [listOutcomes](#listoutcomes) - List retained account feedback
+* [retrieveDecision](#retrievedecision) - Retrieve an exact historical account decision
+* [associateCredential](#associatecredential) - Associate a customer-issued API key
+* [listCredentials](#listcredentials) - List issued credential associations
+* [retireCredential](#retirecredential) - Retire an issued credential association
+* [export](#export) - Export an account
 
 ## listChanged
 
@@ -480,6 +487,460 @@ public class Application {
 ### Response
 
 **[RecordEnforcementResponse](../../models/operations/RecordEnforcementResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## recordOutcome
+
+Record a factual report, not an enforcement action. A known outcome replaces the effective report. unknown alone records uncertainty without changing it; unknown with supersedes explicitly retracts it. supersedes must name the current effective report or the request answers 409 outcome_conflict. Reports remain append-only. Idempotency-Key is required. observed_at defaults to receipt time and cannot be over five minutes ahead.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="recordAccountOutcome" method="post" path="/v1/accounts/{account_id}/outcomes" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.RecordAccountOutcomeResponse;
+import org.noresponse.models.shared.AccountOutcomeRequest;
+import org.noresponse.models.shared.Outcome;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        RecordAccountOutcomeResponse res = sdk.accounts().recordOutcome()
+                .accountId("acct_7f3a9c")
+                .idempotencyKey("account-acct_7f3a9c")
+                .body(AccountOutcomeRequest.builder()
+                    .outcome(Outcome.UNKNOWN)
+                    .observedAt("2026-01-01T00:00:00Z")
+                    .externalRef("case_123")
+                    .supersedes("out_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                    .build())
+                .call();
+
+        if (res.accountOutcome().isPresent()) {
+            System.out.println(res.accountOutcome().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                          | Type                                                                                                                                                                                                               | Required                                                                                                                                                                                                           | Description                                                                                                                                                                                                        | Example                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `accountId`                                                                                                                                                                                                        | *String*                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                 | The account_id the workspace sends with its assessments, as one path segment (percent-encode '\|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request. | acct_7f3a9c                                                                                                                                                                                                        |
+| `idempotencyKey`                                                                                                                                                                                                   | *String*                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                 | Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.                                                  | account-acct_7f3a9c                                                                                                                                                                                                |
+| `body`                                                                                                                                                                                                             | [AccountOutcomeRequest](../../models/shared/AccountOutcomeRequest.md)                                                                                                                                              | :heavy_check_mark:                                                                                                                                                                                                 | N/A                                                                                                                                                                                                                |                                                                                                                                                                                                                    |
+
+### Response
+
+**[RecordAccountOutcomeResponse](../../models/operations/RecordAccountOutcomeResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## listOutcomes
+
+List retained account reports, newest first. The page-level effective outcome id names the current report. Each receipt preserves the effective report and risk version from its original write. Page with the returned cursor.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="listAccountOutcomes" method="get" path="/v1/accounts/{account_id}/outcomes" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.ListAccountOutcomesResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        ListAccountOutcomesResponse res = sdk.accounts().listOutcomes()
+                .accountId("acct_7f3a9c")
+                .limit(20L)
+                .call();
+
+        if (res.accountOutcomePage().isPresent()) {
+            System.out.println(res.accountOutcomePage().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                          | Type                                                                                                                                                                                                               | Required                                                                                                                                                                                                           | Description                                                                                                                                                                                                        | Example                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `accountId`                                                                                                                                                                                                        | *String*                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                 | The account_id the workspace sends with its assessments, as one path segment (percent-encode '\|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request. | acct_7f3a9c                                                                                                                                                                                                        |
+| `limit`                                                                                                                                                                                                            | @Nullable *long*                                                                                                                                                                                                   | :heavy_minus_sign:                                                                                                                                                                                                 | Items per page.                                                                                                                                                                                                    |                                                                                                                                                                                                                    |
+| `cursor`                                                                                                                                                                                                           | @Nullable *String*                                                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                                                                 | next_cursor from the previous page, unchanged.                                                                                                                                                                     |                                                                                                                                                                                                                    |
+
+### Response
+
+**[ListAccountOutcomesResponse](../../models/operations/ListAccountOutcomesResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## retrieveDecision
+
+Retrieve the account decision at one recorded risk version. The answer uses the original assessment and account-specific risk inputs. Earlier versions that were not captured return 404. The assessment version, policy version and account calculation version identify the decision.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="getAccountDecision" method="get" path="/v1/accounts/{account_id}/decisions/{risk_version}" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.GetAccountDecisionResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        GetAccountDecisionResponse res = sdk.accounts().retrieveDecision()
+                .accountId("acct_7f3a9c")
+                .riskVersion(269840L)
+                .call();
+
+        if (res.accountDecisionSnapshot().isPresent()) {
+            System.out.println(res.accountDecisionSnapshot().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                          | Type                                                                                                                                                                                                               | Required                                                                                                                                                                                                           | Description                                                                                                                                                                                                        | Example                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `accountId`                                                                                                                                                                                                        | *String*                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                 | The account_id the workspace sends with its assessments, as one path segment (percent-encode '\|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request. | acct_7f3a9c                                                                                                                                                                                                        |
+| `riskVersion`                                                                                                                                                                                                      | *long*                                                                                                                                                                                                             | :heavy_check_mark:                                                                                                                                                                                                 | The canonical decimal risk_version originally served.                                                                                                                                                              |                                                                                                                                                                                                                    |
+
+### Response
+
+**[GetAccountDecisionResponse](../../models/operations/GetAccountDecisionResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## associateCredential
+
+Associate the SHA-256 of a high-entropy key issued by your service. Send the hash instead of the key. Repeating a hash returns its original association, including its retirement state. A hash associated with another account returns a conflict.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="associateCredential" method="post" path="/v1/accounts/{account_id}/credentials" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.AssociateCredentialResponse;
+import org.noresponse.models.shared.CredentialRequest;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        AssociateCredentialResponse res = sdk.accounts().associateCredential()
+                .accountId("acct_7f3a9c")
+                .body(CredentialRequest.builder()
+                    .sha256("5da2158606a4cb396280c842b578872bb64b96c4eb80dc02e6fb4e0e864b77c6")
+                    .build())
+                .call();
+
+        if (res.credentialAssociation().isPresent()) {
+            System.out.println(res.credentialAssociation().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                          | Type                                                                                                                                                                                                               | Required                                                                                                                                                                                                           | Description                                                                                                                                                                                                        | Example                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `accountId`                                                                                                                                                                                                        | *String*                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                 | The account_id the workspace sends with its assessments, as one path segment (percent-encode '\|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request. | acct_7f3a9c                                                                                                                                                                                                        |
+| `body`                                                                                                                                                                                                             | [CredentialRequest](../../models/shared/CredentialRequest.md)                                                                                                                                                      | :heavy_check_mark:                                                                                                                                                                                                 | N/A                                                                                                                                                                                                                |                                                                                                                                                                                                                    |
+
+### Response
+
+**[AssociateCredentialResponse](../../models/operations/AssociateCredentialResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## listCredentials
+
+Retained credential associations, ordered by id. Page with the authenticated cursor. Associations are removed on account erasure.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="listAccountCredentials" method="get" path="/v1/accounts/{account_id}/credentials" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.ListAccountCredentialsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        ListAccountCredentialsResponse res = sdk.accounts().listCredentials()
+                .accountId("acct_7f3a9c")
+                .limit(20L)
+                .call();
+
+        if (res.credentialPage().isPresent()) {
+            System.out.println(res.credentialPage().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                          | Type                                                                                                                                                                                                               | Required                                                                                                                                                                                                           | Description                                                                                                                                                                                                        | Example                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `accountId`                                                                                                                                                                                                        | *String*                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                 | The account_id the workspace sends with its assessments, as one path segment (percent-encode '\|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request. | acct_7f3a9c                                                                                                                                                                                                        |
+| `limit`                                                                                                                                                                                                            | @Nullable *long*                                                                                                                                                                                                   | :heavy_minus_sign:                                                                                                                                                                                                 | Items per page.                                                                                                                                                                                                    |                                                                                                                                                                                                                    |
+| `cursor`                                                                                                                                                                                                           | @Nullable *String*                                                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                                                                 | next_cursor from the previous page, unchanged.                                                                                                                                                                     |                                                                                                                                                                                                                    |
+
+### Response
+
+**[ListAccountCredentialsResponse](../../models/operations/ListAccountCredentialsResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## retireCredential
+
+Mark this association retired, idempotently. This does not revoke the actual key. Requires delete scope.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="retireAccountCredential" method="delete" path="/v1/accounts/{account_id}/credentials/{credential_id}" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.RetireAccountCredentialResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        RetireAccountCredentialResponse res = sdk.accounts().retireCredential()
+                .accountId("acct_7f3a9c")
+                .credentialId("<id>")
+                .call();
+
+        if (res.credentialAssociation().isPresent()) {
+            System.out.println(res.credentialAssociation().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                          | Type                                                                                                                                                                                                               | Required                                                                                                                                                                                                           | Description                                                                                                                                                                                                        | Example                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `accountId`                                                                                                                                                                                                        | *String*                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                 | The account_id the workspace sends with its assessments, as one path segment (percent-encode '\|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request. | acct_7f3a9c                                                                                                                                                                                                        |
+| `credentialId`                                                                                                                                                                                                     | *String*                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                 | N/A                                                                                                                                                                                                                |                                                                                                                                                                                                                    |
+
+### Response
+
+**[RetireAccountCredentialResponse](../../models/operations/RetireAccountCredentialResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## export
+
+Retrieve one consistent snapshot of retained customer-accessible records, including assessment revisions, account decisions, feedback, key associations, enforcements and request diagnostics. Secrets, restricted source information, other customers' data and legacy free-text notes are excluded. The same standard/detailed permissions apply. An export exceeding 10000 records or 8 MiB returns export_too_large without a partial result. Historical decisions that were not captured are identified as an exclusion.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="exportAccount" method="get" path="/v1/accounts/{account_id}/export" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.ExportAccountResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        ExportAccountResponse res = sdk.accounts().export()
+                .accountId("acct_7f3a9c")
+                .call();
+
+        if (res.accountExport().isPresent()) {
+            System.out.println(res.accountExport().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                          | Type                                                                                                                                                                                                               | Required                                                                                                                                                                                                           | Description                                                                                                                                                                                                        | Example                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `accountId`                                                                                                                                                                                                        | *String*                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                 | The account_id the workspace sends with its assessments, as one path segment (percent-encode '\|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request. | acct_7f3a9c                                                                                                                                                                                                        |
+| `responseMode`                                                                                                                                                                                                     | @Nullable [ResponseMode](../../models/shared/ResponseMode.md)                                                                                                                                                      | :heavy_minus_sign:                                                                                                                                                                                                 | standard returns the consolidated risk response; detailed adds merged provider-neutral facts when the key has detailed scope. There is no raw mode.                                                                |                                                                                                                                                                                                                    |
+
+### Response
+
+**[ExportAccountResponse](../../models/operations/ExportAccountResponse.md)**
 
 ### Errors
 

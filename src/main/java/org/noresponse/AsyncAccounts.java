@@ -8,28 +8,58 @@ import java.lang.Boolean;
 import java.lang.Long;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
+import org.noresponse.models.operations.AssociateCredentialRequest;
 import org.noresponse.models.operations.DeleteAccountRequest;
+import org.noresponse.models.operations.ExportAccountRequest;
+import org.noresponse.models.operations.GetAccountDecisionRequest;
 import org.noresponse.models.operations.GetAccountRequest;
 import org.noresponse.models.operations.ListAccountAssessmentsRequest;
+import org.noresponse.models.operations.ListAccountCredentialsRequest;
+import org.noresponse.models.operations.ListAccountOutcomesRequest;
 import org.noresponse.models.operations.ListAccountsRequest;
+import org.noresponse.models.operations.RecordAccountOutcomeRequest;
 import org.noresponse.models.operations.RecordEnforcementRequest;
+import org.noresponse.models.operations.RetireAccountCredentialRequest;
+import org.noresponse.models.operations.async.AssociateCredentialRequestBuilder;
+import org.noresponse.models.operations.async.AssociateCredentialResponse;
 import org.noresponse.models.operations.async.DeleteAccountRequestBuilder;
 import org.noresponse.models.operations.async.DeleteAccountResponse;
+import org.noresponse.models.operations.async.ExportAccountRequestBuilder;
+import org.noresponse.models.operations.async.ExportAccountResponse;
+import org.noresponse.models.operations.async.GetAccountDecisionRequestBuilder;
+import org.noresponse.models.operations.async.GetAccountDecisionResponse;
 import org.noresponse.models.operations.async.GetAccountRequestBuilder;
 import org.noresponse.models.operations.async.GetAccountResponse;
 import org.noresponse.models.operations.async.ListAccountAssessmentsRequestBuilder;
 import org.noresponse.models.operations.async.ListAccountAssessmentsResponse;
+import org.noresponse.models.operations.async.ListAccountCredentialsRequestBuilder;
+import org.noresponse.models.operations.async.ListAccountCredentialsResponse;
+import org.noresponse.models.operations.async.ListAccountOutcomesRequestBuilder;
+import org.noresponse.models.operations.async.ListAccountOutcomesResponse;
 import org.noresponse.models.operations.async.ListAccountsRequestBuilder;
 import org.noresponse.models.operations.async.ListAccountsResponse;
+import org.noresponse.models.operations.async.RecordAccountOutcomeRequestBuilder;
+import org.noresponse.models.operations.async.RecordAccountOutcomeResponse;
 import org.noresponse.models.operations.async.RecordEnforcementRequestBuilder;
 import org.noresponse.models.operations.async.RecordEnforcementResponse;
+import org.noresponse.models.operations.async.RetireAccountCredentialRequestBuilder;
+import org.noresponse.models.operations.async.RetireAccountCredentialResponse;
+import org.noresponse.models.shared.AccountOutcomeRequest;
+import org.noresponse.models.shared.CredentialRequest;
 import org.noresponse.models.shared.EnforcementRequest;
 import org.noresponse.models.shared.ResponseMode;
+import org.noresponse.operations.AssociateCredential;
 import org.noresponse.operations.DeleteAccount;
+import org.noresponse.operations.ExportAccount;
 import org.noresponse.operations.GetAccount;
+import org.noresponse.operations.GetAccountDecision;
 import org.noresponse.operations.ListAccountAssessments;
+import org.noresponse.operations.ListAccountCredentials;
+import org.noresponse.operations.ListAccountOutcomes;
 import org.noresponse.operations.ListAccounts;
+import org.noresponse.operations.RecordAccountOutcome;
 import org.noresponse.operations.RecordEnforcement;
+import org.noresponse.operations.RetireAccountCredential;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 
@@ -409,6 +439,379 @@ public class AsyncAccounts {
         RecordEnforcementRequest request = new RecordEnforcementRequest(accountId, body);
         AsyncRequestOperation<RecordEnforcementRequest, RecordEnforcementResponse> operation =
                 new RecordEnforcement.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Record or correct an account outcome
+     *
+     * <p>Record a factual report, not an enforcement action. A known outcome replaces the effective report.
+     * unknown alone records uncertainty without changing it; unknown with supersedes explicitly retracts
+     * it.
+     *
+     * <p>supersedes must name the current effective report or the request answers 409 outcome_conflict.
+     * Reports remain append-only. Idempotency-Key is required.
+     *
+     * <p>observed_at defaults to receipt time and cannot be over five minutes ahead.
+     *
+     * @return The async call builder
+     */
+    public RecordAccountOutcomeRequestBuilder recordOutcome() {
+        return new RecordAccountOutcomeRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Record or correct an account outcome
+     *
+     * <p>Record a factual report, not an enforcement action. A known outcome replaces the effective report.
+     * unknown alone records uncertainty without changing it; unknown with supersedes explicitly retracts
+     * it.
+     *
+     * <p>supersedes must name the current effective report or the request answers 409 outcome_conflict.
+     * Reports remain append-only. Idempotency-Key is required.
+     *
+     * <p>observed_at defaults to receipt time and cannot be over five minutes ahead.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
+     * @param body Record a factual report, not an enforcement action. A known outcome replaces the effective report. unknown alone records uncertainty without changing it; unknown with supersedes explicitly retracts it. supersedes must name the current effective report or the request answers 409 outcome_conflict. Reports remain append-only. Idempotency-Key is required. observed_at defaults to receipt time and cannot be over five minutes ahead.
+     * @return {@code CompletableFuture<RecordAccountOutcomeResponse>} - The async response
+     */
+    public CompletableFuture<RecordAccountOutcomeResponse> recordOutcome(
+            @Nonnull String accountId, @Nonnull String idempotencyKey, @Nonnull AccountOutcomeRequest body) {
+        return recordOutcome(accountId, idempotencyKey, body, null);
+    }
+
+    /**
+     * Record or correct an account outcome
+     *
+     * <p>Record a factual report, not an enforcement action. A known outcome replaces the effective report.
+     * unknown alone records uncertainty without changing it; unknown with supersedes explicitly retracts
+     * it.
+     *
+     * <p>supersedes must name the current effective report or the request answers 409 outcome_conflict.
+     * Reports remain append-only. Idempotency-Key is required.
+     *
+     * <p>observed_at defaults to receipt time and cannot be over five minutes ahead.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
+     * @param body Record a factual report, not an enforcement action. A known outcome replaces the effective report. unknown alone records uncertainty without changing it; unknown with supersedes explicitly retracts it. supersedes must name the current effective report or the request answers 409 outcome_conflict. Reports remain append-only. Idempotency-Key is required. observed_at defaults to receipt time and cannot be over five minutes ahead.
+     * @param options additional options
+     * @return {@code CompletableFuture<RecordAccountOutcomeResponse>} - The async response
+     */
+    public CompletableFuture<RecordAccountOutcomeResponse> recordOutcome(
+            @Nonnull String accountId,
+            @Nonnull String idempotencyKey,
+            @Nonnull AccountOutcomeRequest body,
+            @Nullable Options options) {
+        RecordAccountOutcomeRequest request = new RecordAccountOutcomeRequest(accountId, idempotencyKey, body);
+        AsyncRequestOperation<RecordAccountOutcomeRequest, RecordAccountOutcomeResponse> operation =
+                new RecordAccountOutcome.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * List retained account feedback
+     *
+     * <p>List retained account reports, newest first. The page-level effective outcome id names the current
+     * report. Each receipt preserves the effective report and risk version from its original write.
+     *
+     * <p>Page with the returned cursor.
+     *
+     * @return The async call builder
+     */
+    public ListAccountOutcomesRequestBuilder listOutcomes() {
+        return new ListAccountOutcomesRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * List retained account feedback
+     *
+     * <p>List retained account reports, newest first. The page-level effective outcome id names the current
+     * report. Each receipt preserves the effective report and risk version from its original write.
+     *
+     * <p>Page with the returned cursor.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @return {@code CompletableFuture<ListAccountOutcomesResponse>} - The async response
+     */
+    public CompletableFuture<ListAccountOutcomesResponse> listOutcomes(@Nonnull String accountId) {
+        return listOutcomes(accountId, null, null, null);
+    }
+
+    /**
+     * List retained account feedback
+     *
+     * <p>List retained account reports, newest first. The page-level effective outcome id names the current
+     * report. Each receipt preserves the effective report and risk version from its original write.
+     *
+     * <p>Page with the returned cursor.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param limit Items per page.
+     * @param cursor next_cursor from the previous page, unchanged.
+     * @param options additional options
+     * @return {@code CompletableFuture<ListAccountOutcomesResponse>} - The async response
+     */
+    public CompletableFuture<ListAccountOutcomesResponse> listOutcomes(
+            @Nonnull String accountId, @Nullable Long limit, @Nullable String cursor, @Nullable Options options) {
+        ListAccountOutcomesRequest request = new ListAccountOutcomesRequest(accountId, limit, cursor);
+        AsyncRequestOperation<ListAccountOutcomesRequest, ListAccountOutcomesResponse> operation =
+                new ListAccountOutcomes.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Retrieve an exact historical account decision
+     *
+     * <p>Retrieve the account decision at one recorded risk version. The answer uses the original assessment
+     * and account-specific risk inputs. Earlier versions that were not captured return 404.
+     *
+     * <p>The assessment version, policy version and account calculation version identify the decision.
+     *
+     * @return The async call builder
+     */
+    public GetAccountDecisionRequestBuilder retrieveDecision() {
+        return new GetAccountDecisionRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Retrieve an exact historical account decision
+     *
+     * <p>Retrieve the account decision at one recorded risk version. The answer uses the original assessment
+     * and account-specific risk inputs. Earlier versions that were not captured return 404.
+     *
+     * <p>The assessment version, policy version and account calculation version identify the decision.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param riskVersion The canonical decimal risk_version originally served.
+     * @return {@code CompletableFuture<GetAccountDecisionResponse>} - The async response
+     */
+    public CompletableFuture<GetAccountDecisionResponse> retrieveDecision(@Nonnull String accountId, long riskVersion) {
+        return retrieveDecision(accountId, riskVersion, null);
+    }
+
+    /**
+     * Retrieve an exact historical account decision
+     *
+     * <p>Retrieve the account decision at one recorded risk version. The answer uses the original assessment
+     * and account-specific risk inputs. Earlier versions that were not captured return 404.
+     *
+     * <p>The assessment version, policy version and account calculation version identify the decision.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param riskVersion The canonical decimal risk_version originally served.
+     * @param options additional options
+     * @return {@code CompletableFuture<GetAccountDecisionResponse>} - The async response
+     */
+    public CompletableFuture<GetAccountDecisionResponse> retrieveDecision(
+            @Nonnull String accountId, long riskVersion, @Nullable Options options) {
+        GetAccountDecisionRequest request = new GetAccountDecisionRequest(accountId, riskVersion);
+        AsyncRequestOperation<GetAccountDecisionRequest, GetAccountDecisionResponse> operation =
+                new GetAccountDecision.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Associate a customer-issued API key
+     *
+     * <p>Associate the SHA-256 of a high-entropy key issued by your service. Send the hash instead of the
+     * key. Repeating a hash returns its original association, including its retirement state.
+     *
+     * <p>A hash associated with another account returns a conflict.
+     *
+     * @return The async call builder
+     */
+    public AssociateCredentialRequestBuilder associateCredential() {
+        return new AssociateCredentialRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Associate a customer-issued API key
+     *
+     * <p>Associate the SHA-256 of a high-entropy key issued by your service. Send the hash instead of the
+     * key. Repeating a hash returns its original association, including its retirement state.
+     *
+     * <p>A hash associated with another account returns a conflict.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param body Associate the SHA-256 of a high-entropy key issued by your service. Send the hash instead of the key. Repeating a hash returns its original association, including its retirement state. A hash associated with another account returns a conflict.
+     * @return {@code CompletableFuture<AssociateCredentialResponse>} - The async response
+     */
+    public CompletableFuture<AssociateCredentialResponse> associateCredential(
+            @Nonnull String accountId, @Nonnull CredentialRequest body) {
+        return associateCredential(accountId, body, null);
+    }
+
+    /**
+     * Associate a customer-issued API key
+     *
+     * <p>Associate the SHA-256 of a high-entropy key issued by your service. Send the hash instead of the
+     * key. Repeating a hash returns its original association, including its retirement state.
+     *
+     * <p>A hash associated with another account returns a conflict.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param body Associate the SHA-256 of a high-entropy key issued by your service. Send the hash instead of the key. Repeating a hash returns its original association, including its retirement state. A hash associated with another account returns a conflict.
+     * @param options additional options
+     * @return {@code CompletableFuture<AssociateCredentialResponse>} - The async response
+     */
+    public CompletableFuture<AssociateCredentialResponse> associateCredential(
+            @Nonnull String accountId, @Nonnull CredentialRequest body, @Nullable Options options) {
+        AssociateCredentialRequest request = new AssociateCredentialRequest(accountId, body);
+        AsyncRequestOperation<AssociateCredentialRequest, AssociateCredentialResponse> operation =
+                new AssociateCredential.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * List issued credential associations
+     *
+     * <p>Retained credential associations, ordered by id. Page with the authenticated cursor. Associations
+     * are removed on account erasure.
+     *
+     * @return The async call builder
+     */
+    public ListAccountCredentialsRequestBuilder listCredentials() {
+        return new ListAccountCredentialsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * List issued credential associations
+     *
+     * <p>Retained credential associations, ordered by id. Page with the authenticated cursor. Associations
+     * are removed on account erasure.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @return {@code CompletableFuture<ListAccountCredentialsResponse>} - The async response
+     */
+    public CompletableFuture<ListAccountCredentialsResponse> listCredentials(@Nonnull String accountId) {
+        return listCredentials(accountId, null, null, null);
+    }
+
+    /**
+     * List issued credential associations
+     *
+     * <p>Retained credential associations, ordered by id. Page with the authenticated cursor. Associations
+     * are removed on account erasure.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param limit Items per page.
+     * @param cursor next_cursor from the previous page, unchanged.
+     * @param options additional options
+     * @return {@code CompletableFuture<ListAccountCredentialsResponse>} - The async response
+     */
+    public CompletableFuture<ListAccountCredentialsResponse> listCredentials(
+            @Nonnull String accountId, @Nullable Long limit, @Nullable String cursor, @Nullable Options options) {
+        ListAccountCredentialsRequest request = new ListAccountCredentialsRequest(accountId, limit, cursor);
+        AsyncRequestOperation<ListAccountCredentialsRequest, ListAccountCredentialsResponse> operation =
+                new ListAccountCredentials.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Retire an issued credential association
+     *
+     * <p>Mark this association retired, idempotently. This does not revoke the actual key. Requires delete
+     * scope.
+     *
+     * @return The async call builder
+     */
+    public RetireAccountCredentialRequestBuilder retireCredential() {
+        return new RetireAccountCredentialRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Retire an issued credential association
+     *
+     * <p>Mark this association retired, idempotently. This does not revoke the actual key. Requires delete
+     * scope.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param credentialId
+     * @return {@code CompletableFuture<RetireAccountCredentialResponse>} - The async response
+     */
+    public CompletableFuture<RetireAccountCredentialResponse> retireCredential(
+            @Nonnull String accountId, @Nonnull String credentialId) {
+        return retireCredential(accountId, credentialId, null);
+    }
+
+    /**
+     * Retire an issued credential association
+     *
+     * <p>Mark this association retired, idempotently. This does not revoke the actual key. Requires delete
+     * scope.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param credentialId
+     * @param options additional options
+     * @return {@code CompletableFuture<RetireAccountCredentialResponse>} - The async response
+     */
+    public CompletableFuture<RetireAccountCredentialResponse> retireCredential(
+            @Nonnull String accountId, @Nonnull String credentialId, @Nullable Options options) {
+        RetireAccountCredentialRequest request = new RetireAccountCredentialRequest(accountId, credentialId);
+        AsyncRequestOperation<RetireAccountCredentialRequest, RetireAccountCredentialResponse> operation =
+                new RetireAccountCredential.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Export an account
+     *
+     * <p>Retrieve one consistent snapshot of retained customer-accessible records, including assessment
+     * revisions, account decisions, feedback, key associations, enforcements and request diagnostics.
+     * Secrets, restricted source information, other customers' data and legacy free-text notes are
+     * excluded. The same standard/detailed permissions apply.
+     *
+     * <p>An export exceeding 10000 records or 8 MiB returns export_too_large without a partial result.
+     * Historical decisions that were not captured are identified as an exclusion.
+     *
+     * @return The async call builder
+     */
+    public ExportAccountRequestBuilder export() {
+        return new ExportAccountRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Export an account
+     *
+     * <p>Retrieve one consistent snapshot of retained customer-accessible records, including assessment
+     * revisions, account decisions, feedback, key associations, enforcements and request diagnostics.
+     * Secrets, restricted source information, other customers' data and legacy free-text notes are
+     * excluded. The same standard/detailed permissions apply.
+     *
+     * <p>An export exceeding 10000 records or 8 MiB returns export_too_large without a partial result.
+     * Historical decisions that were not captured are identified as an exclusion.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @return {@code CompletableFuture<ExportAccountResponse>} - The async response
+     */
+    public CompletableFuture<ExportAccountResponse> export(@Nonnull String accountId) {
+        return export(accountId, null, null);
+    }
+
+    /**
+     * Export an account
+     *
+     * <p>Retrieve one consistent snapshot of retained customer-accessible records, including assessment
+     * revisions, account decisions, feedback, key associations, enforcements and request diagnostics.
+     * Secrets, restricted source information, other customers' data and legacy free-text notes are
+     * excluded. The same standard/detailed permissions apply.
+     *
+     * <p>An export exceeding 10000 records or 8 MiB returns export_too_large without a partial result.
+     * Historical decisions that were not captured are identified as an exclusion.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param responseMode standard returns the consolidated risk response; detailed adds merged provider-neutral facts when the key has detailed scope. There is no raw mode.
+     * @param options additional options
+     * @return {@code CompletableFuture<ExportAccountResponse>} - The async response
+     */
+    public CompletableFuture<ExportAccountResponse> export(
+            @Nonnull String accountId, @Nullable ResponseMode responseMode, @Nullable Options options) {
+        ExportAccountRequest request = new ExportAccountRequest(accountId, responseMode);
+        AsyncRequestOperation<ExportAccountRequest, ExportAccountResponse> operation =
+                new ExportAccount.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 }

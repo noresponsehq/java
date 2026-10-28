@@ -5,6 +5,9 @@ import static org.noresponse.operations.Operations.RequestOperation;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.lang.String;
+import org.noresponse.models.operations.BindProvisionalAccountRequest;
+import org.noresponse.models.operations.BindProvisionalAccountRequestBuilder;
+import org.noresponse.models.operations.BindProvisionalAccountResponse;
 import org.noresponse.models.operations.CreateAssessmentRequest;
 import org.noresponse.models.operations.CreateAssessmentRequestBuilder;
 import org.noresponse.models.operations.CreateAssessmentResponse;
@@ -14,20 +17,30 @@ import org.noresponse.models.operations.DeleteAssessmentResponse;
 import org.noresponse.models.operations.GetAssessmentRequest;
 import org.noresponse.models.operations.GetAssessmentRequestBuilder;
 import org.noresponse.models.operations.GetAssessmentResponse;
+import org.noresponse.models.operations.GetAssessmentVersionRequest;
+import org.noresponse.models.operations.GetAssessmentVersionRequestBuilder;
+import org.noresponse.models.operations.GetAssessmentVersionResponse;
 import org.noresponse.models.operations.QueryAccountAssessmentsRequestBuilder;
 import org.noresponse.models.operations.QueryAccountAssessmentsResponse;
 import org.noresponse.models.operations.RecordAssessmentOutcomeRequest;
 import org.noresponse.models.operations.RecordAssessmentOutcomeRequestBuilder;
 import org.noresponse.models.operations.RecordAssessmentOutcomeResponse;
+import org.noresponse.models.operations.SearchAssessmentsRequestBuilder;
+import org.noresponse.models.operations.SearchAssessmentsResponse;
+import org.noresponse.models.shared.AccountBindingRequest;
 import org.noresponse.models.shared.AssessmentOutcomeRequest;
 import org.noresponse.models.shared.AssessmentQuery;
 import org.noresponse.models.shared.AssessmentRequest;
+import org.noresponse.models.shared.AssessmentSearchRequest;
 import org.noresponse.models.shared.ResponseMode;
+import org.noresponse.operations.BindProvisionalAccount;
 import org.noresponse.operations.CreateAssessment;
 import org.noresponse.operations.DeleteAssessment;
 import org.noresponse.operations.GetAssessment;
+import org.noresponse.operations.GetAssessmentVersion;
 import org.noresponse.operations.QueryAccountAssessments;
 import org.noresponse.operations.RecordAssessmentOutcome;
+import org.noresponse.operations.SearchAssessments;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 
@@ -385,6 +398,166 @@ public class Assessments {
     public QueryAccountAssessmentsResponse query(@Nonnull AssessmentQuery request, @Nullable Options options) {
         RequestOperation<AssessmentQuery, QueryAccountAssessmentsResponse> operation =
                 new QueryAccountAssessments.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Search assessments across this environment
+     *
+     * <p>Search retained assessments created in [from,to), over at most 366 days. Filters use each assessment
+     * decision, rather than the current account decision. Results can change between pages.
+     *
+     * <p>Keep the assessment version to retrieve the exact decision later. This read does not require an
+     * idempotency key.
+     *
+     * @return The call builder
+     */
+    public SearchAssessmentsRequestBuilder search() {
+        return new SearchAssessmentsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Search assessments across this environment
+     *
+     * <p>Search retained assessments created in [from,to), over at most 366 days. Filters use each assessment
+     * decision, rather than the current account decision. Results can change between pages.
+     *
+     * <p>Keep the assessment version to retrieve the exact decision later. This read does not require an
+     * idempotency key.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public SearchAssessmentsResponse search(@Nonnull AssessmentSearchRequest request) {
+        return search(request, null);
+    }
+
+    /**
+     * Search assessments across this environment
+     *
+     * <p>Search retained assessments created in [from,to), over at most 366 days. Filters use each assessment
+     * decision, rather than the current account decision. Results can change between pages.
+     *
+     * <p>Keep the assessment version to retrieve the exact decision later. This read does not require an
+     * idempotency key.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public SearchAssessmentsResponse search(@Nonnull AssessmentSearchRequest request, @Nullable Options options) {
+        RequestOperation<AssessmentSearchRequest, SearchAssessmentsResponse> operation =
+                new SearchAssessments.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Retrieve an exact assessment revision
+     *
+     * <p>Retrieve a retained assessment version with its original decision, policy, flow and depth. This
+     * response excludes the current account decision. Current retention and response-mode permissions
+     * still apply.
+     *
+     * @return The call builder
+     */
+    public GetAssessmentVersionRequestBuilder retrieveVersion() {
+        return new GetAssessmentVersionRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Retrieve an exact assessment revision
+     *
+     * <p>Retrieve a retained assessment version with its original decision, policy, flow and depth. This
+     * response excludes the current account decision. Current retention and response-mode permissions
+     * still apply.
+     *
+     * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
+     * @param version The stored assessment_version, in canonical decimal form. An unavailable or malformed version answers 404.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetAssessmentVersionResponse retrieveVersion(@Nonnull String assessmentId, long version) {
+        return retrieveVersion(assessmentId, null, version, null);
+    }
+
+    /**
+     * Retrieve an exact assessment revision
+     *
+     * <p>Retrieve a retained assessment version with its original decision, policy, flow and depth. This
+     * response excludes the current account decision. Current retention and response-mode permissions
+     * still apply.
+     *
+     * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
+     * @param responseMode standard returns the consolidated risk response; detailed adds merged provider-neutral facts when the key has detailed scope. There is no raw mode.
+     * @param version The stored assessment_version, in canonical decimal form. An unavailable or malformed version answers 404.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetAssessmentVersionResponse retrieveVersion(
+            @Nonnull String assessmentId,
+            @Nullable ResponseMode responseMode,
+            long version,
+            @Nullable Options options) {
+        GetAssessmentVersionRequest request = new GetAssessmentVersionRequest(assessmentId, responseMode, version);
+        RequestOperation<GetAssessmentVersionRequest, GetAssessmentVersionResponse> operation =
+                new GetAssessmentVersion.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Bind a provisional signup account
+     *
+     * <p>One-time association to an opaque stable customer account. The assessment is its natural idempotency
+     * key. Repeating the same binding returns its first receipt; a conflicting target is refused.
+     *
+     * <p>No arbitrary account merging.
+     *
+     * @return The call builder
+     */
+    public BindProvisionalAccountRequestBuilder bindAccount() {
+        return new BindProvisionalAccountRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Bind a provisional signup account
+     *
+     * <p>One-time association to an opaque stable customer account. The assessment is its natural idempotency
+     * key. Repeating the same binding returns its first receipt; a conflicting target is refused.
+     *
+     * <p>No arbitrary account merging.
+     *
+     * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
+     * @param body One-time association to an opaque stable customer account. The assessment is its natural idempotency key. Repeating the same binding returns its first receipt; a conflicting target is refused. No arbitrary account merging.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public BindProvisionalAccountResponse bindAccount(
+            @Nonnull String assessmentId, @Nonnull AccountBindingRequest body) {
+        return bindAccount(assessmentId, body, null);
+    }
+
+    /**
+     * Bind a provisional signup account
+     *
+     * <p>One-time association to an opaque stable customer account. The assessment is its natural idempotency
+     * key. Repeating the same binding returns its first receipt; a conflicting target is refused.
+     *
+     * <p>No arbitrary account merging.
+     *
+     * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
+     * @param body One-time association to an opaque stable customer account. The assessment is its natural idempotency key. Repeating the same binding returns its first receipt; a conflicting target is refused. No arbitrary account merging.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public BindProvisionalAccountResponse bindAccount(
+            @Nonnull String assessmentId, @Nonnull AccountBindingRequest body, @Nullable Options options) {
+        BindProvisionalAccountRequest request = new BindProvisionalAccountRequest(assessmentId, body);
+        RequestOperation<BindProvisionalAccountRequest, BindProvisionalAccountResponse> operation =
+                new BindProvisionalAccount.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 }

@@ -6,29 +6,42 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
+import org.noresponse.models.operations.BindProvisionalAccountRequest;
 import org.noresponse.models.operations.CreateAssessmentRequest;
 import org.noresponse.models.operations.DeleteAssessmentRequest;
 import org.noresponse.models.operations.GetAssessmentRequest;
+import org.noresponse.models.operations.GetAssessmentVersionRequest;
 import org.noresponse.models.operations.RecordAssessmentOutcomeRequest;
+import org.noresponse.models.operations.async.BindProvisionalAccountRequestBuilder;
+import org.noresponse.models.operations.async.BindProvisionalAccountResponse;
 import org.noresponse.models.operations.async.CreateAssessmentRequestBuilder;
 import org.noresponse.models.operations.async.CreateAssessmentResponse;
 import org.noresponse.models.operations.async.DeleteAssessmentRequestBuilder;
 import org.noresponse.models.operations.async.DeleteAssessmentResponse;
 import org.noresponse.models.operations.async.GetAssessmentRequestBuilder;
 import org.noresponse.models.operations.async.GetAssessmentResponse;
+import org.noresponse.models.operations.async.GetAssessmentVersionRequestBuilder;
+import org.noresponse.models.operations.async.GetAssessmentVersionResponse;
 import org.noresponse.models.operations.async.QueryAccountAssessmentsRequestBuilder;
 import org.noresponse.models.operations.async.QueryAccountAssessmentsResponse;
 import org.noresponse.models.operations.async.RecordAssessmentOutcomeRequestBuilder;
 import org.noresponse.models.operations.async.RecordAssessmentOutcomeResponse;
+import org.noresponse.models.operations.async.SearchAssessmentsRequestBuilder;
+import org.noresponse.models.operations.async.SearchAssessmentsResponse;
+import org.noresponse.models.shared.AccountBindingRequest;
 import org.noresponse.models.shared.AssessmentOutcomeRequest;
 import org.noresponse.models.shared.AssessmentQuery;
 import org.noresponse.models.shared.AssessmentRequest;
+import org.noresponse.models.shared.AssessmentSearchRequest;
 import org.noresponse.models.shared.ResponseMode;
+import org.noresponse.operations.BindProvisionalAccount;
 import org.noresponse.operations.CreateAssessment;
 import org.noresponse.operations.DeleteAssessment;
 import org.noresponse.operations.GetAssessment;
+import org.noresponse.operations.GetAssessmentVersion;
 import org.noresponse.operations.QueryAccountAssessments;
 import org.noresponse.operations.RecordAssessmentOutcome;
+import org.noresponse.operations.SearchAssessments;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 
@@ -378,6 +391,161 @@ public class AsyncAssessments {
             @Nonnull AssessmentQuery request, @Nullable Options options) {
         AsyncRequestOperation<AssessmentQuery, QueryAccountAssessmentsResponse> operation =
                 new QueryAccountAssessments.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Search assessments across this environment
+     *
+     * <p>Search retained assessments created in [from,to), over at most 366 days. Filters use each assessment
+     * decision, rather than the current account decision. Results can change between pages.
+     *
+     * <p>Keep the assessment version to retrieve the exact decision later. This read does not require an
+     * idempotency key.
+     *
+     * @return The async call builder
+     */
+    public SearchAssessmentsRequestBuilder search() {
+        return new SearchAssessmentsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Search assessments across this environment
+     *
+     * <p>Search retained assessments created in [from,to), over at most 366 days. Filters use each assessment
+     * decision, rather than the current account decision. Results can change between pages.
+     *
+     * <p>Keep the assessment version to retrieve the exact decision later. This read does not require an
+     * idempotency key.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return {@code CompletableFuture<SearchAssessmentsResponse>} - The async response
+     */
+    public CompletableFuture<SearchAssessmentsResponse> search(@Nonnull AssessmentSearchRequest request) {
+        return search(request, null);
+    }
+
+    /**
+     * Search assessments across this environment
+     *
+     * <p>Search retained assessments created in [from,to), over at most 366 days. Filters use each assessment
+     * decision, rather than the current account decision. Results can change between pages.
+     *
+     * <p>Keep the assessment version to retrieve the exact decision later. This read does not require an
+     * idempotency key.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return {@code CompletableFuture<SearchAssessmentsResponse>} - The async response
+     */
+    public CompletableFuture<SearchAssessmentsResponse> search(
+            @Nonnull AssessmentSearchRequest request, @Nullable Options options) {
+        AsyncRequestOperation<AssessmentSearchRequest, SearchAssessmentsResponse> operation =
+                new SearchAssessments.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Retrieve an exact assessment revision
+     *
+     * <p>Retrieve a retained assessment version with its original decision, policy, flow and depth. This
+     * response excludes the current account decision. Current retention and response-mode permissions
+     * still apply.
+     *
+     * @return The async call builder
+     */
+    public GetAssessmentVersionRequestBuilder retrieveVersion() {
+        return new GetAssessmentVersionRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Retrieve an exact assessment revision
+     *
+     * <p>Retrieve a retained assessment version with its original decision, policy, flow and depth. This
+     * response excludes the current account decision. Current retention and response-mode permissions
+     * still apply.
+     *
+     * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
+     * @param version The stored assessment_version, in canonical decimal form. An unavailable or malformed version answers 404.
+     * @return {@code CompletableFuture<GetAssessmentVersionResponse>} - The async response
+     */
+    public CompletableFuture<GetAssessmentVersionResponse> retrieveVersion(@Nonnull String assessmentId, long version) {
+        return retrieveVersion(assessmentId, null, version, null);
+    }
+
+    /**
+     * Retrieve an exact assessment revision
+     *
+     * <p>Retrieve a retained assessment version with its original decision, policy, flow and depth. This
+     * response excludes the current account decision. Current retention and response-mode permissions
+     * still apply.
+     *
+     * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
+     * @param responseMode standard returns the consolidated risk response; detailed adds merged provider-neutral facts when the key has detailed scope. There is no raw mode.
+     * @param version The stored assessment_version, in canonical decimal form. An unavailable or malformed version answers 404.
+     * @param options additional options
+     * @return {@code CompletableFuture<GetAssessmentVersionResponse>} - The async response
+     */
+    public CompletableFuture<GetAssessmentVersionResponse> retrieveVersion(
+            @Nonnull String assessmentId,
+            @Nullable ResponseMode responseMode,
+            long version,
+            @Nullable Options options) {
+        GetAssessmentVersionRequest request = new GetAssessmentVersionRequest(assessmentId, responseMode, version);
+        AsyncRequestOperation<GetAssessmentVersionRequest, GetAssessmentVersionResponse> operation =
+                new GetAssessmentVersion.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Bind a provisional signup account
+     *
+     * <p>One-time association to an opaque stable customer account. The assessment is its natural idempotency
+     * key. Repeating the same binding returns its first receipt; a conflicting target is refused.
+     *
+     * <p>No arbitrary account merging.
+     *
+     * @return The async call builder
+     */
+    public BindProvisionalAccountRequestBuilder bindAccount() {
+        return new BindProvisionalAccountRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Bind a provisional signup account
+     *
+     * <p>One-time association to an opaque stable customer account. The assessment is its natural idempotency
+     * key. Repeating the same binding returns its first receipt; a conflicting target is refused.
+     *
+     * <p>No arbitrary account merging.
+     *
+     * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
+     * @param body One-time association to an opaque stable customer account. The assessment is its natural idempotency key. Repeating the same binding returns its first receipt; a conflicting target is refused. No arbitrary account merging.
+     * @return {@code CompletableFuture<BindProvisionalAccountResponse>} - The async response
+     */
+    public CompletableFuture<BindProvisionalAccountResponse> bindAccount(
+            @Nonnull String assessmentId, @Nonnull AccountBindingRequest body) {
+        return bindAccount(assessmentId, body, null);
+    }
+
+    /**
+     * Bind a provisional signup account
+     *
+     * <p>One-time association to an opaque stable customer account. The assessment is its natural idempotency
+     * key. Repeating the same binding returns its first receipt; a conflicting target is refused.
+     *
+     * <p>No arbitrary account merging.
+     *
+     * @param assessmentId Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400.
+     * @param body One-time association to an opaque stable customer account. The assessment is its natural idempotency key. Repeating the same binding returns its first receipt; a conflicting target is refused. No arbitrary account merging.
+     * @param options additional options
+     * @return {@code CompletableFuture<BindProvisionalAccountResponse>} - The async response
+     */
+    public CompletableFuture<BindProvisionalAccountResponse> bindAccount(
+            @Nonnull String assessmentId, @Nonnull AccountBindingRequest body, @Nullable Options options) {
+        BindProvisionalAccountRequest request = new BindProvisionalAccountRequest(assessmentId, body);
+        AsyncRequestOperation<BindProvisionalAccountRequest, BindProvisionalAccountResponse> operation =
+                new BindProvisionalAccount.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 }

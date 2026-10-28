@@ -64,6 +64,8 @@ public class NoResponse {
 
     private final Settings settings;
 
+    private final Requests requests;
+
     private final Lists lists;
 
     /**
@@ -107,6 +109,10 @@ public class NoResponse {
 
     public Settings settings() {
         return settings;
+    }
+
+    public Requests requests() {
+        return requests;
     }
 
     public Lists lists() {
@@ -283,6 +289,7 @@ public class NoResponse {
         this.integrations = new Integrations(sdkConfiguration);
         this.webhookEndpoints = new WebhookEndpoints(sdkConfiguration);
         this.settings = new Settings(sdkConfiguration);
+        this.requests = new Requests(sdkConfiguration);
         this.lists = new Lists(sdkConfiguration);
         sdkConfiguration = sdkConfiguration.hooks().sdkInit(sdkConfiguration);
         this.asyncSDK = new AsyncNoResponse(this, sdkConfiguration);

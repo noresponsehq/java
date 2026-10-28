@@ -11,6 +11,9 @@ Assessments of account creation, login and purchase.
 * [delete](#delete) - Delete one assessment.
 * [recordOutcome](#recordoutcome) - Report what was later learned about an assessed account.
 * [query](#query) - Page through one account's unexpired assessments.
+* [search](#search) - Search assessments across this environment
+* [retrieveVersion](#retrieveversion) - Retrieve an exact assessment revision
+* [bindAccount](#bindaccount) - Bind a provisional signup account
 
 ## create
 
@@ -1155,6 +1158,205 @@ public class Application {
 ### Response
 
 **[QueryAccountAssessmentsResponse](../../models/operations/QueryAccountAssessmentsResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## search
+
+Search retained assessments created in [from,to), over at most 366 days. Filters use each assessment decision, rather than the current account decision. Results can change between pages. Keep the assessment version to retrieve the exact decision later. This read does not require an idempotency key.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="searchAssessments" method="post" path="/v1/assessments/search" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.SearchAssessmentsResponse;
+import org.noresponse.models.shared.AssessmentSearchRequest;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        AssessmentSearchRequest req = AssessmentSearchRequest.builder()
+                .from("2026-01-01T00:00:00Z")
+                .to("2026-01-02T00:00:00Z")
+                .accountId("acct_7f3a9c")
+                .cursor("eyJ0IjoxNzY3MjI1NjAwMDAwMDAwLCJpIjoiYXNtX2V4YW1wbGUiLCJlIjoxNzY3MjI5MjAwfQ")
+                .build();
+
+        SearchAssessmentsResponse res = sdk.assessments().search()
+                .request(req)
+                .call();
+
+        if (res.assessmentSearchPage().isPresent()) {
+            System.out.println(res.assessmentSearchPage().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                 | Type                                                                      | Required                                                                  | Description                                                               |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `request`                                                                 | [AssessmentSearchRequest](../../models/shared/AssessmentSearchRequest.md) | :heavy_check_mark:                                                        | The request object to use for the request.                                |
+
+### Response
+
+**[SearchAssessmentsResponse](../../models/operations/SearchAssessmentsResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## retrieveVersion
+
+Retrieve a retained assessment version with its original decision, policy, flow and depth. This response excludes the current account decision. Current retention and response-mode permissions still apply.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="getAssessmentVersion" method="get" path="/v1/assessments/{assessment_id}/versions/{version}" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.GetAssessmentVersionResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        GetAssessmentVersionResponse res = sdk.assessments().retrieveVersion()
+                .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .version(849915L)
+                .call();
+
+        if (res.assessmentRevision().isPresent()) {
+            System.out.println(res.assessmentRevision().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                         | Type                                                                                                              | Required                                                                                                          | Description                                                                                                       | Example                                                                                                           |
+| ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `assessmentId`                                                                                                    | *String*                                                                                                          | :heavy_check_mark:                                                                                                | Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400. | asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                                                                    |
+| `responseMode`                                                                                                    | @Nullable [ResponseMode](../../models/shared/ResponseMode.md)                                                     | :heavy_minus_sign:                                                                                                | Optional standard or separately authorised detailed customer view; raw is rejected.                               |                                                                                                                   |
+| `version`                                                                                                         | *long*                                                                                                            | :heavy_check_mark:                                                                                                | The stored assessment_version, in canonical decimal form. An unavailable or malformed version answers 404.        |                                                                                                                   |
+
+### Response
+
+**[GetAssessmentVersionResponse](../../models/operations/GetAssessmentVersionResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## bindAccount
+
+One-time association to an opaque stable customer account. The assessment is its natural idempotency key. Repeating the same binding returns its first receipt; a conflicting target is refused. No arbitrary account merging.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="bindProvisionalAccount" method="post" path="/v1/assessments/{assessment_id}/bind" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.BindProvisionalAccountResponse;
+import org.noresponse.models.shared.AccountBindingRequest;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        BindProvisionalAccountResponse res = sdk.assessments().bindAccount()
+                .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .body(AccountBindingRequest.builder()
+                    .accountId("acct_7f3a9c")
+                    .build())
+                .call();
+
+        if (res.accountBinding().isPresent()) {
+            System.out.println(res.accountBinding().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                         | Type                                                                                                              | Required                                                                                                          | Description                                                                                                       | Example                                                                                                           |
+| ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `assessmentId`                                                                                                    | *String*                                                                                                          | :heavy_check_mark:                                                                                                | Path segment, matched case-sensitively. A value that does not match the assessment_id shape answers 404, not 400. | asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                                                                    |
+| `body`                                                                                                            | [AccountBindingRequest](../../models/shared/AccountBindingRequest.md)                                             | :heavy_check_mark:                                                                                                | N/A                                                                                                               |                                                                                                                   |
+
+### Response
+
+**[BindProvisionalAccountResponse](../../models/operations/BindProvisionalAccountResponse.md)**
 
 ### Errors
 

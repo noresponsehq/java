@@ -32,6 +32,9 @@ public class ConflictErrorCode {
     public static final ConflictErrorCode RISK_VERSION_AHEAD = new ConflictErrorCode("risk_version_ahead");
     public static final ConflictErrorCode KEY_LIMIT_REACHED = new ConflictErrorCode("key_limit_reached");
     public static final ConflictErrorCode SELF_REVOCATION = new ConflictErrorCode("self_revocation");
+    public static final ConflictErrorCode OUTCOME_CONFLICT = new ConflictErrorCode("outcome_conflict");
+    public static final ConflictErrorCode CREDENTIAL_CONFLICT = new ConflictErrorCode("credential_conflict");
+    public static final ConflictErrorCode BINDING_CONFLICT = new ConflictErrorCode("binding_conflict");
     public static final ConflictErrorCode LIST_ENTRY_EXISTS = new ConflictErrorCode("list_entry_exists");
     public static final ConflictErrorCode LIST_LIMIT_REACHED = new ConflictErrorCode("list_limit_reached");
     public static final ConflictErrorCode LIST_ENTRY_TOO_BROAD = new ConflictErrorCode("list_entry_too_broad");
@@ -113,6 +116,9 @@ public class ConflictErrorCode {
         map.put("risk_version_ahead", RISK_VERSION_AHEAD);
         map.put("key_limit_reached", KEY_LIMIT_REACHED);
         map.put("self_revocation", SELF_REVOCATION);
+        map.put("outcome_conflict", OUTCOME_CONFLICT);
+        map.put("credential_conflict", CREDENTIAL_CONFLICT);
+        map.put("binding_conflict", BINDING_CONFLICT);
         map.put("list_entry_exists", LIST_ENTRY_EXISTS);
         map.put("list_limit_reached", LIST_LIMIT_REACHED);
         map.put("list_entry_too_broad", LIST_ENTRY_TOO_BROAD);
@@ -129,6 +135,9 @@ public class ConflictErrorCode {
         map.put("risk_version_ahead", ConflictErrorCodeEnum.RISK_VERSION_AHEAD);
         map.put("key_limit_reached", ConflictErrorCodeEnum.KEY_LIMIT_REACHED);
         map.put("self_revocation", ConflictErrorCodeEnum.SELF_REVOCATION);
+        map.put("outcome_conflict", ConflictErrorCodeEnum.OUTCOME_CONFLICT);
+        map.put("credential_conflict", ConflictErrorCodeEnum.CREDENTIAL_CONFLICT);
+        map.put("binding_conflict", ConflictErrorCodeEnum.BINDING_CONFLICT);
         map.put("list_entry_exists", ConflictErrorCodeEnum.LIST_ENTRY_EXISTS);
         map.put("list_limit_reached", ConflictErrorCodeEnum.LIST_LIMIT_REACHED);
         map.put("list_entry_too_broad", ConflictErrorCodeEnum.LIST_ENTRY_TOO_BROAD);
@@ -145,6 +154,9 @@ public class ConflictErrorCode {
         RISK_VERSION_AHEAD("risk_version_ahead"),
         KEY_LIMIT_REACHED("key_limit_reached"),
         SELF_REVOCATION("self_revocation"),
+        OUTCOME_CONFLICT("outcome_conflict"),
+        CREDENTIAL_CONFLICT("credential_conflict"),
+        BINDING_CONFLICT("binding_conflict"),
         LIST_ENTRY_EXISTS("list_entry_exists"),
         LIST_LIMIT_REACHED("list_limit_reached"),
         LIST_ENTRY_TOO_BROAD("list_entry_too_broad"),

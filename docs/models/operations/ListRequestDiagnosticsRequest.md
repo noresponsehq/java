@@ -1,0 +1,14 @@
+# ListRequestDiagnosticsRequest
+
+
+## Fields
+
+| Field                                             | Setter Type                                       | Getter Type                                       | Required                                          | Description                                       | Example                                           |
+| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
+| `from`                                            | *String*                                          | *String*                                          | :heavy_check_mark:                                | Inclusive start of a range of at most seven days. | 2026-10-21T00:00:00Z                              |
+| `to`                                              | *String*                                          | *String*                                          | :heavy_check_mark:                                | Exclusive end of the range.                       | 2026-10-22T00:00:00Z                              |
+| `requestId`                                       | @Nullable *String*                                | Optional\<*String*>                               | :heavy_minus_sign:                                | Optional filter or paging parameter.              |                                                   |
+| `route`                                           | @Nullable *String*                                | Optional\<*String*>                               | :heavy_minus_sign:                                | Optional filter or paging parameter.              |                                                   |
+| `status`                                          | @Nullable *long*                                  | Optional\<*long*>                                 | :heavy_minus_sign:                                | Optional filter or paging parameter.              |                                                   |
+| `limit`                                           | @Nullable *long*                                  | Optional\<*long*>                                 | :heavy_minus_sign:                                | Optional filter or paging parameter.              |                                                   |
+| `cursor`                                          | @Nullable *String*                                | Optional\<*String*>                               | :heavy_minus_sign:                                | Optional filter or paging parameter.              |                                                   |
