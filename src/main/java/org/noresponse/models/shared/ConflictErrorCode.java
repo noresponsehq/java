@@ -34,6 +34,7 @@ public class ConflictErrorCode {
     public static final ConflictErrorCode SELF_REVOCATION = new ConflictErrorCode("self_revocation");
     public static final ConflictErrorCode LIST_ENTRY_EXISTS = new ConflictErrorCode("list_entry_exists");
     public static final ConflictErrorCode LIST_LIMIT_REACHED = new ConflictErrorCode("list_limit_reached");
+    public static final ConflictErrorCode LIST_ENTRY_TOO_BROAD = new ConflictErrorCode("list_entry_too_broad");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -114,6 +115,7 @@ public class ConflictErrorCode {
         map.put("self_revocation", SELF_REVOCATION);
         map.put("list_entry_exists", LIST_ENTRY_EXISTS);
         map.put("list_limit_reached", LIST_LIMIT_REACHED);
+        map.put("list_entry_too_broad", LIST_ENTRY_TOO_BROAD);
         return map;
     }
 
@@ -129,6 +131,7 @@ public class ConflictErrorCode {
         map.put("self_revocation", ConflictErrorCodeEnum.SELF_REVOCATION);
         map.put("list_entry_exists", ConflictErrorCodeEnum.LIST_ENTRY_EXISTS);
         map.put("list_limit_reached", ConflictErrorCodeEnum.LIST_LIMIT_REACHED);
+        map.put("list_entry_too_broad", ConflictErrorCodeEnum.LIST_ENTRY_TOO_BROAD);
         return map;
     }
 
@@ -144,6 +147,7 @@ public class ConflictErrorCode {
         SELF_REVOCATION("self_revocation"),
         LIST_ENTRY_EXISTS("list_entry_exists"),
         LIST_LIMIT_REACHED("list_limit_reached"),
+        LIST_ENTRY_TOO_BROAD("list_entry_too_broad"),
         ;
 
         private final String value;
