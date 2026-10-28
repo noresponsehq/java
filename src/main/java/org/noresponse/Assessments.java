@@ -5,6 +5,8 @@ import static org.noresponse.operations.Operations.RequestOperation;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.lang.String;
+import org.noresponse.models.operations.AggregateAssessmentsRequestBuilder;
+import org.noresponse.models.operations.AggregateAssessmentsResponse;
 import org.noresponse.models.operations.BindProvisionalAccountRequest;
 import org.noresponse.models.operations.BindProvisionalAccountRequestBuilder;
 import org.noresponse.models.operations.BindProvisionalAccountResponse;
@@ -28,11 +30,13 @@ import org.noresponse.models.operations.RecordAssessmentOutcomeResponse;
 import org.noresponse.models.operations.SearchAssessmentsRequestBuilder;
 import org.noresponse.models.operations.SearchAssessmentsResponse;
 import org.noresponse.models.shared.AccountBindingRequest;
+import org.noresponse.models.shared.AssessmentAggregateRequest;
 import org.noresponse.models.shared.AssessmentOutcomeRequest;
 import org.noresponse.models.shared.AssessmentQuery;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentSearchRequest;
 import org.noresponse.models.shared.ResponseMode;
+import org.noresponse.operations.AggregateAssessments;
 import org.noresponse.operations.BindProvisionalAccount;
 import org.noresponse.operations.CreateAssessment;
 import org.noresponse.operations.DeleteAssessment;
@@ -407,6 +411,77 @@ public class Assessments {
     public QueryAccountAssessmentsResponse query(@Nonnull AssessmentQuery request, @Nullable Options options) {
         RequestOperation<AssessmentQuery, QueryAccountAssessmentsResponse> operation =
                 new QueryAccountAssessments.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Count assessments by time, decision and reason
+     *
+     * <p>Count this environment's assessments created in [from,to) by hour, day or week, grouped by up to two
+     * of decision, flow, recommendation, band, reason, lane, country, asn and list_match. Each assessment
+     * counts once, by its first answer; late results do not count it again and appear in late_flips.
+     * Optional metrics add a score histogram per flow and late account decision changes.
+     *
+     * <p>from and to start a bucket and cover at most 366 days (31 for hour buckets) inside the retention
+     * period. The filters are search's and describe the first answer: send them to search with revision
+     * first to list a cell's assessments. Counts hold no identifier, stay when an assessment or account is
+     * deleted, and report reasons by code and impact band.
+     *
+     * <p>No Idempotency-Key.
+     *
+     * @return The call builder
+     */
+    public AggregateAssessmentsRequestBuilder aggregate() {
+        return new AggregateAssessmentsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Count assessments by time, decision and reason
+     *
+     * <p>Count this environment's assessments created in [from,to) by hour, day or week, grouped by up to two
+     * of decision, flow, recommendation, band, reason, lane, country, asn and list_match. Each assessment
+     * counts once, by its first answer; late results do not count it again and appear in late_flips.
+     * Optional metrics add a score histogram per flow and late account decision changes.
+     *
+     * <p>from and to start a bucket and cover at most 366 days (31 for hour buckets) inside the retention
+     * period. The filters are search's and describe the first answer: send them to search with revision
+     * first to list a cell's assessments. Counts hold no identifier, stay when an assessment or account is
+     * deleted, and report reasons by code and impact band.
+     *
+     * <p>No Idempotency-Key.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public AggregateAssessmentsResponse aggregate(@Nonnull AssessmentAggregateRequest request) {
+        return aggregate(request, null);
+    }
+
+    /**
+     * Count assessments by time, decision and reason
+     *
+     * <p>Count this environment's assessments created in [from,to) by hour, day or week, grouped by up to two
+     * of decision, flow, recommendation, band, reason, lane, country, asn and list_match. Each assessment
+     * counts once, by its first answer; late results do not count it again and appear in late_flips.
+     * Optional metrics add a score histogram per flow and late account decision changes.
+     *
+     * <p>from and to start a bucket and cover at most 366 days (31 for hour buckets) inside the retention
+     * period. The filters are search's and describe the first answer: send them to search with revision
+     * first to list a cell's assessments. Counts hold no identifier, stay when an assessment or account is
+     * deleted, and report reasons by code and impact band.
+     *
+     * <p>No Idempotency-Key.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public AggregateAssessmentsResponse aggregate(
+            @Nonnull AssessmentAggregateRequest request, @Nullable Options options) {
+        RequestOperation<AssessmentAggregateRequest, AggregateAssessmentsResponse> operation =
+                new AggregateAssessments.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

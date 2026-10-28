@@ -12,6 +12,8 @@ import org.noresponse.models.operations.DeleteAssessmentRequest;
 import org.noresponse.models.operations.GetAssessmentRequest;
 import org.noresponse.models.operations.GetAssessmentVersionRequest;
 import org.noresponse.models.operations.RecordAssessmentOutcomeRequest;
+import org.noresponse.models.operations.async.AggregateAssessmentsRequestBuilder;
+import org.noresponse.models.operations.async.AggregateAssessmentsResponse;
 import org.noresponse.models.operations.async.BindProvisionalAccountRequestBuilder;
 import org.noresponse.models.operations.async.BindProvisionalAccountResponse;
 import org.noresponse.models.operations.async.CreateAssessmentRequestBuilder;
@@ -29,11 +31,13 @@ import org.noresponse.models.operations.async.RecordAssessmentOutcomeResponse;
 import org.noresponse.models.operations.async.SearchAssessmentsRequestBuilder;
 import org.noresponse.models.operations.async.SearchAssessmentsResponse;
 import org.noresponse.models.shared.AccountBindingRequest;
+import org.noresponse.models.shared.AssessmentAggregateRequest;
 import org.noresponse.models.shared.AssessmentOutcomeRequest;
 import org.noresponse.models.shared.AssessmentQuery;
 import org.noresponse.models.shared.AssessmentRequest;
 import org.noresponse.models.shared.AssessmentSearchRequest;
 import org.noresponse.models.shared.ResponseMode;
+import org.noresponse.operations.AggregateAssessments;
 import org.noresponse.operations.BindProvisionalAccount;
 import org.noresponse.operations.CreateAssessment;
 import org.noresponse.operations.DeleteAssessment;
@@ -400,6 +404,75 @@ public class AsyncAssessments {
             @Nonnull AssessmentQuery request, @Nullable Options options) {
         AsyncRequestOperation<AssessmentQuery, QueryAccountAssessmentsResponse> operation =
                 new QueryAccountAssessments.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Count assessments by time, decision and reason
+     *
+     * <p>Count this environment's assessments created in [from,to) by hour, day or week, grouped by up to two
+     * of decision, flow, recommendation, band, reason, lane, country, asn and list_match. Each assessment
+     * counts once, by its first answer; late results do not count it again and appear in late_flips.
+     * Optional metrics add a score histogram per flow and late account decision changes.
+     *
+     * <p>from and to start a bucket and cover at most 366 days (31 for hour buckets) inside the retention
+     * period. The filters are search's and describe the first answer: send them to search with revision
+     * first to list a cell's assessments. Counts hold no identifier, stay when an assessment or account is
+     * deleted, and report reasons by code and impact band.
+     *
+     * <p>No Idempotency-Key.
+     *
+     * @return The async call builder
+     */
+    public AggregateAssessmentsRequestBuilder aggregate() {
+        return new AggregateAssessmentsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Count assessments by time, decision and reason
+     *
+     * <p>Count this environment's assessments created in [from,to) by hour, day or week, grouped by up to two
+     * of decision, flow, recommendation, band, reason, lane, country, asn and list_match. Each assessment
+     * counts once, by its first answer; late results do not count it again and appear in late_flips.
+     * Optional metrics add a score histogram per flow and late account decision changes.
+     *
+     * <p>from and to start a bucket and cover at most 366 days (31 for hour buckets) inside the retention
+     * period. The filters are search's and describe the first answer: send them to search with revision
+     * first to list a cell's assessments. Counts hold no identifier, stay when an assessment or account is
+     * deleted, and report reasons by code and impact band.
+     *
+     * <p>No Idempotency-Key.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return {@code CompletableFuture<AggregateAssessmentsResponse>} - The async response
+     */
+    public CompletableFuture<AggregateAssessmentsResponse> aggregate(@Nonnull AssessmentAggregateRequest request) {
+        return aggregate(request, null);
+    }
+
+    /**
+     * Count assessments by time, decision and reason
+     *
+     * <p>Count this environment's assessments created in [from,to) by hour, day or week, grouped by up to two
+     * of decision, flow, recommendation, band, reason, lane, country, asn and list_match. Each assessment
+     * counts once, by its first answer; late results do not count it again and appear in late_flips.
+     * Optional metrics add a score histogram per flow and late account decision changes.
+     *
+     * <p>from and to start a bucket and cover at most 366 days (31 for hour buckets) inside the retention
+     * period. The filters are search's and describe the first answer: send them to search with revision
+     * first to list a cell's assessments. Counts hold no identifier, stay when an assessment or account is
+     * deleted, and report reasons by code and impact band.
+     *
+     * <p>No Idempotency-Key.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return {@code CompletableFuture<AggregateAssessmentsResponse>} - The async response
+     */
+    public CompletableFuture<AggregateAssessmentsResponse> aggregate(
+            @Nonnull AssessmentAggregateRequest request, @Nullable Options options) {
+        AsyncRequestOperation<AssessmentAggregateRequest, AggregateAssessmentsResponse> operation =
+                new AggregateAssessments.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 

@@ -1,6 +1,6 @@
 # Decision
 
-The decision of the assessment's latest stored revision: block when its stored risk.block is true, otherwise its recommendation. This is not the account's current decision or held-admission state. Combined with recommendation using AND.
+An assessment's own decision: block when its stored risk.block is true, otherwise its recommendation. It is not the account's decision or held-admission state.
 
 ## Example Usage
 
@@ -8,6 +8,9 @@ The decision of the assessment's latest stored revision: block when its stored r
 import org.noresponse.models.shared.Decision;
 
 Decision value = Decision.ALLOW;
+
+// Open enum: use .of() to create instances from custom string values
+Decision custom = Decision.of("custom_value");
 ```
 
 

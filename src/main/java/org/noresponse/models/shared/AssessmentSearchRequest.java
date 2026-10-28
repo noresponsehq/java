@@ -95,13 +95,22 @@ public class AssessmentSearchRequest {
     private ResponseMode responseMode;
 
     /**
-     * The decision of the assessment's latest stored revision: block when its stored risk.block is true,
-     * otherwise its recommendation. This is not the account's current decision or held-admission state.
-     * Combined with recommendation using AND.
+     * An assessment's own decision: block when its stored risk.block is true, otherwise its
+     * recommendation. It is not the account's decision or held-admission state.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("decision")
     private Decision decision;
+
+    /**
+     * Which answer of each assessment the filters describe: latest, the latest stored revision, or first,
+     * the first answer, as served when the assessment was first answered (POST /v1/assessments/aggregate
+     * counts first answers). A cell of an aggregate drills down to POST /v1/assessments/search with the
+     * same filters, revision first and the cell's bucket as from and to.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("revision")
+    private AnswerRevision revision;
 
     @JsonCreator
     public AssessmentSearchRequest(
@@ -114,7 +123,8 @@ public class AssessmentSearchRequest {
             @JsonProperty("limit") @Nullable Long limit,
             @JsonProperty("cursor") @Nullable String cursor,
             @JsonProperty("response_mode") @Nullable ResponseMode responseMode,
-            @JsonProperty("decision") @Nullable Decision decision) {
+            @JsonProperty("decision") @Nullable Decision decision,
+            @JsonProperty("revision") @Nullable AnswerRevision revision) {
         this.from = Optional.ofNullable(from).orElseThrow(() -> new IllegalArgumentException("from cannot be null"));
         this.to = Optional.ofNullable(to).orElseThrow(() -> new IllegalArgumentException("to cannot be null"));
         this.accountId = accountId;
@@ -125,10 +135,11 @@ public class AssessmentSearchRequest {
         this.cursor = cursor;
         this.responseMode = responseMode;
         this.decision = decision;
+        this.revision = revision;
     }
 
     public AssessmentSearchRequest(@Nonnull String from, @Nonnull String to) {
-        this(from, to, null, null, null, null, null, null, null, null);
+        this(from, to, null, null, null, null, null, null, null, null, null);
     }
 
     public String from() {
@@ -203,12 +214,21 @@ public class AssessmentSearchRequest {
     }
 
     /**
-     * The decision of the assessment's latest stored revision: block when its stored risk.block is true,
-     * otherwise its recommendation. This is not the account's current decision or held-admission state.
-     * Combined with recommendation using AND.
+     * An assessment's own decision: block when its stored risk.block is true, otherwise its
+     * recommendation. It is not the account's decision or held-admission state.
      */
     public Optional<Decision> decision() {
         return Optional.ofNullable(this.decision);
+    }
+
+    /**
+     * Which answer of each assessment the filters describe: latest, the latest stored revision, or first,
+     * the first answer, as served when the assessment was first answered (POST /v1/assessments/aggregate
+     * counts first answers). A cell of an aggregate drills down to POST /v1/assessments/search with the
+     * same filters, revision first and the cell's bucket as from and to.
+     */
+    public Optional<AnswerRevision> revision() {
+        return Optional.ofNullable(this.revision);
     }
 
     public static Builder builder() {
@@ -296,12 +316,22 @@ public class AssessmentSearchRequest {
     }
 
     /**
-     * The decision of the assessment's latest stored revision: block when its stored risk.block is true,
-     * otherwise its recommendation. This is not the account's current decision or held-admission state.
-     * Combined with recommendation using AND.
+     * An assessment's own decision: block when its stored risk.block is true, otherwise its
+     * recommendation. It is not the account's decision or held-admission state.
      */
     public AssessmentSearchRequest withDecision(@Nullable Decision decision) {
         this.decision = decision;
+        return this;
+    }
+
+    /**
+     * Which answer of each assessment the filters describe: latest, the latest stored revision, or first,
+     * the first answer, as served when the assessment was first answered (POST /v1/assessments/aggregate
+     * counts first answers). A cell of an aggregate drills down to POST /v1/assessments/search with the
+     * same filters, revision first and the cell's bucket as from and to.
+     */
+    public AssessmentSearchRequest withRevision(@Nullable AnswerRevision revision) {
+        this.revision = revision;
         return this;
     }
 
@@ -323,13 +353,14 @@ public class AssessmentSearchRequest {
                 && Utils.enhancedDeepEquals(this.limit, other.limit)
                 && Utils.enhancedDeepEquals(this.cursor, other.cursor)
                 && Utils.enhancedDeepEquals(this.responseMode, other.responseMode)
-                && Utils.enhancedDeepEquals(this.decision, other.decision);
+                && Utils.enhancedDeepEquals(this.decision, other.decision)
+                && Utils.enhancedDeepEquals(this.revision, other.revision);
     }
 
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                from, to, accountId, flow, status, recommendation, limit, cursor, responseMode, decision);
+                from, to, accountId, flow, status, recommendation, limit, cursor, responseMode, decision, revision);
     }
 
     @Override
@@ -355,7 +386,9 @@ public class AssessmentSearchRequest {
                 "responseMode",
                 responseMode,
                 "decision",
-                decision);
+                decision,
+                "revision",
+                revision);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -380,6 +413,8 @@ public class AssessmentSearchRequest {
         private ResponseMode responseMode;
 
         private Decision decision;
+
+        private AnswerRevision revision;
 
         private Builder() {
             // force use of static builder() method
@@ -466,18 +501,28 @@ public class AssessmentSearchRequest {
         }
 
         /**
-         * The decision of the assessment's latest stored revision: block when its stored risk.block is true,
-         * otherwise its recommendation. This is not the account's current decision or held-admission state.
-         * Combined with recommendation using AND.
+         * An assessment's own decision: block when its stored risk.block is true, otherwise its
+         * recommendation. It is not the account's decision or held-admission state.
          */
         public Builder decision(@Nullable Decision decision) {
             this.decision = decision;
             return this;
         }
 
+        /**
+         * Which answer of each assessment the filters describe: latest, the latest stored revision, or first,
+         * the first answer, as served when the assessment was first answered (POST /v1/assessments/aggregate
+         * counts first answers). A cell of an aggregate drills down to POST /v1/assessments/search with the
+         * same filters, revision first and the cell's bucket as from and to.
+         */
+        public Builder revision(@Nullable AnswerRevision revision) {
+            this.revision = revision;
+            return this;
+        }
+
         public AssessmentSearchRequest build() {
             return new AssessmentSearchRequest(
-                    from, to, accountId, flow, status, recommendation, limit, cursor, responseMode, decision);
+                    from, to, accountId, flow, status, recommendation, limit, cursor, responseMode, decision, revision);
         }
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =

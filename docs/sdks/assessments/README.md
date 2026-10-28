@@ -11,6 +11,7 @@ Assessments of account creation, login and purchase.
 * [delete](#delete) - Delete one assessment.
 * [recordOutcome](#recordoutcome) - Report what was later learned about an assessed account.
 * [query](#query) - Page through one account's unexpired assessments.
+* [aggregate](#aggregate) - Count assessments by time, decision and reason
 * [search](#search) - Search assessments across this environment
 * [retrieveVersion](#retrieveversion) - Retrieve an exact assessment revision
 * [bindAccount](#bindaccount) - Bind a provisional signup account
@@ -1158,6 +1159,75 @@ public class Application {
 ### Response
 
 **[QueryAccountAssessmentsResponse](../../models/operations/QueryAccountAssessmentsResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## aggregate
+
+Count this environment's assessments created in [from,to) by hour, day or week, grouped by up to two of decision, flow, recommendation, band, reason, lane, country, asn and list_match. Each assessment counts once, by its first answer; late results do not count it again and appear in late_flips. Optional metrics add a score histogram per flow and late account decision changes. from and to start a bucket and cover at most 366 days (31 for hour buckets) inside the retention period. The filters are search's and describe the first answer: send them to search with revision first to list a cell's assessments. Counts hold no identifier, stay when an assessment or account is deleted, and report reasons by code and impact band. No Idempotency-Key.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="aggregateAssessments" method="post" path="/v1/assessments/aggregate" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.AggregateAssessmentsResponse;
+import org.noresponse.models.shared.AssessmentAggregateRequest;
+import org.noresponse.models.shared.Bucket;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        AssessmentAggregateRequest req = AssessmentAggregateRequest.builder()
+                .from("2026-10-19T00:00:00Z")
+                .to("2026-10-26T00:00:00Z")
+                .bucket(Bucket.WEEK)
+                .build();
+
+        AggregateAssessmentsResponse res = sdk.assessments().aggregate()
+                .request(req)
+                .call();
+
+        if (res.assessmentAggregate().isPresent()) {
+            System.out.println(res.assessmentAggregate().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                       | Type                                                                            | Required                                                                        | Description                                                                     |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `request`                                                                       | [AssessmentAggregateRequest](../../models/shared/AssessmentAggregateRequest.md) | :heavy_check_mark:                                                              | The request object to use for the request.                                      |
+
+### Response
+
+**[AggregateAssessmentsResponse](../../models/operations/AggregateAssessmentsResponse.md)**
 
 ### Errors
 
