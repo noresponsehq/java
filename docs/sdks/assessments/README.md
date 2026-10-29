@@ -1244,7 +1244,7 @@ public class Application {
 
 ## search
 
-Search retained assessments created in [from,to), over at most 366 days. Filters use each assessment decision, rather than the current account decision. Results can change between pages. Keep the assessment version to retrieve the exact decision later. Each item's detail.identifiers holds the identifiers its assessment was sent, exactly as received, and first_decision holds the decision of its first answer. email finds every assessment of the accounts that sent a mailbox, matched as lists match it. changed keeps the assessments a later revision changed. total counts every match, exactly up to 10000. This read does not require an idempotency key.
+Search retained assessments created in [from,to), at most 366 days. identifier directly matches that assessment's submitted email, phone or customer-namespace username using exact, canonical or explicitly selected email mailbox matching. matched_identifier explains the original value and match basis. Legacy email keeps its account-wide mailbox semantics and cannot be combined with identifier. Other filters combine using AND and describe assessment decisions, separate from current account decisions. Each item carries the original submitted identifiers and its first_decision when available. Newest-created order has an assessment-ID tie break. Results are live across pages; each page's total and items use one database snapshot. Totals are exact below 10000 and capped at 10000. Requires history or investigate authority and identifier-read permission for identifier/email filters; detailed mode also requires detailed permission. No Idempotency-Key.
 
 ### Example Usage
 
@@ -1262,6 +1262,10 @@ import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.SearchAssessmentsResponse;
 import org.noresponse.models.shared.AssessmentSearchRequest;
+import org.noresponse.models.shared.IdentifierSearch;
+import org.noresponse.models.shared.IdentifierSearchKind;
+import org.noresponse.models.shared.Match;
+import org.noresponse.models.shared.Namespace;
 
 public class Application {
 
@@ -1272,12 +1276,14 @@ public class Application {
             .build();
 
         AssessmentSearchRequest req = AssessmentSearchRequest.builder()
-                .from("2026-01-01T00:00:00Z")
-                .to("2026-01-02T00:00:00Z")
-                .accountId("acct_7f3a9c")
-                .email("new.user@example.com")
-                .cursor("eyJ0IjoxNzY3MjI1NjAwMDAwMDAwLCJpIjoiYXNtX2V4YW1wbGUiLCJlIjoxNzY3MjI5MjAwfQ")
-                .country("GB")
+                .from("2026-10-01T00:00:00Z")
+                .to("2026-10-02T00:00:00Z")
+                .identifier(IdentifierSearch.builder()
+                    .kind(IdentifierSearchKind.USERNAME)
+                    .value("janedoe")
+                    .match(Match.CANONICAL)
+                    .namespace(Namespace.CUSTOMER)
+                    .build())
                 .build();
 
         SearchAssessmentsResponse res = sdk.assessments().search()

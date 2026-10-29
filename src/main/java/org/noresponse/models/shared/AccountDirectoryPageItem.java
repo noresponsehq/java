@@ -63,13 +63,26 @@ public class AccountDirectoryPageItem {
     @JsonProperty("assessments")
     private long assessments;
 
+    /**
+     * Why this result matched a typed identifier search. value is the original value submitted in
+     * assessment_id. Provenance records a customer submission, not a source discovery or verified
+     * ownership.
+     *
+     * <p>Equality is deterministic and has no inferred confidence score. An account result names its newest
+     * retained matching assessment, which can differ from latest.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("matched_identifier")
+    private IdentifierMatch matchedIdentifier;
+
     @JsonCreator
     public AccountDirectoryPageItem(
             @JsonProperty("waiting_for") @Nullable List<WaitingFor> waitingFor,
             @JsonProperty("account_id") @Nonnull String accountId,
             @JsonProperty("latest") @Nonnull AssessmentRevision latest,
             @JsonProperty("current") @Nullable Account current,
-            @JsonProperty("assessments") long assessments) {
+            @JsonProperty("assessments") long assessments,
+            @JsonProperty("matched_identifier") @Nullable IdentifierMatch matchedIdentifier) {
         this.waitingFor = waitingFor;
         this.accountId = Optional.ofNullable(accountId)
                 .orElseThrow(() -> new IllegalArgumentException("accountId cannot be null"));
@@ -77,10 +90,11 @@ public class AccountDirectoryPageItem {
                 Optional.ofNullable(latest).orElseThrow(() -> new IllegalArgumentException("latest cannot be null"));
         this.current = current;
         this.assessments = assessments;
+        this.matchedIdentifier = matchedIdentifier;
     }
 
     public AccountDirectoryPageItem(@Nonnull String accountId, @Nonnull AssessmentRevision latest, long assessments) {
-        this(null, accountId, latest, null, assessments);
+        this(null, accountId, latest, null, assessments, null);
     }
 
     /**
@@ -134,6 +148,18 @@ public class AccountDirectoryPageItem {
      */
     public long assessments() {
         return this.assessments;
+    }
+
+    /**
+     * Why this result matched a typed identifier search. value is the original value submitted in
+     * assessment_id. Provenance records a customer submission, not a source discovery or verified
+     * ownership.
+     *
+     * <p>Equality is deterministic and has no inferred confidence score. An account result names its newest
+     * retained matching assessment, which can differ from latest.
+     */
+    public Optional<IdentifierMatch> matchedIdentifier() {
+        return Optional.ofNullable(this.matchedIdentifier);
     }
 
     public static Builder builder() {
@@ -198,6 +224,19 @@ public class AccountDirectoryPageItem {
         return this;
     }
 
+    /**
+     * Why this result matched a typed identifier search. value is the original value submitted in
+     * assessment_id. Provenance records a customer submission, not a source discovery or verified
+     * ownership.
+     *
+     * <p>Equality is deterministic and has no inferred confidence score. An account result names its newest
+     * retained matching assessment, which can differ from latest.
+     */
+    public AccountDirectoryPageItem withMatchedIdentifier(@Nullable IdentifierMatch matchedIdentifier) {
+        this.matchedIdentifier = matchedIdentifier;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -211,12 +250,13 @@ public class AccountDirectoryPageItem {
                 && Utils.enhancedDeepEquals(this.accountId, other.accountId)
                 && Utils.enhancedDeepEquals(this.latest, other.latest)
                 && Utils.enhancedDeepEquals(this.current, other.current)
-                && Utils.enhancedDeepEquals(this.assessments, other.assessments);
+                && Utils.enhancedDeepEquals(this.assessments, other.assessments)
+                && Utils.enhancedDeepEquals(this.matchedIdentifier, other.matchedIdentifier);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(waitingFor, accountId, latest, current, assessments);
+        return Utils.enhancedHash(waitingFor, accountId, latest, current, assessments, matchedIdentifier);
     }
 
     @Override
@@ -232,7 +272,9 @@ public class AccountDirectoryPageItem {
                 "current",
                 current,
                 "assessments",
-                assessments);
+                assessments,
+                "matchedIdentifier",
+                matchedIdentifier);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -247,6 +289,8 @@ public class AccountDirectoryPageItem {
         private Account current;
 
         private long assessments;
+
+        private IdentifierMatch matchedIdentifier;
 
         private Builder() {
             // force use of static builder() method
@@ -310,8 +354,21 @@ public class AccountDirectoryPageItem {
             return this;
         }
 
+        /**
+         * Why this result matched a typed identifier search. value is the original value submitted in
+         * assessment_id. Provenance records a customer submission, not a source discovery or verified
+         * ownership.
+         *
+         * <p>Equality is deterministic and has no inferred confidence score. An account result names its newest
+         * retained matching assessment, which can differ from latest.
+         */
+        public Builder matchedIdentifier(@Nullable IdentifierMatch matchedIdentifier) {
+            this.matchedIdentifier = matchedIdentifier;
+            return this;
+        }
+
         public AccountDirectoryPageItem build() {
-            return new AccountDirectoryPageItem(waitingFor, accountId, latest, current, assessments);
+            return new AccountDirectoryPageItem(waitingFor, accountId, latest, current, assessments, matchedIdentifier);
         }
     }
 }

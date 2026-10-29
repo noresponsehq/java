@@ -78,6 +78,18 @@ public class AssessmentSearchItem {
     @JsonProperty("first_decision")
     private Decision firstDecision;
 
+    /**
+     * Why this result matched a typed identifier search. value is the original value submitted in
+     * assessment_id. Provenance records a customer submission, not a source discovery or verified
+     * ownership.
+     *
+     * <p>Equality is deterministic and has no inferred confidence score. An account result names its newest
+     * retained matching assessment, which can differ from latest.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("matched_identifier")
+    private IdentifierMatch matchedIdentifier;
+
     @JsonCreator
     public AssessmentSearchItem(
             @JsonProperty("id") @Nonnull String id,
@@ -85,7 +97,8 @@ public class AssessmentSearchItem {
             @JsonProperty("flow") @Nonnull Flow flow,
             @JsonProperty("depth") @Nonnull Depth depth,
             @JsonProperty("detail") @Nonnull AssessmentDetail detail,
-            @JsonProperty("first_decision") @Nullable Decision firstDecision) {
+            @JsonProperty("first_decision") @Nullable Decision firstDecision,
+            @JsonProperty("matched_identifier") @Nullable IdentifierMatch matchedIdentifier) {
         this.schemaVersion = Builder._SINGLETON_VALUE_SchemaVersion.value();
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.status =
@@ -95,6 +108,7 @@ public class AssessmentSearchItem {
         this.detail =
                 Optional.ofNullable(detail).orElseThrow(() -> new IllegalArgumentException("detail cannot be null"));
         this.firstDecision = firstDecision;
+        this.matchedIdentifier = matchedIdentifier;
     }
 
     public AssessmentSearchItem(
@@ -103,7 +117,7 @@ public class AssessmentSearchItem {
             @Nonnull Flow flow,
             @Nonnull Depth depth,
             @Nonnull AssessmentDetail detail) {
-        this(id, status, flow, depth, detail, null);
+        this(id, status, flow, depth, detail, null, null);
     }
 
     /**
@@ -167,6 +181,18 @@ public class AssessmentSearchItem {
      */
     public Optional<Decision> firstDecision() {
         return Optional.ofNullable(this.firstDecision);
+    }
+
+    /**
+     * Why this result matched a typed identifier search. value is the original value submitted in
+     * assessment_id. Provenance records a customer submission, not a source discovery or verified
+     * ownership.
+     *
+     * <p>Equality is deterministic and has no inferred confidence score. An account result names its newest
+     * retained matching assessment, which can differ from latest.
+     */
+    public Optional<IdentifierMatch> matchedIdentifier() {
+        return Optional.ofNullable(this.matchedIdentifier);
     }
 
     public static Builder builder() {
@@ -235,6 +261,19 @@ public class AssessmentSearchItem {
         return this;
     }
 
+    /**
+     * Why this result matched a typed identifier search. value is the original value submitted in
+     * assessment_id. Provenance records a customer submission, not a source discovery or verified
+     * ownership.
+     *
+     * <p>Equality is deterministic and has no inferred confidence score. An account result names its newest
+     * retained matching assessment, which can differ from latest.
+     */
+    public AssessmentSearchItem withMatchedIdentifier(@Nullable IdentifierMatch matchedIdentifier) {
+        this.matchedIdentifier = matchedIdentifier;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -250,12 +289,13 @@ public class AssessmentSearchItem {
                 && Utils.enhancedDeepEquals(this.flow, other.flow)
                 && Utils.enhancedDeepEquals(this.depth, other.depth)
                 && Utils.enhancedDeepEquals(this.detail, other.detail)
-                && Utils.enhancedDeepEquals(this.firstDecision, other.firstDecision);
+                && Utils.enhancedDeepEquals(this.firstDecision, other.firstDecision)
+                && Utils.enhancedDeepEquals(this.matchedIdentifier, other.matchedIdentifier);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(schemaVersion, id, status, flow, depth, detail, firstDecision);
+        return Utils.enhancedHash(schemaVersion, id, status, flow, depth, detail, firstDecision, matchedIdentifier);
     }
 
     @Override
@@ -275,7 +315,9 @@ public class AssessmentSearchItem {
                 "detail",
                 detail,
                 "firstDecision",
-                firstDecision);
+                firstDecision,
+                "matchedIdentifier",
+                matchedIdentifier);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -292,6 +334,8 @@ public class AssessmentSearchItem {
         private AssessmentDetail detail;
 
         private Decision firstDecision;
+
+        private IdentifierMatch matchedIdentifier;
 
         private Builder() {
             // force use of static builder() method
@@ -359,8 +403,21 @@ public class AssessmentSearchItem {
             return this;
         }
 
+        /**
+         * Why this result matched a typed identifier search. value is the original value submitted in
+         * assessment_id. Provenance records a customer submission, not a source discovery or verified
+         * ownership.
+         *
+         * <p>Equality is deterministic and has no inferred confidence score. An account result names its newest
+         * retained matching assessment, which can differ from latest.
+         */
+        public Builder matchedIdentifier(@Nullable IdentifierMatch matchedIdentifier) {
+            this.matchedIdentifier = matchedIdentifier;
+            return this;
+        }
+
         public AssessmentSearchItem build() {
-            return new AssessmentSearchItem(id, status, flow, depth, detail, firstDecision);
+            return new AssessmentSearchItem(id, status, flow, depth, detail, firstDecision, matchedIdentifier);
         }
 
         private static final LazySingletonValue<String> _SINGLETON_VALUE_SchemaVersion =

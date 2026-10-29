@@ -945,23 +945,31 @@ public class Accounts {
     }
 
     /**
-     * Search distinct accounts by email or account ID
+     * Search distinct accounts by submitted identifier or account ID
      *
-     * <p>Search distinct accounts observed in retained assessments in this environment. Match an exact
-     * account_id or canonical email; an email matches any retained assessment belonging to the account.
-     * Set needs_action to select accounts with an open or in-progress retained review, or a current
-     * review/block decision without an effective retained outcome.
+     * <p>Search distinct accounts observed in retained assessments in this environment. identifier matches an
+     * exact, canonical or explicitly selected mailbox form of a submitted email, phone or
+     * customer-namespace username. It matches historical retained inputs and returns matched_identifier
+     * with the original value and matching assessment.
      *
-     * <p>This filter applies before pagination and counting, adds waiting_for reasons to each row and
-     * requires management scope as well as history or investigate access. The response contains one row
-     * per account with its newest retained assessment, current decision when available, per-account
-     * assessment count, and total distinct-account count. Send next_cursor with unchanged filters to
-     * continue.
+     * <p>Each row has its newest retained assessment, current account decision when available, retained
+     * assessment count, and total distinct-account count. identifier and legacy email are mutually
+     * exclusive; account_id and needs_action combine with either using AND. Set needs_action to select
+     * accounts with a retained open or in-progress review, or a current review/block account decision
+     * without an effective retained account outcome.
      *
-     * <p>Totals are exact below 10000 and capped at 10000. Results are live across pages. Requires history
-     * access and identifier access for email.
+     * <p>This filter applies before counting and pagination and adds waiting_for reasons. Current decisions
+     * include account list overrides and shared-key scoring and preserve admission holds. Typed identifier
+     * search uses stable opaque account order; ordinary and legacy email searches retain newest-seen
+     * order.
      *
-     * <p>Read-only and safe to retry.
+     * <p>Results are live across pages; each page's items and total share a database snapshot, while current
+     * account risk is read separately. Cursors are expiring and bound to scope, operation and filters.
+     * Totals are exact below 10000 and capped at 10000.
+     *
+     * <p>Requires history or investigate authority and identifier-read permission for identifier or email
+     * filtering. needs_action additionally requires management scope. Source-discovered associations are
+     * not searched and equality is not verified ownership.
      *
      * @return The call builder
      */
@@ -970,23 +978,31 @@ public class Accounts {
     }
 
     /**
-     * Search distinct accounts by email or account ID
+     * Search distinct accounts by submitted identifier or account ID
      *
-     * <p>Search distinct accounts observed in retained assessments in this environment. Match an exact
-     * account_id or canonical email; an email matches any retained assessment belonging to the account.
-     * Set needs_action to select accounts with an open or in-progress retained review, or a current
-     * review/block decision without an effective retained outcome.
+     * <p>Search distinct accounts observed in retained assessments in this environment. identifier matches an
+     * exact, canonical or explicitly selected mailbox form of a submitted email, phone or
+     * customer-namespace username. It matches historical retained inputs and returns matched_identifier
+     * with the original value and matching assessment.
      *
-     * <p>This filter applies before pagination and counting, adds waiting_for reasons to each row and
-     * requires management scope as well as history or investigate access. The response contains one row
-     * per account with its newest retained assessment, current decision when available, per-account
-     * assessment count, and total distinct-account count. Send next_cursor with unchanged filters to
-     * continue.
+     * <p>Each row has its newest retained assessment, current account decision when available, retained
+     * assessment count, and total distinct-account count. identifier and legacy email are mutually
+     * exclusive; account_id and needs_action combine with either using AND. Set needs_action to select
+     * accounts with a retained open or in-progress review, or a current review/block account decision
+     * without an effective retained account outcome.
      *
-     * <p>Totals are exact below 10000 and capped at 10000. Results are live across pages. Requires history
-     * access and identifier access for email.
+     * <p>This filter applies before counting and pagination and adds waiting_for reasons. Current decisions
+     * include account list overrides and shared-key scoring and preserve admission holds. Typed identifier
+     * search uses stable opaque account order; ordinary and legacy email searches retain newest-seen
+     * order.
      *
-     * <p>Read-only and safe to retry.
+     * <p>Results are live across pages; each page's items and total share a database snapshot, while current
+     * account risk is read separately. Cursors are expiring and bound to scope, operation and filters.
+     * Totals are exact below 10000 and capped at 10000.
+     *
+     * <p>Requires history or investigate authority and identifier-read permission for identifier or email
+     * filtering. needs_action additionally requires management scope. Source-discovered associations are
+     * not searched and equality is not verified ownership.
      *
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -997,23 +1013,31 @@ public class Accounts {
     }
 
     /**
-     * Search distinct accounts by email or account ID
+     * Search distinct accounts by submitted identifier or account ID
      *
-     * <p>Search distinct accounts observed in retained assessments in this environment. Match an exact
-     * account_id or canonical email; an email matches any retained assessment belonging to the account.
-     * Set needs_action to select accounts with an open or in-progress retained review, or a current
-     * review/block decision without an effective retained outcome.
+     * <p>Search distinct accounts observed in retained assessments in this environment. identifier matches an
+     * exact, canonical or explicitly selected mailbox form of a submitted email, phone or
+     * customer-namespace username. It matches historical retained inputs and returns matched_identifier
+     * with the original value and matching assessment.
      *
-     * <p>This filter applies before pagination and counting, adds waiting_for reasons to each row and
-     * requires management scope as well as history or investigate access. The response contains one row
-     * per account with its newest retained assessment, current decision when available, per-account
-     * assessment count, and total distinct-account count. Send next_cursor with unchanged filters to
-     * continue.
+     * <p>Each row has its newest retained assessment, current account decision when available, retained
+     * assessment count, and total distinct-account count. identifier and legacy email are mutually
+     * exclusive; account_id and needs_action combine with either using AND. Set needs_action to select
+     * accounts with a retained open or in-progress review, or a current review/block account decision
+     * without an effective retained account outcome.
      *
-     * <p>Totals are exact below 10000 and capped at 10000. Results are live across pages. Requires history
-     * access and identifier access for email.
+     * <p>This filter applies before counting and pagination and adds waiting_for reasons. Current decisions
+     * include account list overrides and shared-key scoring and preserve admission holds. Typed identifier
+     * search uses stable opaque account order; ordinary and legacy email searches retain newest-seen
+     * order.
      *
-     * <p>Read-only and safe to retry.
+     * <p>Results are live across pages; each page's items and total share a database snapshot, while current
+     * account risk is read separately. Cursors are expiring and bound to scope, operation and filters.
+     * Totals are exact below 10000 and capped at 10000.
+     *
+     * <p>Requires history or investigate authority and identifier-read permission for identifier or email
+     * filtering. needs_action additionally requires management scope. Source-discovered associations are
+     * not searched and equality is not verified ownership.
      *
      * @param request The request object containing all the parameters for the API call.
      * @param options additional options

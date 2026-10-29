@@ -17,9 +17,16 @@ import org.noresponse.utils.Utils;
 /**
  * AccountDirectorySearchRequest
  *
- * <p>Bounded distinct-account search for a single authenticated workspace/environment. Email matches any
- * retained admitted assessment of an account, using assessment search's canonical mailbox rules. No
- * assessment history download is required.
+ * <p>Bounded distinct-account search for one authenticated workspace/environment. identifier matches any
+ * retained admitted assessment of an account, including historical submitted values. email preserves
+ * the legacy canonical-mailbox filter.
+ *
+ * <p>identifier and email cannot be combined. All other filters combine using AND. Typed identifier
+ * search uses stable opaque account order; ordinary and legacy email searches retain newest-seen
+ * ordering.
+ *
+ * <p>Pages are live, not a cross-page snapshot. Requires history or investigate authority and
+ * identifier-read permission for identifier or email filtering.
  */
 public class AccountDirectorySearchRequest {
     /**
@@ -71,22 +78,43 @@ public class AccountDirectorySearchRequest {
     @JsonProperty("cursor")
     private String cursor;
 
+    /**
+     * One customer-submitted identifier. Defaults to exact comparison of the original submitted value.
+     * canonical uses the supported identifier normalisation without an ownership claim: email preserves
+     * local-part case, NFC-normalises it and lowercases the domain without removing dots or tags; phone
+     * uses international E.164 without extensions or an inferred region; username uses NFC and Unicode
+     * case folding within the customer namespace.
+     *
+     * <p>mailbox is email-only and explicitly selects existing list rules: case-insensitive, remove +tag, and
+     * ignore local-part dots at gmail.com and googlemail.com; googlemail.com maps to gmail.com. Username
+     * requires namespace customer. Email and phone forbid namespace.
+     *
+     * <p>Source-discovered identifiers and platform handles are not searched. Unsupported kinds, namespaces,
+     * modes and invalid values return 400. Search equality does not establish verified ownership or merge
+     * accounts.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("identifier")
+    private IdentifierSearch identifier;
+
     @JsonCreator
     public AccountDirectorySearchRequest(
             @JsonProperty("needs_action") @Nullable Boolean needsAction,
             @JsonProperty("account_id") @Nullable String accountId,
             @JsonProperty("email") @Nullable String email,
             @JsonProperty("limit") @Nullable Long limit,
-            @JsonProperty("cursor") @Nullable String cursor) {
+            @JsonProperty("cursor") @Nullable String cursor,
+            @JsonProperty("identifier") @Nullable IdentifierSearch identifier) {
         this.needsAction = Optional.ofNullable(needsAction).orElse(Builder._SINGLETON_VALUE_NeedsAction.value());
         this.accountId = accountId;
         this.email = email;
         this.limit = Optional.ofNullable(limit).orElse(Builder._SINGLETON_VALUE_Limit.value());
         this.cursor = cursor;
+        this.identifier = identifier;
     }
 
     public AccountDirectorySearchRequest() {
-        this(null, null, null, null, null);
+        this(null, null, null, null, null, null);
     }
 
     /**
@@ -136,6 +164,25 @@ public class AccountDirectorySearchRequest {
      */
     public Optional<String> cursor() {
         return Optional.ofNullable(this.cursor);
+    }
+
+    /**
+     * One customer-submitted identifier. Defaults to exact comparison of the original submitted value.
+     * canonical uses the supported identifier normalisation without an ownership claim: email preserves
+     * local-part case, NFC-normalises it and lowercases the domain without removing dots or tags; phone
+     * uses international E.164 without extensions or an inferred region; username uses NFC and Unicode
+     * case folding within the customer namespace.
+     *
+     * <p>mailbox is email-only and explicitly selects existing list rules: case-insensitive, remove +tag, and
+     * ignore local-part dots at gmail.com and googlemail.com; googlemail.com maps to gmail.com. Username
+     * requires namespace customer. Email and phone forbid namespace.
+     *
+     * <p>Source-discovered identifiers and platform handles are not searched. Unsupported kinds, namespaces,
+     * modes and invalid values return 400. Search equality does not establish verified ownership or merge
+     * accounts.
+     */
+    public Optional<IdentifierSearch> identifier() {
+        return Optional.ofNullable(this.identifier);
     }
 
     public static Builder builder() {
@@ -196,6 +243,26 @@ public class AccountDirectorySearchRequest {
         return this;
     }
 
+    /**
+     * One customer-submitted identifier. Defaults to exact comparison of the original submitted value.
+     * canonical uses the supported identifier normalisation without an ownership claim: email preserves
+     * local-part case, NFC-normalises it and lowercases the domain without removing dots or tags; phone
+     * uses international E.164 without extensions or an inferred region; username uses NFC and Unicode
+     * case folding within the customer namespace.
+     *
+     * <p>mailbox is email-only and explicitly selects existing list rules: case-insensitive, remove +tag, and
+     * ignore local-part dots at gmail.com and googlemail.com; googlemail.com maps to gmail.com. Username
+     * requires namespace customer. Email and phone forbid namespace.
+     *
+     * <p>Source-discovered identifiers and platform handles are not searched. Unsupported kinds, namespaces,
+     * modes and invalid values return 400. Search equality does not establish verified ownership or merge
+     * accounts.
+     */
+    public AccountDirectorySearchRequest withIdentifier(@Nullable IdentifierSearch identifier) {
+        this.identifier = identifier;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -209,12 +276,13 @@ public class AccountDirectorySearchRequest {
                 && Utils.enhancedDeepEquals(this.accountId, other.accountId)
                 && Utils.enhancedDeepEquals(this.email, other.email)
                 && Utils.enhancedDeepEquals(this.limit, other.limit)
-                && Utils.enhancedDeepEquals(this.cursor, other.cursor);
+                && Utils.enhancedDeepEquals(this.cursor, other.cursor)
+                && Utils.enhancedDeepEquals(this.identifier, other.identifier);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(needsAction, accountId, email, limit, cursor);
+        return Utils.enhancedHash(needsAction, accountId, email, limit, cursor, identifier);
     }
 
     @Override
@@ -230,7 +298,9 @@ public class AccountDirectorySearchRequest {
                 "limit",
                 limit,
                 "cursor",
-                cursor);
+                cursor,
+                "identifier",
+                identifier);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -245,6 +315,8 @@ public class AccountDirectorySearchRequest {
         private Long limit;
 
         private String cursor;
+
+        private IdentifierSearch identifier;
 
         private Builder() {
             // force use of static builder() method
@@ -304,8 +376,28 @@ public class AccountDirectorySearchRequest {
             return this;
         }
 
+        /**
+         * One customer-submitted identifier. Defaults to exact comparison of the original submitted value.
+         * canonical uses the supported identifier normalisation without an ownership claim: email preserves
+         * local-part case, NFC-normalises it and lowercases the domain without removing dots or tags; phone
+         * uses international E.164 without extensions or an inferred region; username uses NFC and Unicode
+         * case folding within the customer namespace.
+         *
+         * <p>mailbox is email-only and explicitly selects existing list rules: case-insensitive, remove +tag, and
+         * ignore local-part dots at gmail.com and googlemail.com; googlemail.com maps to gmail.com. Username
+         * requires namespace customer. Email and phone forbid namespace.
+         *
+         * <p>Source-discovered identifiers and platform handles are not searched. Unsupported kinds, namespaces,
+         * modes and invalid values return 400. Search equality does not establish verified ownership or merge
+         * accounts.
+         */
+        public Builder identifier(@Nullable IdentifierSearch identifier) {
+            this.identifier = identifier;
+            return this;
+        }
+
         public AccountDirectorySearchRequest build() {
-            return new AccountDirectorySearchRequest(needsAction, accountId, email, limit, cursor);
+            return new AccountDirectorySearchRequest(needsAction, accountId, email, limit, cursor, identifier);
         }
 
         private static final LazySingletonValue<Boolean> _SINGLETON_VALUE_NeedsAction =
