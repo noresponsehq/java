@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 0cfa717481d0d54e831f7b18e3f59324
+  docChecksum: c8f5b2f1eab4199ca69d73ebca04eb6a
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 9.4.0
-  configChecksum: 1ec4cdd3b2a5de490bb9536ae88ff073
+  releaseVersion: 9.4.1
+  configChecksum: d694fb40fc99d2b2835c085ee6116f77
 features:
   java:
     additionalDependencies: 0.1.0
@@ -392,6 +392,8 @@ trackedFiles:
     last_write_checksum: sha1:991bd805a8c392ff55d4fb138e4f65aa18b80c38
   docs/models/operations/RotateWebhookSigningKeyResponse.md:
     last_write_checksum: sha1:fef4649509d63f94ea1cd0509cb2d980971f5b0f
+  docs/models/operations/SearchAccountsResponse.md:
+    last_write_checksum: sha1:bb427f22344a3d78310fd9511369fb5878f6f3f9
   docs/models/operations/SearchAssessmentsResponse.md:
     last_write_checksum: sha1:b1973ef26fd1334e2bdafb13a30cb35d4588e9f1
   docs/models/operations/SendWebhookTestEventRequest.md:
@@ -444,6 +446,12 @@ trackedFiles:
     last_write_checksum: sha1:d178ef21a68450f9d69fab297cd36265ff76f36c
   docs/models/shared/AccountDeletion.md:
     last_write_checksum: sha1:be0355d190eaa1f1c22691399693cc46e04e5e6c
+  docs/models/shared/AccountDirectoryPage.md:
+    last_write_checksum: sha1:db800be83bd48590a7efeaede569bacb27ebabe4
+  docs/models/shared/AccountDirectoryPageItem.md:
+    last_write_checksum: sha1:3ce2efe2019ce00c06ce6f3bf523f7c47b0ed51c
+  docs/models/shared/AccountDirectorySearchRequest.md:
+    last_write_checksum: sha1:2232b27dc21fd5e189ef9c6e0c1f699ae8f68aa0
   docs/models/shared/AccountEnforcementList.md:
     last_write_checksum: sha1:6098bb4e38994abf245ad9816d9cd8e4e6a311cc
   docs/models/shared/AccountExport.md:
@@ -1141,7 +1149,7 @@ trackedFiles:
   docs/models/webhooks/WebhookEndpointDisabledResponse.md:
     last_write_checksum: sha1:0f642c692e8c593f7d42b2debc960197b1a9ce4f
   docs/sdks/accounts/README.md:
-    last_write_checksum: sha1:e62a6346f136f487262fb1c10390ff931e31d9ee
+    last_write_checksum: sha1:5a0e7677c7945b428d08ef28deb8719031c0c53b
   docs/sdks/assessments/README.md:
     last_write_checksum: sha1:6b25cdf4379a1f4cae1ba1d62da6107f774b1207
   docs/sdks/audit/README.md:
@@ -1179,7 +1187,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:1ff6eb66330860063c52870659567689b3371cb9
+    last_write_checksum: sha1:b04b0c2c31b0668d74aba2f2af0b332dfad2dbfb
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1193,11 +1201,11 @@ trackedFiles:
   settings.gradle:
     last_write_checksum: sha1:db0828065a853264b8673dc0b271fc6b3b5dd622
   src/main/java/org/noresponse/Accounts.java:
-    last_write_checksum: sha1:9f65b9487bc39816f7584ba06ae9c26841bf2a7b
+    last_write_checksum: sha1:b9e4fa5b06be8181532e8e0ef9a9d3382635d7f0
   src/main/java/org/noresponse/Assessments.java:
     last_write_checksum: sha1:443e1dbc01613d6279118e743ea972a88c9020ec
   src/main/java/org/noresponse/AsyncAccounts.java:
-    last_write_checksum: sha1:5af24f35167ce8abb524993f3ec7048e0a7cf354
+    last_write_checksum: sha1:a288286b6c0086e65e084a31e5c77e288efa0c16
   src/main/java/org/noresponse/AsyncAssessments.java:
     last_write_checksum: sha1:4079550c4f910d3d2e76dd464cd8ecdd8c48bea8
   src/main/java/org/noresponse/AsyncAudit.java:
@@ -1263,7 +1271,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:788ca2e3ab6d7f623a442b3ce3af5ee206279037
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:cdb79795b46244feab4102449c3e7f8e104e8e7a
+    last_write_checksum: sha1:cb9bf31ae31dfb2afaa262dc3c3ab582bb97cb72
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -1816,6 +1824,10 @@ trackedFiles:
     last_write_checksum: sha1:a2eeab5232cc6f3ba05ddf110735083bd0a9e891
   src/main/java/org/noresponse/models/operations/RotateWebhookSigningKeyResponse.java:
     last_write_checksum: sha1:9ae0ebc5ab397b32443cfd78b93d0f1739fd1f2a
+  src/main/java/org/noresponse/models/operations/SearchAccountsRequestBuilder.java:
+    last_write_checksum: sha1:e01bcaafb955b2b05441d4caf27957e53af3ca27
+  src/main/java/org/noresponse/models/operations/SearchAccountsResponse.java:
+    last_write_checksum: sha1:8305635f82f3f20c8a2037d995ed01c932d3546e
   src/main/java/org/noresponse/models/operations/SearchAssessmentsRequestBuilder.java:
     last_write_checksum: sha1:79a6bec0a04d0c75da9c3c357ad04eb52ee38f4d
   src/main/java/org/noresponse/models/operations/SearchAssessmentsResponse.java:
@@ -2222,6 +2234,10 @@ trackedFiles:
     last_write_checksum: sha1:154f1e918d225cc42d3d9b9c0d0173f705f973c1
   src/main/java/org/noresponse/models/operations/async/RotateWebhookSigningKeyResponse.java:
     last_write_checksum: sha1:102879f538c225583d6a687e133851a2270b6942
+  src/main/java/org/noresponse/models/operations/async/SearchAccountsRequestBuilder.java:
+    last_write_checksum: sha1:760519cfb9d40ce1f6b9b8a03d4f51b8ce233956
+  src/main/java/org/noresponse/models/operations/async/SearchAccountsResponse.java:
+    last_write_checksum: sha1:d4df1ce17ce9e04c9e6b72b0209d402d7762c473
   src/main/java/org/noresponse/models/operations/async/SearchAssessmentsRequestBuilder.java:
     last_write_checksum: sha1:643c838fc85620b8cf8c2ae6210774d02c0d63f3
   src/main/java/org/noresponse/models/operations/async/SearchAssessmentsResponse.java:
@@ -2276,6 +2292,12 @@ trackedFiles:
     last_write_checksum: sha1:0e98ed4f6a5d798d3b2582dd499f6874b079e615
   src/main/java/org/noresponse/models/shared/AccountDeletion.java:
     last_write_checksum: sha1:6631f077a7385bbcf9d4513734d1edd5ee2cecc1
+  src/main/java/org/noresponse/models/shared/AccountDirectoryPage.java:
+    last_write_checksum: sha1:d116f13f1c027092bcd9965c69c421b5ac481f65
+  src/main/java/org/noresponse/models/shared/AccountDirectoryPageItem.java:
+    last_write_checksum: sha1:cbb23e58260b5a4c2cf044af26866d1bf77f7025
+  src/main/java/org/noresponse/models/shared/AccountDirectorySearchRequest.java:
+    last_write_checksum: sha1:77d62b5a2352e2672f4038cca117afafc5b3207a
   src/main/java/org/noresponse/models/shared/AccountEnforcementList.java:
     last_write_checksum: sha1:1709f49a2f0ad096ce955b58fd8b0a1872404cd2
   src/main/java/org/noresponse/models/shared/AccountExport.java:
@@ -3172,6 +3194,8 @@ trackedFiles:
     last_write_checksum: sha1:10df4e3c1f5bceec0bc7249483c7460784227ac5
   src/main/java/org/noresponse/operations/RotateWebhookSigningKey.java:
     last_write_checksum: sha1:39d372f031f0a0d323cf064fcfb3e199a2a0f8c9
+  src/main/java/org/noresponse/operations/SearchAccounts.java:
+    last_write_checksum: sha1:9bf0aac90d610c6667e8739a781edbb23c58a26f
   src/main/java/org/noresponse/operations/SearchAssessments.java:
     last_write_checksum: sha1:512ba6fba88ead8941bc0c2b8b43cf021b92c32b
   src/main/java/org/noresponse/operations/SendWebhookTestEvent.java:
@@ -3925,6 +3949,25 @@ examples:
       responses:
         "200":
           application/json: {"account_id": "acct_7f3a9c", "items": [{"account": {"schema_version": "1", "id": "acct_7f3a9c", "risk": {"score": 35, "decision": "step_up", "reasons": [{"code": "proxy_ip", "direction": "raises", "impact": "high", "identifier": "ip"}, {"code": "new_email", "direction": "raises", "impact": "low", "identifier": "email"}]}, "decisions_by_flow": {"account_creation": "step_up", "login": "step_up", "purchase": "step_up"}, "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "updated_at": "2026-10-14T09:00:00.412Z", "risk_version": 3}, "assessment_version": 1, "policy_version": "policy-1", "overlay_version": 1, "changed_at": "2026-10-14T09:00:00.412Z"}]}
+  searchAccounts:
+    noresponse-default-search-accounts:
+      requestBody:
+        application/json: {"account_id": "acct_7f3a9c", "email": "new.user@example.com", "limit": 25, "cursor": "eyJ0IjoxNzY3MjI1NjAwMDAwMDAwLCJpIjoiYXNtX2V4YW1wbGUiLCJlIjoxNzY3MjI5MjAwfQ"}
+      responses:
+        "200":
+          application/json: {"schema_version": "1", "items": [{"account_id": "acct_7f3a9c", "latest": {"schema_version": "1", "id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "status": "complete", "flow": "account_creation", "depth": "full", "detail": {"schema_version": "1", "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "account_id": "acct_7f3a9c", "identifiers": {"email": "New.User@Example.com", "username": "new.user", "phone": "+61412345678", "name": "Alex Example", "ip": "203.0.113.45"}, "request_id": "req-2026-10-14-0001", "status": "pending", "confidence": "low", "risk": {"score": 458926, "band": "critical", "recommendation": "review", "confidence": "high", "policy_version": "risk-2026-10.3", "policy_basis": "heuristic_unvalidated", "reasons": [{"code": "identity_attribute_conflict", "direction": "raises", "impact": "high", "list_entry_id": "lst_01JA2ZE4K5M6N7P8Q9R0S1T2V3"}], "summary": {"phone": {"country": "AU", "carrier": "Telstra"}, "ip": {"country": "AU"}}, "coverage": {"answered": 692050, "failed": 639360, "pending": 624361}, "details": {"phone_names": [{"value": "Alex Example", "seen_by": 969982}], "breaches": [{"name": "Example Forum", "domain": "forum.example.com", "category": "forum", "kind": "hacking_forum", "matched_on": "email"}], "breach_names": [{"value": "Alex Example", "seen_in": 986167, "sites": ["forum.example.com"]}], "events": [{"year": 795636, "kind": "last_active", "site": "example.com", "category": "site_breach", "family": "code_hosting", "identifier": "email"}]}}, "signals": [{"type": "account_presence", "identifier": "username", "outcome": "blocked", "source_id": "github", "evidence_ref": "evr_01JA2Z8K6Q4V7W9XBCDEFGHJKN", "observed_at": "2026-10-14T09:00:00.210Z", "last_checked_at": "2026-10-14T09:00:00.210Z", "freshness": "unknown", "enrichment": {"fields": {"phone": "+61412345678", "name": "Alex Example", "carrier": "Telstra", "line_type": "mobile", "entity_type": "person", "country_code": "61", "country": "Australia", "state": "New South Wales", "city": "Sydney", "location": "Sydney, New South Wales, Australia", "national_format": "0412 345 678", "job_title": "Engineer", "company_name": "Example Pty Ltd", "email": "new.user@example.com", "website": "https://example.com", "first_call_at": "2026-09-01T00:00:00.000Z", "last_call_at": "2026-10-10T00:00:00.000Z", "matched_name": "Alex Example", "alternate_names": ["Alex E."], "name_candidates": ["Alex Example"], "timezones": ["Australia/Sydney"], "emails": ["new.user@example.com"], "websites": ["https://example.com"], "locations": ["Sydney, New South Wales, Australia"], "social_profiles": ["https://example.com/alexexample"]}}}], "incomplete_sources": [{"lane": "breach", "reason": "timed_out"}], "policy_version": "heuristic-2026-10.1", "policy_basis": "heuristic_unvalidated", "assessment_version": 62154, "created_at": "2026-10-14T09:00:00.000Z", "updated_at": "2026-10-14T09:00:00.412Z", "expires_at": "2027-10-14T09:00:00.000Z", "assessment_url": "/v1/assessments/asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "timing": {"deadline_ms": 677174, "elapsed_ms": 553122}, "auth_context": {"provider": "clerk", "issuer": "https://example-app.clerk.accounts.dev", "subject": "user_2EXAMPLE", "session_id": "sess_2EXAMPLE", "organization_id": "org_2EXAMPLE", "verified": true, "transport": "browser"}}}, "current": {"schema_version": "1", "id": "acct_7f3a9c", "risk": {"score": 372346, "decision": "step_up", "reasons": [{"code": "test_scenario", "direction": "lowers", "impact": "medium", "list_entry_id": "lst_01JA2ZE4K5M6N7P8Q9R0S1T2V3"}]}, "decisions_by_flow": {"account_creation": "allow", "login": "review", "purchase": "review"}, "assessment_id": "asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "updated_at": "2026-10-14T09:00:00.412Z", "risk_version": 792041}, "assessments": 679145}], "total": 654329, "total_capped": false, "next_cursor": "eyJ0IjoxNzY3MjI1NjAwMDAwMDAwLCJpIjoiYXNtX2V4YW1wbGUiLCJlIjoxNzY3MjI5MjAwfQ"}
+        "400":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 400, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "invalid_idempotency_key", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "401":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 401, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "unauthorized", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "403":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 403, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "role_forbidden", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "404":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 404, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "not_found", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "409":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 409, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "too_many_integrations", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "429":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 429, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "assessment_budget_exhausted", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
   recordKeyUsage:
     batch:
       parameters:

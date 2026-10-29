@@ -20,6 +20,7 @@ Your accounts, each with one current risk, and their assessment history.
 * [retireCredential](#retirecredential) - Retire an issued credential association
 * [export](#export) - Export an account
 * [listDecisions](#listdecisions) - Page through recorded account decisions
+* [search](#search) - Search distinct accounts by email or account ID
 
 ## listChanged
 
@@ -1079,6 +1080,74 @@ public class Application {
 ### Response
 
 **[ListAccountDecisionsResponse](../../models/operations/ListAccountDecisionsResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## search
+
+Search distinct accounts observed in retained assessments in this environment. Match an exact account_id or canonical email; an email matches any retained assessment belonging to the account. The response contains one row per account with its newest retained assessment, current decision when available, per-account assessment count, and total distinct-account count. Send next_cursor with unchanged filters to continue. Totals are exact below 10000 and capped at 10000. Results are live across pages. Requires history access and identifier access for email. Read-only and safe to retry.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="searchAccounts" method="post" path="/v1/accounts/search" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.SearchAccountsResponse;
+import org.noresponse.models.shared.AccountDirectorySearchRequest;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        AccountDirectorySearchRequest req = AccountDirectorySearchRequest.builder()
+                .accountId("acct_7f3a9c")
+                .email("new.user@example.com")
+                .cursor("eyJ0IjoxNzY3MjI1NjAwMDAwMDAwLCJpIjoiYXNtX2V4YW1wbGUiLCJlIjoxNzY3MjI5MjAwfQ")
+                .build();
+
+        SearchAccountsResponse res = sdk.accounts().search()
+                .request(req)
+                .call();
+
+        if (res.accountDirectoryPage().isPresent()) {
+            System.out.println(res.accountDirectoryPage().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                             | Type                                                                                  | Required                                                                              | Description                                                                           |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `request`                                                                             | [AccountDirectorySearchRequest](../../models/shared/AccountDirectorySearchRequest.md) | :heavy_check_mark:                                                                    | The request object to use for the request.                                            |
+
+### Response
+
+**[SearchAccountsResponse](../../models/operations/SearchAccountsResponse.md)**
 
 ### Errors
 

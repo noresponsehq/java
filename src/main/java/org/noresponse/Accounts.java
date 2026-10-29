@@ -49,6 +49,9 @@ import org.noresponse.models.operations.RecordEnforcementResponse;
 import org.noresponse.models.operations.RetireAccountCredentialRequest;
 import org.noresponse.models.operations.RetireAccountCredentialRequestBuilder;
 import org.noresponse.models.operations.RetireAccountCredentialResponse;
+import org.noresponse.models.operations.SearchAccountsRequestBuilder;
+import org.noresponse.models.operations.SearchAccountsResponse;
+import org.noresponse.models.shared.AccountDirectorySearchRequest;
 import org.noresponse.models.shared.AccountOutcomeRequest;
 import org.noresponse.models.shared.CredentialRequest;
 import org.noresponse.models.shared.EnforcementRequest;
@@ -67,6 +70,7 @@ import org.noresponse.operations.ListAccounts;
 import org.noresponse.operations.RecordAccountOutcome;
 import org.noresponse.operations.RecordEnforcement;
 import org.noresponse.operations.RetireAccountCredential;
+import org.noresponse.operations.SearchAccounts;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 
@@ -937,6 +941,70 @@ public class Accounts {
         ListAccountDecisionsRequest request = new ListAccountDecisionsRequest(accountId, limit, cursor);
         RequestOperation<ListAccountDecisionsRequest, ListAccountDecisionsResponse> operation =
                 new ListAccountDecisions.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Search distinct accounts by email or account ID
+     *
+     * <p>Search distinct accounts observed in retained assessments in this environment. Match an exact
+     * account_id or canonical email; an email matches any retained assessment belonging to the account.
+     * The response contains one row per account with its newest retained assessment, current decision when
+     * available, per-account assessment count, and total distinct-account count.
+     *
+     * <p>Send next_cursor with unchanged filters to continue. Totals are exact below 10000 and capped at
+     * 10000. Results are live across pages.
+     *
+     * <p>Requires history access and identifier access for email. Read-only and safe to retry.
+     *
+     * @return The call builder
+     */
+    public SearchAccountsRequestBuilder search() {
+        return new SearchAccountsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Search distinct accounts by email or account ID
+     *
+     * <p>Search distinct accounts observed in retained assessments in this environment. Match an exact
+     * account_id or canonical email; an email matches any retained assessment belonging to the account.
+     * The response contains one row per account with its newest retained assessment, current decision when
+     * available, per-account assessment count, and total distinct-account count.
+     *
+     * <p>Send next_cursor with unchanged filters to continue. Totals are exact below 10000 and capped at
+     * 10000. Results are live across pages.
+     *
+     * <p>Requires history access and identifier access for email. Read-only and safe to retry.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public SearchAccountsResponse search(@Nonnull AccountDirectorySearchRequest request) {
+        return search(request, null);
+    }
+
+    /**
+     * Search distinct accounts by email or account ID
+     *
+     * <p>Search distinct accounts observed in retained assessments in this environment. Match an exact
+     * account_id or canonical email; an email matches any retained assessment belonging to the account.
+     * The response contains one row per account with its newest retained assessment, current decision when
+     * available, per-account assessment count, and total distinct-account count.
+     *
+     * <p>Send next_cursor with unchanged filters to continue. Totals are exact below 10000 and capped at
+     * 10000. Results are live across pages.
+     *
+     * <p>Requires history access and identifier access for email. Read-only and safe to retry.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public SearchAccountsResponse search(@Nonnull AccountDirectorySearchRequest request, @Nullable Options options) {
+        RequestOperation<AccountDirectorySearchRequest, SearchAccountsResponse> operation =
+                new SearchAccounts.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 }
