@@ -9,23 +9,28 @@ import org.noresponse.utils.Utils;
 /**
  * RiskCoverage
  *
- * <p>Sources counted by state, not named.
+ * <p>Counts of planned source-identifier pairs by evidence outcome, deduplicated across signals and
+ * incomplete entries. These counts do not measure identity agreement or prove that processing is still
+ * running. A lane that was not searched is not an answered source.
  */
 public class RiskCoverage {
     /**
-     * Sources that gave a definite answer.
+     * Source-identifier pairs that gave a definite found or not_found answer.
      */
     @JsonProperty("answered")
     private long answered;
 
     /**
-     * Sources that could not answer.
+     * Source-identifier pairs that could not answer, including unsupported coverage markers and source
+     * failures. Read detailed signals to distinguish Not covered from Failed.
      */
     @JsonProperty("failed")
     private long failed;
 
     /**
-     * Sources still being asked.
+     * Source-identifier pairs with deferred or timed_out evidence. A terminal timeout can remain here
+     * after processing finishes; use assessment status and continuation metadata to determine whether work
+     * is still running.
      */
     @JsonProperty("pending")
     private long pending;
@@ -41,21 +46,24 @@ public class RiskCoverage {
     }
 
     /**
-     * Sources that gave a definite answer.
+     * Source-identifier pairs that gave a definite found or not_found answer.
      */
     public long answered() {
         return this.answered;
     }
 
     /**
-     * Sources that could not answer.
+     * Source-identifier pairs that could not answer, including unsupported coverage markers and source
+     * failures. Read detailed signals to distinguish Not covered from Failed.
      */
     public long failed() {
         return this.failed;
     }
 
     /**
-     * Sources still being asked.
+     * Source-identifier pairs with deferred or timed_out evidence. A terminal timeout can remain here
+     * after processing finishes; use assessment status and continuation metadata to determine whether work
+     * is still running.
      */
     public long pending() {
         return this.pending;
@@ -66,7 +74,7 @@ public class RiskCoverage {
     }
 
     /**
-     * Sources that gave a definite answer.
+     * Source-identifier pairs that gave a definite found or not_found answer.
      */
     public RiskCoverage withAnswered(long answered) {
         this.answered = answered;
@@ -74,7 +82,8 @@ public class RiskCoverage {
     }
 
     /**
-     * Sources that could not answer.
+     * Source-identifier pairs that could not answer, including unsupported coverage markers and source
+     * failures. Read detailed signals to distinguish Not covered from Failed.
      */
     public RiskCoverage withFailed(long failed) {
         this.failed = failed;
@@ -82,7 +91,9 @@ public class RiskCoverage {
     }
 
     /**
-     * Sources still being asked.
+     * Source-identifier pairs with deferred or timed_out evidence. A terminal timeout can remain here
+     * after processing finishes; use assessment status and continuation metadata to determine whether work
+     * is still running.
      */
     public RiskCoverage withPending(long pending) {
         this.pending = pending;
@@ -127,7 +138,7 @@ public class RiskCoverage {
         }
 
         /**
-         * Sources that gave a definite answer.
+         * Source-identifier pairs that gave a definite found or not_found answer.
          */
         public Builder answered(long answered) {
             this.answered = answered;
@@ -135,7 +146,8 @@ public class RiskCoverage {
         }
 
         /**
-         * Sources that could not answer.
+         * Source-identifier pairs that could not answer, including unsupported coverage markers and source
+         * failures. Read detailed signals to distinguish Not covered from Failed.
          */
         public Builder failed(long failed) {
             this.failed = failed;
@@ -143,7 +155,9 @@ public class RiskCoverage {
         }
 
         /**
-         * Sources still being asked.
+         * Source-identifier pairs with deferred or timed_out evidence. A terminal timeout can remain here
+         * after processing finishes; use assessment status and continuation metadata to determine whether work
+         * is still running.
          */
         public Builder pending(long pending) {
             this.pending = pending;

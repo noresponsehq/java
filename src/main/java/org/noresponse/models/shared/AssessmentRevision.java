@@ -31,11 +31,12 @@ public class AssessmentRevision {
     private String id;
 
     /**
-     * complete: final; nothing is still running. A lane that failed or missed its 10 s deadline stays
-     * listed in incomplete_sources, and confidence is lower. partial: a recommendation exists and at least
-     * one lane is still running or did not settle (see incomplete_sources).
+     * Processing state, separate from evidence coverage. complete: final; nothing is still running, but
+     * unsupported, failed or unanswered lanes remain in incomplete_sources. partial: a recommendation
+     * exists and evidence is incomplete; assessment_url identifies continuing work when present.
      *
-     * <p>pending: nothing usable before the deadline; no recommendation yet, poll or wait for the webhook.
+     * <p>pending: no recommendation yet; poll or wait for the webhook. Finished processing does not mean all
+     * sources answered.
      */
     @JsonProperty("status")
     private Status status;
@@ -98,11 +99,12 @@ public class AssessmentRevision {
     }
 
     /**
-     * complete: final; nothing is still running. A lane that failed or missed its 10 s deadline stays
-     * listed in incomplete_sources, and confidence is lower. partial: a recommendation exists and at least
-     * one lane is still running or did not settle (see incomplete_sources).
+     * Processing state, separate from evidence coverage. complete: final; nothing is still running, but
+     * unsupported, failed or unanswered lanes remain in incomplete_sources. partial: a recommendation
+     * exists and evidence is incomplete; assessment_url identifies continuing work when present.
      *
-     * <p>pending: nothing usable before the deadline; no recommendation yet, poll or wait for the webhook.
+     * <p>pending: no recommendation yet; poll or wait for the webhook. Finished processing does not mean all
+     * sources answered.
      */
     public Status status() {
         return this.status;
@@ -150,11 +152,12 @@ public class AssessmentRevision {
     }
 
     /**
-     * complete: final; nothing is still running. A lane that failed or missed its 10 s deadline stays
-     * listed in incomplete_sources, and confidence is lower. partial: a recommendation exists and at least
-     * one lane is still running or did not settle (see incomplete_sources).
+     * Processing state, separate from evidence coverage. complete: final; nothing is still running, but
+     * unsupported, failed or unanswered lanes remain in incomplete_sources. partial: a recommendation
+     * exists and evidence is incomplete; assessment_url identifies continuing work when present.
      *
-     * <p>pending: nothing usable before the deadline; no recommendation yet, poll or wait for the webhook.
+     * <p>pending: no recommendation yet; poll or wait for the webhook. Finished processing does not mean all
+     * sources answered.
      */
     public AssessmentRevision withStatus(@Nonnull Status status) {
         this.status = Utils.checkNotNull(status, "status");
@@ -259,11 +262,12 @@ public class AssessmentRevision {
         }
 
         /**
-         * complete: final; nothing is still running. A lane that failed or missed its 10 s deadline stays
-         * listed in incomplete_sources, and confidence is lower. partial: a recommendation exists and at least
-         * one lane is still running or did not settle (see incomplete_sources).
+         * Processing state, separate from evidence coverage. complete: final; nothing is still running, but
+         * unsupported, failed or unanswered lanes remain in incomplete_sources. partial: a recommendation
+         * exists and evidence is incomplete; assessment_url identifies continuing work when present.
          *
-         * <p>pending: nothing usable before the deadline; no recommendation yet, poll or wait for the webhook.
+         * <p>pending: no recommendation yet; poll or wait for the webhook. Finished processing does not mean all
+         * sources answered.
          */
         public Builder status(@Nonnull Status status) {
             this.status = Utils.checkNotNull(status, "status");

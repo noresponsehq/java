@@ -98,7 +98,9 @@ public class Risk {
     private RiskSummary summary;
 
     /**
-     * Sources counted by state, not named.
+     * Counts of planned source-identifier pairs by evidence outcome, deduplicated across signals and
+     * incomplete entries. These counts do not measure identity agreement or prove that processing is still
+     * running. A lane that was not searched is not an answered source.
      */
     @JsonProperty("coverage")
     private RiskCoverage coverage;
@@ -232,7 +234,9 @@ public class Risk {
     }
 
     /**
-     * Sources counted by state, not named.
+     * Counts of planned source-identifier pairs by evidence outcome, deduplicated across signals and
+     * incomplete entries. These counts do not measure identity agreement or prove that processing is still
+     * running. A lane that was not searched is not an answered source.
      */
     public RiskCoverage coverage() {
         return this.coverage;
@@ -330,7 +334,9 @@ public class Risk {
     }
 
     /**
-     * Sources counted by state, not named.
+     * Counts of planned source-identifier pairs by evidence outcome, deduplicated across signals and
+     * incomplete entries. These counts do not measure identity agreement or prove that processing is still
+     * running. A lane that was not searched is not an answered source.
      */
     public Risk withCoverage(@Nonnull RiskCoverage coverage) {
         this.coverage = Utils.checkNotNull(coverage, "coverage");
@@ -525,7 +531,9 @@ public class Risk {
         }
 
         /**
-         * Sources counted by state, not named.
+         * Counts of planned source-identifier pairs by evidence outcome, deduplicated across signals and
+         * incomplete entries. These counts do not measure identity agreement or prove that processing is still
+         * running. A lane that was not searched is not an answered source.
          */
         public Builder coverage(@Nonnull RiskCoverage coverage) {
             this.coverage = Utils.checkNotNull(coverage, "coverage");

@@ -26,6 +26,7 @@ public class ReasonCode {
     public static final ReasonCode VOIP_NUMBER = new ReasonCode("voip_number");
     public static final ReasonCode DISPOSABLE_EMAIL = new ReasonCode("disposable_email");
     public static final ReasonCode NEW_EMAIL = new ReasonCode("new_email");
+    public static final ReasonCode NO_EMAIL_MATCHES = new ReasonCode("no_email_matches");
     public static final ReasonCode SPAM_REPORTS = new ReasonCode("spam_reports");
     public static final ReasonCode FRAUD_FLAG = new ReasonCode("fraud_flag");
     public static final ReasonCode IDENTITY_MISMATCH = new ReasonCode("identity_mismatch");
@@ -146,6 +147,7 @@ public class ReasonCode {
         map.put("voip_number", VOIP_NUMBER);
         map.put("disposable_email", DISPOSABLE_EMAIL);
         map.put("new_email", NEW_EMAIL);
+        map.put("no_email_matches", NO_EMAIL_MATCHES);
         map.put("spam_reports", SPAM_REPORTS);
         map.put("fraud_flag", FRAUD_FLAG);
         map.put("identity_mismatch", IDENTITY_MISMATCH);
@@ -201,6 +203,7 @@ public class ReasonCode {
         map.put("voip_number", ReasonCodeEnum.VOIP_NUMBER);
         map.put("disposable_email", ReasonCodeEnum.DISPOSABLE_EMAIL);
         map.put("new_email", ReasonCodeEnum.NEW_EMAIL);
+        map.put("no_email_matches", ReasonCodeEnum.NO_EMAIL_MATCHES);
         map.put("spam_reports", ReasonCodeEnum.SPAM_REPORTS);
         map.put("fraud_flag", ReasonCodeEnum.FRAUD_FLAG);
         map.put("identity_mismatch", ReasonCodeEnum.IDENTITY_MISMATCH);
@@ -256,6 +259,7 @@ public class ReasonCode {
         VOIP_NUMBER("voip_number"),
         DISPOSABLE_EMAIL("disposable_email"),
         NEW_EMAIL("new_email"),
+        NO_EMAIL_MATCHES("no_email_matches"),
         SPAM_REPORTS("spam_reports"),
         FRAUD_FLAG("fraud_flag"),
         IDENTITY_MISMATCH("identity_mismatch"),

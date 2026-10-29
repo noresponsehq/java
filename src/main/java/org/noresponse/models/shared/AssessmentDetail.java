@@ -71,11 +71,12 @@ public class AssessmentDetail {
     private String requestId;
 
     /**
-     * complete: final; nothing is still running. A lane that failed or missed its 10 s deadline stays
-     * listed in incomplete_sources, and confidence is lower. partial: a recommendation exists and at least
-     * one lane is still running or did not settle (see incomplete_sources).
+     * Processing state, separate from evidence coverage. complete: final; nothing is still running, but
+     * unsupported, failed or unanswered lanes remain in incomplete_sources. partial: a recommendation
+     * exists and evidence is incomplete; assessment_url identifies continuing work when present.
      *
-     * <p>pending: nothing usable before the deadline; no recommendation yet, poll or wait for the webhook.
+     * <p>pending: no recommendation yet; poll or wait for the webhook. Finished processing does not mean all
+     * sources answered.
      */
     @JsonProperty("status")
     private Status status;
@@ -88,7 +89,10 @@ public class AssessmentDetail {
     private Recommendation recommendation;
 
     /**
-     * Ordinal confidence in the recommendation under the current policy: low, medium, high or unavailable.
+     * Evidence coverage: how much of the planned source evidence gave a definite answer. This is not
+     * confidence that an identity is genuine, agreement between identifiers, a risk score or a
+     * probability. unavailable means no usable evidence answered; a terminal uncovered assessment can have
+     * this value and recommend review.
      */
     @JsonProperty("confidence")
     private Confidence confidence;
@@ -324,11 +328,12 @@ public class AssessmentDetail {
     }
 
     /**
-     * complete: final; nothing is still running. A lane that failed or missed its 10 s deadline stays
-     * listed in incomplete_sources, and confidence is lower. partial: a recommendation exists and at least
-     * one lane is still running or did not settle (see incomplete_sources).
+     * Processing state, separate from evidence coverage. complete: final; nothing is still running, but
+     * unsupported, failed or unanswered lanes remain in incomplete_sources. partial: a recommendation
+     * exists and evidence is incomplete; assessment_url identifies continuing work when present.
      *
-     * <p>pending: nothing usable before the deadline; no recommendation yet, poll or wait for the webhook.
+     * <p>pending: no recommendation yet; poll or wait for the webhook. Finished processing does not mean all
+     * sources answered.
      */
     public Status status() {
         return this.status;
@@ -342,7 +347,10 @@ public class AssessmentDetail {
     }
 
     /**
-     * Ordinal confidence in the recommendation under the current policy: low, medium, high or unavailable.
+     * Evidence coverage: how much of the planned source evidence gave a definite answer. This is not
+     * confidence that an identity is genuine, agreement between identifiers, a risk score or a
+     * probability. unavailable means no usable evidence answered; a terminal uncovered assessment can have
+     * this value and recommend review.
      */
     public Confidence confidence() {
         return this.confidence;
@@ -503,11 +511,12 @@ public class AssessmentDetail {
     }
 
     /**
-     * complete: final; nothing is still running. A lane that failed or missed its 10 s deadline stays
-     * listed in incomplete_sources, and confidence is lower. partial: a recommendation exists and at least
-     * one lane is still running or did not settle (see incomplete_sources).
+     * Processing state, separate from evidence coverage. complete: final; nothing is still running, but
+     * unsupported, failed or unanswered lanes remain in incomplete_sources. partial: a recommendation
+     * exists and evidence is incomplete; assessment_url identifies continuing work when present.
      *
-     * <p>pending: nothing usable before the deadline; no recommendation yet, poll or wait for the webhook.
+     * <p>pending: no recommendation yet; poll or wait for the webhook. Finished processing does not mean all
+     * sources answered.
      */
     public AssessmentDetail withStatus(@Nonnull Status status) {
         this.status = Utils.checkNotNull(status, "status");
@@ -523,7 +532,10 @@ public class AssessmentDetail {
     }
 
     /**
-     * Ordinal confidence in the recommendation under the current policy: low, medium, high or unavailable.
+     * Evidence coverage: how much of the planned source evidence gave a definite answer. This is not
+     * confidence that an identity is genuine, agreement between identifiers, a risk score or a
+     * probability. unavailable means no usable evidence answered; a terminal uncovered assessment can have
+     * this value and recommend review.
      */
     public AssessmentDetail withConfidence(@Nonnull Confidence confidence) {
         this.confidence = Utils.checkNotNull(confidence, "confidence");
@@ -830,11 +842,12 @@ public class AssessmentDetail {
         }
 
         /**
-         * complete: final; nothing is still running. A lane that failed or missed its 10 s deadline stays
-         * listed in incomplete_sources, and confidence is lower. partial: a recommendation exists and at least
-         * one lane is still running or did not settle (see incomplete_sources).
+         * Processing state, separate from evidence coverage. complete: final; nothing is still running, but
+         * unsupported, failed or unanswered lanes remain in incomplete_sources. partial: a recommendation
+         * exists and evidence is incomplete; assessment_url identifies continuing work when present.
          *
-         * <p>pending: nothing usable before the deadline; no recommendation yet, poll or wait for the webhook.
+         * <p>pending: no recommendation yet; poll or wait for the webhook. Finished processing does not mean all
+         * sources answered.
          */
         public Builder status(@Nonnull Status status) {
             this.status = Utils.checkNotNull(status, "status");
@@ -850,7 +863,10 @@ public class AssessmentDetail {
         }
 
         /**
-         * Ordinal confidence in the recommendation under the current policy: low, medium, high or unavailable.
+         * Evidence coverage: how much of the planned source evidence gave a definite answer. This is not
+         * confidence that an identity is genuine, agreement between identifiers, a risk score or a
+         * probability. unavailable means no usable evidence answered; a terminal uncovered assessment can have
+         * this value and recommend review.
          */
         public Builder confidence(@Nonnull Confidence confidence) {
             this.confidence = Utils.checkNotNull(confidence, "confidence");

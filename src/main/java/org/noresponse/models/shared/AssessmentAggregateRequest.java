@@ -113,11 +113,12 @@ public class AssessmentAggregateRequest {
     private Flow flow;
 
     /**
-     * complete: final; nothing is still running. A lane that failed or missed its 10 s deadline stays
-     * listed in incomplete_sources, and confidence is lower. partial: a recommendation exists and at least
-     * one lane is still running or did not settle (see incomplete_sources).
+     * Processing state, separate from evidence coverage. complete: final; nothing is still running, but
+     * unsupported, failed or unanswered lanes remain in incomplete_sources. partial: a recommendation
+     * exists and evidence is incomplete; assessment_url identifies continuing work when present.
      *
-     * <p>pending: nothing usable before the deadline; no recommendation yet, poll or wait for the webhook.
+     * <p>pending: no recommendation yet; poll or wait for the webhook. Finished processing does not mean all
+     * sources answered.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("status")
@@ -367,11 +368,12 @@ public class AssessmentAggregateRequest {
     }
 
     /**
-     * complete: final; nothing is still running. A lane that failed or missed its 10 s deadline stays
-     * listed in incomplete_sources, and confidence is lower. partial: a recommendation exists and at least
-     * one lane is still running or did not settle (see incomplete_sources).
+     * Processing state, separate from evidence coverage. complete: final; nothing is still running, but
+     * unsupported, failed or unanswered lanes remain in incomplete_sources. partial: a recommendation
+     * exists and evidence is incomplete; assessment_url identifies continuing work when present.
      *
-     * <p>pending: nothing usable before the deadline; no recommendation yet, poll or wait for the webhook.
+     * <p>pending: no recommendation yet; poll or wait for the webhook. Finished processing does not mean all
+     * sources answered.
      */
     public Optional<Status> status() {
         return Optional.ofNullable(this.status);
@@ -558,11 +560,12 @@ public class AssessmentAggregateRequest {
     }
 
     /**
-     * complete: final; nothing is still running. A lane that failed or missed its 10 s deadline stays
-     * listed in incomplete_sources, and confidence is lower. partial: a recommendation exists and at least
-     * one lane is still running or did not settle (see incomplete_sources).
+     * Processing state, separate from evidence coverage. complete: final; nothing is still running, but
+     * unsupported, failed or unanswered lanes remain in incomplete_sources. partial: a recommendation
+     * exists and evidence is incomplete; assessment_url identifies continuing work when present.
      *
-     * <p>pending: nothing usable before the deadline; no recommendation yet, poll or wait for the webhook.
+     * <p>pending: no recommendation yet; poll or wait for the webhook. Finished processing does not mean all
+     * sources answered.
      */
     public AssessmentAggregateRequest withStatus(@Nullable Status status) {
         this.status = status;
@@ -920,11 +923,12 @@ public class AssessmentAggregateRequest {
         }
 
         /**
-         * complete: final; nothing is still running. A lane that failed or missed its 10 s deadline stays
-         * listed in incomplete_sources, and confidence is lower. partial: a recommendation exists and at least
-         * one lane is still running or did not settle (see incomplete_sources).
+         * Processing state, separate from evidence coverage. complete: final; nothing is still running, but
+         * unsupported, failed or unanswered lanes remain in incomplete_sources. partial: a recommendation
+         * exists and evidence is incomplete; assessment_url identifies continuing work when present.
          *
-         * <p>pending: nothing usable before the deadline; no recommendation yet, poll or wait for the webhook.
+         * <p>pending: no recommendation yet; poll or wait for the webhook. Finished processing does not mean all
+         * sources answered.
          */
         public Builder status(@Nullable Status status) {
             this.status = status;
