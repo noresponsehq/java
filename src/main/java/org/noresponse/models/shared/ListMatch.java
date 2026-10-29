@@ -1,125 +1,38 @@
 package org.noresponse.models.shared;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.lang.Override;
 import java.lang.String;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Wrapper for an "open" enum that can handle unknown values from API responses
- * without runtime errors. Instances are immutable singletons with reference equality.
- * Use {@code asEnum()} for switch expressions.
- */
-/**
  * ListMatch
  *
- * <p>The action of the list entry that decided the account.
+ * <p>The list action captured at the first answer. Requires revision first. Older answers without
+ * captured list state do not match, including none.
  */
-public class ListMatch {
+public enum ListMatch {
+    ALLOW("allow"),
+    BLOCK("block"),
+    NONE("none");
 
-    public static final ListMatch BLOCK = new ListMatch("block");
-    public static final ListMatch ALLOW = new ListMatch("allow");
-
-    // This map will grow whenever a Color gets created with a new
-    // unrecognized value (a potential memory leak if the user is not
-    // careful). Keep this field lower case to avoid clashing with
-    // generated member names which will always be upper cased (Java
-    // convention)
-    private static final Map<String, ListMatch> values = createValuesMap();
-    private static final Map<String, ListMatchEnum> enums = createEnumsMap();
-
+    @JsonValue
     private final String value;
 
-    private ListMatch(String value) {
+    ListMatch(String value) {
         this.value = value;
     }
 
-    /**
-     * Returns a ListMatch with the given value. For a specific value the
-     * returned object will always be a singleton so reference equality
-     * is satisfied when the values are the same.
-     *
-     * @param value value to be wrapped as ListMatch
-     */
-    @JsonCreator
-    public static ListMatch of(String value) {
-        synchronized (ListMatch.class) {
-            return values.computeIfAbsent(value, v -> new ListMatch(v));
-        }
-    }
-
-    @JsonValue
     public String value() {
         return value;
     }
 
-    public Optional<ListMatchEnum> asEnum() {
-        return Optional.ofNullable(enums.getOrDefault(value, null));
-    }
-
-    public boolean isKnown() {
-        return asEnum().isPresent();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
-    }
-
-    @Override
-    public boolean equals(java.lang.Object obj) {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        ListMatch other = (ListMatch) obj;
-        return Objects.equals(value, other.value);
-    }
-
-    @Override
-    public String toString() {
-        return "ListMatch [value=" + value + "]";
-    }
-
-    // return an array just like an enum
-    public static ListMatch[] values() {
-        synchronized (ListMatch.class) {
-            return values.values().toArray(new ListMatch[] {});
+    public static Optional<ListMatch> fromValue(String value) {
+        for (ListMatch o : ListMatch.values()) {
+            if (Objects.deepEquals(o.value, value)) {
+                return Optional.of(o);
+            }
         }
-    }
-
-    private static final Map<String, ListMatch> createValuesMap() {
-        Map<String, ListMatch> map = new LinkedHashMap<>();
-        map.put("block", BLOCK);
-        map.put("allow", ALLOW);
-        return map;
-    }
-
-    private static final Map<String, ListMatchEnum> createEnumsMap() {
-        Map<String, ListMatchEnum> map = new HashMap<>();
-        map.put("block", ListMatchEnum.BLOCK);
-        map.put("allow", ListMatchEnum.ALLOW);
-        return map;
-    }
-
-    public enum ListMatchEnum {
-
-        BLOCK("block"),
-        ALLOW("allow"),
-        ;
-
-        private final String value;
-
-        private ListMatchEnum(String value) {
-            this.value = value;
-        }
-
-        public String value() {
-            return value;
-        }
+        return Optional.empty();
     }
 }

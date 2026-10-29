@@ -28,6 +28,12 @@ import org.noresponse.models.operations.ListAccountAssessmentsResponse;
 import org.noresponse.models.operations.ListAccountCredentialsRequest;
 import org.noresponse.models.operations.ListAccountCredentialsRequestBuilder;
 import org.noresponse.models.operations.ListAccountCredentialsResponse;
+import org.noresponse.models.operations.ListAccountDecisionsRequest;
+import org.noresponse.models.operations.ListAccountDecisionsRequestBuilder;
+import org.noresponse.models.operations.ListAccountDecisionsResponse;
+import org.noresponse.models.operations.ListAccountEnforcementsRequest;
+import org.noresponse.models.operations.ListAccountEnforcementsRequestBuilder;
+import org.noresponse.models.operations.ListAccountEnforcementsResponse;
 import org.noresponse.models.operations.ListAccountOutcomesRequest;
 import org.noresponse.models.operations.ListAccountOutcomesRequestBuilder;
 import org.noresponse.models.operations.ListAccountOutcomesResponse;
@@ -54,6 +60,8 @@ import org.noresponse.operations.GetAccount;
 import org.noresponse.operations.GetAccountDecision;
 import org.noresponse.operations.ListAccountAssessments;
 import org.noresponse.operations.ListAccountCredentials;
+import org.noresponse.operations.ListAccountDecisions;
+import org.noresponse.operations.ListAccountEnforcements;
 import org.noresponse.operations.ListAccountOutcomes;
 import org.noresponse.operations.ListAccounts;
 import org.noresponse.operations.RecordAccountOutcome;
@@ -454,6 +462,50 @@ public class Accounts {
     }
 
     /**
+     * Page through account enforcements
+     *
+     * <p>List retained enforcement reports for one account with an authenticated cursor.
+     *
+     * @return The call builder
+     */
+    public ListAccountEnforcementsRequestBuilder listEnforcements() {
+        return new ListAccountEnforcementsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Page through account enforcements
+     *
+     * <p>List retained enforcement reports for one account with an authenticated cursor.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ListAccountEnforcementsResponse listEnforcements(@Nonnull String accountId) {
+        return listEnforcements(accountId, null, null, null);
+    }
+
+    /**
+     * Page through account enforcements
+     *
+     * <p>List retained enforcement reports for one account with an authenticated cursor.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param limit Items per page.
+     * @param cursor next_cursor from the previous page, unchanged.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ListAccountEnforcementsResponse listEnforcements(
+            @Nonnull String accountId, @Nullable Long limit, @Nullable String cursor, @Nullable Options options) {
+        ListAccountEnforcementsRequest request = new ListAccountEnforcementsRequest(accountId, limit, cursor);
+        RequestOperation<ListAccountEnforcementsRequest, ListAccountEnforcementsResponse> operation =
+                new ListAccountEnforcements.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
      * Record or correct an account outcome
      *
      * <p>Record a factual report, not an enforcement action. A known outcome replaces the effective report.
@@ -841,6 +893,50 @@ public class Accounts {
         ExportAccountRequest request = new ExportAccountRequest(accountId, responseMode);
         RequestOperation<ExportAccountRequest, ExportAccountResponse> operation =
                 new ExportAccount.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Page through recorded account decisions
+     *
+     * <p>List retained immutable risk decisions for one account with an authenticated cursor.
+     *
+     * @return The call builder
+     */
+    public ListAccountDecisionsRequestBuilder listDecisions() {
+        return new ListAccountDecisionsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Page through recorded account decisions
+     *
+     * <p>List retained immutable risk decisions for one account with an authenticated cursor.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ListAccountDecisionsResponse listDecisions(@Nonnull String accountId) {
+        return listDecisions(accountId, null, null, null);
+    }
+
+    /**
+     * Page through recorded account decisions
+     *
+     * <p>List retained immutable risk decisions for one account with an authenticated cursor.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param limit Items per page.
+     * @param cursor next_cursor from the previous page, unchanged.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ListAccountDecisionsResponse listDecisions(
+            @Nonnull String accountId, @Nullable Long limit, @Nullable String cursor, @Nullable Options options) {
+        ListAccountDecisionsRequest request = new ListAccountDecisionsRequest(accountId, limit, cursor);
+        RequestOperation<ListAccountDecisionsRequest, ListAccountDecisionsResponse> operation =
+                new ListAccountDecisions.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 }

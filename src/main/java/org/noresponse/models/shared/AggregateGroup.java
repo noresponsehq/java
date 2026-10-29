@@ -44,19 +44,18 @@ public class AggregateGroup {
     @JsonProperty("recommendation")
     private Recommendation recommendation;
 
-    /**
-     * low 0-29, medium 30-59, high 60-84, critical 85-100.
-     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("band")
     private Band band;
 
     /**
-     * The action of the list entry that decided the account.
+     * The list action captured with the first answer. none means no matching entry was found. For
+     * retained_first_answers an absent field means the older assessment did not capture list state; this
+     * remains a separate group.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("list_match")
-    private ListMatch listMatch;
+    private AggregateGroupListMatch listMatch;
 
     /**
      * A stable reason code. New codes may appear; ignore any you do not know.
@@ -65,6 +64,9 @@ public class AggregateGroup {
     @JsonProperty("reason")
     private ReasonCode reason;
 
+    /**
+     * The selected reason's served impact band. Requires reason.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("impact")
     private Impact impact;
@@ -94,7 +96,7 @@ public class AggregateGroup {
             @JsonProperty("flow") @Nullable Flow flow,
             @JsonProperty("recommendation") @Nullable Recommendation recommendation,
             @JsonProperty("band") @Nullable Band band,
-            @JsonProperty("list_match") @Nullable ListMatch listMatch,
+            @JsonProperty("list_match") @Nullable AggregateGroupListMatch listMatch,
             @JsonProperty("reason") @Nullable ReasonCode reason,
             @JsonProperty("impact") @Nullable Impact impact,
             @JsonProperty("lane") @Nullable Lane lane,
@@ -142,17 +144,16 @@ public class AggregateGroup {
         return Optional.ofNullable(this.recommendation);
     }
 
-    /**
-     * low 0-29, medium 30-59, high 60-84, critical 85-100.
-     */
     public Optional<Band> band() {
         return Optional.ofNullable(this.band);
     }
 
     /**
-     * The action of the list entry that decided the account.
+     * The list action captured with the first answer. none means no matching entry was found. For
+     * retained_first_answers an absent field means the older assessment did not capture list state; this
+     * remains a separate group.
      */
-    public Optional<ListMatch> listMatch() {
+    public Optional<AggregateGroupListMatch> listMatch() {
         return Optional.ofNullable(this.listMatch);
     }
 
@@ -163,6 +164,9 @@ public class AggregateGroup {
         return Optional.ofNullable(this.reason);
     }
 
+    /**
+     * The selected reason's served impact band. Requires reason.
+     */
     public Optional<Impact> impact() {
         return Optional.ofNullable(this.impact);
     }
@@ -218,18 +222,17 @@ public class AggregateGroup {
         return this;
     }
 
-    /**
-     * low 0-29, medium 30-59, high 60-84, critical 85-100.
-     */
     public AggregateGroup withBand(@Nullable Band band) {
         this.band = band;
         return this;
     }
 
     /**
-     * The action of the list entry that decided the account.
+     * The list action captured with the first answer. none means no matching entry was found. For
+     * retained_first_answers an absent field means the older assessment did not capture list state; this
+     * remains a separate group.
      */
-    public AggregateGroup withListMatch(@Nullable ListMatch listMatch) {
+    public AggregateGroup withListMatch(@Nullable AggregateGroupListMatch listMatch) {
         this.listMatch = listMatch;
         return this;
     }
@@ -242,6 +245,9 @@ public class AggregateGroup {
         return this;
     }
 
+    /**
+     * The selected reason's served impact band. Requires reason.
+     */
     public AggregateGroup withImpact(@Nullable Impact impact) {
         this.impact = impact;
         return this;
@@ -338,7 +344,7 @@ public class AggregateGroup {
 
         private Band band;
 
-        private ListMatch listMatch;
+        private AggregateGroupListMatch listMatch;
 
         private ReasonCode reason;
 
@@ -383,18 +389,17 @@ public class AggregateGroup {
             return this;
         }
 
-        /**
-         * low 0-29, medium 30-59, high 60-84, critical 85-100.
-         */
         public Builder band(@Nullable Band band) {
             this.band = band;
             return this;
         }
 
         /**
-         * The action of the list entry that decided the account.
+         * The list action captured with the first answer. none means no matching entry was found. For
+         * retained_first_answers an absent field means the older assessment did not capture list state; this
+         * remains a separate group.
          */
-        public Builder listMatch(@Nullable ListMatch listMatch) {
+        public Builder listMatch(@Nullable AggregateGroupListMatch listMatch) {
             this.listMatch = listMatch;
             return this;
         }
@@ -407,6 +412,9 @@ public class AggregateGroup {
             return this;
         }
 
+        /**
+         * The selected reason's served impact band. Requires reason.
+         */
         public Builder impact(@Nullable Impact impact) {
             this.impact = impact;
             return this;

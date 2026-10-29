@@ -142,7 +142,7 @@ public class CreateKey {
 
             CreateKeyResponse res = resBuilder.build();
 
-            if (Utils.statusCodeMatches(response.statusCode(), "201")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "200", "201")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     return res.withKey(Utils.unmarshal(response, new TypeReference<Key>() {}));
@@ -260,7 +260,7 @@ public class CreateKey {
 
             org.noresponse.models.operations.async.CreateKeyResponse res = resBuilder.build();
 
-            if (Utils.statusCodeMatches(response.statusCode(), "201")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "200", "201")) {
                 res.withHeaders(response.headers().map());
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     return Utils.unmarshalAsync(response, new TypeReference<Key>() {})

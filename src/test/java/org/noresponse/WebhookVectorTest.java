@@ -28,6 +28,7 @@ import org.noresponse.models.shared.AccountDeletedEvent;
 import org.noresponse.models.shared.AccountRiskChangedEvent;
 import org.noresponse.models.shared.Assessment;
 import org.noresponse.models.shared.AssessmentUpdatedEvent;
+import org.noresponse.models.shared.AuditEventEvent;
 import org.noresponse.models.shared.EndpointVerificationEvent;
 import org.noresponse.models.shared.WebhookEndpointDisabledEvent;
 import org.noresponse.models.shared.WebhookEvent;
@@ -52,7 +53,8 @@ class WebhookVectorTest {
             "account.deleted", AccountDeletedEvent.class,
             "workspace.deleted", WorkspaceDeletedEvent.class,
             "webhook_endpoint.disabled", WebhookEndpointDisabledEvent.class,
-            "account.risk_changed", AccountRiskChangedEvent.class);
+            "account.risk_changed", AccountRiskChangedEvent.class,
+            "audit.event", AuditEventEvent.class);
 
     private static JsonNode read(Path path) {
         try {

@@ -16,6 +16,8 @@ RateLimitErrorCode custom = RateLimitErrorCode.of("custom_value");
 
 ## Values
 
-| Name           | Value          |
-| -------------- | -------------- |
-| `RATE_LIMITED` | rate_limited   |
+| Name                          | Value                         |
+| ----------------------------- | ----------------------------- |
+| `RATE_LIMITED`                | rate_limited                  |
+| `ASSESSMENT_BUDGET_EXHAUSTED` | assessment_budget_exhausted   |
+| `EXPORT_LIMIT_REACHED`        | export_limit_reached          |

@@ -2,6 +2,8 @@ package org.noresponse.models.operations;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
@@ -25,12 +27,28 @@ public class ListListEntriesRequest {
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=environment")
     private KeyEnvironment environment;
 
+    @NoResponseMetadata("queryParam:style=form,explode=true,name=limit")
+    private Long limit;
+
+    @NoResponseMetadata("queryParam:style=form,explode=true,name=cursor")
+    private String cursor;
+
     @JsonCreator
-    public ListListEntriesRequest(@Nonnull String workspaceId, @Nonnull KeyEnvironment environment) {
+    public ListListEntriesRequest(
+            @Nonnull String workspaceId,
+            @Nonnull KeyEnvironment environment,
+            @Nullable Long limit,
+            @Nullable String cursor) {
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
         this.environment = Optional.ofNullable(environment)
                 .orElseThrow(() -> new IllegalArgumentException("environment cannot be null"));
+        this.limit = limit;
+        this.cursor = cursor;
+    }
+
+    public ListListEntriesRequest(@Nonnull String workspaceId, @Nonnull KeyEnvironment environment) {
+        this(workspaceId, environment, null, null);
     }
 
     /**
@@ -48,6 +66,14 @@ public class ListListEntriesRequest {
      */
     public KeyEnvironment environment() {
         return this.environment;
+    }
+
+    public Optional<Long> limit() {
+        return Optional.ofNullable(this.limit);
+    }
+
+    public Optional<String> cursor() {
+        return Optional.ofNullable(this.cursor);
     }
 
     public static Builder builder() {
@@ -73,6 +99,16 @@ public class ListListEntriesRequest {
         return this;
     }
 
+    public ListListEntriesRequest withLimit(@Nullable Long limit) {
+        this.limit = limit;
+        return this;
+    }
+
+    public ListListEntriesRequest withCursor(@Nullable String cursor) {
+        this.cursor = cursor;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -83,17 +119,28 @@ public class ListListEntriesRequest {
         }
         ListListEntriesRequest other = (ListListEntriesRequest) o;
         return Utils.enhancedDeepEquals(this.workspaceId, other.workspaceId)
-                && Utils.enhancedDeepEquals(this.environment, other.environment);
+                && Utils.enhancedDeepEquals(this.environment, other.environment)
+                && Utils.enhancedDeepEquals(this.limit, other.limit)
+                && Utils.enhancedDeepEquals(this.cursor, other.cursor);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(workspaceId, environment);
+        return Utils.enhancedHash(workspaceId, environment, limit, cursor);
     }
 
     @Override
     public String toString() {
-        return Utils.toString(ListListEntriesRequest.class, "workspaceId", workspaceId, "environment", environment);
+        return Utils.toString(
+                ListListEntriesRequest.class,
+                "workspaceId",
+                workspaceId,
+                "environment",
+                environment,
+                "limit",
+                limit,
+                "cursor",
+                cursor);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -102,6 +149,10 @@ public class ListListEntriesRequest {
         private String workspaceId;
 
         private KeyEnvironment environment;
+
+        private Long limit;
+
+        private String cursor;
 
         private Builder() {
             // force use of static builder() method
@@ -126,8 +177,18 @@ public class ListListEntriesRequest {
             return this;
         }
 
+        public Builder limit(@Nullable Long limit) {
+            this.limit = limit;
+            return this;
+        }
+
+        public Builder cursor(@Nullable String cursor) {
+            this.cursor = cursor;
+            return this;
+        }
+
         public ListListEntriesRequest build() {
-            return new ListListEntriesRequest(workspaceId, environment);
+            return new ListListEntriesRequest(workspaceId, environment, limit, cursor);
         }
     }
 }

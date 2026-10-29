@@ -11,6 +11,7 @@ Your accounts, each with one current risk, and their assessment history.
 * [delete](#delete) - Erase an account and its history.
 * [listAssessments](#listassessments) - Page through one account's unexpired assessments.
 * [recordEnforcement](#recordenforcement) - Record what you did to an account in your identity provider.
+* [listEnforcements](#listenforcements) - Page through account enforcements
 * [recordOutcome](#recordoutcome) - Record or correct an account outcome
 * [listOutcomes](#listoutcomes) - List retained account feedback
 * [retrieveDecision](#retrievedecision) - Retrieve an exact historical account decision
@@ -18,6 +19,7 @@ Your accounts, each with one current risk, and their assessment history.
 * [listCredentials](#listcredentials) - List issued credential associations
 * [retireCredential](#retirecredential) - Retire an issued credential association
 * [export](#export) - Export an account
+* [listDecisions](#listdecisions) - Page through recorded account decisions
 
 ## listChanged
 
@@ -500,6 +502,72 @@ public class Application {
 | models/errors/RateLimitException        | 429                                     | application/problem+json                |
 | models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
 
+## listEnforcements
+
+List retained enforcement reports for one account with an authenticated cursor.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="listAccountEnforcements" method="get" path="/v1/accounts/{account_id}/enforcements" example="page" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.ListAccountEnforcementsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+
+        sdk.accounts().listEnforcements()
+                .accountId("acct_7f3a9c")
+                .limit(20L)
+                .callAsStream()
+                .forEach((ListAccountEnforcementsResponse item) -> {
+                   // handle page
+                });
+
+
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                          | Type                                                                                                                                                                                                               | Required                                                                                                                                                                                                           | Description                                                                                                                                                                                                        | Example                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `accountId`                                                                                                                                                                                                        | *String*                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                 | The account_id the workspace sends with its assessments, as one path segment (percent-encode '\|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request. | acct_7f3a9c                                                                                                                                                                                                        |
+| `limit`                                                                                                                                                                                                            | @Nullable *long*                                                                                                                                                                                                   | :heavy_minus_sign:                                                                                                                                                                                                 | Items per page.                                                                                                                                                                                                    |                                                                                                                                                                                                                    |
+| `cursor`                                                                                                                                                                                                           | @Nullable *String*                                                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                                                                 | next_cursor from the previous page, unchanged.                                                                                                                                                                     |                                                                                                                                                                                                                    |
+
+### Response
+
+**[ListAccountEnforcementsResponse](../../models/operations/ListAccountEnforcementsResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
 ## recordOutcome
 
 Record a factual report, not an enforcement action. A known outcome replaces the effective report. unknown alone records uncertainty without changing it; unknown with supersedes explicitly retracts it. supersedes must name the current effective report or the request answers 409 outcome_conflict. Reports remain append-only. Idempotency-Key is required. observed_at defaults to receipt time and cannot be over five minutes ahead.
@@ -600,14 +668,16 @@ public class Application {
                 .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
-        ListAccountOutcomesResponse res = sdk.accounts().listOutcomes()
+
+        sdk.accounts().listOutcomes()
                 .accountId("acct_7f3a9c")
                 .limit(20L)
-                .call();
+                .callAsStream()
+                .forEach((ListAccountOutcomesResponse item) -> {
+                   // handle page
+                });
 
-        if (res.accountOutcomePage().isPresent()) {
-            System.out.println(res.accountOutcomePage().get());
-        }
+
     }
 }
 ```
@@ -793,14 +863,16 @@ public class Application {
                 .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
             .build();
 
-        ListAccountCredentialsResponse res = sdk.accounts().listCredentials()
+
+        sdk.accounts().listCredentials()
                 .accountId("acct_7f3a9c")
                 .limit(20L)
-                .call();
+                .callAsStream()
+                .forEach((ListAccountCredentialsResponse item) -> {
+                   // handle page
+                });
 
-        if (res.credentialPage().isPresent()) {
-            System.out.println(res.credentialPage().get());
-        }
+
     }
 }
 ```
@@ -941,6 +1013,72 @@ public class Application {
 ### Response
 
 **[ExportAccountResponse](../../models/operations/ExportAccountResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## listDecisions
+
+List retained immutable risk decisions for one account with an authenticated cursor.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="listAccountDecisions" method="get" path="/v1/accounts/{account_id}/decisions" example="page" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.ListAccountDecisionsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+
+        sdk.accounts().listDecisions()
+                .accountId("acct_7f3a9c")
+                .limit(20L)
+                .callAsStream()
+                .forEach((ListAccountDecisionsResponse item) -> {
+                   // handle page
+                });
+
+
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                                                          | Type                                                                                                                                                                                                               | Required                                                                                                                                                                                                           | Description                                                                                                                                                                                                        | Example                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `accountId`                                                                                                                                                                                                        | *String*                                                                                                                                                                                                           | :heavy_check_mark:                                                                                                                                                                                                 | The account_id the workspace sends with its assessments, as one path segment (percent-encode '\|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request. | acct_7f3a9c                                                                                                                                                                                                        |
+| `limit`                                                                                                                                                                                                            | @Nullable *long*                                                                                                                                                                                                   | :heavy_minus_sign:                                                                                                                                                                                                 | Items per page.                                                                                                                                                                                                    |                                                                                                                                                                                                                    |
+| `cursor`                                                                                                                                                                                                           | @Nullable *String*                                                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                                                                 | next_cursor from the previous page, unchanged.                                                                                                                                                                     |                                                                                                                                                                                                                    |
+
+### Response
+
+**[ListAccountDecisionsResponse](../../models/operations/ListAccountDecisionsResponse.md)**
 
 ### Errors
 

@@ -112,6 +112,62 @@ public class AssessmentSearchRequest {
     @JsonProperty("revision")
     private AnswerRevision revision;
 
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("band")
+    private Band band;
+
+    /**
+     * A stable reason code. New codes may appear; ignore any you do not know.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("reason")
+    private ReasonCode reason;
+
+    /**
+     * The selected reason's served impact band. Requires reason.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("impact")
+    private Impact impact;
+
+    /**
+     * An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
+     * email domain's registration) and ip.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("lane")
+    private Lane lane;
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("country")
+    private String country;
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("asn")
+    private Long asn;
+
+    /**
+     * Inclusive lower score bound. Pending answers without a score do not match.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("score_min")
+    private Long scoreMin;
+
+    /**
+     * Inclusive upper score bound, at least score_min when both are supplied.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("score_max")
+    private Long scoreMax;
+
+    /**
+     * The list action captured at the first answer. Requires revision first. Older answers without
+     * captured list state do not match, including none.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("list_match")
+    private ListMatch listMatch;
+
     @JsonCreator
     public AssessmentSearchRequest(
             @JsonProperty("from") @Nonnull String from,
@@ -124,7 +180,16 @@ public class AssessmentSearchRequest {
             @JsonProperty("cursor") @Nullable String cursor,
             @JsonProperty("response_mode") @Nullable ResponseMode responseMode,
             @JsonProperty("decision") @Nullable Decision decision,
-            @JsonProperty("revision") @Nullable AnswerRevision revision) {
+            @JsonProperty("revision") @Nullable AnswerRevision revision,
+            @JsonProperty("band") @Nullable Band band,
+            @JsonProperty("reason") @Nullable ReasonCode reason,
+            @JsonProperty("impact") @Nullable Impact impact,
+            @JsonProperty("lane") @Nullable Lane lane,
+            @JsonProperty("country") @Nullable String country,
+            @JsonProperty("asn") @Nullable Long asn,
+            @JsonProperty("score_min") @Nullable Long scoreMin,
+            @JsonProperty("score_max") @Nullable Long scoreMax,
+            @JsonProperty("list_match") @Nullable ListMatch listMatch) {
         this.from = Optional.ofNullable(from).orElseThrow(() -> new IllegalArgumentException("from cannot be null"));
         this.to = Optional.ofNullable(to).orElseThrow(() -> new IllegalArgumentException("to cannot be null"));
         this.accountId = accountId;
@@ -136,10 +201,39 @@ public class AssessmentSearchRequest {
         this.responseMode = responseMode;
         this.decision = decision;
         this.revision = revision;
+        this.band = band;
+        this.reason = reason;
+        this.impact = impact;
+        this.lane = lane;
+        this.country = country;
+        this.asn = asn;
+        this.scoreMin = scoreMin;
+        this.scoreMax = scoreMax;
+        this.listMatch = listMatch;
     }
 
     public AssessmentSearchRequest(@Nonnull String from, @Nonnull String to) {
-        this(from, to, null, null, null, null, null, null, null, null, null);
+        this(
+                from,
+                to,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
     }
 
     public String from() {
@@ -229,6 +323,62 @@ public class AssessmentSearchRequest {
      */
     public Optional<AnswerRevision> revision() {
         return Optional.ofNullable(this.revision);
+    }
+
+    public Optional<Band> band() {
+        return Optional.ofNullable(this.band);
+    }
+
+    /**
+     * A stable reason code. New codes may appear; ignore any you do not know.
+     */
+    public Optional<ReasonCode> reason() {
+        return Optional.ofNullable(this.reason);
+    }
+
+    /**
+     * The selected reason's served impact band. Requires reason.
+     */
+    public Optional<Impact> impact() {
+        return Optional.ofNullable(this.impact);
+    }
+
+    /**
+     * An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
+     * email domain's registration) and ip.
+     */
+    public Optional<Lane> lane() {
+        return Optional.ofNullable(this.lane);
+    }
+
+    public Optional<String> country() {
+        return Optional.ofNullable(this.country);
+    }
+
+    public Optional<Long> asn() {
+        return Optional.ofNullable(this.asn);
+    }
+
+    /**
+     * Inclusive lower score bound. Pending answers without a score do not match.
+     */
+    public Optional<Long> scoreMin() {
+        return Optional.ofNullable(this.scoreMin);
+    }
+
+    /**
+     * Inclusive upper score bound, at least score_min when both are supplied.
+     */
+    public Optional<Long> scoreMax() {
+        return Optional.ofNullable(this.scoreMax);
+    }
+
+    /**
+     * The list action captured at the first answer. Requires revision first. Older answers without
+     * captured list state do not match, including none.
+     */
+    public Optional<ListMatch> listMatch() {
+        return Optional.ofNullable(this.listMatch);
     }
 
     public static Builder builder() {
@@ -335,6 +485,71 @@ public class AssessmentSearchRequest {
         return this;
     }
 
+    public AssessmentSearchRequest withBand(@Nullable Band band) {
+        this.band = band;
+        return this;
+    }
+
+    /**
+     * A stable reason code. New codes may appear; ignore any you do not know.
+     */
+    public AssessmentSearchRequest withReason(@Nullable ReasonCode reason) {
+        this.reason = reason;
+        return this;
+    }
+
+    /**
+     * The selected reason's served impact band. Requires reason.
+     */
+    public AssessmentSearchRequest withImpact(@Nullable Impact impact) {
+        this.impact = impact;
+        return this;
+    }
+
+    /**
+     * An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
+     * email domain's registration) and ip.
+     */
+    public AssessmentSearchRequest withLane(@Nullable Lane lane) {
+        this.lane = lane;
+        return this;
+    }
+
+    public AssessmentSearchRequest withCountry(@Nullable String country) {
+        this.country = country;
+        return this;
+    }
+
+    public AssessmentSearchRequest withAsn(@Nullable Long asn) {
+        this.asn = asn;
+        return this;
+    }
+
+    /**
+     * Inclusive lower score bound. Pending answers without a score do not match.
+     */
+    public AssessmentSearchRequest withScoreMin(@Nullable Long scoreMin) {
+        this.scoreMin = scoreMin;
+        return this;
+    }
+
+    /**
+     * Inclusive upper score bound, at least score_min when both are supplied.
+     */
+    public AssessmentSearchRequest withScoreMax(@Nullable Long scoreMax) {
+        this.scoreMax = scoreMax;
+        return this;
+    }
+
+    /**
+     * The list action captured at the first answer. Requires revision first. Older answers without
+     * captured list state do not match, including none.
+     */
+    public AssessmentSearchRequest withListMatch(@Nullable ListMatch listMatch) {
+        this.listMatch = listMatch;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -354,13 +569,41 @@ public class AssessmentSearchRequest {
                 && Utils.enhancedDeepEquals(this.cursor, other.cursor)
                 && Utils.enhancedDeepEquals(this.responseMode, other.responseMode)
                 && Utils.enhancedDeepEquals(this.decision, other.decision)
-                && Utils.enhancedDeepEquals(this.revision, other.revision);
+                && Utils.enhancedDeepEquals(this.revision, other.revision)
+                && Utils.enhancedDeepEquals(this.band, other.band)
+                && Utils.enhancedDeepEquals(this.reason, other.reason)
+                && Utils.enhancedDeepEquals(this.impact, other.impact)
+                && Utils.enhancedDeepEquals(this.lane, other.lane)
+                && Utils.enhancedDeepEquals(this.country, other.country)
+                && Utils.enhancedDeepEquals(this.asn, other.asn)
+                && Utils.enhancedDeepEquals(this.scoreMin, other.scoreMin)
+                && Utils.enhancedDeepEquals(this.scoreMax, other.scoreMax)
+                && Utils.enhancedDeepEquals(this.listMatch, other.listMatch);
     }
 
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                from, to, accountId, flow, status, recommendation, limit, cursor, responseMode, decision, revision);
+                from,
+                to,
+                accountId,
+                flow,
+                status,
+                recommendation,
+                limit,
+                cursor,
+                responseMode,
+                decision,
+                revision,
+                band,
+                reason,
+                impact,
+                lane,
+                country,
+                asn,
+                scoreMin,
+                scoreMax,
+                listMatch);
     }
 
     @Override
@@ -388,7 +631,25 @@ public class AssessmentSearchRequest {
                 "decision",
                 decision,
                 "revision",
-                revision);
+                revision,
+                "band",
+                band,
+                "reason",
+                reason,
+                "impact",
+                impact,
+                "lane",
+                lane,
+                "country",
+                country,
+                "asn",
+                asn,
+                "scoreMin",
+                scoreMin,
+                "scoreMax",
+                scoreMax,
+                "listMatch",
+                listMatch);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -415,6 +676,24 @@ public class AssessmentSearchRequest {
         private Decision decision;
 
         private AnswerRevision revision;
+
+        private Band band;
+
+        private ReasonCode reason;
+
+        private Impact impact;
+
+        private Lane lane;
+
+        private String country;
+
+        private Long asn;
+
+        private Long scoreMin;
+
+        private Long scoreMax;
+
+        private ListMatch listMatch;
 
         private Builder() {
             // force use of static builder() method
@@ -520,9 +799,93 @@ public class AssessmentSearchRequest {
             return this;
         }
 
+        public Builder band(@Nullable Band band) {
+            this.band = band;
+            return this;
+        }
+
+        /**
+         * A stable reason code. New codes may appear; ignore any you do not know.
+         */
+        public Builder reason(@Nullable ReasonCode reason) {
+            this.reason = reason;
+            return this;
+        }
+
+        /**
+         * The selected reason's served impact band. Requires reason.
+         */
+        public Builder impact(@Nullable Impact impact) {
+            this.impact = impact;
+            return this;
+        }
+
+        /**
+         * An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
+         * email domain's registration) and ip.
+         */
+        public Builder lane(@Nullable Lane lane) {
+            this.lane = lane;
+            return this;
+        }
+
+        public Builder country(@Nullable String country) {
+            this.country = country;
+            return this;
+        }
+
+        public Builder asn(@Nullable Long asn) {
+            this.asn = asn;
+            return this;
+        }
+
+        /**
+         * Inclusive lower score bound. Pending answers without a score do not match.
+         */
+        public Builder scoreMin(@Nullable Long scoreMin) {
+            this.scoreMin = scoreMin;
+            return this;
+        }
+
+        /**
+         * Inclusive upper score bound, at least score_min when both are supplied.
+         */
+        public Builder scoreMax(@Nullable Long scoreMax) {
+            this.scoreMax = scoreMax;
+            return this;
+        }
+
+        /**
+         * The list action captured at the first answer. Requires revision first. Older answers without
+         * captured list state do not match, including none.
+         */
+        public Builder listMatch(@Nullable ListMatch listMatch) {
+            this.listMatch = listMatch;
+            return this;
+        }
+
         public AssessmentSearchRequest build() {
             return new AssessmentSearchRequest(
-                    from, to, accountId, flow, status, recommendation, limit, cursor, responseMode, decision, revision);
+                    from,
+                    to,
+                    accountId,
+                    flow,
+                    status,
+                    recommendation,
+                    limit,
+                    cursor,
+                    responseMode,
+                    decision,
+                    revision,
+                    band,
+                    reason,
+                    impact,
+                    lane,
+                    country,
+                    asn,
+                    scoreMin,
+                    scoreMax,
+                    listMatch);
         }
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =

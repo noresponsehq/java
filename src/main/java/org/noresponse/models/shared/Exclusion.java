@@ -23,6 +23,8 @@ public class Exclusion {
     public static final Exclusion CROSS_CUSTOMER_DATA = new Exclusion("cross_customer_data");
     public static final Exclusion LEGACY_OUTCOME_NOTES = new Exclusion("legacy_outcome_notes");
     public static final Exclusion UNCAPTURED_HISTORICAL_DECISIONS = new Exclusion("uncaptured_historical_decisions");
+    public static final Exclusion INVESTIGATOR_REVIEWS_REQUIRE_REVIEW_EXPORT =
+            new Exclusion("investigator_reviews_require_review_export");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -99,6 +101,7 @@ public class Exclusion {
         map.put("cross_customer_data", CROSS_CUSTOMER_DATA);
         map.put("legacy_outcome_notes", LEGACY_OUTCOME_NOTES);
         map.put("uncaptured_historical_decisions", UNCAPTURED_HISTORICAL_DECISIONS);
+        map.put("investigator_reviews_require_review_export", INVESTIGATOR_REVIEWS_REQUIRE_REVIEW_EXPORT);
         return map;
     }
 
@@ -110,6 +113,8 @@ public class Exclusion {
         map.put("cross_customer_data", ExclusionEnum.CROSS_CUSTOMER_DATA);
         map.put("legacy_outcome_notes", ExclusionEnum.LEGACY_OUTCOME_NOTES);
         map.put("uncaptured_historical_decisions", ExclusionEnum.UNCAPTURED_HISTORICAL_DECISIONS);
+        map.put(
+                "investigator_reviews_require_review_export", ExclusionEnum.INVESTIGATOR_REVIEWS_REQUIRE_REVIEW_EXPORT);
         return map;
     }
 
@@ -121,6 +126,7 @@ public class Exclusion {
         CROSS_CUSTOMER_DATA("cross_customer_data"),
         LEGACY_OUTCOME_NOTES("legacy_outcome_notes"),
         UNCAPTURED_HISTORICAL_DECISIONS("uncaptured_historical_decisions"),
+        INVESTIGATOR_REVIEWS_REQUIRE_REVIEW_EXPORT("investigator_reviews_require_review_export"),
         ;
 
         private final String value;

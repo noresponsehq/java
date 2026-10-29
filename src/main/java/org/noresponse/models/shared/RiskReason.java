@@ -28,6 +28,9 @@ public class RiskReason {
     @JsonProperty("direction")
     private Direction direction;
 
+    /**
+     * The selected reason's served impact band. Requires reason.
+     */
     @JsonProperty("impact")
     private Impact impact;
 
@@ -77,6 +80,9 @@ public class RiskReason {
         return this.direction;
     }
 
+    /**
+     * The selected reason's served impact band. Requires reason.
+     */
     public Impact impact() {
         return this.impact;
     }
@@ -113,6 +119,9 @@ public class RiskReason {
         return this;
     }
 
+    /**
+     * The selected reason's served impact band. Requires reason.
+     */
     public RiskReason withImpact(@Nonnull Impact impact) {
         this.impact = Utils.checkNotNull(impact, "impact");
         return this;
@@ -202,6 +211,9 @@ public class RiskReason {
             return this;
         }
 
+        /**
+         * The selected reason's served impact band. Requires reason.
+         */
         public Builder impact(@Nonnull Impact impact) {
             this.impact = Utils.checkNotNull(impact, "impact");
             return this;

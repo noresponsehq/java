@@ -38,6 +38,16 @@ public class ConflictErrorCode {
     public static final ConflictErrorCode LIST_ENTRY_EXISTS = new ConflictErrorCode("list_entry_exists");
     public static final ConflictErrorCode LIST_LIMIT_REACHED = new ConflictErrorCode("list_limit_reached");
     public static final ConflictErrorCode LIST_ENTRY_TOO_BROAD = new ConflictErrorCode("list_entry_too_broad");
+    public static final ConflictErrorCode POLICY_VERSION_CONFLICT = new ConflictErrorCode("policy_version_conflict");
+    public static final ConflictErrorCode REVIEW_VERSION_CONFLICT = new ConflictErrorCode("review_version_conflict");
+    public static final ConflictErrorCode REVIEW_EXISTS = new ConflictErrorCode("review_exists");
+    public static final ConflictErrorCode REVIEW_LIMIT_REACHED = new ConflictErrorCode("review_limit_reached");
+    public static final ConflictErrorCode EXPORT_CONFLICT = new ConflictErrorCode("export_conflict");
+    public static final ConflictErrorCode EVALUATION_CONFLICT = new ConflictErrorCode("evaluation_conflict");
+    public static final ConflictErrorCode EVALUATION_NO_PROPOSAL = new ConflictErrorCode("evaluation_no_proposal");
+    public static final ConflictErrorCode EVALUATION_LIMIT_REACHED = new ConflictErrorCode("evaluation_limit_reached");
+    public static final ConflictErrorCode ALREADY_MEMBER = new ConflictErrorCode("already_member");
+    public static final ConflictErrorCode MEMBER_LIMIT_REACHED = new ConflictErrorCode("member_limit_reached");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -122,6 +132,16 @@ public class ConflictErrorCode {
         map.put("list_entry_exists", LIST_ENTRY_EXISTS);
         map.put("list_limit_reached", LIST_LIMIT_REACHED);
         map.put("list_entry_too_broad", LIST_ENTRY_TOO_BROAD);
+        map.put("policy_version_conflict", POLICY_VERSION_CONFLICT);
+        map.put("review_version_conflict", REVIEW_VERSION_CONFLICT);
+        map.put("review_exists", REVIEW_EXISTS);
+        map.put("review_limit_reached", REVIEW_LIMIT_REACHED);
+        map.put("export_conflict", EXPORT_CONFLICT);
+        map.put("evaluation_conflict", EVALUATION_CONFLICT);
+        map.put("evaluation_no_proposal", EVALUATION_NO_PROPOSAL);
+        map.put("evaluation_limit_reached", EVALUATION_LIMIT_REACHED);
+        map.put("already_member", ALREADY_MEMBER);
+        map.put("member_limit_reached", MEMBER_LIMIT_REACHED);
         return map;
     }
 
@@ -141,6 +161,16 @@ public class ConflictErrorCode {
         map.put("list_entry_exists", ConflictErrorCodeEnum.LIST_ENTRY_EXISTS);
         map.put("list_limit_reached", ConflictErrorCodeEnum.LIST_LIMIT_REACHED);
         map.put("list_entry_too_broad", ConflictErrorCodeEnum.LIST_ENTRY_TOO_BROAD);
+        map.put("policy_version_conflict", ConflictErrorCodeEnum.POLICY_VERSION_CONFLICT);
+        map.put("review_version_conflict", ConflictErrorCodeEnum.REVIEW_VERSION_CONFLICT);
+        map.put("review_exists", ConflictErrorCodeEnum.REVIEW_EXISTS);
+        map.put("review_limit_reached", ConflictErrorCodeEnum.REVIEW_LIMIT_REACHED);
+        map.put("export_conflict", ConflictErrorCodeEnum.EXPORT_CONFLICT);
+        map.put("evaluation_conflict", ConflictErrorCodeEnum.EVALUATION_CONFLICT);
+        map.put("evaluation_no_proposal", ConflictErrorCodeEnum.EVALUATION_NO_PROPOSAL);
+        map.put("evaluation_limit_reached", ConflictErrorCodeEnum.EVALUATION_LIMIT_REACHED);
+        map.put("already_member", ConflictErrorCodeEnum.ALREADY_MEMBER);
+        map.put("member_limit_reached", ConflictErrorCodeEnum.MEMBER_LIMIT_REACHED);
         return map;
     }
 
@@ -160,6 +190,16 @@ public class ConflictErrorCode {
         LIST_ENTRY_EXISTS("list_entry_exists"),
         LIST_LIMIT_REACHED("list_limit_reached"),
         LIST_ENTRY_TOO_BROAD("list_entry_too_broad"),
+        POLICY_VERSION_CONFLICT("policy_version_conflict"),
+        REVIEW_VERSION_CONFLICT("review_version_conflict"),
+        REVIEW_EXISTS("review_exists"),
+        REVIEW_LIMIT_REACHED("review_limit_reached"),
+        EXPORT_CONFLICT("export_conflict"),
+        EVALUATION_CONFLICT("evaluation_conflict"),
+        EVALUATION_NO_PROPOSAL("evaluation_no_proposal"),
+        EVALUATION_LIMIT_REACHED("evaluation_limit_reached"),
+        ALREADY_MEMBER("already_member"),
+        MEMBER_LIMIT_REACHED("member_limit_reached"),
         ;
 
         private final String value;

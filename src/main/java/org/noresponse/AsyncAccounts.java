@@ -15,6 +15,8 @@ import org.noresponse.models.operations.GetAccountDecisionRequest;
 import org.noresponse.models.operations.GetAccountRequest;
 import org.noresponse.models.operations.ListAccountAssessmentsRequest;
 import org.noresponse.models.operations.ListAccountCredentialsRequest;
+import org.noresponse.models.operations.ListAccountDecisionsRequest;
+import org.noresponse.models.operations.ListAccountEnforcementsRequest;
 import org.noresponse.models.operations.ListAccountOutcomesRequest;
 import org.noresponse.models.operations.ListAccountsRequest;
 import org.noresponse.models.operations.RecordAccountOutcomeRequest;
@@ -34,6 +36,10 @@ import org.noresponse.models.operations.async.ListAccountAssessmentsRequestBuild
 import org.noresponse.models.operations.async.ListAccountAssessmentsResponse;
 import org.noresponse.models.operations.async.ListAccountCredentialsRequestBuilder;
 import org.noresponse.models.operations.async.ListAccountCredentialsResponse;
+import org.noresponse.models.operations.async.ListAccountDecisionsRequestBuilder;
+import org.noresponse.models.operations.async.ListAccountDecisionsResponse;
+import org.noresponse.models.operations.async.ListAccountEnforcementsRequestBuilder;
+import org.noresponse.models.operations.async.ListAccountEnforcementsResponse;
 import org.noresponse.models.operations.async.ListAccountOutcomesRequestBuilder;
 import org.noresponse.models.operations.async.ListAccountOutcomesResponse;
 import org.noresponse.models.operations.async.ListAccountsRequestBuilder;
@@ -55,6 +61,8 @@ import org.noresponse.operations.GetAccount;
 import org.noresponse.operations.GetAccountDecision;
 import org.noresponse.operations.ListAccountAssessments;
 import org.noresponse.operations.ListAccountCredentials;
+import org.noresponse.operations.ListAccountDecisions;
+import org.noresponse.operations.ListAccountEnforcements;
 import org.noresponse.operations.ListAccountOutcomes;
 import org.noresponse.operations.ListAccounts;
 import org.noresponse.operations.RecordAccountOutcome;
@@ -446,6 +454,48 @@ public class AsyncAccounts {
     }
 
     /**
+     * Page through account enforcements
+     *
+     * <p>List retained enforcement reports for one account with an authenticated cursor.
+     *
+     * @return The async call builder
+     */
+    public ListAccountEnforcementsRequestBuilder listEnforcements() {
+        return new ListAccountEnforcementsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Page through account enforcements
+     *
+     * <p>List retained enforcement reports for one account with an authenticated cursor.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @return {@code CompletableFuture<ListAccountEnforcementsResponse>} - The async response
+     */
+    public CompletableFuture<ListAccountEnforcementsResponse> listEnforcements(@Nonnull String accountId) {
+        return listEnforcements(accountId, null, null, null);
+    }
+
+    /**
+     * Page through account enforcements
+     *
+     * <p>List retained enforcement reports for one account with an authenticated cursor.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param limit Items per page.
+     * @param cursor next_cursor from the previous page, unchanged.
+     * @param options additional options
+     * @return {@code CompletableFuture<ListAccountEnforcementsResponse>} - The async response
+     */
+    public CompletableFuture<ListAccountEnforcementsResponse> listEnforcements(
+            @Nonnull String accountId, @Nullable Long limit, @Nullable String cursor, @Nullable Options options) {
+        ListAccountEnforcementsRequest request = new ListAccountEnforcementsRequest(accountId, limit, cursor);
+        AsyncRequestOperation<ListAccountEnforcementsRequest, ListAccountEnforcementsResponse> operation =
+                new ListAccountEnforcements.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
      * Record or correct an account outcome
      *
      * <p>Record a factual report, not an enforcement action. A known outcome replaces the effective report.
@@ -821,6 +871,48 @@ public class AsyncAccounts {
         ExportAccountRequest request = new ExportAccountRequest(accountId, responseMode);
         AsyncRequestOperation<ExportAccountRequest, ExportAccountResponse> operation =
                 new ExportAccount.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Page through recorded account decisions
+     *
+     * <p>List retained immutable risk decisions for one account with an authenticated cursor.
+     *
+     * @return The async call builder
+     */
+    public ListAccountDecisionsRequestBuilder listDecisions() {
+        return new ListAccountDecisionsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Page through recorded account decisions
+     *
+     * <p>List retained immutable risk decisions for one account with an authenticated cursor.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @return {@code CompletableFuture<ListAccountDecisionsResponse>} - The async response
+     */
+    public CompletableFuture<ListAccountDecisionsResponse> listDecisions(@Nonnull String accountId) {
+        return listDecisions(accountId, null, null, null);
+    }
+
+    /**
+     * Page through recorded account decisions
+     *
+     * <p>List retained immutable risk decisions for one account with an authenticated cursor.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param limit Items per page.
+     * @param cursor next_cursor from the previous page, unchanged.
+     * @param options additional options
+     * @return {@code CompletableFuture<ListAccountDecisionsResponse>} - The async response
+     */
+    public CompletableFuture<ListAccountDecisionsResponse> listDecisions(
+            @Nonnull String accountId, @Nullable Long limit, @Nullable String cursor, @Nullable Options options) {
+        ListAccountDecisionsRequest request = new ListAccountDecisionsRequest(accountId, limit, cursor);
+        AsyncRequestOperation<ListAccountDecisionsRequest, ListAccountDecisionsResponse> operation =
+                new ListAccountDecisions.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 }

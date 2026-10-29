@@ -1,0 +1,10 @@
+# ListImpactTransition
+
+
+## Fields
+
+| Field                                                                       | Setter Type                                                                 | Getter Type                                                                 | Required                                                                    | Description                                                                 |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `from`                                                                      | [ListImpactTransitionFrom](../../models/shared/ListImpactTransitionFrom.md) | [ListImpactTransitionFrom](../../models/shared/ListImpactTransitionFrom.md) | :heavy_check_mark:                                                          | N/A                                                                         |
+| `to`                                                                        | [ListImpactTransitionFrom](../../models/shared/ListImpactTransitionFrom.md) | [ListImpactTransitionFrom](../../models/shared/ListImpactTransitionFrom.md) | :heavy_check_mark:                                                          | N/A                                                                         |
+| `count`                                                                     | *long*                                                                      | *long*                                                                      | :heavy_check_mark:                                                          | N/A                                                                         |

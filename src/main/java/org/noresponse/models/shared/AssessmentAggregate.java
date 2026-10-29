@@ -62,6 +62,17 @@ public class AssessmentAggregate {
     @JsonProperty("groups_truncated")
     private boolean groupsTruncated;
 
+    /**
+     * Captured in the same database snapshot as the counts. Capture start times describe when counting
+     * began, not the earliest creation time counted: an older assessment may first answer later. Older
+     * outcomes are not inferred to be absent.
+     *
+     * <p>Erased detail cannot be returned by drill-down even while its anonymous count remains.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("coverage")
+    private AssessmentAggregateCoverage coverage;
+
     @JsonProperty("buckets")
     private List<AggregateBucket> buckets;
 
@@ -74,6 +85,7 @@ public class AssessmentAggregate {
             @JsonProperty("metrics") @Nonnull List<AssessmentAggregateMetric> metrics,
             @JsonProperty("retention_days") @Nullable Long retentionDays,
             @JsonProperty("groups_truncated") boolean groupsTruncated,
+            @JsonProperty("coverage") @Nullable AssessmentAggregateCoverage coverage,
             @JsonProperty("buckets") @Nonnull List<AggregateBucket> buckets) {
         this.schemaVersion = Builder._SINGLETON_VALUE_SchemaVersion.value();
         this.from = Optional.ofNullable(from).orElseThrow(() -> new IllegalArgumentException("from cannot be null"));
@@ -86,6 +98,7 @@ public class AssessmentAggregate {
                 Optional.ofNullable(metrics).orElseThrow(() -> new IllegalArgumentException("metrics cannot be null"));
         this.retentionDays = Optional.ofNullable(retentionDays).orElse(Builder._SINGLETON_VALUE_RetentionDays.value());
         this.groupsTruncated = groupsTruncated;
+        this.coverage = coverage;
         this.buckets =
                 Optional.ofNullable(buckets).orElseThrow(() -> new IllegalArgumentException("buckets cannot be null"));
     }
@@ -98,7 +111,7 @@ public class AssessmentAggregate {
             @Nonnull List<AssessmentAggregateMetric> metrics,
             boolean groupsTruncated,
             @Nonnull List<AggregateBucket> buckets) {
-        this(from, to, bucket, groupBy, metrics, null, groupsTruncated, buckets);
+        this(from, to, bucket, groupBy, metrics, null, groupsTruncated, null, buckets);
     }
 
     /**
@@ -145,6 +158,17 @@ public class AssessmentAggregate {
      */
     public boolean groupsTruncated() {
         return this.groupsTruncated;
+    }
+
+    /**
+     * Captured in the same database snapshot as the counts. Capture start times describe when counting
+     * began, not the earliest creation time counted: an older assessment may first answer later. Older
+     * outcomes are not inferred to be absent.
+     *
+     * <p>Erased detail cannot be returned by drill-down even while its anonymous count remains.
+     */
+    public Optional<AssessmentAggregateCoverage> coverage() {
+        return Optional.ofNullable(this.coverage);
     }
 
     public List<AggregateBucket> buckets() {
@@ -201,6 +225,18 @@ public class AssessmentAggregate {
         return this;
     }
 
+    /**
+     * Captured in the same database snapshot as the counts. Capture start times describe when counting
+     * began, not the earliest creation time counted: an older assessment may first answer later. Older
+     * outcomes are not inferred to be absent.
+     *
+     * <p>Erased detail cannot be returned by drill-down even while its anonymous count remains.
+     */
+    public AssessmentAggregate withCoverage(@Nullable AssessmentAggregateCoverage coverage) {
+        this.coverage = coverage;
+        return this;
+    }
+
     public AssessmentAggregate withBuckets(@Nonnull List<AggregateBucket> buckets) {
         this.buckets = Utils.checkNotNull(buckets, "buckets");
         return this;
@@ -223,13 +259,14 @@ public class AssessmentAggregate {
                 && Utils.enhancedDeepEquals(this.metrics, other.metrics)
                 && Utils.enhancedDeepEquals(this.retentionDays, other.retentionDays)
                 && Utils.enhancedDeepEquals(this.groupsTruncated, other.groupsTruncated)
+                && Utils.enhancedDeepEquals(this.coverage, other.coverage)
                 && Utils.enhancedDeepEquals(this.buckets, other.buckets);
     }
 
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                schemaVersion, from, to, bucket, groupBy, metrics, retentionDays, groupsTruncated, buckets);
+                schemaVersion, from, to, bucket, groupBy, metrics, retentionDays, groupsTruncated, coverage, buckets);
     }
 
     @Override
@@ -252,6 +289,8 @@ public class AssessmentAggregate {
                 retentionDays,
                 "groupsTruncated",
                 groupsTruncated,
+                "coverage",
+                coverage,
                 "buckets",
                 buckets);
     }
@@ -272,6 +311,8 @@ public class AssessmentAggregate {
         private Long retentionDays;
 
         private boolean groupsTruncated;
+
+        private AssessmentAggregateCoverage coverage;
 
         private List<AggregateBucket> buckets;
 
@@ -325,13 +366,26 @@ public class AssessmentAggregate {
             return this;
         }
 
+        /**
+         * Captured in the same database snapshot as the counts. Capture start times describe when counting
+         * began, not the earliest creation time counted: an older assessment may first answer later. Older
+         * outcomes are not inferred to be absent.
+         *
+         * <p>Erased detail cannot be returned by drill-down even while its anonymous count remains.
+         */
+        public Builder coverage(@Nullable AssessmentAggregateCoverage coverage) {
+            this.coverage = coverage;
+            return this;
+        }
+
         public Builder buckets(@Nonnull List<AggregateBucket> buckets) {
             this.buckets = Utils.checkNotNull(buckets, "buckets");
             return this;
         }
 
         public AssessmentAggregate build() {
-            return new AssessmentAggregate(from, to, bucket, groupBy, metrics, retentionDays, groupsTruncated, buckets);
+            return new AssessmentAggregate(
+                    from, to, bucket, groupBy, metrics, retentionDays, groupsTruncated, coverage, buckets);
         }
 
         private static final LazySingletonValue<String> _SINGLETON_VALUE_SchemaVersion =

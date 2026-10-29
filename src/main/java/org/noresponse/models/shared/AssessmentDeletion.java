@@ -1,9 +1,12 @@
 package org.noresponse.models.shared;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.lang.Boolean;
 import java.lang.Override;
 import java.lang.String;
@@ -48,11 +51,19 @@ public class AssessmentDeletion {
     @JsonProperty("deleted_at")
     private String deletedAt;
 
+    /**
+     * Receipt for GET /v1/erasures/{erasure_id}, when durable storage issued one.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("erasure_id")
+    private String erasureId;
+
     @JsonCreator
     public AssessmentDeletion(
             @JsonProperty("id") @Nonnull String id,
             @JsonProperty("account") @Nonnull AssessmentDeletionAccount account,
-            @JsonProperty("deleted_at") @Nonnull String deletedAt) {
+            @JsonProperty("deleted_at") @Nonnull String deletedAt,
+            @JsonProperty("erasure_id") @Nullable String erasureId) {
         this.schemaVersion = Builder._SINGLETON_VALUE_SchemaVersion.value();
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.deleted = Builder._SINGLETON_VALUE_Deleted.value();
@@ -60,6 +71,12 @@ public class AssessmentDeletion {
                 Optional.ofNullable(account).orElseThrow(() -> new IllegalArgumentException("account cannot be null"));
         this.deletedAt = Optional.ofNullable(deletedAt)
                 .orElseThrow(() -> new IllegalArgumentException("deletedAt cannot be null"));
+        this.erasureId = erasureId;
+    }
+
+    public AssessmentDeletion(
+            @Nonnull String id, @Nonnull AssessmentDeletionAccount account, @Nonnull String deletedAt) {
+        this(id, account, deletedAt, null);
     }
 
     /**
@@ -91,6 +108,13 @@ public class AssessmentDeletion {
         return this.deletedAt;
     }
 
+    /**
+     * Receipt for GET /v1/erasures/{erasure_id}, when durable storage issued one.
+     */
+    public Optional<String> erasureId() {
+        return Optional.ofNullable(this.erasureId);
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -116,6 +140,14 @@ public class AssessmentDeletion {
         return this;
     }
 
+    /**
+     * Receipt for GET /v1/erasures/{erasure_id}, when durable storage issued one.
+     */
+    public AssessmentDeletion withErasureId(@Nullable String erasureId) {
+        this.erasureId = erasureId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -129,12 +161,13 @@ public class AssessmentDeletion {
                 && Utils.enhancedDeepEquals(this.id, other.id)
                 && Utils.enhancedDeepEquals(this.deleted, other.deleted)
                 && Utils.enhancedDeepEquals(this.account, other.account)
-                && Utils.enhancedDeepEquals(this.deletedAt, other.deletedAt);
+                && Utils.enhancedDeepEquals(this.deletedAt, other.deletedAt)
+                && Utils.enhancedDeepEquals(this.erasureId, other.erasureId);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(schemaVersion, id, deleted, account, deletedAt);
+        return Utils.enhancedHash(schemaVersion, id, deleted, account, deletedAt, erasureId);
     }
 
     @Override
@@ -150,7 +183,9 @@ public class AssessmentDeletion {
                 "account",
                 account,
                 "deletedAt",
-                deletedAt);
+                deletedAt,
+                "erasureId",
+                erasureId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -161,6 +196,8 @@ public class AssessmentDeletion {
         private AssessmentDeletionAccount account;
 
         private String deletedAt;
+
+        private String erasureId;
 
         private Builder() {
             // force use of static builder() method
@@ -187,8 +224,16 @@ public class AssessmentDeletion {
             return this;
         }
 
+        /**
+         * Receipt for GET /v1/erasures/{erasure_id}, when durable storage issued one.
+         */
+        public Builder erasureId(@Nullable String erasureId) {
+            this.erasureId = erasureId;
+            return this;
+        }
+
         public AssessmentDeletion build() {
-            return new AssessmentDeletion(id, account, deletedAt);
+            return new AssessmentDeletion(id, account, deletedAt, erasureId);
         }
 
         private static final LazySingletonValue<String> _SINGLETON_VALUE_SchemaVersion =

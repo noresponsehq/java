@@ -45,8 +45,9 @@ public class Settings {
     private long retentionDays;
 
     /**
-     * How many times this environment's policy has changed; 0 while the defaults apply. A served
-     * risk.policy_version ends in +t<policy_version> once it is above 0.
+     * The monotonic settings configuration epoch, including retention changes. Zero while defaults apply.
+     * Historical assessments keep their frozen policy version; the active version reaches new assessments
+     * within a minute.
      */
     @JsonProperty("policy_version")
     private long policyVersion;
@@ -137,8 +138,9 @@ public class Settings {
     }
 
     /**
-     * How many times this environment's policy has changed; 0 while the defaults apply. A served
-     * risk.policy_version ends in +t<policy_version> once it is above 0.
+     * The monotonic settings configuration epoch, including retention changes. Zero while defaults apply.
+     * Historical assessments keep their frozen policy version; the active version reaches new assessments
+     * within a minute.
      */
     public long policyVersion() {
         return this.policyVersion;
@@ -206,8 +208,9 @@ public class Settings {
     }
 
     /**
-     * How many times this environment's policy has changed; 0 while the defaults apply. A served
-     * risk.policy_version ends in +t<policy_version> once it is above 0.
+     * The monotonic settings configuration epoch, including retention changes. Zero while defaults apply.
+     * Historical assessments keep their frozen policy version; the active version reaches new assessments
+     * within a minute.
      */
     public Settings withPolicyVersion(long policyVersion) {
         this.policyVersion = policyVersion;
@@ -346,8 +349,9 @@ public class Settings {
         }
 
         /**
-         * How many times this environment's policy has changed; 0 while the defaults apply. A served
-         * risk.policy_version ends in +t<policy_version> once it is above 0.
+         * The monotonic settings configuration epoch, including retention changes. Zero while defaults apply.
+         * Historical assessments keep their frozen policy version; the active version reaches new assessments
+         * within a minute.
          */
         public Builder policyVersion(long policyVersion) {
             this.policyVersion = policyVersion;

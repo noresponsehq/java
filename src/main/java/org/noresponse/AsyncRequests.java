@@ -6,12 +6,19 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
 import org.noresponse.models.operations.ListRequestDiagnosticsRequest;
+import org.noresponse.models.operations.async.AggregateRequestsRequestBuilder;
+import org.noresponse.models.operations.async.AggregateRequestsResponse;
 import org.noresponse.models.operations.async.ListRequestDiagnosticsRequestBuilder;
 import org.noresponse.models.operations.async.ListRequestDiagnosticsResponse;
+import org.noresponse.models.shared.RequestAggregateRequest;
+import org.noresponse.operations.AggregateRequests;
 import org.noresponse.operations.ListRequestDiagnostics;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 
+/**
+ * Retained request diagnostics and operational summaries.
+ */
 public class AsyncRequests {
     private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
@@ -79,6 +86,48 @@ public class AsyncRequests {
             @Nonnull ListRequestDiagnosticsRequest request, @Nullable Options options) {
         AsyncRequestOperation<ListRequestDiagnosticsRequest, ListRequestDiagnosticsResponse> operation =
                 new ListRequestDiagnostics.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Summarise retained request attempts
+     *
+     * <p>Count all retained matching request attempts and latency samples within seven days. Capture is best
+     * effort.
+     *
+     * @return The async call builder
+     */
+    public AggregateRequestsRequestBuilder aggregate() {
+        return new AggregateRequestsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Summarise retained request attempts
+     *
+     * <p>Count all retained matching request attempts and latency samples within seven days. Capture is best
+     * effort.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return {@code CompletableFuture<AggregateRequestsResponse>} - The async response
+     */
+    public CompletableFuture<AggregateRequestsResponse> aggregate(@Nonnull RequestAggregateRequest request) {
+        return aggregate(request, null);
+    }
+
+    /**
+     * Summarise retained request attempts
+     *
+     * <p>Count all retained matching request attempts and latency samples within seven days. Capture is best
+     * effort.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return {@code CompletableFuture<AggregateRequestsResponse>} - The async response
+     */
+    public CompletableFuture<AggregateRequestsResponse> aggregate(
+            @Nonnull RequestAggregateRequest request, @Nullable Options options) {
+        AsyncRequestOperation<RequestAggregateRequest, AggregateRequestsResponse> operation =
+                new AggregateRequests.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 }

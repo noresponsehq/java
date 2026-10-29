@@ -57,7 +57,7 @@ public class Application {
                 .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
-                    .flow(Flow.PURCHASE)
+                    .flow(Flow.ACCOUNT_CREATION)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -82,7 +82,7 @@ public class Application {
                         .provider("clerk")
                         .issuer("https://example-app.clerk.accounts.dev")
                         .subject("user_2EXAMPLE")
-                        .verified(true)
+                        .verified(false)
                         .audience("https://app.example.com")
                         .audiences(List.of(
                             "https://app.example.com"))
@@ -153,7 +153,7 @@ public class Application {
                 .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
-                    .flow(Flow.PURCHASE)
+                    .flow(Flow.ACCOUNT_CREATION)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -178,7 +178,7 @@ public class Application {
                         .provider("clerk")
                         .issuer("https://example-app.clerk.accounts.dev")
                         .subject("user_2EXAMPLE")
-                        .verified(true)
+                        .verified(false)
                         .audience("https://app.example.com")
                         .audiences(List.of(
                             "https://app.example.com"))
@@ -301,7 +301,7 @@ public class Application {
                 .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
-                    .flow(Flow.PURCHASE)
+                    .flow(Flow.ACCOUNT_CREATION)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -326,7 +326,7 @@ public class Application {
                         .provider("clerk")
                         .issuer("https://example-app.clerk.accounts.dev")
                         .subject("user_2EXAMPLE")
-                        .verified(true)
+                        .verified(false)
                         .audience("https://app.example.com")
                         .audiences(List.of(
                             "https://app.example.com"))
@@ -497,7 +497,7 @@ public class Application {
                 .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentRequest.builder()
                     .accountId("acct_7f3a9c")
-                    .flow(Flow.PURCHASE)
+                    .flow(Flow.ACCOUNT_CREATION)
                     .identifiers(AssessmentRequestIdentifiers.builder()
                         .email("new.user@example.com")
                         .username("new.user")
@@ -522,7 +522,7 @@ public class Application {
                         .provider("clerk")
                         .issuer("https://example-app.clerk.accounts.dev")
                         .subject("user_2EXAMPLE")
-                        .verified(true)
+                        .verified(false)
                         .audience("https://app.example.com")
                         .audiences(List.of(
                             "https://app.example.com"))
@@ -984,7 +984,7 @@ public class Application {
                 .assessmentId("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
                 .idempotencyKey("account-acct_7f3a9c")
                 .body(AssessmentOutcomeRequest.builder()
-                    .outcome(Outcome.ACCOUNT_TAKEOVER)
+                    .outcome(Outcome.UNKNOWN)
                     .observedAt("2026-10-14T09:04:30.000Z")
                     .externalRef("case-48213")
                     .notes("Chargeback filed two days after account creation.")
@@ -1206,6 +1206,7 @@ public class Application {
                 .from("2026-10-19T00:00:00Z")
                 .to("2026-10-26T00:00:00Z")
                 .bucket(Bucket.WEEK)
+                .country("GB")
                 .build();
 
         AggregateAssessmentsResponse res = sdk.assessments().aggregate()
@@ -1275,6 +1276,7 @@ public class Application {
                 .to("2026-01-02T00:00:00Z")
                 .accountId("acct_7f3a9c")
                 .cursor("eyJ0IjoxNzY3MjI1NjAwMDAwMDAwLCJpIjoiYXNtX2V4YW1wbGUiLCJlIjoxNzY3MjI5MjAwfQ")
+                .country("GB")
                 .build();
 
         SearchAssessmentsResponse res = sdk.assessments().search()

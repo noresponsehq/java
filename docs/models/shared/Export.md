@@ -1,0 +1,14 @@
+# Export
+
+Retained review snapshot.
+
+
+## Fields
+
+| Field                                                        | Setter Type                                                  | Getter Type                                                  | Required                                                     | Description                                                  | Example                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `exportedAt`                                                 | *String*                                                     | *String*                                                     | :heavy_check_mark:                                           | N/A                                                          | 2026-01-01T00:00:00Z                                         |
+| `review`                                                     | [Review](../../models/shared/Review.md)                      | [Review](../../models/shared/Review.md)                      | :heavy_check_mark:                                           | N/A                                                          |                                                              |
+| `comments`                                                   | List\<[ReviewComment](../../models/shared/ReviewComment.md)> | List\<[ReviewComment](../../models/shared/ReviewComment.md)> | :heavy_check_mark:                                           | N/A                                                          |                                                              |
+| `resolutions`                                                | List\<[Resolution](../../models/shared/Resolution.md)>       | List\<[Resolution](../../models/shared/Resolution.md)>       | :heavy_check_mark:                                           | N/A                                                          |                                                              |
+| `subjects`                                                   | List\<[ReviewSubject](../../models/shared/ReviewSubject.md)> | List\<[ReviewSubject](../../models/shared/ReviewSubject.md)> | :heavy_check_mark:                                           | N/A                                                          |                                                              |

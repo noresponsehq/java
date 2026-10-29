@@ -15,6 +15,11 @@ import java.util.Optional;
  * without runtime errors. Instances are immutable singletons with reference equality.
  * Use {@code asEnum()} for switch expressions.
  */
+/**
+ * Impact
+ *
+ * <p>The selected reason's served impact band. Requires reason.
+ */
 public class Impact {
 
     public static final Impact NONE = new Impact("none");

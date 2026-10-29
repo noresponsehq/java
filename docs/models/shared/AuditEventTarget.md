@@ -1,0 +1,9 @@
+# AuditEventTarget
+
+
+## Fields
+
+| Field                                                               | Setter Type                                                         | Getter Type                                                         | Required                                                            | Description                                                         | Example                                                             |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `type`                                                              | [AuditEventTargetType](../../models/shared/AuditEventTargetType.md) | [AuditEventTargetType](../../models/shared/AuditEventTargetType.md) | :heavy_check_mark:                                                  | The kind of resource the change acted on.                           |                                                                     |
+| `id`                                                                | @Nullable *String*                                                  | Optional\<*String*>                                                 | :heavy_minus_sign:                                                  | The resource's id, when it has one.                                 | mem_01JA2ZB4C5D6E7F8G9H0JKMNPQ                                      |

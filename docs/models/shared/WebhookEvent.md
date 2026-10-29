@@ -15,6 +15,7 @@ The body of every webhook delivery: {id, type, created_at, data}, where type cho
 | `"workspace.deleted"` | [WorkspaceDeletedEvent](../../models/shared/WorkspaceDeletedEvent.md) |
 | `"webhook_endpoint.disabled"` | [WebhookEndpointDisabledEvent](../../models/shared/WebhookEndpointDisabledEvent.md) |
 | `"account.risk_changed"` | [AccountRiskChangedEvent](../../models/shared/AccountRiskChangedEvent.md) |
+| `"audit.event"` | [AuditEventEvent](../../models/shared/AuditEventEvent.md) |
 
 ### [`AssessmentUpdatedEvent`](../../models/shared/AssessmentUpdatedEvent.md)
 
@@ -79,13 +80,13 @@ WebhookEvent value = WorkspaceDeletedEvent.builder()
     .createdAt("2026-10-14T09:00:02.000Z")
     .data(WorkspaceDeleted.builder()
         .workspaceId("tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-        .environment(Environment.TEST)
+        .environment(AuditSettingsEnvironment.TEST)
         .deletedAt("2026-10-23T09:00:00.000Z")
         .build())
     .build();
 ```
 
-**Referred Types:** [WorkspaceDeleted](../../models/shared/WorkspaceDeleted.md), [Environment](../../models/shared/Environment.md)
+**Referred Types:** [WorkspaceDeleted](../../models/shared/WorkspaceDeleted.md), [AuditSettingsEnvironment](../../models/shared/AuditSettingsEnvironment.md)
 
 ### [`WebhookEndpointDisabledEvent`](../../models/shared/WebhookEndpointDisabledEvent.md)
 
@@ -157,6 +158,49 @@ WebhookEvent value = AccountRiskChangedEvent.builder()
 - [Impact](../../models/shared/Impact.md)
 - [AccountDecisionsByFlow](../../models/shared/AccountDecisionsByFlow.md)
 
+### [`AuditEventEvent`](../../models/shared/AuditEventEvent.md)
+
+Discriminator value: `"audit.event"`
+
+```java
+WebhookEvent value = AuditEventEvent.builder()
+    .id("evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ1")
+    .createdAt("2026-10-14T09:00:02.000Z")
+    .data(AuditEvent.builder()
+        .id("asm_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .workspaceId("tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .environment(AuditSettingsEnvironment.LIVE)
+        .action("member.role_changed")
+        .outcome(CustomerExportRequestFilterOutcome.SUCCEEDED)
+        .actor(Actor.of(UserActor.builder()
+            .externalUserId("usr_customer_admin")
+            .consoleCredentialId("01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+            .principalId("mem_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+            .build()))
+        .target(AuditEventTarget.builder()
+            .type(AuditEventTargetType.MEMBER)
+            .id("mem_01JA2ZB4C5D6E7F8G9H0JKMNPQ")
+            .build())
+        .createdAt("2026-10-23T09:10:00.000Z")
+        .detail(Map.ofEntries(
+            Map.entry("key", "test"),
+            Map.entry("key1", "test"),
+            Map.entry("key2", "test")))
+        .requestId("0123456789abcdef0123456789abcdef")
+        .build())
+    .build();
+```
+
+**Referred Types:**
+
+- [AuditEvent](../../models/shared/AuditEvent.md)
+- [AuditSettingsEnvironment](../../models/shared/AuditSettingsEnvironment.md)
+- [CustomerExportRequestFilterOutcome](../../models/shared/CustomerExportRequestFilterOutcome.md)
+- [Actor](../../models/shared/Actor.md)
+- [UserActor](../../models/shared/UserActor.md)
+- [AuditEventTarget](../../models/shared/AuditEventTarget.md)
+- [AuditEventTargetType](../../models/shared/AuditEventTargetType.md)
+
 ## Consumption Patterns
 
 ### Java 11+ (Discriminator Switch)
@@ -181,6 +225,9 @@ switch (value.type()) {
     case "account.risk_changed":
         // Handle account.risk_changed discriminator variant
         break;
+    case "audit.event":
+        // Handle audit.event discriminator variant
+        break;
     default:
         // Handle unknown discriminator variant
 }
@@ -201,6 +248,8 @@ if (value instanceof AssessmentUpdatedEvent assessmentUpdatedEvent) {
     // Handle WebhookEndpointDisabledEvent variant
 } else if (value instanceof AccountRiskChangedEvent accountRiskChangedEvent) {
     // Handle AccountRiskChangedEvent variant
+} else if (value instanceof AuditEventEvent auditEventEvent) {
+    // Handle AuditEventEvent variant
 } else {
     // Handle unknown discriminator variant
 }
@@ -227,6 +276,9 @@ switch (value) {
     }
     case AccountRiskChangedEvent accountRiskChangedEvent -> {
         // Handle AccountRiskChangedEvent variant
+    }
+    case AuditEventEvent auditEventEvent -> {
+        // Handle AuditEventEvent variant
     }
     default -> {
         // Handle unknown discriminator variant

@@ -82,6 +82,14 @@ public class ListEntry {
     @JsonProperty("created_by")
     private String createdBy;
 
+    /**
+     * Optional expiry. An expired entry stops matching immediately; bounded maintenance removes it and
+     * propagates account risk changes.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("expires_at")
+    private String expiresAt;
+
     @JsonCreator
     public ListEntry(
             @JsonProperty("id") @Nonnull String id,
@@ -92,7 +100,8 @@ public class ListEntry {
             @JsonProperty("action") @Nonnull ListEntryAction action,
             @JsonProperty("note") @Nullable String note,
             @JsonProperty("created_at") @Nonnull String createdAt,
-            @JsonProperty("created_by") @Nonnull String createdBy) {
+            @JsonProperty("created_by") @Nonnull String createdBy,
+            @JsonProperty("expires_at") @Nullable String expiresAt) {
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
@@ -107,6 +116,7 @@ public class ListEntry {
                 .orElseThrow(() -> new IllegalArgumentException("createdAt cannot be null"));
         this.createdBy = Optional.ofNullable(createdBy)
                 .orElseThrow(() -> new IllegalArgumentException("createdBy cannot be null"));
+        this.expiresAt = expiresAt;
     }
 
     public ListEntry(
@@ -118,7 +128,7 @@ public class ListEntry {
             @Nonnull ListEntryAction action,
             @Nonnull String createdAt,
             @Nonnull String createdBy) {
-        this(id, workspaceId, environment, kind, value, action, null, createdAt, createdBy);
+        this(id, workspaceId, environment, kind, value, action, null, createdAt, createdBy, null);
     }
 
     /**
@@ -186,6 +196,14 @@ public class ListEntry {
      */
     public String createdBy() {
         return this.createdBy;
+    }
+
+    /**
+     * Optional expiry. An expired entry stops matching immediately; bounded maintenance removes it and
+     * propagates account risk changes.
+     */
+    public Optional<String> expiresAt() {
+        return Optional.ofNullable(this.expiresAt);
     }
 
     public static Builder builder() {
@@ -268,6 +286,15 @@ public class ListEntry {
         return this;
     }
 
+    /**
+     * Optional expiry. An expired entry stops matching immediately; bounded maintenance removes it and
+     * propagates account risk changes.
+     */
+    public ListEntry withExpiresAt(@Nullable String expiresAt) {
+        this.expiresAt = expiresAt;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -285,12 +312,14 @@ public class ListEntry {
                 && Utils.enhancedDeepEquals(this.action, other.action)
                 && Utils.enhancedDeepEquals(this.note, other.note)
                 && Utils.enhancedDeepEquals(this.createdAt, other.createdAt)
-                && Utils.enhancedDeepEquals(this.createdBy, other.createdBy);
+                && Utils.enhancedDeepEquals(this.createdBy, other.createdBy)
+                && Utils.enhancedDeepEquals(this.expiresAt, other.expiresAt);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(id, workspaceId, environment, kind, value, action, note, createdAt, createdBy);
+        return Utils.enhancedHash(
+                id, workspaceId, environment, kind, value, action, note, createdAt, createdBy, expiresAt);
     }
 
     @Override
@@ -314,7 +343,9 @@ public class ListEntry {
                 "createdAt",
                 createdAt,
                 "createdBy",
-                createdBy);
+                createdBy,
+                "expiresAt",
+                expiresAt);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -337,6 +368,8 @@ public class ListEntry {
         private String createdAt;
 
         private String createdBy;
+
+        private String expiresAt;
 
         private Builder() {
             // force use of static builder() method
@@ -418,8 +451,18 @@ public class ListEntry {
             return this;
         }
 
+        /**
+         * Optional expiry. An expired entry stops matching immediately; bounded maintenance removes it and
+         * propagates account risk changes.
+         */
+        public Builder expiresAt(@Nullable String expiresAt) {
+            this.expiresAt = expiresAt;
+            return this;
+        }
+
         public ListEntry build() {
-            return new ListEntry(id, workspaceId, environment, kind, value, action, note, createdAt, createdBy);
+            return new ListEntry(
+                    id, workspaceId, environment, kind, value, action, note, createdAt, createdBy, expiresAt);
         }
     }
 }

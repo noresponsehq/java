@@ -75,7 +75,8 @@ public class Key {
     private String createdBy;
 
     /**
-     * When a rotated key stops authenticating (POST /v1/keys/rotate). Absent for a key with no end.
+     * The earlier of the explicit lifetime and any rotation overlap. Rotation preserves the original
+     * lifetime.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("expires_at")
@@ -101,6 +102,55 @@ public class Key {
     @JsonProperty("key")
     private String key;
 
+    /**
+     * The optional display name supplied for this API key. Preserved on rotation.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("name")
+    private String name;
+
+    /**
+     * Optional operational purpose, at most 200 printable characters without leading or trailing
+     * whitespace. Do not put secrets or personal data here. Preserved on rotation and included in the
+     * creation request fingerprint; omitted for older credentials.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("purpose")
+    private String purpose;
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("kind")
+    private KeyKind kind;
+
+    /**
+     * The issuing member's external identity for a personal key. Personal ownership is fixed and the key
+     * is revoked when that member loses authority. Service keys belong to the workspace and omit this
+     * field.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("owner_user_id")
+    private String ownerUserId;
+
+    /**
+     * Replacement public key identifier, or legacy when the successor predates recorded lineage. This
+     * field excludes the secret.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("rotated_to")
+    private String rotatedTo;
+
+    /**
+     * Latest recorded authenticated request observation, updated at most once per minute. Capture is best
+     * effort after the response and includes authenticated requests refused by authorization or rate
+     * limits. Absence means unknown and does not prove the key was unused.
+     *
+     * <p>It is independent of diagnostic retention and resets on the replacement key after rotation. This
+     * field retains no raw IP or user-agent.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("last_used_at")
+    private String lastUsedAt;
+
     @JsonCreator
     public Key(
             @JsonProperty("id") @Nonnull String id,
@@ -114,7 +164,13 @@ public class Key {
             @JsonProperty("expires_at") @Nullable String expiresAt,
             @JsonProperty("revoked_at") @Nullable String revokedAt,
             @JsonProperty("revoked_by") @Nullable String revokedBy,
-            @JsonProperty("key") @Nullable String key) {
+            @JsonProperty("key") @Nullable String key,
+            @JsonProperty("name") @Nullable String name,
+            @JsonProperty("purpose") @Nullable String purpose,
+            @JsonProperty("kind") @Nullable KeyKind kind,
+            @JsonProperty("owner_user_id") @Nullable String ownerUserId,
+            @JsonProperty("rotated_to") @Nullable String rotatedTo,
+            @JsonProperty("last_used_at") @Nullable String lastUsedAt) {
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
@@ -133,6 +189,12 @@ public class Key {
         this.revokedAt = revokedAt;
         this.revokedBy = revokedBy;
         this.key = key;
+        this.name = name;
+        this.purpose = purpose;
+        this.kind = kind;
+        this.ownerUserId = ownerUserId;
+        this.rotatedTo = rotatedTo;
+        this.lastUsedAt = lastUsedAt;
     }
 
     public Key(
@@ -143,7 +205,25 @@ public class Key {
             @Nonnull List<KeyScope> scopes,
             @Nonnull KeyStatus status,
             @Nonnull String createdAt) {
-        this(id, workspaceId, environment, prefix, scopes, status, createdAt, null, null, null, null, null);
+        this(
+                id,
+                workspaceId,
+                environment,
+                prefix,
+                scopes,
+                status,
+                createdAt,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
     }
 
     /**
@@ -206,7 +286,8 @@ public class Key {
     }
 
     /**
-     * When a rotated key stops authenticating (POST /v1/keys/rotate). Absent for a key with no end.
+     * The earlier of the explicit lifetime and any rotation overlap. Rotation preserves the original
+     * lifetime.
      */
     public Optional<String> expiresAt() {
         return Optional.ofNullable(this.expiresAt);
@@ -230,6 +311,55 @@ public class Key {
      */
     public Optional<String> key() {
         return Optional.ofNullable(this.key);
+    }
+
+    /**
+     * The optional display name supplied for this API key. Preserved on rotation.
+     */
+    public Optional<String> name() {
+        return Optional.ofNullable(this.name);
+    }
+
+    /**
+     * Optional operational purpose, at most 200 printable characters without leading or trailing
+     * whitespace. Do not put secrets or personal data here. Preserved on rotation and included in the
+     * creation request fingerprint; omitted for older credentials.
+     */
+    public Optional<String> purpose() {
+        return Optional.ofNullable(this.purpose);
+    }
+
+    public Optional<KeyKind> kind() {
+        return Optional.ofNullable(this.kind);
+    }
+
+    /**
+     * The issuing member's external identity for a personal key. Personal ownership is fixed and the key
+     * is revoked when that member loses authority. Service keys belong to the workspace and omit this
+     * field.
+     */
+    public Optional<String> ownerUserId() {
+        return Optional.ofNullable(this.ownerUserId);
+    }
+
+    /**
+     * Replacement public key identifier, or legacy when the successor predates recorded lineage. This
+     * field excludes the secret.
+     */
+    public Optional<String> rotatedTo() {
+        return Optional.ofNullable(this.rotatedTo);
+    }
+
+    /**
+     * Latest recorded authenticated request observation, updated at most once per minute. Capture is best
+     * effort after the response and includes authenticated requests refused by authorization or rate
+     * limits. Absence means unknown and does not prove the key was unused.
+     *
+     * <p>It is independent of diagnostic retention and resets on the replacement key after rotation. This
+     * field retains no raw IP or user-agent.
+     */
+    public Optional<String> lastUsedAt() {
+        return Optional.ofNullable(this.lastUsedAt);
     }
 
     public static Builder builder() {
@@ -304,7 +434,8 @@ public class Key {
     }
 
     /**
-     * When a rotated key stops authenticating (POST /v1/keys/rotate). Absent for a key with no end.
+     * The earlier of the explicit lifetime and any rotation overlap. Rotation preserves the original
+     * lifetime.
      */
     public Key withExpiresAt(@Nullable String expiresAt) {
         this.expiresAt = expiresAt;
@@ -334,6 +465,61 @@ public class Key {
         return this;
     }
 
+    /**
+     * The optional display name supplied for this API key. Preserved on rotation.
+     */
+    public Key withName(@Nullable String name) {
+        this.name = name;
+        return this;
+    }
+
+    /**
+     * Optional operational purpose, at most 200 printable characters without leading or trailing
+     * whitespace. Do not put secrets or personal data here. Preserved on rotation and included in the
+     * creation request fingerprint; omitted for older credentials.
+     */
+    public Key withPurpose(@Nullable String purpose) {
+        this.purpose = purpose;
+        return this;
+    }
+
+    public Key withKind(@Nullable KeyKind kind) {
+        this.kind = kind;
+        return this;
+    }
+
+    /**
+     * The issuing member's external identity for a personal key. Personal ownership is fixed and the key
+     * is revoked when that member loses authority. Service keys belong to the workspace and omit this
+     * field.
+     */
+    public Key withOwnerUserId(@Nullable String ownerUserId) {
+        this.ownerUserId = ownerUserId;
+        return this;
+    }
+
+    /**
+     * Replacement public key identifier, or legacy when the successor predates recorded lineage. This
+     * field excludes the secret.
+     */
+    public Key withRotatedTo(@Nullable String rotatedTo) {
+        this.rotatedTo = rotatedTo;
+        return this;
+    }
+
+    /**
+     * Latest recorded authenticated request observation, updated at most once per minute. Capture is best
+     * effort after the response and includes authenticated requests refused by authorization or rate
+     * limits. Absence means unknown and does not prove the key was unused.
+     *
+     * <p>It is independent of diagnostic retention and resets on the replacement key after rotation. This
+     * field retains no raw IP or user-agent.
+     */
+    public Key withLastUsedAt(@Nullable String lastUsedAt) {
+        this.lastUsedAt = lastUsedAt;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -354,7 +540,13 @@ public class Key {
                 && Utils.enhancedDeepEquals(this.expiresAt, other.expiresAt)
                 && Utils.enhancedDeepEquals(this.revokedAt, other.revokedAt)
                 && Utils.enhancedDeepEquals(this.revokedBy, other.revokedBy)
-                && Utils.enhancedDeepEquals(this.key, other.key);
+                && Utils.enhancedDeepEquals(this.key, other.key)
+                && Utils.enhancedDeepEquals(this.name, other.name)
+                && Utils.enhancedDeepEquals(this.purpose, other.purpose)
+                && Utils.enhancedDeepEquals(this.kind, other.kind)
+                && Utils.enhancedDeepEquals(this.ownerUserId, other.ownerUserId)
+                && Utils.enhancedDeepEquals(this.rotatedTo, other.rotatedTo)
+                && Utils.enhancedDeepEquals(this.lastUsedAt, other.lastUsedAt);
     }
 
     @Override
@@ -371,7 +563,13 @@ public class Key {
                 expiresAt,
                 revokedAt,
                 revokedBy,
-                key);
+                key,
+                name,
+                purpose,
+                kind,
+                ownerUserId,
+                rotatedTo,
+                lastUsedAt);
     }
 
     @Override
@@ -401,7 +599,19 @@ public class Key {
                 "revokedBy",
                 revokedBy,
                 "key",
-                key);
+                key,
+                "name",
+                name,
+                "purpose",
+                purpose,
+                "kind",
+                kind,
+                "ownerUserId",
+                ownerUserId,
+                "rotatedTo",
+                rotatedTo,
+                "lastUsedAt",
+                lastUsedAt);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -430,6 +640,18 @@ public class Key {
         private String revokedBy;
 
         private String key;
+
+        private String name;
+
+        private String purpose;
+
+        private KeyKind kind;
+
+        private String ownerUserId;
+
+        private String rotatedTo;
+
+        private String lastUsedAt;
 
         private Builder() {
             // force use of static builder() method
@@ -503,7 +725,8 @@ public class Key {
         }
 
         /**
-         * When a rotated key stops authenticating (POST /v1/keys/rotate). Absent for a key with no end.
+         * The earlier of the explicit lifetime and any rotation overlap. Rotation preserves the original
+         * lifetime.
          */
         public Builder expiresAt(@Nullable String expiresAt) {
             this.expiresAt = expiresAt;
@@ -533,6 +756,61 @@ public class Key {
             return this;
         }
 
+        /**
+         * The optional display name supplied for this API key. Preserved on rotation.
+         */
+        public Builder name(@Nullable String name) {
+            this.name = name;
+            return this;
+        }
+
+        /**
+         * Optional operational purpose, at most 200 printable characters without leading or trailing
+         * whitespace. Do not put secrets or personal data here. Preserved on rotation and included in the
+         * creation request fingerprint; omitted for older credentials.
+         */
+        public Builder purpose(@Nullable String purpose) {
+            this.purpose = purpose;
+            return this;
+        }
+
+        public Builder kind(@Nullable KeyKind kind) {
+            this.kind = kind;
+            return this;
+        }
+
+        /**
+         * The issuing member's external identity for a personal key. Personal ownership is fixed and the key
+         * is revoked when that member loses authority. Service keys belong to the workspace and omit this
+         * field.
+         */
+        public Builder ownerUserId(@Nullable String ownerUserId) {
+            this.ownerUserId = ownerUserId;
+            return this;
+        }
+
+        /**
+         * Replacement public key identifier, or legacy when the successor predates recorded lineage. This
+         * field excludes the secret.
+         */
+        public Builder rotatedTo(@Nullable String rotatedTo) {
+            this.rotatedTo = rotatedTo;
+            return this;
+        }
+
+        /**
+         * Latest recorded authenticated request observation, updated at most once per minute. Capture is best
+         * effort after the response and includes authenticated requests refused by authorization or rate
+         * limits. Absence means unknown and does not prove the key was unused.
+         *
+         * <p>It is independent of diagnostic retention and resets on the replacement key after rotation. This
+         * field retains no raw IP or user-agent.
+         */
+        public Builder lastUsedAt(@Nullable String lastUsedAt) {
+            this.lastUsedAt = lastUsedAt;
+            return this;
+        }
+
         public Key build() {
             return new Key(
                     id,
@@ -546,7 +824,13 @@ public class Key {
                     expiresAt,
                     revokedAt,
                     revokedBy,
-                    key);
+                    key,
+                    name,
+                    purpose,
+                    kind,
+                    ownerUserId,
+                    rotatedTo,
+                    lastUsedAt);
         }
     }
 }

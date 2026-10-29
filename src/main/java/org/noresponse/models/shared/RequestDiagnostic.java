@@ -65,6 +65,14 @@ public class RequestDiagnostic {
     @JsonProperty("decision")
     private DecisionReceipt decision;
 
+    /**
+     * Public authenticated API key identifier. Absent for member requests and older unattributed
+     * diagnostics.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("api_key_id")
+    private String apiKeyId;
+
     @JsonCreator
     public RequestDiagnostic(
             @JsonProperty("id") @Nonnull String id,
@@ -78,7 +86,8 @@ public class RequestDiagnostic {
             @JsonProperty("error_code") @Nullable String errorCode,
             @JsonProperty("idempotent_replayed") boolean idempotentReplayed,
             @JsonProperty("write_complete") boolean writeComplete,
-            @JsonProperty("decision") @Nullable DecisionReceipt decision) {
+            @JsonProperty("decision") @Nullable DecisionReceipt decision,
+            @JsonProperty("api_key_id") @Nullable String apiKeyId) {
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.requestId = Optional.ofNullable(requestId)
                 .orElseThrow(() -> new IllegalArgumentException("requestId cannot be null"));
@@ -95,6 +104,7 @@ public class RequestDiagnostic {
         this.idempotentReplayed = idempotentReplayed;
         this.writeComplete = writeComplete;
         this.decision = decision;
+        this.apiKeyId = apiKeyId;
     }
 
     public RequestDiagnostic(
@@ -120,6 +130,7 @@ public class RequestDiagnostic {
                 null,
                 idempotentReplayed,
                 writeComplete,
+                null,
                 null);
     }
 
@@ -173,6 +184,14 @@ public class RequestDiagnostic {
      */
     public Optional<DecisionReceipt> decision() {
         return Optional.ofNullable(this.decision);
+    }
+
+    /**
+     * Public authenticated API key identifier. Absent for member requests and older unattributed
+     * diagnostics.
+     */
+    public Optional<String> apiKeyId() {
+        return Optional.ofNullable(this.apiKeyId);
     }
 
     public static Builder builder() {
@@ -243,6 +262,15 @@ public class RequestDiagnostic {
         return this;
     }
 
+    /**
+     * Public authenticated API key identifier. Absent for member requests and older unattributed
+     * diagnostics.
+     */
+    public RequestDiagnostic withApiKeyId(@Nullable String apiKeyId) {
+        this.apiKeyId = apiKeyId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -263,7 +291,8 @@ public class RequestDiagnostic {
                 && Utils.enhancedDeepEquals(this.errorCode, other.errorCode)
                 && Utils.enhancedDeepEquals(this.idempotentReplayed, other.idempotentReplayed)
                 && Utils.enhancedDeepEquals(this.writeComplete, other.writeComplete)
-                && Utils.enhancedDeepEquals(this.decision, other.decision);
+                && Utils.enhancedDeepEquals(this.decision, other.decision)
+                && Utils.enhancedDeepEquals(this.apiKeyId, other.apiKeyId);
     }
 
     @Override
@@ -280,7 +309,8 @@ public class RequestDiagnostic {
                 errorCode,
                 idempotentReplayed,
                 writeComplete,
-                decision);
+                decision,
+                apiKeyId);
     }
 
     @Override
@@ -310,7 +340,9 @@ public class RequestDiagnostic {
                 "writeComplete",
                 writeComplete,
                 "decision",
-                decision);
+                decision,
+                "apiKeyId",
+                apiKeyId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -339,6 +371,8 @@ public class RequestDiagnostic {
         private boolean writeComplete;
 
         private DecisionReceipt decision;
+
+        private String apiKeyId;
 
         private Builder() {
             // force use of static builder() method
@@ -408,6 +442,15 @@ public class RequestDiagnostic {
             return this;
         }
 
+        /**
+         * Public authenticated API key identifier. Absent for member requests and older unattributed
+         * diagnostics.
+         */
+        public Builder apiKeyId(@Nullable String apiKeyId) {
+            this.apiKeyId = apiKeyId;
+            return this;
+        }
+
         public RequestDiagnostic build() {
             return new RequestDiagnostic(
                     id,
@@ -421,7 +464,8 @@ public class RequestDiagnostic {
                     errorCode,
                     idempotentReplayed,
                     writeComplete,
-                    decision);
+                    decision,
+                    apiKeyId);
         }
     }
 }

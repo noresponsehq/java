@@ -23,6 +23,9 @@ import java.util.Optional;
 public class RateLimitErrorCode {
 
     public static final RateLimitErrorCode RATE_LIMITED = new RateLimitErrorCode("rate_limited");
+    public static final RateLimitErrorCode ASSESSMENT_BUDGET_EXHAUSTED =
+            new RateLimitErrorCode("assessment_budget_exhausted");
+    public static final RateLimitErrorCode EXPORT_LIMIT_REACHED = new RateLimitErrorCode("export_limit_reached");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -94,18 +97,24 @@ public class RateLimitErrorCode {
     private static final Map<String, RateLimitErrorCode> createValuesMap() {
         Map<String, RateLimitErrorCode> map = new LinkedHashMap<>();
         map.put("rate_limited", RATE_LIMITED);
+        map.put("assessment_budget_exhausted", ASSESSMENT_BUDGET_EXHAUSTED);
+        map.put("export_limit_reached", EXPORT_LIMIT_REACHED);
         return map;
     }
 
     private static final Map<String, RateLimitErrorCodeEnum> createEnumsMap() {
         Map<String, RateLimitErrorCodeEnum> map = new HashMap<>();
         map.put("rate_limited", RateLimitErrorCodeEnum.RATE_LIMITED);
+        map.put("assessment_budget_exhausted", RateLimitErrorCodeEnum.ASSESSMENT_BUDGET_EXHAUSTED);
+        map.put("export_limit_reached", RateLimitErrorCodeEnum.EXPORT_LIMIT_REACHED);
         return map;
     }
 
     public enum RateLimitErrorCodeEnum {
 
         RATE_LIMITED("rate_limited"),
+        ASSESSMENT_BUDGET_EXHAUSTED("assessment_budget_exhausted"),
+        EXPORT_LIMIT_REACHED("export_limit_reached"),
         ;
 
         private final String value;

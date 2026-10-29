@@ -4,13 +4,20 @@ import static org.noresponse.operations.Operations.RequestOperation;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import org.noresponse.models.operations.AggregateRequestsRequestBuilder;
+import org.noresponse.models.operations.AggregateRequestsResponse;
 import org.noresponse.models.operations.ListRequestDiagnosticsRequest;
 import org.noresponse.models.operations.ListRequestDiagnosticsRequestBuilder;
 import org.noresponse.models.operations.ListRequestDiagnosticsResponse;
+import org.noresponse.models.shared.RequestAggregateRequest;
+import org.noresponse.operations.AggregateRequests;
 import org.noresponse.operations.ListRequestDiagnostics;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 
+/**
+ * Retained request diagnostics and operational summaries.
+ */
 public class Requests {
     private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
@@ -80,6 +87,49 @@ public class Requests {
             @Nonnull ListRequestDiagnosticsRequest request, @Nullable Options options) {
         RequestOperation<ListRequestDiagnosticsRequest, ListRequestDiagnosticsResponse> operation =
                 new ListRequestDiagnostics.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Summarise retained request attempts
+     *
+     * <p>Count all retained matching request attempts and latency samples within seven days. Capture is best
+     * effort.
+     *
+     * @return The call builder
+     */
+    public AggregateRequestsRequestBuilder aggregate() {
+        return new AggregateRequestsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Summarise retained request attempts
+     *
+     * <p>Count all retained matching request attempts and latency samples within seven days. Capture is best
+     * effort.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public AggregateRequestsResponse aggregate(@Nonnull RequestAggregateRequest request) {
+        return aggregate(request, null);
+    }
+
+    /**
+     * Summarise retained request attempts
+     *
+     * <p>Count all retained matching request attempts and latency samples within seven days. Capture is best
+     * effort.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public AggregateRequestsResponse aggregate(@Nonnull RequestAggregateRequest request, @Nullable Options options) {
+        RequestOperation<RequestAggregateRequest, AggregateRequestsResponse> operation =
+                new AggregateRequests.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 }

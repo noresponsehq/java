@@ -1,19 +1,30 @@
 package org.noresponse.models.operations.async;
 
 import static org.noresponse.operations.Operations.AsyncRequestOperation;
+import static org.noresponse.utils.Exceptions.unchecked;
+import static org.noresponse.utils.reactive.ReactiveUtils.mapAsync;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Long;
 import java.lang.String;
+import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow;
 import org.noresponse.SDKConfiguration;
 import org.noresponse.models.operations.ListListEntriesRequest;
 import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.operations.ListListEntries;
+import org.noresponse.utils.Blob;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 import org.noresponse.utils.RetryConfig;
 import org.noresponse.utils.Utils;
+import org.noresponse.utils.pagination.AsyncPaginator;
+import org.noresponse.utils.pagination.CursorTracker;
+import org.reactivestreams.FlowAdapters;
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
 
 public class ListListEntriesRequestBuilder {
     private final SDKConfiguration sdkConfiguration;
@@ -37,6 +48,18 @@ public class ListListEntriesRequestBuilder {
 
     public ListListEntriesRequestBuilder environment(@Nonnull KeyEnvironment environment) {
         this.pojoBuilder.environment(environment);
+        this._setterCalled = true;
+        return this;
+    }
+
+    public ListListEntriesRequestBuilder limit(@Nullable Long limit) {
+        this.pojoBuilder.limit(limit);
+        this._setterCalled = true;
+        return this;
+    }
+
+    public ListListEntriesRequestBuilder cursor(@Nullable String cursor) {
+        this.pojoBuilder.cursor(cursor);
         this._setterCalled = true;
         return this;
     }
@@ -70,5 +93,37 @@ public class ListListEntriesRequestBuilder {
         AsyncRequestOperation<ListListEntriesRequest, ListListEntriesResponse> operation =
                 new ListListEntries.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(this._buildRequest()).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Returns a {@link Publisher} that performs next page calls till no more pages
+     * are returned.
+     *
+     * <p>The returned {@link Publisher} can be used with reactive frameworks:
+     * <pre><code>
+     * Publisher&lt;ListListEntriesResponse&gt; publisher = builder.callAsPublisher();
+     * publisher.subscribe(new Subscriber&lt;ListListEntriesResponse&gt;() {
+     *     // Handle onNext, onError, onComplete
+     * });
+     * </code></pre>
+     *
+     * @return A {@link Publisher} that emits pages asynchronously
+     */
+    public Publisher<ListListEntriesResponse> callAsPublisher() {
+        ListListEntriesRequest request = pojoBuilder.build();
+        Options options = optionsBuilder.build();
+        AsyncRequestOperation<ListListEntriesRequest, ListListEntriesResponse> operation =
+                new ListListEntries.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+
+        Flow.Publisher<HttpResponse<Blob>> asyncPaginator =
+                new AsyncPaginator<>(request, new CursorTracker<>("$.next_cursor", String.class), (req, pos) -> {
+                    var modifiedReq = pos == null ? req : req.withCursor(pos);
+                    return operation.doRequest(modifiedReq);
+                });
+
+        Flow.Publisher<ListListEntriesResponse> flowPublisher = mapAsync(asyncPaginator, operation::handleResponse);
+
+        // Convert Flow.Publisher to Reactive Streams Publisher at the last stage
+        return FlowAdapters.toPublisher(flowPublisher);
     }
 }

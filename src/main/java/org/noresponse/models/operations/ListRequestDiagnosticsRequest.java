@@ -55,6 +55,12 @@ public class ListRequestDiagnosticsRequest {
     @NoResponseMetadata("queryParam:style=form,explode=true,name=cursor")
     private String cursor;
 
+    /**
+     * Filter by the public authenticated API key identifier; older unattributed rows do not match.
+     */
+    @NoResponseMetadata("queryParam:style=form,explode=true,name=api_key_id")
+    private String apiKeyId;
+
     @JsonCreator
     public ListRequestDiagnosticsRequest(
             @Nonnull String from,
@@ -63,7 +69,8 @@ public class ListRequestDiagnosticsRequest {
             @Nullable String route,
             @Nullable Long status,
             @Nullable Long limit,
-            @Nullable String cursor) {
+            @Nullable String cursor,
+            @Nullable String apiKeyId) {
         this.from = Optional.ofNullable(from).orElseThrow(() -> new IllegalArgumentException("from cannot be null"));
         this.to = Optional.ofNullable(to).orElseThrow(() -> new IllegalArgumentException("to cannot be null"));
         this.requestId = requestId;
@@ -71,10 +78,11 @@ public class ListRequestDiagnosticsRequest {
         this.status = status;
         this.limit = Optional.ofNullable(limit).orElse(Builder._SINGLETON_VALUE_Limit.value());
         this.cursor = cursor;
+        this.apiKeyId = apiKeyId;
     }
 
     public ListRequestDiagnosticsRequest(@Nonnull String from, @Nonnull String to) {
-        this(from, to, null, null, null, null, null);
+        this(from, to, null, null, null, null, null, null);
     }
 
     /**
@@ -124,6 +132,13 @@ public class ListRequestDiagnosticsRequest {
      */
     public Optional<String> cursor() {
         return Optional.ofNullable(this.cursor);
+    }
+
+    /**
+     * Filter by the public authenticated API key identifier; older unattributed rows do not match.
+     */
+    public Optional<String> apiKeyId() {
+        return Optional.ofNullable(this.apiKeyId);
     }
 
     public static Builder builder() {
@@ -186,6 +201,14 @@ public class ListRequestDiagnosticsRequest {
         return this;
     }
 
+    /**
+     * Filter by the public authenticated API key identifier; older unattributed rows do not match.
+     */
+    public ListRequestDiagnosticsRequest withApiKeyId(@Nullable String apiKeyId) {
+        this.apiKeyId = apiKeyId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -201,12 +224,13 @@ public class ListRequestDiagnosticsRequest {
                 && Utils.enhancedDeepEquals(this.route, other.route)
                 && Utils.enhancedDeepEquals(this.status, other.status)
                 && Utils.enhancedDeepEquals(this.limit, other.limit)
-                && Utils.enhancedDeepEquals(this.cursor, other.cursor);
+                && Utils.enhancedDeepEquals(this.cursor, other.cursor)
+                && Utils.enhancedDeepEquals(this.apiKeyId, other.apiKeyId);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(from, to, requestId, route, status, limit, cursor);
+        return Utils.enhancedHash(from, to, requestId, route, status, limit, cursor, apiKeyId);
     }
 
     @Override
@@ -226,7 +250,9 @@ public class ListRequestDiagnosticsRequest {
                 "limit",
                 limit,
                 "cursor",
-                cursor);
+                cursor,
+                "apiKeyId",
+                apiKeyId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -245,6 +271,8 @@ public class ListRequestDiagnosticsRequest {
         private Long limit;
 
         private String cursor;
+
+        private String apiKeyId;
 
         private Builder() {
             // force use of static builder() method
@@ -306,8 +334,16 @@ public class ListRequestDiagnosticsRequest {
             return this;
         }
 
+        /**
+         * Filter by the public authenticated API key identifier; older unattributed rows do not match.
+         */
+        public Builder apiKeyId(@Nullable String apiKeyId) {
+            this.apiKeyId = apiKeyId;
+            return this;
+        }
+
         public ListRequestDiagnosticsRequest build() {
-            return new ListRequestDiagnosticsRequest(from, to, requestId, route, status, limit, cursor);
+            return new ListRequestDiagnosticsRequest(from, to, requestId, route, status, limit, cursor, apiKeyId);
         }
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =

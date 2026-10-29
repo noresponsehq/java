@@ -35,11 +35,10 @@ public class FlowSettings {
     private Long block;
 
     /**
-     * The depth a request for this flow that names none is served at. Defaults: full for account_creation
-     * and purchase, quick for login.
+     * assessments only.
      */
     @JsonProperty("default_depth")
-    private DefaultDepth defaultDepth;
+    private UsageCountDepth defaultDepth;
 
     /**
      * true while this flow has no thresholds of its own and uses account_creation's, the default for login
@@ -82,7 +81,7 @@ public class FlowSettings {
             @JsonProperty("step_up") long stepUp,
             @JsonProperty("review") long review,
             @JsonProperty("block") @Nullable Long block,
-            @JsonProperty("default_depth") @Nonnull DefaultDepth defaultDepth,
+            @JsonProperty("default_depth") @Nonnull UsageCountDepth defaultDepth,
             @JsonProperty("inherits_account_creation") boolean inheritsAccountCreation,
             @JsonProperty("admission") @Nonnull Admission admission,
             @JsonProperty("hold_seconds") long holdSeconds,
@@ -103,7 +102,7 @@ public class FlowSettings {
     public FlowSettings(
             long stepUp,
             long review,
-            @Nonnull DefaultDepth defaultDepth,
+            @Nonnull UsageCountDepth defaultDepth,
             boolean inheritsAccountCreation,
             @Nonnull Admission admission,
             long holdSeconds,
@@ -127,10 +126,9 @@ public class FlowSettings {
     }
 
     /**
-     * The depth a request for this flow that names none is served at. Defaults: full for account_creation
-     * and purchase, quick for login.
+     * assessments only.
      */
-    public DefaultDepth defaultDepth() {
+    public UsageCountDepth defaultDepth() {
         return this.defaultDepth;
     }
 
@@ -197,10 +195,9 @@ public class FlowSettings {
     }
 
     /**
-     * The depth a request for this flow that names none is served at. Defaults: full for account_creation
-     * and purchase, quick for login.
+     * assessments only.
      */
-    public FlowSettings withDefaultDepth(@Nonnull DefaultDepth defaultDepth) {
+    public FlowSettings withDefaultDepth(@Nonnull UsageCountDepth defaultDepth) {
         this.defaultDepth = Utils.checkNotNull(defaultDepth, "defaultDepth");
         return this;
     }
@@ -305,7 +302,7 @@ public class FlowSettings {
 
         private Long block;
 
-        private DefaultDepth defaultDepth;
+        private UsageCountDepth defaultDepth;
 
         private boolean inheritsAccountCreation;
 
@@ -338,10 +335,9 @@ public class FlowSettings {
         }
 
         /**
-         * The depth a request for this flow that names none is served at. Defaults: full for account_creation
-         * and purchase, quick for login.
+         * assessments only.
          */
-        public Builder defaultDepth(@Nonnull DefaultDepth defaultDepth) {
+        public Builder defaultDepth(@Nonnull UsageCountDepth defaultDepth) {
             this.defaultDepth = Utils.checkNotNull(defaultDepth, "defaultDepth");
             return this;
         }

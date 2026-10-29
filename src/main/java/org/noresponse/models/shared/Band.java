@@ -15,11 +15,6 @@ import java.util.Optional;
  * without runtime errors. Instances are immutable singletons with reference equality.
  * Use {@code asEnum()} for switch expressions.
  */
-/**
- * Band
- *
- * <p>low 0-29, medium 30-59, high 60-84, critical 85-100.
- */
 public class Band {
 
     public static final Band LOW = new Band("low");

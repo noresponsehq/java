@@ -32,8 +32,8 @@ public class CreateKeyResponse implements AsyncResponse {
     private HttpResponse<Blob> rawResponse;
 
     /**
-     * The key and its secret, shown here once only. Store the key in a secret manager: NoResponse keeps
-     * only a peppered digest of it.
+     * The existing key metadata, without a secret. Reconcile a lost issuance by revoking this key id and
+     * creating a replacement with a new request_id.
      */
     private Key key;
 
@@ -87,8 +87,8 @@ public class CreateKeyResponse implements AsyncResponse {
     }
 
     /**
-     * The key and its secret, shown here once only. Store the key in a secret manager: NoResponse keeps
-     * only a peppered digest of it.
+     * The existing key metadata, without a secret. Reconcile a lost issuance by revoking this key id and
+     * creating a replacement with a new request_id.
      */
     public Optional<Key> key() {
         return Optional.ofNullable(this.key);
@@ -127,8 +127,8 @@ public class CreateKeyResponse implements AsyncResponse {
     }
 
     /**
-     * The key and its secret, shown here once only. Store the key in a secret manager: NoResponse keeps
-     * only a peppered digest of it.
+     * The existing key metadata, without a secret. Reconcile a lost issuance by revoking this key id and
+     * creating a replacement with a new request_id.
      */
     public CreateKeyResponse withKey(@Nullable Key key) {
         this.key = key;
@@ -219,8 +219,8 @@ public class CreateKeyResponse implements AsyncResponse {
         }
 
         /**
-         * The key and its secret, shown here once only. Store the key in a secret manager: NoResponse keeps
-         * only a peppered digest of it.
+         * The existing key metadata, without a secret. Reconcile a lost issuance by revoking this key id and
+         * creating a replacement with a new request_id.
          */
         public Builder key(@Nullable Key key) {
             this.key = key;

@@ -50,21 +50,31 @@ public class ListEntryRequest {
     @JsonProperty("note")
     private String note;
 
+    /**
+     * Optional expiry. An expired entry stops matching immediately; bounded maintenance removes it and
+     * propagates account risk changes.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("expires_at")
+    private String expiresAt;
+
     @JsonCreator
     public ListEntryRequest(
             @JsonProperty("kind") @Nonnull ListEntryKind kind,
             @JsonProperty("value") @Nonnull String value,
             @JsonProperty("action") @Nonnull ListEntryAction action,
-            @JsonProperty("note") @Nullable String note) {
+            @JsonProperty("note") @Nullable String note,
+            @JsonProperty("expires_at") @Nullable String expiresAt) {
         this.kind = Optional.ofNullable(kind).orElseThrow(() -> new IllegalArgumentException("kind cannot be null"));
         this.value = Optional.ofNullable(value).orElseThrow(() -> new IllegalArgumentException("value cannot be null"));
         this.action =
                 Optional.ofNullable(action).orElseThrow(() -> new IllegalArgumentException("action cannot be null"));
         this.note = note;
+        this.expiresAt = expiresAt;
     }
 
     public ListEntryRequest(@Nonnull ListEntryKind kind, @Nonnull String value, @Nonnull ListEntryAction action) {
-        this(kind, value, action, null);
+        this(kind, value, action, null, null);
     }
 
     /**
@@ -99,6 +109,14 @@ public class ListEntryRequest {
      */
     public Optional<String> note() {
         return Optional.ofNullable(this.note);
+    }
+
+    /**
+     * Optional expiry. An expired entry stops matching immediately; bounded maintenance removes it and
+     * propagates account risk changes.
+     */
+    public Optional<String> expiresAt() {
+        return Optional.ofNullable(this.expiresAt);
     }
 
     public static Builder builder() {
@@ -143,6 +161,15 @@ public class ListEntryRequest {
         return this;
     }
 
+    /**
+     * Optional expiry. An expired entry stops matching immediately; bounded maintenance removes it and
+     * propagates account risk changes.
+     */
+    public ListEntryRequest withExpiresAt(@Nullable String expiresAt) {
+        this.expiresAt = expiresAt;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -155,17 +182,29 @@ public class ListEntryRequest {
         return Utils.enhancedDeepEquals(this.kind, other.kind)
                 && Utils.enhancedDeepEquals(this.value, other.value)
                 && Utils.enhancedDeepEquals(this.action, other.action)
-                && Utils.enhancedDeepEquals(this.note, other.note);
+                && Utils.enhancedDeepEquals(this.note, other.note)
+                && Utils.enhancedDeepEquals(this.expiresAt, other.expiresAt);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(kind, value, action, note);
+        return Utils.enhancedHash(kind, value, action, note, expiresAt);
     }
 
     @Override
     public String toString() {
-        return Utils.toString(ListEntryRequest.class, "kind", kind, "value", value, "action", action, "note", note);
+        return Utils.toString(
+                ListEntryRequest.class,
+                "kind",
+                kind,
+                "value",
+                value,
+                "action",
+                action,
+                "note",
+                note,
+                "expiresAt",
+                expiresAt);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -178,6 +217,8 @@ public class ListEntryRequest {
         private ListEntryAction action;
 
         private String note;
+
+        private String expiresAt;
 
         private Builder() {
             // force use of static builder() method
@@ -221,8 +262,17 @@ public class ListEntryRequest {
             return this;
         }
 
+        /**
+         * Optional expiry. An expired entry stops matching immediately; bounded maintenance removes it and
+         * propagates account risk changes.
+         */
+        public Builder expiresAt(@Nullable String expiresAt) {
+            this.expiresAt = expiresAt;
+            return this;
+        }
+
         public ListEntryRequest build() {
-            return new ListEntryRequest(kind, value, action, note);
+            return new ListEntryRequest(kind, value, action, note, expiresAt);
         }
     }
 }

@@ -13,6 +13,8 @@ import org.noresponse.models.operations.ListWebhookDeliveriesRequest;
 import org.noresponse.models.operations.ReplayWebhookDeliveryRequest;
 import org.noresponse.models.operations.RotateWebhookSigningKeyRequest;
 import org.noresponse.models.operations.SendWebhookTestEventRequest;
+import org.noresponse.models.operations.async.AggregateWebhooksRequestBuilder;
+import org.noresponse.models.operations.async.AggregateWebhooksResponse;
 import org.noresponse.models.operations.async.CreateWebhookEndpointRequestBuilder;
 import org.noresponse.models.operations.async.CreateWebhookEndpointResponse;
 import org.noresponse.models.operations.async.DeleteWebhookEndpointRequestBuilder;
@@ -27,10 +29,12 @@ import org.noresponse.models.operations.async.RotateWebhookSigningKeyRequestBuil
 import org.noresponse.models.operations.async.RotateWebhookSigningKeyResponse;
 import org.noresponse.models.operations.async.SendWebhookTestEventRequestBuilder;
 import org.noresponse.models.operations.async.SendWebhookTestEventResponse;
+import org.noresponse.models.shared.WebhookAggregateRequest;
 import org.noresponse.models.shared.WebhookEndpointRequest;
 import org.noresponse.models.shared.WebhookKeyRotationRequest;
 import org.noresponse.models.shared.WebhookReplayRequest;
 import org.noresponse.models.shared.WebhookTestRequest;
+import org.noresponse.operations.AggregateWebhooks;
 import org.noresponse.operations.CreateWebhookEndpoint;
 import org.noresponse.operations.DeleteWebhookEndpoint;
 import org.noresponse.operations.ListWebhookDeliveries;
@@ -366,6 +370,45 @@ public class AsyncWebhookEndpoints {
         ReplayWebhookDeliveryRequest request = new ReplayWebhookDeliveryRequest(endpointId, eventId, body);
         AsyncRequestOperation<ReplayWebhookDeliveryRequest, ReplayWebhookDeliveryResponse> operation =
                 new ReplayWebhookDelivery.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Summarise retained webhook attempts and delivery queue
+     *
+     * <p>Count retained webhook delivery attempts within thirty days and report current retained queue state.
+     *
+     * @return The async call builder
+     */
+    public AggregateWebhooksRequestBuilder aggregate() {
+        return new AggregateWebhooksRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Summarise retained webhook attempts and delivery queue
+     *
+     * <p>Count retained webhook delivery attempts within thirty days and report current retained queue state.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return {@code CompletableFuture<AggregateWebhooksResponse>} - The async response
+     */
+    public CompletableFuture<AggregateWebhooksResponse> aggregate(@Nonnull WebhookAggregateRequest request) {
+        return aggregate(request, null);
+    }
+
+    /**
+     * Summarise retained webhook attempts and delivery queue
+     *
+     * <p>Count retained webhook delivery attempts within thirty days and report current retained queue state.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return {@code CompletableFuture<AggregateWebhooksResponse>} - The async response
+     */
+    public CompletableFuture<AggregateWebhooksResponse> aggregate(
+            @Nonnull WebhookAggregateRequest request, @Nullable Options options) {
+        AsyncRequestOperation<WebhookAggregateRequest, AggregateWebhooksResponse> operation =
+                new AggregateWebhooks.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 }

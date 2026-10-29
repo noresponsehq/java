@@ -1,17 +1,28 @@
 package org.noresponse.models.operations.async;
 
 import static org.noresponse.operations.Operations.AsyncRequestOperation;
+import static org.noresponse.utils.Exceptions.unchecked;
+import static org.noresponse.utils.reactive.ReactiveUtils.mapAsync;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.String;
+import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow;
 import org.noresponse.SDKConfiguration;
 import org.noresponse.models.operations.ListRequestDiagnosticsRequest;
 import org.noresponse.operations.ListRequestDiagnostics;
+import org.noresponse.utils.Blob;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 import org.noresponse.utils.RetryConfig;
 import org.noresponse.utils.Utils;
+import org.noresponse.utils.pagination.AsyncPaginator;
+import org.noresponse.utils.pagination.CursorTracker;
+import org.reactivestreams.FlowAdapters;
+import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
 
 public class ListRequestDiagnosticsRequestBuilder {
     private final SDKConfiguration sdkConfiguration;
@@ -55,5 +66,38 @@ public class ListRequestDiagnosticsRequestBuilder {
         AsyncRequestOperation<ListRequestDiagnosticsRequest, ListRequestDiagnosticsResponse> operation =
                 new ListRequestDiagnostics.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(this._buildRequest()).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Returns a {@link Publisher} that performs next page calls till no more pages
+     * are returned.
+     *
+     * <p>The returned {@link Publisher} can be used with reactive frameworks:
+     * <pre><code>
+     * Publisher&lt;ListRequestDiagnosticsResponse&gt; publisher = builder.callAsPublisher();
+     * publisher.subscribe(new Subscriber&lt;ListRequestDiagnosticsResponse&gt;() {
+     *     // Handle onNext, onError, onComplete
+     * });
+     * </code></pre>
+     *
+     * @return A {@link Publisher} that emits pages asynchronously
+     */
+    public Publisher<ListRequestDiagnosticsResponse> callAsPublisher() {
+        ListRequestDiagnosticsRequest request = this.request;
+        Options options = optionsBuilder.build();
+        AsyncRequestOperation<ListRequestDiagnosticsRequest, ListRequestDiagnosticsResponse> operation =
+                new ListRequestDiagnostics.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+
+        Flow.Publisher<HttpResponse<Blob>> asyncPaginator =
+                new AsyncPaginator<>(request, new CursorTracker<>("$.next_cursor", String.class), (req, pos) -> {
+                    var modifiedReq = pos == null ? req : req.withCursor(pos);
+                    return operation.doRequest(modifiedReq);
+                });
+
+        Flow.Publisher<ListRequestDiagnosticsResponse> flowPublisher =
+                mapAsync(asyncPaginator, operation::handleResponse);
+
+        // Convert Flow.Publisher to Reactive Streams Publisher at the last stage
+        return FlowAdapters.toPublisher(flowPublisher);
     }
 }

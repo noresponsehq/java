@@ -155,51 +155,8 @@ public class Application {
 
 ## create
 
-Creates an API key in the environment of the key that signs the request, with scopes that key holds itself, and returns its secret once in key. Requires the management scope; the new key may hold it too. A scope the signing key lacks answers 403 workspace_forbidden, and the other environment 404 not_found. An environment holds at most 100 keys that authenticate (409 key_limit_reached). created_by is the signing key's prefix. Not idempotent: a retry after a lost answer creates a second key, which you can list and revoke.
+Create an API key in the signing key environment with authority no greater than the issuer holds. Requires management. Optional name, purpose, kind and expiry describe its lifecycle. Send request_id for safe issuance retries: the first successful response returns the secret once; a repeat returns existing metadata without the secret, and changed parameters conflict. Without request_id a retry can create another key. A service credential is independent of its issuer; personal credentials require an authenticated member and retire when that member loses authority.
 
-### Example Usage: key
-
-<!-- UsageSnippet language="java" operationID="createKey" method="post" path="/v1/workspaces/{workspace_id}/keys" example="key" -->
-```java
-package hello.world;
-
-import java.lang.Exception;
-import java.util.List;
-import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationException;
-import org.noresponse.models.errors.BadRequestException;
-import org.noresponse.models.errors.ConflictException;
-import org.noresponse.models.errors.NotFoundException;
-import org.noresponse.models.errors.PermissionDeniedException;
-import org.noresponse.models.errors.RateLimitException;
-import org.noresponse.models.operations.CreateKeyResponse;
-import org.noresponse.models.shared.KeyEnvironment;
-import org.noresponse.models.shared.KeyRequest;
-import org.noresponse.models.shared.KeyRequestScope;
-
-public class Application {
-
-    public static void main(String[] args) throws Exception {
-
-        NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
-            .build();
-
-        CreateKeyResponse res = sdk.keys().create()
-                .workspaceId("tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-                .body(KeyRequest.builder()
-                    .environment(KeyEnvironment.LIVE)
-                    .scopes(List.of(
-                        KeyRequestScope.DELETE))
-                    .build())
-                .call();
-
-        if (res.key().isPresent()) {
-            System.out.println(res.key().get());
-        }
-    }
-}
-```
 ### Example Usage: live
 
 <!-- UsageSnippet language="java" operationID="createKey" method="post" path="/v1/workspaces/{workspace_id}/keys" example="live" -->

@@ -23,12 +23,8 @@ public class WorkspaceDeleted {
     @JsonProperty("workspace_id")
     private String workspaceId;
 
-    /**
-     * The environment whose endpoints receive this event: live, or test for the workspace's test
-     * environment.
-     */
     @JsonProperty("environment")
-    private Environment environment;
+    private AuditSettingsEnvironment environment;
 
     /**
      * When the deletion took effect, equal to deleted_at in the DELETE answer.
@@ -39,7 +35,7 @@ public class WorkspaceDeleted {
     @JsonCreator
     public WorkspaceDeleted(
             @JsonProperty("workspace_id") @Nonnull String workspaceId,
-            @JsonProperty("environment") @Nonnull Environment environment,
+            @JsonProperty("environment") @Nonnull AuditSettingsEnvironment environment,
             @JsonProperty("deleted_at") @Nonnull String deletedAt) {
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
@@ -57,11 +53,7 @@ public class WorkspaceDeleted {
         return this.workspaceId;
     }
 
-    /**
-     * The environment whose endpoints receive this event: live, or test for the workspace's test
-     * environment.
-     */
-    public Environment environment() {
+    public AuditSettingsEnvironment environment() {
         return this.environment;
     }
 
@@ -85,11 +77,7 @@ public class WorkspaceDeleted {
         return this;
     }
 
-    /**
-     * The environment whose endpoints receive this event: live, or test for the workspace's test
-     * environment.
-     */
-    public WorkspaceDeleted withEnvironment(@Nonnull Environment environment) {
+    public WorkspaceDeleted withEnvironment(@Nonnull AuditSettingsEnvironment environment) {
         this.environment = Utils.checkNotNull(environment, "environment");
         return this;
     }
@@ -132,7 +120,7 @@ public class WorkspaceDeleted {
 
         private String workspaceId;
 
-        private Environment environment;
+        private AuditSettingsEnvironment environment;
 
         private String deletedAt;
 
@@ -149,11 +137,7 @@ public class WorkspaceDeleted {
             return this;
         }
 
-        /**
-         * The environment whose endpoints receive this event: live, or test for the workspace's test
-         * environment.
-         */
-        public Builder environment(@Nonnull Environment environment) {
+        public Builder environment(@Nonnull AuditSettingsEnvironment environment) {
             this.environment = Utils.checkNotNull(environment, "environment");
             return this;
         }

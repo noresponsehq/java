@@ -45,6 +45,9 @@ public class NoResponse {
      */
     private final Accounts accounts;
 
+    /**
+     * Usage of keys issued to your accounts.
+     */
     private final KeyUsage keyUsage;
 
     /**
@@ -62,11 +65,65 @@ public class NoResponse {
      */
     private final WebhookEndpoints webhookEndpoints;
 
+    /**
+     * Scoped workspace membership automation.
+     */
+    private final Members members;
+
+    /**
+     * Durable audit history, retention and delivery.
+     */
+    private final Audit audit;
+
+    /**
+     * Recorded usage for your environment.
+     */
+    private final Usage usage;
+
+    /**
+     * Workspace-bound invitation lifecycle.
+     */
+    private final Invites invites;
+
+    /**
+     * Environment policy, history and previews.
+     */
     private final Settings settings;
 
+    /**
+     * Retained request diagnostics and operational summaries.
+     */
     private final Requests requests;
 
+    /**
+     * List entries, previews and durable changes.
+     */
     private final Lists lists;
+
+    /**
+     * Collaborative review cases, comments and linked subjects.
+     */
+    private final Reviews reviews;
+
+    /**
+     * Durable deletion receipts.
+     */
+    private final Erasures erasures;
+
+    /**
+     * Bounded customer export jobs and encrypted artifacts.
+     */
+    private final Exports exports;
+
+    /**
+     * Frozen policy evaluation evidence and reviewed publication.
+     */
+    private final Evaluations evaluations;
+
+    /**
+     * Retained outcomes, enforcement reports and review populations.
+     */
+    private final Operations operations;
 
     /**
      * Assessments of account creation, login and purchase.
@@ -82,6 +139,9 @@ public class NoResponse {
         return accounts;
     }
 
+    /**
+     * Usage of keys issued to your accounts.
+     */
     public KeyUsage keyUsage() {
         return keyUsage;
     }
@@ -107,16 +167,88 @@ public class NoResponse {
         return webhookEndpoints;
     }
 
+    /**
+     * Scoped workspace membership automation.
+     */
+    public Members members() {
+        return members;
+    }
+
+    /**
+     * Durable audit history, retention and delivery.
+     */
+    public Audit audit() {
+        return audit;
+    }
+
+    /**
+     * Recorded usage for your environment.
+     */
+    public Usage usage() {
+        return usage;
+    }
+
+    /**
+     * Workspace-bound invitation lifecycle.
+     */
+    public Invites invites() {
+        return invites;
+    }
+
+    /**
+     * Environment policy, history and previews.
+     */
     public Settings settings() {
         return settings;
     }
 
+    /**
+     * Retained request diagnostics and operational summaries.
+     */
     public Requests requests() {
         return requests;
     }
 
+    /**
+     * List entries, previews and durable changes.
+     */
     public Lists lists() {
         return lists;
+    }
+
+    /**
+     * Collaborative review cases, comments and linked subjects.
+     */
+    public Reviews reviews() {
+        return reviews;
+    }
+
+    /**
+     * Durable deletion receipts.
+     */
+    public Erasures erasures() {
+        return erasures;
+    }
+
+    /**
+     * Bounded customer export jobs and encrypted artifacts.
+     */
+    public Exports exports() {
+        return exports;
+    }
+
+    /**
+     * Frozen policy evaluation evidence and reviewed publication.
+     */
+    public Evaluations evaluations() {
+        return evaluations;
+    }
+
+    /**
+     * Retained outcomes, enforcement reports and review populations.
+     */
+    public Operations operations() {
+        return operations;
     }
 
     private final AsyncNoResponse asyncSDK;
@@ -288,9 +420,18 @@ public class NoResponse {
         this.keys = new Keys(sdkConfiguration);
         this.integrations = new Integrations(sdkConfiguration);
         this.webhookEndpoints = new WebhookEndpoints(sdkConfiguration);
+        this.members = new Members(sdkConfiguration);
+        this.audit = new Audit(sdkConfiguration);
+        this.usage = new Usage(sdkConfiguration);
+        this.invites = new Invites(sdkConfiguration);
         this.settings = new Settings(sdkConfiguration);
         this.requests = new Requests(sdkConfiguration);
         this.lists = new Lists(sdkConfiguration);
+        this.reviews = new Reviews(sdkConfiguration);
+        this.erasures = new Erasures(sdkConfiguration);
+        this.exports = new Exports(sdkConfiguration);
+        this.evaluations = new Evaluations(sdkConfiguration);
+        this.operations = new Operations(sdkConfiguration);
         sdkConfiguration = sdkConfiguration.hooks().sdkInit(sdkConfiguration);
         this.asyncSDK = new AsyncNoResponse(this, sdkConfiguration);
     }

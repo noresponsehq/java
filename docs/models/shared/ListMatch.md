@@ -1,16 +1,13 @@
 # ListMatch
 
-The action of the list entry that decided the account.
+The list action captured at the first answer. Requires revision first. Older answers without captured list state do not match, including none.
 
 ## Example Usage
 
 ```java
 import org.noresponse.models.shared.ListMatch;
 
-ListMatch value = ListMatch.BLOCK;
-
-// Open enum: use .of() to create instances from custom string values
-ListMatch custom = ListMatch.of("custom_value");
+ListMatch value = ListMatch.ALLOW;
 ```
 
 
@@ -18,5 +15,6 @@ ListMatch custom = ListMatch.of("custom_value");
 
 | Name    | Value   |
 | ------- | ------- |
-| `BLOCK` | block   |
 | `ALLOW` | allow   |
+| `BLOCK` | block   |
+| `NONE`  | none    |

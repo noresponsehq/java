@@ -15,9 +15,9 @@ import org.noresponse.utils.Utils;
 /**
  * SettingsRequest
  *
- * <p>PATCH /v1/workspaces/{workspace_id}/settings/{environment} body. Changes only what it names, in one
- * transaction; a policy change is one new policy_version. Needs the admin or owner role, or an API key
- * with the management scope for its own environment.
+ * <p>Changes only named settings, atomically. Every successful write advances policy_version and retains
+ * an immutable settings snapshot. expected_policy_version optionally guards against stale edits;
+ * restore always requires it.
  */
 public class SettingsRequest {
 
@@ -39,18 +39,34 @@ public class SettingsRequest {
     @JsonProperty("flows")
     private SettingsRequestFlows flows;
 
+    /**
+     * Compare-and-set guard. A stale version returns 409 policy_version_conflict before any change; every
+     * settings write including retention advances the version.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("expected_policy_version")
+    private Long expectedPolicyVersion;
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("change_reason")
+    private String changeReason;
+
     @JsonCreator
     public SettingsRequest(
             @JsonProperty("retention_days") @Nullable Long retentionDays,
             @JsonProperty("refused_sources") @Nullable List<SourceId> refusedSources,
-            @JsonProperty("flows") @Nullable SettingsRequestFlows flows) {
+            @JsonProperty("flows") @Nullable SettingsRequestFlows flows,
+            @JsonProperty("expected_policy_version") @Nullable Long expectedPolicyVersion,
+            @JsonProperty("change_reason") @Nullable String changeReason) {
         this.retentionDays = retentionDays;
         this.refusedSources = refusedSources;
         this.flows = flows;
+        this.expectedPolicyVersion = expectedPolicyVersion;
+        this.changeReason = changeReason;
     }
 
     public SettingsRequest() {
-        this(null, null, null);
+        this(null, null, null, null, null);
     }
 
     public Optional<Long> retentionDays() {
@@ -69,6 +85,18 @@ public class SettingsRequest {
      */
     public Optional<SettingsRequestFlows> flows() {
         return Optional.ofNullable(this.flows);
+    }
+
+    /**
+     * Compare-and-set guard. A stale version returns 409 policy_version_conflict before any change; every
+     * settings write including retention advances the version.
+     */
+    public Optional<Long> expectedPolicyVersion() {
+        return Optional.ofNullable(this.expectedPolicyVersion);
+    }
+
+    public Optional<String> changeReason() {
+        return Optional.ofNullable(this.changeReason);
     }
 
     public static Builder builder() {
@@ -96,6 +124,20 @@ public class SettingsRequest {
         return this;
     }
 
+    /**
+     * Compare-and-set guard. A stale version returns 409 policy_version_conflict before any change; every
+     * settings write including retention advances the version.
+     */
+    public SettingsRequest withExpectedPolicyVersion(@Nullable Long expectedPolicyVersion) {
+        this.expectedPolicyVersion = expectedPolicyVersion;
+        return this;
+    }
+
+    public SettingsRequest withChangeReason(@Nullable String changeReason) {
+        this.changeReason = changeReason;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -107,12 +149,14 @@ public class SettingsRequest {
         SettingsRequest other = (SettingsRequest) o;
         return Utils.enhancedDeepEquals(this.retentionDays, other.retentionDays)
                 && Utils.enhancedDeepEquals(this.refusedSources, other.refusedSources)
-                && Utils.enhancedDeepEquals(this.flows, other.flows);
+                && Utils.enhancedDeepEquals(this.flows, other.flows)
+                && Utils.enhancedDeepEquals(this.expectedPolicyVersion, other.expectedPolicyVersion)
+                && Utils.enhancedDeepEquals(this.changeReason, other.changeReason);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(retentionDays, refusedSources, flows);
+        return Utils.enhancedHash(retentionDays, refusedSources, flows, expectedPolicyVersion, changeReason);
     }
 
     @Override
@@ -124,7 +168,11 @@ public class SettingsRequest {
                 "refusedSources",
                 refusedSources,
                 "flows",
-                flows);
+                flows,
+                "expectedPolicyVersion",
+                expectedPolicyVersion,
+                "changeReason",
+                changeReason);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -135,6 +183,10 @@ public class SettingsRequest {
         private List<SourceId> refusedSources;
 
         private SettingsRequestFlows flows;
+
+        private Long expectedPolicyVersion;
+
+        private String changeReason;
 
         private Builder() {
             // force use of static builder() method
@@ -161,8 +213,22 @@ public class SettingsRequest {
             return this;
         }
 
+        /**
+         * Compare-and-set guard. A stale version returns 409 policy_version_conflict before any change; every
+         * settings write including retention advances the version.
+         */
+        public Builder expectedPolicyVersion(@Nullable Long expectedPolicyVersion) {
+            this.expectedPolicyVersion = expectedPolicyVersion;
+            return this;
+        }
+
+        public Builder changeReason(@Nullable String changeReason) {
+            this.changeReason = changeReason;
+            return this;
+        }
+
         public SettingsRequest build() {
-            return new SettingsRequest(retentionDays, refusedSources, flows);
+            return new SettingsRequest(retentionDays, refusedSources, flows, expectedPolicyVersion, changeReason);
         }
     }
 }

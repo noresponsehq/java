@@ -7,6 +7,8 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.lang.Long;
 import java.lang.String;
+import org.noresponse.models.operations.AggregateWebhooksRequestBuilder;
+import org.noresponse.models.operations.AggregateWebhooksResponse;
 import org.noresponse.models.operations.CreateWebhookEndpointRequestBuilder;
 import org.noresponse.models.operations.CreateWebhookEndpointResponse;
 import org.noresponse.models.operations.DeleteWebhookEndpointRequest;
@@ -26,10 +28,12 @@ import org.noresponse.models.operations.RotateWebhookSigningKeyResponse;
 import org.noresponse.models.operations.SendWebhookTestEventRequest;
 import org.noresponse.models.operations.SendWebhookTestEventRequestBuilder;
 import org.noresponse.models.operations.SendWebhookTestEventResponse;
+import org.noresponse.models.shared.WebhookAggregateRequest;
 import org.noresponse.models.shared.WebhookEndpointRequest;
 import org.noresponse.models.shared.WebhookKeyRotationRequest;
 import org.noresponse.models.shared.WebhookReplayRequest;
 import org.noresponse.models.shared.WebhookTestRequest;
+import org.noresponse.operations.AggregateWebhooks;
 import org.noresponse.operations.CreateWebhookEndpoint;
 import org.noresponse.operations.DeleteWebhookEndpoint;
 import org.noresponse.operations.ListWebhookDeliveries;
@@ -373,6 +377,46 @@ public class WebhookEndpoints {
         ReplayWebhookDeliveryRequest request = new ReplayWebhookDeliveryRequest(endpointId, eventId, body);
         RequestOperation<ReplayWebhookDeliveryRequest, ReplayWebhookDeliveryResponse> operation =
                 new ReplayWebhookDelivery.Sync(sdkConfiguration, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Summarise retained webhook attempts and delivery queue
+     *
+     * <p>Count retained webhook delivery attempts within thirty days and report current retained queue state.
+     *
+     * @return The call builder
+     */
+    public AggregateWebhooksRequestBuilder aggregate() {
+        return new AggregateWebhooksRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Summarise retained webhook attempts and delivery queue
+     *
+     * <p>Count retained webhook delivery attempts within thirty days and report current retained queue state.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public AggregateWebhooksResponse aggregate(@Nonnull WebhookAggregateRequest request) {
+        return aggregate(request, null);
+    }
+
+    /**
+     * Summarise retained webhook attempts and delivery queue
+     *
+     * <p>Count retained webhook delivery attempts within thirty days and report current retained queue state.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public AggregateWebhooksResponse aggregate(@Nonnull WebhookAggregateRequest request, @Nullable Options options) {
+        RequestOperation<WebhookAggregateRequest, AggregateWebhooksResponse> operation =
+                new AggregateWebhooks.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 }

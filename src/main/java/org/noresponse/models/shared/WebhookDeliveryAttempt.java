@@ -22,7 +22,8 @@ public class WebhookDeliveryAttempt {
 
     /**
      * The event's type, as its body's type: assessment.updated, endpoint.verification, account.deleted,
-     * workspace.deleted, webhook_endpoint.disabled, account.risk_changed, or a type added later.
+     * workspace.deleted, webhook_endpoint.disabled, account.risk_changed, audit.event, or a type added
+     * later.
      */
     @JsonProperty("event_type")
     private String eventType;
@@ -121,7 +122,8 @@ public class WebhookDeliveryAttempt {
 
     /**
      * The event's type, as its body's type: assessment.updated, endpoint.verification, account.deleted,
-     * workspace.deleted, webhook_endpoint.disabled, account.risk_changed, or a type added later.
+     * workspace.deleted, webhook_endpoint.disabled, account.risk_changed, audit.event, or a type added
+     * later.
      */
     public String eventType() {
         return this.eventType;
@@ -194,7 +196,8 @@ public class WebhookDeliveryAttempt {
 
     /**
      * The event's type, as its body's type: assessment.updated, endpoint.verification, account.deleted,
-     * workspace.deleted, webhook_endpoint.disabled, account.risk_changed, or a type added later.
+     * workspace.deleted, webhook_endpoint.disabled, account.risk_changed, audit.event, or a type added
+     * later.
      */
     public WebhookDeliveryAttempt withEventType(@Nonnull String eventType) {
         this.eventType = Utils.checkNotNull(eventType, "eventType");
@@ -346,7 +349,8 @@ public class WebhookDeliveryAttempt {
 
         /**
          * The event's type, as its body's type: assessment.updated, endpoint.verification, account.deleted,
-         * workspace.deleted, webhook_endpoint.disabled, account.risk_changed, or a type added later.
+         * workspace.deleted, webhook_endpoint.disabled, account.risk_changed, audit.event, or a type added
+         * later.
          */
         public Builder eventType(@Nonnull String eventType) {
             this.eventType = Utils.checkNotNull(eventType, "eventType");

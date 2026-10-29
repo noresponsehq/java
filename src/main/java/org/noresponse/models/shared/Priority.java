@@ -1,0 +1,128 @@
+package org.noresponse.models.shared;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.lang.Override;
+import java.lang.String;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * Wrapper for an "open" enum that can handle unknown values from API responses
+ * without runtime errors. Instances are immutable singletons with reference equality.
+ * Use {@code asEnum()} for switch expressions.
+ */
+public class Priority {
+
+    public static final Priority LOW = new Priority("low");
+    public static final Priority NORMAL = new Priority("normal");
+    public static final Priority HIGH = new Priority("high");
+    public static final Priority URGENT = new Priority("urgent");
+
+    // This map will grow whenever a Color gets created with a new
+    // unrecognized value (a potential memory leak if the user is not
+    // careful). Keep this field lower case to avoid clashing with
+    // generated member names which will always be upper cased (Java
+    // convention)
+    private static final Map<String, Priority> values = createValuesMap();
+    private static final Map<String, PriorityEnum> enums = createEnumsMap();
+
+    private final String value;
+
+    private Priority(String value) {
+        this.value = value;
+    }
+
+    /**
+     * Returns a Priority with the given value. For a specific value the
+     * returned object will always be a singleton so reference equality
+     * is satisfied when the values are the same.
+     *
+     * @param value value to be wrapped as Priority
+     */
+    @JsonCreator
+    public static Priority of(String value) {
+        synchronized (Priority.class) {
+            return values.computeIfAbsent(value, v -> new Priority(v));
+        }
+    }
+
+    @JsonValue
+    public String value() {
+        return value;
+    }
+
+    public Optional<PriorityEnum> asEnum() {
+        return Optional.ofNullable(enums.getOrDefault(value, null));
+    }
+
+    public boolean isKnown() {
+        return asEnum().isPresent();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
+
+    @Override
+    public boolean equals(java.lang.Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        Priority other = (Priority) obj;
+        return Objects.equals(value, other.value);
+    }
+
+    @Override
+    public String toString() {
+        return "Priority [value=" + value + "]";
+    }
+
+    // return an array just like an enum
+    public static Priority[] values() {
+        synchronized (Priority.class) {
+            return values.values().toArray(new Priority[] {});
+        }
+    }
+
+    private static final Map<String, Priority> createValuesMap() {
+        Map<String, Priority> map = new LinkedHashMap<>();
+        map.put("low", LOW);
+        map.put("normal", NORMAL);
+        map.put("high", HIGH);
+        map.put("urgent", URGENT);
+        return map;
+    }
+
+    private static final Map<String, PriorityEnum> createEnumsMap() {
+        Map<String, PriorityEnum> map = new HashMap<>();
+        map.put("low", PriorityEnum.LOW);
+        map.put("normal", PriorityEnum.NORMAL);
+        map.put("high", PriorityEnum.HIGH);
+        map.put("urgent", PriorityEnum.URGENT);
+        return map;
+    }
+
+    public enum PriorityEnum {
+
+        LOW("low"),
+        NORMAL("normal"),
+        HIGH("high"),
+        URGENT("urgent"),
+        ;
+
+        private final String value;
+
+        private PriorityEnum(String value) {
+            this.value = value;
+        }
+
+        public String value() {
+            return value;
+        }
+    }
+}

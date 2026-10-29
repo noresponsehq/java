@@ -86,14 +86,13 @@ public class Keys {
     /**
      * Create an API key.
      *
-     * <p>Creates an API key in the environment of the key that signs the request, with scopes that key holds
-     * itself, and returns its secret once in key. Requires the management scope; the new key may hold it
-     * too. A scope the signing key lacks answers 403 workspace_forbidden, and the other environment 404
-     * not_found.
+     * <p>Create an API key in the signing key environment with authority no greater than the issuer holds.
+     * Requires management. Optional name, purpose, kind and expiry describe its lifecycle.
      *
-     * <p>An environment holds at most 100 keys that authenticate (409 key_limit_reached). created_by is the
-     * signing key's prefix. Not idempotent: a retry after a lost answer creates a second key, which you
-     * can list and revoke.
+     * <p>Send request_id for safe issuance retries: the first successful response returns the secret once; a
+     * repeat returns existing metadata without the secret, and changed parameters conflict. Without
+     * request_id a retry can create another key. A service credential is independent of its issuer;
+     * personal credentials require an authenticated member and retire when that member loses authority.
      *
      * @return The call builder
      */
@@ -104,17 +103,16 @@ public class Keys {
     /**
      * Create an API key.
      *
-     * <p>Creates an API key in the environment of the key that signs the request, with scopes that key holds
-     * itself, and returns its secret once in key. Requires the management scope; the new key may hold it
-     * too. A scope the signing key lacks answers 403 workspace_forbidden, and the other environment 404
-     * not_found.
+     * <p>Create an API key in the signing key environment with authority no greater than the issuer holds.
+     * Requires management. Optional name, purpose, kind and expiry describe its lifecycle.
      *
-     * <p>An environment holds at most 100 keys that authenticate (409 key_limit_reached). created_by is the
-     * signing key's prefix. Not idempotent: a retry after a lost answer creates a second key, which you
-     * can list and revoke.
+     * <p>Send request_id for safe issuance retries: the first successful response returns the secret once; a
+     * repeat returns existing metadata without the secret, and changed parameters conflict. Without
+     * request_id a retry can create another key. A service credential is independent of its issuer;
+     * personal credentials require an authenticated member and retire when that member loses authority.
      *
      * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param body POST /v1/workspaces/{workspace_id}/keys body. Creates an API key in one environment of the workspace with the scopes named, and returns its secret once. A live key needs the admin or owner role; a test key needs developer or above. An API key with the management scope creates keys in its own environment with scopes it holds itself. Each scope may appear once.
+     * @param body Creates a key whose scopes are bounded by the issuer capabilities in this environment. Delete is owner-only. A service key outlives its creator; a personal key belongs to the authenticated member and is revoked on membership or authority changes. request_id deduplicates creation: retry returns 200 metadata without the secret; changed parameters answer 409. Team scopes members and members_manage are explicitly workspace-wide, live-only, and delegated by a current full owner. Personal credentials cannot hold management or members_manage. Legacy management includes policy publication; use settings without policy_publish for configuration preparation and retention-only edits.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */

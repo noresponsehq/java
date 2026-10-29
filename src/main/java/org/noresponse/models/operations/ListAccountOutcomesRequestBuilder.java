@@ -1,17 +1,27 @@
 package org.noresponse.models.operations;
 
 import static org.noresponse.operations.Operations.RequestOperation;
+import static org.noresponse.utils.Exceptions.unchecked;
+import static org.noresponse.utils.Utils.toStream;
+import static org.noresponse.utils.Utils.transform;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.io.InputStream;
+import java.lang.Iterable;
 import java.lang.Long;
 import java.lang.String;
+import java.net.http.HttpResponse;
+import java.util.Iterator;
+import java.util.stream.Stream;
 import org.noresponse.SDKConfiguration;
 import org.noresponse.operations.ListAccountOutcomes;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 import org.noresponse.utils.RetryConfig;
 import org.noresponse.utils.Utils;
+import org.noresponse.utils.pagination.CursorTracker;
+import org.noresponse.utils.pagination.Paginator;
 
 public class ListAccountOutcomesRequestBuilder {
     private final SDKConfiguration sdkConfiguration;
@@ -74,5 +84,41 @@ public class ListAccountOutcomesRequestBuilder {
         RequestOperation<ListAccountOutcomesRequest, ListAccountOutcomesResponse> operation =
                 new ListAccountOutcomes.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(this._buildRequest()));
+    }
+
+    /**
+     * Returns an iterable that performs next page calls till no more pages
+     * are returned.
+     *
+     * <p>The returned iterable can be used in a for-each loop:
+     * <pre><code>
+     * for (ListAccountOutcomesResponse page : builder.callAsIterable()) {
+     *     // Process each page
+     * }
+     * </code></pre>
+     *
+     * @return An iterable that can be used to iterate through all pages
+     */
+    public Iterable<ListAccountOutcomesResponse> callAsIterable() {
+        ListAccountOutcomesRequest request = pojoBuilder.build();
+        Options options = optionsBuilder.build();
+        RequestOperation<ListAccountOutcomesRequest, ListAccountOutcomesResponse> operation =
+                new ListAccountOutcomes.Sync(sdkConfiguration, options, _headers);
+
+        Iterator<HttpResponse<InputStream>> iterator =
+                new Paginator<>(request, new CursorTracker<>("$.next_cursor", String.class), (req, pos) -> {
+                    var modifiedReq = pos == null ? req : req.withCursor(pos);
+                    return unchecked(() -> operation.doRequest(modifiedReq)).get();
+                });
+
+        return () -> transform(iterator, operation::handleResponse);
+    }
+
+    /**
+     * Returns a stream that performs next page calls till no more pages
+     * are returned.
+     **/
+    public Stream<ListAccountOutcomesResponse> callAsStream() {
+        return toStream(callAsIterable());
     }
 }

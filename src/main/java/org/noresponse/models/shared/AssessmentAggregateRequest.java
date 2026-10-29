@@ -30,7 +30,10 @@ import org.noresponse.utils.Utils;
  * identifier and stay when an assessment or account is deleted or erased; they expire with retention
  * and go with the workspace. Reasons are counted by code and impact band, not by weight.
  *
- * <p>No Idempotency-Key.
+ * <p>No Idempotency-Key. Select retained_first_answers for exact facet filters and pairs over retained
+ * detail. This mode supports count, score_histogram and score_outcomes, and refuses late_flips.
+ *
+ * <p>It has a 31-day and 100000-record work budget.
  */
 public class AssessmentAggregateRequest {
     /**
@@ -54,7 +57,8 @@ public class AssessmentAggregateRequest {
     /**
      * At most two dimensions to count by, of which at most one is reason, lane, country or asn. An
      * assessment counts once in each of its reasons and incomplete lanes, so those groups can add up to
-     * more than the bucket's count.
+     * more than the bucket's count. With population retained_first_answers, both dimensions can be facets;
+     * counts cover retained first answers only.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("group_by")
@@ -126,6 +130,71 @@ public class AssessmentAggregateRequest {
     @JsonProperty("revision")
     private AnswerRevision revision;
 
+    /**
+     * first_answers uses anonymous counters that can include erased detail. retained_first_answers
+     * computes exact intersections over retained first answers within 31 days. Requests exceeding the
+     * 100000-record work budget are refused.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("population")
+    private Population population;
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("band")
+    private Band band;
+
+    /**
+     * A stable reason code. New codes may appear; ignore any you do not know.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("reason")
+    private ReasonCode reason;
+
+    /**
+     * The selected reason's served impact band. Requires reason.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("impact")
+    private Impact impact;
+
+    /**
+     * An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
+     * email domain's registration) and ip.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("lane")
+    private Lane lane;
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("country")
+    private String country;
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("asn")
+    private Long asn;
+
+    /**
+     * Inclusive lower score bound. Pending answers without a score do not match.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("score_min")
+    private Long scoreMin;
+
+    /**
+     * Inclusive upper score bound, at least score_min when both are supplied.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("score_max")
+    private Long scoreMax;
+
+    /**
+     * The list action captured at the first answer. Requires revision first. Older answers without
+     * captured list state do not match, including none.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("list_match")
+    private ListMatch listMatch;
+
     @JsonCreator
     public AssessmentAggregateRequest(
             @JsonProperty("from") @Nonnull String from,
@@ -138,7 +207,17 @@ public class AssessmentAggregateRequest {
             @JsonProperty("status") @Nullable Status status,
             @JsonProperty("recommendation") @Nullable Recommendation recommendation,
             @JsonProperty("decision") @Nullable Decision decision,
-            @JsonProperty("revision") @Nullable AnswerRevision revision) {
+            @JsonProperty("revision") @Nullable AnswerRevision revision,
+            @JsonProperty("population") @Nullable Population population,
+            @JsonProperty("band") @Nullable Band band,
+            @JsonProperty("reason") @Nullable ReasonCode reason,
+            @JsonProperty("impact") @Nullable Impact impact,
+            @JsonProperty("lane") @Nullable Lane lane,
+            @JsonProperty("country") @Nullable String country,
+            @JsonProperty("asn") @Nullable Long asn,
+            @JsonProperty("score_min") @Nullable Long scoreMin,
+            @JsonProperty("score_max") @Nullable Long scoreMax,
+            @JsonProperty("list_match") @Nullable ListMatch listMatch) {
         this.from = Optional.ofNullable(from).orElseThrow(() -> new IllegalArgumentException("from cannot be null"));
         this.to = Optional.ofNullable(to).orElseThrow(() -> new IllegalArgumentException("to cannot be null"));
         this.bucket =
@@ -151,10 +230,41 @@ public class AssessmentAggregateRequest {
         this.recommendation = recommendation;
         this.decision = decision;
         this.revision = revision;
+        this.population = population;
+        this.band = band;
+        this.reason = reason;
+        this.impact = impact;
+        this.lane = lane;
+        this.country = country;
+        this.asn = asn;
+        this.scoreMin = scoreMin;
+        this.scoreMax = scoreMax;
+        this.listMatch = listMatch;
     }
 
     public AssessmentAggregateRequest(@Nonnull String from, @Nonnull String to, @Nonnull Bucket bucket) {
-        this(from, to, bucket, null, null, null, null, null, null, null, null);
+        this(
+                from,
+                to,
+                bucket,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
     }
 
     /**
@@ -181,7 +291,8 @@ public class AssessmentAggregateRequest {
     /**
      * At most two dimensions to count by, of which at most one is reason, lane, country or asn. An
      * assessment counts once in each of its reasons and incomplete lanes, so those groups can add up to
-     * more than the bucket's count.
+     * more than the bucket's count. With population retained_first_answers, both dimensions can be facets;
+     * counts cover retained first answers only.
      */
     public Optional<List<AggregateDimension>> groupBy() {
         return Optional.ofNullable(this.groupBy);
@@ -253,6 +364,71 @@ public class AssessmentAggregateRequest {
         return Optional.ofNullable(this.revision);
     }
 
+    /**
+     * first_answers uses anonymous counters that can include erased detail. retained_first_answers
+     * computes exact intersections over retained first answers within 31 days. Requests exceeding the
+     * 100000-record work budget are refused.
+     */
+    public Optional<Population> population() {
+        return Optional.ofNullable(this.population);
+    }
+
+    public Optional<Band> band() {
+        return Optional.ofNullable(this.band);
+    }
+
+    /**
+     * A stable reason code. New codes may appear; ignore any you do not know.
+     */
+    public Optional<ReasonCode> reason() {
+        return Optional.ofNullable(this.reason);
+    }
+
+    /**
+     * The selected reason's served impact band. Requires reason.
+     */
+    public Optional<Impact> impact() {
+        return Optional.ofNullable(this.impact);
+    }
+
+    /**
+     * An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
+     * email domain's registration) and ip.
+     */
+    public Optional<Lane> lane() {
+        return Optional.ofNullable(this.lane);
+    }
+
+    public Optional<String> country() {
+        return Optional.ofNullable(this.country);
+    }
+
+    public Optional<Long> asn() {
+        return Optional.ofNullable(this.asn);
+    }
+
+    /**
+     * Inclusive lower score bound. Pending answers without a score do not match.
+     */
+    public Optional<Long> scoreMin() {
+        return Optional.ofNullable(this.scoreMin);
+    }
+
+    /**
+     * Inclusive upper score bound, at least score_min when both are supplied.
+     */
+    public Optional<Long> scoreMax() {
+        return Optional.ofNullable(this.scoreMax);
+    }
+
+    /**
+     * The list action captured at the first answer. Requires revision first. Older answers without
+     * captured list state do not match, including none.
+     */
+    public Optional<ListMatch> listMatch() {
+        return Optional.ofNullable(this.listMatch);
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -284,7 +460,8 @@ public class AssessmentAggregateRequest {
     /**
      * At most two dimensions to count by, of which at most one is reason, lane, country or asn. An
      * assessment counts once in each of its reasons and incomplete lanes, so those groups can add up to
-     * more than the bucket's count.
+     * more than the bucket's count. With population retained_first_answers, both dimensions can be facets;
+     * counts cover retained first answers only.
      */
     public AssessmentAggregateRequest withGroupBy(@Nullable List<AggregateDimension> groupBy) {
         this.groupBy = groupBy;
@@ -364,6 +541,81 @@ public class AssessmentAggregateRequest {
         return this;
     }
 
+    /**
+     * first_answers uses anonymous counters that can include erased detail. retained_first_answers
+     * computes exact intersections over retained first answers within 31 days. Requests exceeding the
+     * 100000-record work budget are refused.
+     */
+    public AssessmentAggregateRequest withPopulation(@Nullable Population population) {
+        this.population = population;
+        return this;
+    }
+
+    public AssessmentAggregateRequest withBand(@Nullable Band band) {
+        this.band = band;
+        return this;
+    }
+
+    /**
+     * A stable reason code. New codes may appear; ignore any you do not know.
+     */
+    public AssessmentAggregateRequest withReason(@Nullable ReasonCode reason) {
+        this.reason = reason;
+        return this;
+    }
+
+    /**
+     * The selected reason's served impact band. Requires reason.
+     */
+    public AssessmentAggregateRequest withImpact(@Nullable Impact impact) {
+        this.impact = impact;
+        return this;
+    }
+
+    /**
+     * An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
+     * email domain's registration) and ip.
+     */
+    public AssessmentAggregateRequest withLane(@Nullable Lane lane) {
+        this.lane = lane;
+        return this;
+    }
+
+    public AssessmentAggregateRequest withCountry(@Nullable String country) {
+        this.country = country;
+        return this;
+    }
+
+    public AssessmentAggregateRequest withAsn(@Nullable Long asn) {
+        this.asn = asn;
+        return this;
+    }
+
+    /**
+     * Inclusive lower score bound. Pending answers without a score do not match.
+     */
+    public AssessmentAggregateRequest withScoreMin(@Nullable Long scoreMin) {
+        this.scoreMin = scoreMin;
+        return this;
+    }
+
+    /**
+     * Inclusive upper score bound, at least score_min when both are supplied.
+     */
+    public AssessmentAggregateRequest withScoreMax(@Nullable Long scoreMax) {
+        this.scoreMax = scoreMax;
+        return this;
+    }
+
+    /**
+     * The list action captured at the first answer. Requires revision first. Older answers without
+     * captured list state do not match, including none.
+     */
+    public AssessmentAggregateRequest withListMatch(@Nullable ListMatch listMatch) {
+        this.listMatch = listMatch;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -383,13 +635,43 @@ public class AssessmentAggregateRequest {
                 && Utils.enhancedDeepEquals(this.status, other.status)
                 && Utils.enhancedDeepEquals(this.recommendation, other.recommendation)
                 && Utils.enhancedDeepEquals(this.decision, other.decision)
-                && Utils.enhancedDeepEquals(this.revision, other.revision);
+                && Utils.enhancedDeepEquals(this.revision, other.revision)
+                && Utils.enhancedDeepEquals(this.population, other.population)
+                && Utils.enhancedDeepEquals(this.band, other.band)
+                && Utils.enhancedDeepEquals(this.reason, other.reason)
+                && Utils.enhancedDeepEquals(this.impact, other.impact)
+                && Utils.enhancedDeepEquals(this.lane, other.lane)
+                && Utils.enhancedDeepEquals(this.country, other.country)
+                && Utils.enhancedDeepEquals(this.asn, other.asn)
+                && Utils.enhancedDeepEquals(this.scoreMin, other.scoreMin)
+                && Utils.enhancedDeepEquals(this.scoreMax, other.scoreMax)
+                && Utils.enhancedDeepEquals(this.listMatch, other.listMatch);
     }
 
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                from, to, bucket, groupBy, metrics, limit, flow, status, recommendation, decision, revision);
+                from,
+                to,
+                bucket,
+                groupBy,
+                metrics,
+                limit,
+                flow,
+                status,
+                recommendation,
+                decision,
+                revision,
+                population,
+                band,
+                reason,
+                impact,
+                lane,
+                country,
+                asn,
+                scoreMin,
+                scoreMax,
+                listMatch);
     }
 
     @Override
@@ -417,7 +699,27 @@ public class AssessmentAggregateRequest {
                 "decision",
                 decision,
                 "revision",
-                revision);
+                revision,
+                "population",
+                population,
+                "band",
+                band,
+                "reason",
+                reason,
+                "impact",
+                impact,
+                "lane",
+                lane,
+                "country",
+                country,
+                "asn",
+                asn,
+                "scoreMin",
+                scoreMin,
+                "scoreMax",
+                scoreMax,
+                "listMatch",
+                listMatch);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -444,6 +746,26 @@ public class AssessmentAggregateRequest {
         private Decision decision;
 
         private AnswerRevision revision;
+
+        private Population population;
+
+        private Band band;
+
+        private ReasonCode reason;
+
+        private Impact impact;
+
+        private Lane lane;
+
+        private String country;
+
+        private Long asn;
+
+        private Long scoreMin;
+
+        private Long scoreMax;
+
+        private ListMatch listMatch;
 
         private Builder() {
             // force use of static builder() method
@@ -476,7 +798,8 @@ public class AssessmentAggregateRequest {
         /**
          * At most two dimensions to count by, of which at most one is reason, lane, country or asn. An
          * assessment counts once in each of its reasons and incomplete lanes, so those groups can add up to
-         * more than the bucket's count.
+         * more than the bucket's count. With population retained_first_answers, both dimensions can be facets;
+         * counts cover retained first answers only.
          */
         public Builder groupBy(@Nullable List<AggregateDimension> groupBy) {
             this.groupBy = groupBy;
@@ -556,9 +879,104 @@ public class AssessmentAggregateRequest {
             return this;
         }
 
+        /**
+         * first_answers uses anonymous counters that can include erased detail. retained_first_answers
+         * computes exact intersections over retained first answers within 31 days. Requests exceeding the
+         * 100000-record work budget are refused.
+         */
+        public Builder population(@Nullable Population population) {
+            this.population = population;
+            return this;
+        }
+
+        public Builder band(@Nullable Band band) {
+            this.band = band;
+            return this;
+        }
+
+        /**
+         * A stable reason code. New codes may appear; ignore any you do not know.
+         */
+        public Builder reason(@Nullable ReasonCode reason) {
+            this.reason = reason;
+            return this;
+        }
+
+        /**
+         * The selected reason's served impact band. Requires reason.
+         */
+        public Builder impact(@Nullable Impact impact) {
+            this.impact = impact;
+            return this;
+        }
+
+        /**
+         * An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
+         * email domain's registration) and ip.
+         */
+        public Builder lane(@Nullable Lane lane) {
+            this.lane = lane;
+            return this;
+        }
+
+        public Builder country(@Nullable String country) {
+            this.country = country;
+            return this;
+        }
+
+        public Builder asn(@Nullable Long asn) {
+            this.asn = asn;
+            return this;
+        }
+
+        /**
+         * Inclusive lower score bound. Pending answers without a score do not match.
+         */
+        public Builder scoreMin(@Nullable Long scoreMin) {
+            this.scoreMin = scoreMin;
+            return this;
+        }
+
+        /**
+         * Inclusive upper score bound, at least score_min when both are supplied.
+         */
+        public Builder scoreMax(@Nullable Long scoreMax) {
+            this.scoreMax = scoreMax;
+            return this;
+        }
+
+        /**
+         * The list action captured at the first answer. Requires revision first. Older answers without
+         * captured list state do not match, including none.
+         */
+        public Builder listMatch(@Nullable ListMatch listMatch) {
+            this.listMatch = listMatch;
+            return this;
+        }
+
         public AssessmentAggregateRequest build() {
             return new AssessmentAggregateRequest(
-                    from, to, bucket, groupBy, metrics, limit, flow, status, recommendation, decision, revision);
+                    from,
+                    to,
+                    bucket,
+                    groupBy,
+                    metrics,
+                    limit,
+                    flow,
+                    status,
+                    recommendation,
+                    decision,
+                    revision,
+                    population,
+                    band,
+                    reason,
+                    impact,
+                    lane,
+                    country,
+                    asn,
+                    scoreMin,
+                    scoreMax,
+                    listMatch);
         }
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =

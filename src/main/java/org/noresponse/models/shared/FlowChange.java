@@ -41,12 +41,11 @@ public class FlowChange {
     private JsonNullable<Long> block;
 
     /**
-     * The depth a request for this flow that names none is served at. Defaults: full for account_creation
-     * and purchase, quick for login.
+     * assessments only.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("default_depth")
-    private DefaultDepth defaultDepth;
+    private UsageCountDepth defaultDepth;
 
     /**
      * Login or purchase only: drop the flow's own thresholds so it uses account_creation's again. Not
@@ -103,7 +102,7 @@ public class FlowChange {
             @JsonProperty("step_up") @Nullable Long stepUp,
             @JsonProperty("review") @Nullable Long review,
             @JsonProperty("block") @Nullable JsonNullable<Long> block,
-            @JsonProperty("default_depth") @Nullable DefaultDepth defaultDepth,
+            @JsonProperty("default_depth") @Nullable UsageCountDepth defaultDepth,
             @JsonProperty("inherits_account_creation") @Nullable Boolean inheritsAccountCreation,
             @JsonProperty("inherits_signup") @Nullable Boolean inheritsSignup,
             @JsonProperty("admission") @Nullable Admission admission,
@@ -140,10 +139,9 @@ public class FlowChange {
     }
 
     /**
-     * The depth a request for this flow that names none is served at. Defaults: full for account_creation
-     * and purchase, quick for login.
+     * assessments only.
      */
-    public Optional<DefaultDepth> defaultDepth() {
+    public Optional<UsageCountDepth> defaultDepth() {
         return Optional.ofNullable(this.defaultDepth);
     }
 
@@ -220,10 +218,9 @@ public class FlowChange {
     }
 
     /**
-     * The depth a request for this flow that names none is served at. Defaults: full for account_creation
-     * and purchase, quick for login.
+     * assessments only.
      */
-    public FlowChange withDefaultDepth(@Nullable DefaultDepth defaultDepth) {
+    public FlowChange withDefaultDepth(@Nullable UsageCountDepth defaultDepth) {
         this.defaultDepth = defaultDepth;
         return this;
     }
@@ -350,7 +347,7 @@ public class FlowChange {
 
         private JsonNullable<Long> block;
 
-        private DefaultDepth defaultDepth;
+        private UsageCountDepth defaultDepth;
 
         private Boolean inheritsAccountCreation;
 
@@ -386,10 +383,9 @@ public class FlowChange {
         }
 
         /**
-         * The depth a request for this flow that names none is served at. Defaults: full for account_creation
-         * and purchase, quick for login.
+         * assessments only.
          */
-        public Builder defaultDepth(@Nullable DefaultDepth defaultDepth) {
+        public Builder defaultDepth(@Nullable UsageCountDepth defaultDepth) {
             this.defaultDepth = defaultDepth;
             return this;
         }

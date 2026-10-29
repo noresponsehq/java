@@ -31,9 +31,6 @@ public class Risk {
     @JsonProperty("score")
     private long score;
 
-    /**
-     * low 0-29, medium 30-59, high 60-84, critical 85-100.
-     */
     @JsonProperty("band")
     private Band band;
 
@@ -162,9 +159,6 @@ public class Risk {
         return this.score;
     }
 
-    /**
-     * low 0-29, medium 30-59, high 60-84, critical 85-100.
-     */
     public Band band() {
         return this.band;
     }
@@ -262,9 +256,6 @@ public class Risk {
         return this;
     }
 
-    /**
-     * low 0-29, medium 30-59, high 60-84, critical 85-100.
-     */
     public Risk withBand(@Nonnull Band band) {
         this.band = Utils.checkNotNull(band, "band");
         return this;
@@ -460,9 +451,6 @@ public class Risk {
             return this;
         }
 
-        /**
-         * low 0-29, medium 30-59, high 60-84, critical 85-100.
-         */
         public Builder band(@Nonnull Band band) {
             this.band = Utils.checkNotNull(band, "band");
             return this;

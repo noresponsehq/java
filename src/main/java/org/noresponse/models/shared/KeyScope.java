@@ -24,6 +24,16 @@ public class KeyScope {
     public static final KeyScope DETAILED = new KeyScope("detailed");
     public static final KeyScope INTEGRATIONS = new KeyScope("integrations");
     public static final KeyScope MANAGEMENT = new KeyScope("management");
+    public static final KeyScope AUDIT = new KeyScope("audit");
+    public static final KeyScope USAGE = new KeyScope("usage");
+    public static final KeyScope INVESTIGATE = new KeyScope("investigate");
+    public static final KeyScope EVIDENCE = new KeyScope("evidence");
+    public static final KeyScope EXPORTS = new KeyScope("exports");
+    public static final KeyScope AUDIT_MANAGE = new KeyScope("audit_manage");
+    public static final KeyScope SETTINGS = new KeyScope("settings");
+    public static final KeyScope POLICY_PUBLISH = new KeyScope("policy_publish");
+    public static final KeyScope MEMBERS = new KeyScope("members");
+    public static final KeyScope MEMBERS_MANAGE = new KeyScope("members_manage");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -101,6 +111,16 @@ public class KeyScope {
         map.put("detailed", DETAILED);
         map.put("integrations", INTEGRATIONS);
         map.put("management", MANAGEMENT);
+        map.put("audit", AUDIT);
+        map.put("usage", USAGE);
+        map.put("investigate", INVESTIGATE);
+        map.put("evidence", EVIDENCE);
+        map.put("exports", EXPORTS);
+        map.put("audit_manage", AUDIT_MANAGE);
+        map.put("settings", SETTINGS);
+        map.put("policy_publish", POLICY_PUBLISH);
+        map.put("members", MEMBERS);
+        map.put("members_manage", MEMBERS_MANAGE);
         return map;
     }
 
@@ -113,6 +133,16 @@ public class KeyScope {
         map.put("detailed", KeyScopeEnum.DETAILED);
         map.put("integrations", KeyScopeEnum.INTEGRATIONS);
         map.put("management", KeyScopeEnum.MANAGEMENT);
+        map.put("audit", KeyScopeEnum.AUDIT);
+        map.put("usage", KeyScopeEnum.USAGE);
+        map.put("investigate", KeyScopeEnum.INVESTIGATE);
+        map.put("evidence", KeyScopeEnum.EVIDENCE);
+        map.put("exports", KeyScopeEnum.EXPORTS);
+        map.put("audit_manage", KeyScopeEnum.AUDIT_MANAGE);
+        map.put("settings", KeyScopeEnum.SETTINGS);
+        map.put("policy_publish", KeyScopeEnum.POLICY_PUBLISH);
+        map.put("members", KeyScopeEnum.MEMBERS);
+        map.put("members_manage", KeyScopeEnum.MEMBERS_MANAGE);
         return map;
     }
 
@@ -125,6 +155,16 @@ public class KeyScope {
         DETAILED("detailed"),
         INTEGRATIONS("integrations"),
         MANAGEMENT("management"),
+        AUDIT("audit"),
+        USAGE("usage"),
+        INVESTIGATE("investigate"),
+        EVIDENCE("evidence"),
+        EXPORTS("exports"),
+        AUDIT_MANAGE("audit_manage"),
+        SETTINGS("settings"),
+        POLICY_PUBLISH("policy_publish"),
+        MEMBERS("members"),
+        MEMBERS_MANAGE("members_manage"),
         ;
 
         private final String value;

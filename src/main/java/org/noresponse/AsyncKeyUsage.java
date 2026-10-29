@@ -14,6 +14,9 @@ import org.noresponse.operations.RecordKeyUsage;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 
+/**
+ * Usage of keys issued to your accounts.
+ */
 public class AsyncKeyUsage {
     private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;

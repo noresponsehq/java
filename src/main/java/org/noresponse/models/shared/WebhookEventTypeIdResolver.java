@@ -28,6 +28,7 @@ public class WebhookEventTypeIdResolver extends GenericTypeIdResolver<WebhookEve
         registerType("workspace.deleted", WorkspaceDeletedEvent.class);
         registerType("webhook_endpoint.disabled", WebhookEndpointDisabledEvent.class);
         registerType("account.risk_changed", AccountRiskChangedEvent.class);
+        registerType("audit.event", AuditEventEvent.class);
     }
 
     @Override

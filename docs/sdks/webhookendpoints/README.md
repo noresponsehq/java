@@ -13,6 +13,7 @@ Your webhook endpoints: register, list, rotate signing keys, send test events an
 * [sendTestEvent](#sendtestevent) - Send a test event to an endpoint.
 * [listDeliveries](#listdeliveries) - List an endpoint's delivery attempts.
 * [replayDelivery](#replaydelivery) - Send one delivery again.
+* [aggregate](#aggregate) - Summarise retained webhook attempts and delivery queue
 
 ## list
 
@@ -639,6 +640,74 @@ public class Application {
 ### Response
 
 **[ReplayWebhookDeliveryResponse](../../models/operations/ReplayWebhookDeliveryResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## aggregate
+
+Count retained webhook delivery attempts within thirty days and report current retained queue state.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="aggregateWebhooks" method="post" path="/v1/webhooks/aggregate" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.AggregateWebhooksResponse;
+import org.noresponse.models.shared.WebhookAggregateRequest;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        WebhookAggregateRequest req = WebhookAggregateRequest.builder()
+                .from("2026-01-01T00:00:00Z")
+                .to("2026-01-01T00:00:00Z")
+                .endpointId("whe_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .build();
+
+        AggregateWebhooksResponse res = sdk.webhookEndpoints().aggregate()
+                .request(req)
+                .call();
+
+        if (res.operationalAggregate().isPresent()) {
+            System.out.println(res.operationalAggregate().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                 | Type                                                                      | Required                                                                  | Description                                                               |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `request`                                                                 | [WebhookAggregateRequest](../../models/shared/WebhookAggregateRequest.md) | :heavy_check_mark:                                                        | The request object to use for the request.                                |
+
+### Response
+
+**[AggregateWebhooksResponse](../../models/operations/AggregateWebhooksResponse.md)**
 
 ### Errors
 

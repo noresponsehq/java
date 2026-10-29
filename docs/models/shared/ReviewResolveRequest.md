@@ -1,0 +1,11 @@
+# ReviewResolveRequest
+
+
+## Fields
+
+| Field                                                       | Setter Type                                                 | Getter Type                                                 | Required                                                    | Description                                                 | Example                                                     |
+| ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
+| `expectedVersion`                                           | *long*                                                      | *long*                                                      | :heavy_check_mark:                                          | N/A                                                         |                                                             |
+| `expectedRiskVersion`                                       | *long*                                                      | *long*                                                      | :heavy_check_mark:                                          | N/A                                                         |                                                             |
+| `conclusion`                                                | [Conclusion](../../models/shared/Conclusion.md)             | [Conclusion](../../models/shared/Conclusion.md)             | :heavy_check_mark:                                          | N/A                                                         |                                                             |
+| `note`                                                      | *String*                                                    | *String*                                                    | :heavy_check_mark:                                          | N/A                                                         | Reviewed the retained account evidence and customer report. |
