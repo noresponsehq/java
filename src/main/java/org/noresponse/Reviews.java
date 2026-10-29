@@ -105,7 +105,9 @@ public class Reviews {
     /**
      * List retained account reviews.
      *
-     * <p>List retained investigation reviews using filters and an authenticated cursor.
+     * <p>List retained investigation reviews using filters and an authenticated cursor. Optional account_id
+     * selects one exact account in this environment before pagination. All filters are bound into the
+     * cursor.
      *
      * @return The call builder
      */
@@ -116,7 +118,9 @@ public class Reviews {
     /**
      * List retained account reviews.
      *
-     * <p>List retained investigation reviews using filters and an authenticated cursor.
+     * <p>List retained investigation reviews using filters and an authenticated cursor. Optional account_id
+     * selects one exact account in this environment before pagination. All filters are bound into the
+     * cursor.
      *
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -129,7 +133,9 @@ public class Reviews {
     /**
      * List retained account reviews.
      *
-     * <p>List retained investigation reviews using filters and an authenticated cursor.
+     * <p>List retained investigation reviews using filters and an authenticated cursor. Optional account_id
+     * selects one exact account in this environment before pagination. All filters are bound into the
+     * cursor.
      *
      * @param request The request object containing all the parameters for the API call.
      * @param options additional options

@@ -25,7 +25,7 @@ Collaborative review cases, comments and linked subjects.
 
 ## list
 
-List retained investigation reviews using filters and an authenticated cursor.
+List retained investigation reviews using filters and an authenticated cursor. Optional account_id selects one exact account in this environment before pagination. All filters are bound into the cursor.
 
 ### Example Usage
 
@@ -690,6 +690,7 @@ public class Application {
                     .name("High priority reviews")
                     .shared(true)
                     .filter(Filter.builder()
+                        .accountId("acct_7f3a9c")
                         .assignee("usr_customer_admin")
                         .assigneePrincipalId("mem_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
                         .build())
@@ -766,6 +767,7 @@ public class Application {
                     .name("High priority reviews")
                     .shared(false)
                     .filter(Filter.builder()
+                        .accountId("acct_7f3a9c")
                         .assignee("usr_customer_admin")
                         .assigneePrincipalId("mem_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
                         .build())

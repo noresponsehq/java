@@ -8,10 +8,19 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.lang.Override;
 import java.lang.String;
+import java.util.List;
 import java.util.Optional;
 import org.noresponse.utils.Utils;
 
 public class AccountDirectoryPageItem {
+    /**
+     * Present for needs_action searches. outcome means a current review/block decision lacks a retained
+     * effective outcome; review means a retained open or in-progress review. Both can apply.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("waiting_for")
+    private List<WaitingFor> waitingFor;
+
     /**
      * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
      * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
@@ -56,10 +65,12 @@ public class AccountDirectoryPageItem {
 
     @JsonCreator
     public AccountDirectoryPageItem(
+            @JsonProperty("waiting_for") @Nullable List<WaitingFor> waitingFor,
             @JsonProperty("account_id") @Nonnull String accountId,
             @JsonProperty("latest") @Nonnull AssessmentRevision latest,
             @JsonProperty("current") @Nullable Account current,
             @JsonProperty("assessments") long assessments) {
+        this.waitingFor = waitingFor;
         this.accountId = Optional.ofNullable(accountId)
                 .orElseThrow(() -> new IllegalArgumentException("accountId cannot be null"));
         this.latest =
@@ -69,7 +80,15 @@ public class AccountDirectoryPageItem {
     }
 
     public AccountDirectoryPageItem(@Nonnull String accountId, @Nonnull AssessmentRevision latest, long assessments) {
-        this(accountId, latest, null, assessments);
+        this(null, accountId, latest, null, assessments);
+    }
+
+    /**
+     * Present for needs_action searches. outcome means a current review/block decision lacks a retained
+     * effective outcome; review means a retained open or in-progress review. Both can apply.
+     */
+    public Optional<List<WaitingFor>> waitingFor() {
+        return Optional.ofNullable(this.waitingFor);
     }
 
     /**
@@ -119,6 +138,15 @@ public class AccountDirectoryPageItem {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    /**
+     * Present for needs_action searches. outcome means a current review/block decision lacks a retained
+     * effective outcome; review means a retained open or in-progress review. Both can apply.
+     */
+    public AccountDirectoryPageItem withWaitingFor(@Nullable List<WaitingFor> waitingFor) {
+        this.waitingFor = waitingFor;
+        return this;
     }
 
     /**
@@ -179,7 +207,8 @@ public class AccountDirectoryPageItem {
             return false;
         }
         AccountDirectoryPageItem other = (AccountDirectoryPageItem) o;
-        return Utils.enhancedDeepEquals(this.accountId, other.accountId)
+        return Utils.enhancedDeepEquals(this.waitingFor, other.waitingFor)
+                && Utils.enhancedDeepEquals(this.accountId, other.accountId)
                 && Utils.enhancedDeepEquals(this.latest, other.latest)
                 && Utils.enhancedDeepEquals(this.current, other.current)
                 && Utils.enhancedDeepEquals(this.assessments, other.assessments);
@@ -187,13 +216,15 @@ public class AccountDirectoryPageItem {
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(accountId, latest, current, assessments);
+        return Utils.enhancedHash(waitingFor, accountId, latest, current, assessments);
     }
 
     @Override
     public String toString() {
         return Utils.toString(
                 AccountDirectoryPageItem.class,
+                "waitingFor",
+                waitingFor,
                 "accountId",
                 accountId,
                 "latest",
@@ -207,6 +238,8 @@ public class AccountDirectoryPageItem {
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
 
+        private List<WaitingFor> waitingFor;
+
         private String accountId;
 
         private AssessmentRevision latest;
@@ -217,6 +250,15 @@ public class AccountDirectoryPageItem {
 
         private Builder() {
             // force use of static builder() method
+        }
+
+        /**
+         * Present for needs_action searches. outcome means a current review/block decision lacks a retained
+         * effective outcome; review means a retained open or in-progress review. Both can apply.
+         */
+        public Builder waitingFor(@Nullable List<WaitingFor> waitingFor) {
+            this.waitingFor = waitingFor;
+            return this;
         }
 
         /**
@@ -269,7 +311,7 @@ public class AccountDirectoryPageItem {
         }
 
         public AccountDirectoryPageItem build() {
-            return new AccountDirectoryPageItem(accountId, latest, current, assessments);
+            return new AccountDirectoryPageItem(waitingFor, accountId, latest, current, assessments);
         }
     }
 }

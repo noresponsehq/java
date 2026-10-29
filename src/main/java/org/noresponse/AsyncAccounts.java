@@ -925,13 +925,19 @@ public class AsyncAccounts {
      *
      * <p>Search distinct accounts observed in retained assessments in this environment. Match an exact
      * account_id or canonical email; an email matches any retained assessment belonging to the account.
-     * The response contains one row per account with its newest retained assessment, current decision when
-     * available, per-account assessment count, and total distinct-account count.
+     * Set needs_action to select accounts with an open or in-progress retained review, or a current
+     * review/block decision without an effective retained outcome.
      *
-     * <p>Send next_cursor with unchanged filters to continue. Totals are exact below 10000 and capped at
-     * 10000. Results are live across pages.
+     * <p>This filter applies before pagination and counting, adds waiting_for reasons to each row and
+     * requires management scope as well as history or investigate access. The response contains one row
+     * per account with its newest retained assessment, current decision when available, per-account
+     * assessment count, and total distinct-account count. Send next_cursor with unchanged filters to
+     * continue.
      *
-     * <p>Requires history access and identifier access for email. Read-only and safe to retry.
+     * <p>Totals are exact below 10000 and capped at 10000. Results are live across pages. Requires history
+     * access and identifier access for email.
+     *
+     * <p>Read-only and safe to retry.
      *
      * @return The async call builder
      */
@@ -944,13 +950,19 @@ public class AsyncAccounts {
      *
      * <p>Search distinct accounts observed in retained assessments in this environment. Match an exact
      * account_id or canonical email; an email matches any retained assessment belonging to the account.
-     * The response contains one row per account with its newest retained assessment, current decision when
-     * available, per-account assessment count, and total distinct-account count.
+     * Set needs_action to select accounts with an open or in-progress retained review, or a current
+     * review/block decision without an effective retained outcome.
      *
-     * <p>Send next_cursor with unchanged filters to continue. Totals are exact below 10000 and capped at
-     * 10000. Results are live across pages.
+     * <p>This filter applies before pagination and counting, adds waiting_for reasons to each row and
+     * requires management scope as well as history or investigate access. The response contains one row
+     * per account with its newest retained assessment, current decision when available, per-account
+     * assessment count, and total distinct-account count. Send next_cursor with unchanged filters to
+     * continue.
      *
-     * <p>Requires history access and identifier access for email. Read-only and safe to retry.
+     * <p>Totals are exact below 10000 and capped at 10000. Results are live across pages. Requires history
+     * access and identifier access for email.
+     *
+     * <p>Read-only and safe to retry.
      *
      * @param request The request object containing all the parameters for the API call.
      * @return {@code CompletableFuture<SearchAccountsResponse>} - The async response
@@ -964,13 +976,19 @@ public class AsyncAccounts {
      *
      * <p>Search distinct accounts observed in retained assessments in this environment. Match an exact
      * account_id or canonical email; an email matches any retained assessment belonging to the account.
-     * The response contains one row per account with its newest retained assessment, current decision when
-     * available, per-account assessment count, and total distinct-account count.
+     * Set needs_action to select accounts with an open or in-progress retained review, or a current
+     * review/block decision without an effective retained outcome.
      *
-     * <p>Send next_cursor with unchanged filters to continue. Totals are exact below 10000 and capped at
-     * 10000. Results are live across pages.
+     * <p>This filter applies before pagination and counting, adds waiting_for reasons to each row and
+     * requires management scope as well as history or investigate access. The response contains one row
+     * per account with its newest retained assessment, current decision when available, per-account
+     * assessment count, and total distinct-account count. Send next_cursor with unchanged filters to
+     * continue.
      *
-     * <p>Requires history access and identifier access for email. Read-only and safe to retry.
+     * <p>Totals are exact below 10000 and capped at 10000. Results are live across pages. Requires history
+     * access and identifier access for email.
+     *
+     * <p>Read-only and safe to retry.
      *
      * @param request The request object containing all the parameters for the API call.
      * @param options additional options

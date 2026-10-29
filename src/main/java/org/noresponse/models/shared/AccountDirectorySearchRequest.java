@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.Nullable;
+import java.lang.Boolean;
 import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
@@ -21,6 +22,16 @@ import org.noresponse.utils.Utils;
  * assessment history download is required.
  */
 public class AccountDirectorySearchRequest {
+    /**
+     * Select accounts with a retained open or in-progress review, or a current review/block account
+     * decision with no retained effective account outcome. The server applies this filter before counting
+     * and pagination. Requires reviews.read as well as history.read for console members; API keys
+     * additionally require management.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("needs_action")
+    private Boolean needsAction;
+
     /**
      * Your own opaque identifier for the account being checked, scoped to your workspace. Use an id you
      * mint, with no direct identifier (email, phone, name or national id) in it. '|' is accepted so an
@@ -62,10 +73,12 @@ public class AccountDirectorySearchRequest {
 
     @JsonCreator
     public AccountDirectorySearchRequest(
+            @JsonProperty("needs_action") @Nullable Boolean needsAction,
             @JsonProperty("account_id") @Nullable String accountId,
             @JsonProperty("email") @Nullable String email,
             @JsonProperty("limit") @Nullable Long limit,
             @JsonProperty("cursor") @Nullable String cursor) {
+        this.needsAction = Optional.ofNullable(needsAction).orElse(Builder._SINGLETON_VALUE_NeedsAction.value());
         this.accountId = accountId;
         this.email = email;
         this.limit = Optional.ofNullable(limit).orElse(Builder._SINGLETON_VALUE_Limit.value());
@@ -73,7 +86,17 @@ public class AccountDirectorySearchRequest {
     }
 
     public AccountDirectorySearchRequest() {
-        this(null, null, null, null);
+        this(null, null, null, null, null);
+    }
+
+    /**
+     * Select accounts with a retained open or in-progress review, or a current review/block account
+     * decision with no retained effective account outcome. The server applies this filter before counting
+     * and pagination. Requires reviews.read as well as history.read for console members; API keys
+     * additionally require management.
+     */
+    public Optional<Boolean> needsAction() {
+        return Optional.ofNullable(this.needsAction);
     }
 
     /**
@@ -117,6 +140,17 @@ public class AccountDirectorySearchRequest {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    /**
+     * Select accounts with a retained open or in-progress review, or a current review/block account
+     * decision with no retained effective account outcome. The server applies this filter before counting
+     * and pagination. Requires reviews.read as well as history.read for console members; API keys
+     * additionally require management.
+     */
+    public AccountDirectorySearchRequest withNeedsAction(@Nullable Boolean needsAction) {
+        this.needsAction = needsAction;
+        return this;
     }
 
     /**
@@ -171,7 +205,8 @@ public class AccountDirectorySearchRequest {
             return false;
         }
         AccountDirectorySearchRequest other = (AccountDirectorySearchRequest) o;
-        return Utils.enhancedDeepEquals(this.accountId, other.accountId)
+        return Utils.enhancedDeepEquals(this.needsAction, other.needsAction)
+                && Utils.enhancedDeepEquals(this.accountId, other.accountId)
                 && Utils.enhancedDeepEquals(this.email, other.email)
                 && Utils.enhancedDeepEquals(this.limit, other.limit)
                 && Utils.enhancedDeepEquals(this.cursor, other.cursor);
@@ -179,13 +214,15 @@ public class AccountDirectorySearchRequest {
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(accountId, email, limit, cursor);
+        return Utils.enhancedHash(needsAction, accountId, email, limit, cursor);
     }
 
     @Override
     public String toString() {
         return Utils.toString(
                 AccountDirectorySearchRequest.class,
+                "needsAction",
+                needsAction,
                 "accountId",
                 accountId,
                 "email",
@@ -199,6 +236,8 @@ public class AccountDirectorySearchRequest {
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
 
+        private Boolean needsAction;
+
         private String accountId;
 
         private String email;
@@ -209,6 +248,17 @@ public class AccountDirectorySearchRequest {
 
         private Builder() {
             // force use of static builder() method
+        }
+
+        /**
+         * Select accounts with a retained open or in-progress review, or a current review/block account
+         * decision with no retained effective account outcome. The server applies this filter before counting
+         * and pagination. Requires reviews.read as well as history.read for console members; API keys
+         * additionally require management.
+         */
+        public Builder needsAction(@Nullable Boolean needsAction) {
+            this.needsAction = needsAction;
+            return this;
         }
 
         /**
@@ -255,8 +305,11 @@ public class AccountDirectorySearchRequest {
         }
 
         public AccountDirectorySearchRequest build() {
-            return new AccountDirectorySearchRequest(accountId, email, limit, cursor);
+            return new AccountDirectorySearchRequest(needsAction, accountId, email, limit, cursor);
         }
+
+        private static final LazySingletonValue<Boolean> _SINGLETON_VALUE_NeedsAction =
+                new LazySingletonValue<>("needs_action", "false", new TypeReference<Boolean>() {});
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =
                 new LazySingletonValue<>("limit", "25", new TypeReference<Long>() {});

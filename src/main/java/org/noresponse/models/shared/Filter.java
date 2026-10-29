@@ -12,6 +12,13 @@ import java.util.Optional;
 import org.noresponse.utils.Utils;
 
 public class Filter {
+    /**
+     * Only reviews of this exact account in the authenticated workspace and environment. Applied before
+     * pagination.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("account_id")
+    private String accountId;
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("status")
@@ -35,11 +42,13 @@ public class Filter {
 
     @JsonCreator
     public Filter(
+            @JsonProperty("account_id") @Nullable String accountId,
             @JsonProperty("status") @Nullable ReviewStatus status,
             @JsonProperty("priority") @Nullable Priority priority,
             @JsonProperty("assignee") @Nullable String assignee,
             @JsonProperty("unassigned") @Nullable Boolean unassigned,
             @JsonProperty("assignee_principal_id") @Nullable String assigneePrincipalId) {
+        this.accountId = accountId;
         this.status = status;
         this.priority = priority;
         this.assignee = assignee;
@@ -48,7 +57,15 @@ public class Filter {
     }
 
     public Filter() {
-        this(null, null, null, null, null);
+        this(null, null, null, null, null, null);
+    }
+
+    /**
+     * Only reviews of this exact account in the authenticated workspace and environment. Applied before
+     * pagination.
+     */
+    public Optional<String> accountId() {
+        return Optional.ofNullable(this.accountId);
     }
 
     public Optional<ReviewStatus> status() {
@@ -73,6 +90,15 @@ public class Filter {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    /**
+     * Only reviews of this exact account in the authenticated workspace and environment. Applied before
+     * pagination.
+     */
+    public Filter withAccountId(@Nullable String accountId) {
+        this.accountId = accountId;
+        return this;
     }
 
     public Filter withStatus(@Nullable ReviewStatus status) {
@@ -109,7 +135,8 @@ public class Filter {
             return false;
         }
         Filter other = (Filter) o;
-        return Utils.enhancedDeepEquals(this.status, other.status)
+        return Utils.enhancedDeepEquals(this.accountId, other.accountId)
+                && Utils.enhancedDeepEquals(this.status, other.status)
                 && Utils.enhancedDeepEquals(this.priority, other.priority)
                 && Utils.enhancedDeepEquals(this.assignee, other.assignee)
                 && Utils.enhancedDeepEquals(this.unassigned, other.unassigned)
@@ -118,13 +145,15 @@ public class Filter {
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(status, priority, assignee, unassigned, assigneePrincipalId);
+        return Utils.enhancedHash(accountId, status, priority, assignee, unassigned, assigneePrincipalId);
     }
 
     @Override
     public String toString() {
         return Utils.toString(
                 Filter.class,
+                "accountId",
+                accountId,
                 "status",
                 status,
                 "priority",
@@ -140,6 +169,8 @@ public class Filter {
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
 
+        private String accountId;
+
         private ReviewStatus status;
 
         private Priority priority;
@@ -152,6 +183,15 @@ public class Filter {
 
         private Builder() {
             // force use of static builder() method
+        }
+
+        /**
+         * Only reviews of this exact account in the authenticated workspace and environment. Applied before
+         * pagination.
+         */
+        public Builder accountId(@Nullable String accountId) {
+            this.accountId = accountId;
+            return this;
         }
 
         public Builder status(@Nullable ReviewStatus status) {
@@ -180,7 +220,7 @@ public class Filter {
         }
 
         public Filter build() {
-            return new Filter(status, priority, assignee, unassigned, assigneePrincipalId);
+            return new Filter(accountId, status, priority, assignee, unassigned, assigneePrincipalId);
         }
     }
 }
