@@ -1,8 +1,11 @@
 package org.noresponse.models.shared;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.lang.Override;
 import java.lang.String;
 import java.util.List;
@@ -18,7 +21,8 @@ import org.noresponse.utils.Utils;
  * event per endpoint (retries and replays add nothing), and a key-usage event once when the ingest
  * accepts it. A count does not change when the assessment, account or workspace is later deleted.
  *
- * <p>A day, environment or metric with nothing counted has no item. No prices, limits or billing.
+ * <p>A day, environment or metric with nothing counted has no item. No prices or billing. console_lookups
+ * is the one limit: the live environment's daily cap on console lookups, as spent today.
  */
 public class Usage {
     /**
@@ -46,17 +50,36 @@ public class Usage {
     @JsonProperty("items")
     private List<UsageCount> items;
 
+    /**
+     * The live environment's daily cap on assessments members make through the console (the playground),
+     * as spent on the current UTC day. Each console submission with a new Idempotency-Key spends one
+     * lookup; a replay spends nothing, and API keys and the test environment spend none. When used reaches
+     * limit, the next lookup answers 429 lookup_limit_reached until resets_at.
+     *
+     * <p>The count is the one the cap enforces.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("console_lookups")
+    private ConsoleLookups consoleLookups;
+
     @JsonCreator
     public Usage(
             @JsonProperty("workspace_id") @Nonnull String workspaceId,
             @JsonProperty("from") @Nonnull String from,
             @JsonProperty("to") @Nonnull String to,
-            @JsonProperty("items") @Nonnull List<UsageCount> items) {
+            @JsonProperty("items") @Nonnull List<UsageCount> items,
+            @JsonProperty("console_lookups") @Nullable ConsoleLookups consoleLookups) {
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
         this.from = Optional.ofNullable(from).orElseThrow(() -> new IllegalArgumentException("from cannot be null"));
         this.to = Optional.ofNullable(to).orElseThrow(() -> new IllegalArgumentException("to cannot be null"));
         this.items = Optional.ofNullable(items).orElseThrow(() -> new IllegalArgumentException("items cannot be null"));
+        this.consoleLookups = consoleLookups;
+    }
+
+    public Usage(
+            @Nonnull String workspaceId, @Nonnull String from, @Nonnull String to, @Nonnull List<UsageCount> items) {
+        this(workspaceId, from, to, items, null);
     }
 
     /**
@@ -86,6 +109,18 @@ public class Usage {
      */
     public List<UsageCount> items() {
         return this.items;
+    }
+
+    /**
+     * The live environment's daily cap on assessments members make through the console (the playground),
+     * as spent on the current UTC day. Each console submission with a new Idempotency-Key spends one
+     * lookup; a replay spends nothing, and API keys and the test environment spend none. When used reaches
+     * limit, the next lookup answers 429 lookup_limit_reached until resets_at.
+     *
+     * <p>The count is the one the cap enforces.
+     */
+    public Optional<ConsoleLookups> consoleLookups() {
+        return Optional.ofNullable(this.consoleLookups);
     }
 
     public static Builder builder() {
@@ -125,6 +160,19 @@ public class Usage {
         return this;
     }
 
+    /**
+     * The live environment's daily cap on assessments members make through the console (the playground),
+     * as spent on the current UTC day. Each console submission with a new Idempotency-Key spends one
+     * lookup; a replay spends nothing, and API keys and the test environment spend none. When used reaches
+     * limit, the next lookup answers 429 lookup_limit_reached until resets_at.
+     *
+     * <p>The count is the one the cap enforces.
+     */
+    public Usage withConsoleLookups(@Nullable ConsoleLookups consoleLookups) {
+        this.consoleLookups = consoleLookups;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -137,17 +185,29 @@ public class Usage {
         return Utils.enhancedDeepEquals(this.workspaceId, other.workspaceId)
                 && Utils.enhancedDeepEquals(this.from, other.from)
                 && Utils.enhancedDeepEquals(this.to, other.to)
-                && Utils.enhancedDeepEquals(this.items, other.items);
+                && Utils.enhancedDeepEquals(this.items, other.items)
+                && Utils.enhancedDeepEquals(this.consoleLookups, other.consoleLookups);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(workspaceId, from, to, items);
+        return Utils.enhancedHash(workspaceId, from, to, items, consoleLookups);
     }
 
     @Override
     public String toString() {
-        return Utils.toString(Usage.class, "workspaceId", workspaceId, "from", from, "to", to, "items", items);
+        return Utils.toString(
+                Usage.class,
+                "workspaceId",
+                workspaceId,
+                "from",
+                from,
+                "to",
+                to,
+                "items",
+                items,
+                "consoleLookups",
+                consoleLookups);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -160,6 +220,8 @@ public class Usage {
         private String to;
 
         private List<UsageCount> items;
+
+        private ConsoleLookups consoleLookups;
 
         private Builder() {
             // force use of static builder() method
@@ -198,8 +260,21 @@ public class Usage {
             return this;
         }
 
+        /**
+         * The live environment's daily cap on assessments members make through the console (the playground),
+         * as spent on the current UTC day. Each console submission with a new Idempotency-Key spends one
+         * lookup; a replay spends nothing, and API keys and the test environment spend none. When used reaches
+         * limit, the next lookup answers 429 lookup_limit_reached until resets_at.
+         *
+         * <p>The count is the one the cap enforces.
+         */
+        public Builder consoleLookups(@Nullable ConsoleLookups consoleLookups) {
+            this.consoleLookups = consoleLookups;
+            return this;
+        }
+
         public Usage build() {
-            return new Usage(workspaceId, from, to, items);
+            return new Usage(workspaceId, from, to, items, consoleLookups);
         }
     }
 }

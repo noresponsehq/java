@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 79c78abd35da0aef7c4885dd309c7a44
+  docChecksum: 9ece318308711c2b31be5b30179cc5d2
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 9.0.0
-  configChecksum: bfb506d38534e0548db65d5ca3cacc5c
+  releaseVersion: 9.1.0
+  configChecksum: e73bbba1abf3b99acd3fb0912dbdeb2f
 features:
   java:
     additionalDependencies: 0.1.0
@@ -608,6 +608,8 @@ trackedFiles:
     last_write_checksum: sha1:f975b44d0dd6ae149dccf2d79de6c228a6d673f5
   docs/models/shared/ConsistencyValue.md:
     last_write_checksum: sha1:515cc285baf39e2bf276c94de144e7726efb5be5
+  docs/models/shared/ConsoleLookups.md:
+    last_write_checksum: sha1:fa8702bc8187b52b43a61ee6705f00356b21958d
   docs/models/shared/Cost.md:
     last_write_checksum: sha1:dabf5475f95db1e02927a9bc3ac8c286d9f03749
   docs/models/shared/Country.md:
@@ -1061,7 +1063,7 @@ trackedFiles:
   docs/models/shared/Transport.md:
     last_write_checksum: sha1:fdd4ac5f07ad57d845a056e05ee95bea021e610d
   docs/models/shared/Usage.md:
-    last_write_checksum: sha1:f70dbf743b71faff4af1d8980134ced31c324d59
+    last_write_checksum: sha1:80ad7480e414be86b53fd25f77f41258b5328e51
   docs/models/shared/UsageCount.md:
     last_write_checksum: sha1:719f8325f3de2ac57d86edc0987f380f1d8ca9ff
   docs/models/shared/UsageCountDepth.md:
@@ -1169,13 +1171,13 @@ trackedFiles:
   docs/sdks/settings/README.md:
     last_write_checksum: sha1:01e2265a531b3a104a83420514996e5a9138f30d
   docs/sdks/usage/README.md:
-    last_write_checksum: sha1:88f265f4a039d042eeede97240d8d8bbc9690a97
+    last_write_checksum: sha1:571d2ed5bbc36e4be583ed24703832064c0b5a76
   docs/sdks/webhookendpoints/README.md:
     last_write_checksum: sha1:e622be2fe6f8e2e84a7e0359cc55f78cd5bcc876
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:6733d384be388a2aa15fc2ac83a736ccdfe6ce9e
+    last_write_checksum: sha1:6581ab1cacae71f0a683e75dedbbcbb2b1445ff6
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1227,7 +1229,7 @@ trackedFiles:
   src/main/java/org/noresponse/AsyncSettings.java:
     last_write_checksum: sha1:bb4471ccb353deefeb5ab41530ed6ec2ac961004
   src/main/java/org/noresponse/AsyncUsage.java:
-    last_write_checksum: sha1:01513dbc7f4eaab8512d37375e717875269aad01
+    last_write_checksum: sha1:c629f5796d0531f0e28ae693cfe189c7c01b9787
   src/main/java/org/noresponse/AsyncWebhookEndpoints.java:
     last_write_checksum: sha1:9922502a7e34942732eb5433d0724992103a2388
   src/main/java/org/noresponse/Audit.java:
@@ -1259,13 +1261,13 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:788ca2e3ab6d7f623a442b3ce3af5ee206279037
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:dbf0450c5ca7398457883b0efed6cd36997a2b1d
+    last_write_checksum: sha1:53ac1eccc55ea5e7360cc479de60164ce1f41a57
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
     last_write_checksum: sha1:c6073e7245441292c9d863599bbb65bf1b3d7be0
   src/main/java/org/noresponse/Usage.java:
-    last_write_checksum: sha1:2c32918ff16c9342c4daed8387310ed0ea346e44
+    last_write_checksum: sha1:925371a961c5f3d1b2328386f2954e7281b4a5e6
   src/main/java/org/noresponse/WebhookEndpoints.java:
     last_write_checksum: sha1:07005d5f7c74ae3ca9b88610ef32c0484b8bcf58
   src/main/java/org/noresponse/models/errors/APIStatusException.java:
@@ -2436,6 +2438,8 @@ trackedFiles:
     last_write_checksum: sha1:7eb09438e71015b116cc96f4cb9bb65572d257e3
   src/main/java/org/noresponse/models/shared/ConsistencyValue.java:
     last_write_checksum: sha1:1abf0065f4fdd35699b3bd13134276b75340be25
+  src/main/java/org/noresponse/models/shared/ConsoleLookups.java:
+    last_write_checksum: sha1:5ee6c04272a0288ce33cb20a7db2b6aa320727f4
   src/main/java/org/noresponse/models/shared/Cost.java:
     last_write_checksum: sha1:c8cf7a84f6ab662469618a3f2934bdde7d327b5d
   src/main/java/org/noresponse/models/shared/Country.java:
@@ -2891,7 +2895,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/UnknownWebhookEvent.java:
     last_write_checksum: sha1:e3dd5e7265cf62ba7499cdc4632dfafa3b29192a
   src/main/java/org/noresponse/models/shared/Usage.java:
-    last_write_checksum: sha1:1ad188d9f9c73731dbef5f1b6c3faaee5d5f290e
+    last_write_checksum: sha1:f8d93d0d4bb275b00cf5301402707ce59ca0856e
   src/main/java/org/noresponse/models/shared/UsageCount.java:
     last_write_checksum: sha1:84e36353ec61850e24622d045692f1abcf9cde8a
   src/main/java/org/noresponse/models/shared/UsageCountDepth.java:
@@ -4546,7 +4550,7 @@ examples:
           workspace_id: "tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM"
       responses:
         "200":
-          application/json: {"workspace_id": "tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "from": "2026-10-22", "to": "2026-10-23", "items": [{"environment": "live", "day": "2026-10-22", "metric": "assessments", "flow": "login", "depth": "quick", "count": 412}, {"environment": "live", "day": "2026-10-22", "metric": "assessments", "flow": "account_creation", "depth": "full", "count": 96}, {"environment": "live", "day": "2026-10-22", "metric": "webhook_deliveries", "count": 508}, {"environment": "live", "day": "2026-10-23", "metric": "assessments", "flow": "account_creation", "depth": "full", "count": 101}, {"environment": "live", "day": "2026-10-23", "metric": "key_usage_events", "count": 2330}, {"environment": "test", "day": "2026-10-23", "metric": "assessments", "flow": "purchase", "depth": "full", "count": 7}]}
+          application/json: {"workspace_id": "tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "from": "2026-10-22", "to": "2026-10-23", "items": [{"environment": "live", "day": "2026-10-22", "metric": "assessments", "flow": "login", "depth": "quick", "count": 412}, {"environment": "live", "day": "2026-10-22", "metric": "assessments", "flow": "account_creation", "depth": "full", "count": 96}, {"environment": "live", "day": "2026-10-22", "metric": "webhook_deliveries", "count": 508}, {"environment": "live", "day": "2026-10-23", "metric": "assessments", "flow": "account_creation", "depth": "full", "count": 101}, {"environment": "live", "day": "2026-10-23", "metric": "key_usage_events", "count": 2330}, {"environment": "test", "day": "2026-10-23", "metric": "assessments", "flow": "purchase", "depth": "full", "count": 7}], "console_lookups": {"used": 12, "limit": 50, "resets_at": "2026-10-24T00:00:00.000Z"}}
   createInvite:
     open:
       parameters:

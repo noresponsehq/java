@@ -37,7 +37,8 @@ public class Usage {
     /**
      * Read a workspace's usage.
      *
-     * <p>Read daily usage units for the environments you can access. These counts are unpriced.
+     * <p>Read daily usage units for the environments you can access. These counts are unpriced. With live
+     * access it also returns the daily console lookup cap: used, limit and resets_at.
      *
      * @return The call builder
      */
@@ -48,7 +49,8 @@ public class Usage {
     /**
      * Read a workspace's usage.
      *
-     * <p>Read daily usage units for the environments you can access. These counts are unpriced.
+     * <p>Read daily usage units for the environments you can access. These counts are unpriced. With live
+     * access it also returns the daily console lookup cap: used, limit and resets_at.
      *
      * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
      * @return The response from the API call
@@ -61,7 +63,8 @@ public class Usage {
     /**
      * Read a workspace's usage.
      *
-     * <p>Read daily usage units for the environments you can access. These counts are unpriced.
+     * <p>Read daily usage units for the environments you can access. These counts are unpriced. With live
+     * access it also returns the daily console lookup cap: used, limit and resets_at.
      *
      * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
      * @param from The first UTC day, as YYYY-MM-DD.
