@@ -36,7 +36,8 @@ public class AssessmentAggregate {
     private String to;
 
     /**
-     * The period each count covers, in UTC; a week starts on Monday.
+     * The period each count covers: an hour, or a day or a week (from Monday) in time_zone. Hour buckets
+     * are whole UTC hours in any time zone.
      */
     @JsonProperty("bucket")
     private Bucket bucket;
@@ -46,6 +47,13 @@ public class AssessmentAggregate {
 
     @JsonProperty("metrics")
     private List<AssessmentAggregateMetric> metrics;
+
+    /**
+     * The time zone whose local midnight started each day and week bucket, as requested; UTC when the
+     * request named none.
+     */
+    @JsonProperty("time_zone")
+    private String timeZone;
 
     /**
      * The calling workspace's configured retention period in days. Default 365 (12 months), which is also
@@ -83,6 +91,7 @@ public class AssessmentAggregate {
             @JsonProperty("bucket") @Nonnull Bucket bucket,
             @JsonProperty("group_by") @Nonnull List<AggregateDimension> groupBy,
             @JsonProperty("metrics") @Nonnull List<AssessmentAggregateMetric> metrics,
+            @JsonProperty("time_zone") @Nonnull String timeZone,
             @JsonProperty("retention_days") @Nullable Long retentionDays,
             @JsonProperty("groups_truncated") boolean groupsTruncated,
             @JsonProperty("coverage") @Nullable AssessmentAggregateCoverage coverage,
@@ -96,6 +105,8 @@ public class AssessmentAggregate {
                 Optional.ofNullable(groupBy).orElseThrow(() -> new IllegalArgumentException("groupBy cannot be null"));
         this.metrics =
                 Optional.ofNullable(metrics).orElseThrow(() -> new IllegalArgumentException("metrics cannot be null"));
+        this.timeZone = Optional.ofNullable(timeZone)
+                .orElseThrow(() -> new IllegalArgumentException("timeZone cannot be null"));
         this.retentionDays = Optional.ofNullable(retentionDays).orElse(Builder._SINGLETON_VALUE_RetentionDays.value());
         this.groupsTruncated = groupsTruncated;
         this.coverage = coverage;
@@ -109,9 +120,10 @@ public class AssessmentAggregate {
             @Nonnull Bucket bucket,
             @Nonnull List<AggregateDimension> groupBy,
             @Nonnull List<AssessmentAggregateMetric> metrics,
+            @Nonnull String timeZone,
             boolean groupsTruncated,
             @Nonnull List<AggregateBucket> buckets) {
-        this(from, to, bucket, groupBy, metrics, null, groupsTruncated, null, buckets);
+        this(from, to, bucket, groupBy, metrics, timeZone, null, groupsTruncated, null, buckets);
     }
 
     /**
@@ -130,7 +142,8 @@ public class AssessmentAggregate {
     }
 
     /**
-     * The period each count covers, in UTC; a week starts on Monday.
+     * The period each count covers: an hour, or a day or a week (from Monday) in time_zone. Hour buckets
+     * are whole UTC hours in any time zone.
      */
     public Bucket bucket() {
         return this.bucket;
@@ -142,6 +155,14 @@ public class AssessmentAggregate {
 
     public List<AssessmentAggregateMetric> metrics() {
         return this.metrics;
+    }
+
+    /**
+     * The time zone whose local midnight started each day and week bucket, as requested; UTC when the
+     * request named none.
+     */
+    public String timeZone() {
+        return this.timeZone;
     }
 
     /**
@@ -190,7 +211,8 @@ public class AssessmentAggregate {
     }
 
     /**
-     * The period each count covers, in UTC; a week starts on Monday.
+     * The period each count covers: an hour, or a day or a week (from Monday) in time_zone. Hour buckets
+     * are whole UTC hours in any time zone.
      */
     public AssessmentAggregate withBucket(@Nonnull Bucket bucket) {
         this.bucket = Utils.checkNotNull(bucket, "bucket");
@@ -204,6 +226,15 @@ public class AssessmentAggregate {
 
     public AssessmentAggregate withMetrics(@Nonnull List<AssessmentAggregateMetric> metrics) {
         this.metrics = Utils.checkNotNull(metrics, "metrics");
+        return this;
+    }
+
+    /**
+     * The time zone whose local midnight started each day and week bucket, as requested; UTC when the
+     * request named none.
+     */
+    public AssessmentAggregate withTimeZone(@Nonnull String timeZone) {
+        this.timeZone = Utils.checkNotNull(timeZone, "timeZone");
         return this;
     }
 
@@ -257,6 +288,7 @@ public class AssessmentAggregate {
                 && Utils.enhancedDeepEquals(this.bucket, other.bucket)
                 && Utils.enhancedDeepEquals(this.groupBy, other.groupBy)
                 && Utils.enhancedDeepEquals(this.metrics, other.metrics)
+                && Utils.enhancedDeepEquals(this.timeZone, other.timeZone)
                 && Utils.enhancedDeepEquals(this.retentionDays, other.retentionDays)
                 && Utils.enhancedDeepEquals(this.groupsTruncated, other.groupsTruncated)
                 && Utils.enhancedDeepEquals(this.coverage, other.coverage)
@@ -266,7 +298,17 @@ public class AssessmentAggregate {
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                schemaVersion, from, to, bucket, groupBy, metrics, retentionDays, groupsTruncated, coverage, buckets);
+                schemaVersion,
+                from,
+                to,
+                bucket,
+                groupBy,
+                metrics,
+                timeZone,
+                retentionDays,
+                groupsTruncated,
+                coverage,
+                buckets);
     }
 
     @Override
@@ -285,6 +327,8 @@ public class AssessmentAggregate {
                 groupBy,
                 "metrics",
                 metrics,
+                "timeZone",
+                timeZone,
                 "retentionDays",
                 retentionDays,
                 "groupsTruncated",
@@ -307,6 +351,8 @@ public class AssessmentAggregate {
         private List<AggregateDimension> groupBy;
 
         private List<AssessmentAggregateMetric> metrics;
+
+        private String timeZone;
 
         private Long retentionDays;
 
@@ -331,7 +377,8 @@ public class AssessmentAggregate {
         }
 
         /**
-         * The period each count covers, in UTC; a week starts on Monday.
+         * The period each count covers: an hour, or a day or a week (from Monday) in time_zone. Hour buckets
+         * are whole UTC hours in any time zone.
          */
         public Builder bucket(@Nonnull Bucket bucket) {
             this.bucket = Utils.checkNotNull(bucket, "bucket");
@@ -345,6 +392,15 @@ public class AssessmentAggregate {
 
         public Builder metrics(@Nonnull List<AssessmentAggregateMetric> metrics) {
             this.metrics = Utils.checkNotNull(metrics, "metrics");
+            return this;
+        }
+
+        /**
+         * The time zone whose local midnight started each day and week bucket, as requested; UTC when the
+         * request named none.
+         */
+        public Builder timeZone(@Nonnull String timeZone) {
+            this.timeZone = Utils.checkNotNull(timeZone, "timeZone");
             return this;
         }
 
@@ -385,7 +441,7 @@ public class AssessmentAggregate {
 
         public AssessmentAggregate build() {
             return new AssessmentAggregate(
-                    from, to, bucket, groupBy, metrics, retentionDays, groupsTruncated, coverage, buckets);
+                    from, to, bucket, groupBy, metrics, timeZone, retentionDays, groupsTruncated, coverage, buckets);
         }
 
         private static final LazySingletonValue<String> _SINGLETON_VALUE_SchemaVersion =

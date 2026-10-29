@@ -14,7 +14,10 @@ import java.util.Optional;
 import org.noresponse.utils.Utils;
 
 public class AggregateBucket {
-
+    /**
+     * The bucket's first instant, in UTC. A day or week bucket in a time zone starts at local midnight
+     * there, so in Asia/Tokyo a day starts at 15:00Z the day before.
+     */
     @JsonProperty("start")
     private String start;
 
@@ -69,6 +72,10 @@ public class AggregateBucket {
         this(start, null, null, null, null, null);
     }
 
+    /**
+     * The bucket's first instant, in UTC. A day or week bucket in a time zone starts at local midnight
+     * there, so in Asia/Tokyo a day starts at 15:00Z the day before.
+     */
     public String start() {
         return this.start;
     }
@@ -108,6 +115,10 @@ public class AggregateBucket {
         return new Builder();
     }
 
+    /**
+     * The bucket's first instant, in UTC. A day or week bucket in a time zone starts at local midnight
+     * there, so in Asia/Tokyo a day starts at 15:00Z the day before.
+     */
     public AggregateBucket withStart(@Nonnull String start) {
         this.start = Utils.checkNotNull(start, "start");
         return this;
@@ -208,6 +219,10 @@ public class AggregateBucket {
             // force use of static builder() method
         }
 
+        /**
+         * The bucket's first instant, in UTC. A day or week bucket in a time zone starts at local midnight
+         * there, so in Asia/Tokyo a day starts at 15:00Z the day before.
+         */
         public Builder start(@Nonnull String start) {
             this.start = Utils.checkNotNull(start, "start");
             return this;

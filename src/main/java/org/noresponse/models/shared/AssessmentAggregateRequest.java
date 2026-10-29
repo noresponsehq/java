@@ -22,7 +22,8 @@ import org.noresponse.utils.Utils;
  * assessment is first answered, not by scanning assessments. Each assessment counts once, by its first
  * answer (the answer served when it was first answered); later revisions and late results do not count
  * it again, and late_flips counts its later account decision changes. from and to start a bucket (an
- * hour, a UTC day, or a week from Monday 00:00 UTC), cover at most 366 days (31 for hour buckets) and
+ * hour, or a day or a week from Monday that starts at midnight in time_zone, UTC by default), cover at
+ * most 366 days (31 for hour buckets, 92 for day and week buckets in a time_zone other than UTC) and
  * from is inside the retention period.
  *
  * <p>The filters are POST /v1/assessments/search's and describe the first answer, so a cell drills down
@@ -49,10 +50,27 @@ public class AssessmentAggregateRequest {
     private String to;
 
     /**
-     * The period each count covers, in UTC; a week starts on Monday.
+     * The period each count covers: an hour, or a day or a week (from Monday) in time_zone. Hour buckets
+     * are whole UTC hours in any time zone.
      */
     @JsonProperty("bucket")
     private Bucket bucket;
+
+    /**
+     * The IANA time zone whose local midnight starts each day and week bucket, such as Europe/London or
+     * Asia/Kolkata; daylight saving changes make those days 23 or 25 hours long. A name the zone database
+     * does not know is refused (400 invalid_request naming time_zone). Day and week buckets in a zone
+     * other than UTC cover at most 92 days (400 invalid_request naming to); a year of them reads too many
+     * hourly counts to answer in time.
+     *
+     * <p>Hour buckets stay whole UTC hours. Bucket starts, from and to stay instants. With the default
+     * population, a zone whose local midnight falls inside a UTC hour (a half-hour offset such as
+     * Asia/Kolkata) is refused for day and week buckets, as those counts are kept by the hour;
+     * retained_first_answers counts it.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("time_zone")
+    private String timeZone;
 
     /**
      * At most two dimensions to count by, of which at most one is reason, lane, country or asn. An
@@ -200,6 +218,7 @@ public class AssessmentAggregateRequest {
             @JsonProperty("from") @Nonnull String from,
             @JsonProperty("to") @Nonnull String to,
             @JsonProperty("bucket") @Nonnull Bucket bucket,
+            @JsonProperty("time_zone") @Nullable String timeZone,
             @JsonProperty("group_by") @Nullable List<AggregateDimension> groupBy,
             @JsonProperty("metrics") @Nullable List<AssessmentAggregateRequestMetric> metrics,
             @JsonProperty("limit") @Nullable Long limit,
@@ -222,6 +241,7 @@ public class AssessmentAggregateRequest {
         this.to = Optional.ofNullable(to).orElseThrow(() -> new IllegalArgumentException("to cannot be null"));
         this.bucket =
                 Optional.ofNullable(bucket).orElseThrow(() -> new IllegalArgumentException("bucket cannot be null"));
+        this.timeZone = Optional.ofNullable(timeZone).orElse(Builder._SINGLETON_VALUE_TimeZone.value());
         this.groupBy = groupBy;
         this.metrics = metrics;
         this.limit = Optional.ofNullable(limit).orElse(Builder._SINGLETON_VALUE_Limit.value());
@@ -264,6 +284,7 @@ public class AssessmentAggregateRequest {
                 null,
                 null,
                 null,
+                null,
                 null);
     }
 
@@ -282,10 +303,27 @@ public class AssessmentAggregateRequest {
     }
 
     /**
-     * The period each count covers, in UTC; a week starts on Monday.
+     * The period each count covers: an hour, or a day or a week (from Monday) in time_zone. Hour buckets
+     * are whole UTC hours in any time zone.
      */
     public Bucket bucket() {
         return this.bucket;
+    }
+
+    /**
+     * The IANA time zone whose local midnight starts each day and week bucket, such as Europe/London or
+     * Asia/Kolkata; daylight saving changes make those days 23 or 25 hours long. A name the zone database
+     * does not know is refused (400 invalid_request naming time_zone). Day and week buckets in a zone
+     * other than UTC cover at most 92 days (400 invalid_request naming to); a year of them reads too many
+     * hourly counts to answer in time.
+     *
+     * <p>Hour buckets stay whole UTC hours. Bucket starts, from and to stay instants. With the default
+     * population, a zone whose local midnight falls inside a UTC hour (a half-hour offset such as
+     * Asia/Kolkata) is refused for day and week buckets, as those counts are kept by the hour;
+     * retained_first_answers counts it.
+     */
+    public Optional<String> timeZone() {
+        return Optional.ofNullable(this.timeZone);
     }
 
     /**
@@ -450,10 +488,28 @@ public class AssessmentAggregateRequest {
     }
 
     /**
-     * The period each count covers, in UTC; a week starts on Monday.
+     * The period each count covers: an hour, or a day or a week (from Monday) in time_zone. Hour buckets
+     * are whole UTC hours in any time zone.
      */
     public AssessmentAggregateRequest withBucket(@Nonnull Bucket bucket) {
         this.bucket = Utils.checkNotNull(bucket, "bucket");
+        return this;
+    }
+
+    /**
+     * The IANA time zone whose local midnight starts each day and week bucket, such as Europe/London or
+     * Asia/Kolkata; daylight saving changes make those days 23 or 25 hours long. A name the zone database
+     * does not know is refused (400 invalid_request naming time_zone). Day and week buckets in a zone
+     * other than UTC cover at most 92 days (400 invalid_request naming to); a year of them reads too many
+     * hourly counts to answer in time.
+     *
+     * <p>Hour buckets stay whole UTC hours. Bucket starts, from and to stay instants. With the default
+     * population, a zone whose local midnight falls inside a UTC hour (a half-hour offset such as
+     * Asia/Kolkata) is refused for day and week buckets, as those counts are kept by the hour;
+     * retained_first_answers counts it.
+     */
+    public AssessmentAggregateRequest withTimeZone(@Nullable String timeZone) {
+        this.timeZone = timeZone;
         return this;
     }
 
@@ -628,6 +684,7 @@ public class AssessmentAggregateRequest {
         return Utils.enhancedDeepEquals(this.from, other.from)
                 && Utils.enhancedDeepEquals(this.to, other.to)
                 && Utils.enhancedDeepEquals(this.bucket, other.bucket)
+                && Utils.enhancedDeepEquals(this.timeZone, other.timeZone)
                 && Utils.enhancedDeepEquals(this.groupBy, other.groupBy)
                 && Utils.enhancedDeepEquals(this.metrics, other.metrics)
                 && Utils.enhancedDeepEquals(this.limit, other.limit)
@@ -654,6 +711,7 @@ public class AssessmentAggregateRequest {
                 from,
                 to,
                 bucket,
+                timeZone,
                 groupBy,
                 metrics,
                 limit,
@@ -684,6 +742,8 @@ public class AssessmentAggregateRequest {
                 to,
                 "bucket",
                 bucket,
+                "timeZone",
+                timeZone,
                 "groupBy",
                 groupBy,
                 "metrics",
@@ -730,6 +790,8 @@ public class AssessmentAggregateRequest {
         private String to;
 
         private Bucket bucket;
+
+        private String timeZone;
 
         private List<AggregateDimension> groupBy;
 
@@ -788,10 +850,28 @@ public class AssessmentAggregateRequest {
         }
 
         /**
-         * The period each count covers, in UTC; a week starts on Monday.
+         * The period each count covers: an hour, or a day or a week (from Monday) in time_zone. Hour buckets
+         * are whole UTC hours in any time zone.
          */
         public Builder bucket(@Nonnull Bucket bucket) {
             this.bucket = Utils.checkNotNull(bucket, "bucket");
+            return this;
+        }
+
+        /**
+         * The IANA time zone whose local midnight starts each day and week bucket, such as Europe/London or
+         * Asia/Kolkata; daylight saving changes make those days 23 or 25 hours long. A name the zone database
+         * does not know is refused (400 invalid_request naming time_zone). Day and week buckets in a zone
+         * other than UTC cover at most 92 days (400 invalid_request naming to); a year of them reads too many
+         * hourly counts to answer in time.
+         *
+         * <p>Hour buckets stay whole UTC hours. Bucket starts, from and to stay instants. With the default
+         * population, a zone whose local midnight falls inside a UTC hour (a half-hour offset such as
+         * Asia/Kolkata) is refused for day and week buckets, as those counts are kept by the hour;
+         * retained_first_answers counts it.
+         */
+        public Builder timeZone(@Nullable String timeZone) {
+            this.timeZone = timeZone;
             return this;
         }
 
@@ -959,6 +1039,7 @@ public class AssessmentAggregateRequest {
                     from,
                     to,
                     bucket,
+                    timeZone,
                     groupBy,
                     metrics,
                     limit,
@@ -978,6 +1059,9 @@ public class AssessmentAggregateRequest {
                     scoreMax,
                     listMatch);
         }
+
+        private static final LazySingletonValue<String> _SINGLETON_VALUE_TimeZone =
+                new LazySingletonValue<>("time_zone", "\"UTC\"", new TypeReference<String>() {});
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =
                 new LazySingletonValue<>("limit", "20", new TypeReference<Long>() {});
