@@ -33,7 +33,7 @@ public class RiskDetails {
 
     /**
      * Names found next to the identifiers in breach records, merged, with the number of distinct tables
-     * each was seen in.
+     * each was seen in and the sites of those tables.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("breach_names")
@@ -77,7 +77,7 @@ public class RiskDetails {
 
     /**
      * Names found next to the identifiers in breach records, merged, with the number of distinct tables
-     * each was seen in.
+     * each was seen in and the sites of those tables.
      */
     public Optional<List<RiskDetailsBreachName>> breachNames() {
         return Optional.ofNullable(this.breachNames);
@@ -111,7 +111,7 @@ public class RiskDetails {
 
     /**
      * Names found next to the identifiers in breach records, merged, with the number of distinct tables
-     * each was seen in.
+     * each was seen in and the sites of those tables.
      */
     public RiskDetails withBreachNames(@Nullable List<RiskDetailsBreachName> breachNames) {
         this.breachNames = breachNames;
@@ -192,7 +192,7 @@ public class RiskDetails {
 
         /**
          * Names found next to the identifiers in breach records, merged, with the number of distinct tables
-         * each was seen in.
+         * each was seen in and the sites of those tables.
          */
         public Builder breachNames(@Nullable List<RiskDetailsBreachName> breachNames) {
             this.breachNames = breachNames;

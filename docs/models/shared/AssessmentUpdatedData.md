@@ -79,6 +79,8 @@ AssessmentUpdatedData value = AssessmentUpdatedData.of(Assessment.builder()
                     RiskDetailsBreachName.builder()
                         .value("Alex Example")
                         .seenIn(982972L)
+                        .sites(List.of(
+                            "forum.example.com"))
                         .build()))
                 .events(List.of(
                     RiskDetailsEvent.builder()
