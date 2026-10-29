@@ -495,8 +495,12 @@ public class Assessments {
      * decision, rather than the current account decision. Results can change between pages.
      *
      * <p>Keep the assessment version to retrieve the exact decision later. Each item's detail.identifiers
-     * holds the identifiers its assessment was sent, exactly as received. This read does not require an
-     * idempotency key.
+     * holds the identifiers its assessment was sent, exactly as received, and first_decision holds the
+     * decision of its first answer. email finds every assessment of the accounts that sent a mailbox,
+     * matched as lists match it.
+     *
+     * <p>changed keeps the assessments a later revision changed. total counts every match, exactly up to
+     * 10000. This read does not require an idempotency key.
      *
      * @return The call builder
      */
@@ -511,8 +515,12 @@ public class Assessments {
      * decision, rather than the current account decision. Results can change between pages.
      *
      * <p>Keep the assessment version to retrieve the exact decision later. Each item's detail.identifiers
-     * holds the identifiers its assessment was sent, exactly as received. This read does not require an
-     * idempotency key.
+     * holds the identifiers its assessment was sent, exactly as received, and first_decision holds the
+     * decision of its first answer. email finds every assessment of the accounts that sent a mailbox,
+     * matched as lists match it.
+     *
+     * <p>changed keeps the assessments a later revision changed. total counts every match, exactly up to
+     * 10000. This read does not require an idempotency key.
      *
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -529,8 +537,12 @@ public class Assessments {
      * decision, rather than the current account decision. Results can change between pages.
      *
      * <p>Keep the assessment version to retrieve the exact decision later. Each item's detail.identifiers
-     * holds the identifiers its assessment was sent, exactly as received. This read does not require an
-     * idempotency key.
+     * holds the identifiers its assessment was sent, exactly as received, and first_decision holds the
+     * decision of its first answer. email finds every assessment of the accounts that sent a mailbox,
+     * matched as lists match it.
+     *
+     * <p>changed keeps the assessments a later revision changed. total counts every match, exactly up to
+     * 10000. This read does not require an idempotency key.
      *
      * @param request The request object containing all the parameters for the API call.
      * @param options additional options

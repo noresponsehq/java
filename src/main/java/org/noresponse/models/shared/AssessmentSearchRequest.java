@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Boolean;
 import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
@@ -46,6 +47,17 @@ public class AssessmentSearchRequest {
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("account_id")
     private String accountId;
+
+    /**
+     * Assessments of every account that one of its retained admitted assessments sent this mailbox as
+     * identifiers.email, matched as lists match an email entry: case-insensitive, a +tag removed and, at
+     * gmail.com and googlemail.com, the dots of the local part ignored. Only assessments stored since
+     * email list matching began carry the mailbox. An address that is not a valid mailbox is refused with
+     * 400.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("email")
+    private String email;
 
     /**
      * The event an assessment is made for: account_creation (a user creates an account), login (a user
@@ -168,11 +180,21 @@ public class AssessmentSearchRequest {
     @JsonProperty("list_match")
     private ListMatch listMatch;
 
+    /**
+     * true returns only assessments whose latest stored revision's decision differs from their first
+     * answer's decision (see decision); false only the others. An assessment whose first answer or latest
+     * revision has no decision yet is not changed. Cannot be combined with revision first.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("changed")
+    private Boolean changed;
+
     @JsonCreator
     public AssessmentSearchRequest(
             @JsonProperty("from") @Nonnull String from,
             @JsonProperty("to") @Nonnull String to,
             @JsonProperty("account_id") @Nullable String accountId,
+            @JsonProperty("email") @Nullable String email,
             @JsonProperty("flow") @Nullable Flow flow,
             @JsonProperty("status") @Nullable Status status,
             @JsonProperty("recommendation") @Nullable Recommendation recommendation,
@@ -189,10 +211,12 @@ public class AssessmentSearchRequest {
             @JsonProperty("asn") @Nullable Long asn,
             @JsonProperty("score_min") @Nullable Long scoreMin,
             @JsonProperty("score_max") @Nullable Long scoreMax,
-            @JsonProperty("list_match") @Nullable ListMatch listMatch) {
+            @JsonProperty("list_match") @Nullable ListMatch listMatch,
+            @JsonProperty("changed") @Nullable Boolean changed) {
         this.from = Optional.ofNullable(from).orElseThrow(() -> new IllegalArgumentException("from cannot be null"));
         this.to = Optional.ofNullable(to).orElseThrow(() -> new IllegalArgumentException("to cannot be null"));
         this.accountId = accountId;
+        this.email = email;
         this.flow = flow;
         this.status = status;
         this.recommendation = recommendation;
@@ -210,12 +234,15 @@ public class AssessmentSearchRequest {
         this.scoreMin = scoreMin;
         this.scoreMax = scoreMax;
         this.listMatch = listMatch;
+        this.changed = changed;
     }
 
     public AssessmentSearchRequest(@Nonnull String from, @Nonnull String to) {
         this(
                 from,
                 to,
+                null,
+                null,
                 null,
                 null,
                 null,
@@ -258,6 +285,17 @@ public class AssessmentSearchRequest {
      */
     public Optional<String> accountId() {
         return Optional.ofNullable(this.accountId);
+    }
+
+    /**
+     * Assessments of every account that one of its retained admitted assessments sent this mailbox as
+     * identifiers.email, matched as lists match an email entry: case-insensitive, a +tag removed and, at
+     * gmail.com and googlemail.com, the dots of the local part ignored. Only assessments stored since
+     * email list matching began carry the mailbox. An address that is not a valid mailbox is refused with
+     * 400.
+     */
+    public Optional<String> email() {
+        return Optional.ofNullable(this.email);
     }
 
     /**
@@ -381,6 +419,15 @@ public class AssessmentSearchRequest {
         return Optional.ofNullable(this.listMatch);
     }
 
+    /**
+     * true returns only assessments whose latest stored revision's decision differs from their first
+     * answer's decision (see decision); false only the others. An assessment whose first answer or latest
+     * revision has no decision yet is not changed. Cannot be combined with revision first.
+     */
+    public Optional<Boolean> changed() {
+        return Optional.ofNullable(this.changed);
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -409,6 +456,18 @@ public class AssessmentSearchRequest {
      */
     public AssessmentSearchRequest withAccountId(@Nullable String accountId) {
         this.accountId = accountId;
+        return this;
+    }
+
+    /**
+     * Assessments of every account that one of its retained admitted assessments sent this mailbox as
+     * identifiers.email, matched as lists match an email entry: case-insensitive, a +tag removed and, at
+     * gmail.com and googlemail.com, the dots of the local part ignored. Only assessments stored since
+     * email list matching began carry the mailbox. An address that is not a valid mailbox is refused with
+     * 400.
+     */
+    public AssessmentSearchRequest withEmail(@Nullable String email) {
+        this.email = email;
         return this;
     }
 
@@ -550,6 +609,16 @@ public class AssessmentSearchRequest {
         return this;
     }
 
+    /**
+     * true returns only assessments whose latest stored revision's decision differs from their first
+     * answer's decision (see decision); false only the others. An assessment whose first answer or latest
+     * revision has no decision yet is not changed. Cannot be combined with revision first.
+     */
+    public AssessmentSearchRequest withChanged(@Nullable Boolean changed) {
+        this.changed = changed;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -562,6 +631,7 @@ public class AssessmentSearchRequest {
         return Utils.enhancedDeepEquals(this.from, other.from)
                 && Utils.enhancedDeepEquals(this.to, other.to)
                 && Utils.enhancedDeepEquals(this.accountId, other.accountId)
+                && Utils.enhancedDeepEquals(this.email, other.email)
                 && Utils.enhancedDeepEquals(this.flow, other.flow)
                 && Utils.enhancedDeepEquals(this.status, other.status)
                 && Utils.enhancedDeepEquals(this.recommendation, other.recommendation)
@@ -578,7 +648,8 @@ public class AssessmentSearchRequest {
                 && Utils.enhancedDeepEquals(this.asn, other.asn)
                 && Utils.enhancedDeepEquals(this.scoreMin, other.scoreMin)
                 && Utils.enhancedDeepEquals(this.scoreMax, other.scoreMax)
-                && Utils.enhancedDeepEquals(this.listMatch, other.listMatch);
+                && Utils.enhancedDeepEquals(this.listMatch, other.listMatch)
+                && Utils.enhancedDeepEquals(this.changed, other.changed);
     }
 
     @Override
@@ -587,6 +658,7 @@ public class AssessmentSearchRequest {
                 from,
                 to,
                 accountId,
+                email,
                 flow,
                 status,
                 recommendation,
@@ -603,7 +675,8 @@ public class AssessmentSearchRequest {
                 asn,
                 scoreMin,
                 scoreMax,
-                listMatch);
+                listMatch,
+                changed);
     }
 
     @Override
@@ -616,6 +689,8 @@ public class AssessmentSearchRequest {
                 to,
                 "accountId",
                 accountId,
+                "email",
+                email,
                 "flow",
                 flow,
                 "status",
@@ -649,7 +724,9 @@ public class AssessmentSearchRequest {
                 "scoreMax",
                 scoreMax,
                 "listMatch",
-                listMatch);
+                listMatch,
+                "changed",
+                changed);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -660,6 +737,8 @@ public class AssessmentSearchRequest {
         private String to;
 
         private String accountId;
+
+        private String email;
 
         private Flow flow;
 
@@ -695,6 +774,8 @@ public class AssessmentSearchRequest {
 
         private ListMatch listMatch;
 
+        private Boolean changed;
+
         private Builder() {
             // force use of static builder() method
         }
@@ -723,6 +804,18 @@ public class AssessmentSearchRequest {
          */
         public Builder accountId(@Nullable String accountId) {
             this.accountId = accountId;
+            return this;
+        }
+
+        /**
+         * Assessments of every account that one of its retained admitted assessments sent this mailbox as
+         * identifiers.email, matched as lists match an email entry: case-insensitive, a +tag removed and, at
+         * gmail.com and googlemail.com, the dots of the local part ignored. Only assessments stored since
+         * email list matching began carry the mailbox. An address that is not a valid mailbox is refused with
+         * 400.
+         */
+        public Builder email(@Nullable String email) {
+            this.email = email;
             return this;
         }
 
@@ -864,11 +957,22 @@ public class AssessmentSearchRequest {
             return this;
         }
 
+        /**
+         * true returns only assessments whose latest stored revision's decision differs from their first
+         * answer's decision (see decision); false only the others. An assessment whose first answer or latest
+         * revision has no decision yet is not changed. Cannot be combined with revision first.
+         */
+        public Builder changed(@Nullable Boolean changed) {
+            this.changed = changed;
+            return this;
+        }
+
         public AssessmentSearchRequest build() {
             return new AssessmentSearchRequest(
                     from,
                     to,
                     accountId,
+                    email,
                     flow,
                     status,
                     recommendation,
@@ -885,7 +989,8 @@ public class AssessmentSearchRequest {
                     asn,
                     scoreMin,
                     scoreMax,
-                    listMatch);
+                    listMatch,
+                    changed);
         }
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =

@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v9.1.0'
+    implementation 'com.github.noresponsehq:java:v9.2.0'
 }
 ```
 
@@ -39,7 +39,7 @@ dependencies {
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v9.1.0</version>
+  <version>v9.2.0</version>
 </dependency>
 ```
 

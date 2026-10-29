@@ -18,8 +18,9 @@ import org.noresponse.utils.Utils;
 /**
  * AssessmentSearchPage
  *
- * <p>A bounded page of latest assessment revisions, newest creation first. Each revision identifies the
- * exact result found; no current account risk is attached.
+ * <p>A bounded page of latest assessment revisions, newest creation first, with how many assessments
+ * match the filters. Each item is the revision found and its first answer's decision; no current
+ * account risk is attached.
  */
 public class AssessmentSearchPage {
     /**
@@ -29,7 +30,21 @@ public class AssessmentSearchPage {
     private String schemaVersion;
 
     @JsonProperty("items")
-    private List<AssessmentRevision> items;
+    private List<AssessmentSearchItem> items;
+
+    /**
+     * How many assessments match the filters over every page, counted when this page was read: exact up to
+     * 10000. At 10000 or more it is 10000 and total_capped is true. The cursor does not change it; a later
+     * page can count differently, as results are live.
+     */
+    @JsonProperty("total")
+    private long total;
+
+    /**
+     * True when at least 10000 assessments match, so total is 10000 and not the exact count.
+     */
+    @JsonProperty("total_capped")
+    private boolean totalCapped;
 
     /**
      * Opaque, expiring cursor bound to this environment, operation and every filter. Keep the filters
@@ -50,17 +65,21 @@ public class AssessmentSearchPage {
 
     @JsonCreator
     public AssessmentSearchPage(
-            @JsonProperty("items") @Nonnull List<AssessmentRevision> items,
+            @JsonProperty("items") @Nonnull List<AssessmentSearchItem> items,
+            @JsonProperty("total") long total,
+            @JsonProperty("total_capped") boolean totalCapped,
             @JsonProperty("next_cursor") @Nullable String nextCursor,
             @JsonProperty("retention_days") @Nullable Long retentionDays) {
         this.schemaVersion = Builder._SINGLETON_VALUE_SchemaVersion.value();
         this.items = Optional.ofNullable(items).orElseThrow(() -> new IllegalArgumentException("items cannot be null"));
+        this.total = total;
+        this.totalCapped = totalCapped;
         this.nextCursor = nextCursor;
         this.retentionDays = Optional.ofNullable(retentionDays).orElse(Builder._SINGLETON_VALUE_RetentionDays.value());
     }
 
-    public AssessmentSearchPage(@Nonnull List<AssessmentRevision> items) {
-        this(items, null, null);
+    public AssessmentSearchPage(@Nonnull List<AssessmentSearchItem> items, long total, boolean totalCapped) {
+        this(items, total, totalCapped, null, null);
     }
 
     /**
@@ -70,8 +89,24 @@ public class AssessmentSearchPage {
         return this.schemaVersion;
     }
 
-    public List<AssessmentRevision> items() {
+    public List<AssessmentSearchItem> items() {
         return this.items;
+    }
+
+    /**
+     * How many assessments match the filters over every page, counted when this page was read: exact up to
+     * 10000. At 10000 or more it is 10000 and total_capped is true. The cursor does not change it; a later
+     * page can count differently, as results are live.
+     */
+    public long total() {
+        return this.total;
+    }
+
+    /**
+     * True when at least 10000 assessments match, so total is 10000 and not the exact count.
+     */
+    public boolean totalCapped() {
+        return this.totalCapped;
     }
 
     /**
@@ -95,8 +130,26 @@ public class AssessmentSearchPage {
         return new Builder();
     }
 
-    public AssessmentSearchPage withItems(@Nonnull List<AssessmentRevision> items) {
+    public AssessmentSearchPage withItems(@Nonnull List<AssessmentSearchItem> items) {
         this.items = Utils.checkNotNull(items, "items");
+        return this;
+    }
+
+    /**
+     * How many assessments match the filters over every page, counted when this page was read: exact up to
+     * 10000. At 10000 or more it is 10000 and total_capped is true. The cursor does not change it; a later
+     * page can count differently, as results are live.
+     */
+    public AssessmentSearchPage withTotal(long total) {
+        this.total = total;
+        return this;
+    }
+
+    /**
+     * True when at least 10000 assessments match, so total is 10000 and not the exact count.
+     */
+    public AssessmentSearchPage withTotalCapped(boolean totalCapped) {
+        this.totalCapped = totalCapped;
         return this;
     }
 
@@ -130,13 +183,15 @@ public class AssessmentSearchPage {
         AssessmentSearchPage other = (AssessmentSearchPage) o;
         return Utils.enhancedDeepEquals(this.schemaVersion, other.schemaVersion)
                 && Utils.enhancedDeepEquals(this.items, other.items)
+                && Utils.enhancedDeepEquals(this.total, other.total)
+                && Utils.enhancedDeepEquals(this.totalCapped, other.totalCapped)
                 && Utils.enhancedDeepEquals(this.nextCursor, other.nextCursor)
                 && Utils.enhancedDeepEquals(this.retentionDays, other.retentionDays);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(schemaVersion, items, nextCursor, retentionDays);
+        return Utils.enhancedHash(schemaVersion, items, total, totalCapped, nextCursor, retentionDays);
     }
 
     @Override
@@ -147,6 +202,10 @@ public class AssessmentSearchPage {
                 schemaVersion,
                 "items",
                 items,
+                "total",
+                total,
+                "totalCapped",
+                totalCapped,
                 "nextCursor",
                 nextCursor,
                 "retentionDays",
@@ -156,7 +215,11 @@ public class AssessmentSearchPage {
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
 
-        private List<AssessmentRevision> items;
+        private List<AssessmentSearchItem> items;
+
+        private long total;
+
+        private boolean totalCapped;
 
         private String nextCursor;
 
@@ -166,8 +229,26 @@ public class AssessmentSearchPage {
             // force use of static builder() method
         }
 
-        public Builder items(@Nonnull List<AssessmentRevision> items) {
+        public Builder items(@Nonnull List<AssessmentSearchItem> items) {
             this.items = Utils.checkNotNull(items, "items");
+            return this;
+        }
+
+        /**
+         * How many assessments match the filters over every page, counted when this page was read: exact up to
+         * 10000. At 10000 or more it is 10000 and total_capped is true. The cursor does not change it; a later
+         * page can count differently, as results are live.
+         */
+        public Builder total(long total) {
+            this.total = total;
+            return this;
+        }
+
+        /**
+         * True when at least 10000 assessments match, so total is 10000 and not the exact count.
+         */
+        public Builder totalCapped(boolean totalCapped) {
+            this.totalCapped = totalCapped;
             return this;
         }
 
@@ -191,7 +272,7 @@ public class AssessmentSearchPage {
         }
 
         public AssessmentSearchPage build() {
-            return new AssessmentSearchPage(items, nextCursor, retentionDays);
+            return new AssessmentSearchPage(items, total, totalCapped, nextCursor, retentionDays);
         }
 
         private static final LazySingletonValue<String> _SINGLETON_VALUE_SchemaVersion =
