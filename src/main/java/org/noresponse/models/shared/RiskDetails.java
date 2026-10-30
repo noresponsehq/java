@@ -48,20 +48,32 @@ public class RiskDetails {
     @JsonProperty("events")
     private List<RiskDetailsEvent> events;
 
+    /**
+     * Every online-account search of the email or username: the platform, what the search came to and, for
+     * an account found, what the platform returned beside it. Found first, then not found, then searches
+     * that failed or are still running, each by platform name; at most 64. A failed or running search
+     * keeps its own outcome and is not reported as not_found.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("accounts")
+    private List<OnlineAccount> accounts;
+
     @JsonCreator
     public RiskDetails(
             @JsonProperty("phone_names") @Nullable List<RiskDetailsPhoneName> phoneNames,
             @JsonProperty("breaches") @Nullable List<Breach> breaches,
             @JsonProperty("breach_names") @Nullable List<RiskDetailsBreachName> breachNames,
-            @JsonProperty("events") @Nullable List<RiskDetailsEvent> events) {
+            @JsonProperty("events") @Nullable List<RiskDetailsEvent> events,
+            @JsonProperty("accounts") @Nullable List<OnlineAccount> accounts) {
         this.phoneNames = phoneNames;
         this.breaches = breaches;
         this.breachNames = breachNames;
         this.events = events;
+        this.accounts = accounts;
     }
 
     public RiskDetails() {
-        this(null, null, null, null);
+        this(null, null, null, null, null);
     }
 
     public Optional<List<RiskDetailsPhoneName>> phoneNames() {
@@ -90,6 +102,16 @@ public class RiskDetails {
      */
     public Optional<List<RiskDetailsEvent>> events() {
         return Optional.ofNullable(this.events);
+    }
+
+    /**
+     * Every online-account search of the email or username: the platform, what the search came to and, for
+     * an account found, what the platform returned beside it. Found first, then not found, then searches
+     * that failed or are still running, each by platform name; at most 64. A failed or running search
+     * keeps its own outcome and is not reported as not_found.
+     */
+    public Optional<List<OnlineAccount>> accounts() {
+        return Optional.ofNullable(this.accounts);
     }
 
     public static Builder builder() {
@@ -128,6 +150,17 @@ public class RiskDetails {
         return this;
     }
 
+    /**
+     * Every online-account search of the email or username: the platform, what the search came to and, for
+     * an account found, what the platform returned beside it. Found first, then not found, then searches
+     * that failed or are still running, each by platform name; at most 64. A failed or running search
+     * keeps its own outcome and is not reported as not_found.
+     */
+    public RiskDetails withAccounts(@Nullable List<OnlineAccount> accounts) {
+        this.accounts = accounts;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -140,12 +173,13 @@ public class RiskDetails {
         return Utils.enhancedDeepEquals(this.phoneNames, other.phoneNames)
                 && Utils.enhancedDeepEquals(this.breaches, other.breaches)
                 && Utils.enhancedDeepEquals(this.breachNames, other.breachNames)
-                && Utils.enhancedDeepEquals(this.events, other.events);
+                && Utils.enhancedDeepEquals(this.events, other.events)
+                && Utils.enhancedDeepEquals(this.accounts, other.accounts);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(phoneNames, breaches, breachNames, events);
+        return Utils.enhancedHash(phoneNames, breaches, breachNames, events, accounts);
     }
 
     @Override
@@ -159,7 +193,9 @@ public class RiskDetails {
                 "breachNames",
                 breachNames,
                 "events",
-                events);
+                events,
+                "accounts",
+                accounts);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -172,6 +208,8 @@ public class RiskDetails {
         private List<RiskDetailsBreachName> breachNames;
 
         private List<RiskDetailsEvent> events;
+
+        private List<OnlineAccount> accounts;
 
         private Builder() {
             // force use of static builder() method
@@ -209,8 +247,19 @@ public class RiskDetails {
             return this;
         }
 
+        /**
+         * Every online-account search of the email or username: the platform, what the search came to and, for
+         * an account found, what the platform returned beside it. Found first, then not found, then searches
+         * that failed or are still running, each by platform name; at most 64. A failed or running search
+         * keeps its own outcome and is not reported as not_found.
+         */
+        public Builder accounts(@Nullable List<OnlineAccount> accounts) {
+            this.accounts = accounts;
+            return this;
+        }
+
         public RiskDetails build() {
-            return new RiskDetails(phoneNames, breaches, breachNames, events);
+            return new RiskDetails(phoneNames, breaches, breachNames, events, accounts);
         }
     }
 }
