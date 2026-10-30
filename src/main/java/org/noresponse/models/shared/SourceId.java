@@ -19,8 +19,9 @@ import java.util.Optional;
  * SourceId
  *
  * <p>A NoResponse source: github (GitHub accounts), phone (the phone lookup), breach (breach exposure),
- * rdap (the email domain's registration), mx (the email domain's mail servers) or ipintel (IP
- * intelligence).
+ * rdap (the email domain's registration), mx (the email domain's mail servers), ipintel (IP
+ * intelligence) or an email account source that searches one platform for an account by email address
+ * (adobe, nvidia, wix, life360, zapier).
  */
 public class SourceId {
 
@@ -30,6 +31,11 @@ public class SourceId {
     public static final SourceId RDAP = new SourceId("rdap");
     public static final SourceId MX = new SourceId("mx");
     public static final SourceId IPINTEL = new SourceId("ipintel");
+    public static final SourceId ADOBE = new SourceId("adobe");
+    public static final SourceId NVIDIA = new SourceId("nvidia");
+    public static final SourceId WIX = new SourceId("wix");
+    public static final SourceId LIFE360 = new SourceId("life360");
+    public static final SourceId ZAPIER = new SourceId("zapier");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -106,6 +112,11 @@ public class SourceId {
         map.put("rdap", RDAP);
         map.put("mx", MX);
         map.put("ipintel", IPINTEL);
+        map.put("adobe", ADOBE);
+        map.put("nvidia", NVIDIA);
+        map.put("wix", WIX);
+        map.put("life360", LIFE360);
+        map.put("zapier", ZAPIER);
         return map;
     }
 
@@ -117,6 +128,11 @@ public class SourceId {
         map.put("rdap", SourceIdEnum.RDAP);
         map.put("mx", SourceIdEnum.MX);
         map.put("ipintel", SourceIdEnum.IPINTEL);
+        map.put("adobe", SourceIdEnum.ADOBE);
+        map.put("nvidia", SourceIdEnum.NVIDIA);
+        map.put("wix", SourceIdEnum.WIX);
+        map.put("life360", SourceIdEnum.LIFE360);
+        map.put("zapier", SourceIdEnum.ZAPIER);
         return map;
     }
 
@@ -128,6 +144,11 @@ public class SourceId {
         RDAP("rdap"),
         MX("mx"),
         IPINTEL("ipintel"),
+        ADOBE("adobe"),
+        NVIDIA("nvidia"),
+        WIX("wix"),
+        LIFE360("life360"),
+        ZAPIER("zapier"),
         ;
 
         private final String value;
