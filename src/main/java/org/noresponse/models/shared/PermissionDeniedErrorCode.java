@@ -25,6 +25,11 @@ public class PermissionDeniedErrorCode {
     public static final PermissionDeniedErrorCode WORKSPACE_FORBIDDEN =
             new PermissionDeniedErrorCode("workspace_forbidden");
     public static final PermissionDeniedErrorCode ROLE_FORBIDDEN = new PermissionDeniedErrorCode("role_forbidden");
+    public static final PermissionDeniedErrorCode EMAIL_UNVERIFIED = new PermissionDeniedErrorCode("email_unverified");
+    public static final PermissionDeniedErrorCode ONBOARDING_IN_REVIEW =
+            new PermissionDeniedErrorCode("onboarding_in_review");
+    public static final PermissionDeniedErrorCode ONBOARDING_REFUSED =
+            new PermissionDeniedErrorCode("onboarding_refused");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -97,6 +102,9 @@ public class PermissionDeniedErrorCode {
         Map<String, PermissionDeniedErrorCode> map = new LinkedHashMap<>();
         map.put("workspace_forbidden", WORKSPACE_FORBIDDEN);
         map.put("role_forbidden", ROLE_FORBIDDEN);
+        map.put("email_unverified", EMAIL_UNVERIFIED);
+        map.put("onboarding_in_review", ONBOARDING_IN_REVIEW);
+        map.put("onboarding_refused", ONBOARDING_REFUSED);
         return map;
     }
 
@@ -104,6 +112,9 @@ public class PermissionDeniedErrorCode {
         Map<String, PermissionDeniedErrorCodeEnum> map = new HashMap<>();
         map.put("workspace_forbidden", PermissionDeniedErrorCodeEnum.WORKSPACE_FORBIDDEN);
         map.put("role_forbidden", PermissionDeniedErrorCodeEnum.ROLE_FORBIDDEN);
+        map.put("email_unverified", PermissionDeniedErrorCodeEnum.EMAIL_UNVERIFIED);
+        map.put("onboarding_in_review", PermissionDeniedErrorCodeEnum.ONBOARDING_IN_REVIEW);
+        map.put("onboarding_refused", PermissionDeniedErrorCodeEnum.ONBOARDING_REFUSED);
         return map;
     }
 
@@ -111,6 +122,9 @@ public class PermissionDeniedErrorCode {
 
         WORKSPACE_FORBIDDEN("workspace_forbidden"),
         ROLE_FORBIDDEN("role_forbidden"),
+        EMAIL_UNVERIFIED("email_unverified"),
+        ONBOARDING_IN_REVIEW("onboarding_in_review"),
+        ONBOARDING_REFUSED("onboarding_refused"),
         ;
 
         private final String value;
