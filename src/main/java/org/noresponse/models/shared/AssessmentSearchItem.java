@@ -9,6 +9,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.lang.Override;
 import java.lang.String;
+import java.util.List;
 import java.util.Optional;
 import org.noresponse.utils.LazySingletonValue;
 import org.noresponse.utils.Utils;
@@ -90,6 +91,17 @@ public class AssessmentSearchItem {
     @JsonProperty("matched_identifier")
     private IdentifierMatch matchedIdentifier;
 
+    /**
+     * Present only for identifier_expression. All satisfied unique terms, ordered by term_index, with
+     * original submitted values and retained assessment witnesses. A duplicate normalized term appears
+     * once at its first raw leaf index.
+     *
+     * <p>The legacy single identifier filter instead returns matched_identifier.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("matched_identifiers")
+    private List<IdentifierTermMatch> matchedIdentifiers;
+
     @JsonCreator
     public AssessmentSearchItem(
             @JsonProperty("id") @Nonnull String id,
@@ -98,7 +110,8 @@ public class AssessmentSearchItem {
             @JsonProperty("depth") @Nonnull Depth depth,
             @JsonProperty("detail") @Nonnull AssessmentDetail detail,
             @JsonProperty("first_decision") @Nullable Decision firstDecision,
-            @JsonProperty("matched_identifier") @Nullable IdentifierMatch matchedIdentifier) {
+            @JsonProperty("matched_identifier") @Nullable IdentifierMatch matchedIdentifier,
+            @JsonProperty("matched_identifiers") @Nullable List<IdentifierTermMatch> matchedIdentifiers) {
         this.schemaVersion = Builder._SINGLETON_VALUE_SchemaVersion.value();
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.status =
@@ -109,6 +122,7 @@ public class AssessmentSearchItem {
                 Optional.ofNullable(detail).orElseThrow(() -> new IllegalArgumentException("detail cannot be null"));
         this.firstDecision = firstDecision;
         this.matchedIdentifier = matchedIdentifier;
+        this.matchedIdentifiers = matchedIdentifiers;
     }
 
     public AssessmentSearchItem(
@@ -117,7 +131,7 @@ public class AssessmentSearchItem {
             @Nonnull Flow flow,
             @Nonnull Depth depth,
             @Nonnull AssessmentDetail detail) {
-        this(id, status, flow, depth, detail, null, null);
+        this(id, status, flow, depth, detail, null, null, null);
     }
 
     /**
@@ -193,6 +207,17 @@ public class AssessmentSearchItem {
      */
     public Optional<IdentifierMatch> matchedIdentifier() {
         return Optional.ofNullable(this.matchedIdentifier);
+    }
+
+    /**
+     * Present only for identifier_expression. All satisfied unique terms, ordered by term_index, with
+     * original submitted values and retained assessment witnesses. A duplicate normalized term appears
+     * once at its first raw leaf index.
+     *
+     * <p>The legacy single identifier filter instead returns matched_identifier.
+     */
+    public Optional<List<IdentifierTermMatch>> matchedIdentifiers() {
+        return Optional.ofNullable(this.matchedIdentifiers);
     }
 
     public static Builder builder() {
@@ -274,6 +299,18 @@ public class AssessmentSearchItem {
         return this;
     }
 
+    /**
+     * Present only for identifier_expression. All satisfied unique terms, ordered by term_index, with
+     * original submitted values and retained assessment witnesses. A duplicate normalized term appears
+     * once at its first raw leaf index.
+     *
+     * <p>The legacy single identifier filter instead returns matched_identifier.
+     */
+    public AssessmentSearchItem withMatchedIdentifiers(@Nullable List<IdentifierTermMatch> matchedIdentifiers) {
+        this.matchedIdentifiers = matchedIdentifiers;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -290,12 +327,14 @@ public class AssessmentSearchItem {
                 && Utils.enhancedDeepEquals(this.depth, other.depth)
                 && Utils.enhancedDeepEquals(this.detail, other.detail)
                 && Utils.enhancedDeepEquals(this.firstDecision, other.firstDecision)
-                && Utils.enhancedDeepEquals(this.matchedIdentifier, other.matchedIdentifier);
+                && Utils.enhancedDeepEquals(this.matchedIdentifier, other.matchedIdentifier)
+                && Utils.enhancedDeepEquals(this.matchedIdentifiers, other.matchedIdentifiers);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(schemaVersion, id, status, flow, depth, detail, firstDecision, matchedIdentifier);
+        return Utils.enhancedHash(
+                schemaVersion, id, status, flow, depth, detail, firstDecision, matchedIdentifier, matchedIdentifiers);
     }
 
     @Override
@@ -317,7 +356,9 @@ public class AssessmentSearchItem {
                 "firstDecision",
                 firstDecision,
                 "matchedIdentifier",
-                matchedIdentifier);
+                matchedIdentifier,
+                "matchedIdentifiers",
+                matchedIdentifiers);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -336,6 +377,8 @@ public class AssessmentSearchItem {
         private Decision firstDecision;
 
         private IdentifierMatch matchedIdentifier;
+
+        private List<IdentifierTermMatch> matchedIdentifiers;
 
         private Builder() {
             // force use of static builder() method
@@ -416,8 +459,21 @@ public class AssessmentSearchItem {
             return this;
         }
 
+        /**
+         * Present only for identifier_expression. All satisfied unique terms, ordered by term_index, with
+         * original submitted values and retained assessment witnesses. A duplicate normalized term appears
+         * once at its first raw leaf index.
+         *
+         * <p>The legacy single identifier filter instead returns matched_identifier.
+         */
+        public Builder matchedIdentifiers(@Nullable List<IdentifierTermMatch> matchedIdentifiers) {
+            this.matchedIdentifiers = matchedIdentifiers;
+            return this;
+        }
+
         public AssessmentSearchItem build() {
-            return new AssessmentSearchItem(id, status, flow, depth, detail, firstDecision, matchedIdentifier);
+            return new AssessmentSearchItem(
+                    id, status, flow, depth, detail, firstDecision, matchedIdentifier, matchedIdentifiers);
         }
 
         private static final LazySingletonValue<String> _SINGLETON_VALUE_SchemaVersion =

@@ -1244,7 +1244,7 @@ public class Application {
 
 ## search
 
-Search retained assessments created in [from,to), at most 366 days. identifier directly matches that assessment's submitted email, phone or customer-namespace username using exact, canonical or explicitly selected email mailbox matching. matched_identifier explains the original value and match basis. Legacy email keeps its account-wide mailbox semantics and cannot be combined with identifier. Other filters combine using AND and describe assessment decisions, separate from current account decisions. Each item carries the original submitted identifiers and its first_decision when available. Newest-created order has an assessment-ID tie break. Results are live across pages; each page's total and items use one database snapshot. Totals are exact below 10000 and capped at 10000. Requires history or investigate authority and identifier-read permission for identifier/email filters; detailed mode also requires detailed permission. No Idempotency-Key.
+Search retained assessments created in [from,to), at most 366 days. identifier directly matches that assessment's submitted email, phone or customer-namespace username using exact, canonical or explicitly selected email mailbox matching. matched_identifier explains the original value and match basis. Legacy email keeps its account-wide mailbox semantics and cannot be combined with identifier. Other filters combine using AND and describe assessment decisions, separate from current account decisions. Each item carries the original submitted identifiers and its first_decision when available. Newest-created order has an assessment-ID tie break. Results are live across pages; each page's total and items use one database snapshot. Totals are exact below 10000 and capped at 10000. Requires history or investigate authority and identifier-read permission for identifier, identifier_expression or email filters; detailed mode also requires detailed permission. No Idempotency-Key. identifier_expression combines submitted terms with bounded AND/OR, at most 8 raw terms and 3 group levels. Each node selects exactly one of term, and, or. Groups have 2 to 8 operands. Duplicate normalized terms are idempotent and still count toward the limit. identifier_expression, identifier and email are mutually exclusive. Expression results use matched_identifiers with original submitted witnesses and zero-based depth-first term_index. All satisfied unique terms are returned in first-occurrence order. Cursors bind scope, ordered structure, original values, matching modes and all other filters; changing only page limit is allowed. Expression scope must be assessment: each returned assessment itself satisfies the complete expression. Scope account is rejected with 400 invalid_request; use account search for historical combinations.
 
 ### Example Usage
 
@@ -1253,6 +1253,7 @@ Search retained assessments created in [from,to), at most 366 days. identifier d
 package hello.world;
 
 import java.lang.Exception;
+import java.util.List;
 import org.noresponse.NoResponse;
 import org.noresponse.models.errors.AuthenticationException;
 import org.noresponse.models.errors.BadRequestException;
@@ -1262,10 +1263,14 @@ import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.SearchAssessmentsResponse;
 import org.noresponse.models.shared.AssessmentSearchRequest;
+import org.noresponse.models.shared.IdentifierExpression;
+import org.noresponse.models.shared.IdentifierExpressionNode;
+import org.noresponse.models.shared.IdentifierExpressionNodeLevelOne;
+import org.noresponse.models.shared.IdentifierExpressionNodeLevelTwo;
 import org.noresponse.models.shared.IdentifierSearch;
 import org.noresponse.models.shared.IdentifierSearchKind;
 import org.noresponse.models.shared.Match;
-import org.noresponse.models.shared.Namespace;
+import org.noresponse.models.shared.ScopeEnum;
 
 public class Application {
 
@@ -1278,11 +1283,35 @@ public class Application {
         AssessmentSearchRequest req = AssessmentSearchRequest.builder()
                 .from("2026-10-01T00:00:00Z")
                 .to("2026-10-02T00:00:00Z")
-                .identifier(IdentifierSearch.builder()
-                    .kind(IdentifierSearchKind.USERNAME)
-                    .value("janedoe")
-                    .match(Match.CANONICAL)
-                    .namespace(Namespace.CUSTOMER)
+                .identifierExpression(IdentifierExpression.builder()
+                    .scope(ScopeEnum.ASSESSMENT)
+                    .expression(IdentifierExpressionNode.builder()
+                        .and(List.of(
+                            IdentifierExpressionNodeLevelTwo.builder()
+                                .term(IdentifierSearch.builder()
+                                    .kind(IdentifierSearchKind.PHONE)
+                                    .value("+14155552671")
+                                    .match(Match.CANONICAL)
+                                    .build())
+                                .build(),
+                            IdentifierExpressionNodeLevelTwo.builder()
+                                .or(List.of(
+                                    IdentifierExpressionNodeLevelOne.builder()
+                                        .term(IdentifierSearch.builder()
+                                            .kind(IdentifierSearchKind.EMAIL)
+                                            .value("case@example.com")
+                                            .match(Match.EXACT)
+                                            .build())
+                                        .build(),
+                                    IdentifierExpressionNodeLevelOne.builder()
+                                        .term(IdentifierSearch.builder()
+                                            .kind(IdentifierSearchKind.EMAIL)
+                                            .value("other@example.com")
+                                            .match(Match.EXACT)
+                                            .build())
+                                        .build()))
+                                .build()))
+                        .build())
                     .build())
                 .build();
 
@@ -1291,7 +1320,7 @@ public class Application {
                 .call();
 
         if (res.assessmentSearchPage().isPresent()) {
-            System.out.println(res.assessmentSearchPage().get());
+            System.out.println(res.assessmentSearchPage().get().total());
         }
     }
 }

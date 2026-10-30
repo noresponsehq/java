@@ -75,6 +75,17 @@ public class AccountDirectoryPageItem {
     @JsonProperty("matched_identifier")
     private IdentifierMatch matchedIdentifier;
 
+    /**
+     * Present only for identifier_expression. All satisfied unique terms, ordered by term_index, with
+     * original submitted values and retained assessment witnesses. A duplicate normalized term appears
+     * once at its first raw leaf index.
+     *
+     * <p>The legacy single identifier filter instead returns matched_identifier.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("matched_identifiers")
+    private List<IdentifierTermMatch> matchedIdentifiers;
+
     @JsonCreator
     public AccountDirectoryPageItem(
             @JsonProperty("waiting_for") @Nullable List<WaitingFor> waitingFor,
@@ -82,7 +93,8 @@ public class AccountDirectoryPageItem {
             @JsonProperty("latest") @Nonnull AssessmentRevision latest,
             @JsonProperty("current") @Nullable Account current,
             @JsonProperty("assessments") long assessments,
-            @JsonProperty("matched_identifier") @Nullable IdentifierMatch matchedIdentifier) {
+            @JsonProperty("matched_identifier") @Nullable IdentifierMatch matchedIdentifier,
+            @JsonProperty("matched_identifiers") @Nullable List<IdentifierTermMatch> matchedIdentifiers) {
         this.waitingFor = waitingFor;
         this.accountId = Optional.ofNullable(accountId)
                 .orElseThrow(() -> new IllegalArgumentException("accountId cannot be null"));
@@ -91,10 +103,11 @@ public class AccountDirectoryPageItem {
         this.current = current;
         this.assessments = assessments;
         this.matchedIdentifier = matchedIdentifier;
+        this.matchedIdentifiers = matchedIdentifiers;
     }
 
     public AccountDirectoryPageItem(@Nonnull String accountId, @Nonnull AssessmentRevision latest, long assessments) {
-        this(null, accountId, latest, null, assessments, null);
+        this(null, accountId, latest, null, assessments, null, null);
     }
 
     /**
@@ -160,6 +173,17 @@ public class AccountDirectoryPageItem {
      */
     public Optional<IdentifierMatch> matchedIdentifier() {
         return Optional.ofNullable(this.matchedIdentifier);
+    }
+
+    /**
+     * Present only for identifier_expression. All satisfied unique terms, ordered by term_index, with
+     * original submitted values and retained assessment witnesses. A duplicate normalized term appears
+     * once at its first raw leaf index.
+     *
+     * <p>The legacy single identifier filter instead returns matched_identifier.
+     */
+    public Optional<List<IdentifierTermMatch>> matchedIdentifiers() {
+        return Optional.ofNullable(this.matchedIdentifiers);
     }
 
     public static Builder builder() {
@@ -237,6 +261,18 @@ public class AccountDirectoryPageItem {
         return this;
     }
 
+    /**
+     * Present only for identifier_expression. All satisfied unique terms, ordered by term_index, with
+     * original submitted values and retained assessment witnesses. A duplicate normalized term appears
+     * once at its first raw leaf index.
+     *
+     * <p>The legacy single identifier filter instead returns matched_identifier.
+     */
+    public AccountDirectoryPageItem withMatchedIdentifiers(@Nullable List<IdentifierTermMatch> matchedIdentifiers) {
+        this.matchedIdentifiers = matchedIdentifiers;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -251,12 +287,14 @@ public class AccountDirectoryPageItem {
                 && Utils.enhancedDeepEquals(this.latest, other.latest)
                 && Utils.enhancedDeepEquals(this.current, other.current)
                 && Utils.enhancedDeepEquals(this.assessments, other.assessments)
-                && Utils.enhancedDeepEquals(this.matchedIdentifier, other.matchedIdentifier);
+                && Utils.enhancedDeepEquals(this.matchedIdentifier, other.matchedIdentifier)
+                && Utils.enhancedDeepEquals(this.matchedIdentifiers, other.matchedIdentifiers);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(waitingFor, accountId, latest, current, assessments, matchedIdentifier);
+        return Utils.enhancedHash(
+                waitingFor, accountId, latest, current, assessments, matchedIdentifier, matchedIdentifiers);
     }
 
     @Override
@@ -274,7 +312,9 @@ public class AccountDirectoryPageItem {
                 "assessments",
                 assessments,
                 "matchedIdentifier",
-                matchedIdentifier);
+                matchedIdentifier,
+                "matchedIdentifiers",
+                matchedIdentifiers);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -291,6 +331,8 @@ public class AccountDirectoryPageItem {
         private long assessments;
 
         private IdentifierMatch matchedIdentifier;
+
+        private List<IdentifierTermMatch> matchedIdentifiers;
 
         private Builder() {
             // force use of static builder() method
@@ -367,8 +409,21 @@ public class AccountDirectoryPageItem {
             return this;
         }
 
+        /**
+         * Present only for identifier_expression. All satisfied unique terms, ordered by term_index, with
+         * original submitted values and retained assessment witnesses. A duplicate normalized term appears
+         * once at its first raw leaf index.
+         *
+         * <p>The legacy single identifier filter instead returns matched_identifier.
+         */
+        public Builder matchedIdentifiers(@Nullable List<IdentifierTermMatch> matchedIdentifiers) {
+            this.matchedIdentifiers = matchedIdentifiers;
+            return this;
+        }
+
         public AccountDirectoryPageItem build() {
-            return new AccountDirectoryPageItem(waitingFor, accountId, latest, current, assessments, matchedIdentifier);
+            return new AccountDirectoryPageItem(
+                    waitingFor, accountId, latest, current, assessments, matchedIdentifier, matchedIdentifiers);
         }
     }
 }

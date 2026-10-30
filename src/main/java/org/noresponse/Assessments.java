@@ -507,8 +507,22 @@ public class Assessments {
      * <p>Newest-created order has an assessment-ID tie break. Results are live across pages; each page's
      * total and items use one database snapshot. Totals are exact below 10000 and capped at 10000.
      *
-     * <p>Requires history or investigate authority and identifier-read permission for identifier/email
-     * filters; detailed mode also requires detailed permission. No Idempotency-Key.
+     * <p>Requires history or investigate authority and identifier-read permission for identifier,
+     * identifier_expression or email filters; detailed mode also requires detailed permission. No
+     * Idempotency-Key. identifier_expression combines submitted terms with bounded AND/OR, at most 8 raw
+     * terms and 3 group levels.
+     *
+     * <p>Each node selects exactly one of term, and, or. Groups have 2 to 8 operands. Duplicate normalized
+     * terms are idempotent and still count toward the limit.
+     *
+     * <p>identifier_expression, identifier and email are mutually exclusive. Expression results use
+     * matched_identifiers with original submitted witnesses and zero-based depth-first term_index. All
+     * satisfied unique terms are returned in first-occurrence order.
+     *
+     * <p>Cursors bind scope, ordered structure, original values, matching modes and all other filters;
+     * changing only page limit is allowed. Expression scope must be assessment: each returned assessment
+     * itself satisfies the complete expression. Scope account is rejected with 400 invalid_request; use
+     * account search for historical combinations.
      *
      * @return The call builder
      */
@@ -532,8 +546,22 @@ public class Assessments {
      * <p>Newest-created order has an assessment-ID tie break. Results are live across pages; each page's
      * total and items use one database snapshot. Totals are exact below 10000 and capped at 10000.
      *
-     * <p>Requires history or investigate authority and identifier-read permission for identifier/email
-     * filters; detailed mode also requires detailed permission. No Idempotency-Key.
+     * <p>Requires history or investigate authority and identifier-read permission for identifier,
+     * identifier_expression or email filters; detailed mode also requires detailed permission. No
+     * Idempotency-Key. identifier_expression combines submitted terms with bounded AND/OR, at most 8 raw
+     * terms and 3 group levels.
+     *
+     * <p>Each node selects exactly one of term, and, or. Groups have 2 to 8 operands. Duplicate normalized
+     * terms are idempotent and still count toward the limit.
+     *
+     * <p>identifier_expression, identifier and email are mutually exclusive. Expression results use
+     * matched_identifiers with original submitted witnesses and zero-based depth-first term_index. All
+     * satisfied unique terms are returned in first-occurrence order.
+     *
+     * <p>Cursors bind scope, ordered structure, original values, matching modes and all other filters;
+     * changing only page limit is allowed. Expression scope must be assessment: each returned assessment
+     * itself satisfies the complete expression. Scope account is rejected with 400 invalid_request; use
+     * account search for historical combinations.
      *
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -559,8 +587,22 @@ public class Assessments {
      * <p>Newest-created order has an assessment-ID tie break. Results are live across pages; each page's
      * total and items use one database snapshot. Totals are exact below 10000 and capped at 10000.
      *
-     * <p>Requires history or investigate authority and identifier-read permission for identifier/email
-     * filters; detailed mode also requires detailed permission. No Idempotency-Key.
+     * <p>Requires history or investigate authority and identifier-read permission for identifier,
+     * identifier_expression or email filters; detailed mode also requires detailed permission. No
+     * Idempotency-Key. identifier_expression combines submitted terms with bounded AND/OR, at most 8 raw
+     * terms and 3 group levels.
+     *
+     * <p>Each node selects exactly one of term, and, or. Groups have 2 to 8 operands. Duplicate normalized
+     * terms are idempotent and still count toward the limit.
+     *
+     * <p>identifier_expression, identifier and email are mutually exclusive. Expression results use
+     * matched_identifiers with original submitted witnesses and zero-based depth-first term_index. All
+     * satisfied unique terms are returned in first-occurrence order.
+     *
+     * <p>Cursors bind scope, ordered structure, original values, matching modes and all other filters;
+     * changing only page limit is allowed. Expression scope must be assessment: each returned assessment
+     * itself satisfies the complete expression. Scope account is rejected with 400 invalid_request; use
+     * account search for historical combinations.
      *
      * @param request The request object containing all the parameters for the API call.
      * @param options additional options

@@ -1095,7 +1095,7 @@ public class Application {
 
 ## search
 
-Search distinct accounts observed in retained assessments in this environment. identifier matches an exact, canonical or explicitly selected mailbox form of a submitted email, phone or customer-namespace username. It matches historical retained inputs and returns matched_identifier with the original value and matching assessment. Each row has its newest retained assessment, current account decision when available, retained assessment count, and total distinct-account count. identifier and legacy email are mutually exclusive; account_id and needs_action combine with either using AND. Set needs_action to select accounts with a retained open or in-progress review, or a current review/block account decision without an effective retained account outcome. This filter applies before counting and pagination and adds waiting_for reasons. Current decisions include account list overrides and shared-key scoring and preserve admission holds. Typed identifier search uses stable opaque account order; ordinary and legacy email searches retain newest-seen order. Results are live across pages; each page's items and total share a database snapshot, while current account risk is read separately. Cursors are expiring and bound to scope, operation and filters. Totals are exact below 10000 and capped at 10000. Requires history or investigate authority and identifier-read permission for identifier or email filtering. needs_action additionally requires management scope. Source-discovered associations are not searched and equality is not verified ownership.
+Search distinct accounts observed in retained assessments in this environment. identifier matches an exact, canonical or explicitly selected mailbox form of a submitted email, phone or customer-namespace username. It matches historical retained inputs and returns matched_identifier with the original value and matching assessment. Each row has its newest retained assessment, current account decision when available, retained assessment count, and total distinct-account count. identifier and legacy email are mutually exclusive; account_id and needs_action combine with either using AND. Set needs_action to select accounts with a retained open or in-progress review, or a current review/block account decision without an effective retained account outcome. This filter applies before counting and pagination and adds waiting_for reasons. Current decisions include account list overrides and shared-key scoring and preserve admission holds. Typed identifier search uses stable opaque account order; ordinary and legacy email searches retain newest-seen order. Results are live across pages; each page's items and total share a database snapshot, while current account risk is read separately. Cursors are expiring and bound to scope, operation and filters. Totals are exact below 10000 and capped at 10000. Requires history or investigate authority and identifier-read permission for identifier, identifier_expression or email filtering. needs_action additionally requires management scope. Source-discovered associations are not searched and equality is not verified ownership. identifier_expression combines submitted terms with bounded AND/OR, at most 8 raw terms and 3 group levels. Each node selects exactly one of term, and, or. Groups have 2 to 8 operands. Duplicate normalized terms are idempotent and still count toward the limit. identifier_expression, identifier and email are mutually exclusive. Expression results use matched_identifiers with original submitted witnesses and zero-based depth-first term_index. All satisfied unique terms are returned in first-occurrence order. Cursors bind scope, ordered structure, original values, matching modes and all other filters; changing only page limit is allowed. Required expression scope assessment evaluates the whole expression in one retained submission; scope account allows different retained submissions of the same account to satisfy different terms. Both use stable opaque account ordering and distinct-account counting before pagination.
 
 ### Example Usage
 
@@ -1104,6 +1104,7 @@ Search distinct accounts observed in retained assessments in this environment. i
 package hello.world;
 
 import java.lang.Exception;
+import java.util.List;
 import org.noresponse.NoResponse;
 import org.noresponse.models.errors.AuthenticationException;
 import org.noresponse.models.errors.BadRequestException;
@@ -1113,10 +1114,14 @@ import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.SearchAccountsResponse;
 import org.noresponse.models.shared.AccountDirectorySearchRequest;
+import org.noresponse.models.shared.IdentifierExpression;
+import org.noresponse.models.shared.IdentifierExpressionNode;
+import org.noresponse.models.shared.IdentifierExpressionNodeLevelOne;
+import org.noresponse.models.shared.IdentifierExpressionNodeLevelTwo;
 import org.noresponse.models.shared.IdentifierSearch;
 import org.noresponse.models.shared.IdentifierSearchKind;
 import org.noresponse.models.shared.Match;
-import org.noresponse.models.shared.Namespace;
+import org.noresponse.models.shared.ScopeEnum;
 
 public class Application {
 
@@ -1127,11 +1132,35 @@ public class Application {
             .build();
 
         AccountDirectorySearchRequest req = AccountDirectorySearchRequest.builder()
-                .identifier(IdentifierSearch.builder()
-                    .kind(IdentifierSearchKind.USERNAME)
-                    .value("janedoe")
-                    .match(Match.CANONICAL)
-                    .namespace(Namespace.CUSTOMER)
+                .identifierExpression(IdentifierExpression.builder()
+                    .scope(ScopeEnum.ACCOUNT)
+                    .expression(IdentifierExpressionNode.builder()
+                        .and(List.of(
+                            IdentifierExpressionNodeLevelTwo.builder()
+                                .term(IdentifierSearch.builder()
+                                    .kind(IdentifierSearchKind.PHONE)
+                                    .value("+14155552671")
+                                    .match(Match.CANONICAL)
+                                    .build())
+                                .build(),
+                            IdentifierExpressionNodeLevelTwo.builder()
+                                .or(List.of(
+                                    IdentifierExpressionNodeLevelOne.builder()
+                                        .term(IdentifierSearch.builder()
+                                            .kind(IdentifierSearchKind.EMAIL)
+                                            .value("case@example.com")
+                                            .match(Match.EXACT)
+                                            .build())
+                                        .build(),
+                                    IdentifierExpressionNodeLevelOne.builder()
+                                        .term(IdentifierSearch.builder()
+                                            .kind(IdentifierSearchKind.EMAIL)
+                                            .value("other@example.com")
+                                            .match(Match.EXACT)
+                                            .build())
+                                        .build()))
+                                .build()))
+                        .build())
                     .build())
                 .build();
 
@@ -1140,7 +1169,7 @@ public class Application {
                 .call();
 
         if (res.accountDirectoryPage().isPresent()) {
-            System.out.println(res.accountDirectoryPage().get());
+            System.out.println(res.accountDirectoryPage().get().total());
         }
     }
 }

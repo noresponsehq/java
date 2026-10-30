@@ -26,7 +26,12 @@ import org.noresponse.utils.Utils;
  * ordering.
  *
  * <p>Pages are live, not a cross-page snapshot. Requires history or investigate authority and
- * identifier-read permission for identifier or email filtering.
+ * identifier-read permission for identifier, identifier_expression or email filtering.
+ * identifier_expression explicitly chooses scope assessment (one whole matching submission) or account
+ * (terms may match different retained submissions of one account).
+ *
+ * <p>At most 8 raw terms and 3 group levels. Mutually exclusive with identifier and email. Expression
+ * search uses the same stable opaque account order as typed identifier search.
  */
 public class AccountDirectorySearchRequest {
     /**
@@ -71,8 +76,9 @@ public class AccountDirectorySearchRequest {
     private Long limit;
 
     /**
-     * Opaque, expiring cursor bound to this environment, operation and every filter. Keep the filters
-     * unchanged.
+     * Opaque, expiring cursor bound to workspace, environment, operation and all filters, including
+     * expression scope, ordered structure and original term values. Keep grouping, operand order, matching
+     * modes and values unchanged; an omitted match is equivalent to exact. The page limit may change.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("cursor")
@@ -97,6 +103,26 @@ public class AccountDirectorySearchRequest {
     @JsonProperty("identifier")
     private IdentifierSearch identifier;
 
+    /**
+     * A bounded AND/OR expression over submitted identifiers. Required scope assessment means the entire
+     * expression must match one retained assessment. Scope account permits each term to match a different
+     * retained assessment of the same account and is accepted only by account search.
+     *
+     * <p>Exactly one of term, and or or is allowed at every node. Groups contain 2 to 8 operands, with at
+     * most 3 nested group levels and 8 raw term occurrences over the entire expression. A root term is
+     * allowed.
+     *
+     * <p>Duplicate terms with the same kind, match rule, namespace and normalized comparison are idempotent,
+     * but count toward the raw limit. Match rules default to exact and preserve the existing identifier
+     * contract. Only retained submitted identifiers can satisfy a term.
+     *
+     * <p>Unknown fields, unsupported scopes and malformed or oversized expressions return 400
+     * invalid_request.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("identifier_expression")
+    private IdentifierExpression identifierExpression;
+
     @JsonCreator
     public AccountDirectorySearchRequest(
             @JsonProperty("needs_action") @Nullable Boolean needsAction,
@@ -104,17 +130,19 @@ public class AccountDirectorySearchRequest {
             @JsonProperty("email") @Nullable String email,
             @JsonProperty("limit") @Nullable Long limit,
             @JsonProperty("cursor") @Nullable String cursor,
-            @JsonProperty("identifier") @Nullable IdentifierSearch identifier) {
+            @JsonProperty("identifier") @Nullable IdentifierSearch identifier,
+            @JsonProperty("identifier_expression") @Nullable IdentifierExpression identifierExpression) {
         this.needsAction = Optional.ofNullable(needsAction).orElse(Builder._SINGLETON_VALUE_NeedsAction.value());
         this.accountId = accountId;
         this.email = email;
         this.limit = Optional.ofNullable(limit).orElse(Builder._SINGLETON_VALUE_Limit.value());
         this.cursor = cursor;
         this.identifier = identifier;
+        this.identifierExpression = identifierExpression;
     }
 
     public AccountDirectorySearchRequest() {
-        this(null, null, null, null, null, null);
+        this(null, null, null, null, null, null, null);
     }
 
     /**
@@ -159,8 +187,9 @@ public class AccountDirectorySearchRequest {
     }
 
     /**
-     * Opaque, expiring cursor bound to this environment, operation and every filter. Keep the filters
-     * unchanged.
+     * Opaque, expiring cursor bound to workspace, environment, operation and all filters, including
+     * expression scope, ordered structure and original term values. Keep grouping, operand order, matching
+     * modes and values unchanged; an omitted match is equivalent to exact. The page limit may change.
      */
     public Optional<String> cursor() {
         return Optional.ofNullable(this.cursor);
@@ -183,6 +212,26 @@ public class AccountDirectorySearchRequest {
      */
     public Optional<IdentifierSearch> identifier() {
         return Optional.ofNullable(this.identifier);
+    }
+
+    /**
+     * A bounded AND/OR expression over submitted identifiers. Required scope assessment means the entire
+     * expression must match one retained assessment. Scope account permits each term to match a different
+     * retained assessment of the same account and is accepted only by account search.
+     *
+     * <p>Exactly one of term, and or or is allowed at every node. Groups contain 2 to 8 operands, with at
+     * most 3 nested group levels and 8 raw term occurrences over the entire expression. A root term is
+     * allowed.
+     *
+     * <p>Duplicate terms with the same kind, match rule, namespace and normalized comparison are idempotent,
+     * but count toward the raw limit. Match rules default to exact and preserve the existing identifier
+     * contract. Only retained submitted identifiers can satisfy a term.
+     *
+     * <p>Unknown fields, unsupported scopes and malformed or oversized expressions return 400
+     * invalid_request.
+     */
+    public Optional<IdentifierExpression> identifierExpression() {
+        return Optional.ofNullable(this.identifierExpression);
     }
 
     public static Builder builder() {
@@ -235,8 +284,9 @@ public class AccountDirectorySearchRequest {
     }
 
     /**
-     * Opaque, expiring cursor bound to this environment, operation and every filter. Keep the filters
-     * unchanged.
+     * Opaque, expiring cursor bound to workspace, environment, operation and all filters, including
+     * expression scope, ordered structure and original term values. Keep grouping, operand order, matching
+     * modes and values unchanged; an omitted match is equivalent to exact. The page limit may change.
      */
     public AccountDirectorySearchRequest withCursor(@Nullable String cursor) {
         this.cursor = cursor;
@@ -263,6 +313,27 @@ public class AccountDirectorySearchRequest {
         return this;
     }
 
+    /**
+     * A bounded AND/OR expression over submitted identifiers. Required scope assessment means the entire
+     * expression must match one retained assessment. Scope account permits each term to match a different
+     * retained assessment of the same account and is accepted only by account search.
+     *
+     * <p>Exactly one of term, and or or is allowed at every node. Groups contain 2 to 8 operands, with at
+     * most 3 nested group levels and 8 raw term occurrences over the entire expression. A root term is
+     * allowed.
+     *
+     * <p>Duplicate terms with the same kind, match rule, namespace and normalized comparison are idempotent,
+     * but count toward the raw limit. Match rules default to exact and preserve the existing identifier
+     * contract. Only retained submitted identifiers can satisfy a term.
+     *
+     * <p>Unknown fields, unsupported scopes and malformed or oversized expressions return 400
+     * invalid_request.
+     */
+    public AccountDirectorySearchRequest withIdentifierExpression(@Nullable IdentifierExpression identifierExpression) {
+        this.identifierExpression = identifierExpression;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -277,12 +348,13 @@ public class AccountDirectorySearchRequest {
                 && Utils.enhancedDeepEquals(this.email, other.email)
                 && Utils.enhancedDeepEquals(this.limit, other.limit)
                 && Utils.enhancedDeepEquals(this.cursor, other.cursor)
-                && Utils.enhancedDeepEquals(this.identifier, other.identifier);
+                && Utils.enhancedDeepEquals(this.identifier, other.identifier)
+                && Utils.enhancedDeepEquals(this.identifierExpression, other.identifierExpression);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(needsAction, accountId, email, limit, cursor, identifier);
+        return Utils.enhancedHash(needsAction, accountId, email, limit, cursor, identifier, identifierExpression);
     }
 
     @Override
@@ -300,7 +372,9 @@ public class AccountDirectorySearchRequest {
                 "cursor",
                 cursor,
                 "identifier",
-                identifier);
+                identifier,
+                "identifierExpression",
+                identifierExpression);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -317,6 +391,8 @@ public class AccountDirectorySearchRequest {
         private String cursor;
 
         private IdentifierSearch identifier;
+
+        private IdentifierExpression identifierExpression;
 
         private Builder() {
             // force use of static builder() method
@@ -368,8 +444,9 @@ public class AccountDirectorySearchRequest {
         }
 
         /**
-         * Opaque, expiring cursor bound to this environment, operation and every filter. Keep the filters
-         * unchanged.
+         * Opaque, expiring cursor bound to workspace, environment, operation and all filters, including
+         * expression scope, ordered structure and original term values. Keep grouping, operand order, matching
+         * modes and values unchanged; an omitted match is equivalent to exact. The page limit may change.
          */
         public Builder cursor(@Nullable String cursor) {
             this.cursor = cursor;
@@ -396,8 +473,30 @@ public class AccountDirectorySearchRequest {
             return this;
         }
 
+        /**
+         * A bounded AND/OR expression over submitted identifiers. Required scope assessment means the entire
+         * expression must match one retained assessment. Scope account permits each term to match a different
+         * retained assessment of the same account and is accepted only by account search.
+         *
+         * <p>Exactly one of term, and or or is allowed at every node. Groups contain 2 to 8 operands, with at
+         * most 3 nested group levels and 8 raw term occurrences over the entire expression. A root term is
+         * allowed.
+         *
+         * <p>Duplicate terms with the same kind, match rule, namespace and normalized comparison are idempotent,
+         * but count toward the raw limit. Match rules default to exact and preserve the existing identifier
+         * contract. Only retained submitted identifiers can satisfy a term.
+         *
+         * <p>Unknown fields, unsupported scopes and malformed or oversized expressions return 400
+         * invalid_request.
+         */
+        public Builder identifierExpression(@Nullable IdentifierExpression identifierExpression) {
+            this.identifierExpression = identifierExpression;
+            return this;
+        }
+
         public AccountDirectorySearchRequest build() {
-            return new AccountDirectorySearchRequest(needsAction, accountId, email, limit, cursor, identifier);
+            return new AccountDirectorySearchRequest(
+                    needsAction, accountId, email, limit, cursor, identifier, identifierExpression);
         }
 
         private static final LazySingletonValue<Boolean> _SINGLETON_VALUE_NeedsAction =

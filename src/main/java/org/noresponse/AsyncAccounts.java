@@ -943,9 +943,24 @@ public class AsyncAccounts {
      * account risk is read separately. Cursors are expiring and bound to scope, operation and filters.
      * Totals are exact below 10000 and capped at 10000.
      *
-     * <p>Requires history or investigate authority and identifier-read permission for identifier or email
-     * filtering. needs_action additionally requires management scope. Source-discovered associations are
-     * not searched and equality is not verified ownership.
+     * <p>Requires history or investigate authority and identifier-read permission for identifier,
+     * identifier_expression or email filtering. needs_action additionally requires management scope.
+     * Source-discovered associations are not searched and equality is not verified ownership.
+     *
+     * <p>identifier_expression combines submitted terms with bounded AND/OR, at most 8 raw terms and 3 group
+     * levels. Each node selects exactly one of term, and, or. Groups have 2 to 8 operands.
+     *
+     * <p>Duplicate normalized terms are idempotent and still count toward the limit. identifier_expression,
+     * identifier and email are mutually exclusive. Expression results use matched_identifiers with
+     * original submitted witnesses and zero-based depth-first term_index.
+     *
+     * <p>All satisfied unique terms are returned in first-occurrence order. Cursors bind scope, ordered
+     * structure, original values, matching modes and all other filters; changing only page limit is
+     * allowed. Required expression scope assessment evaluates the whole expression in one retained
+     * submission; scope account allows different retained submissions of the same account to satisfy
+     * different terms.
+     *
+     * <p>Both use stable opaque account ordering and distinct-account counting before pagination.
      *
      * @return The async call builder
      */
@@ -976,9 +991,24 @@ public class AsyncAccounts {
      * account risk is read separately. Cursors are expiring and bound to scope, operation and filters.
      * Totals are exact below 10000 and capped at 10000.
      *
-     * <p>Requires history or investigate authority and identifier-read permission for identifier or email
-     * filtering. needs_action additionally requires management scope. Source-discovered associations are
-     * not searched and equality is not verified ownership.
+     * <p>Requires history or investigate authority and identifier-read permission for identifier,
+     * identifier_expression or email filtering. needs_action additionally requires management scope.
+     * Source-discovered associations are not searched and equality is not verified ownership.
+     *
+     * <p>identifier_expression combines submitted terms with bounded AND/OR, at most 8 raw terms and 3 group
+     * levels. Each node selects exactly one of term, and, or. Groups have 2 to 8 operands.
+     *
+     * <p>Duplicate normalized terms are idempotent and still count toward the limit. identifier_expression,
+     * identifier and email are mutually exclusive. Expression results use matched_identifiers with
+     * original submitted witnesses and zero-based depth-first term_index.
+     *
+     * <p>All satisfied unique terms are returned in first-occurrence order. Cursors bind scope, ordered
+     * structure, original values, matching modes and all other filters; changing only page limit is
+     * allowed. Required expression scope assessment evaluates the whole expression in one retained
+     * submission; scope account allows different retained submissions of the same account to satisfy
+     * different terms.
+     *
+     * <p>Both use stable opaque account ordering and distinct-account counting before pagination.
      *
      * @param request The request object containing all the parameters for the API call.
      * @return {@code CompletableFuture<SearchAccountsResponse>} - The async response
@@ -1010,9 +1040,24 @@ public class AsyncAccounts {
      * account risk is read separately. Cursors are expiring and bound to scope, operation and filters.
      * Totals are exact below 10000 and capped at 10000.
      *
-     * <p>Requires history or investigate authority and identifier-read permission for identifier or email
-     * filtering. needs_action additionally requires management scope. Source-discovered associations are
-     * not searched and equality is not verified ownership.
+     * <p>Requires history or investigate authority and identifier-read permission for identifier,
+     * identifier_expression or email filtering. needs_action additionally requires management scope.
+     * Source-discovered associations are not searched and equality is not verified ownership.
+     *
+     * <p>identifier_expression combines submitted terms with bounded AND/OR, at most 8 raw terms and 3 group
+     * levels. Each node selects exactly one of term, and, or. Groups have 2 to 8 operands.
+     *
+     * <p>Duplicate normalized terms are idempotent and still count toward the limit. identifier_expression,
+     * identifier and email are mutually exclusive. Expression results use matched_identifiers with
+     * original submitted witnesses and zero-based depth-first term_index.
+     *
+     * <p>All satisfied unique terms are returned in first-occurrence order. Cursors bind scope, ordered
+     * structure, original values, matching modes and all other filters; changing only page limit is
+     * allowed. Required expression scope assessment evaluates the whole expression in one retained
+     * submission; scope account allows different retained submissions of the same account to satisfy
+     * different terms.
+     *
+     * <p>Both use stable opaque account ordering and distinct-account counting before pagination.
      *
      * @param request The request object containing all the parameters for the API call.
      * @param options additional options
