@@ -21,7 +21,7 @@ import java.util.Optional;
  * <p>A NoResponse source: github (GitHub accounts), phone (the phone lookup), breach (breach exposure),
  * rdap (the email domain's registration), mx (the email domain's mail servers), ipintel (IP
  * intelligence) or an email account source that searches one platform for an account by email address
- * (adobe, nvidia, wix, life360, zapier).
+ * (adobe, nvidia, wix, life360, zapier, google). google runs only for Gmail addresses.
  */
 public class SourceId {
 
@@ -36,6 +36,7 @@ public class SourceId {
     public static final SourceId WIX = new SourceId("wix");
     public static final SourceId LIFE360 = new SourceId("life360");
     public static final SourceId ZAPIER = new SourceId("zapier");
+    public static final SourceId GOOGLE = new SourceId("google");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -117,6 +118,7 @@ public class SourceId {
         map.put("wix", WIX);
         map.put("life360", LIFE360);
         map.put("zapier", ZAPIER);
+        map.put("google", GOOGLE);
         return map;
     }
 
@@ -133,6 +135,7 @@ public class SourceId {
         map.put("wix", SourceIdEnum.WIX);
         map.put("life360", SourceIdEnum.LIFE360);
         map.put("zapier", SourceIdEnum.ZAPIER);
+        map.put("google", SourceIdEnum.GOOGLE);
         return map;
     }
 
@@ -149,6 +152,7 @@ public class SourceId {
         WIX("wix"),
         LIFE360("life360"),
         ZAPIER("zapier"),
+        GOOGLE("google"),
         ;
 
         private final String value;

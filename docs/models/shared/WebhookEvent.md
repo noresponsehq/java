@@ -122,7 +122,7 @@ WebhookEvent value = AccountRiskChangedEvent.builder()
                 .decision(AccountDecision.HELD)
                 .reasons(List.of(
                     AccountRiskReason.builder()
-                        .code(ReasonCode.SEEN_BEFORE)
+                        .code(ReasonCode.MANY_RECENT_ACCOUNTS)
                         .direction(Direction.RAISES)
                         .impact(Impact.LOW)
                         .listEntryId("lst_01JA2ZE4K5M6N7P8Q9R0S1T2V3")

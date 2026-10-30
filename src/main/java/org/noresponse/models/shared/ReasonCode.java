@@ -64,6 +64,14 @@ public class ReasonCode {
     public static final ReasonCode YOUNG_EMAIL_DOMAIN = new ReasonCode("young_email_domain");
     public static final ReasonCode EMAIL_DOMAIN_NO_MX = new ReasonCode("email_domain_no_mx");
     public static final ReasonCode EMAIL_DOMAIN_NONEXISTENT = new ReasonCode("email_domain_nonexistent");
+    public static final ReasonCode GOOGLE_ACCOUNT_MISSING = new ReasonCode("google_account_missing");
+    public static final ReasonCode GOOGLE_EMPTY_ACCOUNT = new ReasonCode("google_empty_account");
+    public static final ReasonCode GOOGLE_ACTIVE_PROFILE = new ReasonCode("google_active_profile");
+    public static final ReasonCode GOOGLE_AGED_ACCOUNT = new ReasonCode("google_aged_account");
+    public static final ReasonCode GOOGLE_NAME_MATCH = new ReasonCode("google_name_match");
+    public static final ReasonCode GOOGLE_NAME_MISMATCH = new ReasonCode("google_name_mismatch");
+    public static final ReasonCode GOOGLE_COUNTRY_MATCH = new ReasonCode("google_country_match");
+    public static final ReasonCode GOOGLE_COUNTRY_MISMATCH = new ReasonCode("google_country_mismatch");
     public static final ReasonCode FORUM_SANCTIONED = new ReasonCode("forum_sanctioned");
     public static final ReasonCode PRIOR_PAYMENT_ABUSE = new ReasonCode("prior_payment_abuse");
     public static final ReasonCode IP_HISTORY_MATCH = new ReasonCode("ip_history_match");
@@ -185,6 +193,14 @@ public class ReasonCode {
         map.put("young_email_domain", YOUNG_EMAIL_DOMAIN);
         map.put("email_domain_no_mx", EMAIL_DOMAIN_NO_MX);
         map.put("email_domain_nonexistent", EMAIL_DOMAIN_NONEXISTENT);
+        map.put("google_account_missing", GOOGLE_ACCOUNT_MISSING);
+        map.put("google_empty_account", GOOGLE_EMPTY_ACCOUNT);
+        map.put("google_active_profile", GOOGLE_ACTIVE_PROFILE);
+        map.put("google_aged_account", GOOGLE_AGED_ACCOUNT);
+        map.put("google_name_match", GOOGLE_NAME_MATCH);
+        map.put("google_name_mismatch", GOOGLE_NAME_MISMATCH);
+        map.put("google_country_match", GOOGLE_COUNTRY_MATCH);
+        map.put("google_country_mismatch", GOOGLE_COUNTRY_MISMATCH);
         map.put("forum_sanctioned", FORUM_SANCTIONED);
         map.put("prior_payment_abuse", PRIOR_PAYMENT_ABUSE);
         map.put("ip_history_match", IP_HISTORY_MATCH);
@@ -241,6 +257,14 @@ public class ReasonCode {
         map.put("young_email_domain", ReasonCodeEnum.YOUNG_EMAIL_DOMAIN);
         map.put("email_domain_no_mx", ReasonCodeEnum.EMAIL_DOMAIN_NO_MX);
         map.put("email_domain_nonexistent", ReasonCodeEnum.EMAIL_DOMAIN_NONEXISTENT);
+        map.put("google_account_missing", ReasonCodeEnum.GOOGLE_ACCOUNT_MISSING);
+        map.put("google_empty_account", ReasonCodeEnum.GOOGLE_EMPTY_ACCOUNT);
+        map.put("google_active_profile", ReasonCodeEnum.GOOGLE_ACTIVE_PROFILE);
+        map.put("google_aged_account", ReasonCodeEnum.GOOGLE_AGED_ACCOUNT);
+        map.put("google_name_match", ReasonCodeEnum.GOOGLE_NAME_MATCH);
+        map.put("google_name_mismatch", ReasonCodeEnum.GOOGLE_NAME_MISMATCH);
+        map.put("google_country_match", ReasonCodeEnum.GOOGLE_COUNTRY_MATCH);
+        map.put("google_country_mismatch", ReasonCodeEnum.GOOGLE_COUNTRY_MISMATCH);
         map.put("forum_sanctioned", ReasonCodeEnum.FORUM_SANCTIONED);
         map.put("prior_payment_abuse", ReasonCodeEnum.PRIOR_PAYMENT_ABUSE);
         map.put("ip_history_match", ReasonCodeEnum.IP_HISTORY_MATCH);
@@ -297,6 +321,14 @@ public class ReasonCode {
         YOUNG_EMAIL_DOMAIN("young_email_domain"),
         EMAIL_DOMAIN_NO_MX("email_domain_no_mx"),
         EMAIL_DOMAIN_NONEXISTENT("email_domain_nonexistent"),
+        GOOGLE_ACCOUNT_MISSING("google_account_missing"),
+        GOOGLE_EMPTY_ACCOUNT("google_empty_account"),
+        GOOGLE_ACTIVE_PROFILE("google_active_profile"),
+        GOOGLE_AGED_ACCOUNT("google_aged_account"),
+        GOOGLE_NAME_MATCH("google_name_match"),
+        GOOGLE_NAME_MISMATCH("google_name_mismatch"),
+        GOOGLE_COUNTRY_MATCH("google_country_match"),
+        GOOGLE_COUNTRY_MISMATCH("google_country_mismatch"),
         FORUM_SANCTIONED("forum_sanctioned"),
         PRIOR_PAYMENT_ABUSE("prior_payment_abuse"),
         IP_HISTORY_MATCH("ip_history_match"),
