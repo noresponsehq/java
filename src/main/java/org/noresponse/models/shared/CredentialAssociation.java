@@ -31,9 +31,10 @@ public class CredentialAssociation {
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
-     * travels in bodies, and in a URL only as the path segment of GET /v1/accounts/{account_id} and its
-     * /assessments. An assessment requested by a provider hook at pre_registration, which has no account
-     * yet, carries the server-issued account_id pre: followed by its assessment_id.
+     * travels in bodies, and in a URL only as the path segment of GET /v1/accounts/{account_id}, its
+     * /assessments and its /linked_accounts. An assessment requested by a provider hook at
+     * pre_registration, which has no account yet, carries the server-issued account_id pre: followed by
+     * its assessment_id.
      */
     @JsonProperty("account_id")
     private String accountId;
@@ -90,9 +91,10 @@ public class CredentialAssociation {
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
-     * travels in bodies, and in a URL only as the path segment of GET /v1/accounts/{account_id} and its
-     * /assessments. An assessment requested by a provider hook at pre_registration, which has no account
-     * yet, carries the server-issued account_id pre: followed by its assessment_id.
+     * travels in bodies, and in a URL only as the path segment of GET /v1/accounts/{account_id}, its
+     * /assessments and its /linked_accounts. An assessment requested by a provider hook at
+     * pre_registration, which has no account yet, carries the server-issued account_id pre: followed by
+     * its assessment_id.
      */
     public String accountId() {
         return this.accountId;
@@ -131,9 +133,10 @@ public class CredentialAssociation {
      * internal id is a common pseudonymous scheme.
      *
      * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
-     * travels in bodies, and in a URL only as the path segment of GET /v1/accounts/{account_id} and its
-     * /assessments. An assessment requested by a provider hook at pre_registration, which has no account
-     * yet, carries the server-issued account_id pre: followed by its assessment_id.
+     * travels in bodies, and in a URL only as the path segment of GET /v1/accounts/{account_id}, its
+     * /assessments and its /linked_accounts. An assessment requested by a provider hook at
+     * pre_registration, which has no account yet, carries the server-issued account_id pre: followed by
+     * its assessment_id.
      */
     public CredentialAssociation withAccountId(@Nonnull String accountId) {
         this.accountId = Utils.checkNotNull(accountId, "accountId");
@@ -232,9 +235,10 @@ public class CredentialAssociation {
          * internal id is a common pseudonymous scheme.
          *
          * <p>A value such as '07700900123' or 'jane.doe.gmail.com' cannot be told apart from an opaque id. It
-         * travels in bodies, and in a URL only as the path segment of GET /v1/accounts/{account_id} and its
-         * /assessments. An assessment requested by a provider hook at pre_registration, which has no account
-         * yet, carries the server-issued account_id pre: followed by its assessment_id.
+         * travels in bodies, and in a URL only as the path segment of GET /v1/accounts/{account_id}, its
+         * /assessments and its /linked_accounts. An assessment requested by a provider hook at
+         * pre_registration, which has no account yet, carries the server-issued account_id pre: followed by
+         * its assessment_id.
          */
         public Builder accountId(@Nonnull String accountId) {
             this.accountId = Utils.checkNotNull(accountId, "accountId");

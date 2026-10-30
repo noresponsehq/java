@@ -40,6 +40,9 @@ import org.noresponse.models.operations.ListAccountOutcomesResponse;
 import org.noresponse.models.operations.ListAccountsRequest;
 import org.noresponse.models.operations.ListAccountsRequestBuilder;
 import org.noresponse.models.operations.ListAccountsResponse;
+import org.noresponse.models.operations.ListLinkedAccountsRequest;
+import org.noresponse.models.operations.ListLinkedAccountsRequestBuilder;
+import org.noresponse.models.operations.ListLinkedAccountsResponse;
 import org.noresponse.models.operations.RecordAccountOutcomeRequest;
 import org.noresponse.models.operations.RecordAccountOutcomeRequestBuilder;
 import org.noresponse.models.operations.RecordAccountOutcomeResponse;
@@ -67,6 +70,7 @@ import org.noresponse.operations.ListAccountDecisions;
 import org.noresponse.operations.ListAccountEnforcements;
 import org.noresponse.operations.ListAccountOutcomes;
 import org.noresponse.operations.ListAccounts;
+import org.noresponse.operations.ListLinkedAccounts;
 import org.noresponse.operations.RecordAccountOutcome;
 import org.noresponse.operations.RecordEnforcement;
 import org.noresponse.operations.RetireAccountCredential;
@@ -382,6 +386,92 @@ public class Accounts {
                 new ListAccountAssessmentsRequest(accountId, limit, cursor, responseMode);
         RequestOperation<ListAccountAssessmentsRequest, ListAccountAssessmentsResponse> operation =
                 new ListAccountAssessments.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * List accounts that share a submitted identifier with this account.
+     *
+     * <p>Lists the other accounts in this environment whose retained assessments submitted an email, phone or
+     * customer-namespace username that one of this account's retained assessments also submitted. Matching
+     * uses the identifier search rules: exact, canonical and, for email, mailbox. Each linked account
+     * names one entry per shared kind, at the strictest basis that links the two accounts, with the
+     * original value, assessment_id and submitted_at of each account's newest retained submission of it.
+     *
+     * <p>Only customer-submitted identifiers link accounts; source-discovered identifiers do not. Expired,
+     * deleted and erased assessments link nothing. The account itself is not listed, and an account with
+     * no retained submissions answers 200 with empty items.
+     *
+     * <p>A shared identifier is not verified ownership. Totals are exact below 10000 and capped at 10000. The
+     * cursor is opaque, expiring and bound to your workspace, environment and the account; a tampered or
+     * expired cursor answers 400 invalid_cursor.
+     *
+     * <p>Requires the history scope, or investigate with evidence. Read-only and safe to retry.
+     *
+     * @return The call builder
+     */
+    public ListLinkedAccountsRequestBuilder listLinked() {
+        return new ListLinkedAccountsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * List accounts that share a submitted identifier with this account.
+     *
+     * <p>Lists the other accounts in this environment whose retained assessments submitted an email, phone or
+     * customer-namespace username that one of this account's retained assessments also submitted. Matching
+     * uses the identifier search rules: exact, canonical and, for email, mailbox. Each linked account
+     * names one entry per shared kind, at the strictest basis that links the two accounts, with the
+     * original value, assessment_id and submitted_at of each account's newest retained submission of it.
+     *
+     * <p>Only customer-submitted identifiers link accounts; source-discovered identifiers do not. Expired,
+     * deleted and erased assessments link nothing. The account itself is not listed, and an account with
+     * no retained submissions answers 200 with empty items.
+     *
+     * <p>A shared identifier is not verified ownership. Totals are exact below 10000 and capped at 10000. The
+     * cursor is opaque, expiring and bound to your workspace, environment and the account; a tampered or
+     * expired cursor answers 400 invalid_cursor.
+     *
+     * <p>Requires the history scope, or investigate with evidence. Read-only and safe to retry.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ListLinkedAccountsResponse listLinked(@Nonnull String accountId) {
+        return listLinked(accountId, null, null, null);
+    }
+
+    /**
+     * List accounts that share a submitted identifier with this account.
+     *
+     * <p>Lists the other accounts in this environment whose retained assessments submitted an email, phone or
+     * customer-namespace username that one of this account's retained assessments also submitted. Matching
+     * uses the identifier search rules: exact, canonical and, for email, mailbox. Each linked account
+     * names one entry per shared kind, at the strictest basis that links the two accounts, with the
+     * original value, assessment_id and submitted_at of each account's newest retained submission of it.
+     *
+     * <p>Only customer-submitted identifiers link accounts; source-discovered identifiers do not. Expired,
+     * deleted and erased assessments link nothing. The account itself is not listed, and an account with
+     * no retained submissions answers 200 with empty items.
+     *
+     * <p>A shared identifier is not verified ownership. Totals are exact below 10000 and capped at 10000. The
+     * cursor is opaque, expiring and bound to your workspace, environment and the account; a tampered or
+     * expired cursor answers 400 invalid_cursor.
+     *
+     * <p>Requires the history scope, or investigate with evidence. Read-only and safe to retry.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param limit Linked accounts per page.
+     * @param cursor next_cursor from the previous page, unchanged.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ListLinkedAccountsResponse listLinked(
+            @Nonnull String accountId, @Nullable Long limit, @Nullable String cursor, @Nullable Options options) {
+        ListLinkedAccountsRequest request = new ListLinkedAccountsRequest(accountId, limit, cursor);
+        RequestOperation<ListLinkedAccountsRequest, ListLinkedAccountsResponse> operation =
+                new ListLinkedAccounts.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

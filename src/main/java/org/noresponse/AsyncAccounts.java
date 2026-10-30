@@ -19,6 +19,7 @@ import org.noresponse.models.operations.ListAccountDecisionsRequest;
 import org.noresponse.models.operations.ListAccountEnforcementsRequest;
 import org.noresponse.models.operations.ListAccountOutcomesRequest;
 import org.noresponse.models.operations.ListAccountsRequest;
+import org.noresponse.models.operations.ListLinkedAccountsRequest;
 import org.noresponse.models.operations.RecordAccountOutcomeRequest;
 import org.noresponse.models.operations.RecordEnforcementRequest;
 import org.noresponse.models.operations.RetireAccountCredentialRequest;
@@ -44,6 +45,8 @@ import org.noresponse.models.operations.async.ListAccountOutcomesRequestBuilder;
 import org.noresponse.models.operations.async.ListAccountOutcomesResponse;
 import org.noresponse.models.operations.async.ListAccountsRequestBuilder;
 import org.noresponse.models.operations.async.ListAccountsResponse;
+import org.noresponse.models.operations.async.ListLinkedAccountsRequestBuilder;
+import org.noresponse.models.operations.async.ListLinkedAccountsResponse;
 import org.noresponse.models.operations.async.RecordAccountOutcomeRequestBuilder;
 import org.noresponse.models.operations.async.RecordAccountOutcomeResponse;
 import org.noresponse.models.operations.async.RecordEnforcementRequestBuilder;
@@ -68,6 +71,7 @@ import org.noresponse.operations.ListAccountDecisions;
 import org.noresponse.operations.ListAccountEnforcements;
 import org.noresponse.operations.ListAccountOutcomes;
 import org.noresponse.operations.ListAccounts;
+import org.noresponse.operations.ListLinkedAccounts;
 import org.noresponse.operations.RecordAccountOutcome;
 import org.noresponse.operations.RecordEnforcement;
 import org.noresponse.operations.RetireAccountCredential;
@@ -375,6 +379,90 @@ public class AsyncAccounts {
                 new ListAccountAssessmentsRequest(accountId, limit, cursor, responseMode);
         AsyncRequestOperation<ListAccountAssessmentsRequest, ListAccountAssessmentsResponse> operation =
                 new ListAccountAssessments.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * List accounts that share a submitted identifier with this account.
+     *
+     * <p>Lists the other accounts in this environment whose retained assessments submitted an email, phone or
+     * customer-namespace username that one of this account's retained assessments also submitted. Matching
+     * uses the identifier search rules: exact, canonical and, for email, mailbox. Each linked account
+     * names one entry per shared kind, at the strictest basis that links the two accounts, with the
+     * original value, assessment_id and submitted_at of each account's newest retained submission of it.
+     *
+     * <p>Only customer-submitted identifiers link accounts; source-discovered identifiers do not. Expired,
+     * deleted and erased assessments link nothing. The account itself is not listed, and an account with
+     * no retained submissions answers 200 with empty items.
+     *
+     * <p>A shared identifier is not verified ownership. Totals are exact below 10000 and capped at 10000. The
+     * cursor is opaque, expiring and bound to your workspace, environment and the account; a tampered or
+     * expired cursor answers 400 invalid_cursor.
+     *
+     * <p>Requires the history scope, or investigate with evidence. Read-only and safe to retry.
+     *
+     * @return The async call builder
+     */
+    public ListLinkedAccountsRequestBuilder listLinked() {
+        return new ListLinkedAccountsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * List accounts that share a submitted identifier with this account.
+     *
+     * <p>Lists the other accounts in this environment whose retained assessments submitted an email, phone or
+     * customer-namespace username that one of this account's retained assessments also submitted. Matching
+     * uses the identifier search rules: exact, canonical and, for email, mailbox. Each linked account
+     * names one entry per shared kind, at the strictest basis that links the two accounts, with the
+     * original value, assessment_id and submitted_at of each account's newest retained submission of it.
+     *
+     * <p>Only customer-submitted identifiers link accounts; source-discovered identifiers do not. Expired,
+     * deleted and erased assessments link nothing. The account itself is not listed, and an account with
+     * no retained submissions answers 200 with empty items.
+     *
+     * <p>A shared identifier is not verified ownership. Totals are exact below 10000 and capped at 10000. The
+     * cursor is opaque, expiring and bound to your workspace, environment and the account; a tampered or
+     * expired cursor answers 400 invalid_cursor.
+     *
+     * <p>Requires the history scope, or investigate with evidence. Read-only and safe to retry.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @return {@code CompletableFuture<ListLinkedAccountsResponse>} - The async response
+     */
+    public CompletableFuture<ListLinkedAccountsResponse> listLinked(@Nonnull String accountId) {
+        return listLinked(accountId, null, null, null);
+    }
+
+    /**
+     * List accounts that share a submitted identifier with this account.
+     *
+     * <p>Lists the other accounts in this environment whose retained assessments submitted an email, phone or
+     * customer-namespace username that one of this account's retained assessments also submitted. Matching
+     * uses the identifier search rules: exact, canonical and, for email, mailbox. Each linked account
+     * names one entry per shared kind, at the strictest basis that links the two accounts, with the
+     * original value, assessment_id and submitted_at of each account's newest retained submission of it.
+     *
+     * <p>Only customer-submitted identifiers link accounts; source-discovered identifiers do not. Expired,
+     * deleted and erased assessments link nothing. The account itself is not listed, and an account with
+     * no retained submissions answers 200 with empty items.
+     *
+     * <p>A shared identifier is not verified ownership. Totals are exact below 10000 and capped at 10000. The
+     * cursor is opaque, expiring and bound to your workspace, environment and the account; a tampered or
+     * expired cursor answers 400 invalid_cursor.
+     *
+     * <p>Requires the history scope, or investigate with evidence. Read-only and safe to retry.
+     *
+     * @param accountId The account_id the workspace sends with its assessments, as one path segment (percent-encode '|' and ':' if the client requires it). A value that does not match the account_id shape answers 400 invalid_request.
+     * @param limit Linked accounts per page.
+     * @param cursor next_cursor from the previous page, unchanged.
+     * @param options additional options
+     * @return {@code CompletableFuture<ListLinkedAccountsResponse>} - The async response
+     */
+    public CompletableFuture<ListLinkedAccountsResponse> listLinked(
+            @Nonnull String accountId, @Nullable Long limit, @Nullable String cursor, @Nullable Options options) {
+        ListLinkedAccountsRequest request = new ListLinkedAccountsRequest(accountId, limit, cursor);
+        AsyncRequestOperation<ListLinkedAccountsRequest, ListLinkedAccountsResponse> operation =
+                new ListLinkedAccounts.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 
