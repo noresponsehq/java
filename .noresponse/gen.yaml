@@ -32,7 +32,7 @@ generation:
     generateNewTests: false
     skipResponseBodyAssertions: false
 java:
-  version: 10.0.6
+  version: 10.0.7
   additionalDependencies:
     - implementation:org.apache.httpcomponents.client5:httpclient5:5.4.2
   additionalPlugins: []

@@ -72,6 +72,16 @@ public class AccountDirectorySearchRequest {
     @JsonProperty("email")
     private String email;
 
+    /**
+     * Every account that one of its retained admitted assessments sent an email of this domain or its
+     * subdomains, matched as lists match an email_domain entry and with the same identifier-read
+     * permission as email. A value that is not a registrable domain is refused with 400. Mutually
+     * exclusive with email, identifier and identifier_expression.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("email_domain")
+    private String emailDomain;
+
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("limit")
     private Long limit;
@@ -129,6 +139,7 @@ public class AccountDirectorySearchRequest {
             @JsonProperty("needs_action") @Nullable Boolean needsAction,
             @JsonProperty("account_id") @Nullable String accountId,
             @JsonProperty("email") @Nullable String email,
+            @JsonProperty("email_domain") @Nullable String emailDomain,
             @JsonProperty("limit") @Nullable Long limit,
             @JsonProperty("cursor") @Nullable String cursor,
             @JsonProperty("identifier") @Nullable IdentifierSearch identifier,
@@ -136,6 +147,7 @@ public class AccountDirectorySearchRequest {
         this.needsAction = Optional.ofNullable(needsAction).orElse(Builder._SINGLETON_VALUE_NeedsAction.value());
         this.accountId = accountId;
         this.email = email;
+        this.emailDomain = emailDomain;
         this.limit = Optional.ofNullable(limit).orElse(Builder._SINGLETON_VALUE_Limit.value());
         this.cursor = cursor;
         this.identifier = identifier;
@@ -143,7 +155,7 @@ public class AccountDirectorySearchRequest {
     }
 
     public AccountDirectorySearchRequest() {
-        this(null, null, null, null, null, null, null);
+        this(null, null, null, null, null, null, null, null);
     }
 
     /**
@@ -182,6 +194,16 @@ public class AccountDirectorySearchRequest {
      */
     public Optional<String> email() {
         return Optional.ofNullable(this.email);
+    }
+
+    /**
+     * Every account that one of its retained admitted assessments sent an email of this domain or its
+     * subdomains, matched as lists match an email_domain entry and with the same identifier-read
+     * permission as email. A value that is not a registrable domain is refused with 400. Mutually
+     * exclusive with email, identifier and identifier_expression.
+     */
+    public Optional<String> emailDomain() {
+        return Optional.ofNullable(this.emailDomain);
     }
 
     public Optional<Long> limit() {
@@ -281,6 +303,17 @@ public class AccountDirectorySearchRequest {
         return this;
     }
 
+    /**
+     * Every account that one of its retained admitted assessments sent an email of this domain or its
+     * subdomains, matched as lists match an email_domain entry and with the same identifier-read
+     * permission as email. A value that is not a registrable domain is refused with 400. Mutually
+     * exclusive with email, identifier and identifier_expression.
+     */
+    public AccountDirectorySearchRequest withEmailDomain(@Nullable String emailDomain) {
+        this.emailDomain = emailDomain;
+        return this;
+    }
+
     public AccountDirectorySearchRequest withLimit(@Nullable Long limit) {
         this.limit = limit;
         return this;
@@ -349,6 +382,7 @@ public class AccountDirectorySearchRequest {
         return Utils.enhancedDeepEquals(this.needsAction, other.needsAction)
                 && Utils.enhancedDeepEquals(this.accountId, other.accountId)
                 && Utils.enhancedDeepEquals(this.email, other.email)
+                && Utils.enhancedDeepEquals(this.emailDomain, other.emailDomain)
                 && Utils.enhancedDeepEquals(this.limit, other.limit)
                 && Utils.enhancedDeepEquals(this.cursor, other.cursor)
                 && Utils.enhancedDeepEquals(this.identifier, other.identifier)
@@ -357,7 +391,8 @@ public class AccountDirectorySearchRequest {
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(needsAction, accountId, email, limit, cursor, identifier, identifierExpression);
+        return Utils.enhancedHash(
+                needsAction, accountId, email, emailDomain, limit, cursor, identifier, identifierExpression);
     }
 
     @Override
@@ -370,6 +405,8 @@ public class AccountDirectorySearchRequest {
                 accountId,
                 "email",
                 email,
+                "emailDomain",
+                emailDomain,
                 "limit",
                 limit,
                 "cursor",
@@ -388,6 +425,8 @@ public class AccountDirectorySearchRequest {
         private String accountId;
 
         private String email;
+
+        private String emailDomain;
 
         private Long limit;
 
@@ -439,6 +478,17 @@ public class AccountDirectorySearchRequest {
          */
         public Builder email(@Nullable String email) {
             this.email = email;
+            return this;
+        }
+
+        /**
+         * Every account that one of its retained admitted assessments sent an email of this domain or its
+         * subdomains, matched as lists match an email_domain entry and with the same identifier-read
+         * permission as email. A value that is not a registrable domain is refused with 400. Mutually
+         * exclusive with email, identifier and identifier_expression.
+         */
+        public Builder emailDomain(@Nullable String emailDomain) {
+            this.emailDomain = emailDomain;
             return this;
         }
 
@@ -500,7 +550,7 @@ public class AccountDirectorySearchRequest {
 
         public AccountDirectorySearchRequest build() {
             return new AccountDirectorySearchRequest(
-                    needsAction, accountId, email, limit, cursor, identifier, identifierExpression);
+                    needsAction, accountId, email, emailDomain, limit, cursor, identifier, identifierExpression);
         }
 
         private static final LazySingletonValue<Boolean> _SINGLETON_VALUE_NeedsAction =

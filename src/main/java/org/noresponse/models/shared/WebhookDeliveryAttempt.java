@@ -29,6 +29,21 @@ public class WebhookDeliveryAttempt {
     private String eventType;
 
     /**
+     * The assessment an assessment.updated event reported, while that assessment is held. Absent on every
+     * other event, on a test event and on a notice that the assessment was erased or expired.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("assessment_id")
+    private String assessmentId;
+
+    /**
+     * The account an account.risk_changed event reported. Absent on every other event.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("account_id")
+    private String accountId;
+
+    /**
      * Which attempt of this delivery this was: 1 for the first send, up to 9 with retries. A replay counts
      * its own attempts from 1.
      */
@@ -79,6 +94,8 @@ public class WebhookDeliveryAttempt {
     public WebhookDeliveryAttempt(
             @JsonProperty("event_id") @Nonnull String eventId,
             @JsonProperty("event_type") @Nonnull String eventType,
+            @JsonProperty("assessment_id") @Nullable String assessmentId,
+            @JsonProperty("account_id") @Nullable String accountId,
             @JsonProperty("attempt") long attempt,
             @JsonProperty("replay") boolean replay,
             @JsonProperty("status") @Nonnull WebhookDeliveryAttemptStatus status,
@@ -90,6 +107,8 @@ public class WebhookDeliveryAttempt {
                 Optional.ofNullable(eventId).orElseThrow(() -> new IllegalArgumentException("eventId cannot be null"));
         this.eventType = Optional.ofNullable(eventType)
                 .orElseThrow(() -> new IllegalArgumentException("eventType cannot be null"));
+        this.assessmentId = assessmentId;
+        this.accountId = accountId;
         this.attempt = attempt;
         this.replay = replay;
         this.status =
@@ -109,7 +128,7 @@ public class WebhookDeliveryAttempt {
             @Nonnull WebhookDeliveryAttemptStatus status,
             long latencyMs,
             @Nonnull String attemptedAt) {
-        this(eventId, eventType, attempt, replay, status, null, null, latencyMs, attemptedAt);
+        this(eventId, eventType, null, null, attempt, replay, status, null, null, latencyMs, attemptedAt);
     }
 
     /**
@@ -127,6 +146,21 @@ public class WebhookDeliveryAttempt {
      */
     public String eventType() {
         return this.eventType;
+    }
+
+    /**
+     * The assessment an assessment.updated event reported, while that assessment is held. Absent on every
+     * other event, on a test event and on a notice that the assessment was erased or expired.
+     */
+    public Optional<String> assessmentId() {
+        return Optional.ofNullable(this.assessmentId);
+    }
+
+    /**
+     * The account an account.risk_changed event reported. Absent on every other event.
+     */
+    public Optional<String> accountId() {
+        return Optional.ofNullable(this.accountId);
     }
 
     /**
@@ -205,6 +239,23 @@ public class WebhookDeliveryAttempt {
     }
 
     /**
+     * The assessment an assessment.updated event reported, while that assessment is held. Absent on every
+     * other event, on a test event and on a notice that the assessment was erased or expired.
+     */
+    public WebhookDeliveryAttempt withAssessmentId(@Nullable String assessmentId) {
+        this.assessmentId = assessmentId;
+        return this;
+    }
+
+    /**
+     * The account an account.risk_changed event reported. Absent on every other event.
+     */
+    public WebhookDeliveryAttempt withAccountId(@Nullable String accountId) {
+        this.accountId = accountId;
+        return this;
+    }
+
+    /**
      * Which attempt of this delivery this was: 1 for the first send, up to 9 with retries. A replay counts
      * its own attempts from 1.
      */
@@ -274,6 +325,8 @@ public class WebhookDeliveryAttempt {
         WebhookDeliveryAttempt other = (WebhookDeliveryAttempt) o;
         return Utils.enhancedDeepEquals(this.eventId, other.eventId)
                 && Utils.enhancedDeepEquals(this.eventType, other.eventType)
+                && Utils.enhancedDeepEquals(this.assessmentId, other.assessmentId)
+                && Utils.enhancedDeepEquals(this.accountId, other.accountId)
                 && Utils.enhancedDeepEquals(this.attempt, other.attempt)
                 && Utils.enhancedDeepEquals(this.replay, other.replay)
                 && Utils.enhancedDeepEquals(this.status, other.status)
@@ -286,7 +339,17 @@ public class WebhookDeliveryAttempt {
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                eventId, eventType, attempt, replay, status, responseCode, failure, latencyMs, attemptedAt);
+                eventId,
+                eventType,
+                assessmentId,
+                accountId,
+                attempt,
+                replay,
+                status,
+                responseCode,
+                failure,
+                latencyMs,
+                attemptedAt);
     }
 
     @Override
@@ -297,6 +360,10 @@ public class WebhookDeliveryAttempt {
                 eventId,
                 "eventType",
                 eventType,
+                "assessmentId",
+                assessmentId,
+                "accountId",
+                accountId,
                 "attempt",
                 attempt,
                 "replay",
@@ -319,6 +386,10 @@ public class WebhookDeliveryAttempt {
         private String eventId;
 
         private String eventType;
+
+        private String assessmentId;
+
+        private String accountId;
 
         private long attempt;
 
@@ -354,6 +425,23 @@ public class WebhookDeliveryAttempt {
          */
         public Builder eventType(@Nonnull String eventType) {
             this.eventType = Utils.checkNotNull(eventType, "eventType");
+            return this;
+        }
+
+        /**
+         * The assessment an assessment.updated event reported, while that assessment is held. Absent on every
+         * other event, on a test event and on a notice that the assessment was erased or expired.
+         */
+        public Builder assessmentId(@Nullable String assessmentId) {
+            this.assessmentId = assessmentId;
+            return this;
+        }
+
+        /**
+         * The account an account.risk_changed event reported. Absent on every other event.
+         */
+        public Builder accountId(@Nullable String accountId) {
+            this.accountId = accountId;
             return this;
         }
 
@@ -418,7 +506,17 @@ public class WebhookDeliveryAttempt {
 
         public WebhookDeliveryAttempt build() {
             return new WebhookDeliveryAttempt(
-                    eventId, eventType, attempt, replay, status, responseCode, failure, latencyMs, attemptedAt);
+                    eventId,
+                    eventType,
+                    assessmentId,
+                    accountId,
+                    attempt,
+                    replay,
+                    status,
+                    responseCode,
+                    failure,
+                    latencyMs,
+                    attemptedAt);
         }
     }
 }
