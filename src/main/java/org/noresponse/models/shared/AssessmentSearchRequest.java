@@ -91,6 +91,17 @@ public class AssessmentSearchRequest {
     private Status status;
 
     /**
+     * api (the default) searches the assessments your integration sent. lookup searches the assessments
+     * your team ran by hand on the console's Lookup page. The API sets an assessment's origin from the
+     * credential that sent it.
+     *
+     * <p>A lookup is not in any other list, count, webhook event or account.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("origin")
+    private Origin origin;
+
+    /**
      * The recommended action: allow, step_up or review. Your application applies it.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -248,6 +259,7 @@ public class AssessmentSearchRequest {
             @JsonProperty("email") @Nullable String email,
             @JsonProperty("flow") @Nullable Flow flow,
             @JsonProperty("status") @Nullable Status status,
+            @JsonProperty("origin") @Nullable Origin origin,
             @JsonProperty("recommendation") @Nullable Recommendation recommendation,
             @JsonProperty("limit") @Nullable Long limit,
             @JsonProperty("cursor") @Nullable String cursor,
@@ -272,6 +284,7 @@ public class AssessmentSearchRequest {
         this.email = email;
         this.flow = flow;
         this.status = status;
+        this.origin = origin;
         this.recommendation = recommendation;
         this.limit = Optional.ofNullable(limit).orElse(Builder._SINGLETON_VALUE_Limit.value());
         this.cursor = cursor;
@@ -296,6 +309,7 @@ public class AssessmentSearchRequest {
         this(
                 from,
                 to,
+                null,
                 null,
                 null,
                 null,
@@ -375,6 +389,17 @@ public class AssessmentSearchRequest {
      */
     public Optional<Status> status() {
         return Optional.ofNullable(this.status);
+    }
+
+    /**
+     * api (the default) searches the assessments your integration sent. lookup searches the assessments
+     * your team ran by hand on the console's Lookup page. The API sets an assessment's origin from the
+     * credential that sent it.
+     *
+     * <p>A lookup is not in any other list, count, webhook event or account.
+     */
+    public Optional<Origin> origin() {
+        return Optional.ofNullable(this.origin);
     }
 
     /**
@@ -595,6 +620,18 @@ public class AssessmentSearchRequest {
     }
 
     /**
+     * api (the default) searches the assessments your integration sent. lookup searches the assessments
+     * your team ran by hand on the console's Lookup page. The API sets an assessment's origin from the
+     * credential that sent it.
+     *
+     * <p>A lookup is not in any other list, count, webhook event or account.
+     */
+    public AssessmentSearchRequest withOrigin(@Nullable Origin origin) {
+        this.origin = origin;
+        return this;
+    }
+
+    /**
      * The recommended action: allow, step_up or review. Your application applies it.
      */
     public AssessmentSearchRequest withRecommendation(@Nullable Recommendation recommendation) {
@@ -777,6 +814,7 @@ public class AssessmentSearchRequest {
                 && Utils.enhancedDeepEquals(this.email, other.email)
                 && Utils.enhancedDeepEquals(this.flow, other.flow)
                 && Utils.enhancedDeepEquals(this.status, other.status)
+                && Utils.enhancedDeepEquals(this.origin, other.origin)
                 && Utils.enhancedDeepEquals(this.recommendation, other.recommendation)
                 && Utils.enhancedDeepEquals(this.limit, other.limit)
                 && Utils.enhancedDeepEquals(this.cursor, other.cursor)
@@ -806,6 +844,7 @@ public class AssessmentSearchRequest {
                 email,
                 flow,
                 status,
+                origin,
                 recommendation,
                 limit,
                 cursor,
@@ -842,6 +881,8 @@ public class AssessmentSearchRequest {
                 flow,
                 "status",
                 status,
+                "origin",
+                origin,
                 "recommendation",
                 recommendation,
                 "limit",
@@ -894,6 +935,8 @@ public class AssessmentSearchRequest {
         private Flow flow;
 
         private Status status;
+
+        private Origin origin;
 
         private Recommendation recommendation;
 
@@ -995,6 +1038,18 @@ public class AssessmentSearchRequest {
          */
         public Builder status(@Nullable Status status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * api (the default) searches the assessments your integration sent. lookup searches the assessments
+         * your team ran by hand on the console's Lookup page. The API sets an assessment's origin from the
+         * credential that sent it.
+         *
+         * <p>A lookup is not in any other list, count, webhook event or account.
+         */
+        public Builder origin(@Nullable Origin origin) {
+            this.origin = origin;
             return this;
         }
 
@@ -1174,6 +1229,7 @@ public class AssessmentSearchRequest {
                     email,
                     flow,
                     status,
+                    origin,
                     recommendation,
                     limit,
                     cursor,
