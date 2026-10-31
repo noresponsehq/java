@@ -19,6 +19,7 @@ import org.noresponse.models.operations.ListReviewResolutionsRequest;
 import org.noresponse.models.operations.ListReviewSubjectsRequest;
 import org.noresponse.models.operations.ListReviewViewsRequest;
 import org.noresponse.models.operations.ListReviewsRequest;
+import org.noresponse.models.operations.QueryReviewsRequest;
 import org.noresponse.models.operations.ResolveReviewRequest;
 import org.noresponse.models.operations.UpdateReviewRequest;
 import org.noresponse.models.operations.UpdateReviewViewRequest;
@@ -48,6 +49,8 @@ import org.noresponse.models.operations.async.ListReviewViewsRequestBuilder;
 import org.noresponse.models.operations.async.ListReviewViewsResponse;
 import org.noresponse.models.operations.async.ListReviewsRequestBuilder;
 import org.noresponse.models.operations.async.ListReviewsResponse;
+import org.noresponse.models.operations.async.QueryReviewsRequestBuilder;
+import org.noresponse.models.operations.async.QueryReviewsResponse;
 import org.noresponse.models.operations.async.ResolveReviewRequestBuilder;
 import org.noresponse.models.operations.async.ResolveReviewResponse;
 import org.noresponse.models.operations.async.UpdateReviewRequestBuilder;
@@ -57,6 +60,7 @@ import org.noresponse.models.operations.async.UpdateReviewViewResponse;
 import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.models.shared.ReviewCommentRequest;
 import org.noresponse.models.shared.ReviewCreateRequest;
+import org.noresponse.models.shared.ReviewQueryRequest;
 import org.noresponse.models.shared.ReviewResolveRequest;
 import org.noresponse.models.shared.ReviewSubjectRequest;
 import org.noresponse.models.shared.ReviewUpdateRequest;
@@ -75,6 +79,7 @@ import org.noresponse.operations.ListReviewResolutions;
 import org.noresponse.operations.ListReviewSubjects;
 import org.noresponse.operations.ListReviewViews;
 import org.noresponse.operations.ListReviews;
+import org.noresponse.operations.QueryReviews;
 import org.noresponse.operations.ResolveReview;
 import org.noresponse.operations.UpdateReview;
 import org.noresponse.operations.UpdateReviewView;
@@ -106,9 +111,8 @@ public class AsyncReviews {
     /**
      * List retained account reviews.
      *
-     * <p>List retained investigation reviews using filters and an authenticated cursor. Optional account_id
-     * selects one exact account in this environment before pagination. All filters are bound into the
-     * cursor.
+     * <p>List retained investigation reviews using filters and an authenticated cursor. Use reviews.query to
+     * filter by account_id in a JSON body. All filters are bound into the cursor.
      *
      * @return The async call builder
      */
@@ -119,9 +123,8 @@ public class AsyncReviews {
     /**
      * List retained account reviews.
      *
-     * <p>List retained investigation reviews using filters and an authenticated cursor. Optional account_id
-     * selects one exact account in this environment before pagination. All filters are bound into the
-     * cursor.
+     * <p>List retained investigation reviews using filters and an authenticated cursor. Use reviews.query to
+     * filter by account_id in a JSON body. All filters are bound into the cursor.
      *
      * @param request The request object containing all the parameters for the API call.
      * @return {@code CompletableFuture<ListReviewsResponse>} - The async response
@@ -133,9 +136,8 @@ public class AsyncReviews {
     /**
      * List retained account reviews.
      *
-     * <p>List retained investigation reviews using filters and an authenticated cursor. Optional account_id
-     * selects one exact account in this environment before pagination. All filters are bound into the
-     * cursor.
+     * <p>List retained investigation reviews using filters and an authenticated cursor. Use reviews.query to
+     * filter by account_id in a JSON body. All filters are bound into the cursor.
      *
      * @param request The request object containing all the parameters for the API call.
      * @param options additional options
@@ -754,6 +756,57 @@ public class AsyncReviews {
             @Nonnull DeleteReviewSubjectRequest request, @Nullable Options options) {
         AsyncRequestOperation<DeleteReviewSubjectRequest, DeleteReviewSubjectResponse> operation =
                 new DeleteReviewSubject.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Query retained reviews without identifiers in URLs.
+     *
+     * <p>Query retained investigation reviews using a JSON body, including an exact account_id filter. All
+     * filters are bound into the cursor.
+     *
+     * @return The async call builder
+     */
+    public QueryReviewsRequestBuilder query() {
+        return new QueryReviewsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Query retained reviews without identifiers in URLs.
+     *
+     * <p>Query retained investigation reviews using a JSON body, including an exact account_id filter. All
+     * filters are bound into the cursor.
+     *
+     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
+     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
+     * @param body
+     * @return {@code CompletableFuture<QueryReviewsResponse>} - The async response
+     */
+    public CompletableFuture<QueryReviewsResponse> query(
+            @Nonnull String workspaceId, @Nonnull KeyEnvironment environment, @Nonnull ReviewQueryRequest body) {
+        return query(workspaceId, environment, body, null);
+    }
+
+    /**
+     * Query retained reviews without identifiers in URLs.
+     *
+     * <p>Query retained investigation reviews using a JSON body, including an exact account_id filter. All
+     * filters are bound into the cursor.
+     *
+     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
+     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
+     * @param body
+     * @param options additional options
+     * @return {@code CompletableFuture<QueryReviewsResponse>} - The async response
+     */
+    public CompletableFuture<QueryReviewsResponse> query(
+            @Nonnull String workspaceId,
+            @Nonnull KeyEnvironment environment,
+            @Nonnull ReviewQueryRequest body,
+            @Nullable Options options) {
+        QueryReviewsRequest request = new QueryReviewsRequest(workspaceId, environment, body);
+        AsyncRequestOperation<QueryReviewsRequest, QueryReviewsResponse> operation =
+                new QueryReviews.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 }

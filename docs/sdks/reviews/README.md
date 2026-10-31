@@ -22,10 +22,11 @@ Collaborative review cases, comments and linked subjects.
 * [listSubjects](#listsubjects) - List retained subjects linked to a review.
 * [addSubject](#addsubject) - Link retained tenant-local evidence to an investigation.
 * [deleteSubject](#deletesubject) - Remove a linked subject using the current review version.
+* [query](#query) - Query retained reviews without identifiers in URLs.
 
 ## list
 
-List retained investigation reviews using filters and an authenticated cursor. Optional account_id selects one exact account in this environment before pagination. All filters are bound into the cursor.
+List retained investigation reviews using filters and an authenticated cursor. Use reviews.query to filter by account_id in a JSON body. All filters are bound into the cursor.
 
 ### Example Usage
 
@@ -1145,6 +1146,78 @@ public class Application {
 ### Response
 
 **[DeleteReviewSubjectResponse](../../models/operations/DeleteReviewSubjectResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## query
+
+Query retained investigation reviews using a JSON body, including an exact account_id filter. All filters are bound into the cursor.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="queryReviews" method="post" path="/v1/workspaces/{workspace_id}/reviews/{environment}/query" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.QueryReviewsResponse;
+import org.noresponse.models.shared.KeyEnvironment;
+import org.noresponse.models.shared.ReviewQueryRequest;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        QueryReviewsResponse res = sdk.reviews().query()
+                .workspaceId("tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .environment(KeyEnvironment.LIVE)
+                .body(ReviewQueryRequest.builder()
+                    .accountId("acct_7f3a9c")
+                    .assignee("usr_customer_admin")
+                    .assigneePrincipalId("mem_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                    .cursor("eyJvIjoyMH0")
+                    .build())
+                .call();
+
+        if (res.reviewList().isPresent()) {
+            System.out.println(res.reviewList().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                              | Type                                                                                                                                                                   | Required                                                                                                                                                               | Description                                                                                                                                                            | Example                                                                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `workspaceId`                                                                                                                                                          | *String*                                                                                                                                                               | :heavy_check_mark:                                                                                                                                                     | Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.                                     | tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                                                                                                                         |
+| `environment`                                                                                                                                                          | [KeyEnvironment](../../models/shared/KeyEnvironment.md)                                                                                                                | :heavy_check_mark:                                                                                                                                                     | The environment: live or test. Each has its own settings. Any other value answers 400. An API key reads and changes only its own environment's; the other answers 404. |                                                                                                                                                                        |
+| `body`                                                                                                                                                                 | [ReviewQueryRequest](../../models/shared/ReviewQueryRequest.md)                                                                                                        | :heavy_check_mark:                                                                                                                                                     | N/A                                                                                                                                                                    |                                                                                                                                                                        |
+
+### Response
+
+**[QueryReviewsResponse](../../models/operations/QueryReviewsResponse.md)**
 
 ### Errors
 

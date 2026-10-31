@@ -44,6 +44,9 @@ import org.noresponse.models.operations.ListReviewViewsResponse;
 import org.noresponse.models.operations.ListReviewsRequest;
 import org.noresponse.models.operations.ListReviewsRequestBuilder;
 import org.noresponse.models.operations.ListReviewsResponse;
+import org.noresponse.models.operations.QueryReviewsRequest;
+import org.noresponse.models.operations.QueryReviewsRequestBuilder;
+import org.noresponse.models.operations.QueryReviewsResponse;
 import org.noresponse.models.operations.ResolveReviewRequest;
 import org.noresponse.models.operations.ResolveReviewRequestBuilder;
 import org.noresponse.models.operations.ResolveReviewResponse;
@@ -56,6 +59,7 @@ import org.noresponse.models.operations.UpdateReviewViewResponse;
 import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.models.shared.ReviewCommentRequest;
 import org.noresponse.models.shared.ReviewCreateRequest;
+import org.noresponse.models.shared.ReviewQueryRequest;
 import org.noresponse.models.shared.ReviewResolveRequest;
 import org.noresponse.models.shared.ReviewSubjectRequest;
 import org.noresponse.models.shared.ReviewUpdateRequest;
@@ -74,6 +78,7 @@ import org.noresponse.operations.ListReviewResolutions;
 import org.noresponse.operations.ListReviewSubjects;
 import org.noresponse.operations.ListReviewViews;
 import org.noresponse.operations.ListReviews;
+import org.noresponse.operations.QueryReviews;
 import org.noresponse.operations.ResolveReview;
 import org.noresponse.operations.UpdateReview;
 import org.noresponse.operations.UpdateReviewView;
@@ -105,9 +110,8 @@ public class Reviews {
     /**
      * List retained account reviews.
      *
-     * <p>List retained investigation reviews using filters and an authenticated cursor. Optional account_id
-     * selects one exact account in this environment before pagination. All filters are bound into the
-     * cursor.
+     * <p>List retained investigation reviews using filters and an authenticated cursor. Use reviews.query to
+     * filter by account_id in a JSON body. All filters are bound into the cursor.
      *
      * @return The call builder
      */
@@ -118,9 +122,8 @@ public class Reviews {
     /**
      * List retained account reviews.
      *
-     * <p>List retained investigation reviews using filters and an authenticated cursor. Optional account_id
-     * selects one exact account in this environment before pagination. All filters are bound into the
-     * cursor.
+     * <p>List retained investigation reviews using filters and an authenticated cursor. Use reviews.query to
+     * filter by account_id in a JSON body. All filters are bound into the cursor.
      *
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -133,9 +136,8 @@ public class Reviews {
     /**
      * List retained account reviews.
      *
-     * <p>List retained investigation reviews using filters and an authenticated cursor. Optional account_id
-     * selects one exact account in this environment before pagination. All filters are bound into the
-     * cursor.
+     * <p>List retained investigation reviews using filters and an authenticated cursor. Use reviews.query to
+     * filter by account_id in a JSON body. All filters are bound into the cursor.
      *
      * @param request The request object containing all the parameters for the API call.
      * @param options additional options
@@ -776,6 +778,59 @@ public class Reviews {
             @Nonnull DeleteReviewSubjectRequest request, @Nullable Options options) {
         RequestOperation<DeleteReviewSubjectRequest, DeleteReviewSubjectResponse> operation =
                 new DeleteReviewSubject.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Query retained reviews without identifiers in URLs.
+     *
+     * <p>Query retained investigation reviews using a JSON body, including an exact account_id filter. All
+     * filters are bound into the cursor.
+     *
+     * @return The call builder
+     */
+    public QueryReviewsRequestBuilder query() {
+        return new QueryReviewsRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Query retained reviews without identifiers in URLs.
+     *
+     * <p>Query retained investigation reviews using a JSON body, including an exact account_id filter. All
+     * filters are bound into the cursor.
+     *
+     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
+     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
+     * @param body
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public QueryReviewsResponse query(
+            @Nonnull String workspaceId, @Nonnull KeyEnvironment environment, @Nonnull ReviewQueryRequest body) {
+        return query(workspaceId, environment, body, null);
+    }
+
+    /**
+     * Query retained reviews without identifiers in URLs.
+     *
+     * <p>Query retained investigation reviews using a JSON body, including an exact account_id filter. All
+     * filters are bound into the cursor.
+     *
+     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
+     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
+     * @param body
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public QueryReviewsResponse query(
+            @Nonnull String workspaceId,
+            @Nonnull KeyEnvironment environment,
+            @Nonnull ReviewQueryRequest body,
+            @Nullable Options options) {
+        QueryReviewsRequest request = new QueryReviewsRequest(workspaceId, environment, body);
+        RequestOperation<QueryReviewsRequest, QueryReviewsResponse> operation =
+                new QueryReviews.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 }

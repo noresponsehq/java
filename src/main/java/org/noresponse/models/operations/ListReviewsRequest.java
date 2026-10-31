@@ -56,13 +56,6 @@ public class ListReviewsRequest {
     @NoResponseMetadata("queryParam:style=form,explode=true,name=assignee_principal_id")
     private String assigneePrincipalId;
 
-    /**
-     * Only reviews of this exact account in the authenticated workspace and environment. Applied before
-     * pagination and bound into the cursor.
-     */
-    @NoResponseMetadata("queryParam:style=form,explode=true,name=account_id")
-    private String accountId;
-
     @JsonCreator
     public ListReviewsRequest(
             @Nonnull String workspaceId,
@@ -73,8 +66,7 @@ public class ListReviewsRequest {
             @Nullable Priority priority,
             @Nullable String assignee,
             @Nullable Boolean unassigned,
-            @Nullable String assigneePrincipalId,
-            @Nullable String accountId) {
+            @Nullable String assigneePrincipalId) {
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
         this.environment = Optional.ofNullable(environment)
@@ -86,11 +78,10 @@ public class ListReviewsRequest {
         this.assignee = assignee;
         this.unassigned = unassigned;
         this.assigneePrincipalId = assigneePrincipalId;
-        this.accountId = accountId;
     }
 
     public ListReviewsRequest(@Nonnull String workspaceId, @Nonnull KeyEnvironment environment) {
-        this(workspaceId, environment, null, null, null, null, null, null, null, null);
+        this(workspaceId, environment, null, null, null, null, null, null, null);
     }
 
     /**
@@ -139,14 +130,6 @@ public class ListReviewsRequest {
      */
     public Optional<String> assigneePrincipalId() {
         return Optional.ofNullable(this.assigneePrincipalId);
-    }
-
-    /**
-     * Only reviews of this exact account in the authenticated workspace and environment. Applied before
-     * pagination and bound into the cursor.
-     */
-    public Optional<String> accountId() {
-        return Optional.ofNullable(this.accountId);
     }
 
     public static Builder builder() {
@@ -210,15 +193,6 @@ public class ListReviewsRequest {
         return this;
     }
 
-    /**
-     * Only reviews of this exact account in the authenticated workspace and environment. Applied before
-     * pagination and bound into the cursor.
-     */
-    public ListReviewsRequest withAccountId(@Nullable String accountId) {
-        this.accountId = accountId;
-        return this;
-    }
-
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -236,23 +210,13 @@ public class ListReviewsRequest {
                 && Utils.enhancedDeepEquals(this.priority, other.priority)
                 && Utils.enhancedDeepEquals(this.assignee, other.assignee)
                 && Utils.enhancedDeepEquals(this.unassigned, other.unassigned)
-                && Utils.enhancedDeepEquals(this.assigneePrincipalId, other.assigneePrincipalId)
-                && Utils.enhancedDeepEquals(this.accountId, other.accountId);
+                && Utils.enhancedDeepEquals(this.assigneePrincipalId, other.assigneePrincipalId);
     }
 
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                workspaceId,
-                environment,
-                limit,
-                cursor,
-                status,
-                priority,
-                assignee,
-                unassigned,
-                assigneePrincipalId,
-                accountId);
+                workspaceId, environment, limit, cursor, status, priority, assignee, unassigned, assigneePrincipalId);
     }
 
     @Override
@@ -276,9 +240,7 @@ public class ListReviewsRequest {
                 "unassigned",
                 unassigned,
                 "assigneePrincipalId",
-                assigneePrincipalId,
-                "accountId",
-                accountId);
+                assigneePrincipalId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -301,8 +263,6 @@ public class ListReviewsRequest {
         private Boolean unassigned;
 
         private String assigneePrincipalId;
-
-        private String accountId;
 
         private Builder() {
             // force use of static builder() method
@@ -365,15 +325,6 @@ public class ListReviewsRequest {
             return this;
         }
 
-        /**
-         * Only reviews of this exact account in the authenticated workspace and environment. Applied before
-         * pagination and bound into the cursor.
-         */
-        public Builder accountId(@Nullable String accountId) {
-            this.accountId = accountId;
-            return this;
-        }
-
         public ListReviewsRequest build() {
             return new ListReviewsRequest(
                     workspaceId,
@@ -384,8 +335,7 @@ public class ListReviewsRequest {
                     priority,
                     assignee,
                     unassigned,
-                    assigneePrincipalId,
-                    accountId);
+                    assigneePrincipalId);
         }
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =
