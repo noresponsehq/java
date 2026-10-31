@@ -81,6 +81,8 @@ public class ReasonCode {
     public static final ReasonCode NATIONALITY_MISMATCH = new ReasonCode("nationality_mismatch");
     public static final ReasonCode MINOR_IDENTITY = new ReasonCode("minor_identity");
     public static final ReasonCode REPORTED_ACCOUNT_ABUSE = new ReasonCode("reported_account_abuse");
+    public static final ReasonCode BREACH_CITY_MATCH = new ReasonCode("breach_city_match");
+    public static final ReasonCode BREACH_CITY_MISMATCH = new ReasonCode("breach_city_mismatch");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -210,6 +212,8 @@ public class ReasonCode {
         map.put("nationality_mismatch", NATIONALITY_MISMATCH);
         map.put("minor_identity", MINOR_IDENTITY);
         map.put("reported_account_abuse", REPORTED_ACCOUNT_ABUSE);
+        map.put("breach_city_match", BREACH_CITY_MATCH);
+        map.put("breach_city_mismatch", BREACH_CITY_MISMATCH);
         return map;
     }
 
@@ -274,6 +278,8 @@ public class ReasonCode {
         map.put("nationality_mismatch", ReasonCodeEnum.NATIONALITY_MISMATCH);
         map.put("minor_identity", ReasonCodeEnum.MINOR_IDENTITY);
         map.put("reported_account_abuse", ReasonCodeEnum.REPORTED_ACCOUNT_ABUSE);
+        map.put("breach_city_match", ReasonCodeEnum.BREACH_CITY_MATCH);
+        map.put("breach_city_mismatch", ReasonCodeEnum.BREACH_CITY_MISMATCH);
         return map;
     }
 
@@ -338,6 +344,8 @@ public class ReasonCode {
         NATIONALITY_MISMATCH("nationality_mismatch"),
         MINOR_IDENTITY("minor_identity"),
         REPORTED_ACCOUNT_ABUSE("reported_account_abuse"),
+        BREACH_CITY_MATCH("breach_city_match"),
+        BREACH_CITY_MISMATCH("breach_city_mismatch"),
         ;
 
         private final String value;

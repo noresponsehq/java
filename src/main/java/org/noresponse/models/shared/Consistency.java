@@ -45,7 +45,9 @@ public class Consistency {
     private ConsistencyValue ip;
 
     /**
-     * IP country, phone country, breach countries and policy_context.region together.
+     * IP country, phone country, breach countries and policy_context.region together. When the breach
+     * records give a country, the timezone and locale countries count too. The IP country of a proxy or
+     * hosting network does not count.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("country")
@@ -95,7 +97,9 @@ public class Consistency {
     }
 
     /**
-     * IP country, phone country, breach countries and policy_context.region together.
+     * IP country, phone country, breach countries and policy_context.region together. When the breach
+     * records give a country, the timezone and locale countries count too. The IP country of a proxy or
+     * hosting network does not count.
      */
     public Optional<Country> country() {
         return Optional.ofNullable(this.country);
@@ -136,7 +140,9 @@ public class Consistency {
     }
 
     /**
-     * IP country, phone country, breach countries and policy_context.region together.
+     * IP country, phone country, breach countries and policy_context.region together. When the breach
+     * records give a country, the timezone and locale countries count too. The IP country of a proxy or
+     * hosting network does not count.
      */
     public Consistency withCountry(@Nullable Country country) {
         this.country = country;
@@ -214,7 +220,9 @@ public class Consistency {
         }
 
         /**
-         * IP country, phone country, breach countries and policy_context.region together.
+         * IP country, phone country, breach countries and policy_context.region together. When the breach
+         * records give a country, the timezone and locale countries count too. The IP country of a proxy or
+         * hosting network does not count.
          */
         public Builder country(@Nullable Country country) {
             this.country = country;
