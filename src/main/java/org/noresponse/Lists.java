@@ -248,8 +248,9 @@ public class Lists {
     /**
      * Preview a list override change without side effects.
      *
-     * <p>Preview canonical list matches and current override effects with settings or management. The result
-     * states its bounded coverage and changes no list entries.
+     * <p>Preview canonical list matches and current override effects with settings or management, plus legacy
+     * history, or investigate with evidence or detailed. The result states its bounded coverage and
+     * changes no list entries.
      *
      * @return The call builder
      */
@@ -260,8 +261,9 @@ public class Lists {
     /**
      * Preview a list override change without side effects.
      *
-     * <p>Preview canonical list matches and current override effects with settings or management. The result
-     * states its bounded coverage and changes no list entries.
+     * <p>Preview canonical list matches and current override effects with settings or management, plus legacy
+     * history, or investigate with evidence or detailed. The result states its bounded coverage and
+     * changes no list entries.
      *
      * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
      * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
@@ -277,8 +279,9 @@ public class Lists {
     /**
      * Preview a list override change without side effects.
      *
-     * <p>Preview canonical list matches and current override effects with settings or management. The result
-     * states its bounded coverage and changes no list entries.
+     * <p>Preview canonical list matches and current override effects with settings or management, plus legacy
+     * history, or investigate with evidence or detailed. The result states its bounded coverage and
+     * changes no list entries.
      *
      * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
      * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.

@@ -60,13 +60,15 @@ public class Exports {
      * Request an asynchronous customer export.
      *
      * <p>Request an encrypted JSON Lines snapshot of retained account or audit records. Requires exports plus
-     * history or audit scope; detailed account data also needs evidence or detailed scope. Criteria are
-     * frozen and hashed.
+     * history or audit scope. An account export without legacy history needs investigate with evidence or
+     * detailed, because it holds submitted identifiers; detailed account data always needs evidence or
+     * detailed.
      *
-     * <p>Each environment permits four active jobs, 64 MiB per artifact, and 256 KiB per chunk. Artifacts
-     * expire after 24 hours. Send an Idempotency-Key to safely repeat a request.
+     * <p>Criteria are frozen and hashed. Each environment permits four active jobs, 64 MiB per artifact, and
+     * 256 KiB per chunk. Artifacts expire after 24 hours.
      *
-     * <p>Every operation checks current permissions and source retention.
+     * <p>Send an Idempotency-Key to safely repeat a request. Every operation checks current permissions and
+     * source retention.
      *
      * @return The call builder
      */
@@ -78,13 +80,15 @@ public class Exports {
      * Request an asynchronous customer export.
      *
      * <p>Request an encrypted JSON Lines snapshot of retained account or audit records. Requires exports plus
-     * history or audit scope; detailed account data also needs evidence or detailed scope. Criteria are
-     * frozen and hashed.
+     * history or audit scope. An account export without legacy history needs investigate with evidence or
+     * detailed, because it holds submitted identifiers; detailed account data always needs evidence or
+     * detailed.
      *
-     * <p>Each environment permits four active jobs, 64 MiB per artifact, and 256 KiB per chunk. Artifacts
-     * expire after 24 hours. Send an Idempotency-Key to safely repeat a request.
+     * <p>Criteria are frozen and hashed. Each environment permits four active jobs, 64 MiB per artifact, and
+     * 256 KiB per chunk. Artifacts expire after 24 hours.
      *
-     * <p>Every operation checks current permissions and source retention.
+     * <p>Send an Idempotency-Key to safely repeat a request. Every operation checks current permissions and
+     * source retention.
      *
      * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
      * @param body
@@ -99,13 +103,15 @@ public class Exports {
      * Request an asynchronous customer export.
      *
      * <p>Request an encrypted JSON Lines snapshot of retained account or audit records. Requires exports plus
-     * history or audit scope; detailed account data also needs evidence or detailed scope. Criteria are
-     * frozen and hashed.
+     * history or audit scope. An account export without legacy history needs investigate with evidence or
+     * detailed, because it holds submitted identifiers; detailed account data always needs evidence or
+     * detailed.
      *
-     * <p>Each environment permits four active jobs, 64 MiB per artifact, and 256 KiB per chunk. Artifacts
-     * expire after 24 hours. Send an Idempotency-Key to safely repeat a request.
+     * <p>Criteria are frozen and hashed. Each environment permits four active jobs, 64 MiB per artifact, and
+     * 256 KiB per chunk. Artifacts expire after 24 hours.
      *
-     * <p>Every operation checks current permissions and source retention.
+     * <p>Send an Idempotency-Key to safely repeat a request. Every operation checks current permissions and
+     * source retention.
      *
      * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
      * @param idempotencyKey

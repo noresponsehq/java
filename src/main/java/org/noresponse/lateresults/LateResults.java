@@ -26,7 +26,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 import org.noresponse.NoResponse;
 import org.noresponse.models.errors.NotFoundException;
@@ -270,6 +273,7 @@ public final class LateResults {
         private final Map<String, FlowPolicy> flows = new HashMap<>();
         private Duration tolerance = Duration.ofSeconds(Webhook.DEFAULT_TOLERANCE_SECONDS);
         private Instant now;
+        private BiConsumer<String, Supplier<EnforcementResult>> withAccountLock;
 
         /**
          * @param getAccountState the account's state in your flow; null for an account you do not hold
@@ -296,6 +300,18 @@ public final class LateResults {
             this.now = now;
             return this;
         }
+
+        /**
+         * Serializes enforcement of one account across your workers. Hold an exclusive lock on the
+         * account id, call the supplier, store the result's riskVersion and any state change, then
+         * release the lock. An exception must propagate. Inside the lock the handler reads the
+         * account's risk and your state again, so a stale event or listed account cannot undo a newer
+         * decision. Without it, overlapping calls can act on an old decision after a newer one.
+         */
+        public EnforcementOptions withAccountLock(BiConsumer<String, Supplier<EnforcementResult>> withAccountLock) {
+            this.withAccountLock = withAccountLock;
+            return this;
+        }
     }
 
     /**
@@ -312,20 +328,46 @@ public final class LateResults {
             return new EnforcementResult(event, null, null, null, "not_actionable", List.of());
         }
         String accountId = ((AccountRiskChangedEvent) event).data().account().id();
-        Account account;
-        try {
-            account = client.accounts().get(accountId).account().orElseThrow();
-        } catch (NotFoundException e) {
-            return new EnforcementResult(event, null, null, null, "account_gone", List.of());
+        return underAccountLock(client, accountId, options).withEvent(event);
+    }
+
+    /** Read the account's current risk and enforce it, inside withAccountLock when you gave one. */
+    private static EnforcementResult underAccountLock(NoResponse client, String accountId, EnforcementOptions options) {
+        Supplier<EnforcementResult> enforce = () -> {
+            Account account;
+            try {
+                account = client.accounts().get(accountId).account().orElseThrow();
+            } catch (NotFoundException e) {
+                return new EnforcementResult(null, null, null, null, "account_gone", List.of());
+            }
+            return enforceAsRead(client, account, options);
+        };
+        if (options.withAccountLock == null) {
+            return enforce.get();
         }
-        return enforceAccount(client, account, options).withEvent(event);
+        AtomicReference<EnforcementResult> result = new AtomicReference<>();
+        options.withAccountLock.accept(accountId, () -> {
+            result.set(enforce.get());
+            return result.get();
+        });
+        if (result.get() == null) {
+            throw new IllegalStateException("withAccountLock returned without running enforce");
+        }
+        return result.get();
     }
 
     /**
-     * Enforce one account as read: the account a handler fetched, or one from
-     * accounts().listChanged() with unenforced true when catching up.
+     * Enforce one account: the account a handler fetched, or one from accounts().listChanged() with
+     * unenforced true when catching up. With withAccountLock the account is read again inside the
+     * lock; without it the account is enforced as given.
      */
     public static EnforcementResult enforceAccount(NoResponse client, Account account, EnforcementOptions options) {
+        return options.withAccountLock != null
+                ? underAccountLock(client, account.id(), options)
+                : enforceAsRead(client, account, options);
+    }
+
+    private static EnforcementResult enforceAsRead(NoResponse client, Account account, EnforcementOptions options) {
         AccountStateAnswer answer = options.getAccountState.apply(account);
         if (answer == null) {
             return new EnforcementResult(null, account, null, null, "unknown_user", List.of());

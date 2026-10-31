@@ -359,4 +359,66 @@ class LateResultsTest {
         assertThrows(IllegalArgumentException.class, () -> LateResults.identityProvider("auth0", new IdentityProviderOptions("t")));
         assertThrows(IllegalArgumentException.class, () -> LateResults.identityProvider("okta", new IdentityProviderOptions("t")));
     }
+
+    private static JsonNode vectorNamed(String name) {
+        return StreamSupport.stream(VECTORS.get("cases").spliterator(), false)
+                .filter(c -> c.get("name").asText().equals(name)).findFirst().orElseThrow();
+    }
+
+    @Test
+    void withAccountLockCoversTheReadTheProviderChangeAndTheRecord() throws Exception {
+        JsonNode vector = vectorNamed("workos_restricted_allow_reinstates_when_opted_in");
+        Transcript http = new Transcript(vector.get("exchanges"));
+        ActionProvider provider = LateResults.identityProvider(vector.get("provider").asText(),
+                new IdentityProviderOptions(VECTORS.get("provider_token").asText()).http(http));
+        List<Integer> seen = new ArrayList<>();
+        EnforcementOptions options = new EnforcementOptions(provider,
+                account -> new AccountStateAnswer("restricted", vector.at("/state/user_id").asText(), null))
+                .now(NOW).flow("login", new FlowPolicy(true))
+                .withAccountLock((accountId, enforce) -> {
+                    seen.add(http.next);
+                    enforce.get();
+                    seen.add(http.next);
+                });
+        Delivery delivery = new Delivery(vector.get("event"));
+        LateResults.EnforcementResult result = LateResults.handleRiskChange(client(http), delivery.raw, delivery.headers, SECRETS, options);
+        http.done();
+        assertEquals(List.of(0, vector.get("exchanges").size()), seen);
+        assertEquals(1, result.enforcements().size());
+        assertEquals("unrestrict", result.enforcements().get(0).action());
+    }
+
+    @Test
+    void underWithAccountLockEnforceAccountActsOnTheCurrentRisk() throws Exception {
+        JsonNode vector = vectorNamed("restricted_account_records_none");
+        com.fasterxml.jackson.databind.node.ArrayNode exchanges = MAPPER.createArrayNode();
+        JsonNode first = vector.get("exchanges").get(0).deepCopy();
+        ((com.fasterxml.jackson.databind.node.ObjectNode) first.at("/response/body")).put("risk_version", 1);
+        ((com.fasterxml.jackson.databind.node.ObjectNode) first.at("/response/body/decisions_by_flow")).put("login", "allow");
+        exchanges.add(first);
+        exchanges.addAll((com.fasterxml.jackson.databind.node.ArrayNode) vector.get("exchanges"));
+        Transcript http = new Transcript(exchanges);
+        NoResponse client = client(http);
+        Account stale = client.accounts().get(vector.at("/event/data/account/id").asText()).account().orElseThrow();
+        ActionProvider provider = LateResults.identityProvider(vector.get("provider").asText(),
+                new IdentityProviderOptions(VECTORS.get("provider_token").asText()).http(http));
+        EnforcementOptions options = new EnforcementOptions(provider, account -> new AccountStateAnswer("restricted", null, null))
+                .flow("login", new FlowPolicy(true))
+                .withAccountLock((accountId, enforce) -> enforce.get());
+        LateResults.EnforcementResult result = LateResults.enforceAccount(client, stale, options);
+        http.done();
+        assertEquals("none", result.enforcements().get(0).action());
+    }
+
+    @Test
+    void aWithAccountLockThatDoesNotRunEnforceFails() throws Exception {
+        JsonNode vector = vectorNamed("restricted_account_records_none");
+        Transcript http = new Transcript(vector.get("exchanges"));
+        NoResponse client = client(http);
+        Account account = client.accounts().get(vector.at("/event/data/account/id").asText()).account().orElseThrow();
+        ActionProvider provider = LateResults.identityProvider(vector.get("provider").asText(),
+                new IdentityProviderOptions(VECTORS.get("provider_token").asText()).http(http));
+        EnforcementOptions options = new EnforcementOptions(provider, a -> null).withAccountLock((accountId, enforce) -> { });
+        assertThrows(IllegalStateException.class, () -> LateResults.enforceAccount(client, account, options));
+    }
 }
