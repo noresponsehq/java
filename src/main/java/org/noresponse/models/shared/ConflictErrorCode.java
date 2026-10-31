@@ -48,6 +48,7 @@ public class ConflictErrorCode {
     public static final ConflictErrorCode EVALUATION_LIMIT_REACHED = new ConflictErrorCode("evaluation_limit_reached");
     public static final ConflictErrorCode ALREADY_MEMBER = new ConflictErrorCode("already_member");
     public static final ConflictErrorCode MEMBER_LIMIT_REACHED = new ConflictErrorCode("member_limit_reached");
+    public static final ConflictErrorCode OWNER_INVITE_PENDING = new ConflictErrorCode("owner_invite_pending");
     public static final ConflictErrorCode AGGREGATE_ERASED_DATA = new ConflictErrorCode("aggregate_erased_data");
 
     // This map will grow whenever a Color gets created with a new
@@ -143,6 +144,7 @@ public class ConflictErrorCode {
         map.put("evaluation_limit_reached", EVALUATION_LIMIT_REACHED);
         map.put("already_member", ALREADY_MEMBER);
         map.put("member_limit_reached", MEMBER_LIMIT_REACHED);
+        map.put("owner_invite_pending", OWNER_INVITE_PENDING);
         map.put("aggregate_erased_data", AGGREGATE_ERASED_DATA);
         return map;
     }
@@ -173,6 +175,7 @@ public class ConflictErrorCode {
         map.put("evaluation_limit_reached", ConflictErrorCodeEnum.EVALUATION_LIMIT_REACHED);
         map.put("already_member", ConflictErrorCodeEnum.ALREADY_MEMBER);
         map.put("member_limit_reached", ConflictErrorCodeEnum.MEMBER_LIMIT_REACHED);
+        map.put("owner_invite_pending", ConflictErrorCodeEnum.OWNER_INVITE_PENDING);
         map.put("aggregate_erased_data", ConflictErrorCodeEnum.AGGREGATE_ERASED_DATA);
         return map;
     }
@@ -203,6 +206,7 @@ public class ConflictErrorCode {
         EVALUATION_LIMIT_REACHED("evaluation_limit_reached"),
         ALREADY_MEMBER("already_member"),
         MEMBER_LIMIT_REACHED("member_limit_reached"),
+        OWNER_INVITE_PENDING("owner_invite_pending"),
         AGGREGATE_ERASED_DATA("aggregate_erased_data"),
         ;
 
