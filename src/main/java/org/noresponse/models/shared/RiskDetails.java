@@ -58,22 +58,33 @@ public class RiskDetails {
     @JsonProperty("accounts")
     private List<OnlineAccount> accounts;
 
+    /**
+     * What an identity_attribute_conflict reason weighed: each attribute the records disagree on and the
+     * sites reporting it. Absent when the reason did not fire, and on an answer stored before conflicts
+     * were recorded. No value is served.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("attribute_conflicts")
+    private List<RiskDetailsAttributeConflict> attributeConflicts;
+
     @JsonCreator
     public RiskDetails(
             @JsonProperty("phone_names") @Nullable List<RiskDetailsPhoneName> phoneNames,
             @JsonProperty("breaches") @Nullable List<Breach> breaches,
             @JsonProperty("breach_names") @Nullable List<RiskDetailsBreachName> breachNames,
             @JsonProperty("events") @Nullable List<RiskDetailsEvent> events,
-            @JsonProperty("accounts") @Nullable List<OnlineAccount> accounts) {
+            @JsonProperty("accounts") @Nullable List<OnlineAccount> accounts,
+            @JsonProperty("attribute_conflicts") @Nullable List<RiskDetailsAttributeConflict> attributeConflicts) {
         this.phoneNames = phoneNames;
         this.breaches = breaches;
         this.breachNames = breachNames;
         this.events = events;
         this.accounts = accounts;
+        this.attributeConflicts = attributeConflicts;
     }
 
     public RiskDetails() {
-        this(null, null, null, null, null);
+        this(null, null, null, null, null, null);
     }
 
     public Optional<List<RiskDetailsPhoneName>> phoneNames() {
@@ -112,6 +123,15 @@ public class RiskDetails {
      */
     public Optional<List<OnlineAccount>> accounts() {
         return Optional.ofNullable(this.accounts);
+    }
+
+    /**
+     * What an identity_attribute_conflict reason weighed: each attribute the records disagree on and the
+     * sites reporting it. Absent when the reason did not fire, and on an answer stored before conflicts
+     * were recorded. No value is served.
+     */
+    public Optional<List<RiskDetailsAttributeConflict>> attributeConflicts() {
+        return Optional.ofNullable(this.attributeConflicts);
     }
 
     public static Builder builder() {
@@ -161,6 +181,16 @@ public class RiskDetails {
         return this;
     }
 
+    /**
+     * What an identity_attribute_conflict reason weighed: each attribute the records disagree on and the
+     * sites reporting it. Absent when the reason did not fire, and on an answer stored before conflicts
+     * were recorded. No value is served.
+     */
+    public RiskDetails withAttributeConflicts(@Nullable List<RiskDetailsAttributeConflict> attributeConflicts) {
+        this.attributeConflicts = attributeConflicts;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -174,12 +204,13 @@ public class RiskDetails {
                 && Utils.enhancedDeepEquals(this.breaches, other.breaches)
                 && Utils.enhancedDeepEquals(this.breachNames, other.breachNames)
                 && Utils.enhancedDeepEquals(this.events, other.events)
-                && Utils.enhancedDeepEquals(this.accounts, other.accounts);
+                && Utils.enhancedDeepEquals(this.accounts, other.accounts)
+                && Utils.enhancedDeepEquals(this.attributeConflicts, other.attributeConflicts);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(phoneNames, breaches, breachNames, events, accounts);
+        return Utils.enhancedHash(phoneNames, breaches, breachNames, events, accounts, attributeConflicts);
     }
 
     @Override
@@ -195,7 +226,9 @@ public class RiskDetails {
                 "events",
                 events,
                 "accounts",
-                accounts);
+                accounts,
+                "attributeConflicts",
+                attributeConflicts);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -210,6 +243,8 @@ public class RiskDetails {
         private List<RiskDetailsEvent> events;
 
         private List<OnlineAccount> accounts;
+
+        private List<RiskDetailsAttributeConflict> attributeConflicts;
 
         private Builder() {
             // force use of static builder() method
@@ -258,8 +293,18 @@ public class RiskDetails {
             return this;
         }
 
+        /**
+         * What an identity_attribute_conflict reason weighed: each attribute the records disagree on and the
+         * sites reporting it. Absent when the reason did not fire, and on an answer stored before conflicts
+         * were recorded. No value is served.
+         */
+        public Builder attributeConflicts(@Nullable List<RiskDetailsAttributeConflict> attributeConflicts) {
+            this.attributeConflicts = attributeConflicts;
+            return this;
+        }
+
         public RiskDetails build() {
-            return new RiskDetails(phoneNames, breaches, breachNames, events, accounts);
+            return new RiskDetails(phoneNames, breaches, breachNames, events, accounts, attributeConflicts);
         }
     }
 }

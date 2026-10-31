@@ -82,7 +82,7 @@ public class Application {
                         .provider("clerk")
                         .issuer("https://example-app.clerk.accounts.dev")
                         .subject("user_2EXAMPLE")
-                        .verified(false)
+                        .verified(true)
                         .audience("https://app.example.com")
                         .audiences(List.of(
                             "https://app.example.com"))
@@ -178,7 +178,7 @@ public class Application {
                         .provider("clerk")
                         .issuer("https://example-app.clerk.accounts.dev")
                         .subject("user_2EXAMPLE")
-                        .verified(false)
+                        .verified(true)
                         .audience("https://app.example.com")
                         .audiences(List.of(
                             "https://app.example.com"))
@@ -326,7 +326,7 @@ public class Application {
                         .provider("clerk")
                         .issuer("https://example-app.clerk.accounts.dev")
                         .subject("user_2EXAMPLE")
-                        .verified(false)
+                        .verified(true)
                         .audience("https://app.example.com")
                         .audiences(List.of(
                             "https://app.example.com"))
@@ -522,7 +522,7 @@ public class Application {
                         .provider("clerk")
                         .issuer("https://example-app.clerk.accounts.dev")
                         .subject("user_2EXAMPLE")
-                        .verified(false)
+                        .verified(true)
                         .audience("https://app.example.com")
                         .audiences(List.of(
                             "https://app.example.com"))

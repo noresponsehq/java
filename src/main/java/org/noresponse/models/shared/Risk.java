@@ -61,6 +61,23 @@ public class Risk {
     private Long blockThreshold;
 
     /**
+     * The score at which this answer's flow starts to recommend step_up. Absent from an answer stored
+     * before it was recorded.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("step_up_threshold")
+    private Long stepUpThreshold;
+
+    /**
+     * The score at which this answer's flow starts to recommend review. An answer nothing answered
+     * recommends review below it, with confidence unavailable. Absent from an answer stored before it was
+     * recorded.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("review_threshold")
+    private Long reviewThreshold;
+
+    /**
      * How much of the planned evidence answered; it says nothing about risk.
      */
     @JsonProperty("confidence")
@@ -121,6 +138,8 @@ public class Risk {
             @JsonProperty("recommendation") @Nonnull Recommendation recommendation,
             @JsonProperty("block") @Nullable Boolean block,
             @JsonProperty("block_threshold") @Nullable Long blockThreshold,
+            @JsonProperty("step_up_threshold") @Nullable Long stepUpThreshold,
+            @JsonProperty("review_threshold") @Nullable Long reviewThreshold,
             @JsonProperty("confidence") @Nonnull RiskConfidence confidence,
             @JsonProperty("policy_version") @Nonnull String policyVersion,
             @JsonProperty("reasons") @Nonnull List<RiskReason> reasons,
@@ -133,6 +152,8 @@ public class Risk {
                 .orElseThrow(() -> new IllegalArgumentException("recommendation cannot be null"));
         this.block = block;
         this.blockThreshold = blockThreshold;
+        this.stepUpThreshold = stepUpThreshold;
+        this.reviewThreshold = reviewThreshold;
         this.confidence = Optional.ofNullable(confidence)
                 .orElseThrow(() -> new IllegalArgumentException("confidence cannot be null"));
         this.policyVersion = Optional.ofNullable(policyVersion)
@@ -154,7 +175,20 @@ public class Risk {
             @Nonnull String policyVersion,
             @Nonnull List<RiskReason> reasons,
             @Nonnull RiskCoverage coverage) {
-        this(score, band, recommendation, null, null, confidence, policyVersion, reasons, null, coverage, null);
+        this(
+                score,
+                band,
+                recommendation,
+                null,
+                null,
+                null,
+                null,
+                confidence,
+                policyVersion,
+                reasons,
+                null,
+                coverage,
+                null);
     }
 
     public long score() {
@@ -190,6 +224,23 @@ public class Risk {
      */
     public Optional<Long> blockThreshold() {
         return Optional.ofNullable(this.blockThreshold);
+    }
+
+    /**
+     * The score at which this answer's flow starts to recommend step_up. Absent from an answer stored
+     * before it was recorded.
+     */
+    public Optional<Long> stepUpThreshold() {
+        return Optional.ofNullable(this.stepUpThreshold);
+    }
+
+    /**
+     * The score at which this answer's flow starts to recommend review. An answer nothing answered
+     * recommends review below it, with confidence unavailable. Absent from an answer stored before it was
+     * recorded.
+     */
+    public Optional<Long> reviewThreshold() {
+        return Optional.ofNullable(this.reviewThreshold);
     }
 
     /**
@@ -296,6 +347,25 @@ public class Risk {
     }
 
     /**
+     * The score at which this answer's flow starts to recommend step_up. Absent from an answer stored
+     * before it was recorded.
+     */
+    public Risk withStepUpThreshold(@Nullable Long stepUpThreshold) {
+        this.stepUpThreshold = stepUpThreshold;
+        return this;
+    }
+
+    /**
+     * The score at which this answer's flow starts to recommend review. An answer nothing answered
+     * recommends review below it, with confidence unavailable. Absent from an answer stored before it was
+     * recorded.
+     */
+    public Risk withReviewThreshold(@Nullable Long reviewThreshold) {
+        this.reviewThreshold = reviewThreshold;
+        return this;
+    }
+
+    /**
      * How much of the planned evidence answered; it says nothing about risk.
      */
     public Risk withConfidence(@Nonnull RiskConfidence confidence) {
@@ -367,6 +437,8 @@ public class Risk {
                 && Utils.enhancedDeepEquals(this.recommendation, other.recommendation)
                 && Utils.enhancedDeepEquals(this.block, other.block)
                 && Utils.enhancedDeepEquals(this.blockThreshold, other.blockThreshold)
+                && Utils.enhancedDeepEquals(this.stepUpThreshold, other.stepUpThreshold)
+                && Utils.enhancedDeepEquals(this.reviewThreshold, other.reviewThreshold)
                 && Utils.enhancedDeepEquals(this.confidence, other.confidence)
                 && Utils.enhancedDeepEquals(this.policyVersion, other.policyVersion)
                 && Utils.enhancedDeepEquals(this.policyBasis, other.policyBasis)
@@ -384,6 +456,8 @@ public class Risk {
                 recommendation,
                 block,
                 blockThreshold,
+                stepUpThreshold,
+                reviewThreshold,
                 confidence,
                 policyVersion,
                 policyBasis,
@@ -407,6 +481,10 @@ public class Risk {
                 block,
                 "blockThreshold",
                 blockThreshold,
+                "stepUpThreshold",
+                stepUpThreshold,
+                "reviewThreshold",
+                reviewThreshold,
                 "confidence",
                 confidence,
                 "policyVersion",
@@ -435,6 +513,10 @@ public class Risk {
         private Boolean block;
 
         private Long blockThreshold;
+
+        private Long stepUpThreshold;
+
+        private Long reviewThreshold;
 
         private RiskConfidence confidence;
 
@@ -489,6 +571,25 @@ public class Risk {
          */
         public Builder blockThreshold(@Nullable Long blockThreshold) {
             this.blockThreshold = blockThreshold;
+            return this;
+        }
+
+        /**
+         * The score at which this answer's flow starts to recommend step_up. Absent from an answer stored
+         * before it was recorded.
+         */
+        public Builder stepUpThreshold(@Nullable Long stepUpThreshold) {
+            this.stepUpThreshold = stepUpThreshold;
+            return this;
+        }
+
+        /**
+         * The score at which this answer's flow starts to recommend review. An answer nothing answered
+         * recommends review below it, with confidence unavailable. Absent from an answer stored before it was
+         * recorded.
+         */
+        public Builder reviewThreshold(@Nullable Long reviewThreshold) {
+            this.reviewThreshold = reviewThreshold;
             return this;
         }
 
@@ -557,6 +658,8 @@ public class Risk {
                     recommendation,
                     block,
                     blockThreshold,
+                    stepUpThreshold,
+                    reviewThreshold,
                     confidence,
                     policyVersion,
                     reasons,
