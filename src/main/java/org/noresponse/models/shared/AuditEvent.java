@@ -45,8 +45,10 @@ public class AuditEvent {
      * webhook_endpoint.verification_requested, webhook_endpoint.delivery_replayed, assessment.created,
      * assessment.outcome_recorded, assessment.deleted, account.outcome_recorded,
      * account.enforcement_recorded, account.deleted, account.exported. A change with no finer name carries
-     * the permission it used, such as keys.live.write. New actions may appear; treat an unknown one as a
-     * change to its target.
+     * the permission it used, such as keys.live.write. A member's read of raw evidence is
+     * breach_records.read or review_locations.read, with the assessment and counts and no value.
+     *
+     * <p>New actions may appear; treat an unknown one as a change to its target.
      */
     @JsonProperty("action")
     private String action;
@@ -155,8 +157,10 @@ public class AuditEvent {
      * webhook_endpoint.verification_requested, webhook_endpoint.delivery_replayed, assessment.created,
      * assessment.outcome_recorded, assessment.deleted, account.outcome_recorded,
      * account.enforcement_recorded, account.deleted, account.exported. A change with no finer name carries
-     * the permission it used, such as keys.live.write. New actions may appear; treat an unknown one as a
-     * change to its target.
+     * the permission it used, such as keys.live.write. A member's read of raw evidence is
+     * breach_records.read or review_locations.read, with the assessment and counts and no value.
+     *
+     * <p>New actions may appear; treat an unknown one as a change to its target.
      */
     public String action() {
         return this.action;
@@ -233,8 +237,10 @@ public class AuditEvent {
      * webhook_endpoint.verification_requested, webhook_endpoint.delivery_replayed, assessment.created,
      * assessment.outcome_recorded, assessment.deleted, account.outcome_recorded,
      * account.enforcement_recorded, account.deleted, account.exported. A change with no finer name carries
-     * the permission it used, such as keys.live.write. New actions may appear; treat an unknown one as a
-     * change to its target.
+     * the permission it used, such as keys.live.write. A member's read of raw evidence is
+     * breach_records.read or review_locations.read, with the assessment and counts and no value.
+     *
+     * <p>New actions may appear; treat an unknown one as a change to its target.
      */
     public AuditEvent withAction(@Nonnull String action) {
         this.action = Utils.checkNotNull(action, "action");
@@ -410,8 +416,10 @@ public class AuditEvent {
          * webhook_endpoint.verification_requested, webhook_endpoint.delivery_replayed, assessment.created,
          * assessment.outcome_recorded, assessment.deleted, account.outcome_recorded,
          * account.enforcement_recorded, account.deleted, account.exported. A change with no finer name carries
-         * the permission it used, such as keys.live.write. New actions may appear; treat an unknown one as a
-         * change to its target.
+         * the permission it used, such as keys.live.write. A member's read of raw evidence is
+         * breach_records.read or review_locations.read, with the assessment and counts and no value.
+         *
+         * <p>New actions may appear; treat an unknown one as a change to its target.
          */
         public Builder action(@Nonnull String action) {
             this.action = Utils.checkNotNull(action, "action");

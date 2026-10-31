@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: a0e0d0cd1063c5d6007d02718ad1ee52
+  docChecksum: 623be4e65c19c53c8176883467622963
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 10.0.7
-  configChecksum: 44f371159635de20ffab6023eaccdc92
+  releaseVersion: 10.0.8
+  configChecksum: 1f3d90885919711644d19aa4ec107dc9
 features:
   java:
     additionalDependencies: 0.1.0
@@ -575,7 +575,7 @@ trackedFiles:
   docs/models/shared/AttributeAgreement.md:
     last_write_checksum: sha1:da7ced702ef1d8c2bfc4d377ee1073a5ec0122b4
   docs/models/shared/AuditEvent.md:
-    last_write_checksum: sha1:feaf7e8688e233eaa4dab28ff0007788947884ed
+    last_write_checksum: sha1:0faa574e31a58e8df834a19422e5bbfd91de1d81
   docs/models/shared/AuditEventEvent.md:
     last_write_checksum: sha1:f18d79acd42d747eb98cd43bb3c60221c3b08140
   docs/models/shared/AuditEventList.md:
@@ -1247,7 +1247,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:c927c2e5df0046c2a9a4eca509f346d492867c26
+    last_write_checksum: sha1:2ee5494a538777b2f2d18a67215c7baf99853574
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1331,7 +1331,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:44c502c06fb404d5a20a03ea55e275b52c84aab4
+    last_write_checksum: sha1:be6bafe953ab716b4248c2dd5cf1f6669ff54ed8
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -2493,7 +2493,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/AttributeAgreement.java:
     last_write_checksum: sha1:65f541972f13b5a5f86896901508d53a8550df3f
   src/main/java/org/noresponse/models/shared/AuditEvent.java:
-    last_write_checksum: sha1:dd4b5d73de5fb4fd09551aca8add277dec5e5f38
+    last_write_checksum: sha1:28cc9ed27243278d9972204787e08200d6776a82
   src/main/java/org/noresponse/models/shared/AuditEventEvent.java:
     last_write_checksum: sha1:340689ebbeee167f855f5c3aea900cf00319f4ac
   src/main/java/org/noresponse/models/shared/AuditEventList.java:
