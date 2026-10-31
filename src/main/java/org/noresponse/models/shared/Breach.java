@@ -74,6 +74,15 @@ public class Breach {
     @JsonProperty("exposed")
     private List<BreachExposed> exposed;
 
+    /**
+     * What this table's rows record against the matched email or username: the tables behind the
+     * forum_sanctioned and prior_payment_abuse reasons. Absent when the rows record none, for a table
+     * matched on an IP address, and from an answer stored before it was recorded.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("conduct")
+    private List<BreachConduct> conduct;
+
     @JsonCreator
     public Breach(
             @JsonProperty("name") @Nonnull String name,
@@ -83,7 +92,8 @@ public class Breach {
             @JsonProperty("year") @Nullable Long year,
             @JsonProperty("month") @Nullable Long month,
             @JsonProperty("matched_on") @Nonnull BreachSelector matchedOn,
-            @JsonProperty("exposed") @Nullable List<BreachExposed> exposed) {
+            @JsonProperty("exposed") @Nullable List<BreachExposed> exposed,
+            @JsonProperty("conduct") @Nullable List<BreachConduct> conduct) {
         this.name = Optional.ofNullable(name).orElseThrow(() -> new IllegalArgumentException("name cannot be null"));
         this.domain = domain;
         this.category = category;
@@ -93,10 +103,11 @@ public class Breach {
         this.matchedOn = Optional.ofNullable(matchedOn)
                 .orElseThrow(() -> new IllegalArgumentException("matchedOn cannot be null"));
         this.exposed = exposed;
+        this.conduct = conduct;
     }
 
     public Breach(@Nonnull String name, @Nonnull BreachKind kind, @Nonnull BreachSelector matchedOn) {
-        this(name, null, null, kind, null, null, matchedOn, null);
+        this(name, null, null, kind, null, null, matchedOn, null, null);
     }
 
     public String name() {
@@ -153,6 +164,15 @@ public class Breach {
 
     public Optional<List<BreachExposed>> exposed() {
         return Optional.ofNullable(this.exposed);
+    }
+
+    /**
+     * What this table's rows record against the matched email or username: the tables behind the
+     * forum_sanctioned and prior_payment_abuse reasons. Absent when the rows record none, for a table
+     * matched on an IP address, and from an answer stored before it was recorded.
+     */
+    public Optional<List<BreachConduct>> conduct() {
+        return Optional.ofNullable(this.conduct);
     }
 
     public static Builder builder() {
@@ -223,6 +243,16 @@ public class Breach {
         return this;
     }
 
+    /**
+     * What this table's rows record against the matched email or username: the tables behind the
+     * forum_sanctioned and prior_payment_abuse reasons. Absent when the rows record none, for a table
+     * matched on an IP address, and from an answer stored before it was recorded.
+     */
+    public Breach withConduct(@Nullable List<BreachConduct> conduct) {
+        this.conduct = conduct;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -239,12 +269,13 @@ public class Breach {
                 && Utils.enhancedDeepEquals(this.year, other.year)
                 && Utils.enhancedDeepEquals(this.month, other.month)
                 && Utils.enhancedDeepEquals(this.matchedOn, other.matchedOn)
-                && Utils.enhancedDeepEquals(this.exposed, other.exposed);
+                && Utils.enhancedDeepEquals(this.exposed, other.exposed)
+                && Utils.enhancedDeepEquals(this.conduct, other.conduct);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(name, domain, category, kind, year, month, matchedOn, exposed);
+        return Utils.enhancedHash(name, domain, category, kind, year, month, matchedOn, exposed, conduct);
     }
 
     @Override
@@ -266,7 +297,9 @@ public class Breach {
                 "matchedOn",
                 matchedOn,
                 "exposed",
-                exposed);
+                exposed,
+                "conduct",
+                conduct);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -287,6 +320,8 @@ public class Breach {
         private BreachSelector matchedOn;
 
         private List<BreachExposed> exposed;
+
+        private List<BreachConduct> conduct;
 
         private Builder() {
             // force use of static builder() method
@@ -356,8 +391,18 @@ public class Breach {
             return this;
         }
 
+        /**
+         * What this table's rows record against the matched email or username: the tables behind the
+         * forum_sanctioned and prior_payment_abuse reasons. Absent when the rows record none, for a table
+         * matched on an IP address, and from an answer stored before it was recorded.
+         */
+        public Builder conduct(@Nullable List<BreachConduct> conduct) {
+            this.conduct = conduct;
+            return this;
+        }
+
         public Breach build() {
-            return new Breach(name, domain, category, kind, year, month, matchedOn, exposed);
+            return new Breach(name, domain, category, kind, year, month, matchedOn, exposed, conduct);
         }
     }
 }

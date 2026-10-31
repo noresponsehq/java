@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 5c9c3249b882e60e6533f7c05e0858b1
+  docChecksum: 4d4129b3e43f1a3101530a9659ca3b0b
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 10.0.2
-  configChecksum: 96c3aef40e5e2febb0c2a73d7c56409e
+  releaseVersion: 10.0.3
+  configChecksum: 5dd8a1dd0151ee1457ce499d1cccb448
 features:
   java:
     additionalDependencies: 0.1.0
@@ -609,7 +609,9 @@ trackedFiles:
   docs/models/shared/Band.md:
     last_write_checksum: sha1:318a1966a157b2d9d56196ddc7ea03cf08517f8e
   docs/models/shared/Breach.md:
-    last_write_checksum: sha1:e5afaed2d285830286a4169aad1cc2596683dc29
+    last_write_checksum: sha1:253dc49c512e02e17f3e90db3e211aa8a4dc6076
+  docs/models/shared/BreachConduct.md:
+    last_write_checksum: sha1:eba7e83b0f8c006e29f0879565da1613635d4457
   docs/models/shared/BreachExposed.md:
     last_write_checksum: sha1:80969f6156f3720ab54663a9787ea860deece648
   docs/models/shared/BreachKind.md:
@@ -1243,7 +1245,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:e86f3e4c67b663a8c7d610a0a6fb5e3bdcfddbd9
+    last_write_checksum: sha1:622017f98c9bec5073185ca75c25f61b95155c6a
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1327,7 +1329,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:a9fbcee179985276b03912b3f319e096fdaac0f8
+    last_write_checksum: sha1:8e9e602288a9f3aea8c4b732faf2f7267505a62e
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -2523,7 +2525,9 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/Band.java:
     last_write_checksum: sha1:3c2f0c8832b6fa357bcb2110c0453ba962a2f410
   src/main/java/org/noresponse/models/shared/Breach.java:
-    last_write_checksum: sha1:8120d9bc2cbb5da8e6e112360f4035f4ebffe70e
+    last_write_checksum: sha1:d82936dbb0cbcb47f569a82ba4e27e44b2ae6131
+  src/main/java/org/noresponse/models/shared/BreachConduct.java:
+    last_write_checksum: sha1:07a33e5c2151b292aef312292ba33ff312f390c1
   src/main/java/org/noresponse/models/shared/BreachExposed.java:
     last_write_checksum: sha1:7d212e21f84be26d160187b130d1efa798e986b2
   src/main/java/org/noresponse/models/shared/BreachKind.java:
