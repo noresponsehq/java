@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v10.0.11'
+    implementation 'com.github.noresponsehq:java:v10.0.12'
 }
 ```
 
@@ -39,7 +39,7 @@ dependencies {
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v10.0.11</version>
+  <version>v10.0.12</version>
 </dependency>
 ```
 
@@ -237,6 +237,12 @@ try {
         // workspace.deleted: the workspace is gone; the last event here
     } else if (event instanceof WebhookEndpointDisabledEvent) {
         // data().endpointId() failed for 72 hours: fix it, verify it again
+    } else if (event instanceof ScreeningCompletedEvent) {
+        // screening.completed: counts by band, no footprint and partial coverage; it names no attendee
+    } else if (event instanceof AttendeeFlaggedEvent) {
+        // attendee.flagged: the attendee's highest band and match state, never what was posted
+    } else if (event instanceof AttendeeDecidedEvent) {
+        // attendee.decided: cleared, watch or escalated; keep the latest decidedAt per attendee
     } else if (event instanceof AccountRiskChangedEvent) {
         /* account.risk_changed, the one event to act on: a flow's decision changed, at
            data().account().riskVersion(). This verifier alone does not enforce it: use handleRiskChange (below) as this endpoint's receiver. */

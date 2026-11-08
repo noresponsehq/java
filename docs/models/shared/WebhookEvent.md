@@ -16,6 +16,9 @@ The body of every webhook delivery: {id, type, created_at, data}, where type cho
 | `"webhook_endpoint.disabled"` | [WebhookEndpointDisabledEvent](../../models/shared/WebhookEndpointDisabledEvent.md) |
 | `"account.risk_changed"` | [AccountRiskChangedEvent](../../models/shared/AccountRiskChangedEvent.md) |
 | `"audit.event"` | [AuditEventEvent](../../models/shared/AuditEventEvent.md) |
+| `"screening.completed"` | [ScreeningCompletedEvent](../../models/shared/ScreeningCompletedEvent.md) |
+| `"attendee.flagged"` | [AttendeeFlaggedEvent](../../models/shared/AttendeeFlaggedEvent.md) |
+| `"attendee.decided"` | [AttendeeDecidedEvent](../../models/shared/AttendeeDecidedEvent.md) |
 
 ### [`AssessmentUpdatedEvent`](../../models/shared/AssessmentUpdatedEvent.md)
 
@@ -201,6 +204,88 @@ WebhookEvent value = AuditEventEvent.builder()
 - [AuditEventTarget](../../models/shared/AuditEventTarget.md)
 - [AuditEventTargetType](../../models/shared/AuditEventTargetType.md)
 
+### [`ScreeningCompletedEvent`](../../models/shared/ScreeningCompletedEvent.md)
+
+Discriminator value: `"screening.completed"`
+
+```java
+WebhookEvent value = ScreeningCompletedEvent.builder()
+    .id("evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ1")
+    .createdAt("2026-10-14T09:00:02.000Z")
+    .data(ScreeningCompleted.builder()
+        .screeningId("scn_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .eventId("evn_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .status(ScreeningCompletedStatus.PARTIAL)
+        .attendeesTotal(522012L)
+        .attendeesScreened(497622L)
+        .attendeesFlagged(147551L)
+        .byBand(ScreeningCompletedByBand.builder()
+            .critical(972377L)
+            .high(929219L)
+            .moderate(893081L)
+            .low(566173L)
+            .info(91866L)
+            .build())
+        .noFootprint(761743L)
+        .partialCoverage(142551L)
+        .finishedAt("2026-11-20T08:12:44.000Z")
+        .errorCode("expired")
+        .build())
+    .build();
+```
+
+**Referred Types:**
+
+- [ScreeningCompleted](../../models/shared/ScreeningCompleted.md)
+- [ScreeningCompletedStatus](../../models/shared/ScreeningCompletedStatus.md)
+- [ScreeningCompletedByBand](../../models/shared/ScreeningCompletedByBand.md)
+
+### [`AttendeeFlaggedEvent`](../../models/shared/AttendeeFlaggedEvent.md)
+
+Discriminator value: `"attendee.flagged"`
+
+```java
+WebhookEvent value = AttendeeFlaggedEvent.builder()
+    .id("evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ1")
+    .createdAt("2026-10-14T09:00:02.000Z")
+    .data(AttendeeFlagged.builder()
+        .eventId("evn_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .attendeeId("att_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .screeningId("scn_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .highestBand(HighestBand.CRITICAL)
+        .matchState(AttendeeFlaggedMatchState.NONE_FOUND)
+        .flaggedAt("2026-11-20T07:41:09.000Z")
+        .build())
+    .build();
+```
+
+**Referred Types:**
+
+- [AttendeeFlagged](../../models/shared/AttendeeFlagged.md)
+- [HighestBand](../../models/shared/HighestBand.md)
+- [AttendeeFlaggedMatchState](../../models/shared/AttendeeFlaggedMatchState.md)
+
+### [`AttendeeDecidedEvent`](../../models/shared/AttendeeDecidedEvent.md)
+
+Discriminator value: `"attendee.decided"`
+
+```java
+WebhookEvent value = AttendeeDecidedEvent.builder()
+    .id("evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ1")
+    .createdAt("2026-10-14T09:00:02.000Z")
+    .data(AttendeeDecided.builder()
+        .eventId("evn_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .attendeeId("att_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .reviewId("arv_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .decision(AttendeeDecision.WATCH)
+        .decidedBy("email:2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae")
+        .decidedAt("2026-11-20T09:03:27.000Z")
+        .build())
+    .build();
+```
+
+**Referred Types:** [AttendeeDecided](../../models/shared/AttendeeDecided.md), [AttendeeDecision](../../models/shared/AttendeeDecision.md)
+
 ## Consumption Patterns
 
 ### Java 11+ (Discriminator Switch)
@@ -228,6 +313,15 @@ switch (value.type()) {
     case "audit.event":
         // Handle audit.event discriminator variant
         break;
+    case "screening.completed":
+        // Handle screening.completed discriminator variant
+        break;
+    case "attendee.flagged":
+        // Handle attendee.flagged discriminator variant
+        break;
+    case "attendee.decided":
+        // Handle attendee.decided discriminator variant
+        break;
     default:
         // Handle unknown discriminator variant
 }
@@ -250,6 +344,12 @@ if (value instanceof AssessmentUpdatedEvent assessmentUpdatedEvent) {
     // Handle AccountRiskChangedEvent variant
 } else if (value instanceof AuditEventEvent auditEventEvent) {
     // Handle AuditEventEvent variant
+} else if (value instanceof ScreeningCompletedEvent screeningCompletedEvent) {
+    // Handle ScreeningCompletedEvent variant
+} else if (value instanceof AttendeeFlaggedEvent attendeeFlaggedEvent) {
+    // Handle AttendeeFlaggedEvent variant
+} else if (value instanceof AttendeeDecidedEvent attendeeDecidedEvent) {
+    // Handle AttendeeDecidedEvent variant
 } else {
     // Handle unknown discriminator variant
 }
@@ -279,6 +379,15 @@ switch (value) {
     }
     case AuditEventEvent auditEventEvent -> {
         // Handle AuditEventEvent variant
+    }
+    case ScreeningCompletedEvent screeningCompletedEvent -> {
+        // Handle ScreeningCompletedEvent variant
+    }
+    case AttendeeFlaggedEvent attendeeFlaggedEvent -> {
+        // Handle AttendeeFlaggedEvent variant
+    }
+    case AttendeeDecidedEvent attendeeDecidedEvent -> {
+        // Handle AttendeeDecidedEvent variant
     }
     default -> {
         // Handle unknown discriminator variant

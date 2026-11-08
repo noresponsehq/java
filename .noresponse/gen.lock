@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 11d0a111ca8c272ff873c996b3fe9a0e
+  docChecksum: 1e1ac373fb4baeb425c33419201ca757
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 10.0.11
-  configChecksum: ee8599434fd9ae302b314d70582b0214
+  releaseVersion: 10.0.12
+  configChecksum: 0a6782637c4e22453e6cd456597a771e
 features:
   java:
     additionalDependencies: 0.1.0
@@ -634,8 +634,18 @@ trackedFiles:
     last_write_checksum: sha1:3eae8c245f79cb5fcc5df16978c5607590b24aed
   docs/models/shared/AttendeeCoverage.md:
     last_write_checksum: sha1:f5207c1332767b013b0dc0c1c4f11921e3754140
+  docs/models/shared/AttendeeDecided.md:
+    last_write_checksum: sha1:61bf8dbbfd9c4d4ba770b5344816a3306cfe866c
+  docs/models/shared/AttendeeDecidedEvent.md:
+    last_write_checksum: sha1:c709a40de13e37ea5b866e484409efeb47dfdd11
   docs/models/shared/AttendeeDecision.md:
     last_write_checksum: sha1:a75b1aa14c8de5e58e10c17c21d838db14dd25c1
+  docs/models/shared/AttendeeFlagged.md:
+    last_write_checksum: sha1:cec7c755eaeaeeb05d938b034f4cde559f5acd2e
+  docs/models/shared/AttendeeFlaggedEvent.md:
+    last_write_checksum: sha1:ca30647604e51b939898b643ae9a2a464ffc5c21
+  docs/models/shared/AttendeeFlaggedMatchState.md:
+    last_write_checksum: sha1:50f0799bdf4055dcdcee72996693f33241851e02
   docs/models/shared/AttendeeIdentity.md:
     last_write_checksum: sha1:c3e1ca9e508d392b7a2679f5e403398d98dbda75
   docs/models/shared/AttendeeList.md:
@@ -1194,6 +1204,14 @@ trackedFiles:
     last_write_checksum: sha1:30e7b13485ebc3d9bef356173b33fb6e42f2eca5
   docs/models/shared/ScreeningCancelRequest.md:
     last_write_checksum: sha1:49c92b7250b7982cd0e3ec06122f23b6942fdd62
+  docs/models/shared/ScreeningCompleted.md:
+    last_write_checksum: sha1:1b9c4c1b86bbde636613906cc2d0cedab721f474
+  docs/models/shared/ScreeningCompletedByBand.md:
+    last_write_checksum: sha1:8549c49cc716084bfe9d83b9b12463a58d1b5b53
+  docs/models/shared/ScreeningCompletedEvent.md:
+    last_write_checksum: sha1:07a788e46188ab52f1dd07024d8408c8ce5fcd31
+  docs/models/shared/ScreeningCompletedStatus.md:
+    last_write_checksum: sha1:4532276d44066ec53638ae61ddefdb54cb07df79
   docs/models/shared/ScreeningDepth.md:
     last_write_checksum: sha1:faa7a0483b27149e0a4d8f7529e00867a239b36c
   docs/models/shared/ScreeningList.md:
@@ -1263,7 +1281,7 @@ trackedFiles:
   docs/models/shared/WebhookAggregateRequest.md:
     last_write_checksum: sha1:dc188306e466775827af5276cdc2da175dc0a216
   docs/models/shared/WebhookDeliveryAttempt.md:
-    last_write_checksum: sha1:a6ae83c510ce41d7497685f5b02f6fbb188a5b4b
+    last_write_checksum: sha1:95fad2c7f0bdda3fa37abaa6a0da4015a1d01079
   docs/models/shared/WebhookDeliveryAttemptStatus.md:
     last_write_checksum: sha1:3077f5290550ea9f5434bd15da8abd47d1f5797a
   docs/models/shared/WebhookDeliveryList.md:
@@ -1283,13 +1301,13 @@ trackedFiles:
   docs/models/shared/WebhookEndpointState.md:
     last_write_checksum: sha1:93334b410fd3f3a5ff73570de73b55a7504ea09f
   docs/models/shared/WebhookEvent.md:
-    last_write_checksum: sha1:b1ce67826a3f604b13552e99d20c6d20ee4ce6b9
+    last_write_checksum: sha1:184da60370ca558cb01834254de83e3b0b029c3f
   docs/models/shared/WebhookKeyRotation.md:
     last_write_checksum: sha1:0663fc26f832bd915cb51f150ab7b3476152ad0e
   docs/models/shared/WebhookKeyRotationRequest.md:
     last_write_checksum: sha1:24f9c44d1ebe5a3280d981b0455b8c8e2d2b038c
   docs/models/shared/WebhookReplay.md:
-    last_write_checksum: sha1:fdbfa4c1e6202416b0ec25e5ea826e82f84f0682
+    last_write_checksum: sha1:13527a3270a8a203c57f99934fb1be9e747f04b3
   docs/models/shared/WebhookReplayRequest.md:
     last_write_checksum: sha1:5575baa2f60f6bc8cd384cb27bb492d98491463d
   docs/models/shared/WebhookTest.md:
@@ -1318,10 +1336,16 @@ trackedFiles:
     last_write_checksum: sha1:393d0fded8174678fc93279ac7f0b0fcd4756d9e
   docs/models/webhooks/AssessmentUpdatedResponse.md:
     last_write_checksum: sha1:d59b55764a66270d65fdcdb809aa7b683dbabcb3
+  docs/models/webhooks/AttendeeDecidedResponse.md:
+    last_write_checksum: sha1:5dee36268d0c1882079de5688e7adee4086f4395
+  docs/models/webhooks/AttendeeFlaggedResponse.md:
+    last_write_checksum: sha1:541eef6134f21e74bc59f71c2aac7950f014d16b
   docs/models/webhooks/EndpointVerificationResponse.md:
     last_write_checksum: sha1:021ea420a5d2a8227a62ee34cf5d6b7d860ad2a5
   docs/models/webhooks/ReceiveAuditEventResponse.md:
     last_write_checksum: sha1:84d42b3efcbc2e7fb95d73e17c22f18fa2b28c63
+  docs/models/webhooks/ScreeningCompletedResponse.md:
+    last_write_checksum: sha1:4f81c9b073a2164c72353cbd87661c6336c724ef
   docs/models/webhooks/TenantDeletedResponse.md:
     last_write_checksum: sha1:ea91f44db124a438d5ac0ada0196567171526a8f
   docs/models/webhooks/WebhookEndpointDisabledResponse.md:
@@ -1367,7 +1391,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:75478ab99df91e27b963203989d378a466797307
+    last_write_checksum: sha1:494c117b704f15ba12615a8fb3d4fe2fecb19644
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1455,7 +1479,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:46fb1786bfbef20f9689a6a68e1b4e07b5fb40b8
+    last_write_checksum: sha1:5469e3a0f1cd49a2753a826ef50f1844cf4dc212
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -2754,8 +2778,18 @@ trackedFiles:
     last_write_checksum: sha1:13e503dd082ebe7d82de280322e74064581ff052
   src/main/java/org/noresponse/models/shared/AttendeeCoverage.java:
     last_write_checksum: sha1:6c55137c9637ef220294a3959315522ea4c01504
+  src/main/java/org/noresponse/models/shared/AttendeeDecided.java:
+    last_write_checksum: sha1:62f026f3f23e1c7b5a9b1374a837258bd533bf29
+  src/main/java/org/noresponse/models/shared/AttendeeDecidedEvent.java:
+    last_write_checksum: sha1:b5b33561063b562c8f8f03919c0754be41befa4e
   src/main/java/org/noresponse/models/shared/AttendeeDecision.java:
     last_write_checksum: sha1:d1bd0953fb278f7bf494091748e26c5164328e7f
+  src/main/java/org/noresponse/models/shared/AttendeeFlagged.java:
+    last_write_checksum: sha1:29ba4d45b75089a9e3fbfbc84f047d15b76a7761
+  src/main/java/org/noresponse/models/shared/AttendeeFlaggedEvent.java:
+    last_write_checksum: sha1:84849133682d80421ab6b8aeafcbec4816ce5502
+  src/main/java/org/noresponse/models/shared/AttendeeFlaggedMatchState.java:
+    last_write_checksum: sha1:b4fee0566477092badaba48dc5b7753b88756fd3
   src/main/java/org/noresponse/models/shared/AttendeeIdentity.java:
     last_write_checksum: sha1:8a5ca2a0b0bf0da7a3a5da0ee2f6d1eb33dba1b9
   src/main/java/org/noresponse/models/shared/AttendeeList.java:
@@ -3314,6 +3348,14 @@ trackedFiles:
     last_write_checksum: sha1:6e7ad03398c9cdb845722f7f5d88e7c3a12b2370
   src/main/java/org/noresponse/models/shared/ScreeningCancelRequest.java:
     last_write_checksum: sha1:33cbcb2b847bcdd7035d67f24a032393959d2c7a
+  src/main/java/org/noresponse/models/shared/ScreeningCompleted.java:
+    last_write_checksum: sha1:1ef7d9976e63e5f90385583da1e82c53c8692d7a
+  src/main/java/org/noresponse/models/shared/ScreeningCompletedByBand.java:
+    last_write_checksum: sha1:40a7edf9f1ee212e75179146c91a1a687643d332
+  src/main/java/org/noresponse/models/shared/ScreeningCompletedEvent.java:
+    last_write_checksum: sha1:6a9694a58a9b916b092d3fa9fb2ce134d2d07154
+  src/main/java/org/noresponse/models/shared/ScreeningCompletedStatus.java:
+    last_write_checksum: sha1:a4a46052aa0cafc4ecefab65b1d6f1e65cd9b748
   src/main/java/org/noresponse/models/shared/ScreeningDepth.java:
     last_write_checksum: sha1:e72cbae6c76ed427a67a9ac1674baa43cbeb43dc
   src/main/java/org/noresponse/models/shared/ScreeningList.java:
@@ -3385,7 +3427,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/WebhookAggregateRequest.java:
     last_write_checksum: sha1:175994f7e01a6dec7864ba0ac9512b4f26125b4c
   src/main/java/org/noresponse/models/shared/WebhookDeliveryAttempt.java:
-    last_write_checksum: sha1:9153c4ff2923a6789d237b69690e53e97e5422e5
+    last_write_checksum: sha1:77a2e3d6fe9e1e403c64a07bf5d0c3aebf968595
   src/main/java/org/noresponse/models/shared/WebhookDeliveryAttemptStatus.java:
     last_write_checksum: sha1:09a2b8adbc11663671a387d972ded3174135a5a0
   src/main/java/org/noresponse/models/shared/WebhookDeliveryList.java:
@@ -3407,13 +3449,13 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/WebhookEvent.java:
     last_write_checksum: sha1:43edf6ae5ffe9d49db1b93b26e1a34511d3aec2d
   src/main/java/org/noresponse/models/shared/WebhookEventTypeIdResolver.java:
-    last_write_checksum: sha1:e986be5e29d1ba542b1d4689c4c08d5054e22382
+    last_write_checksum: sha1:d13fa5f8be25c573cca8418f400a57121009eab7
   src/main/java/org/noresponse/models/shared/WebhookKeyRotation.java:
     last_write_checksum: sha1:ee7fbd78c2c12baf38334832459fcbe5dcb9ce37
   src/main/java/org/noresponse/models/shared/WebhookKeyRotationRequest.java:
     last_write_checksum: sha1:84b65968e9cde9b4b8902a55cccecbb2b86b3ca2
   src/main/java/org/noresponse/models/shared/WebhookReplay.java:
-    last_write_checksum: sha1:bbccd0fcca2a6698d7acd83c88212e0dee5a3a75
+    last_write_checksum: sha1:ab53c143abef29ebae0e6a8975e45ea42272b20f
   src/main/java/org/noresponse/models/shared/WebhookReplayRequest.java:
     last_write_checksum: sha1:06615335a454a7ad486f1d66696d9609bf66393e
   src/main/java/org/noresponse/models/shared/WebhookTest.java:
@@ -3442,10 +3484,16 @@ trackedFiles:
     last_write_checksum: sha1:a63267e508fb82c444301e3c1d6b9fda1f40576f
   src/main/java/org/noresponse/models/webhooks/AssessmentUpdatedResponse.java:
     last_write_checksum: sha1:1cb47d4557d3d60a6a4d3d498879392f6ada5b5d
+  src/main/java/org/noresponse/models/webhooks/AttendeeDecidedResponse.java:
+    last_write_checksum: sha1:27309c2c510db064cdf113691a6c6c1c8969d933
+  src/main/java/org/noresponse/models/webhooks/AttendeeFlaggedResponse.java:
+    last_write_checksum: sha1:d9b20b35b7394558c27a33ce565c956ed60fd04a
   src/main/java/org/noresponse/models/webhooks/EndpointVerificationResponse.java:
     last_write_checksum: sha1:a38a3652d376708b4e7dbfdbe96a7536a9ef929a
   src/main/java/org/noresponse/models/webhooks/ReceiveAuditEventResponse.java:
     last_write_checksum: sha1:7b225372896a1acd07b8259dd0f34baae7573b7e
+  src/main/java/org/noresponse/models/webhooks/ScreeningCompletedResponse.java:
+    last_write_checksum: sha1:c750ac1ea63ef9605d9b9eba080e70d370c6bf43
   src/main/java/org/noresponse/models/webhooks/TenantDeletedResponse.java:
     last_write_checksum: sha1:9e964fd307501af42cb24e6bd7e5a036e740fd03
   src/main/java/org/noresponse/models/webhooks/WebhookEndpointDisabledResponse.java:
@@ -3456,10 +3504,16 @@ trackedFiles:
     last_write_checksum: sha1:02f115d3166765f7183327a5f8593e6b558c82db
   src/main/java/org/noresponse/models/webhooks/async/AssessmentUpdatedResponse.java:
     last_write_checksum: sha1:e854124bc6946be4c6ce3f14219cbd1e40e8ebc6
+  src/main/java/org/noresponse/models/webhooks/async/AttendeeDecidedResponse.java:
+    last_write_checksum: sha1:9549e264a888e484302885c4fa04637619669f3d
+  src/main/java/org/noresponse/models/webhooks/async/AttendeeFlaggedResponse.java:
+    last_write_checksum: sha1:1c290857bb50011f0c07ff64e5690b5d62dcec32
   src/main/java/org/noresponse/models/webhooks/async/EndpointVerificationResponse.java:
     last_write_checksum: sha1:b02ec9c6d491842c51e096e5f02accdf9cddbfa0
   src/main/java/org/noresponse/models/webhooks/async/ReceiveAuditEventResponse.java:
     last_write_checksum: sha1:a63441e8b9576916b3a909c6271d354c81c80a67
+  src/main/java/org/noresponse/models/webhooks/async/ScreeningCompletedResponse.java:
+    last_write_checksum: sha1:995520c50059c0d604d4f19d7b1e8c697deeeed0
   src/main/java/org/noresponse/models/webhooks/async/TenantDeletedResponse.java:
     last_write_checksum: sha1:7660ebdda31b0342d0d90517bada087e1460835b
   src/main/java/org/noresponse/models/webhooks/async/WebhookEndpointDisabledResponse.java:
