@@ -126,6 +126,11 @@ public class NoResponse {
     private final Operations operations;
 
     /**
+     * Events, attendee lists, screenings and reviewer decisions.
+     */
+    private final Events events;
+
+    /**
      * Assessments of account creation, login and purchase.
      */
     public Assessments assessments() {
@@ -249,6 +254,13 @@ public class NoResponse {
      */
     public Operations operations() {
         return operations;
+    }
+
+    /**
+     * Events, attendee lists, screenings and reviewer decisions.
+     */
+    public Events events() {
+        return events;
     }
 
     private final AsyncNoResponse asyncSDK;
@@ -432,6 +444,7 @@ public class NoResponse {
         this.exports = new Exports(sdkConfiguration);
         this.evaluations = new Evaluations(sdkConfiguration);
         this.operations = new Operations(sdkConfiguration);
+        this.events = new Events(sdkConfiguration);
         sdkConfiguration = sdkConfiguration.hooks().sdkInit(sdkConfiguration);
         this.asyncSDK = new AsyncNoResponse(this, sdkConfiguration);
     }

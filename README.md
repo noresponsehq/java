@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v10.0.9'
+    implementation 'com.github.noresponsehq:java:v10.0.10'
 }
 ```
 
@@ -39,7 +39,7 @@ dependencies {
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v10.0.9</version>
+  <version>v10.0.10</version>
 </dependency>
 ```
 
@@ -95,6 +95,7 @@ Act on `account().get().risk().decision()`: `allow`, `step_up`, `review` or `blo
 | --- | --- |
 | Configure this client and explore its methods | [Java SDK guide](https://docs.noresponse.org/sdks/java) |
 | Act when an account's decision changes | [Late results](https://docs.noresponse.org/guides/late-results) |
+| Screen an event's attendees and record decisions | [Events and screenings](https://docs.noresponse.org/reference/events) |
 | Explore request and response fields | [API reference](https://docs.noresponse.org/api-reference) |
 
 <details>

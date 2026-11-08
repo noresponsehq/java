@@ -22,7 +22,8 @@ public enum KeyRequestScope {
     SETTINGS("settings"),
     POLICY_PUBLISH("policy_publish"),
     MEMBERS("members"),
-    MEMBERS_MANAGE("members_manage");
+    MEMBERS_MANAGE("members_manage"),
+    EVENTS("events");
 
     @JsonValue
     private final String value;
