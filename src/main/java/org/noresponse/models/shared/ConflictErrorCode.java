@@ -52,6 +52,7 @@ public class ConflictErrorCode {
     public static final ConflictErrorCode AGGREGATE_ERASED_DATA = new ConflictErrorCode("aggregate_erased_data");
     public static final ConflictErrorCode EVENT_CONFLICT = new ConflictErrorCode("event_conflict");
     public static final ConflictErrorCode EVENT_LIMIT_REACHED = new ConflictErrorCode("event_limit_reached");
+    public static final ConflictErrorCode SCREENING_CAP_EXCEEDED = new ConflictErrorCode("screening_cap_exceeded");
     public static final ConflictErrorCode SCREENING_UNAVAILABLE = new ConflictErrorCode("screening_unavailable");
 
     // This map will grow whenever a Color gets created with a new
@@ -151,6 +152,7 @@ public class ConflictErrorCode {
         map.put("aggregate_erased_data", AGGREGATE_ERASED_DATA);
         map.put("event_conflict", EVENT_CONFLICT);
         map.put("event_limit_reached", EVENT_LIMIT_REACHED);
+        map.put("screening_cap_exceeded", SCREENING_CAP_EXCEEDED);
         map.put("screening_unavailable", SCREENING_UNAVAILABLE);
         return map;
     }
@@ -185,6 +187,7 @@ public class ConflictErrorCode {
         map.put("aggregate_erased_data", ConflictErrorCodeEnum.AGGREGATE_ERASED_DATA);
         map.put("event_conflict", ConflictErrorCodeEnum.EVENT_CONFLICT);
         map.put("event_limit_reached", ConflictErrorCodeEnum.EVENT_LIMIT_REACHED);
+        map.put("screening_cap_exceeded", ConflictErrorCodeEnum.SCREENING_CAP_EXCEEDED);
         map.put("screening_unavailable", ConflictErrorCodeEnum.SCREENING_UNAVAILABLE);
         return map;
     }
@@ -219,6 +222,7 @@ public class ConflictErrorCode {
         AGGREGATE_ERASED_DATA("aggregate_erased_data"),
         EVENT_CONFLICT("event_conflict"),
         EVENT_LIMIT_REACHED("event_limit_reached"),
+        SCREENING_CAP_EXCEEDED("screening_cap_exceeded"),
         SCREENING_UNAVAILABLE("screening_unavailable"),
         ;
 

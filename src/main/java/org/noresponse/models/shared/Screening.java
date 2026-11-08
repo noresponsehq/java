@@ -79,6 +79,21 @@ public class Screening {
     private long attendeesFailed;
 
     /**
+     * What the screening was estimated to cost when it started, in minor units of USD (cents): its
+     * attendees at its depth and platforms. Until the screening finishes, what it has not yet spent counts
+     * against the environment's screening_daily_cap.
+     */
+    @JsonProperty("estimated_spend")
+    private long estimatedSpend;
+
+    /**
+     * What the attendees it has screened recorded, in minor units of USD. Each counts toward the UTC day
+     * it was recorded on; a failed attendee records nothing.
+     */
+    @JsonProperty("spent")
+    private long spent;
+
+    /**
      * Why a failed or cancelled screening stopped.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -102,6 +117,8 @@ public class Screening {
             @JsonProperty("attendees_done") long attendeesDone,
             @JsonProperty("attendees_flagged") long attendeesFlagged,
             @JsonProperty("attendees_failed") long attendeesFailed,
+            @JsonProperty("estimated_spend") long estimatedSpend,
+            @JsonProperty("spent") long spent,
             @JsonProperty("error_code") @Nullable String errorCode) {
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.eventId =
@@ -125,6 +142,8 @@ public class Screening {
         this.attendeesDone = attendeesDone;
         this.attendeesFlagged = attendeesFlagged;
         this.attendeesFailed = attendeesFailed;
+        this.estimatedSpend = estimatedSpend;
+        this.spent = spent;
         this.errorCode = errorCode;
     }
 
@@ -141,7 +160,9 @@ public class Screening {
             long attendeesTotal,
             long attendeesDone,
             long attendeesFlagged,
-            long attendeesFailed) {
+            long attendeesFailed,
+            long estimatedSpend,
+            long spent) {
         this(
                 id,
                 eventId,
@@ -158,6 +179,8 @@ public class Screening {
                 attendeesDone,
                 attendeesFlagged,
                 attendeesFailed,
+                estimatedSpend,
+                spent,
                 null);
     }
 
@@ -231,6 +254,23 @@ public class Screening {
 
     public long attendeesFailed() {
         return this.attendeesFailed;
+    }
+
+    /**
+     * What the screening was estimated to cost when it started, in minor units of USD (cents): its
+     * attendees at its depth and platforms. Until the screening finishes, what it has not yet spent counts
+     * against the environment's screening_daily_cap.
+     */
+    public long estimatedSpend() {
+        return this.estimatedSpend;
+    }
+
+    /**
+     * What the attendees it has screened recorded, in minor units of USD. Each counts toward the UTC day
+     * it was recorded on; a failed attendee records nothing.
+     */
+    public long spent() {
+        return this.spent;
     }
 
     /**
@@ -332,6 +372,25 @@ public class Screening {
     }
 
     /**
+     * What the screening was estimated to cost when it started, in minor units of USD (cents): its
+     * attendees at its depth and platforms. Until the screening finishes, what it has not yet spent counts
+     * against the environment's screening_daily_cap.
+     */
+    public Screening withEstimatedSpend(long estimatedSpend) {
+        this.estimatedSpend = estimatedSpend;
+        return this;
+    }
+
+    /**
+     * What the attendees it has screened recorded, in minor units of USD. Each counts toward the UTC day
+     * it was recorded on; a failed attendee records nothing.
+     */
+    public Screening withSpent(long spent) {
+        this.spent = spent;
+        return this;
+    }
+
+    /**
      * Why a failed or cancelled screening stopped.
      */
     public Screening withErrorCode(@Nullable String errorCode) {
@@ -363,6 +422,8 @@ public class Screening {
                 && Utils.enhancedDeepEquals(this.attendeesDone, other.attendeesDone)
                 && Utils.enhancedDeepEquals(this.attendeesFlagged, other.attendeesFlagged)
                 && Utils.enhancedDeepEquals(this.attendeesFailed, other.attendeesFailed)
+                && Utils.enhancedDeepEquals(this.estimatedSpend, other.estimatedSpend)
+                && Utils.enhancedDeepEquals(this.spent, other.spent)
                 && Utils.enhancedDeepEquals(this.errorCode, other.errorCode);
     }
 
@@ -384,6 +445,8 @@ public class Screening {
                 attendeesDone,
                 attendeesFlagged,
                 attendeesFailed,
+                estimatedSpend,
+                spent,
                 errorCode);
     }
 
@@ -421,6 +484,10 @@ public class Screening {
                 attendeesFlagged,
                 "attendeesFailed",
                 attendeesFailed,
+                "estimatedSpend",
+                estimatedSpend,
+                "spent",
+                spent,
                 "errorCode",
                 errorCode);
     }
@@ -457,6 +524,10 @@ public class Screening {
         private long attendeesFlagged;
 
         private long attendeesFailed;
+
+        private long estimatedSpend;
+
+        private long spent;
 
         private String errorCode;
 
@@ -552,6 +623,25 @@ public class Screening {
         }
 
         /**
+         * What the screening was estimated to cost when it started, in minor units of USD (cents): its
+         * attendees at its depth and platforms. Until the screening finishes, what it has not yet spent counts
+         * against the environment's screening_daily_cap.
+         */
+        public Builder estimatedSpend(long estimatedSpend) {
+            this.estimatedSpend = estimatedSpend;
+            return this;
+        }
+
+        /**
+         * What the attendees it has screened recorded, in minor units of USD. Each counts toward the UTC day
+         * it was recorded on; a failed attendee records nothing.
+         */
+        public Builder spent(long spent) {
+            this.spent = spent;
+            return this;
+        }
+
+        /**
          * Why a failed or cancelled screening stopped.
          */
         public Builder errorCode(@Nullable String errorCode) {
@@ -576,6 +666,8 @@ public class Screening {
                     attendeesDone,
                     attendeesFlagged,
                     attendeesFailed,
+                    estimatedSpend,
+                    spent,
                     errorCode);
         }
     }

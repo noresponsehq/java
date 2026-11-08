@@ -22,6 +22,9 @@ public class UsageCount {
     /**
      * assessments: assessments admitted. webhook_deliveries: events sent to endpoints, one per event per
      * endpoint. key_usage_events: key-usage events accepted.
+     *
+     * <p>screenings: attendees a screening recorded a final result for, one per attendee per screening; a
+     * failed attendee counts nothing.
      */
     @JsonProperty("metric")
     private Metric metric;
@@ -77,6 +80,9 @@ public class UsageCount {
     /**
      * assessments: assessments admitted. webhook_deliveries: events sent to endpoints, one per event per
      * endpoint. key_usage_events: key-usage events accepted.
+     *
+     * <p>screenings: attendees a screening recorded a final result for, one per attendee per screening; a
+     * failed attendee counts nothing.
      */
     public Metric metric() {
         return this.metric;
@@ -117,6 +123,9 @@ public class UsageCount {
     /**
      * assessments: assessments admitted. webhook_deliveries: events sent to endpoints, one per event per
      * endpoint. key_usage_events: key-usage events accepted.
+     *
+     * <p>screenings: attendees a screening recorded a final result for, one per attendee per screening; a
+     * failed attendee counts nothing.
      */
     public UsageCount withMetric(@Nonnull Metric metric) {
         this.metric = Utils.checkNotNull(metric, "metric");
@@ -216,6 +225,9 @@ public class UsageCount {
         /**
          * assessments: assessments admitted. webhook_deliveries: events sent to endpoints, one per event per
          * endpoint. key_usage_events: key-usage events accepted.
+         *
+         * <p>screenings: attendees a screening recorded a final result for, one per attendee per screening; a
+         * failed attendee counts nothing.
          */
         public Builder metric(@Nonnull Metric metric) {
             this.metric = Utils.checkNotNull(metric, "metric");

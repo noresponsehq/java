@@ -11,6 +11,7 @@ import java.lang.String;
 import java.util.List;
 import java.util.Optional;
 import org.noresponse.utils.Utils;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
  * SettingsRequest
@@ -31,6 +32,14 @@ public class SettingsRequest {
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("refused_sources")
     private List<SourceId> refusedSources;
+
+    /**
+     * Replaces the daily screening cap, in minor units of USD; null removes the cap. Needs settings.write
+     * only, like retention_days.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("screening_daily_cap")
+    private JsonNullable<Long> screeningDailyCap;
 
     /**
      * Use account_creation or its deprecated alias signup, not both.
@@ -55,18 +64,20 @@ public class SettingsRequest {
     public SettingsRequest(
             @JsonProperty("retention_days") @Nullable Long retentionDays,
             @JsonProperty("refused_sources") @Nullable List<SourceId> refusedSources,
+            @JsonProperty("screening_daily_cap") @Nullable JsonNullable<Long> screeningDailyCap,
             @JsonProperty("flows") @Nullable SettingsRequestFlows flows,
             @JsonProperty("expected_policy_version") @Nullable Long expectedPolicyVersion,
             @JsonProperty("change_reason") @Nullable String changeReason) {
         this.retentionDays = retentionDays;
         this.refusedSources = refusedSources;
+        this.screeningDailyCap = Optional.ofNullable(screeningDailyCap).orElse(JsonNullable.undefined());
         this.flows = flows;
         this.expectedPolicyVersion = expectedPolicyVersion;
         this.changeReason = changeReason;
     }
 
     public SettingsRequest() {
-        this(null, null, null, null, null);
+        this(null, null, null, null, null, null);
     }
 
     public Optional<Long> retentionDays() {
@@ -78,6 +89,14 @@ public class SettingsRequest {
      */
     public Optional<List<SourceId>> refusedSources() {
         return Optional.ofNullable(this.refusedSources);
+    }
+
+    /**
+     * Replaces the daily screening cap, in minor units of USD; null removes the cap. Needs settings.write
+     * only, like retention_days.
+     */
+    public JsonNullable<Long> screeningDailyCap() {
+        return this.screeningDailyCap;
     }
 
     /**
@@ -117,6 +136,15 @@ public class SettingsRequest {
     }
 
     /**
+     * Replaces the daily screening cap, in minor units of USD; null removes the cap. Needs settings.write
+     * only, like retention_days.
+     */
+    public SettingsRequest withScreeningDailyCap(@Nullable Long screeningDailyCap) {
+        this.screeningDailyCap = JsonNullable.of(screeningDailyCap);
+        return this;
+    }
+
+    /**
      * Use account_creation or its deprecated alias signup, not both.
      */
     public SettingsRequest withFlows(@Nullable SettingsRequestFlows flows) {
@@ -149,6 +177,7 @@ public class SettingsRequest {
         SettingsRequest other = (SettingsRequest) o;
         return Utils.enhancedDeepEquals(this.retentionDays, other.retentionDays)
                 && Utils.enhancedDeepEquals(this.refusedSources, other.refusedSources)
+                && Utils.enhancedDeepEquals(this.screeningDailyCap, other.screeningDailyCap)
                 && Utils.enhancedDeepEquals(this.flows, other.flows)
                 && Utils.enhancedDeepEquals(this.expectedPolicyVersion, other.expectedPolicyVersion)
                 && Utils.enhancedDeepEquals(this.changeReason, other.changeReason);
@@ -156,7 +185,8 @@ public class SettingsRequest {
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(retentionDays, refusedSources, flows, expectedPolicyVersion, changeReason);
+        return Utils.enhancedHash(
+                retentionDays, refusedSources, screeningDailyCap, flows, expectedPolicyVersion, changeReason);
     }
 
     @Override
@@ -167,6 +197,8 @@ public class SettingsRequest {
                 retentionDays,
                 "refusedSources",
                 refusedSources,
+                "screeningDailyCap",
+                screeningDailyCap,
                 "flows",
                 flows,
                 "expectedPolicyVersion",
@@ -181,6 +213,8 @@ public class SettingsRequest {
         private Long retentionDays;
 
         private List<SourceId> refusedSources;
+
+        private JsonNullable<Long> screeningDailyCap;
 
         private SettingsRequestFlows flows;
 
@@ -202,6 +236,15 @@ public class SettingsRequest {
          */
         public Builder refusedSources(@Nullable List<SourceId> refusedSources) {
             this.refusedSources = refusedSources;
+            return this;
+        }
+
+        /**
+         * Replaces the daily screening cap, in minor units of USD; null removes the cap. Needs settings.write
+         * only, like retention_days.
+         */
+        public Builder screeningDailyCap(@Nullable Long screeningDailyCap) {
+            this.screeningDailyCap = JsonNullable.of(screeningDailyCap);
             return this;
         }
 
@@ -228,7 +271,8 @@ public class SettingsRequest {
         }
 
         public SettingsRequest build() {
-            return new SettingsRequest(retentionDays, refusedSources, flows, expectedPolicyVersion, changeReason);
+            return new SettingsRequest(
+                    retentionDays, refusedSources, screeningDailyCap, flows, expectedPolicyVersion, changeReason);
         }
     }
 }

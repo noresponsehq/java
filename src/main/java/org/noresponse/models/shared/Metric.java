@@ -20,12 +20,16 @@ import java.util.Optional;
  *
  * <p>assessments: assessments admitted. webhook_deliveries: events sent to endpoints, one per event per
  * endpoint. key_usage_events: key-usage events accepted.
+ *
+ * <p>screenings: attendees a screening recorded a final result for, one per attendee per screening; a
+ * failed attendee counts nothing.
  */
 public class Metric {
 
     public static final Metric ASSESSMENTS = new Metric("assessments");
     public static final Metric WEBHOOK_DELIVERIES = new Metric("webhook_deliveries");
     public static final Metric KEY_USAGE_EVENTS = new Metric("key_usage_events");
+    public static final Metric SCREENINGS = new Metric("screenings");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -99,6 +103,7 @@ public class Metric {
         map.put("assessments", ASSESSMENTS);
         map.put("webhook_deliveries", WEBHOOK_DELIVERIES);
         map.put("key_usage_events", KEY_USAGE_EVENTS);
+        map.put("screenings", SCREENINGS);
         return map;
     }
 
@@ -107,6 +112,7 @@ public class Metric {
         map.put("assessments", MetricEnum.ASSESSMENTS);
         map.put("webhook_deliveries", MetricEnum.WEBHOOK_DELIVERIES);
         map.put("key_usage_events", MetricEnum.KEY_USAGE_EVENTS);
+        map.put("screenings", MetricEnum.SCREENINGS);
         return map;
     }
 
@@ -115,6 +121,7 @@ public class Metric {
         ASSESSMENTS("assessments"),
         WEBHOOK_DELIVERIES("webhook_deliveries"),
         KEY_USAGE_EVENTS("key_usage_events"),
+        SCREENINGS("screenings"),
         ;
 
         private final String value;

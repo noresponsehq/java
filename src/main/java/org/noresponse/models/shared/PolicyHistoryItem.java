@@ -15,9 +15,9 @@ import org.noresponse.utils.Utils;
 public class PolicyHistoryItem {
     /**
      * One environment's settings: how long its assessments are kept, and for each flow the risk thresholds
-     * that decide it and the depth a request that names none is served at, and the sources it refuses.
-     * Live and test each have their own. A flow without thresholds of its own uses account_creation's
-     * (inherits_account_creation).
+     * that decide it and the depth a request that names none is served at, the sources it refuses, and the
+     * daily cap on screening spend. Live and test each have their own. A flow without thresholds of its
+     * own uses account_creation's (inherits_account_creation).
      *
      * <p>Every change is recorded in the audit log as settings.updated, with who made it.
      */
@@ -70,9 +70,9 @@ public class PolicyHistoryItem {
 
     /**
      * One environment's settings: how long its assessments are kept, and for each flow the risk thresholds
-     * that decide it and the depth a request that names none is served at, and the sources it refuses.
-     * Live and test each have their own. A flow without thresholds of its own uses account_creation's
-     * (inherits_account_creation).
+     * that decide it and the depth a request that names none is served at, the sources it refuses, and the
+     * daily cap on screening spend. Live and test each have their own. A flow without thresholds of its
+     * own uses account_creation's (inherits_account_creation).
      *
      * <p>Every change is recorded in the audit log as settings.updated, with who made it.
      */
@@ -111,9 +111,9 @@ public class PolicyHistoryItem {
 
     /**
      * One environment's settings: how long its assessments are kept, and for each flow the risk thresholds
-     * that decide it and the depth a request that names none is served at, and the sources it refuses.
-     * Live and test each have their own. A flow without thresholds of its own uses account_creation's
-     * (inherits_account_creation).
+     * that decide it and the depth a request that names none is served at, the sources it refuses, and the
+     * daily cap on screening spend. Live and test each have their own. A flow without thresholds of its
+     * own uses account_creation's (inherits_account_creation).
      *
      * <p>Every change is recorded in the audit log as settings.updated, with who made it.
      */
@@ -207,9 +207,9 @@ public class PolicyHistoryItem {
 
         /**
          * One environment's settings: how long its assessments are kept, and for each flow the risk thresholds
-         * that decide it and the depth a request that names none is served at, and the sources it refuses.
-         * Live and test each have their own. A flow without thresholds of its own uses account_creation's
-         * (inherits_account_creation).
+         * that decide it and the depth a request that names none is served at, the sources it refuses, and the
+         * daily cap on screening spend. Live and test each have their own. A flow without thresholds of its
+         * own uses account_creation's (inherits_account_creation).
          *
          * <p>Every change is recorded in the audit log as settings.updated, with who made it.
          */

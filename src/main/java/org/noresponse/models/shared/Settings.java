@@ -6,19 +6,21 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.List;
 import java.util.Optional;
 import org.noresponse.utils.Utils;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
  * Settings
  *
  * <p>One environment's settings: how long its assessments are kept, and for each flow the risk thresholds
- * that decide it and the depth a request that names none is served at, and the sources it refuses.
- * Live and test each have their own. A flow without thresholds of its own uses account_creation's
- * (inherits_account_creation).
+ * that decide it and the depth a request that names none is served at, the sources it refuses, and the
+ * daily cap on screening spend. Live and test each have their own. A flow without thresholds of its
+ * own uses account_creation's (inherits_account_creation).
  *
  * <p>Every change is recorded in the audit log as settings.updated, with who made it.
  */
@@ -80,6 +82,15 @@ public class Settings {
     @JsonProperty("refused_sources")
     private List<SourceId> refusedSources;
 
+    /**
+     * The most the environment's screenings may spend in one UTC day, in minor units of USD (cents), 0 to
+     * 100000000; null is no cap. Default 50000. A screening whose estimated_spend exceeds the cap less the
+     * day's recorded spend and what open screenings may still spend answers 409 screening_cap_exceeded.
+     */
+    @JsonInclude(Include.ALWAYS)
+    @JsonProperty("screening_daily_cap")
+    private JsonNullable<Long> screeningDailyCap;
+
     @JsonCreator
     public Settings(
             @JsonProperty("workspace_id") @Nonnull String workspaceId,
@@ -89,7 +100,8 @@ public class Settings {
             @JsonProperty("updated_by") @Nullable String updatedBy,
             @JsonProperty("updated_at") @Nullable String updatedAt,
             @JsonProperty("flows") @Nonnull SettingsFlows flows,
-            @JsonProperty("refused_sources") @Nonnull List<SourceId> refusedSources) {
+            @JsonProperty("refused_sources") @Nonnull List<SourceId> refusedSources,
+            @JsonProperty("screening_daily_cap") @Nullable Long screeningDailyCap) {
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
         this.environment = Optional.ofNullable(environment)
@@ -101,6 +113,7 @@ public class Settings {
         this.flows = Optional.ofNullable(flows).orElseThrow(() -> new IllegalArgumentException("flows cannot be null"));
         this.refusedSources = Optional.ofNullable(refusedSources)
                 .orElseThrow(() -> new IllegalArgumentException("refusedSources cannot be null"));
+        this.screeningDailyCap = JsonNullable.of(screeningDailyCap);
     }
 
     public Settings(
@@ -110,7 +123,7 @@ public class Settings {
             long policyVersion,
             @Nonnull SettingsFlows flows,
             @Nonnull List<SourceId> refusedSources) {
-        this(workspaceId, environment, retentionDays, policyVersion, null, null, flows, refusedSources);
+        this(workspaceId, environment, retentionDays, policyVersion, null, null, flows, refusedSources, null);
     }
 
     /**
@@ -174,6 +187,15 @@ public class Settings {
      */
     public List<SourceId> refusedSources() {
         return this.refusedSources;
+    }
+
+    /**
+     * The most the environment's screenings may spend in one UTC day, in minor units of USD (cents), 0 to
+     * 100000000; null is no cap. Default 50000. A screening whose estimated_spend exceeds the cap less the
+     * day's recorded spend and what open screenings may still spend answers 409 screening_cap_exceeded.
+     */
+    public JsonNullable<Long> screeningDailyCap() {
+        return this.screeningDailyCap;
     }
 
     public static Builder builder() {
@@ -251,6 +273,16 @@ public class Settings {
         return this;
     }
 
+    /**
+     * The most the environment's screenings may spend in one UTC day, in minor units of USD (cents), 0 to
+     * 100000000; null is no cap. Default 50000. A screening whose estimated_spend exceeds the cap less the
+     * day's recorded spend and what open screenings may still spend answers 409 screening_cap_exceeded.
+     */
+    public Settings withScreeningDailyCap(@Nullable Long screeningDailyCap) {
+        this.screeningDailyCap = JsonNullable.of(screeningDailyCap);
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -267,13 +299,22 @@ public class Settings {
                 && Utils.enhancedDeepEquals(this.updatedBy, other.updatedBy)
                 && Utils.enhancedDeepEquals(this.updatedAt, other.updatedAt)
                 && Utils.enhancedDeepEquals(this.flows, other.flows)
-                && Utils.enhancedDeepEquals(this.refusedSources, other.refusedSources);
+                && Utils.enhancedDeepEquals(this.refusedSources, other.refusedSources)
+                && Utils.enhancedDeepEquals(this.screeningDailyCap, other.screeningDailyCap);
     }
 
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                workspaceId, environment, retentionDays, policyVersion, updatedBy, updatedAt, flows, refusedSources);
+                workspaceId,
+                environment,
+                retentionDays,
+                policyVersion,
+                updatedBy,
+                updatedAt,
+                flows,
+                refusedSources,
+                screeningDailyCap);
     }
 
     @Override
@@ -295,7 +336,9 @@ public class Settings {
                 "flows",
                 flows,
                 "refusedSources",
-                refusedSources);
+                refusedSources,
+                "screeningDailyCap",
+                screeningDailyCap);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -316,6 +359,8 @@ public class Settings {
         private SettingsFlows flows;
 
         private List<SourceId> refusedSources;
+
+        private Long screeningDailyCap;
 
         private Builder() {
             // force use of static builder() method
@@ -392,6 +437,16 @@ public class Settings {
             return this;
         }
 
+        /**
+         * The most the environment's screenings may spend in one UTC day, in minor units of USD (cents), 0 to
+         * 100000000; null is no cap. Default 50000. A screening whose estimated_spend exceeds the cap less the
+         * day's recorded spend and what open screenings may still spend answers 409 screening_cap_exceeded.
+         */
+        public Builder screeningDailyCap(@Nullable Long screeningDailyCap) {
+            this.screeningDailyCap = screeningDailyCap;
+            return this;
+        }
+
         public Settings build() {
             return new Settings(
                     workspaceId,
@@ -401,7 +456,8 @@ public class Settings {
                     updatedBy,
                     updatedAt,
                     flows,
-                    refusedSources);
+                    refusedSources,
+                    screeningDailyCap);
         }
     }
 }
