@@ -55,6 +55,15 @@ public class ScreeningCoverage {
     @JsonProperty("platforms")
     private List<ScreeningPlatformCoverage> platforms;
 
+    /**
+     * Requested platforms where the attendee gave the screening nothing to look up, such as no handle for
+     * a platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is
+     * not in platforms, is not none_found and does not make the attendee partial.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("not_searched")
+    private List<HandlePlatform> notSearched;
+
     @JsonCreator
     public ScreeningCoverage(
             @JsonProperty("accounts_found") long accountsFound,
@@ -63,7 +72,8 @@ public class ScreeningCoverage {
             @JsonProperty("items_not_analysed") @Nullable Long itemsNotAnalysed,
             @JsonProperty("period_from") @Nullable String periodFrom,
             @JsonProperty("period_to") @Nullable String periodTo,
-            @JsonProperty("platforms") @Nonnull List<ScreeningPlatformCoverage> platforms) {
+            @JsonProperty("platforms") @Nonnull List<ScreeningPlatformCoverage> platforms,
+            @JsonProperty("not_searched") @Nullable List<HandlePlatform> notSearched) {
         this.accountsFound = accountsFound;
         this.accountsAccessible = accountsAccessible;
         this.itemsRead = itemsRead;
@@ -72,6 +82,7 @@ public class ScreeningCoverage {
         this.periodTo = periodTo;
         this.platforms = Optional.ofNullable(platforms)
                 .orElseThrow(() -> new IllegalArgumentException("platforms cannot be null"));
+        this.notSearched = notSearched;
     }
 
     public ScreeningCoverage(
@@ -79,7 +90,7 @@ public class ScreeningCoverage {
             long accountsAccessible,
             long itemsRead,
             @Nonnull List<ScreeningPlatformCoverage> platforms) {
-        this(accountsFound, accountsAccessible, itemsRead, null, null, null, platforms);
+        this(accountsFound, accountsAccessible, itemsRead, null, null, null, platforms, null);
     }
 
     public long accountsFound() {
@@ -118,6 +129,15 @@ public class ScreeningCoverage {
 
     public List<ScreeningPlatformCoverage> platforms() {
         return this.platforms;
+    }
+
+    /**
+     * Requested platforms where the attendee gave the screening nothing to look up, such as no handle for
+     * a platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is
+     * not in platforms, is not none_found and does not make the attendee partial.
+     */
+    public Optional<List<HandlePlatform>> notSearched() {
+        return Optional.ofNullable(this.notSearched);
     }
 
     public static Builder builder() {
@@ -169,6 +189,16 @@ public class ScreeningCoverage {
         return this;
     }
 
+    /**
+     * Requested platforms where the attendee gave the screening nothing to look up, such as no handle for
+     * a platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is
+     * not in platforms, is not none_found and does not make the attendee partial.
+     */
+    public ScreeningCoverage withNotSearched(@Nullable List<HandlePlatform> notSearched) {
+        this.notSearched = notSearched;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -184,13 +214,21 @@ public class ScreeningCoverage {
                 && Utils.enhancedDeepEquals(this.itemsNotAnalysed, other.itemsNotAnalysed)
                 && Utils.enhancedDeepEquals(this.periodFrom, other.periodFrom)
                 && Utils.enhancedDeepEquals(this.periodTo, other.periodTo)
-                && Utils.enhancedDeepEquals(this.platforms, other.platforms);
+                && Utils.enhancedDeepEquals(this.platforms, other.platforms)
+                && Utils.enhancedDeepEquals(this.notSearched, other.notSearched);
     }
 
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                accountsFound, accountsAccessible, itemsRead, itemsNotAnalysed, periodFrom, periodTo, platforms);
+                accountsFound,
+                accountsAccessible,
+                itemsRead,
+                itemsNotAnalysed,
+                periodFrom,
+                periodTo,
+                platforms,
+                notSearched);
     }
 
     @Override
@@ -210,7 +248,9 @@ public class ScreeningCoverage {
                 "periodTo",
                 periodTo,
                 "platforms",
-                platforms);
+                platforms,
+                "notSearched",
+                notSearched);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -229,6 +269,8 @@ public class ScreeningCoverage {
         private String periodTo;
 
         private List<ScreeningPlatformCoverage> platforms;
+
+        private List<HandlePlatform> notSearched;
 
         private Builder() {
             // force use of static builder() method
@@ -279,9 +321,26 @@ public class ScreeningCoverage {
             return this;
         }
 
+        /**
+         * Requested platforms where the attendee gave the screening nothing to look up, such as no handle for
+         * a platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is
+         * not in platforms, is not none_found and does not make the attendee partial.
+         */
+        public Builder notSearched(@Nullable List<HandlePlatform> notSearched) {
+            this.notSearched = notSearched;
+            return this;
+        }
+
         public ScreeningCoverage build() {
             return new ScreeningCoverage(
-                    accountsFound, accountsAccessible, itemsRead, itemsNotAnalysed, periodFrom, periodTo, platforms);
+                    accountsFound,
+                    accountsAccessible,
+                    itemsRead,
+                    itemsNotAnalysed,
+                    periodFrom,
+                    periodTo,
+                    platforms,
+                    notSearched);
         }
     }
 }

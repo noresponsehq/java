@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 33528b1ca48b705d5ea5b0b60bfc95f4
+  docChecksum: e0d67c4cac21dfdcec7a997137c905ae
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 10.0.16
-  configChecksum: d46baadfaa514db0ffcc9d3770f7aa4f
+  releaseVersion: 10.0.17
+  configChecksum: 598caf069645c707ea18a4ad059986be
 features:
   java:
     additionalDependencies: 0.1.0
@@ -1227,7 +1227,7 @@ trackedFiles:
   docs/models/shared/ScreeningCompletedStatus.md:
     last_write_checksum: sha1:4532276d44066ec53638ae61ddefdb54cb07df79
   docs/models/shared/ScreeningCoverage.md:
-    last_write_checksum: sha1:472e304f3ed647176d4e7e6e332b23e679d6c944
+    last_write_checksum: sha1:56e70a210a5b3bb79c0a3b6250f39704662b642c
   docs/models/shared/ScreeningDepth.md:
     last_write_checksum: sha1:faa7a0483b27149e0a4d8f7529e00867a239b36c
   docs/models/shared/ScreeningFinding.md:
@@ -1427,7 +1427,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:684d234df5a804b412606cdd85bf8153b94a9705
+    last_write_checksum: sha1:2cb706b7a54ef922ae9272ece8d4c358adb0b515
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1515,7 +1515,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:1235f187f807d50e9e54f5e3b66d86fa63f67cc8
+    last_write_checksum: sha1:2ee1ce8be0913c10b15a21ecb673b2f37fae9eb3
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -3407,7 +3407,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/ScreeningCompletedStatus.java:
     last_write_checksum: sha1:a4a46052aa0cafc4ecefab65b1d6f1e65cd9b748
   src/main/java/org/noresponse/models/shared/ScreeningCoverage.java:
-    last_write_checksum: sha1:574f13695e977e373692e9c5f1b39e22bc93d7f7
+    last_write_checksum: sha1:fd3f3c0ab100f17aa9499f83be6996c9b5749bea
   src/main/java/org/noresponse/models/shared/ScreeningDepth.java:
     last_write_checksum: sha1:e72cbae6c76ed427a67a9ac1674baa43cbeb43dc
   src/main/java/org/noresponse/models/shared/ScreeningFinding.java:
