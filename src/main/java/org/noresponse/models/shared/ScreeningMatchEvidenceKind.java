@@ -19,7 +19,8 @@ import java.util.Optional;
  * ScreeningMatchEvidenceKind
  *
  * <p>What matched. email, phone, supplied_handle and source_fact are hard identifiers; company, city and
- * school are soft.
+ * school are soft. supplied_handle is a handle on the attendee row; source_fact is an account a
+ * profile found by the attendee's lookups lists.
  */
 public class ScreeningMatchEvidenceKind {
 

@@ -19,7 +19,8 @@ import org.noresponse.utils.Utils;
 public class ScreeningMatchEvidence {
     /**
      * What matched. email, phone, supplied_handle and source_fact are hard identifiers; company, city and
-     * school are soft.
+     * school are soft. supplied_handle is a handle on the attendee row; source_fact is an account a
+     * profile found by the attendee's lookups lists.
      */
     @JsonProperty("kind")
     private ScreeningMatchEvidenceKind kind;
@@ -54,7 +55,8 @@ public class ScreeningMatchEvidence {
 
     /**
      * What matched. email, phone, supplied_handle and source_fact are hard identifiers; company, city and
-     * school are soft.
+     * school are soft. supplied_handle is a handle on the attendee row; source_fact is an account a
+     * profile found by the attendee's lookups lists.
      */
     public ScreeningMatchEvidenceKind kind() {
         return this.kind;
@@ -80,7 +82,8 @@ public class ScreeningMatchEvidence {
 
     /**
      * What matched. email, phone, supplied_handle and source_fact are hard identifiers; company, city and
-     * school are soft.
+     * school are soft. supplied_handle is a handle on the attendee row; source_fact is an account a
+     * profile found by the attendee's lookups lists.
      */
     public ScreeningMatchEvidence withKind(@Nonnull ScreeningMatchEvidenceKind kind) {
         this.kind = Utils.checkNotNull(kind, "kind");
@@ -142,7 +145,8 @@ public class ScreeningMatchEvidence {
 
         /**
          * What matched. email, phone, supplied_handle and source_fact are hard identifiers; company, city and
-         * school are soft.
+         * school are soft. supplied_handle is a handle on the attendee row; source_fact is an account a
+         * profile found by the attendee's lookups lists.
          */
         public Builder kind(@Nonnull ScreeningMatchEvidenceKind kind) {
             this.kind = Utils.checkNotNull(kind, "kind");
