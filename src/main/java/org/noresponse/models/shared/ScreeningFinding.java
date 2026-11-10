@@ -54,6 +54,13 @@ public class ScreeningFinding {
     private String rationale;
 
     /**
+     * The exact words of the first evidence item that the finding rests on, as the analyser quoted them.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("quote")
+    private String quote;
+
+    /**
      * The posts and media that support the finding.
      */
     @JsonProperty("evidence")
@@ -85,6 +92,7 @@ public class ScreeningFinding {
             @JsonProperty("capped_from") @Nullable FindingBand cappedFrom,
             @JsonProperty("confidence") double confidence,
             @JsonProperty("rationale") @Nonnull String rationale,
+            @JsonProperty("quote") @Nullable String quote,
             @JsonProperty("evidence") @Nonnull List<String> evidence,
             @JsonProperty("analyser") @Nonnull String analyser,
             @JsonProperty("model") @Nonnull String model,
@@ -98,6 +106,7 @@ public class ScreeningFinding {
         this.confidence = confidence;
         this.rationale = Optional.ofNullable(rationale)
                 .orElseThrow(() -> new IllegalArgumentException("rationale cannot be null"));
+        this.quote = quote;
         this.evidence = Optional.ofNullable(evidence)
                 .orElseThrow(() -> new IllegalArgumentException("evidence cannot be null"));
         this.analyser = Optional.ofNullable(analyser)
@@ -119,7 +128,7 @@ public class ScreeningFinding {
             @Nonnull String model,
             long spendMinor,
             @Nonnull String createdAt) {
-        this(id, category, band, null, confidence, rationale, evidence, analyser, model, spendMinor, createdAt);
+        this(id, category, band, null, confidence, rationale, null, evidence, analyser, model, spendMinor, createdAt);
     }
 
     public String id() {
@@ -157,6 +166,13 @@ public class ScreeningFinding {
 
     public String rationale() {
         return this.rationale;
+    }
+
+    /**
+     * The exact words of the first evidence item that the finding rests on, as the analyser quoted them.
+     */
+    public Optional<String> quote() {
+        return Optional.ofNullable(this.quote);
     }
 
     /**
@@ -236,6 +252,14 @@ public class ScreeningFinding {
     }
 
     /**
+     * The exact words of the first evidence item that the finding rests on, as the analyser quoted them.
+     */
+    public ScreeningFinding withQuote(@Nullable String quote) {
+        this.quote = quote;
+        return this;
+    }
+
+    /**
      * The posts and media that support the finding.
      */
     public ScreeningFinding withEvidence(@Nonnull List<String> evidence) {
@@ -284,6 +308,7 @@ public class ScreeningFinding {
                 && Utils.enhancedDeepEquals(this.cappedFrom, other.cappedFrom)
                 && Utils.enhancedDeepEquals(this.confidence, other.confidence)
                 && Utils.enhancedDeepEquals(this.rationale, other.rationale)
+                && Utils.enhancedDeepEquals(this.quote, other.quote)
                 && Utils.enhancedDeepEquals(this.evidence, other.evidence)
                 && Utils.enhancedDeepEquals(this.analyser, other.analyser)
                 && Utils.enhancedDeepEquals(this.model, other.model)
@@ -300,6 +325,7 @@ public class ScreeningFinding {
                 cappedFrom,
                 confidence,
                 rationale,
+                quote,
                 evidence,
                 analyser,
                 model,
@@ -323,6 +349,8 @@ public class ScreeningFinding {
                 confidence,
                 "rationale",
                 rationale,
+                "quote",
+                quote,
                 "evidence",
                 evidence,
                 "analyser",
@@ -349,6 +377,8 @@ public class ScreeningFinding {
         private double confidence;
 
         private String rationale;
+
+        private String quote;
 
         private List<String> evidence;
 
@@ -408,6 +438,14 @@ public class ScreeningFinding {
         }
 
         /**
+         * The exact words of the first evidence item that the finding rests on, as the analyser quoted them.
+         */
+        public Builder quote(@Nullable String quote) {
+            this.quote = quote;
+            return this;
+        }
+
+        /**
          * The posts and media that support the finding.
          */
         public Builder evidence(@Nonnull List<String> evidence) {
@@ -449,6 +487,7 @@ public class ScreeningFinding {
                     cappedFrom,
                     confidence,
                     rationale,
+                    quote,
                     evidence,
                     analyser,
                     model,

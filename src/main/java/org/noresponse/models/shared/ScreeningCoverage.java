@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.List;
@@ -30,6 +31,14 @@ public class ScreeningCoverage {
     private long itemsRead;
 
     /**
+     * Items read that the analyser could not analyse. Above zero, the attendee is partial: a finding may
+     * be missing from them.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("items_not_analysed")
+    private Long itemsNotAnalysed;
+
+    /**
      * The oldest item read on any platform.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -51,12 +60,14 @@ public class ScreeningCoverage {
             @JsonProperty("accounts_found") long accountsFound,
             @JsonProperty("accounts_accessible") long accountsAccessible,
             @JsonProperty("items_read") long itemsRead,
+            @JsonProperty("items_not_analysed") @Nullable Long itemsNotAnalysed,
             @JsonProperty("period_from") @Nullable String periodFrom,
             @JsonProperty("period_to") @Nullable String periodTo,
             @JsonProperty("platforms") @Nonnull List<ScreeningPlatformCoverage> platforms) {
         this.accountsFound = accountsFound;
         this.accountsAccessible = accountsAccessible;
         this.itemsRead = itemsRead;
+        this.itemsNotAnalysed = itemsNotAnalysed;
         this.periodFrom = periodFrom;
         this.periodTo = periodTo;
         this.platforms = Optional.ofNullable(platforms)
@@ -68,7 +79,7 @@ public class ScreeningCoverage {
             long accountsAccessible,
             long itemsRead,
             @Nonnull List<ScreeningPlatformCoverage> platforms) {
-        this(accountsFound, accountsAccessible, itemsRead, null, null, platforms);
+        this(accountsFound, accountsAccessible, itemsRead, null, null, null, platforms);
     }
 
     public long accountsFound() {
@@ -81,6 +92,14 @@ public class ScreeningCoverage {
 
     public long itemsRead() {
         return this.itemsRead;
+    }
+
+    /**
+     * Items read that the analyser could not analyse. Above zero, the attendee is partial: a finding may
+     * be missing from them.
+     */
+    public Optional<Long> itemsNotAnalysed() {
+        return Optional.ofNullable(this.itemsNotAnalysed);
     }
 
     /**
@@ -121,6 +140,15 @@ public class ScreeningCoverage {
     }
 
     /**
+     * Items read that the analyser could not analyse. Above zero, the attendee is partial: a finding may
+     * be missing from them.
+     */
+    public ScreeningCoverage withItemsNotAnalysed(@Nullable Long itemsNotAnalysed) {
+        this.itemsNotAnalysed = itemsNotAnalysed;
+        return this;
+    }
+
+    /**
      * The oldest item read on any platform.
      */
     public ScreeningCoverage withPeriodFrom(@Nullable String periodFrom) {
@@ -153,6 +181,7 @@ public class ScreeningCoverage {
         return Utils.enhancedDeepEquals(this.accountsFound, other.accountsFound)
                 && Utils.enhancedDeepEquals(this.accountsAccessible, other.accountsAccessible)
                 && Utils.enhancedDeepEquals(this.itemsRead, other.itemsRead)
+                && Utils.enhancedDeepEquals(this.itemsNotAnalysed, other.itemsNotAnalysed)
                 && Utils.enhancedDeepEquals(this.periodFrom, other.periodFrom)
                 && Utils.enhancedDeepEquals(this.periodTo, other.periodTo)
                 && Utils.enhancedDeepEquals(this.platforms, other.platforms);
@@ -160,7 +189,8 @@ public class ScreeningCoverage {
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(accountsFound, accountsAccessible, itemsRead, periodFrom, periodTo, platforms);
+        return Utils.enhancedHash(
+                accountsFound, accountsAccessible, itemsRead, itemsNotAnalysed, periodFrom, periodTo, platforms);
     }
 
     @Override
@@ -173,6 +203,8 @@ public class ScreeningCoverage {
                 accountsAccessible,
                 "itemsRead",
                 itemsRead,
+                "itemsNotAnalysed",
+                itemsNotAnalysed,
                 "periodFrom",
                 periodFrom,
                 "periodTo",
@@ -189,6 +221,8 @@ public class ScreeningCoverage {
         private long accountsAccessible;
 
         private long itemsRead;
+
+        private Long itemsNotAnalysed;
 
         private String periodFrom;
 
@@ -216,6 +250,15 @@ public class ScreeningCoverage {
         }
 
         /**
+         * Items read that the analyser could not analyse. Above zero, the attendee is partial: a finding may
+         * be missing from them.
+         */
+        public Builder itemsNotAnalysed(@Nullable Long itemsNotAnalysed) {
+            this.itemsNotAnalysed = itemsNotAnalysed;
+            return this;
+        }
+
+        /**
          * The oldest item read on any platform.
          */
         public Builder periodFrom(@Nullable String periodFrom) {
@@ -237,7 +280,8 @@ public class ScreeningCoverage {
         }
 
         public ScreeningCoverage build() {
-            return new ScreeningCoverage(accountsFound, accountsAccessible, itemsRead, periodFrom, periodTo, platforms);
+            return new ScreeningCoverage(
+                    accountsFound, accountsAccessible, itemsRead, itemsNotAnalysed, periodFrom, periodTo, platforms);
         }
     }
 }
