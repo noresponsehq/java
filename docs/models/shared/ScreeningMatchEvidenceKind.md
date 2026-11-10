@@ -1,0 +1,28 @@
+# ScreeningMatchEvidenceKind
+
+What matched. email, phone, supplied_handle and source_fact are hard identifiers; company, city and school are soft.
+
+## Example Usage
+
+```java
+import org.noresponse.models.shared.ScreeningMatchEvidenceKind;
+
+ScreeningMatchEvidenceKind value = ScreeningMatchEvidenceKind.EMAIL;
+
+// Open enum: use .of() to create instances from custom string values
+ScreeningMatchEvidenceKind custom = ScreeningMatchEvidenceKind.of("custom_value");
+```
+
+
+## Values
+
+| Name              | Value             |
+| ----------------- | ----------------- |
+| `EMAIL`           | email             |
+| `PHONE`           | phone             |
+| `SUPPLIED_HANDLE` | supplied_handle   |
+| `SOURCE_FACT`     | source_fact       |
+| `NAME`            | name              |
+| `COMPANY`         | company           |
+| `CITY`            | city              |
+| `SCHOOL`          | school            |

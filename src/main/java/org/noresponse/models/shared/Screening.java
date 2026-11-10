@@ -29,7 +29,8 @@ public class Screening {
     private AuditSettingsEnvironment environment;
 
     /**
-     * partial finished with some attendees not covered; attendees_failed counts them.
+     * partial finished with some attendees or platforms not covered; attendees_failed and
+     * attendees_partial count them.
      */
     @JsonProperty("status")
     private ScreeningStatus status;
@@ -38,7 +39,7 @@ public class Screening {
     private ScreeningDepth depth;
 
     @JsonProperty("platforms")
-    private List<ScreeningPlatform> platforms;
+    private List<HandlePlatform> platforms;
 
     @JsonProperty("requested_by")
     private String requestedBy;
@@ -79,6 +80,12 @@ public class Screening {
     private long attendeesFailed;
 
     /**
+     * Attendees screened with some requested platform not covered; their coverage names which.
+     */
+    @JsonProperty("attendees_partial")
+    private long attendeesPartial;
+
+    /**
      * What the screening was estimated to cost when it started, in minor units of USD (cents): its
      * attendees at its depth and platforms. Until the screening finishes, what it has not yet spent counts
      * against the environment's screening_daily_cap.
@@ -94,6 +101,12 @@ public class Screening {
     private long spent;
 
     /**
+     * What screening cost, in US cents, in total and per implementation.
+     */
+    @JsonProperty("spend")
+    private ScreeningSpend spend;
+
+    /**
      * Why a failed or cancelled screening stopped.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -107,7 +120,7 @@ public class Screening {
             @JsonProperty("environment") @Nonnull AuditSettingsEnvironment environment,
             @JsonProperty("status") @Nonnull ScreeningStatus status,
             @JsonProperty("depth") @Nonnull ScreeningDepth depth,
-            @JsonProperty("platforms") @Nonnull List<ScreeningPlatform> platforms,
+            @JsonProperty("platforms") @Nonnull List<HandlePlatform> platforms,
             @JsonProperty("requested_by") @Nonnull String requestedBy,
             @JsonProperty("created_at") @Nonnull String createdAt,
             @JsonProperty("started_at") @Nullable String startedAt,
@@ -117,8 +130,10 @@ public class Screening {
             @JsonProperty("attendees_done") long attendeesDone,
             @JsonProperty("attendees_flagged") long attendeesFlagged,
             @JsonProperty("attendees_failed") long attendeesFailed,
+            @JsonProperty("attendees_partial") long attendeesPartial,
             @JsonProperty("estimated_spend") long estimatedSpend,
             @JsonProperty("spent") long spent,
+            @JsonProperty("spend") @Nonnull ScreeningSpend spend,
             @JsonProperty("error_code") @Nullable String errorCode) {
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.eventId =
@@ -142,8 +157,10 @@ public class Screening {
         this.attendeesDone = attendeesDone;
         this.attendeesFlagged = attendeesFlagged;
         this.attendeesFailed = attendeesFailed;
+        this.attendeesPartial = attendeesPartial;
         this.estimatedSpend = estimatedSpend;
         this.spent = spent;
+        this.spend = Optional.ofNullable(spend).orElseThrow(() -> new IllegalArgumentException("spend cannot be null"));
         this.errorCode = errorCode;
     }
 
@@ -153,7 +170,7 @@ public class Screening {
             @Nonnull AuditSettingsEnvironment environment,
             @Nonnull ScreeningStatus status,
             @Nonnull ScreeningDepth depth,
-            @Nonnull List<ScreeningPlatform> platforms,
+            @Nonnull List<HandlePlatform> platforms,
             @Nonnull String requestedBy,
             @Nonnull String createdAt,
             @Nonnull String expiresAt,
@@ -161,8 +178,10 @@ public class Screening {
             long attendeesDone,
             long attendeesFlagged,
             long attendeesFailed,
+            long attendeesPartial,
             long estimatedSpend,
-            long spent) {
+            long spent,
+            @Nonnull ScreeningSpend spend) {
         this(
                 id,
                 eventId,
@@ -179,8 +198,10 @@ public class Screening {
                 attendeesDone,
                 attendeesFlagged,
                 attendeesFailed,
+                attendeesPartial,
                 estimatedSpend,
                 spent,
+                spend,
                 null);
     }
 
@@ -197,7 +218,8 @@ public class Screening {
     }
 
     /**
-     * partial finished with some attendees not covered; attendees_failed counts them.
+     * partial finished with some attendees or platforms not covered; attendees_failed and
+     * attendees_partial count them.
      */
     public ScreeningStatus status() {
         return this.status;
@@ -207,7 +229,7 @@ public class Screening {
         return this.depth;
     }
 
-    public List<ScreeningPlatform> platforms() {
+    public List<HandlePlatform> platforms() {
         return this.platforms;
     }
 
@@ -257,6 +279,13 @@ public class Screening {
     }
 
     /**
+     * Attendees screened with some requested platform not covered; their coverage names which.
+     */
+    public long attendeesPartial() {
+        return this.attendeesPartial;
+    }
+
+    /**
      * What the screening was estimated to cost when it started, in minor units of USD (cents): its
      * attendees at its depth and platforms. Until the screening finishes, what it has not yet spent counts
      * against the environment's screening_daily_cap.
@@ -271,6 +300,13 @@ public class Screening {
      */
     public long spent() {
         return this.spent;
+    }
+
+    /**
+     * What screening cost, in US cents, in total and per implementation.
+     */
+    public ScreeningSpend spend() {
+        return this.spend;
     }
 
     /**
@@ -300,7 +336,8 @@ public class Screening {
     }
 
     /**
-     * partial finished with some attendees not covered; attendees_failed counts them.
+     * partial finished with some attendees or platforms not covered; attendees_failed and
+     * attendees_partial count them.
      */
     public Screening withStatus(@Nonnull ScreeningStatus status) {
         this.status = Utils.checkNotNull(status, "status");
@@ -312,7 +349,7 @@ public class Screening {
         return this;
     }
 
-    public Screening withPlatforms(@Nonnull List<ScreeningPlatform> platforms) {
+    public Screening withPlatforms(@Nonnull List<HandlePlatform> platforms) {
         this.platforms = Utils.checkNotNull(platforms, "platforms");
         return this;
     }
@@ -372,6 +409,14 @@ public class Screening {
     }
 
     /**
+     * Attendees screened with some requested platform not covered; their coverage names which.
+     */
+    public Screening withAttendeesPartial(long attendeesPartial) {
+        this.attendeesPartial = attendeesPartial;
+        return this;
+    }
+
+    /**
      * What the screening was estimated to cost when it started, in minor units of USD (cents): its
      * attendees at its depth and platforms. Until the screening finishes, what it has not yet spent counts
      * against the environment's screening_daily_cap.
@@ -387,6 +432,14 @@ public class Screening {
      */
     public Screening withSpent(long spent) {
         this.spent = spent;
+        return this;
+    }
+
+    /**
+     * What screening cost, in US cents, in total and per implementation.
+     */
+    public Screening withSpend(@Nonnull ScreeningSpend spend) {
+        this.spend = Utils.checkNotNull(spend, "spend");
         return this;
     }
 
@@ -422,8 +475,10 @@ public class Screening {
                 && Utils.enhancedDeepEquals(this.attendeesDone, other.attendeesDone)
                 && Utils.enhancedDeepEquals(this.attendeesFlagged, other.attendeesFlagged)
                 && Utils.enhancedDeepEquals(this.attendeesFailed, other.attendeesFailed)
+                && Utils.enhancedDeepEquals(this.attendeesPartial, other.attendeesPartial)
                 && Utils.enhancedDeepEquals(this.estimatedSpend, other.estimatedSpend)
                 && Utils.enhancedDeepEquals(this.spent, other.spent)
+                && Utils.enhancedDeepEquals(this.spend, other.spend)
                 && Utils.enhancedDeepEquals(this.errorCode, other.errorCode);
     }
 
@@ -445,8 +500,10 @@ public class Screening {
                 attendeesDone,
                 attendeesFlagged,
                 attendeesFailed,
+                attendeesPartial,
                 estimatedSpend,
                 spent,
+                spend,
                 errorCode);
     }
 
@@ -484,10 +541,14 @@ public class Screening {
                 attendeesFlagged,
                 "attendeesFailed",
                 attendeesFailed,
+                "attendeesPartial",
+                attendeesPartial,
                 "estimatedSpend",
                 estimatedSpend,
                 "spent",
                 spent,
+                "spend",
+                spend,
                 "errorCode",
                 errorCode);
     }
@@ -505,7 +566,7 @@ public class Screening {
 
         private ScreeningDepth depth;
 
-        private List<ScreeningPlatform> platforms;
+        private List<HandlePlatform> platforms;
 
         private String requestedBy;
 
@@ -525,9 +586,13 @@ public class Screening {
 
         private long attendeesFailed;
 
+        private long attendeesPartial;
+
         private long estimatedSpend;
 
         private long spent;
+
+        private ScreeningSpend spend;
 
         private String errorCode;
 
@@ -551,7 +616,8 @@ public class Screening {
         }
 
         /**
-         * partial finished with some attendees not covered; attendees_failed counts them.
+         * partial finished with some attendees or platforms not covered; attendees_failed and
+         * attendees_partial count them.
          */
         public Builder status(@Nonnull ScreeningStatus status) {
             this.status = Utils.checkNotNull(status, "status");
@@ -563,7 +629,7 @@ public class Screening {
             return this;
         }
 
-        public Builder platforms(@Nonnull List<ScreeningPlatform> platforms) {
+        public Builder platforms(@Nonnull List<HandlePlatform> platforms) {
             this.platforms = Utils.checkNotNull(platforms, "platforms");
             return this;
         }
@@ -623,6 +689,14 @@ public class Screening {
         }
 
         /**
+         * Attendees screened with some requested platform not covered; their coverage names which.
+         */
+        public Builder attendeesPartial(long attendeesPartial) {
+            this.attendeesPartial = attendeesPartial;
+            return this;
+        }
+
+        /**
          * What the screening was estimated to cost when it started, in minor units of USD (cents): its
          * attendees at its depth and platforms. Until the screening finishes, what it has not yet spent counts
          * against the environment's screening_daily_cap.
@@ -638,6 +712,14 @@ public class Screening {
          */
         public Builder spent(long spent) {
             this.spent = spent;
+            return this;
+        }
+
+        /**
+         * What screening cost, in US cents, in total and per implementation.
+         */
+        public Builder spend(@Nonnull ScreeningSpend spend) {
+            this.spend = Utils.checkNotNull(spend, "spend");
             return this;
         }
 
@@ -666,8 +748,10 @@ public class Screening {
                     attendeesDone,
                     attendeesFlagged,
                     attendeesFailed,
+                    attendeesPartial,
                     estimatedSpend,
                     spent,
+                    spend,
                     errorCode);
         }
     }

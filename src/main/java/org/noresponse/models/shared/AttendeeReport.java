@@ -22,16 +22,28 @@ public class AttendeeReport {
     private Attendee attendee;
 
     /**
-     * The accounts the screening matched, with how each was matched.
+     * The accounts the latest screening matched, with how each was matched.
      */
     @JsonProperty("profiles")
-    private List<Profile> profiles;
+    private List<ScreeningProfile> profiles;
 
     /**
-     * What the screening flagged, with its evidence.
+     * What the latest screening flagged, most severe first, each citing its evidence.
      */
     @JsonProperty("findings")
-    private List<Finding> findings;
+    private List<ScreeningFinding> findings;
+
+    /**
+     * The posts the findings cite.
+     */
+    @JsonProperty("posts")
+    private List<ScreeningPost> posts;
+
+    /**
+     * The images and videos the findings cite.
+     */
+    @JsonProperty("media")
+    private List<ScreeningMedia> media;
 
     /**
      * Every recorded decision, oldest first.
@@ -42,8 +54,10 @@ public class AttendeeReport {
     @JsonCreator
     public AttendeeReport(
             @JsonProperty("attendee") @Nonnull Attendee attendee,
-            @JsonProperty("profiles") @Nonnull List<Profile> profiles,
-            @JsonProperty("findings") @Nonnull List<Finding> findings,
+            @JsonProperty("profiles") @Nonnull List<ScreeningProfile> profiles,
+            @JsonProperty("findings") @Nonnull List<ScreeningFinding> findings,
+            @JsonProperty("posts") @Nonnull List<ScreeningPost> posts,
+            @JsonProperty("media") @Nonnull List<ScreeningMedia> media,
             @JsonProperty("reviews") @Nonnull List<AttendeeReview> reviews) {
         this.attendee = Optional.ofNullable(attendee)
                 .orElseThrow(() -> new IllegalArgumentException("attendee cannot be null"));
@@ -51,6 +65,8 @@ public class AttendeeReport {
                 .orElseThrow(() -> new IllegalArgumentException("profiles cannot be null"));
         this.findings = Optional.ofNullable(findings)
                 .orElseThrow(() -> new IllegalArgumentException("findings cannot be null"));
+        this.posts = Optional.ofNullable(posts).orElseThrow(() -> new IllegalArgumentException("posts cannot be null"));
+        this.media = Optional.ofNullable(media).orElseThrow(() -> new IllegalArgumentException("media cannot be null"));
         this.reviews =
                 Optional.ofNullable(reviews).orElseThrow(() -> new IllegalArgumentException("reviews cannot be null"));
     }
@@ -63,17 +79,31 @@ public class AttendeeReport {
     }
 
     /**
-     * The accounts the screening matched, with how each was matched.
+     * The accounts the latest screening matched, with how each was matched.
      */
-    public List<Profile> profiles() {
+    public List<ScreeningProfile> profiles() {
         return this.profiles;
     }
 
     /**
-     * What the screening flagged, with its evidence.
+     * What the latest screening flagged, most severe first, each citing its evidence.
      */
-    public List<Finding> findings() {
+    public List<ScreeningFinding> findings() {
         return this.findings;
+    }
+
+    /**
+     * The posts the findings cite.
+     */
+    public List<ScreeningPost> posts() {
+        return this.posts;
+    }
+
+    /**
+     * The images and videos the findings cite.
+     */
+    public List<ScreeningMedia> media() {
+        return this.media;
     }
 
     /**
@@ -96,18 +126,34 @@ public class AttendeeReport {
     }
 
     /**
-     * The accounts the screening matched, with how each was matched.
+     * The accounts the latest screening matched, with how each was matched.
      */
-    public AttendeeReport withProfiles(@Nonnull List<Profile> profiles) {
+    public AttendeeReport withProfiles(@Nonnull List<ScreeningProfile> profiles) {
         this.profiles = Utils.checkNotNull(profiles, "profiles");
         return this;
     }
 
     /**
-     * What the screening flagged, with its evidence.
+     * What the latest screening flagged, most severe first, each citing its evidence.
      */
-    public AttendeeReport withFindings(@Nonnull List<Finding> findings) {
+    public AttendeeReport withFindings(@Nonnull List<ScreeningFinding> findings) {
         this.findings = Utils.checkNotNull(findings, "findings");
+        return this;
+    }
+
+    /**
+     * The posts the findings cite.
+     */
+    public AttendeeReport withPosts(@Nonnull List<ScreeningPost> posts) {
+        this.posts = Utils.checkNotNull(posts, "posts");
+        return this;
+    }
+
+    /**
+     * The images and videos the findings cite.
+     */
+    public AttendeeReport withMedia(@Nonnull List<ScreeningMedia> media) {
+        this.media = Utils.checkNotNull(media, "media");
         return this;
     }
 
@@ -131,12 +177,14 @@ public class AttendeeReport {
         return Utils.enhancedDeepEquals(this.attendee, other.attendee)
                 && Utils.enhancedDeepEquals(this.profiles, other.profiles)
                 && Utils.enhancedDeepEquals(this.findings, other.findings)
+                && Utils.enhancedDeepEquals(this.posts, other.posts)
+                && Utils.enhancedDeepEquals(this.media, other.media)
                 && Utils.enhancedDeepEquals(this.reviews, other.reviews);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(attendee, profiles, findings, reviews);
+        return Utils.enhancedHash(attendee, profiles, findings, posts, media, reviews);
     }
 
     @Override
@@ -149,6 +197,10 @@ public class AttendeeReport {
                 profiles,
                 "findings",
                 findings,
+                "posts",
+                posts,
+                "media",
+                media,
                 "reviews",
                 reviews);
     }
@@ -158,9 +210,13 @@ public class AttendeeReport {
 
         private Attendee attendee;
 
-        private List<Profile> profiles;
+        private List<ScreeningProfile> profiles;
 
-        private List<Finding> findings;
+        private List<ScreeningFinding> findings;
+
+        private List<ScreeningPost> posts;
+
+        private List<ScreeningMedia> media;
 
         private List<AttendeeReview> reviews;
 
@@ -177,18 +233,34 @@ public class AttendeeReport {
         }
 
         /**
-         * The accounts the screening matched, with how each was matched.
+         * The accounts the latest screening matched, with how each was matched.
          */
-        public Builder profiles(@Nonnull List<Profile> profiles) {
+        public Builder profiles(@Nonnull List<ScreeningProfile> profiles) {
             this.profiles = Utils.checkNotNull(profiles, "profiles");
             return this;
         }
 
         /**
-         * What the screening flagged, with its evidence.
+         * What the latest screening flagged, most severe first, each citing its evidence.
          */
-        public Builder findings(@Nonnull List<Finding> findings) {
+        public Builder findings(@Nonnull List<ScreeningFinding> findings) {
             this.findings = Utils.checkNotNull(findings, "findings");
+            return this;
+        }
+
+        /**
+         * The posts the findings cite.
+         */
+        public Builder posts(@Nonnull List<ScreeningPost> posts) {
+            this.posts = Utils.checkNotNull(posts, "posts");
+            return this;
+        }
+
+        /**
+         * The images and videos the findings cite.
+         */
+        public Builder media(@Nonnull List<ScreeningMedia> media) {
+            this.media = Utils.checkNotNull(media, "media");
             return this;
         }
 
@@ -201,7 +273,7 @@ public class AttendeeReport {
         }
 
         public AttendeeReport build() {
-            return new AttendeeReport(attendee, profiles, findings, reviews);
+            return new AttendeeReport(attendee, profiles, findings, posts, media, reviews);
         }
     }
 }

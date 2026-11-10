@@ -14,7 +14,10 @@ import org.noresponse.utils.Utils;
  * <p>An account the attendee is known to hold.
  */
 public class Handle {
-
+    /**
+     * A platform a screening can cover. synthetic is the deterministic connector's own platform, for
+     * exercising the product end to end with no network.
+     */
     @JsonProperty("platform")
     private HandlePlatform platform;
 
@@ -34,6 +37,10 @@ public class Handle {
                 Optional.ofNullable(handle).orElseThrow(() -> new IllegalArgumentException("handle cannot be null"));
     }
 
+    /**
+     * A platform a screening can cover. synthetic is the deterministic connector's own platform, for
+     * exercising the product end to end with no network.
+     */
     public HandlePlatform platform() {
         return this.platform;
     }
@@ -49,6 +56,10 @@ public class Handle {
         return new Builder();
     }
 
+    /**
+     * A platform a screening can cover. synthetic is the deterministic connector's own platform, for
+     * exercising the product end to end with no network.
+     */
     public Handle withPlatform(@Nonnull HandlePlatform platform) {
         this.platform = Utils.checkNotNull(platform, "platform");
         return this;
@@ -96,6 +107,10 @@ public class Handle {
             // force use of static builder() method
         }
 
+        /**
+         * A platform a screening can cover. synthetic is the deterministic connector's own platform, for
+         * exercising the product end to end with no network.
+         */
         public Builder platform(@Nonnull HandlePlatform platform) {
             this.platform = Utils.checkNotNull(platform, "platform");
             return this;

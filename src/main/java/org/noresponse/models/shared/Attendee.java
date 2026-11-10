@@ -109,10 +109,11 @@ public class Attendee {
     private String decidedAt;
 
     /**
-     * What the latest screening read, per platform.
+     * The denominator of a screening: accounts found, how many could be read, items read and the period
+     * they span, so a clean result is distinct from a person nobody could see.
      */
     @JsonProperty("coverage")
-    private AttendeeCoverage coverage;
+    private ScreeningCoverage coverage;
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("last_screening_id")
@@ -127,6 +128,12 @@ public class Attendee {
 
     @JsonProperty("updated_at")
     private String updatedAt;
+
+    /**
+     * What screening cost, in US cents, in total and per implementation.
+     */
+    @JsonProperty("spend")
+    private ScreeningSpend spend;
 
     @JsonCreator
     public Attendee(
@@ -145,11 +152,12 @@ public class Attendee {
             @JsonProperty("decision_note") @Nullable String decisionNote,
             @JsonProperty("decided_by") @Nullable String decidedBy,
             @JsonProperty("decided_at") @Nullable String decidedAt,
-            @JsonProperty("coverage") @Nonnull AttendeeCoverage coverage,
+            @JsonProperty("coverage") @Nonnull ScreeningCoverage coverage,
             @JsonProperty("last_screening_id") @Nullable String lastScreeningId,
             @JsonProperty("screened_at") @Nullable String screenedAt,
             @JsonProperty("created_at") @Nonnull String createdAt,
-            @JsonProperty("updated_at") @Nonnull String updatedAt) {
+            @JsonProperty("updated_at") @Nonnull String updatedAt,
+            @JsonProperty("spend") @Nonnull ScreeningSpend spend) {
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.eventId =
                 Optional.ofNullable(eventId).orElseThrow(() -> new IllegalArgumentException("eventId cannot be null"));
@@ -175,6 +183,7 @@ public class Attendee {
                 .orElseThrow(() -> new IllegalArgumentException("createdAt cannot be null"));
         this.updatedAt = Optional.ofNullable(updatedAt)
                 .orElseThrow(() -> new IllegalArgumentException("updatedAt cannot be null"));
+        this.spend = Optional.ofNullable(spend).orElseThrow(() -> new IllegalArgumentException("spend cannot be null"));
     }
 
     public Attendee(
@@ -182,9 +191,10 @@ public class Attendee {
             @Nonnull String eventId,
             @Nonnull String name,
             @Nonnull MatchState matchState,
-            @Nonnull AttendeeCoverage coverage,
+            @Nonnull ScreeningCoverage coverage,
             @Nonnull String createdAt,
-            @Nonnull String updatedAt) {
+            @Nonnull String updatedAt,
+            @Nonnull ScreeningSpend spend) {
         this(
                 id,
                 eventId,
@@ -205,7 +215,8 @@ public class Attendee {
                 null,
                 null,
                 createdAt,
-                updatedAt);
+                updatedAt,
+                spend);
     }
 
     public String id() {
@@ -301,9 +312,10 @@ public class Attendee {
     }
 
     /**
-     * What the latest screening read, per platform.
+     * The denominator of a screening: accounts found, how many could be read, items read and the period
+     * they span, so a clean result is distinct from a person nobody could see.
      */
-    public AttendeeCoverage coverage() {
+    public ScreeningCoverage coverage() {
         return this.coverage;
     }
 
@@ -321,6 +333,13 @@ public class Attendee {
 
     public String updatedAt() {
         return this.updatedAt;
+    }
+
+    /**
+     * What screening cost, in US cents, in total and per implementation.
+     */
+    public ScreeningSpend spend() {
+        return this.spend;
     }
 
     public static Builder builder() {
@@ -435,9 +454,10 @@ public class Attendee {
     }
 
     /**
-     * What the latest screening read, per platform.
+     * The denominator of a screening: accounts found, how many could be read, items read and the period
+     * they span, so a clean result is distinct from a person nobody could see.
      */
-    public Attendee withCoverage(@Nonnull AttendeeCoverage coverage) {
+    public Attendee withCoverage(@Nonnull ScreeningCoverage coverage) {
         this.coverage = Utils.checkNotNull(coverage, "coverage");
         return this;
     }
@@ -459,6 +479,14 @@ public class Attendee {
 
     public Attendee withUpdatedAt(@Nonnull String updatedAt) {
         this.updatedAt = Utils.checkNotNull(updatedAt, "updatedAt");
+        return this;
+    }
+
+    /**
+     * What screening cost, in US cents, in total and per implementation.
+     */
+    public Attendee withSpend(@Nonnull ScreeningSpend spend) {
+        this.spend = Utils.checkNotNull(spend, "spend");
         return this;
     }
 
@@ -490,7 +518,8 @@ public class Attendee {
                 && Utils.enhancedDeepEquals(this.lastScreeningId, other.lastScreeningId)
                 && Utils.enhancedDeepEquals(this.screenedAt, other.screenedAt)
                 && Utils.enhancedDeepEquals(this.createdAt, other.createdAt)
-                && Utils.enhancedDeepEquals(this.updatedAt, other.updatedAt);
+                && Utils.enhancedDeepEquals(this.updatedAt, other.updatedAt)
+                && Utils.enhancedDeepEquals(this.spend, other.spend);
     }
 
     @Override
@@ -515,7 +544,8 @@ public class Attendee {
                 lastScreeningId,
                 screenedAt,
                 createdAt,
-                updatedAt);
+                updatedAt,
+                spend);
     }
 
     @Override
@@ -561,7 +591,9 @@ public class Attendee {
                 "createdAt",
                 createdAt,
                 "updatedAt",
-                updatedAt);
+                updatedAt,
+                "spend",
+                spend);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -597,7 +629,7 @@ public class Attendee {
 
         private String decidedAt;
 
-        private AttendeeCoverage coverage;
+        private ScreeningCoverage coverage;
 
         private String lastScreeningId;
 
@@ -606,6 +638,8 @@ public class Attendee {
         private String createdAt;
 
         private String updatedAt;
+
+        private ScreeningSpend spend;
 
         private Builder() {
             // force use of static builder() method
@@ -719,9 +753,10 @@ public class Attendee {
         }
 
         /**
-         * What the latest screening read, per platform.
+         * The denominator of a screening: accounts found, how many could be read, items read and the period
+         * they span, so a clean result is distinct from a person nobody could see.
          */
-        public Builder coverage(@Nonnull AttendeeCoverage coverage) {
+        public Builder coverage(@Nonnull ScreeningCoverage coverage) {
             this.coverage = Utils.checkNotNull(coverage, "coverage");
             return this;
         }
@@ -746,6 +781,14 @@ public class Attendee {
             return this;
         }
 
+        /**
+         * What screening cost, in US cents, in total and per implementation.
+         */
+        public Builder spend(@Nonnull ScreeningSpend spend) {
+            this.spend = Utils.checkNotNull(spend, "spend");
+            return this;
+        }
+
         public Attendee build() {
             return new Attendee(
                     id,
@@ -767,7 +810,8 @@ public class Attendee {
                     lastScreeningId,
                     screenedAt,
                     createdAt,
-                    updatedAt);
+                    updatedAt,
+                    spend);
         }
     }
 }

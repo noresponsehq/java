@@ -538,7 +538,8 @@ public class AsyncEvents {
      * estimated_spend; a screening whose estimate exceeds what the daily screening cap has left answers
      * 409 screening_cap_exceeded.
      *
-     * <p>The test environment screens with stand-ins that find no accounts.
+     * <p>The test environment screens with the synthetic connector, which makes up deterministic profiles,
+     * posts and findings.
      *
      * @return The async call builder
      */
@@ -554,7 +555,8 @@ public class AsyncEvents {
      * estimated_spend; a screening whose estimate exceeds what the daily screening cap has left answers
      * 409 screening_cap_exceeded.
      *
-     * <p>The test environment screens with stand-ins that find no accounts.
+     * <p>The test environment screens with the synthetic connector, which makes up deterministic profiles,
+     * posts and findings.
      *
      * @param request The request object containing all the parameters for the API call.
      * @return {@code CompletableFuture<StartScreeningResponse>} - The async response
@@ -571,7 +573,8 @@ public class AsyncEvents {
      * estimated_spend; a screening whose estimate exceeds what the daily screening cap has left answers
      * 409 screening_cap_exceeded.
      *
-     * <p>The test environment screens with stand-ins that find no accounts.
+     * <p>The test environment screens with the synthetic connector, which makes up deterministic profiles,
+     * posts and findings.
      *
      * @param request The request object containing all the parameters for the API call.
      * @param options additional options

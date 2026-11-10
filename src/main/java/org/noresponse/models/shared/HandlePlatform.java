@@ -15,6 +15,12 @@ import java.util.Optional;
  * without runtime errors. Instances are immutable singletons with reference equality.
  * Use {@code asEnum()} for switch expressions.
  */
+/**
+ * HandlePlatform
+ *
+ * <p>A platform a screening can cover. synthetic is the deterministic connector's own platform, for
+ * exercising the product end to end with no network.
+ */
 public class HandlePlatform {
 
     public static final HandlePlatform INSTAGRAM = new HandlePlatform("instagram");
@@ -27,6 +33,7 @@ public class HandlePlatform {
     public static final HandlePlatform REDDIT = new HandlePlatform("reddit");
     public static final HandlePlatform TELEGRAM = new HandlePlatform("telegram");
     public static final HandlePlatform LINKEDIN = new HandlePlatform("linkedin");
+    public static final HandlePlatform SYNTHETIC = new HandlePlatform("synthetic");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -107,6 +114,7 @@ public class HandlePlatform {
         map.put("reddit", REDDIT);
         map.put("telegram", TELEGRAM);
         map.put("linkedin", LINKEDIN);
+        map.put("synthetic", SYNTHETIC);
         return map;
     }
 
@@ -122,6 +130,7 @@ public class HandlePlatform {
         map.put("reddit", HandlePlatformEnum.REDDIT);
         map.put("telegram", HandlePlatformEnum.TELEGRAM);
         map.put("linkedin", HandlePlatformEnum.LINKEDIN);
+        map.put("synthetic", HandlePlatformEnum.SYNTHETIC);
         return map;
     }
 
@@ -137,6 +146,7 @@ public class HandlePlatform {
         REDDIT("reddit"),
         TELEGRAM("telegram"),
         LINKEDIN("linkedin"),
+        SYNTHETIC("synthetic"),
         ;
 
         private final String value;
