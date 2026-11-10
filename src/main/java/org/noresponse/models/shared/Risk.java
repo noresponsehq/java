@@ -106,9 +106,9 @@ public class Risk {
     private List<RiskReason> reasons;
 
     /**
-     * A few typed facts per identifier. Every fact is optional: absent means the evidence did not answer
-     * and makes no claim, while false or 0 is a definite answer. Lanes that do not exist yet leave their
-     * members absent.
+     * A few typed facts per identifier: an assessment's risk.summary, and an event screening attendee's
+     * lookup summary. Every fact is optional: absent means the evidence did not answer and makes no claim,
+     * while false or 0 is a definite answer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("summary")
@@ -123,9 +123,8 @@ public class Risk {
     private RiskCoverage coverage;
 
     /**
-     * Detailed view only (response_mode=detailed, which needs the detailed scope); a standard answer
-     * leaves it out. Merged observations without provider, source, origin, raw breach record, value or
-     * score.
+     * Merged observations behind the summary, served only to a caller who may read evidence: no provider,
+     * source, origin, raw breach record or score.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("details")
@@ -276,9 +275,9 @@ public class Risk {
     }
 
     /**
-     * A few typed facts per identifier. Every fact is optional: absent means the evidence did not answer
-     * and makes no claim, while false or 0 is a definite answer. Lanes that do not exist yet leave their
-     * members absent.
+     * A few typed facts per identifier: an assessment's risk.summary, and an event screening attendee's
+     * lookup summary. Every fact is optional: absent means the evidence did not answer and makes no claim,
+     * while false or 0 is a definite answer.
      */
     public Optional<RiskSummary> summary() {
         return Optional.ofNullable(this.summary);
@@ -294,9 +293,8 @@ public class Risk {
     }
 
     /**
-     * Detailed view only (response_mode=detailed, which needs the detailed scope); a standard answer
-     * leaves it out. Merged observations without provider, source, origin, raw breach record, value or
-     * score.
+     * Merged observations behind the summary, served only to a caller who may read evidence: no provider,
+     * source, origin, raw breach record or score.
      */
     public Optional<RiskDetails> details() {
         return Optional.ofNullable(this.details);
@@ -394,9 +392,9 @@ public class Risk {
     }
 
     /**
-     * A few typed facts per identifier. Every fact is optional: absent means the evidence did not answer
-     * and makes no claim, while false or 0 is a definite answer. Lanes that do not exist yet leave their
-     * members absent.
+     * A few typed facts per identifier: an assessment's risk.summary, and an event screening attendee's
+     * lookup summary. Every fact is optional: absent means the evidence did not answer and makes no claim,
+     * while false or 0 is a definite answer.
      */
     public Risk withSummary(@Nullable RiskSummary summary) {
         this.summary = summary;
@@ -414,9 +412,8 @@ public class Risk {
     }
 
     /**
-     * Detailed view only (response_mode=detailed, which needs the detailed scope); a standard answer
-     * leaves it out. Merged observations without provider, source, origin, raw breach record, value or
-     * score.
+     * Merged observations behind the summary, served only to a caller who may read evidence: no provider,
+     * source, origin, raw breach record or score.
      */
     public Risk withDetails(@Nullable RiskDetails details) {
         this.details = details;
@@ -622,9 +619,9 @@ public class Risk {
         }
 
         /**
-         * A few typed facts per identifier. Every fact is optional: absent means the evidence did not answer
-         * and makes no claim, while false or 0 is a definite answer. Lanes that do not exist yet leave their
-         * members absent.
+         * A few typed facts per identifier: an assessment's risk.summary, and an event screening attendee's
+         * lookup summary. Every fact is optional: absent means the evidence did not answer and makes no claim,
+         * while false or 0 is a definite answer.
          */
         public Builder summary(@Nullable RiskSummary summary) {
             this.summary = summary;
@@ -642,9 +639,8 @@ public class Risk {
         }
 
         /**
-         * Detailed view only (response_mode=detailed, which needs the detailed scope); a standard answer
-         * leaves it out. Merged observations without provider, source, origin, raw breach record, value or
-         * score.
+         * Merged observations behind the summary, served only to a caller who may read evidence: no provider,
+         * source, origin, raw breach record or score.
          */
         public Builder details(@Nullable RiskDetails details) {
             this.details = details;
