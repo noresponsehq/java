@@ -12,7 +12,7 @@ import org.noresponse.utils.Utils;
 /**
  * AttendeeReport
  *
- * <p>Everything known about one attendee.
+ * <p>Everything known about one attendee, and where else in the environment they appear.
  */
 public class AttendeeReport {
     /**
@@ -51,6 +51,13 @@ public class AttendeeReport {
     @JsonProperty("reviews")
     private List<AttendeeReview> reviews;
 
+    /**
+     * Where else in the environment the attendee appears, read live from those events: deleting one
+     * removes it here.
+     */
+    @JsonProperty("other_events")
+    private OtherEvents otherEvents;
+
     @JsonCreator
     public AttendeeReport(
             @JsonProperty("attendee") @Nonnull Attendee attendee,
@@ -58,7 +65,8 @@ public class AttendeeReport {
             @JsonProperty("findings") @Nonnull List<ScreeningFinding> findings,
             @JsonProperty("posts") @Nonnull List<ScreeningPost> posts,
             @JsonProperty("media") @Nonnull List<ScreeningMedia> media,
-            @JsonProperty("reviews") @Nonnull List<AttendeeReview> reviews) {
+            @JsonProperty("reviews") @Nonnull List<AttendeeReview> reviews,
+            @JsonProperty("other_events") @Nonnull OtherEvents otherEvents) {
         this.attendee = Optional.ofNullable(attendee)
                 .orElseThrow(() -> new IllegalArgumentException("attendee cannot be null"));
         this.profiles = Optional.ofNullable(profiles)
@@ -69,6 +77,8 @@ public class AttendeeReport {
         this.media = Optional.ofNullable(media).orElseThrow(() -> new IllegalArgumentException("media cannot be null"));
         this.reviews =
                 Optional.ofNullable(reviews).orElseThrow(() -> new IllegalArgumentException("reviews cannot be null"));
+        this.otherEvents = Optional.ofNullable(otherEvents)
+                .orElseThrow(() -> new IllegalArgumentException("otherEvents cannot be null"));
     }
 
     /**
@@ -111,6 +121,14 @@ public class AttendeeReport {
      */
     public List<AttendeeReview> reviews() {
         return this.reviews;
+    }
+
+    /**
+     * Where else in the environment the attendee appears, read live from those events: deleting one
+     * removes it here.
+     */
+    public OtherEvents otherEvents() {
+        return this.otherEvents;
     }
 
     public static Builder builder() {
@@ -165,6 +183,15 @@ public class AttendeeReport {
         return this;
     }
 
+    /**
+     * Where else in the environment the attendee appears, read live from those events: deleting one
+     * removes it here.
+     */
+    public AttendeeReport withOtherEvents(@Nonnull OtherEvents otherEvents) {
+        this.otherEvents = Utils.checkNotNull(otherEvents, "otherEvents");
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -179,12 +206,13 @@ public class AttendeeReport {
                 && Utils.enhancedDeepEquals(this.findings, other.findings)
                 && Utils.enhancedDeepEquals(this.posts, other.posts)
                 && Utils.enhancedDeepEquals(this.media, other.media)
-                && Utils.enhancedDeepEquals(this.reviews, other.reviews);
+                && Utils.enhancedDeepEquals(this.reviews, other.reviews)
+                && Utils.enhancedDeepEquals(this.otherEvents, other.otherEvents);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(attendee, profiles, findings, posts, media, reviews);
+        return Utils.enhancedHash(attendee, profiles, findings, posts, media, reviews, otherEvents);
     }
 
     @Override
@@ -202,7 +230,9 @@ public class AttendeeReport {
                 "media",
                 media,
                 "reviews",
-                reviews);
+                reviews,
+                "otherEvents",
+                otherEvents);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -219,6 +249,8 @@ public class AttendeeReport {
         private List<ScreeningMedia> media;
 
         private List<AttendeeReview> reviews;
+
+        private OtherEvents otherEvents;
 
         private Builder() {
             // force use of static builder() method
@@ -272,8 +304,17 @@ public class AttendeeReport {
             return this;
         }
 
+        /**
+         * Where else in the environment the attendee appears, read live from those events: deleting one
+         * removes it here.
+         */
+        public Builder otherEvents(@Nonnull OtherEvents otherEvents) {
+            this.otherEvents = Utils.checkNotNull(otherEvents, "otherEvents");
+            return this;
+        }
+
         public AttendeeReport build() {
-            return new AttendeeReport(attendee, profiles, findings, posts, media, reviews);
+            return new AttendeeReport(attendee, profiles, findings, posts, media, reviews, otherEvents);
         }
     }
 }

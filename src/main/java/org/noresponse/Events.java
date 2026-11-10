@@ -419,8 +419,8 @@ public class Events {
     /**
      * Read an attendee's report.
      *
-     * <p>Read an attendee's report: matched profiles, findings with their evidence and every recorded
-     * decision.
+     * <p>Read an attendee's report: matched profiles, findings with their evidence, every recorded decision,
+     * and the other events where the same email or phone appears.
      *
      * @return The call builder
      */
@@ -431,8 +431,8 @@ public class Events {
     /**
      * Read an attendee's report.
      *
-     * <p>Read an attendee's report: matched profiles, findings with their evidence and every recorded
-     * decision.
+     * <p>Read an attendee's report: matched profiles, findings with their evidence, every recorded decision,
+     * and the other events where the same email or phone appears.
      *
      * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
      * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
@@ -452,8 +452,8 @@ public class Events {
     /**
      * Read an attendee's report.
      *
-     * <p>Read an attendee's report: matched profiles, findings with their evidence and every recorded
-     * decision.
+     * <p>Read an attendee's report: matched profiles, findings with their evidence, every recorded decision,
+     * and the other events where the same email or phone appears.
      *
      * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
      * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
