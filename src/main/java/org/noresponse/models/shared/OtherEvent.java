@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Boolean;
 import java.lang.Override;
 import java.lang.String;
 import java.util.List;
@@ -45,10 +46,18 @@ public class OtherEvent {
 
     /**
      * How sure the latest screening is that it found the attendee's accounts. unscreened until a screening
-     * reaches the attendee.
+     * reaches the attendee, and after one that had no profile to check (no_profile_to_check).
      */
     @JsonProperty("match_state")
     private MatchState matchState;
+
+    /**
+     * true when that attendee's latest screening had no profile to check (see the attendee's
+     * no_profile_to_check). Left out otherwise.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("no_profile_to_check")
+    private Boolean noProfileToCheck;
 
     /**
      * That attendee's most severe band at that event, or null.
@@ -86,6 +95,7 @@ public class OtherEvent {
             @JsonProperty("attendee_id") @Nonnull String attendeeId,
             @JsonProperty("matched_on") @Nonnull List<MatchedOn> matchedOn,
             @JsonProperty("match_state") @Nonnull MatchState matchState,
+            @JsonProperty("no_profile_to_check") @Nullable Boolean noProfileToCheck,
             @JsonProperty("highest_band") @Nullable HighestBand highestBand,
             @JsonProperty("decision") @Nullable AttendeeDecision decision,
             @JsonProperty("decided_by") @Nullable String decidedBy,
@@ -102,6 +112,7 @@ public class OtherEvent {
                 .orElseThrow(() -> new IllegalArgumentException("matchedOn cannot be null"));
         this.matchState = Optional.ofNullable(matchState)
                 .orElseThrow(() -> new IllegalArgumentException("matchState cannot be null"));
+        this.noProfileToCheck = noProfileToCheck;
         this.highestBand = JsonNullable.of(highestBand);
         this.decision = JsonNullable.of(decision);
         this.decidedBy = decidedBy;
@@ -115,7 +126,7 @@ public class OtherEvent {
             @Nonnull String attendeeId,
             @Nonnull List<MatchedOn> matchedOn,
             @Nonnull MatchState matchState) {
-        this(eventId, eventName, eventStartsAt, attendeeId, matchedOn, matchState, null, null, null, null);
+        this(eventId, eventName, eventStartsAt, attendeeId, matchedOn, matchState, null, null, null, null, null);
     }
 
     public String eventId() {
@@ -147,10 +158,18 @@ public class OtherEvent {
 
     /**
      * How sure the latest screening is that it found the attendee's accounts. unscreened until a screening
-     * reaches the attendee.
+     * reaches the attendee, and after one that had no profile to check (no_profile_to_check).
      */
     public MatchState matchState() {
         return this.matchState;
+    }
+
+    /**
+     * true when that attendee's latest screening had no profile to check (see the attendee's
+     * no_profile_to_check). Left out otherwise.
+     */
+    public Optional<Boolean> noProfileToCheck() {
+        return Optional.ofNullable(this.noProfileToCheck);
     }
 
     /**
@@ -219,10 +238,19 @@ public class OtherEvent {
 
     /**
      * How sure the latest screening is that it found the attendee's accounts. unscreened until a screening
-     * reaches the attendee.
+     * reaches the attendee, and after one that had no profile to check (no_profile_to_check).
      */
     public OtherEvent withMatchState(@Nonnull MatchState matchState) {
         this.matchState = Utils.checkNotNull(matchState, "matchState");
+        return this;
+    }
+
+    /**
+     * true when that attendee's latest screening had no profile to check (see the attendee's
+     * no_profile_to_check). Left out otherwise.
+     */
+    public OtherEvent withNoProfileToCheck(@Nullable Boolean noProfileToCheck) {
+        this.noProfileToCheck = noProfileToCheck;
         return this;
     }
 
@@ -273,6 +301,7 @@ public class OtherEvent {
                 && Utils.enhancedDeepEquals(this.attendeeId, other.attendeeId)
                 && Utils.enhancedDeepEquals(this.matchedOn, other.matchedOn)
                 && Utils.enhancedDeepEquals(this.matchState, other.matchState)
+                && Utils.enhancedDeepEquals(this.noProfileToCheck, other.noProfileToCheck)
                 && Utils.enhancedDeepEquals(this.highestBand, other.highestBand)
                 && Utils.enhancedDeepEquals(this.decision, other.decision)
                 && Utils.enhancedDeepEquals(this.decidedBy, other.decidedBy)
@@ -288,6 +317,7 @@ public class OtherEvent {
                 attendeeId,
                 matchedOn,
                 matchState,
+                noProfileToCheck,
                 highestBand,
                 decision,
                 decidedBy,
@@ -310,6 +340,8 @@ public class OtherEvent {
                 matchedOn,
                 "matchState",
                 matchState,
+                "noProfileToCheck",
+                noProfileToCheck,
                 "highestBand",
                 highestBand,
                 "decision",
@@ -334,6 +366,8 @@ public class OtherEvent {
         private List<MatchedOn> matchedOn;
 
         private MatchState matchState;
+
+        private Boolean noProfileToCheck;
 
         private HighestBand highestBand;
 
@@ -381,10 +415,19 @@ public class OtherEvent {
 
         /**
          * How sure the latest screening is that it found the attendee's accounts. unscreened until a screening
-         * reaches the attendee.
+         * reaches the attendee, and after one that had no profile to check (no_profile_to_check).
          */
         public Builder matchState(@Nonnull MatchState matchState) {
             this.matchState = Utils.checkNotNull(matchState, "matchState");
+            return this;
+        }
+
+        /**
+         * true when that attendee's latest screening had no profile to check (see the attendee's
+         * no_profile_to_check). Left out otherwise.
+         */
+        public Builder noProfileToCheck(@Nullable Boolean noProfileToCheck) {
+            this.noProfileToCheck = noProfileToCheck;
             return this;
         }
 
@@ -428,6 +471,7 @@ public class OtherEvent {
                     attendeeId,
                     matchedOn,
                     matchState,
+                    noProfileToCheck,
                     highestBand,
                     decision,
                     decidedBy,

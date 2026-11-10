@@ -19,7 +19,7 @@ import java.util.Optional;
  * MatchState
  *
  * <p>How sure the latest screening is that it found the attendee's accounts. unscreened until a screening
- * reaches the attendee.
+ * reaches the attendee, and after one that had no profile to check (no_profile_to_check).
  */
 public class MatchState {
 

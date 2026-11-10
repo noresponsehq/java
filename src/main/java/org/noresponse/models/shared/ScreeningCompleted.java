@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
@@ -18,7 +19,8 @@ import org.noresponse.utils.Utils;
  * who they are: read the roster with GET
  * /v1/workspaces/{workspace_id}/events/{environment}/{event_id}/attendees, filtered by band, to act on
  * them. attendees_screened + partial_coverage = attendees_total, attendees_flagged is the sum of
- * by_band, and no_footprint counts screened attendees with no flag whose accounts were not found.
+ * by_band, no_footprint counts screened attendees with no flag whose accounts were not found, and
+ * no_profile_to_check those the screening had nothing to look up for on any requested platform.
  *
  * <p>A cancelled screening sends no event.
  */
@@ -84,6 +86,15 @@ public class ScreeningCompleted {
     private long noFootprint;
 
     /**
+     * Screened attendees with no profile to check: the list gave nothing to look up on any requested
+     * platform, such as no handle, so nobody looked for a profile (no_profile_to_check on the attendee).
+     * Not in no_footprint, and not partial: nothing failed. Their lookups are on their reports.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("no_profile_to_check")
+    private Long noProfileToCheck;
+
+    /**
      * Attendees the screening did not fully cover. Read each one's coverage on its attendee.
      */
     @JsonProperty("partial_coverage")
@@ -106,6 +117,7 @@ public class ScreeningCompleted {
             @JsonProperty("attendees_flagged") long attendeesFlagged,
             @JsonProperty("by_band") @Nonnull ScreeningCompletedByBand byBand,
             @JsonProperty("no_footprint") long noFootprint,
+            @JsonProperty("no_profile_to_check") @Nullable Long noProfileToCheck,
             @JsonProperty("partial_coverage") long partialCoverage,
             @JsonProperty("finished_at") @Nonnull String finishedAt) {
         this.screeningId = Optional.ofNullable(screeningId)
@@ -121,6 +133,7 @@ public class ScreeningCompleted {
         this.byBand =
                 Optional.ofNullable(byBand).orElseThrow(() -> new IllegalArgumentException("byBand cannot be null"));
         this.noFootprint = noFootprint;
+        this.noProfileToCheck = noProfileToCheck;
         this.partialCoverage = partialCoverage;
         this.finishedAt = Optional.ofNullable(finishedAt)
                 .orElseThrow(() -> new IllegalArgumentException("finishedAt cannot be null"));
@@ -147,6 +160,7 @@ public class ScreeningCompleted {
                 attendeesFlagged,
                 byBand,
                 noFootprint,
+                null,
                 partialCoverage,
                 finishedAt);
     }
@@ -217,6 +231,15 @@ public class ScreeningCompleted {
      */
     public long noFootprint() {
         return this.noFootprint;
+    }
+
+    /**
+     * Screened attendees with no profile to check: the list gave nothing to look up on any requested
+     * platform, such as no handle, so nobody looked for a profile (no_profile_to_check on the attendee).
+     * Not in no_footprint, and not partial: nothing failed. Their lookups are on their reports.
+     */
+    public Optional<Long> noProfileToCheck() {
+        return Optional.ofNullable(this.noProfileToCheck);
     }
 
     /**
@@ -315,6 +338,16 @@ public class ScreeningCompleted {
     }
 
     /**
+     * Screened attendees with no profile to check: the list gave nothing to look up on any requested
+     * platform, such as no handle, so nobody looked for a profile (no_profile_to_check on the attendee).
+     * Not in no_footprint, and not partial: nothing failed. Their lookups are on their reports.
+     */
+    public ScreeningCompleted withNoProfileToCheck(@Nullable Long noProfileToCheck) {
+        this.noProfileToCheck = noProfileToCheck;
+        return this;
+    }
+
+    /**
      * Attendees the screening did not fully cover. Read each one's coverage on its attendee.
      */
     public ScreeningCompleted withPartialCoverage(long partialCoverage) {
@@ -348,6 +381,7 @@ public class ScreeningCompleted {
                 && Utils.enhancedDeepEquals(this.attendeesFlagged, other.attendeesFlagged)
                 && Utils.enhancedDeepEquals(this.byBand, other.byBand)
                 && Utils.enhancedDeepEquals(this.noFootprint, other.noFootprint)
+                && Utils.enhancedDeepEquals(this.noProfileToCheck, other.noProfileToCheck)
                 && Utils.enhancedDeepEquals(this.partialCoverage, other.partialCoverage)
                 && Utils.enhancedDeepEquals(this.finishedAt, other.finishedAt);
     }
@@ -364,6 +398,7 @@ public class ScreeningCompleted {
                 attendeesFlagged,
                 byBand,
                 noFootprint,
+                noProfileToCheck,
                 partialCoverage,
                 finishedAt);
     }
@@ -390,6 +425,8 @@ public class ScreeningCompleted {
                 byBand,
                 "noFootprint",
                 noFootprint,
+                "noProfileToCheck",
+                noProfileToCheck,
                 "partialCoverage",
                 partialCoverage,
                 "finishedAt",
@@ -416,6 +453,8 @@ public class ScreeningCompleted {
         private ScreeningCompletedByBand byBand;
 
         private long noFootprint;
+
+        private Long noProfileToCheck;
 
         private long partialCoverage;
 
@@ -503,6 +542,16 @@ public class ScreeningCompleted {
         }
 
         /**
+         * Screened attendees with no profile to check: the list gave nothing to look up on any requested
+         * platform, such as no handle, so nobody looked for a profile (no_profile_to_check on the attendee).
+         * Not in no_footprint, and not partial: nothing failed. Their lookups are on their reports.
+         */
+        public Builder noProfileToCheck(@Nullable Long noProfileToCheck) {
+            this.noProfileToCheck = noProfileToCheck;
+            return this;
+        }
+
+        /**
          * Attendees the screening did not fully cover. Read each one's coverage on its attendee.
          */
         public Builder partialCoverage(long partialCoverage) {
@@ -529,6 +578,7 @@ public class ScreeningCompleted {
                     attendeesFlagged,
                     byBand,
                     noFootprint,
+                    noProfileToCheck,
                     partialCoverage,
                     finishedAt);
         }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Boolean;
 import java.lang.Override;
 import java.lang.String;
 import java.util.List;
@@ -86,10 +87,23 @@ public class Attendee {
 
     /**
      * How sure the latest screening is that it found the attendee's accounts. unscreened until a screening
-     * reaches the attendee.
+     * reaches the attendee, and after one that had no profile to check (no_profile_to_check).
      */
     @JsonProperty("match_state")
     private MatchState matchState;
+
+    /**
+     * true when the latest screening reached the attendee but the list gave nothing to look up on any
+     * requested platform, such as no handle for a platform that reads supplied handles only: nobody looked
+     * for a profile. match_state stays unscreened, every platform is in coverage.not_searched, and the
+     * attendee is neither none_found nor failed and does not make the screening partial. Its lookups are
+     * on its report.
+     *
+     * <p>Left out otherwise.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("no_profile_to_check")
+    private Boolean noProfileToCheck;
 
     /**
      * The most severe finding's band, or null when nothing was flagged.
@@ -157,6 +171,7 @@ public class Attendee {
             @JsonProperty("handles") @Nullable List<Handle> handles,
             @JsonProperty("role") @Nullable AttendeeRole role,
             @JsonProperty("match_state") @Nonnull MatchState matchState,
+            @JsonProperty("no_profile_to_check") @Nullable Boolean noProfileToCheck,
             @JsonProperty("highest_band") @Nullable HighestBand highestBand,
             @JsonProperty("decision") @Nullable AttendeeDecision decision,
             @JsonProperty("decision_note") @Nullable String decisionNote,
@@ -181,6 +196,7 @@ public class Attendee {
         this.role = role;
         this.matchState = Optional.ofNullable(matchState)
                 .orElseThrow(() -> new IllegalArgumentException("matchState cannot be null"));
+        this.noProfileToCheck = noProfileToCheck;
         this.highestBand = JsonNullable.of(highestBand);
         this.decision = JsonNullable.of(decision);
         this.decisionNote = decisionNote;
@@ -218,6 +234,7 @@ public class Attendee {
                 null,
                 null,
                 matchState,
+                null,
                 null,
                 null,
                 null,
@@ -300,10 +317,23 @@ public class Attendee {
 
     /**
      * How sure the latest screening is that it found the attendee's accounts. unscreened until a screening
-     * reaches the attendee.
+     * reaches the attendee, and after one that had no profile to check (no_profile_to_check).
      */
     public MatchState matchState() {
         return this.matchState;
+    }
+
+    /**
+     * true when the latest screening reached the attendee but the list gave nothing to look up on any
+     * requested platform, such as no handle for a platform that reads supplied handles only: nobody looked
+     * for a profile. match_state stays unscreened, every platform is in coverage.not_searched, and the
+     * attendee is neither none_found nor failed and does not make the screening partial. Its lookups are
+     * on its report.
+     *
+     * <p>Left out otherwise.
+     */
+    public Optional<Boolean> noProfileToCheck() {
+        return Optional.ofNullable(this.noProfileToCheck);
     }
 
     /**
@@ -446,10 +476,24 @@ public class Attendee {
 
     /**
      * How sure the latest screening is that it found the attendee's accounts. unscreened until a screening
-     * reaches the attendee.
+     * reaches the attendee, and after one that had no profile to check (no_profile_to_check).
      */
     public Attendee withMatchState(@Nonnull MatchState matchState) {
         this.matchState = Utils.checkNotNull(matchState, "matchState");
+        return this;
+    }
+
+    /**
+     * true when the latest screening reached the attendee but the list gave nothing to look up on any
+     * requested platform, such as no handle for a platform that reads supplied handles only: nobody looked
+     * for a profile. match_state stays unscreened, every platform is in coverage.not_searched, and the
+     * attendee is neither none_found nor failed and does not make the screening partial. Its lookups are
+     * on its report.
+     *
+     * <p>Left out otherwise.
+     */
+    public Attendee withNoProfileToCheck(@Nullable Boolean noProfileToCheck) {
+        this.noProfileToCheck = noProfileToCheck;
         return this;
     }
 
@@ -541,6 +585,7 @@ public class Attendee {
                 && Utils.enhancedDeepEquals(this.handles, other.handles)
                 && Utils.enhancedDeepEquals(this.role, other.role)
                 && Utils.enhancedDeepEquals(this.matchState, other.matchState)
+                && Utils.enhancedDeepEquals(this.noProfileToCheck, other.noProfileToCheck)
                 && Utils.enhancedDeepEquals(this.highestBand, other.highestBand)
                 && Utils.enhancedDeepEquals(this.decision, other.decision)
                 && Utils.enhancedDeepEquals(this.decisionNote, other.decisionNote)
@@ -568,6 +613,7 @@ public class Attendee {
                 handles,
                 role,
                 matchState,
+                noProfileToCheck,
                 highestBand,
                 decision,
                 decisionNote,
@@ -607,6 +653,8 @@ public class Attendee {
                 role,
                 "matchState",
                 matchState,
+                "noProfileToCheck",
+                noProfileToCheck,
                 "highestBand",
                 highestBand,
                 "decision",
@@ -655,6 +703,8 @@ public class Attendee {
         private AttendeeRole role;
 
         private MatchState matchState;
+
+        private Boolean noProfileToCheck;
 
         private HighestBand highestBand;
 
@@ -761,10 +811,24 @@ public class Attendee {
 
         /**
          * How sure the latest screening is that it found the attendee's accounts. unscreened until a screening
-         * reaches the attendee.
+         * reaches the attendee, and after one that had no profile to check (no_profile_to_check).
          */
         public Builder matchState(@Nonnull MatchState matchState) {
             this.matchState = Utils.checkNotNull(matchState, "matchState");
+            return this;
+        }
+
+        /**
+         * true when the latest screening reached the attendee but the list gave nothing to look up on any
+         * requested platform, such as no handle for a platform that reads supplied handles only: nobody looked
+         * for a profile. match_state stays unscreened, every platform is in coverage.not_searched, and the
+         * attendee is neither none_found nor failed and does not make the screening partial. Its lookups are
+         * on its report.
+         *
+         * <p>Left out otherwise.
+         */
+        public Builder noProfileToCheck(@Nullable Boolean noProfileToCheck) {
+            this.noProfileToCheck = noProfileToCheck;
             return this;
         }
 
@@ -849,6 +913,7 @@ public class Attendee {
                     handles,
                     role,
                     matchState,
+                    noProfileToCheck,
                     highestBand,
                     decision,
                     decisionNote,

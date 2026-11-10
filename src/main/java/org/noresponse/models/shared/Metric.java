@@ -22,7 +22,7 @@ import java.util.Optional;
  * endpoint. key_usage_events: key-usage events accepted.
  *
  * <p>screenings: attendees a screening recorded a final result for, one per attendee per screening; a
- * failed attendee counts nothing.
+ * failed attendee counts only when its lookups were kept.
  */
 public class Metric {
 

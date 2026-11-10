@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: f0bdd88600ffaadc2c80ef68965c4532
+  docChecksum: bbf0dc058615a422cdbfd396f46aeff9
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 10.0.20
-  configChecksum: 12874a61109b49a79243ecab7565cabd
+  releaseVersion: 10.0.21
+  configChecksum: 6d5fe082cc811041413d3e2351d9fc98
 features:
   java:
     additionalDependencies: 0.1.0
@@ -625,7 +625,7 @@ trackedFiles:
   docs/models/shared/AssuranceLevel.md:
     last_write_checksum: sha1:0e80f5fd451fde5a3869f3604c738566b7e93c71
   docs/models/shared/Attendee.md:
-    last_write_checksum: sha1:2135adf5291b7c795d06d99f376c8c8cb4e88922
+    last_write_checksum: sha1:3b0b834a21c4eb657dc16096ff9ee3335e8febdf
   docs/models/shared/AttendeeBatch.md:
     last_write_checksum: sha1:ec13e2f0468b77b100b294c845a88020aaefe73c
   docs/models/shared/AttendeeBatchItem.md:
@@ -991,7 +991,7 @@ trackedFiles:
   docs/models/shared/Match.md:
     last_write_checksum: sha1:6ec844d67e0678defaa53efe458e6fc414e73c48
   docs/models/shared/MatchState.md:
-    last_write_checksum: sha1:a3cc97e0fd75526724143ee4f9c48c1cc49a4057
+    last_write_checksum: sha1:22e6c940143ec977dddafef85c7c62dff97d51e7
   docs/models/shared/MatchedOn.md:
     last_write_checksum: sha1:5ed7ca5acfd920120dec9e0076540f9dd800c0cd
   docs/models/shared/MediaType.md:
@@ -1013,7 +1013,7 @@ trackedFiles:
   docs/models/shared/MemberUpdateRequestEnvironment.md:
     last_write_checksum: sha1:41ff9d957ae3fa91b7682ae1451fdf1104932ed6
   docs/models/shared/Metric.md:
-    last_write_checksum: sha1:3f0d9ed1afd80e895087716c75b319e48ed0ea49
+    last_write_checksum: sha1:b460c65b049ee0eb1274ab3d7376bce4a0250479
   docs/models/shared/NameCandidate.md:
     last_write_checksum: sha1:e1d59e6a41f6437b5042d41eb907f7c69e160d62
   docs/models/shared/NameCandidateUnion.md:
@@ -1037,7 +1037,7 @@ trackedFiles:
   docs/models/shared/Origin.md:
     last_write_checksum: sha1:c8595519db368536eaa5f00409532b87ca43d358
   docs/models/shared/OtherEvent.md:
-    last_write_checksum: sha1:e70c18e9bed87922d3fcb360f821af8a16401c05
+    last_write_checksum: sha1:5ca3ac0a43d0759cfa4fa9bf1db384feed6c7090
   docs/models/shared/OtherEvents.md:
     last_write_checksum: sha1:d8ab8f66baca9ef1a33080a6fde88e7df598f74a
   docs/models/shared/Outcome.md:
@@ -1219,11 +1219,11 @@ trackedFiles:
   docs/models/shared/ScreeningCancelRequest.md:
     last_write_checksum: sha1:49c92b7250b7982cd0e3ec06122f23b6942fdd62
   docs/models/shared/ScreeningCompleted.md:
-    last_write_checksum: sha1:1b9c4c1b86bbde636613906cc2d0cedab721f474
+    last_write_checksum: sha1:e94a9e2122c3e635005d757d3f8dcdaa45f85b89
   docs/models/shared/ScreeningCompletedByBand.md:
     last_write_checksum: sha1:8549c49cc716084bfe9d83b9b12463a58d1b5b53
   docs/models/shared/ScreeningCompletedEvent.md:
-    last_write_checksum: sha1:07a788e46188ab52f1dd07024d8408c8ce5fcd31
+    last_write_checksum: sha1:03e9e836e658fd71469ab79396037f9c31b8e06a
   docs/models/shared/ScreeningCompletedStatus.md:
     last_write_checksum: sha1:4532276d44066ec53638ae61ddefdb54cb07df79
   docs/models/shared/ScreeningCoverage.md:
@@ -1317,7 +1317,7 @@ trackedFiles:
   docs/models/shared/Usage.md:
     last_write_checksum: sha1:8279419e6289f15bd683f4cd84a6c5374e6d79f2
   docs/models/shared/UsageCount.md:
-    last_write_checksum: sha1:acc76a7bfc9b7c5e78e5466d322a7b75c6894daf
+    last_write_checksum: sha1:bb92c478376098002e2d1445de833db4db07bb29
   docs/models/shared/UsageCountDepth.md:
     last_write_checksum: sha1:a80cb6761cd099595813761dfae2f52a51ba1262
   docs/models/shared/UsageCountFlow.md:
@@ -1439,7 +1439,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:8e796f878650ac34715020633462e57720492ef4
+    last_write_checksum: sha1:455b5a327702e90e6b7299f2ea90ddefa1a34db3
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1527,7 +1527,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:0ec845eb8793042fca37c8a33d70e1cd4685ac56
+    last_write_checksum: sha1:e4543bc59d79e531c125deb10957fa9eabc149ee
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -2817,7 +2817,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/AssuranceLevel.java:
     last_write_checksum: sha1:cc56ce00f54db3bde785e9e0a9c28687b343e260
   src/main/java/org/noresponse/models/shared/Attendee.java:
-    last_write_checksum: sha1:972097a79196dae8e4619abaeff32d5a182e4796
+    last_write_checksum: sha1:5bbbedf34a61981d9d71ae07932fae77e555d7e2
   src/main/java/org/noresponse/models/shared/AttendeeBatch.java:
     last_write_checksum: sha1:3cbb9dca3811619ac5896930207d021b88e2a94e
   src/main/java/org/noresponse/models/shared/AttendeeBatchItem.java:
@@ -3183,7 +3183,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/Match.java:
     last_write_checksum: sha1:eb503c3af95a9449904b2c5d98df0d08a21b76e3
   src/main/java/org/noresponse/models/shared/MatchState.java:
-    last_write_checksum: sha1:bf9f72909f89944e80e7dca1081f0eaee26e858c
+    last_write_checksum: sha1:f9bc6beb55a1dde5b984ce05c5f6d7953cfd53b6
   src/main/java/org/noresponse/models/shared/MatchedOn.java:
     last_write_checksum: sha1:f4e300afc02cb6ee575336f75524c49d68746b42
   src/main/java/org/noresponse/models/shared/MediaType.java:
@@ -3205,7 +3205,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/MemberUpdateRequestEnvironment.java:
     last_write_checksum: sha1:60ab41bed58e5d3a21a86c674b2733cff31050c6
   src/main/java/org/noresponse/models/shared/Metric.java:
-    last_write_checksum: sha1:adab0b956516b847267c2dd6c5643c94792656bd
+    last_write_checksum: sha1:cbb59512f144e25793ca582af5af47dc93516c8b
   src/main/java/org/noresponse/models/shared/NameCandidate.java:
     last_write_checksum: sha1:52f025f4e3d5df06c719f520c62da5d0b55c68dc
   src/main/java/org/noresponse/models/shared/NameCandidateUnion.java:
@@ -3229,7 +3229,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/Origin.java:
     last_write_checksum: sha1:eec8ac8f17dcc754c5e6a6d2937d9a92c0f08611
   src/main/java/org/noresponse/models/shared/OtherEvent.java:
-    last_write_checksum: sha1:1d2c7b580c6f3b881fd02085685be3ad8289d498
+    last_write_checksum: sha1:243b3b351274b808b1d065ccba6fbfc73eadd0a4
   src/main/java/org/noresponse/models/shared/OtherEvents.java:
     last_write_checksum: sha1:f5bad4d53448f81cacd2c4091a548ae9a4007d38
   src/main/java/org/noresponse/models/shared/Outcome.java:
@@ -3411,11 +3411,11 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/ScreeningCancelRequest.java:
     last_write_checksum: sha1:33cbcb2b847bcdd7035d67f24a032393959d2c7a
   src/main/java/org/noresponse/models/shared/ScreeningCompleted.java:
-    last_write_checksum: sha1:1ef7d9976e63e5f90385583da1e82c53c8692d7a
+    last_write_checksum: sha1:197dd91a8e1efe58c491f62c92e77adeedba96c9
   src/main/java/org/noresponse/models/shared/ScreeningCompletedByBand.java:
     last_write_checksum: sha1:40a7edf9f1ee212e75179146c91a1a687643d332
   src/main/java/org/noresponse/models/shared/ScreeningCompletedEvent.java:
-    last_write_checksum: sha1:6a9694a58a9b916b092d3fa9fb2ce134d2d07154
+    last_write_checksum: sha1:73c0f5d6e396464e07e5123c5515ae4a493308f7
   src/main/java/org/noresponse/models/shared/ScreeningCompletedStatus.java:
     last_write_checksum: sha1:a4a46052aa0cafc4ecefab65b1d6f1e65cd9b748
   src/main/java/org/noresponse/models/shared/ScreeningCoverage.java:
@@ -3511,7 +3511,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/Usage.java:
     last_write_checksum: sha1:bb2986cf9f54db7cc2602bb7a1f5bda0458bbd6e
   src/main/java/org/noresponse/models/shared/UsageCount.java:
-    last_write_checksum: sha1:18da49cc98e7c1a7d1b21a1059156d0cbad6f755
+    last_write_checksum: sha1:db1c21a10b42c799167b1190d94a5fe042afd5dc
   src/main/java/org/noresponse/models/shared/UsageCountDepth.java:
     last_write_checksum: sha1:22d4cd94c9264de5fd74c5151608314b41713428
   src/main/java/org/noresponse/models/shared/UsageCountFlow.java:
