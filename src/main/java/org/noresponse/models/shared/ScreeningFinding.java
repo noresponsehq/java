@@ -67,6 +67,15 @@ public class ScreeningFinding {
     private List<String> evidence;
 
     /**
+     * What the analyser saw in each image among evidence that the finding rests on. Unlike quote, an
+     * observation cannot be checked against the record: judge it against the image at the media item's
+     * permalink.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("media_observations")
+    private List<ScreeningMediaObservation> mediaObservations;
+
+    /**
      * The resolver, collector or analyser that produced a record, by its catalogue name.
      */
     @JsonProperty("analyser")
@@ -94,6 +103,7 @@ public class ScreeningFinding {
             @JsonProperty("rationale") @Nonnull String rationale,
             @JsonProperty("quote") @Nullable String quote,
             @JsonProperty("evidence") @Nonnull List<String> evidence,
+            @JsonProperty("media_observations") @Nullable List<ScreeningMediaObservation> mediaObservations,
             @JsonProperty("analyser") @Nonnull String analyser,
             @JsonProperty("model") @Nonnull String model,
             @JsonProperty("spend_minor") long spendMinor,
@@ -109,6 +119,7 @@ public class ScreeningFinding {
         this.quote = quote;
         this.evidence = Optional.ofNullable(evidence)
                 .orElseThrow(() -> new IllegalArgumentException("evidence cannot be null"));
+        this.mediaObservations = mediaObservations;
         this.analyser = Optional.ofNullable(analyser)
                 .orElseThrow(() -> new IllegalArgumentException("analyser cannot be null"));
         this.model = Optional.ofNullable(model).orElseThrow(() -> new IllegalArgumentException("model cannot be null"));
@@ -128,7 +139,20 @@ public class ScreeningFinding {
             @Nonnull String model,
             long spendMinor,
             @Nonnull String createdAt) {
-        this(id, category, band, null, confidence, rationale, null, evidence, analyser, model, spendMinor, createdAt);
+        this(
+                id,
+                category,
+                band,
+                null,
+                confidence,
+                rationale,
+                null,
+                evidence,
+                null,
+                analyser,
+                model,
+                spendMinor,
+                createdAt);
     }
 
     public String id() {
@@ -180,6 +204,15 @@ public class ScreeningFinding {
      */
     public List<String> evidence() {
         return this.evidence;
+    }
+
+    /**
+     * What the analyser saw in each image among evidence that the finding rests on. Unlike quote, an
+     * observation cannot be checked against the record: judge it against the image at the media item's
+     * permalink.
+     */
+    public Optional<List<ScreeningMediaObservation>> mediaObservations() {
+        return Optional.ofNullable(this.mediaObservations);
     }
 
     /**
@@ -268,6 +301,16 @@ public class ScreeningFinding {
     }
 
     /**
+     * What the analyser saw in each image among evidence that the finding rests on. Unlike quote, an
+     * observation cannot be checked against the record: judge it against the image at the media item's
+     * permalink.
+     */
+    public ScreeningFinding withMediaObservations(@Nullable List<ScreeningMediaObservation> mediaObservations) {
+        this.mediaObservations = mediaObservations;
+        return this;
+    }
+
+    /**
      * The resolver, collector or analyser that produced a record, by its catalogue name.
      */
     public ScreeningFinding withAnalyser(@Nonnull String analyser) {
@@ -310,6 +353,7 @@ public class ScreeningFinding {
                 && Utils.enhancedDeepEquals(this.rationale, other.rationale)
                 && Utils.enhancedDeepEquals(this.quote, other.quote)
                 && Utils.enhancedDeepEquals(this.evidence, other.evidence)
+                && Utils.enhancedDeepEquals(this.mediaObservations, other.mediaObservations)
                 && Utils.enhancedDeepEquals(this.analyser, other.analyser)
                 && Utils.enhancedDeepEquals(this.model, other.model)
                 && Utils.enhancedDeepEquals(this.spendMinor, other.spendMinor)
@@ -327,6 +371,7 @@ public class ScreeningFinding {
                 rationale,
                 quote,
                 evidence,
+                mediaObservations,
                 analyser,
                 model,
                 spendMinor,
@@ -353,6 +398,8 @@ public class ScreeningFinding {
                 quote,
                 "evidence",
                 evidence,
+                "mediaObservations",
+                mediaObservations,
                 "analyser",
                 analyser,
                 "model",
@@ -381,6 +428,8 @@ public class ScreeningFinding {
         private String quote;
 
         private List<String> evidence;
+
+        private List<ScreeningMediaObservation> mediaObservations;
 
         private String analyser;
 
@@ -454,6 +503,16 @@ public class ScreeningFinding {
         }
 
         /**
+         * What the analyser saw in each image among evidence that the finding rests on. Unlike quote, an
+         * observation cannot be checked against the record: judge it against the image at the media item's
+         * permalink.
+         */
+        public Builder mediaObservations(@Nullable List<ScreeningMediaObservation> mediaObservations) {
+            this.mediaObservations = mediaObservations;
+            return this;
+        }
+
+        /**
          * The resolver, collector or analyser that produced a record, by its catalogue name.
          */
         public Builder analyser(@Nonnull String analyser) {
@@ -489,6 +548,7 @@ public class ScreeningFinding {
                     rationale,
                     quote,
                     evidence,
+                    mediaObservations,
                     analyser,
                     model,
                     spendMinor,

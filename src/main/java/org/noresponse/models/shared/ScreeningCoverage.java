@@ -39,6 +39,13 @@ public class ScreeningCoverage {
     private Long itemsNotAnalysed;
 
     /**
+     * items_not_analysed split by reason, each reason once with at least one item.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("not_analysed_by_reason")
+    private List<ScreeningNotAnalysedCount> notAnalysedByReason;
+
+    /**
      * The oldest item read on any platform.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -70,6 +77,7 @@ public class ScreeningCoverage {
             @JsonProperty("accounts_accessible") long accountsAccessible,
             @JsonProperty("items_read") long itemsRead,
             @JsonProperty("items_not_analysed") @Nullable Long itemsNotAnalysed,
+            @JsonProperty("not_analysed_by_reason") @Nullable List<ScreeningNotAnalysedCount> notAnalysedByReason,
             @JsonProperty("period_from") @Nullable String periodFrom,
             @JsonProperty("period_to") @Nullable String periodTo,
             @JsonProperty("platforms") @Nonnull List<ScreeningPlatformCoverage> platforms,
@@ -78,6 +86,7 @@ public class ScreeningCoverage {
         this.accountsAccessible = accountsAccessible;
         this.itemsRead = itemsRead;
         this.itemsNotAnalysed = itemsNotAnalysed;
+        this.notAnalysedByReason = notAnalysedByReason;
         this.periodFrom = periodFrom;
         this.periodTo = periodTo;
         this.platforms = Optional.ofNullable(platforms)
@@ -90,7 +99,7 @@ public class ScreeningCoverage {
             long accountsAccessible,
             long itemsRead,
             @Nonnull List<ScreeningPlatformCoverage> platforms) {
-        this(accountsFound, accountsAccessible, itemsRead, null, null, null, platforms, null);
+        this(accountsFound, accountsAccessible, itemsRead, null, null, null, null, platforms, null);
     }
 
     public long accountsFound() {
@@ -111,6 +120,13 @@ public class ScreeningCoverage {
      */
     public Optional<Long> itemsNotAnalysed() {
         return Optional.ofNullable(this.itemsNotAnalysed);
+    }
+
+    /**
+     * items_not_analysed split by reason, each reason once with at least one item.
+     */
+    public Optional<List<ScreeningNotAnalysedCount>> notAnalysedByReason() {
+        return Optional.ofNullable(this.notAnalysedByReason);
     }
 
     /**
@@ -169,6 +185,14 @@ public class ScreeningCoverage {
     }
 
     /**
+     * items_not_analysed split by reason, each reason once with at least one item.
+     */
+    public ScreeningCoverage withNotAnalysedByReason(@Nullable List<ScreeningNotAnalysedCount> notAnalysedByReason) {
+        this.notAnalysedByReason = notAnalysedByReason;
+        return this;
+    }
+
+    /**
      * The oldest item read on any platform.
      */
     public ScreeningCoverage withPeriodFrom(@Nullable String periodFrom) {
@@ -212,6 +236,7 @@ public class ScreeningCoverage {
                 && Utils.enhancedDeepEquals(this.accountsAccessible, other.accountsAccessible)
                 && Utils.enhancedDeepEquals(this.itemsRead, other.itemsRead)
                 && Utils.enhancedDeepEquals(this.itemsNotAnalysed, other.itemsNotAnalysed)
+                && Utils.enhancedDeepEquals(this.notAnalysedByReason, other.notAnalysedByReason)
                 && Utils.enhancedDeepEquals(this.periodFrom, other.periodFrom)
                 && Utils.enhancedDeepEquals(this.periodTo, other.periodTo)
                 && Utils.enhancedDeepEquals(this.platforms, other.platforms)
@@ -225,6 +250,7 @@ public class ScreeningCoverage {
                 accountsAccessible,
                 itemsRead,
                 itemsNotAnalysed,
+                notAnalysedByReason,
                 periodFrom,
                 periodTo,
                 platforms,
@@ -243,6 +269,8 @@ public class ScreeningCoverage {
                 itemsRead,
                 "itemsNotAnalysed",
                 itemsNotAnalysed,
+                "notAnalysedByReason",
+                notAnalysedByReason,
                 "periodFrom",
                 periodFrom,
                 "periodTo",
@@ -263,6 +291,8 @@ public class ScreeningCoverage {
         private long itemsRead;
 
         private Long itemsNotAnalysed;
+
+        private List<ScreeningNotAnalysedCount> notAnalysedByReason;
 
         private String periodFrom;
 
@@ -297,6 +327,14 @@ public class ScreeningCoverage {
          */
         public Builder itemsNotAnalysed(@Nullable Long itemsNotAnalysed) {
             this.itemsNotAnalysed = itemsNotAnalysed;
+            return this;
+        }
+
+        /**
+         * items_not_analysed split by reason, each reason once with at least one item.
+         */
+        public Builder notAnalysedByReason(@Nullable List<ScreeningNotAnalysedCount> notAnalysedByReason) {
+            this.notAnalysedByReason = notAnalysedByReason;
             return this;
         }
 
@@ -337,6 +375,7 @@ public class ScreeningCoverage {
                     accountsAccessible,
                     itemsRead,
                     itemsNotAnalysed,
+                    notAnalysedByReason,
                     periodFrom,
                     periodTo,
                     platforms,
