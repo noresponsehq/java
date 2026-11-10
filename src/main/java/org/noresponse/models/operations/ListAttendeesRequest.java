@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.models.shared.ListAttendeesBand;
 import org.noresponse.models.shared.ListAttendeesDecision;
+import org.noresponse.models.shared.ListAttendeesRole;
 import org.noresponse.utils.LazySingletonValue;
 import org.noresponse.utils.NoResponseMetadata;
 import org.noresponse.utils.Utils;
@@ -58,6 +59,12 @@ public class ListAttendeesRequest {
     @NoResponseMetadata("queryParam:style=form,explode=true,name=decision")
     private ListAttendeesDecision decision;
 
+    /**
+     * Only attendees with this role; unstated for attendees whose role was not given.
+     */
+    @NoResponseMetadata("queryParam:style=form,explode=true,name=role")
+    private ListAttendeesRole role;
+
     @JsonCreator
     public ListAttendeesRequest(
             @Nonnull String workspaceId,
@@ -66,7 +73,8 @@ public class ListAttendeesRequest {
             @Nullable Long limit,
             @Nullable String after,
             @Nullable ListAttendeesBand band,
-            @Nullable ListAttendeesDecision decision) {
+            @Nullable ListAttendeesDecision decision,
+            @Nullable ListAttendeesRole role) {
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
         this.environment = Optional.ofNullable(environment)
@@ -77,11 +85,12 @@ public class ListAttendeesRequest {
         this.after = after;
         this.band = band;
         this.decision = decision;
+        this.role = role;
     }
 
     public ListAttendeesRequest(
             @Nonnull String workspaceId, @Nonnull KeyEnvironment environment, @Nonnull String eventId) {
-        this(workspaceId, environment, eventId, null, null, null, null);
+        this(workspaceId, environment, eventId, null, null, null, null, null);
     }
 
     /**
@@ -131,6 +140,13 @@ public class ListAttendeesRequest {
      */
     public Optional<ListAttendeesDecision> decision() {
         return Optional.ofNullable(this.decision);
+    }
+
+    /**
+     * Only attendees with this role; unstated for attendees whose role was not given.
+     */
+    public Optional<ListAttendeesRole> role() {
+        return Optional.ofNullable(this.role);
     }
 
     public static Builder builder() {
@@ -193,6 +209,14 @@ public class ListAttendeesRequest {
         return this;
     }
 
+    /**
+     * Only attendees with this role; unstated for attendees whose role was not given.
+     */
+    public ListAttendeesRequest withRole(@Nullable ListAttendeesRole role) {
+        this.role = role;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -208,12 +232,13 @@ public class ListAttendeesRequest {
                 && Utils.enhancedDeepEquals(this.limit, other.limit)
                 && Utils.enhancedDeepEquals(this.after, other.after)
                 && Utils.enhancedDeepEquals(this.band, other.band)
-                && Utils.enhancedDeepEquals(this.decision, other.decision);
+                && Utils.enhancedDeepEquals(this.decision, other.decision)
+                && Utils.enhancedDeepEquals(this.role, other.role);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(workspaceId, environment, eventId, limit, after, band, decision);
+        return Utils.enhancedHash(workspaceId, environment, eventId, limit, after, band, decision, role);
     }
 
     @Override
@@ -233,7 +258,9 @@ public class ListAttendeesRequest {
                 "band",
                 band,
                 "decision",
-                decision);
+                decision,
+                "role",
+                role);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -252,6 +279,8 @@ public class ListAttendeesRequest {
         private ListAttendeesBand band;
 
         private ListAttendeesDecision decision;
+
+        private ListAttendeesRole role;
 
         private Builder() {
             // force use of static builder() method
@@ -313,8 +342,16 @@ public class ListAttendeesRequest {
             return this;
         }
 
+        /**
+         * Only attendees with this role; unstated for attendees whose role was not given.
+         */
+        public Builder role(@Nullable ListAttendeesRole role) {
+            this.role = role;
+            return this;
+        }
+
         public ListAttendeesRequest build() {
-            return new ListAttendeesRequest(workspaceId, environment, eventId, limit, after, band, decision);
+            return new ListAttendeesRequest(workspaceId, environment, eventId, limit, after, band, decision, role);
         }
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =

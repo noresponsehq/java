@@ -67,6 +67,15 @@ public class AttendeeIdentity {
     @JsonProperty("handles")
     private List<Handle> handles;
 
+    /**
+     * The attendee's role at the event: guest (a ticket holder), crew, vendor or press. Leave it out when
+     * you do not know it: an attendee without one has no role, not guest. A later row naming the same
+     * attendee replaces it, and a change of role alone keeps the attendee's screening results.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("role")
+    private AttendeeRole role;
+
     @JsonCreator
     public AttendeeIdentity(
             @JsonProperty("external_id") @Nullable String externalId,
@@ -75,7 +84,8 @@ public class AttendeeIdentity {
             @JsonProperty("phone") @Nullable String phone,
             @JsonProperty("company") @Nullable String company,
             @JsonProperty("city") @Nullable String city,
-            @JsonProperty("handles") @Nullable List<Handle> handles) {
+            @JsonProperty("handles") @Nullable List<Handle> handles,
+            @JsonProperty("role") @Nullable AttendeeRole role) {
         this.externalId = externalId;
         this.name = Optional.ofNullable(name).orElseThrow(() -> new IllegalArgumentException("name cannot be null"));
         this.email = email;
@@ -83,10 +93,11 @@ public class AttendeeIdentity {
         this.company = company;
         this.city = city;
         this.handles = handles;
+        this.role = role;
     }
 
     public AttendeeIdentity(@Nonnull String name) {
-        this(null, name, null, null, null, null, null);
+        this(null, name, null, null, null, null, null, null);
     }
 
     /**
@@ -137,6 +148,15 @@ public class AttendeeIdentity {
      */
     public Optional<List<Handle>> handles() {
         return Optional.ofNullable(this.handles);
+    }
+
+    /**
+     * The attendee's role at the event: guest (a ticket holder), crew, vendor or press. Leave it out when
+     * you do not know it: an attendee without one has no role, not guest. A later row naming the same
+     * attendee replaces it, and a change of role alone keeps the attendee's screening results.
+     */
+    public Optional<AttendeeRole> role() {
+        return Optional.ofNullable(this.role);
     }
 
     public static Builder builder() {
@@ -200,6 +220,16 @@ public class AttendeeIdentity {
         return this;
     }
 
+    /**
+     * The attendee's role at the event: guest (a ticket holder), crew, vendor or press. Leave it out when
+     * you do not know it: an attendee without one has no role, not guest. A later row naming the same
+     * attendee replaces it, and a change of role alone keeps the attendee's screening results.
+     */
+    public AttendeeIdentity withRole(@Nullable AttendeeRole role) {
+        this.role = role;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -215,12 +245,13 @@ public class AttendeeIdentity {
                 && Utils.enhancedDeepEquals(this.phone, other.phone)
                 && Utils.enhancedDeepEquals(this.company, other.company)
                 && Utils.enhancedDeepEquals(this.city, other.city)
-                && Utils.enhancedDeepEquals(this.handles, other.handles);
+                && Utils.enhancedDeepEquals(this.handles, other.handles)
+                && Utils.enhancedDeepEquals(this.role, other.role);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(externalId, name, email, phone, company, city, handles);
+        return Utils.enhancedHash(externalId, name, email, phone, company, city, handles, role);
     }
 
     @Override
@@ -240,7 +271,9 @@ public class AttendeeIdentity {
                 "city",
                 city,
                 "handles",
-                handles);
+                handles,
+                "role",
+                role);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -259,6 +292,8 @@ public class AttendeeIdentity {
         private String city;
 
         private List<Handle> handles;
+
+        private AttendeeRole role;
 
         private Builder() {
             // force use of static builder() method
@@ -321,8 +356,18 @@ public class AttendeeIdentity {
             return this;
         }
 
+        /**
+         * The attendee's role at the event: guest (a ticket holder), crew, vendor or press. Leave it out when
+         * you do not know it: an attendee without one has no role, not guest. A later row naming the same
+         * attendee replaces it, and a change of role alone keeps the attendee's screening results.
+         */
+        public Builder role(@Nullable AttendeeRole role) {
+            this.role = role;
+            return this;
+        }
+
         public AttendeeIdentity build() {
-            return new AttendeeIdentity(externalId, name, email, phone, company, city, handles);
+            return new AttendeeIdentity(externalId, name, email, phone, company, city, handles, role);
         }
     }
 }

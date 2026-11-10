@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: e0a6fd7480c939b73a9bf4bb431aa830
+  docChecksum: 72792067a8ee94c2a7ac593c2bd4decc
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 10.0.13
-  configChecksum: d34ff1a55f0452d6556455ebd4ab8c31
+  releaseVersion: 10.0.14
+  configChecksum: bb1b70c96772b7b1136effc0cc846ccf
 features:
   java:
     additionalDependencies: 0.1.0
@@ -269,7 +269,7 @@ trackedFiles:
   docs/models/operations/ListAccountsResponse.md:
     last_write_checksum: sha1:54926eeec46953e8e09e537e42c6986f139f408a
   docs/models/operations/ListAttendeesRequest.md:
-    last_write_checksum: sha1:8f8c2186de7044da32da41b5ab0f953fa6e78f92
+    last_write_checksum: sha1:04354b0bf5f32a8085ee9edd298c862879e49bc6
   docs/models/operations/ListAttendeesResponse.md:
     last_write_checksum: sha1:962de4a309daf02cedcd9126e8407a55e8cc8787
   docs/models/operations/ListAuditEventsRequest.md:
@@ -625,7 +625,7 @@ trackedFiles:
   docs/models/shared/AssuranceLevel.md:
     last_write_checksum: sha1:0e80f5fd451fde5a3869f3604c738566b7e93c71
   docs/models/shared/Attendee.md:
-    last_write_checksum: sha1:cb65083a49b19239b121f69a8ec25b8febed1d45
+    last_write_checksum: sha1:2135adf5291b7c795d06d99f376c8c8cb4e88922
   docs/models/shared/AttendeeBatch.md:
     last_write_checksum: sha1:ec13e2f0468b77b100b294c845a88020aaefe73c
   docs/models/shared/AttendeeBatchItem.md:
@@ -647,7 +647,7 @@ trackedFiles:
   docs/models/shared/AttendeeFlaggedMatchState.md:
     last_write_checksum: sha1:50f0799bdf4055dcdcee72996693f33241851e02
   docs/models/shared/AttendeeIdentity.md:
-    last_write_checksum: sha1:c3e1ca9e508d392b7a2679f5e403398d98dbda75
+    last_write_checksum: sha1:5f60af95ebe7c5992f479d0c91de4ca0f9f43c17
   docs/models/shared/AttendeeList.md:
     last_write_checksum: sha1:2f4c22f16542113dc63a3b370485356db49c2d97
   docs/models/shared/AttendeeReport.md:
@@ -656,6 +656,8 @@ trackedFiles:
     last_write_checksum: sha1:0d8fa7b49085873867fe2d6b0a3c12478b189b81
   docs/models/shared/AttendeeReviewRequest.md:
     last_write_checksum: sha1:09d9589dd9af0941db33b302b5ccfe1806bea0f9
+  docs/models/shared/AttendeeRole.md:
+    last_write_checksum: sha1:a3aab932c214c7c974acfe9b9990b15780722f3e
   docs/models/shared/Attribute.md:
     last_write_checksum: sha1:b60492b90326470bd88262b3d2adfe5da30265d5
   docs/models/shared/AttributeAgreement.md:
@@ -952,6 +954,8 @@ trackedFiles:
     last_write_checksum: sha1:e95614bdb0f6c55052bbd1354fb7764fb1524ac4
   docs/models/shared/ListAttendeesDecision.md:
     last_write_checksum: sha1:b3a57539e30b9c0c57627d8cd1c507dd7fa73aec
+  docs/models/shared/ListAttendeesRole.md:
+    last_write_checksum: sha1:58672a487032ee8060d79c3a31f2df37526a52c1
   docs/models/shared/ListBulkRequest.md:
     last_write_checksum: sha1:69b69382524ca095c2558b5bca3754580ea27b92
   docs/models/shared/ListChange.md:
@@ -1417,7 +1421,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:946e9954fee00e088e487ac0b2f5c62455b01ce9
+    last_write_checksum: sha1:2f6c6400ea1e62160930eb0f96feb5f32cd2280e
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1505,7 +1509,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:447c40984fa696bd87d0ca5b875463a163242b56
+    last_write_checksum: sha1:eb9606d1aa29d17a93bda8e471a389122c3f2152
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -1869,7 +1873,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/operations/ListAccountsResponse.java:
     last_write_checksum: sha1:c9c5260fd8ff44493ee785e91b95ab26a9881385
   src/main/java/org/noresponse/models/operations/ListAttendeesRequest.java:
-    last_write_checksum: sha1:12941a7bf45c38ecf4cbebe7b724d671ae7afdc0
+    last_write_checksum: sha1:e9d6d4ed948c29860a7c161ee2dc78cde36ab481
   src/main/java/org/noresponse/models/operations/ListAttendeesRequestBuilder.java:
     last_write_checksum: sha1:8f00681bdbdb5d8c53228f022de0bae0d169ea5a
   src/main/java/org/noresponse/models/operations/ListAttendeesResponse.java:
@@ -2795,7 +2799,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/AssuranceLevel.java:
     last_write_checksum: sha1:cc56ce00f54db3bde785e9e0a9c28687b343e260
   src/main/java/org/noresponse/models/shared/Attendee.java:
-    last_write_checksum: sha1:fc4d4e9460c05d75d3d5f41aa4dbbcace2707cfd
+    last_write_checksum: sha1:972097a79196dae8e4619abaeff32d5a182e4796
   src/main/java/org/noresponse/models/shared/AttendeeBatch.java:
     last_write_checksum: sha1:3cbb9dca3811619ac5896930207d021b88e2a94e
   src/main/java/org/noresponse/models/shared/AttendeeBatchItem.java:
@@ -2817,7 +2821,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/AttendeeFlaggedMatchState.java:
     last_write_checksum: sha1:b4fee0566477092badaba48dc5b7753b88756fd3
   src/main/java/org/noresponse/models/shared/AttendeeIdentity.java:
-    last_write_checksum: sha1:8a5ca2a0b0bf0da7a3a5da0ee2f6d1eb33dba1b9
+    last_write_checksum: sha1:c2c0bf359cea6401c05c48632d2a7171e4dbb2cd
   src/main/java/org/noresponse/models/shared/AttendeeList.java:
     last_write_checksum: sha1:af54f40f257ff2ba536e7bb37c64c8983239c5bb
   src/main/java/org/noresponse/models/shared/AttendeeReport.java:
@@ -2826,6 +2830,8 @@ trackedFiles:
     last_write_checksum: sha1:9d4ca85352bc80abd10581a1f5ed1a05c050dd66
   src/main/java/org/noresponse/models/shared/AttendeeReviewRequest.java:
     last_write_checksum: sha1:16a42f37e52464a7b38ff5d5b0d9f040ced2ba84
+  src/main/java/org/noresponse/models/shared/AttendeeRole.java:
+    last_write_checksum: sha1:1f91ff5a818edfb590cbc90fe09639a701f3b4e2
   src/main/java/org/noresponse/models/shared/Attribute.java:
     last_write_checksum: sha1:2f9a6abd45cc14c674b46440ab3d0e770e81e780
   src/main/java/org/noresponse/models/shared/AttributeAgreement.java:
@@ -3122,6 +3128,8 @@ trackedFiles:
     last_write_checksum: sha1:656213e21ee00f876ae4ee18a9f2af6c3ff53db3
   src/main/java/org/noresponse/models/shared/ListAttendeesDecision.java:
     last_write_checksum: sha1:cff6cb8b251e7f0813bbc408b5e75d80e919e2a7
+  src/main/java/org/noresponse/models/shared/ListAttendeesRole.java:
+    last_write_checksum: sha1:9c294e09f0d1d302bfd3ac5ce9c3851eff4cb7d2
   src/main/java/org/noresponse/models/shared/ListBulkRequest.java:
     last_write_checksum: sha1:59aeae7ceaef0cb7a2de8d059699a7003208b70c
   src/main/java/org/noresponse/models/shared/ListChange.java:

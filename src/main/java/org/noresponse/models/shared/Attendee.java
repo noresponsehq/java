@@ -76,6 +76,15 @@ public class Attendee {
     private List<Handle> handles;
 
     /**
+     * The attendee's role at the event: guest (a ticket holder), crew, vendor or press. Leave it out when
+     * you do not know it: an attendee without one has no role, not guest. A later row naming the same
+     * attendee replaces it, and a change of role alone keeps the attendee's screening results.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("role")
+    private AttendeeRole role;
+
+    /**
      * How sure the latest screening is that it found the attendee's accounts. unscreened until a screening
      * reaches the attendee.
      */
@@ -146,6 +155,7 @@ public class Attendee {
             @JsonProperty("company") @Nullable String company,
             @JsonProperty("city") @Nullable String city,
             @JsonProperty("handles") @Nullable List<Handle> handles,
+            @JsonProperty("role") @Nullable AttendeeRole role,
             @JsonProperty("match_state") @Nonnull MatchState matchState,
             @JsonProperty("highest_band") @Nullable HighestBand highestBand,
             @JsonProperty("decision") @Nullable AttendeeDecision decision,
@@ -168,6 +178,7 @@ public class Attendee {
         this.company = company;
         this.city = city;
         this.handles = handles;
+        this.role = role;
         this.matchState = Optional.ofNullable(matchState)
                 .orElseThrow(() -> new IllegalArgumentException("matchState cannot be null"));
         this.highestBand = JsonNullable.of(highestBand);
@@ -200,6 +211,7 @@ public class Attendee {
                 eventId,
                 null,
                 name,
+                null,
                 null,
                 null,
                 null,
@@ -275,6 +287,15 @@ public class Attendee {
      */
     public Optional<List<Handle>> handles() {
         return Optional.ofNullable(this.handles);
+    }
+
+    /**
+     * The attendee's role at the event: guest (a ticket holder), crew, vendor or press. Leave it out when
+     * you do not know it: an attendee without one has no role, not guest. A later row naming the same
+     * attendee replaces it, and a change of role alone keeps the attendee's screening results.
+     */
+    public Optional<AttendeeRole> role() {
+        return Optional.ofNullable(this.role);
     }
 
     /**
@@ -414,6 +435,16 @@ public class Attendee {
     }
 
     /**
+     * The attendee's role at the event: guest (a ticket holder), crew, vendor or press. Leave it out when
+     * you do not know it: an attendee without one has no role, not guest. A later row naming the same
+     * attendee replaces it, and a change of role alone keeps the attendee's screening results.
+     */
+    public Attendee withRole(@Nullable AttendeeRole role) {
+        this.role = role;
+        return this;
+    }
+
+    /**
      * How sure the latest screening is that it found the attendee's accounts. unscreened until a screening
      * reaches the attendee.
      */
@@ -508,6 +539,7 @@ public class Attendee {
                 && Utils.enhancedDeepEquals(this.company, other.company)
                 && Utils.enhancedDeepEquals(this.city, other.city)
                 && Utils.enhancedDeepEquals(this.handles, other.handles)
+                && Utils.enhancedDeepEquals(this.role, other.role)
                 && Utils.enhancedDeepEquals(this.matchState, other.matchState)
                 && Utils.enhancedDeepEquals(this.highestBand, other.highestBand)
                 && Utils.enhancedDeepEquals(this.decision, other.decision)
@@ -534,6 +566,7 @@ public class Attendee {
                 company,
                 city,
                 handles,
+                role,
                 matchState,
                 highestBand,
                 decision,
@@ -570,6 +603,8 @@ public class Attendee {
                 city,
                 "handles",
                 handles,
+                "role",
+                role,
                 "matchState",
                 matchState,
                 "highestBand",
@@ -616,6 +651,8 @@ public class Attendee {
         private String city;
 
         private List<Handle> handles;
+
+        private AttendeeRole role;
 
         private MatchState matchState;
 
@@ -713,6 +750,16 @@ public class Attendee {
         }
 
         /**
+         * The attendee's role at the event: guest (a ticket holder), crew, vendor or press. Leave it out when
+         * you do not know it: an attendee without one has no role, not guest. A later row naming the same
+         * attendee replaces it, and a change of role alone keeps the attendee's screening results.
+         */
+        public Builder role(@Nullable AttendeeRole role) {
+            this.role = role;
+            return this;
+        }
+
+        /**
          * How sure the latest screening is that it found the attendee's accounts. unscreened until a screening
          * reaches the attendee.
          */
@@ -800,6 +847,7 @@ public class Attendee {
                     company,
                     city,
                     handles,
+                    role,
                     matchState,
                     highestBand,
                     decision,
