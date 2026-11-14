@@ -42,9 +42,15 @@ import org.noresponse.models.operations.ListScreeningsResponse;
 import org.noresponse.models.operations.ReviewPersonRequest;
 import org.noresponse.models.operations.ReviewPersonRequestBuilder;
 import org.noresponse.models.operations.ReviewPersonResponse;
+import org.noresponse.models.operations.RunSearchRequest;
+import org.noresponse.models.operations.RunSearchRequestBuilder;
+import org.noresponse.models.operations.RunSearchResponse;
 import org.noresponse.models.operations.StartScreeningRequest;
 import org.noresponse.models.operations.StartScreeningRequestBuilder;
 import org.noresponse.models.operations.StartScreeningResponse;
+import org.noresponse.models.operations.StartSearchRequest;
+import org.noresponse.models.operations.StartSearchRequestBuilder;
+import org.noresponse.models.operations.StartSearchResponse;
 import org.noresponse.models.operations.UpdateGroupRequest;
 import org.noresponse.models.operations.UpdateGroupRequestBuilder;
 import org.noresponse.models.operations.UpdateGroupResponse;
@@ -63,7 +69,9 @@ import org.noresponse.operations.ListGroups;
 import org.noresponse.operations.ListPeople;
 import org.noresponse.operations.ListScreenings;
 import org.noresponse.operations.ReviewPerson;
+import org.noresponse.operations.RunSearch;
 import org.noresponse.operations.StartScreening;
+import org.noresponse.operations.StartSearch;
 import org.noresponse.operations.UpdateGroup;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
@@ -547,6 +555,92 @@ public class Groups {
     public JudgeRecordResponse judgeRecord(@Nonnull JudgeRecordRequest request, @Nullable Options options) {
         RequestOperation<JudgeRecordRequest, JudgeRecordResponse> operation =
                 new JudgeRecord.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Search again on a value of one of a person's records.
+     *
+     * <p>Search again on the value of one field of one of a person's records, named by the record and field.
+     * Nothing searches again by itself. A password or hash search counts its breach rows first and runs
+     * only when you run it; read the person to see each search and what it found.
+     *
+     * @return The call builder
+     */
+    public StartSearchRequestBuilder startSearch() {
+        return new StartSearchRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Search again on a value of one of a person's records.
+     *
+     * <p>Search again on the value of one field of one of a person's records, named by the record and field.
+     * Nothing searches again by itself. A password or hash search counts its breach rows first and runs
+     * only when you run it; read the person to see each search and what it found.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public StartSearchResponse startSearch(@Nonnull StartSearchRequest request) {
+        return startSearch(request, null);
+    }
+
+    /**
+     * Search again on a value of one of a person's records.
+     *
+     * <p>Search again on the value of one field of one of a person's records, named by the record and field.
+     * Nothing searches again by itself. A password or hash search counts its breach rows first and runs
+     * only when you run it; read the person to see each search and what it found.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public StartSearchResponse startSearch(@Nonnull StartSearchRequest request, @Nullable Options options) {
+        RequestOperation<StartSearchRequest, StartSearchResponse> operation =
+                new StartSearch.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Run a counted password or hash search.
+     *
+     * <p>Run a counted password or hash search once you have seen how many breach rows hold the value.
+     *
+     * @return The call builder
+     */
+    public RunSearchRequestBuilder runSearch() {
+        return new RunSearchRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Run a counted password or hash search.
+     *
+     * <p>Run a counted password or hash search once you have seen how many breach rows hold the value.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public RunSearchResponse runSearch(@Nonnull RunSearchRequest request) {
+        return runSearch(request, null);
+    }
+
+    /**
+     * Run a counted password or hash search.
+     *
+     * <p>Run a counted password or hash search once you have seen how many breach rows hold the value.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public RunSearchResponse runSearch(@Nonnull RunSearchRequest request, @Nullable Options options) {
+        RequestOperation<RunSearchRequest, RunSearchResponse> operation =
+                new RunSearch.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

@@ -50,8 +50,8 @@ public class ScreeningLookup {
     /**
      * What each source answered, whole, each answer once: every field of each account a connector found,
      * and every column of each breach row the person's email or usernames matched, under the source's own
-     * names. Anyone who may read the person reads them: no extra permission applies, breach passwords and
-     * hashes included.
+     * names, and what each search a person started found, each match naming its search. Anyone who may
+     * read the person reads them: no extra permission applies, breach passwords and hashes included.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("records")
@@ -59,8 +59,9 @@ public class ScreeningLookup {
 
     /**
      * For each search and source whose matched rows records leave out, how many: a breach search returns
-     * at most 20 rows of a table and 100 in all, from its first 64 tables by name. Absent when records
-     * hold every matched row.
+     * at most 20 rows of a table and 100 in all, from its first 64 tables by name. A search a person
+     * starts on one table of its source fetches the rest of that table, up to 100 rows. Absent when
+     * records hold every matched row.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("remaining")
@@ -124,8 +125,8 @@ public class ScreeningLookup {
     /**
      * What each source answered, whole, each answer once: every field of each account a connector found,
      * and every column of each breach row the person's email or usernames matched, under the source's own
-     * names. Anyone who may read the person reads them: no extra permission applies, breach passwords and
-     * hashes included.
+     * names, and what each search a person started found, each match naming its search. Anyone who may
+     * read the person reads them: no extra permission applies, breach passwords and hashes included.
      */
     public Optional<List<Record>> records() {
         return Optional.ofNullable(this.records);
@@ -133,8 +134,9 @@ public class ScreeningLookup {
 
     /**
      * For each search and source whose matched rows records leave out, how many: a breach search returns
-     * at most 20 rows of a table and 100 in all, from its first 64 tables by name. Absent when records
-     * hold every matched row.
+     * at most 20 rows of a table and 100 in all, from its first 64 tables by name. A search a person
+     * starts on one table of its source fetches the rest of that table, up to 100 rows. Absent when
+     * records hold every matched row.
      */
     public Optional<List<RecordRemaining>> remaining() {
         return Optional.ofNullable(this.remaining);
@@ -184,8 +186,8 @@ public class ScreeningLookup {
     /**
      * What each source answered, whole, each answer once: every field of each account a connector found,
      * and every column of each breach row the person's email or usernames matched, under the source's own
-     * names. Anyone who may read the person reads them: no extra permission applies, breach passwords and
-     * hashes included.
+     * names, and what each search a person started found, each match naming its search. Anyone who may
+     * read the person reads them: no extra permission applies, breach passwords and hashes included.
      */
     public ScreeningLookup withRecords(@Nullable List<Record> records) {
         this.records = records;
@@ -194,8 +196,9 @@ public class ScreeningLookup {
 
     /**
      * For each search and source whose matched rows records leave out, how many: a breach search returns
-     * at most 20 rows of a table and 100 in all, from its first 64 tables by name. Absent when records
-     * hold every matched row.
+     * at most 20 rows of a table and 100 in all, from its first 64 tables by name. A search a person
+     * starts on one table of its source fetches the rest of that table, up to 100 rows. Absent when
+     * records hold every matched row.
      */
     public ScreeningLookup withRemaining(@Nullable List<RecordRemaining> remaining) {
         this.remaining = remaining;
@@ -302,8 +305,8 @@ public class ScreeningLookup {
         /**
          * What each source answered, whole, each answer once: every field of each account a connector found,
          * and every column of each breach row the person's email or usernames matched, under the source's own
-         * names. Anyone who may read the person reads them: no extra permission applies, breach passwords and
-         * hashes included.
+         * names, and what each search a person started found, each match naming its search. Anyone who may
+         * read the person reads them: no extra permission applies, breach passwords and hashes included.
          */
         public Builder records(@Nullable List<Record> records) {
             this.records = records;
@@ -312,8 +315,9 @@ public class ScreeningLookup {
 
         /**
          * For each search and source whose matched rows records leave out, how many: a breach search returns
-         * at most 20 rows of a table and 100 in all, from its first 64 tables by name. Absent when records
-         * hold every matched row.
+         * at most 20 rows of a table and 100 in all, from its first 64 tables by name. A search a person
+         * starts on one table of its source fetches the rest of that table, up to 100 rows. Absent when
+         * records hold every matched row.
          */
         public Builder remaining(@Nullable List<RecordRemaining> remaining) {
             this.remaining = remaining;

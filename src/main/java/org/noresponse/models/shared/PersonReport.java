@@ -65,6 +65,14 @@ public class PersonReport {
     private ScreeningLookup lookup;
 
     /**
+     * The searches people started on this person's values, newest first: each names the value, and the
+     * record and field it came from. Absent when nobody searched.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("searches")
+    private List<Search> searches;
+
+    /**
      * Where else in the environment the person appears, read live from those groups: deleting one removes
      * it here.
      */
@@ -80,6 +88,7 @@ public class PersonReport {
             @JsonProperty("media") @Nonnull List<ScreeningMedia> media,
             @JsonProperty("reviews") @Nonnull List<PersonReview> reviews,
             @JsonProperty("lookup") @Nullable ScreeningLookup lookup,
+            @JsonProperty("searches") @Nullable List<Search> searches,
             @JsonProperty("other_groups") @Nonnull OtherGroups otherGroups) {
         this.person =
                 Optional.ofNullable(person).orElseThrow(() -> new IllegalArgumentException("person cannot be null"));
@@ -92,6 +101,7 @@ public class PersonReport {
         this.reviews =
                 Optional.ofNullable(reviews).orElseThrow(() -> new IllegalArgumentException("reviews cannot be null"));
         this.lookup = lookup;
+        this.searches = searches;
         this.otherGroups = Optional.ofNullable(otherGroups)
                 .orElseThrow(() -> new IllegalArgumentException("otherGroups cannot be null"));
     }
@@ -104,7 +114,7 @@ public class PersonReport {
             @Nonnull List<ScreeningMedia> media,
             @Nonnull List<PersonReview> reviews,
             @Nonnull OtherGroups otherGroups) {
-        this(person, profiles, findings, posts, media, reviews, null, otherGroups);
+        this(person, profiles, findings, posts, media, reviews, null, null, otherGroups);
     }
 
     /**
@@ -157,6 +167,14 @@ public class PersonReport {
      */
     public Optional<ScreeningLookup> lookup() {
         return Optional.ofNullable(this.lookup);
+    }
+
+    /**
+     * The searches people started on this person's values, newest first: each names the value, and the
+     * record and field it came from. Absent when nobody searched.
+     */
+    public Optional<List<Search>> searches() {
+        return Optional.ofNullable(this.searches);
     }
 
     /**
@@ -231,6 +249,15 @@ public class PersonReport {
     }
 
     /**
+     * The searches people started on this person's values, newest first: each names the value, and the
+     * record and field it came from. Absent when nobody searched.
+     */
+    public PersonReport withSearches(@Nullable List<Search> searches) {
+        this.searches = searches;
+        return this;
+    }
+
+    /**
      * Where else in the environment the person appears, read live from those groups: deleting one removes
      * it here.
      */
@@ -255,12 +282,13 @@ public class PersonReport {
                 && Utils.enhancedDeepEquals(this.media, other.media)
                 && Utils.enhancedDeepEquals(this.reviews, other.reviews)
                 && Utils.enhancedDeepEquals(this.lookup, other.lookup)
+                && Utils.enhancedDeepEquals(this.searches, other.searches)
                 && Utils.enhancedDeepEquals(this.otherGroups, other.otherGroups);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(person, profiles, findings, posts, media, reviews, lookup, otherGroups);
+        return Utils.enhancedHash(person, profiles, findings, posts, media, reviews, lookup, searches, otherGroups);
     }
 
     @Override
@@ -281,6 +309,8 @@ public class PersonReport {
                 reviews,
                 "lookup",
                 lookup,
+                "searches",
+                searches,
                 "otherGroups",
                 otherGroups);
     }
@@ -301,6 +331,8 @@ public class PersonReport {
         private List<PersonReview> reviews;
 
         private ScreeningLookup lookup;
+
+        private List<Search> searches;
 
         private OtherGroups otherGroups;
 
@@ -368,6 +400,15 @@ public class PersonReport {
         }
 
         /**
+         * The searches people started on this person's values, newest first: each names the value, and the
+         * record and field it came from. Absent when nobody searched.
+         */
+        public Builder searches(@Nullable List<Search> searches) {
+            this.searches = searches;
+            return this;
+        }
+
+        /**
          * Where else in the environment the person appears, read live from those groups: deleting one removes
          * it here.
          */
@@ -377,7 +418,7 @@ public class PersonReport {
         }
 
         public PersonReport build() {
-            return new PersonReport(person, profiles, findings, posts, media, reviews, lookup, otherGroups);
+            return new PersonReport(person, profiles, findings, posts, media, reviews, lookup, searches, otherGroups);
         }
     }
 }

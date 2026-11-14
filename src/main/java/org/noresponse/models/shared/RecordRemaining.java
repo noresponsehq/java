@@ -1,8 +1,11 @@
 package org.noresponse.models.shared;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
@@ -28,6 +31,14 @@ public class RecordRemaining {
     private String by;
 
     /**
+     * The search a person started that matched the rows. Searching the same field again with this source's
+     * table fetches them.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("search")
+    private String search;
+
+    /**
      * How many rows of the source that search matched beyond the records the lookup carries.
      */
     @JsonProperty("rows")
@@ -37,11 +48,17 @@ public class RecordRemaining {
     public RecordRemaining(
             @JsonProperty("source") @Nonnull RecordSource source,
             @JsonProperty("by") @Nonnull String by,
+            @JsonProperty("search") @Nullable String search,
             @JsonProperty("rows") long rows) {
         this.source =
                 Optional.ofNullable(source).orElseThrow(() -> new IllegalArgumentException("source cannot be null"));
         this.by = Optional.ofNullable(by).orElseThrow(() -> new IllegalArgumentException("by cannot be null"));
+        this.search = search;
         this.rows = rows;
+    }
+
+    public RecordRemaining(@Nonnull RecordSource source, @Nonnull String by, long rows) {
+        this(source, by, null, rows);
     }
 
     /**
@@ -56,6 +73,14 @@ public class RecordRemaining {
      */
     public String by() {
         return this.by;
+    }
+
+    /**
+     * The search a person started that matched the rows. Searching the same field again with this source's
+     * table fetches them.
+     */
+    public Optional<String> search() {
+        return Optional.ofNullable(this.search);
     }
 
     /**
@@ -86,6 +111,15 @@ public class RecordRemaining {
     }
 
     /**
+     * The search a person started that matched the rows. Searching the same field again with this source's
+     * table fetches them.
+     */
+    public RecordRemaining withSearch(@Nullable String search) {
+        this.search = search;
+        return this;
+    }
+
+    /**
      * How many rows of the source that search matched beyond the records the lookup carries.
      */
     public RecordRemaining withRows(long rows) {
@@ -104,17 +138,18 @@ public class RecordRemaining {
         RecordRemaining other = (RecordRemaining) o;
         return Utils.enhancedDeepEquals(this.source, other.source)
                 && Utils.enhancedDeepEquals(this.by, other.by)
+                && Utils.enhancedDeepEquals(this.search, other.search)
                 && Utils.enhancedDeepEquals(this.rows, other.rows);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(source, by, rows);
+        return Utils.enhancedHash(source, by, search, rows);
     }
 
     @Override
     public String toString() {
-        return Utils.toString(RecordRemaining.class, "source", source, "by", by, "rows", rows);
+        return Utils.toString(RecordRemaining.class, "source", source, "by", by, "search", search, "rows", rows);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -123,6 +158,8 @@ public class RecordRemaining {
         private RecordSource source;
 
         private String by;
+
+        private String search;
 
         private long rows;
 
@@ -147,6 +184,15 @@ public class RecordRemaining {
         }
 
         /**
+         * The search a person started that matched the rows. Searching the same field again with this source's
+         * table fetches them.
+         */
+        public Builder search(@Nullable String search) {
+            this.search = search;
+            return this;
+        }
+
+        /**
          * How many rows of the source that search matched beyond the records the lookup carries.
          */
         public Builder rows(long rows) {
@@ -155,7 +201,7 @@ public class RecordRemaining {
         }
 
         public RecordRemaining build() {
-            return new RecordRemaining(source, by, rows);
+            return new RecordRemaining(source, by, search, rows);
         }
     }
 }

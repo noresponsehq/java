@@ -16,6 +16,8 @@ Groups, lists of people, screenings and reviewer decisions.
 * [getPerson](#getperson) - Read a person's report.
 * [reviewPerson](#reviewperson) - Record a decision on a person.
 * [judgeRecord](#judgerecord) - Join one of a person's records to them, or reject it.
+* [startSearch](#startsearch) - Search again on a value of one of a person's records.
+* [runSearch](#runsearch) - Run a counted password or hash search.
 * [listScreenings](#listscreenings) - List a group's screenings.
 * [startScreening](#startscreening) - Start a screening.
 * [getScreening](#getscreening) - Read a screening.
@@ -737,6 +739,156 @@ public class Application {
 ### Response
 
 **[JudgeRecordResponse](../../models/operations/JudgeRecordResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## startSearch
+
+Search again on the value of one field of one of a person's records, named by the record and field. Nothing searches again by itself. A password or hash search counts its breach rows first and runs only when you run it; read the person to see each search and what it found.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="startSearch" method="post" path="/v1/workspaces/{workspace_id}/groups/{environment}/{group_id}/people/{person_id}/searches" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.StartSearchRequest;
+import org.noresponse.models.operations.StartSearchResponse;
+import org.noresponse.models.shared.KeyEnvironment;
+import org.noresponse.models.shared.SearchRequest;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        StartSearchRequest req = StartSearchRequest.builder()
+                .workspaceId("tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .environment(KeyEnvironment.LIVE)
+                .groupId("grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .personId("per_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .body(SearchRequest.builder()
+                    .recordId("rec_3f9a1c22d4e5b6a73f9a1c22d4e5b6a7")
+                    .field("username")
+                    .table("FORUM_EXAMPLE_COM_2019")
+                    .build())
+                .build();
+
+        StartSearchResponse res = sdk.groups().startSearch()
+                .request(req)
+                .call();
+
+        if (res.search().isPresent()) {
+            System.out.println(res.search().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request`                                                           | [StartSearchRequest](../../models/operations/StartSearchRequest.md) | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+
+### Response
+
+**[StartSearchResponse](../../models/operations/StartSearchResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## runSearch
+
+Run a counted password or hash search once you have seen how many breach rows hold the value.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="runSearch" method="post" path="/v1/workspaces/{workspace_id}/groups/{environment}/{group_id}/people/{person_id}/searches/{search_id}/run" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.RunSearchRequest;
+import org.noresponse.models.operations.RunSearchResponse;
+import org.noresponse.models.shared.KeyEnvironment;
+import org.noresponse.models.shared.ScreeningCancelRequest;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        RunSearchRequest req = RunSearchRequest.builder()
+                .workspaceId("tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .environment(KeyEnvironment.LIVE)
+                .groupId("grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .personId("per_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .searchId("srh_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .body(ScreeningCancelRequest.builder()
+                    .build())
+                .build();
+
+        RunSearchResponse res = sdk.groups().runSearch()
+                .request(req)
+                .call();
+
+        if (res.search().isPresent()) {
+            System.out.println(res.search().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                       | Type                                                            | Required                                                        | Description                                                     |
+| --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| `request`                                                       | [RunSearchRequest](../../models/operations/RunSearchRequest.md) | :heavy_check_mark:                                              | The request object to use for the request.                      |
+
+### Response
+
+**[RunSearchResponse](../../models/operations/RunSearchResponse.md)**
 
 ### Errors
 

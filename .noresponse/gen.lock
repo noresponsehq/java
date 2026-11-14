@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: c66955de6a7a19a06cb8edccfbc14ce8
+  docChecksum: 313977d97391bf96ef296c7dc53a7d69
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 12.0.4
-  configChecksum: 43b94bc8fcf00d4d6c85ff5d125eff55
+  releaseVersion: 12.0.5
+  configChecksum: 3b19890e8b7356d3967c87e65c6aa5a6
 features:
   java:
     additionalDependencies: 0.1.0
@@ -448,6 +448,10 @@ trackedFiles:
     last_write_checksum: sha1:991bd805a8c392ff55d4fb138e4f65aa18b80c38
   docs/models/operations/RotateWebhookSigningKeyResponse.md:
     last_write_checksum: sha1:fef4649509d63f94ea1cd0509cb2d980971f5b0f
+  docs/models/operations/RunSearchRequest.md:
+    last_write_checksum: sha1:65631544618433923b1f90dad273649c9b0f9603
+  docs/models/operations/RunSearchResponse.md:
+    last_write_checksum: sha1:fc9c413b53ff3cfa89b550fbd141b3ca21a129c7
   docs/models/operations/SearchAccountsResponse.md:
     last_write_checksum: sha1:bb427f22344a3d78310fd9511369fb5878f6f3f9
   docs/models/operations/SearchAssessmentsResponse.md:
@@ -460,6 +464,10 @@ trackedFiles:
     last_write_checksum: sha1:9255aeebaca2910f50b3d9247130130728ed5f7c
   docs/models/operations/StartScreeningResponse.md:
     last_write_checksum: sha1:7a6968a26554c22c34ff906fce61bfccb358ba6d
+  docs/models/operations/StartSearchRequest.md:
+    last_write_checksum: sha1:571634f12260e4fb31b04d4b068c2af0db963b69
+  docs/models/operations/StartSearchResponse.md:
+    last_write_checksum: sha1:39cc5f066a4bee56f19d3df004ee71a3f2b180d9
   docs/models/operations/SummarizeWorkspaceOperationsRequest.md:
     last_write_checksum: sha1:096d15407d5d3e2c57e19cae35e13b0c4d58e82b
   docs/models/operations/SummarizeWorkspaceOperationsResponse.md:
@@ -770,6 +778,8 @@ trackedFiles:
     last_write_checksum: sha1:971738373e3dfd99a5d8dcbc4524e689ada62182
   docs/models/shared/ErasureReceiptTargetStatus.md:
     last_write_checksum: sha1:d3216e809ea816370b8ed68310d8cee09c46fe5b
+  docs/models/shared/ErrorCode.md:
+    last_write_checksum: sha1:9832e3ac15fd55fcbb4f7fa4e7b817882554e39c
   docs/models/shared/Exclusion.md:
     last_write_checksum: sha1:e9427a499f7566470a5506c11b0499448b92d148
   docs/models/shared/Export.md:
@@ -1047,7 +1057,7 @@ trackedFiles:
   docs/models/shared/PersonList.md:
     last_write_checksum: sha1:737a747ac27154b7293907f62ee3ffef46281852
   docs/models/shared/PersonReport.md:
-    last_write_checksum: sha1:94e15f20a7afcf618bc54ef68f195ab75fa2bf7a
+    last_write_checksum: sha1:b7c49481f3938b396afa038aed93463bee0ff4e3
   docs/models/shared/PersonReview.md:
     last_write_checksum: sha1:c8c03db8549f9b7426e3877ccdf807c8eba18ccd
   docs/models/shared/PersonReviewRequest.md:
@@ -1135,9 +1145,9 @@ trackedFiles:
   docs/models/shared/RecordKind.md:
     last_write_checksum: sha1:98a1c5dff30c925377b5daab25a63a39a2808f74
   docs/models/shared/RecordMatch.md:
-    last_write_checksum: sha1:0a44458e886fbe11696a0161c8c359e19dc86f1b
+    last_write_checksum: sha1:16d95e25ac581b686aedb642f5c3fc155dab0772
   docs/models/shared/RecordRemaining.md:
-    last_write_checksum: sha1:dbf1680620f132a5d1255005809247353440733c
+    last_write_checksum: sha1:736bcd23222a4f3e8c2a3f90525d8771307da2c9
   docs/models/shared/RecordRole.md:
     last_write_checksum: sha1:1e956f56564ae1b0aac25a8ea7719166eab92296
   docs/models/shared/RecordSource.md:
@@ -1263,7 +1273,7 @@ trackedFiles:
   docs/models/shared/ScreeningList.md:
     last_write_checksum: sha1:200e6b7bd07f39d4eae6be9bad120ac1f9324cff
   docs/models/shared/ScreeningLookup.md:
-    last_write_checksum: sha1:7c3d9fe7d30f8d389ad948a91451b6b7afa4173d
+    last_write_checksum: sha1:69ec1ce6d69cdea9b965df1565dca72ae9e83138
   docs/models/shared/ScreeningLookupCheck.md:
     last_write_checksum: sha1:49c59c0e46ec3a341b7c22411c4800101a6249ec
   docs/models/shared/ScreeningLookupCheckStatus.md:
@@ -1300,6 +1310,14 @@ trackedFiles:
     last_write_checksum: sha1:72601a56f6fb10ddde021fed78c2f102a60e85f2
   docs/models/shared/ScreeningStatus.md:
     last_write_checksum: sha1:6957cf96d51af2add31ae1f58c2334eb6cd3c023
+  docs/models/shared/Search.md:
+    last_write_checksum: sha1:54a972d9edf5ffca35f2b234dfede36d45e10d26
+  docs/models/shared/SearchKind.md:
+    last_write_checksum: sha1:f75b13bdfc38fa43c82d09e6e9527eb16b8aba2f
+  docs/models/shared/SearchRequest.md:
+    last_write_checksum: sha1:14dcf592134cf96add8252e117f0853b794fd2a0
+  docs/models/shared/SearchStatus.md:
+    last_write_checksum: sha1:d92225477ecf90d25b34fec40e46816ee07aa455
   docs/models/shared/Security.md:
     last_write_checksum: sha1:3df8e79dc90d0e3906c44075e62c57c3e1fd3948
   docs/models/shared/SentIdentifiers.md:
@@ -1441,7 +1459,7 @@ trackedFiles:
   docs/sdks/exports/README.md:
     last_write_checksum: sha1:a8d9ee477929dd8df68abbfc33fa18c427a9308c
   docs/sdks/groups/README.md:
-    last_write_checksum: sha1:8c9753325b3661a17125d7974f14fa7bc83544d8
+    last_write_checksum: sha1:f566263c99cff67694f5d8ec9e65536a6930f9b1
   docs/sdks/integrations/README.md:
     last_write_checksum: sha1:06e34285f130ba04bf48f93b26716ee6f771f602
   docs/sdks/invites/README.md:
@@ -1469,7 +1487,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:49f4387ef00c2fb180752c5655b7efa1eec2a82b
+    last_write_checksum: sha1:0020ce90d5734443ad035050677971367397430b
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1499,7 +1517,7 @@ trackedFiles:
   src/main/java/org/noresponse/AsyncExports.java:
     last_write_checksum: sha1:39fbd913537a2f253145d12c005e86620c1c0cf5
   src/main/java/org/noresponse/AsyncGroups.java:
-    last_write_checksum: sha1:10243704e63ca7b2ae1d576723aa48da042bb956
+    last_write_checksum: sha1:65e99909988f82355a1a31cec8f1e6c658c2b61c
   src/main/java/org/noresponse/AsyncIntegrations.java:
     last_write_checksum: sha1:4a00dc1a1ee01fa512a93e393bb77be8c92cdda5
   src/main/java/org/noresponse/AsyncInvites.java:
@@ -1535,7 +1553,7 @@ trackedFiles:
   src/main/java/org/noresponse/Exports.java:
     last_write_checksum: sha1:5d502c9bbbfff43e373e9279624b0f22054aba08
   src/main/java/org/noresponse/Groups.java:
-    last_write_checksum: sha1:fd7245f8477d54e6f58ba0c7b4910ce0fff7433b
+    last_write_checksum: sha1:f4508e7f71291ffefaa0880faf949655a8a3c6f1
   src/main/java/org/noresponse/Integrations.java:
     last_write_checksum: sha1:5519815150df2536ccb68ec7b4ec441145b7ae09
   src/main/java/org/noresponse/Invites.java:
@@ -1557,7 +1575,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:084d617a3c2a943232e82a1037b875c98bf9743c
+    last_write_checksum: sha1:64f71aa2197ad324433cbd5dbfc432160caa3fae
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -2194,6 +2212,12 @@ trackedFiles:
     last_write_checksum: sha1:a2eeab5232cc6f3ba05ddf110735083bd0a9e891
   src/main/java/org/noresponse/models/operations/RotateWebhookSigningKeyResponse.java:
     last_write_checksum: sha1:9ae0ebc5ab397b32443cfd78b93d0f1739fd1f2a
+  src/main/java/org/noresponse/models/operations/RunSearchRequest.java:
+    last_write_checksum: sha1:2085431d74a0fb65118cf139e0e9afb4022fa0a2
+  src/main/java/org/noresponse/models/operations/RunSearchRequestBuilder.java:
+    last_write_checksum: sha1:2eeeef7398aea450f267dbb8471780579f1f572d
+  src/main/java/org/noresponse/models/operations/RunSearchResponse.java:
+    last_write_checksum: sha1:f4b52dc59eb8f6e40f78e8d0eb25c9eecd6a7623
   src/main/java/org/noresponse/models/operations/SearchAccountsRequestBuilder.java:
     last_write_checksum: sha1:e01bcaafb955b2b05441d4caf27957e53af3ca27
   src/main/java/org/noresponse/models/operations/SearchAccountsResponse.java:
@@ -2214,6 +2238,12 @@ trackedFiles:
     last_write_checksum: sha1:8601571fdf33129b809dea7826a47441fc85c97d
   src/main/java/org/noresponse/models/operations/StartScreeningResponse.java:
     last_write_checksum: sha1:7e85926e8ae828fd345f9727a3189d9d70846dba
+  src/main/java/org/noresponse/models/operations/StartSearchRequest.java:
+    last_write_checksum: sha1:24e77b67f9ed1a19bf75eac453512ae1e3f860ac
+  src/main/java/org/noresponse/models/operations/StartSearchRequestBuilder.java:
+    last_write_checksum: sha1:b1bea5c63af788053fa5d4fb8aad460610e80107
+  src/main/java/org/noresponse/models/operations/StartSearchResponse.java:
+    last_write_checksum: sha1:ae97401dc97c396f71dbbd958c3177384556d0ea
   src/main/java/org/noresponse/models/operations/SummarizeWorkspaceOperationsRequest.java:
     last_write_checksum: sha1:b409605cf21f1ab61470da1705a37f966d80baa8
   src/main/java/org/noresponse/models/operations/SummarizeWorkspaceOperationsRequestBuilder.java:
@@ -2672,6 +2702,10 @@ trackedFiles:
     last_write_checksum: sha1:154f1e918d225cc42d3d9b9c0d0173f705f973c1
   src/main/java/org/noresponse/models/operations/async/RotateWebhookSigningKeyResponse.java:
     last_write_checksum: sha1:102879f538c225583d6a687e133851a2270b6942
+  src/main/java/org/noresponse/models/operations/async/RunSearchRequestBuilder.java:
+    last_write_checksum: sha1:413adc3c117fb5ed333c8744396ad888617fefdf
+  src/main/java/org/noresponse/models/operations/async/RunSearchResponse.java:
+    last_write_checksum: sha1:bd4d51435adb8d6e3e30622fe9917152cab31e5a
   src/main/java/org/noresponse/models/operations/async/SearchAccountsRequestBuilder.java:
     last_write_checksum: sha1:760519cfb9d40ce1f6b9b8a03d4f51b8ce233956
   src/main/java/org/noresponse/models/operations/async/SearchAccountsResponse.java:
@@ -2688,6 +2722,10 @@ trackedFiles:
     last_write_checksum: sha1:db256e10a3a4812c25b5c18c546e093023b6005c
   src/main/java/org/noresponse/models/operations/async/StartScreeningResponse.java:
     last_write_checksum: sha1:40bf02b7b4559c0cebc7783c7b59c08c627f8cca
+  src/main/java/org/noresponse/models/operations/async/StartSearchRequestBuilder.java:
+    last_write_checksum: sha1:0f664b95e9d1f09492800c20eefff0bda509df7e
+  src/main/java/org/noresponse/models/operations/async/StartSearchResponse.java:
+    last_write_checksum: sha1:1d78b94465df4e92dbb6208b5c084a835ce33325
   src/main/java/org/noresponse/models/operations/async/SummarizeWorkspaceOperationsRequestBuilder.java:
     last_write_checksum: sha1:c5d9accf39bda7c756a5ae4f6f78857d4e3fb5b9
   src/main/java/org/noresponse/models/operations/async/SummarizeWorkspaceOperationsResponse.java:
@@ -2998,6 +3036,8 @@ trackedFiles:
     last_write_checksum: sha1:0ab8cd731b5a4b65c51eb4187505fd3197dadde1
   src/main/java/org/noresponse/models/shared/ErasureReceiptTargetStatus.java:
     last_write_checksum: sha1:57a1b662530052b78d3d1fa3582af4a9bdfb5771
+  src/main/java/org/noresponse/models/shared/ErrorCode.java:
+    last_write_checksum: sha1:ae4095dc9f86ccff492ff036bbac7ce8b9c20b6a
   src/main/java/org/noresponse/models/shared/Exclusion.java:
     last_write_checksum: sha1:8743b2151237bc0a9d7595278a681b014fb58040
   src/main/java/org/noresponse/models/shared/Export.java:
@@ -3275,7 +3315,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/PersonList.java:
     last_write_checksum: sha1:ca5fd918334d7b07a7da82c82972f473b572a279
   src/main/java/org/noresponse/models/shared/PersonReport.java:
-    last_write_checksum: sha1:b39a58dfacc5eaf02c97a906d73951d37871eaf0
+    last_write_checksum: sha1:607599ca2809f12b4ef294792945d50456e2df34
   src/main/java/org/noresponse/models/shared/PersonReview.java:
     last_write_checksum: sha1:28b4e973f7b5fa58880abe743b6d4b1a0613662c
   src/main/java/org/noresponse/models/shared/PersonReviewRequest.java:
@@ -3363,9 +3403,9 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/RecordKind.java:
     last_write_checksum: sha1:4403d8bfd3e913f3dd2da6f31c8f5d22a5ce1b4c
   src/main/java/org/noresponse/models/shared/RecordMatch.java:
-    last_write_checksum: sha1:1d689fb0eca449597878d58d9a23f56babeaf49e
+    last_write_checksum: sha1:c97213e888122f4cbdaf6d13c1da5e759fa934f0
   src/main/java/org/noresponse/models/shared/RecordRemaining.java:
-    last_write_checksum: sha1:58bbe8b022b2f58427d360214f45a25163de2172
+    last_write_checksum: sha1:8822a3c488746604af9f9bc22f662640da98f1ed
   src/main/java/org/noresponse/models/shared/RecordRole.java:
     last_write_checksum: sha1:49f55157a4f89bb5875ba4e3b008d511511b9b51
   src/main/java/org/noresponse/models/shared/RecordSource.java:
@@ -3491,7 +3531,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/ScreeningList.java:
     last_write_checksum: sha1:3284af1fd0d1f7931e7fe72146d0b66ccfffa3d7
   src/main/java/org/noresponse/models/shared/ScreeningLookup.java:
-    last_write_checksum: sha1:43def5f488b359ddcf9c8195c9c74469c7f99aed
+    last_write_checksum: sha1:921f11355a5f024af46d6bc23384ffc3395c1822
   src/main/java/org/noresponse/models/shared/ScreeningLookupCheck.java:
     last_write_checksum: sha1:fa7f7bc03d1800d7a0da41ab2fc0f71a7aff2004
   src/main/java/org/noresponse/models/shared/ScreeningLookupCheckStatus.java:
@@ -3528,6 +3568,14 @@ trackedFiles:
     last_write_checksum: sha1:fe52c34158164f8e72ca6ac3b09f63daba2d9bd4
   src/main/java/org/noresponse/models/shared/ScreeningStatus.java:
     last_write_checksum: sha1:341632f762d4a1782869309768e9bdb81da896f8
+  src/main/java/org/noresponse/models/shared/Search.java:
+    last_write_checksum: sha1:ed78b27ef53ec84e6e6501100bb993e6eb719c62
+  src/main/java/org/noresponse/models/shared/SearchKind.java:
+    last_write_checksum: sha1:a5de2685a0c8737454c7bf035c5e6ce8d8085d41
+  src/main/java/org/noresponse/models/shared/SearchRequest.java:
+    last_write_checksum: sha1:30c9d520cadf9a3d79be62ef798294f2ba6d9049
+  src/main/java/org/noresponse/models/shared/SearchStatus.java:
+    last_write_checksum: sha1:1b9e5955ab3248b1e245f70dde105b5f0f0fa4ea
   src/main/java/org/noresponse/models/shared/Security.java:
     last_write_checksum: sha1:00b00c44a639cbb7ac54ac986cb718e03d21f198
   src/main/java/org/noresponse/models/shared/SentIdentifiers.java:
@@ -3890,6 +3938,8 @@ trackedFiles:
     last_write_checksum: sha1:10df4e3c1f5bceec0bc7249483c7460784227ac5
   src/main/java/org/noresponse/operations/RotateWebhookSigningKey.java:
     last_write_checksum: sha1:39d372f031f0a0d323cf064fcfb3e199a2a0f8c9
+  src/main/java/org/noresponse/operations/RunSearch.java:
+    last_write_checksum: sha1:94233eac704693ba48b84150f019ec4f559b3360
   src/main/java/org/noresponse/operations/SearchAccounts.java:
     last_write_checksum: sha1:9bf0aac90d610c6667e8739a781edbb23c58a26f
   src/main/java/org/noresponse/operations/SearchAssessments.java:
@@ -3898,6 +3948,8 @@ trackedFiles:
     last_write_checksum: sha1:0d136d46838bc368047192761f6aee911a0a9870
   src/main/java/org/noresponse/operations/StartScreening.java:
     last_write_checksum: sha1:e10080485b2010261e1f9c00604bb0b00a7456c9
+  src/main/java/org/noresponse/operations/StartSearch.java:
+    last_write_checksum: sha1:fa914cda82d0de214f4413c1f8f800b7ff66873f
   src/main/java/org/noresponse/operations/SummarizeWorkspaceOperations.java:
     last_write_checksum: sha1:7348abc5f0495d6850513a792cf3f888267e67de
   src/main/java/org/noresponse/operations/UpdateAuditRetention.java:
@@ -6553,7 +6605,7 @@ examples:
           person_id: "per_01JA2Z8K6Q4V7W9XBCDEFGHJKM"
       responses:
         "200":
-          application/json: {"person": {"id": "per_01JC8Y2M4N6P8Q0R2S4T6V8W01", "group_id": "grp_01JC8Y1K3M5N7P9Q1R3S5T7V9W", "external_id": "reg-2048", "name": "Jordan Ellis", "email": "jordan.ellis@example.com", "city": "Leeds", "handles": [{"platform": "x", "handle": "jordan_ellis"}], "match_state": "none_found", "highest_band": null, "decision": null, "coverage": {"accounts_found": 0, "accounts_accessible": 0, "items_read": 0, "platforms": [{"platform": "x", "status": "none_found", "accounts_found": 0, "items_read": 0}]}, "last_screening_id": "scn_01JC8Y3A5B7C9D1E3F5G7H9J1K", "screened_at": "2026-11-14T10:02:11Z", "created_at": "2026-11-14T10:00:00Z", "updated_at": "2026-11-14T10:02:11Z", "spend": {"total_minor": 2, "by_implementation": [{"implementation": "lookups", "role": "resolver", "spend_minor": 2}]}}, "profiles": [], "findings": [], "posts": [], "media": [], "reviews": [], "lookup": {"checks": [{"identifier": "email", "lane": "accounts", "status": "found", "sources": 4, "answered": 4, "found": 2}, {"identifier": "email", "lane": "breach", "status": "found", "sources": 1, "answered": 1, "found": 1}, {"identifier": "username", "lane": "accounts", "status": "found", "sources": 6, "answered": 6, "found": 1}, {"identifier": "username", "lane": "breach", "status": "found", "sources": 1, "answered": 1, "found": 1}], "records": [{"id": "rec_5c1e0d7a9b3f4e2d8a6c0b1f9e7d3a52", "source": {"connector": "github", "kind": "platform", "site": "github.com"}, "matched": [{"by": "username", "field": "login"}], "fields": [{"field": "login", "original": "jordan-ellis", "kind": "username", "role": "handle", "value": "jordan-ellis", "distinctive": {"rating": "distinctive", "reason": "34 bits, about one in 17 billion usernames"}}, {"field": "id", "original": "48151623", "kind": "account_id", "role": "account_id", "value": "48151623"}, {"field": "name", "original": "Jordan  Ellis", "kind": "person_name", "role": "display_name", "value": "Jordan Ellis", "distinctive": {"rating": "distinctive", "reason": "in 3 breach rows"}}, {"field": "html_url", "original": "https://GitHub.com/jordan-ellis", "kind": "url", "role": "profile_link", "value": "https://github.com/jordan-ellis"}, {"field": "avatar_url", "original": "https://avatars.githubusercontent.com/u/48151623", "kind": "image", "role": "picture", "value": "https://avatars.githubusercontent.com/u/48151623"}, {"field": "bio", "original": "Security engineer. Climbing on weekends.", "kind": "long_text", "role": "bio", "value": "Security engineer. Climbing on weekends."}, {"field": "location", "original": "Leeds, UK", "kind": "text", "role": "location", "value": "Leeds, UK"}, {"field": "company", "original": "Northwind Example", "kind": "organisation", "role": "organisation", "value": "Northwind Example"}, {"field": "twitter_username", "original": "jordan_ellis", "kind": "username", "role": "linked_account", "value": "jordan_ellis", "distinctive": {"rating": "distinctive", "reason": "33 bits, about one in 8.6 billion usernames"}}, {"field": "followers", "original": "212", "kind": "count", "role": "followers", "value": "212"}, {"field": "created_at", "original": "2014-03-07T09:30:00Z", "kind": "date_time", "role": "joined", "value": "2014-03-07T09:30:00Z"}, {"field": "hireable", "original": "true", "kind": "flag", "value": "true"}], "observed_at": "2026-11-14T10:01:40Z", "likelihood": 0.74, "agreed": ["name", "twitter_username"], "clashed": [], "joined": true, "verdict": "joined"}, {"id": "rec_8e2b4f6a1c3d5e7f9a0b2c4d6e8f1a3b", "source": {"connector": "breach", "kind": "site_breach", "site": "forum.example.net", "table": "FORUM_EXAMPLE_NET_2019", "date": "2019-03"}, "matched": [{"by": "email", "field": "email"}], "fields": [{"field": "birthday", "original": "07/03/1990", "kind": "date", "role": "born"}, {"field": "email", "original": "Jordan.Ellis@Example.com", "kind": "email", "value": "jordan.ellis@example.com", "distinctive": {"rating": "unique", "reason": "an email address belongs to one person"}}, {"field": "lastip", "original": "3405803781", "kind": "ip", "role": "last_ip", "value": "203.0.113.5", "distinctive": {"rating": "common", "reason": "many people share one IP address"}}, {"field": "password", "original": "Leeds1990!", "kind": "password", "value": "Leeds1990!", "distinctive": {"rating": "distinctive", "reason": "seen twice in breach data; needs about 10^9 guesses"}}, {"field": "password_hash", "original": "$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy", "kind": "hash", "value": "$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy", "detail": "bcrypt", "distinctive": {"rating": "distinctive", "reason": "in 1 breach row"}}, {"field": "regdate", "original": "1394184600", "kind": "date_time", "role": "joined", "value": "2014-03-07T09:30:00Z"}, {"field": "salt", "original": "x9Q", "kind": "salt", "value": "x9Q"}, {"field": "usergroupid", "original": "2", "kind": "label", "role": "site_role", "value": "2"}, {"field": "username", "original": "jellis", "kind": "username", "role": "handle", "value": "jellis", "distinctive": {"rating": "common", "reason": "19 bits, about one in 520 thousand usernames"}}], "observed_at": "2026-11-14T10:01:42Z", "likelihood": 0.99, "agreed": ["regdate"], "clashed": [], "joined": true}], "remaining": [{"source": {"connector": "breach", "kind": "credential_list", "table": "COMBOLIST_EXAMPLE_2021", "date": "2021"}, "by": "username", "rows": 37}], "looked_at": "2026-11-14T10:01:42Z"}, "other_groups": {"total": 0, "items": []}}
+          application/json: {"person": {"id": "per_01JC8Y2M4N6P8Q0R2S4T6V8W01", "group_id": "grp_01JC8Y1K3M5N7P9Q1R3S5T7V9W", "external_id": "reg-2048", "name": "Jordan Ellis", "email": "jordan.ellis@example.com", "city": "Leeds", "handles": [{"platform": "x", "handle": "jordan_ellis"}], "match_state": "none_found", "highest_band": null, "decision": null, "coverage": {"accounts_found": 0, "accounts_accessible": 0, "items_read": 0, "platforms": [{"platform": "x", "status": "none_found", "accounts_found": 0, "items_read": 0}]}, "last_screening_id": "scn_01JC8Y3A5B7C9D1E3F5G7H9J1K", "screened_at": "2026-11-14T10:02:11Z", "created_at": "2026-11-14T10:00:00Z", "updated_at": "2026-11-14T10:02:11Z", "spend": {"total_minor": 2, "by_implementation": [{"implementation": "lookups", "role": "resolver", "spend_minor": 2}]}}, "profiles": [], "findings": [], "posts": [], "media": [], "reviews": [], "lookup": {"checks": [{"identifier": "email", "lane": "accounts", "status": "found", "sources": 4, "answered": 4, "found": 2}, {"identifier": "email", "lane": "breach", "status": "found", "sources": 1, "answered": 1, "found": 1}, {"identifier": "username", "lane": "accounts", "status": "found", "sources": 6, "answered": 6, "found": 1}, {"identifier": "username", "lane": "breach", "status": "found", "sources": 1, "answered": 1, "found": 1}], "records": [{"id": "rec_5c1e0d7a9b3f4e2d8a6c0b1f9e7d3a52", "source": {"connector": "github", "kind": "platform", "site": "github.com"}, "matched": [{"by": "username", "field": "login"}], "fields": [{"field": "login", "original": "jordan-ellis", "kind": "username", "role": "handle", "value": "jordan-ellis", "distinctive": {"rating": "distinctive", "reason": "34 bits, about one in 17 billion usernames"}}, {"field": "id", "original": "48151623", "kind": "account_id", "role": "account_id", "value": "48151623"}, {"field": "name", "original": "Jordan  Ellis", "kind": "person_name", "role": "display_name", "value": "Jordan Ellis", "distinctive": {"rating": "distinctive", "reason": "in 3 breach rows"}}, {"field": "html_url", "original": "https://GitHub.com/jordan-ellis", "kind": "url", "role": "profile_link", "value": "https://github.com/jordan-ellis"}, {"field": "avatar_url", "original": "https://avatars.githubusercontent.com/u/48151623", "kind": "image", "role": "picture", "value": "https://avatars.githubusercontent.com/u/48151623"}, {"field": "bio", "original": "Security engineer. Climbing on weekends.", "kind": "long_text", "role": "bio", "value": "Security engineer. Climbing on weekends."}, {"field": "location", "original": "Leeds, UK", "kind": "text", "role": "location", "value": "Leeds, UK"}, {"field": "company", "original": "Northwind Example", "kind": "organisation", "role": "organisation", "value": "Northwind Example"}, {"field": "twitter_username", "original": "jordan_ellis", "kind": "username", "role": "linked_account", "value": "jordan_ellis", "distinctive": {"rating": "distinctive", "reason": "33 bits, about one in 8.6 billion usernames"}}, {"field": "followers", "original": "212", "kind": "count", "role": "followers", "value": "212"}, {"field": "created_at", "original": "2014-03-07T09:30:00Z", "kind": "date_time", "role": "joined", "value": "2014-03-07T09:30:00Z"}, {"field": "hireable", "original": "true", "kind": "flag", "value": "true"}], "observed_at": "2026-11-14T10:01:40Z", "likelihood": 0.74, "agreed": ["name", "twitter_username"], "clashed": [], "joined": true, "verdict": "joined"}, {"id": "rec_8e2b4f6a1c3d5e7f9a0b2c4d6e8f1a3b", "source": {"connector": "breach", "kind": "site_breach", "site": "forum.example.net", "table": "FORUM_EXAMPLE_NET_2019", "date": "2019-03"}, "matched": [{"by": "email", "field": "email"}, {"by": "username", "field": "username", "search": "srh_01JC8Y5B7C9D1E3F5G7H9J1K3M"}], "fields": [{"field": "birthday", "original": "07/03/1990", "kind": "date", "role": "born"}, {"field": "email", "original": "Jordan.Ellis@Example.com", "kind": "email", "value": "jordan.ellis@example.com", "distinctive": {"rating": "unique", "reason": "an email address belongs to one person"}}, {"field": "lastip", "original": "3405803781", "kind": "ip", "role": "last_ip", "value": "203.0.113.5", "distinctive": {"rating": "common", "reason": "many people share one IP address"}}, {"field": "password", "original": "Leeds1990!", "kind": "password", "value": "Leeds1990!", "distinctive": {"rating": "distinctive", "reason": "seen twice in breach data; needs about 10^9 guesses"}}, {"field": "password_hash", "original": "$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy", "kind": "hash", "value": "$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy", "detail": "bcrypt", "distinctive": {"rating": "distinctive", "reason": "in 1 breach row"}}, {"field": "regdate", "original": "1394184600", "kind": "date_time", "role": "joined", "value": "2014-03-07T09:30:00Z"}, {"field": "salt", "original": "x9Q", "kind": "salt", "value": "x9Q"}, {"field": "usergroupid", "original": "2", "kind": "label", "role": "site_role", "value": "2"}, {"field": "username", "original": "jellis", "kind": "username", "role": "handle", "value": "jellis", "distinctive": {"rating": "common", "reason": "19 bits, about one in 520 thousand usernames"}}], "observed_at": "2026-11-14T10:01:42Z", "likelihood": 0.99, "agreed": ["regdate"], "clashed": [], "joined": true}], "remaining": [{"source": {"connector": "breach", "kind": "credential_list", "table": "COMBOLIST_EXAMPLE_2021", "date": "2021"}, "by": "username", "search": "srh_01JC8Y5B7C9D1E3F5G7H9J1K3M", "rows": 37}], "looked_at": "2026-11-14T10:01:42Z"}, "searches": [{"search_id": "srh_01JC8Y5B7C9D1E3F5G7H9J1K3M", "record_id": "rec_8e2b4f6a1c3d5e7f9a0b2c4d6e8f1a3b", "field": "username", "kind": "username", "value": "jellis", "status": "completed", "sources": 3, "answered": 3, "found": 1, "estimated_spend": 2, "spent": 2, "requested_by": "usr_security_lead", "created_at": "2026-11-14T10:05:00Z", "finished_at": "2026-11-14T10:05:04Z"}], "other_groups": {"total": 0, "items": []}}
   reviewPerson:
     noresponse-default-review-person:
       parameters:
@@ -6604,6 +6656,57 @@ examples:
           application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 409, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "evaluation_no_proposal", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
         "429":
           application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 429, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "assessment_budget_exhausted", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+  startSearch:
+    noresponse-default-start-search:
+      parameters:
+        path:
+          workspace_id: "tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM"
+          environment: "live"
+          group_id: "grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM"
+          person_id: "per_01JA2Z8K6Q4V7W9XBCDEFGHJKM"
+      requestBody:
+        application/json: {"record_id": "rec_3f9a1c22d4e5b6a73f9a1c22d4e5b6a7", "field": "username", "table": "FORUM_EXAMPLE_COM_2019"}
+      responses:
+        "202":
+          application/json: {"search_id": "srh_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "record_id": "rec_3f9a1c22d4e5b6a73f9a1c22d4e5b6a7", "field": "username", "table": "FORUM_EXAMPLE_COM_2019", "kind": "email", "value": "jordanexample42", "status": "completed", "sources": 369225, "answered": 317146, "found": 776513, "estimated_spend": 346465, "spent": 341223, "requested_by": "user_2abc", "created_at": "2026-01-01T00:00:00Z", "finished_at": "2026-01-01T00:00:05Z"}
+        "400":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 400, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "webhook_url_refused", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "401":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 401, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "unauthorized", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "403":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 403, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "workspace_forbidden", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "404":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 404, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "not_found", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "409":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 409, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "screening_cap_exceeded", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "429":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 429, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "rate_limited", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+  runSearch:
+    noresponse-default-run-search:
+      parameters:
+        path:
+          workspace_id: "tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM"
+          environment: "live"
+          group_id: "grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM"
+          person_id: "per_01JA2Z8K6Q4V7W9XBCDEFGHJKM"
+          search_id: "srh_01JA2Z8K6Q4V7W9XBCDEFGHJKM"
+      requestBody:
+        application/json: {}
+      responses:
+        "202":
+          application/json: {"search_id": "srh_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "record_id": "rec_3f9a1c22d4e5b6a73f9a1c22d4e5b6a7", "field": "username", "table": "FORUM_EXAMPLE_COM_2019", "kind": "email", "value": "jordanexample42", "status": "queued", "sources": 305212, "answered": 686810, "found": 699722, "estimated_spend": 175852, "spent": 747060, "requested_by": "user_2abc", "created_at": "2026-01-01T00:00:00Z", "finished_at": "2026-01-01T00:00:05Z"}
+        "400":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 400, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "invalid_cursor", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "401":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 401, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "unauthorized", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "403":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 403, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "email_unverified", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "404":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 404, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "not_found", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "409":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 409, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "policy_version_conflict", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
+        "429":
+          application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 429, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "rate_limited", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
   listScreenings:
     noresponse-default-list-screenings:
       parameters:

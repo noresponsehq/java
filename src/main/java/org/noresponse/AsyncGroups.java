@@ -19,7 +19,9 @@ import org.noresponse.models.operations.ListGroupsRequest;
 import org.noresponse.models.operations.ListPeopleRequest;
 import org.noresponse.models.operations.ListScreeningsRequest;
 import org.noresponse.models.operations.ReviewPersonRequest;
+import org.noresponse.models.operations.RunSearchRequest;
 import org.noresponse.models.operations.StartScreeningRequest;
+import org.noresponse.models.operations.StartSearchRequest;
 import org.noresponse.models.operations.UpdateGroupRequest;
 import org.noresponse.models.operations.async.AddPeopleRequestBuilder;
 import org.noresponse.models.operations.async.AddPeopleResponse;
@@ -45,8 +47,12 @@ import org.noresponse.models.operations.async.ListScreeningsRequestBuilder;
 import org.noresponse.models.operations.async.ListScreeningsResponse;
 import org.noresponse.models.operations.async.ReviewPersonRequestBuilder;
 import org.noresponse.models.operations.async.ReviewPersonResponse;
+import org.noresponse.models.operations.async.RunSearchRequestBuilder;
+import org.noresponse.models.operations.async.RunSearchResponse;
 import org.noresponse.models.operations.async.StartScreeningRequestBuilder;
 import org.noresponse.models.operations.async.StartScreeningResponse;
+import org.noresponse.models.operations.async.StartSearchRequestBuilder;
+import org.noresponse.models.operations.async.StartSearchResponse;
 import org.noresponse.models.operations.async.UpdateGroupRequestBuilder;
 import org.noresponse.models.operations.async.UpdateGroupResponse;
 import org.noresponse.models.shared.GroupRequest;
@@ -64,7 +70,9 @@ import org.noresponse.operations.ListGroups;
 import org.noresponse.operations.ListPeople;
 import org.noresponse.operations.ListScreenings;
 import org.noresponse.operations.ReviewPerson;
+import org.noresponse.operations.RunSearch;
 import org.noresponse.operations.StartScreening;
+import org.noresponse.operations.StartSearch;
 import org.noresponse.operations.UpdateGroup;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
@@ -534,6 +542,90 @@ public class AsyncGroups {
             @Nonnull JudgeRecordRequest request, @Nullable Options options) {
         AsyncRequestOperation<JudgeRecordRequest, JudgeRecordResponse> operation =
                 new JudgeRecord.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Search again on a value of one of a person's records.
+     *
+     * <p>Search again on the value of one field of one of a person's records, named by the record and field.
+     * Nothing searches again by itself. A password or hash search counts its breach rows first and runs
+     * only when you run it; read the person to see each search and what it found.
+     *
+     * @return The async call builder
+     */
+    public StartSearchRequestBuilder startSearch() {
+        return new StartSearchRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Search again on a value of one of a person's records.
+     *
+     * <p>Search again on the value of one field of one of a person's records, named by the record and field.
+     * Nothing searches again by itself. A password or hash search counts its breach rows first and runs
+     * only when you run it; read the person to see each search and what it found.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return {@code CompletableFuture<StartSearchResponse>} - The async response
+     */
+    public CompletableFuture<StartSearchResponse> startSearch(@Nonnull StartSearchRequest request) {
+        return startSearch(request, null);
+    }
+
+    /**
+     * Search again on a value of one of a person's records.
+     *
+     * <p>Search again on the value of one field of one of a person's records, named by the record and field.
+     * Nothing searches again by itself. A password or hash search counts its breach rows first and runs
+     * only when you run it; read the person to see each search and what it found.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return {@code CompletableFuture<StartSearchResponse>} - The async response
+     */
+    public CompletableFuture<StartSearchResponse> startSearch(
+            @Nonnull StartSearchRequest request, @Nullable Options options) {
+        AsyncRequestOperation<StartSearchRequest, StartSearchResponse> operation =
+                new StartSearch.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Run a counted password or hash search.
+     *
+     * <p>Run a counted password or hash search once you have seen how many breach rows hold the value.
+     *
+     * @return The async call builder
+     */
+    public RunSearchRequestBuilder runSearch() {
+        return new RunSearchRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Run a counted password or hash search.
+     *
+     * <p>Run a counted password or hash search once you have seen how many breach rows hold the value.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return {@code CompletableFuture<RunSearchResponse>} - The async response
+     */
+    public CompletableFuture<RunSearchResponse> runSearch(@Nonnull RunSearchRequest request) {
+        return runSearch(request, null);
+    }
+
+    /**
+     * Run a counted password or hash search.
+     *
+     * <p>Run a counted password or hash search once you have seen how many breach rows hold the value.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return {@code CompletableFuture<RunSearchResponse>} - The async response
+     */
+    public CompletableFuture<RunSearchResponse> runSearch(
+            @Nonnull RunSearchRequest request, @Nullable Options options) {
+        AsyncRequestOperation<RunSearchRequest, RunSearchResponse> operation =
+                new RunSearch.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 
