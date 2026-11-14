@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 0ac44c9e951e6d9f179798f00cf1ee15
+  docChecksum: 41686d9edf92b047dd0a0d2b1f9d454b
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 12.0.1
-  configChecksum: 25ae6f6e445e617b1d9e2b7fdfd191e6
+  releaseVersion: 12.0.2
+  configChecksum: a5c42347b27d427a5428bcfe31d82189
 features:
   java:
     additionalDependencies: 0.1.0
@@ -1114,6 +1114,8 @@ trackedFiles:
     last_write_checksum: sha1:a5d9d30dec8c78331e1651005c9c1f97be9b2806
   docs/models/shared/RateLimitErrorCode.md:
     last_write_checksum: sha1:09c717ce3826c961fc15c8f77eae5e7045ab9b26
+  docs/models/shared/Rating.md:
+    last_write_checksum: sha1:b620347c462184de88804c4ab2d4d96bb2554d08
   docs/models/shared/ReasonCode.md:
     last_write_checksum: sha1:7b8e99431cca24b9c933e4affac9de18e3e0b354
   docs/models/shared/ReasonIdentifier.md:
@@ -1122,8 +1124,10 @@ trackedFiles:
     last_write_checksum: sha1:f8c259ae517c321c80f9d9dfb9fc14183ca90a5e
   docs/models/shared/Record.md:
     last_write_checksum: sha1:40fc601a1de9c04df9b20d943a67c20d373bb042
+  docs/models/shared/RecordDistinctive.md:
+    last_write_checksum: sha1:0c5bbee3a359af2e4127aad80218b8d27ec0cd79
   docs/models/shared/RecordField.md:
-    last_write_checksum: sha1:91aa20fc29fbba4124fb5b1f58edc41d9cc694ce
+    last_write_checksum: sha1:8ee9e90faf2c036c889c5230497df4c5cbc47df5
   docs/models/shared/RecordKind.md:
     last_write_checksum: sha1:087a25ee2b2c0db3712e3fb804ef02a2e9268236
   docs/models/shared/RecordMatch.md:
@@ -1455,7 +1459,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:b7dda6504f381080253d5ce2f6364042d7e89bb5
+    last_write_checksum: sha1:c3e39101228aa829a905a2196a6a90fc65ecd08c
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1543,7 +1547,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:e69ff33d785746ff03a742a0222654bd5db2f47c
+    last_write_checksum: sha1:d17dff0817c738d21db8afc30aa66459806197df
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -3322,6 +3326,8 @@ trackedFiles:
     last_write_checksum: sha1:43bb2c9689f288da243762059af5d01a70190b63
   src/main/java/org/noresponse/models/shared/RateLimitErrorCode.java:
     last_write_checksum: sha1:449388c03beb501aef67b957d6b23d2b78b1f3f0
+  src/main/java/org/noresponse/models/shared/Rating.java:
+    last_write_checksum: sha1:3db0be107ea0812558b63535da0b3006d657507e
   src/main/java/org/noresponse/models/shared/ReasonCode.java:
     last_write_checksum: sha1:57d12c59308943025194a7602acdd281dedac112
   src/main/java/org/noresponse/models/shared/ReasonIdentifier.java:
@@ -3330,8 +3336,10 @@ trackedFiles:
     last_write_checksum: sha1:918e43fe7268e05002e73485110db1bd2b21f09d
   src/main/java/org/noresponse/models/shared/Record.java:
     last_write_checksum: sha1:af2c3bc17cfa2d86c2b53a9c7b7d79b5d0d8e458
+  src/main/java/org/noresponse/models/shared/RecordDistinctive.java:
+    last_write_checksum: sha1:34362084d349dde919bee7510ecf8838814c8ec6
   src/main/java/org/noresponse/models/shared/RecordField.java:
-    last_write_checksum: sha1:a973819a2cbad77e56e26f953bef9c3544b16e7e
+    last_write_checksum: sha1:4a6d480296085ed092b388447052687ad24da87d
   src/main/java/org/noresponse/models/shared/RecordKind.java:
     last_write_checksum: sha1:0f6e3ba4903ce863da631991502932ba3d35c4b1
   src/main/java/org/noresponse/models/shared/RecordMatch.java:

@@ -69,6 +69,14 @@ public class RecordField {
     @JsonProperty("detail")
     private String detail;
 
+    /**
+     * How distinctive a searchable value is: an email, phone, username, password, hash, person name or IP.
+     * Absent for other values, and when its rating could not be worked out, such as when a count failed.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("distinctive")
+    private RecordDistinctive distinctive;
+
     @JsonCreator
     public RecordField(
             @JsonProperty("field") @Nonnull String field,
@@ -76,7 +84,8 @@ public class RecordField {
             @JsonProperty("kind") @Nullable RecordKind kind,
             @JsonProperty("role") @Nullable RecordRole role,
             @JsonProperty("value") @Nullable String value,
-            @JsonProperty("detail") @Nullable String detail) {
+            @JsonProperty("detail") @Nullable String detail,
+            @JsonProperty("distinctive") @Nullable RecordDistinctive distinctive) {
         this.field = Optional.ofNullable(field).orElseThrow(() -> new IllegalArgumentException("field cannot be null"));
         this.original = Optional.ofNullable(original)
                 .orElseThrow(() -> new IllegalArgumentException("original cannot be null"));
@@ -84,10 +93,11 @@ public class RecordField {
         this.role = role;
         this.value = value;
         this.detail = detail;
+        this.distinctive = distinctive;
     }
 
     public RecordField(@Nonnull String field, @Nonnull String original) {
-        this(field, original, null, null, null, null);
+        this(field, original, null, null, null, null, null);
     }
 
     /**
@@ -142,6 +152,14 @@ public class RecordField {
      */
     public Optional<String> detail() {
         return Optional.ofNullable(this.detail);
+    }
+
+    /**
+     * How distinctive a searchable value is: an email, phone, username, password, hash, person name or IP.
+     * Absent for other values, and when its rating could not be worked out, such as when a count failed.
+     */
+    public Optional<RecordDistinctive> distinctive() {
+        return Optional.ofNullable(this.distinctive);
     }
 
     public static Builder builder() {
@@ -208,6 +226,15 @@ public class RecordField {
         return this;
     }
 
+    /**
+     * How distinctive a searchable value is: an email, phone, username, password, hash, person name or IP.
+     * Absent for other values, and when its rating could not be worked out, such as when a count failed.
+     */
+    public RecordField withDistinctive(@Nullable RecordDistinctive distinctive) {
+        this.distinctive = distinctive;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -222,12 +249,13 @@ public class RecordField {
                 && Utils.enhancedDeepEquals(this.kind, other.kind)
                 && Utils.enhancedDeepEquals(this.role, other.role)
                 && Utils.enhancedDeepEquals(this.value, other.value)
-                && Utils.enhancedDeepEquals(this.detail, other.detail);
+                && Utils.enhancedDeepEquals(this.detail, other.detail)
+                && Utils.enhancedDeepEquals(this.distinctive, other.distinctive);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(field, original, kind, role, value, detail);
+        return Utils.enhancedHash(field, original, kind, role, value, detail, distinctive);
     }
 
     @Override
@@ -245,7 +273,9 @@ public class RecordField {
                 "value",
                 value,
                 "detail",
-                detail);
+                detail,
+                "distinctive",
+                distinctive);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -262,6 +292,8 @@ public class RecordField {
         private String value;
 
         private String detail;
+
+        private RecordDistinctive distinctive;
 
         private Builder() {
             // force use of static builder() method
@@ -327,8 +359,17 @@ public class RecordField {
             return this;
         }
 
+        /**
+         * How distinctive a searchable value is: an email, phone, username, password, hash, person name or IP.
+         * Absent for other values, and when its rating could not be worked out, such as when a count failed.
+         */
+        public Builder distinctive(@Nullable RecordDistinctive distinctive) {
+            this.distinctive = distinctive;
+            return this;
+        }
+
         public RecordField build() {
-            return new RecordField(field, original, kind, role, value, detail);
+            return new RecordField(field, original, kind, role, value, detail, distinctive);
         }
     }
 }
