@@ -7,8 +7,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
+import java.util.List;
 import java.util.Optional;
 import org.noresponse.utils.LazySingletonValue;
 import org.noresponse.utils.Utils;
@@ -48,6 +50,41 @@ public class ScreeningPost {
     @JsonProperty("quote_of")
     private String quoteOf;
 
+    /**
+     * A place a post names, as the platform shows it.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("place")
+    private PostPlace place;
+
+    /**
+     * The handles of the accounts the post tags, on its own platform.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("tagged")
+    private List<String> tagged;
+
+    /**
+     * How many likes the platform shows for the post.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("likes")
+    private Long likes;
+
+    /**
+     * How many comments the platform shows for the post.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("comments")
+    private Long comments;
+
+    /**
+     * How many views or plays the platform shows for the post.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("views")
+    private Long views;
+
     @JsonProperty("profile_id")
     private String profileId;
 
@@ -78,6 +115,11 @@ public class ScreeningPost {
             @JsonProperty("reply_to") @Nullable String replyTo,
             @JsonProperty("repost_of") @Nullable String repostOf,
             @JsonProperty("quote_of") @Nullable String quoteOf,
+            @JsonProperty("place") @Nullable PostPlace place,
+            @JsonProperty("tagged") @Nullable List<String> tagged,
+            @JsonProperty("likes") @Nullable Long likes,
+            @JsonProperty("comments") @Nullable Long comments,
+            @JsonProperty("views") @Nullable Long views,
             @JsonProperty("profile_id") @Nonnull String profileId,
             @JsonProperty("permalink") @Nonnull String permalink,
             @JsonProperty("posted_at") @Nonnull String postedAt,
@@ -89,6 +131,11 @@ public class ScreeningPost {
         this.replyTo = replyTo;
         this.repostOf = repostOf;
         this.quoteOf = quoteOf;
+        this.place = place;
+        this.tagged = tagged;
+        this.likes = likes;
+        this.comments = comments;
+        this.views = views;
         this.profileId = Optional.ofNullable(profileId)
                 .orElseThrow(() -> new IllegalArgumentException("profileId cannot be null"));
         this.permalink = Optional.ofNullable(permalink)
@@ -105,7 +152,7 @@ public class ScreeningPost {
             @Nonnull String profileId,
             @Nonnull String permalink,
             @Nonnull String postedAt) {
-        this(id, text, null, null, null, profileId, permalink, postedAt, null, null);
+        this(id, text, null, null, null, null, null, null, null, null, profileId, permalink, postedAt, null, null);
     }
 
     public String id() {
@@ -137,6 +184,41 @@ public class ScreeningPost {
      */
     public Optional<String> quoteOf() {
         return Optional.ofNullable(this.quoteOf);
+    }
+
+    /**
+     * A place a post names, as the platform shows it.
+     */
+    public Optional<PostPlace> place() {
+        return Optional.ofNullable(this.place);
+    }
+
+    /**
+     * The handles of the accounts the post tags, on its own platform.
+     */
+    public Optional<List<String>> tagged() {
+        return Optional.ofNullable(this.tagged);
+    }
+
+    /**
+     * How many likes the platform shows for the post.
+     */
+    public Optional<Long> likes() {
+        return Optional.ofNullable(this.likes);
+    }
+
+    /**
+     * How many comments the platform shows for the post.
+     */
+    public Optional<Long> comments() {
+        return Optional.ofNullable(this.comments);
+    }
+
+    /**
+     * How many views or plays the platform shows for the post.
+     */
+    public Optional<Long> views() {
+        return Optional.ofNullable(this.views);
     }
 
     public String profileId() {
@@ -201,6 +283,46 @@ public class ScreeningPost {
         return this;
     }
 
+    /**
+     * A place a post names, as the platform shows it.
+     */
+    public ScreeningPost withPlace(@Nullable PostPlace place) {
+        this.place = place;
+        return this;
+    }
+
+    /**
+     * The handles of the accounts the post tags, on its own platform.
+     */
+    public ScreeningPost withTagged(@Nullable List<String> tagged) {
+        this.tagged = tagged;
+        return this;
+    }
+
+    /**
+     * How many likes the platform shows for the post.
+     */
+    public ScreeningPost withLikes(@Nullable Long likes) {
+        this.likes = likes;
+        return this;
+    }
+
+    /**
+     * How many comments the platform shows for the post.
+     */
+    public ScreeningPost withComments(@Nullable Long comments) {
+        this.comments = comments;
+        return this;
+    }
+
+    /**
+     * How many views or plays the platform shows for the post.
+     */
+    public ScreeningPost withViews(@Nullable Long views) {
+        this.views = views;
+        return this;
+    }
+
     public ScreeningPost withProfileId(@Nonnull String profileId) {
         this.profileId = Utils.checkNotNull(profileId, "profileId");
         return this;
@@ -247,6 +369,11 @@ public class ScreeningPost {
                 && Utils.enhancedDeepEquals(this.replyTo, other.replyTo)
                 && Utils.enhancedDeepEquals(this.repostOf, other.repostOf)
                 && Utils.enhancedDeepEquals(this.quoteOf, other.quoteOf)
+                && Utils.enhancedDeepEquals(this.place, other.place)
+                && Utils.enhancedDeepEquals(this.tagged, other.tagged)
+                && Utils.enhancedDeepEquals(this.likes, other.likes)
+                && Utils.enhancedDeepEquals(this.comments, other.comments)
+                && Utils.enhancedDeepEquals(this.views, other.views)
                 && Utils.enhancedDeepEquals(this.profileId, other.profileId)
                 && Utils.enhancedDeepEquals(this.permalink, other.permalink)
                 && Utils.enhancedDeepEquals(this.postedAt, other.postedAt)
@@ -263,6 +390,11 @@ public class ScreeningPost {
                 replyTo,
                 repostOf,
                 quoteOf,
+                place,
+                tagged,
+                likes,
+                comments,
+                views,
                 profileId,
                 permalink,
                 postedAt,
@@ -286,6 +418,16 @@ public class ScreeningPost {
                 repostOf,
                 "quoteOf",
                 quoteOf,
+                "place",
+                place,
+                "tagged",
+                tagged,
+                "likes",
+                likes,
+                "comments",
+                comments,
+                "views",
+                views,
                 "profileId",
                 profileId,
                 "permalink",
@@ -310,6 +452,16 @@ public class ScreeningPost {
         private String repostOf;
 
         private String quoteOf;
+
+        private PostPlace place;
+
+        private List<String> tagged;
+
+        private Long likes;
+
+        private Long comments;
+
+        private Long views;
 
         private String profileId;
 
@@ -357,6 +509,46 @@ public class ScreeningPost {
             return this;
         }
 
+        /**
+         * A place a post names, as the platform shows it.
+         */
+        public Builder place(@Nullable PostPlace place) {
+            this.place = place;
+            return this;
+        }
+
+        /**
+         * The handles of the accounts the post tags, on its own platform.
+         */
+        public Builder tagged(@Nullable List<String> tagged) {
+            this.tagged = tagged;
+            return this;
+        }
+
+        /**
+         * How many likes the platform shows for the post.
+         */
+        public Builder likes(@Nullable Long likes) {
+            this.likes = likes;
+            return this;
+        }
+
+        /**
+         * How many comments the platform shows for the post.
+         */
+        public Builder comments(@Nullable Long comments) {
+            this.comments = comments;
+            return this;
+        }
+
+        /**
+         * How many views or plays the platform shows for the post.
+         */
+        public Builder views(@Nullable Long views) {
+            this.views = views;
+            return this;
+        }
+
         public Builder profileId(@Nonnull String profileId) {
             this.profileId = Utils.checkNotNull(profileId, "profileId");
             return this;
@@ -390,7 +582,21 @@ public class ScreeningPost {
 
         public ScreeningPost build() {
             return new ScreeningPost(
-                    id, text, replyTo, repostOf, quoteOf, profileId, permalink, postedAt, screenshotSha256, capturedAt);
+                    id,
+                    text,
+                    replyTo,
+                    repostOf,
+                    quoteOf,
+                    place,
+                    tagged,
+                    likes,
+                    comments,
+                    views,
+                    profileId,
+                    permalink,
+                    postedAt,
+                    screenshotSha256,
+                    capturedAt);
         }
 
         private static final LazySingletonValue<String> _SINGLETON_VALUE_Kind =

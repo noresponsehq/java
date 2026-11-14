@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: b5add61ac0e7b3f57be72fdb73fbe1e3
+  docChecksum: c1e411a10ee5b7521547606d5abbc727
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 12.0.6
-  configChecksum: 8c514e35e4252d8dfb25a9d2d15bb650
+  releaseVersion: 12.0.7
+  configChecksum: 961745eab7383901a98c5151bd2f62b5
 features:
   java:
     additionalDependencies: 0.1.0
@@ -1112,6 +1112,8 @@ trackedFiles:
     last_write_checksum: sha1:768f73d2f66c2c9f71dfdde39e106829ad915112
   docs/models/shared/Population.md:
     last_write_checksum: sha1:8369b6448b8ddf1ac3719f7a627a732997e56f68
+  docs/models/shared/PostPlace.md:
+    last_write_checksum: sha1:d3b93dcd1279ad43f92c3307a8983d0258409bf0
   docs/models/shared/PostsStopped.md:
     last_write_checksum: sha1:02d44951824f75dbf21188bdb091b57e8b06f138
   docs/models/shared/Principal.md:
@@ -1297,7 +1299,7 @@ trackedFiles:
   docs/models/shared/ScreeningPlatformCoverageStatus.md:
     last_write_checksum: sha1:c671b832e92b2cf8760eb32d1bb32dc6efb7bcb2
   docs/models/shared/ScreeningPost.md:
-    last_write_checksum: sha1:69e7c263d79af279c80c0c9091dbc22b441ddc36
+    last_write_checksum: sha1:314138f548b72d10a358b393f13348ee2fe62a55
   docs/models/shared/ScreeningProfile.md:
     last_write_checksum: sha1:aa058b4c4374299637dc76cfcd7eb3e3460669fe
   docs/models/shared/ScreeningRequest.md:
@@ -1487,7 +1489,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:bce5b7cd2f65ea0bf6838286c6544295616532df
+    last_write_checksum: sha1:04b6d82652d0fd74f880e52572a8c86bdb388ac7
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1575,7 +1577,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:a13d0843af836416c26b5f6b1b72c4e5282b61e5
+    last_write_checksum: sha1:b10e8c342406f3b8bd675ad3796878b077b5861e
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -3370,6 +3372,8 @@ trackedFiles:
     last_write_checksum: sha1:199a401e1703a06e9236988cd0efbcad1c489fe0
   src/main/java/org/noresponse/models/shared/Population.java:
     last_write_checksum: sha1:42a7156d05a6c96185f91de271dc3d40d3a0fd3a
+  src/main/java/org/noresponse/models/shared/PostPlace.java:
+    last_write_checksum: sha1:26d5866a00b18d8288a3425811c32ffde417341c
   src/main/java/org/noresponse/models/shared/PostsStopped.java:
     last_write_checksum: sha1:7969e9929e5ee045987a2abd2b7bd6f86a3f806a
   src/main/java/org/noresponse/models/shared/Principal.java:
@@ -3555,7 +3559,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/ScreeningPlatformCoverageStatus.java:
     last_write_checksum: sha1:adc9a76d3e5283f3030f246b4b54742c3be6318c
   src/main/java/org/noresponse/models/shared/ScreeningPost.java:
-    last_write_checksum: sha1:a7f6872b25a021010f38dc85dc3c10a6542e2f4a
+    last_write_checksum: sha1:7b5227f716604de74cf681951909bbb5cb2602d7
   src/main/java/org/noresponse/models/shared/ScreeningProfile.java:
     last_write_checksum: sha1:8689958543dd570e9947084c0213f3b206ce63b8
   src/main/java/org/noresponse/models/shared/ScreeningRequest.java:
