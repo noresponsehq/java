@@ -11,8 +11,8 @@ import org.noresponse.utils.Utils;
 /**
  * KeyUsageBatch
  *
- * <p>The 202 answer of POST /v1/key_usage/batches. A replay with the same Idempotency-Key and body
- * answers the same record and counts nothing again.
+ * <p>The 202 answer of POST /v1/keys/usage. A replay with the same Idempotency-Key and body answers the
+ * same record and counts nothing again.
  */
 public class KeyUsageBatch {
     /**

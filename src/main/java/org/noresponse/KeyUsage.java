@@ -78,7 +78,7 @@ public class KeyUsage {
      * gets the shared_api_key reason for 30 days.
      *
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
-     * @param body POST /v1/key_usage/batches body: facts about requests made with API keys your platform issued to your accounts, one event per request. Each event names the key by the SHA-256 that the assessment's issued_credential.sha256 carried, not the key itself. The SDKs buffer events and send them in the background. A batch holds 1 to 500 events and at most 256 KiB. Idempotency-Key is required and binds the body as on POST /v1/assessments, so a retried batch is counted once.
+     * @param body POST /v1/keys/usage body: facts about requests made with API keys your platform issued to your accounts, one event per request. Each event names the key by the SHA-256 that the assessment's issued_credential.sha256 carried, not the key itself. The SDKs buffer events and send them in the background. A batch holds 1 to 500 events and at most 256 KiB. Idempotency-Key is required and binds the body as on POST /v1/assessments, so a retried batch is counted once.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
@@ -105,7 +105,7 @@ public class KeyUsage {
      * gets the shared_api_key reason for 30 days.
      *
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
-     * @param body POST /v1/key_usage/batches body: facts about requests made with API keys your platform issued to your accounts, one event per request. Each event names the key by the SHA-256 that the assessment's issued_credential.sha256 carried, not the key itself. The SDKs buffer events and send them in the background. A batch holds 1 to 500 events and at most 256 KiB. Idempotency-Key is required and binds the body as on POST /v1/assessments, so a retried batch is counted once.
+     * @param body POST /v1/keys/usage body: facts about requests made with API keys your platform issued to your accounts, one event per request. Each event names the key by the SHA-256 that the assessment's issued_credential.sha256 carried, not the key itself. The SDKs buffer events and send them in the background. A batch holds 1 to 500 events and at most 256 KiB. Idempotency-Key is required and binds the body as on POST /v1/assessments, so a retried batch is counted once.
      * @param options additional options
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails

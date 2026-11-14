@@ -385,7 +385,7 @@ Lists the other accounts in this environment whose retained assessments submitte
 
 ### Example Usage
 
-<!-- UsageSnippet language="java" operationID="listLinkedAccounts" method="get" path="/v1/accounts/{account_id}/linked_accounts" -->
+<!-- UsageSnippet language="java" operationID="listLinkedAccounts" method="get" path="/v1/accounts/{account_id}/links" -->
 ```java
 package hello.world;
 

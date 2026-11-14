@@ -14,7 +14,7 @@ Records requests made with API keys your platform issued to your accounts, one e
 
 ### Example Usage: batch
 
-<!-- UsageSnippet language="java" operationID="recordKeyUsage" method="post" path="/v1/key_usage/batches" example="batch" -->
+<!-- UsageSnippet language="java" operationID="recordKeyUsage" method="post" path="/v1/keys/usage" example="batch" -->
 ```java
 package hello.world;
 
@@ -69,7 +69,7 @@ public class Application {
 ```
 ### Example Usage: recorded
 
-<!-- UsageSnippet language="java" operationID="recordKeyUsage" method="post" path="/v1/key_usage/batches" example="recorded" -->
+<!-- UsageSnippet language="java" operationID="recordKeyUsage" method="post" path="/v1/keys/usage" example="recorded" -->
 ```java
 package hello.world;
 

@@ -90,7 +90,7 @@ public class CreateReviewView {
 
         <T, U> HttpRequest buildRequest(T request, Class<T> klass, TypeReference<U> typeReference) throws Exception {
             String url = Utils.generateURL(
-                    klass, this.baseUrl, "/v1/workspaces/{workspace_id}/review_views/{environment}", request, null);
+                    klass, this.baseUrl, "/v1/workspaces/{workspace_id}/views/{environment}", request, null);
             HTTPRequest req = new HTTPRequest(url, "POST");
             Object convertedRequest = Utils.convertToShape(request, JsonShape.DEFAULT, typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(convertedRequest, "body", "json", false);

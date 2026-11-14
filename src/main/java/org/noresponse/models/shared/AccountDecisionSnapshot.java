@@ -28,9 +28,8 @@ public class AccountDecisionSnapshot {
      * workspace's accounts. It is the risk of the account's latest assessment that has a decision (status
      * complete or partial), by created_at and then assessment_id, scored exactly as GET
      * /v1/assessments/{assessment_id} scores that assessment, plus the account's own reason shared_api_key
-     * when a key issued to the account was used from many IP addresses or countries (POST
-     * /v1/key_usage/batches). Its assessments are the account's history (GET
-     * /v1/accounts/{account_id}/assessments).
+     * when a key issued to the account was used from many IP addresses or countries (POST /v1/keys/usage).
+     * Its assessments are the account's history (GET /v1/accounts/{account_id}/assessments).
      */
     @JsonProperty("account")
     private Account account;
@@ -97,9 +96,8 @@ public class AccountDecisionSnapshot {
      * workspace's accounts. It is the risk of the account's latest assessment that has a decision (status
      * complete or partial), by created_at and then assessment_id, scored exactly as GET
      * /v1/assessments/{assessment_id} scores that assessment, plus the account's own reason shared_api_key
-     * when a key issued to the account was used from many IP addresses or countries (POST
-     * /v1/key_usage/batches). Its assessments are the account's history (GET
-     * /v1/accounts/{account_id}/assessments).
+     * when a key issued to the account was used from many IP addresses or countries (POST /v1/keys/usage).
+     * Its assessments are the account's history (GET /v1/accounts/{account_id}/assessments).
      */
     public Account account() {
         return this.account;
@@ -149,9 +147,8 @@ public class AccountDecisionSnapshot {
      * workspace's accounts. It is the risk of the account's latest assessment that has a decision (status
      * complete or partial), by created_at and then assessment_id, scored exactly as GET
      * /v1/assessments/{assessment_id} scores that assessment, plus the account's own reason shared_api_key
-     * when a key issued to the account was used from many IP addresses or countries (POST
-     * /v1/key_usage/batches). Its assessments are the account's history (GET
-     * /v1/accounts/{account_id}/assessments).
+     * when a key issued to the account was used from many IP addresses or countries (POST /v1/keys/usage).
+     * Its assessments are the account's history (GET /v1/accounts/{account_id}/assessments).
      */
     public AccountDecisionSnapshot withAccount(@Nonnull Account account) {
         this.account = Utils.checkNotNull(account, "account");
@@ -256,9 +253,8 @@ public class AccountDecisionSnapshot {
          * workspace's accounts. It is the risk of the account's latest assessment that has a decision (status
          * complete or partial), by created_at and then assessment_id, scored exactly as GET
          * /v1/assessments/{assessment_id} scores that assessment, plus the account's own reason shared_api_key
-         * when a key issued to the account was used from many IP addresses or countries (POST
-         * /v1/key_usage/batches). Its assessments are the account's history (GET
-         * /v1/accounts/{account_id}/assessments).
+         * when a key issued to the account was used from many IP addresses or countries (POST /v1/keys/usage).
+         * Its assessments are the account's history (GET /v1/accounts/{account_id}/assessments).
          */
         public Builder account(@Nonnull Account account) {
             this.account = Utils.checkNotNull(account, "account");

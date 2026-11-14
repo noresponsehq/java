@@ -15,9 +15,9 @@ import org.noresponse.utils.Utils;
 /**
  * AuditEventList
  *
- * <p>GET /v1/workspaces/{workspace_id}/audit_events: one page of the workspace's audit log, both
- * environments, newest first. Events are kept for as long as the workspace exists and are deleted with
- * it. next_cursor is present only when another page exists.
+ * <p>GET /v1/workspaces/{workspace_id}/audit: one page of the workspace's audit log, both environments,
+ * newest first. Events are kept for as long as the workspace exists and are deleted with it.
+ * next_cursor is present only when another page exists.
  */
 public class AuditEventList {
     /**

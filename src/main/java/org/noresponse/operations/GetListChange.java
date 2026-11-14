@@ -102,7 +102,7 @@ public class GetListChange {
             String url = Utils.generateURL(
                     klass,
                     this.baseUrl,
-                    "/v1/workspaces/{workspace_id}/list_changes/{environment}/{change_id}",
+                    "/v1/workspaces/{workspace_id}/changes/{environment}/{change_id}",
                     request,
                     null);
             HTTPRequest req = new HTTPRequest(url, "GET");

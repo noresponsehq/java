@@ -114,7 +114,7 @@ public class RemoveAuditStream {
             String url = Utils.generateURL(
                     klass,
                     this.baseUrl,
-                    "/v1/workspaces/{workspace_id}/audit_streams/{environment}/{endpoint_id}",
+                    "/v1/workspaces/{workspace_id}/streams/{environment}/{endpoint_id}",
                     request,
                     null);
             HTTPRequest req = new HTTPRequest(url, "DELETE");

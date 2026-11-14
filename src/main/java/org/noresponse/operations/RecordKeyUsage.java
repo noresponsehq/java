@@ -115,7 +115,7 @@ public class RecordKeyUsage {
         }
 
         <T, U> HttpRequest buildRequest(T request, TypeReference<U> typeReference) throws Exception {
-            String url = Utils.generateURL(this.baseUrl, "/v1/key_usage/batches");
+            String url = Utils.generateURL(this.baseUrl, "/v1/keys/usage");
             HTTPRequest req = new HTTPRequest(url, "POST");
             Object convertedRequest = Utils.convertToShape(request, JsonShape.DEFAULT, typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(convertedRequest, "body", "json", false);

@@ -92,7 +92,7 @@ public class ReplayAuditStream {
             String url = Utils.generateURL(
                     klass,
                     this.baseUrl,
-                    "/v1/workspaces/{workspace_id}/audit_streams/{environment}/{endpoint_id}/replay",
+                    "/v1/workspaces/{workspace_id}/streams/{environment}/{endpoint_id}/replay",
                     request,
                     null);
             HTTPRequest req = new HTTPRequest(url, "POST");

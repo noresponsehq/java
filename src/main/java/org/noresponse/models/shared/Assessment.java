@@ -71,9 +71,8 @@ public class Assessment {
      * workspace's accounts. It is the risk of the account's latest assessment that has a decision (status
      * complete or partial), by created_at and then assessment_id, scored exactly as GET
      * /v1/assessments/{assessment_id} scores that assessment, plus the account's own reason shared_api_key
-     * when a key issued to the account was used from many IP addresses or countries (POST
-     * /v1/key_usage/batches). Its assessments are the account's history (GET
-     * /v1/accounts/{account_id}/assessments).
+     * when a key issued to the account was used from many IP addresses or countries (POST /v1/keys/usage).
+     * Its assessments are the account's history (GET /v1/accounts/{account_id}/assessments).
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("account")
@@ -166,9 +165,8 @@ public class Assessment {
      * workspace's accounts. It is the risk of the account's latest assessment that has a decision (status
      * complete or partial), by created_at and then assessment_id, scored exactly as GET
      * /v1/assessments/{assessment_id} scores that assessment, plus the account's own reason shared_api_key
-     * when a key issued to the account was used from many IP addresses or countries (POST
-     * /v1/key_usage/batches). Its assessments are the account's history (GET
-     * /v1/accounts/{account_id}/assessments).
+     * when a key issued to the account was used from many IP addresses or countries (POST /v1/keys/usage).
+     * Its assessments are the account's history (GET /v1/accounts/{account_id}/assessments).
      */
     public Optional<Account> account() {
         return Optional.ofNullable(this.account);
@@ -235,9 +233,8 @@ public class Assessment {
      * workspace's accounts. It is the risk of the account's latest assessment that has a decision (status
      * complete or partial), by created_at and then assessment_id, scored exactly as GET
      * /v1/assessments/{assessment_id} scores that assessment, plus the account's own reason shared_api_key
-     * when a key issued to the account was used from many IP addresses or countries (POST
-     * /v1/key_usage/batches). Its assessments are the account's history (GET
-     * /v1/accounts/{account_id}/assessments).
+     * when a key issued to the account was used from many IP addresses or countries (POST /v1/keys/usage).
+     * Its assessments are the account's history (GET /v1/accounts/{account_id}/assessments).
      */
     public Assessment withAccount(@Nullable Account account) {
         this.account = account;
@@ -364,9 +361,8 @@ public class Assessment {
          * workspace's accounts. It is the risk of the account's latest assessment that has a decision (status
          * complete or partial), by created_at and then assessment_id, scored exactly as GET
          * /v1/assessments/{assessment_id} scores that assessment, plus the account's own reason shared_api_key
-         * when a key issued to the account was used from many IP addresses or countries (POST
-         * /v1/key_usage/batches). Its assessments are the account's history (GET
-         * /v1/accounts/{account_id}/assessments).
+         * when a key issued to the account was used from many IP addresses or countries (POST /v1/keys/usage).
+         * Its assessments are the account's history (GET /v1/accounts/{account_id}/assessments).
          */
         public Builder account(@Nullable Account account) {
             this.account = account;
