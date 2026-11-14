@@ -48,6 +48,14 @@ public class ScreeningLookup {
     private RiskDetails details;
 
     /**
+     * What each source that found an account answered, whole: every field under the source's own names,
+     * each answer once. Served only to a caller who may read evidence, as details are.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("records")
+    private List<Record> records;
+
+    /**
      * When the lookups ran.
      */
     @JsonProperty("looked_at")
@@ -58,17 +66,19 @@ public class ScreeningLookup {
             @JsonProperty("checks") @Nonnull List<ScreeningLookupCheck> checks,
             @JsonProperty("summary") @Nullable RiskSummary summary,
             @JsonProperty("details") @Nullable RiskDetails details,
+            @JsonProperty("records") @Nullable List<Record> records,
             @JsonProperty("looked_at") @Nonnull String lookedAt) {
         this.checks =
                 Optional.ofNullable(checks).orElseThrow(() -> new IllegalArgumentException("checks cannot be null"));
         this.summary = summary;
         this.details = details;
+        this.records = records;
         this.lookedAt = Optional.ofNullable(lookedAt)
                 .orElseThrow(() -> new IllegalArgumentException("lookedAt cannot be null"));
     }
 
     public ScreeningLookup(@Nonnull List<ScreeningLookupCheck> checks, @Nonnull String lookedAt) {
-        this(checks, null, null, lookedAt);
+        this(checks, null, null, null, lookedAt);
     }
 
     /**
@@ -96,6 +106,14 @@ public class ScreeningLookup {
      */
     public Optional<RiskDetails> details() {
         return Optional.ofNullable(this.details);
+    }
+
+    /**
+     * What each source that found an account answered, whole: every field under the source's own names,
+     * each answer once. Served only to a caller who may read evidence, as details are.
+     */
+    public Optional<List<Record>> records() {
+        return Optional.ofNullable(this.records);
     }
 
     /**
@@ -140,6 +158,15 @@ public class ScreeningLookup {
     }
 
     /**
+     * What each source that found an account answered, whole: every field under the source's own names,
+     * each answer once. Served only to a caller who may read evidence, as details are.
+     */
+    public ScreeningLookup withRecords(@Nullable List<Record> records) {
+        this.records = records;
+        return this;
+    }
+
+    /**
      * When the lookups ran.
      */
     public ScreeningLookup withLookedAt(@Nonnull String lookedAt) {
@@ -159,18 +186,29 @@ public class ScreeningLookup {
         return Utils.enhancedDeepEquals(this.checks, other.checks)
                 && Utils.enhancedDeepEquals(this.summary, other.summary)
                 && Utils.enhancedDeepEquals(this.details, other.details)
+                && Utils.enhancedDeepEquals(this.records, other.records)
                 && Utils.enhancedDeepEquals(this.lookedAt, other.lookedAt);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(checks, summary, details, lookedAt);
+        return Utils.enhancedHash(checks, summary, details, records, lookedAt);
     }
 
     @Override
     public String toString() {
         return Utils.toString(
-                ScreeningLookup.class, "checks", checks, "summary", summary, "details", details, "lookedAt", lookedAt);
+                ScreeningLookup.class,
+                "checks",
+                checks,
+                "summary",
+                summary,
+                "details",
+                details,
+                "records",
+                records,
+                "lookedAt",
+                lookedAt);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -181,6 +219,8 @@ public class ScreeningLookup {
         private RiskSummary summary;
 
         private RiskDetails details;
+
+        private List<Record> records;
 
         private String lookedAt;
 
@@ -219,6 +259,15 @@ public class ScreeningLookup {
         }
 
         /**
+         * What each source that found an account answered, whole: every field under the source's own names,
+         * each answer once. Served only to a caller who may read evidence, as details are.
+         */
+        public Builder records(@Nullable List<Record> records) {
+            this.records = records;
+            return this;
+        }
+
+        /**
          * When the lookups ran.
          */
         public Builder lookedAt(@Nonnull String lookedAt) {
@@ -227,7 +276,7 @@ public class ScreeningLookup {
         }
 
         public ScreeningLookup build() {
-            return new ScreeningLookup(checks, summary, details, lookedAt);
+            return new ScreeningLookup(checks, summary, details, records, lookedAt);
         }
     }
 }

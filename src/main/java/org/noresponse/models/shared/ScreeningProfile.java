@@ -93,6 +93,13 @@ public class ScreeningProfile {
     @JsonProperty("collected_at")
     private String collectedAt;
 
+    /**
+     * One answer from one source: where it came from, what found it and every field it holds.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("record")
+    private Record record;
+
     @JsonCreator
     public ScreeningProfile(
             @JsonProperty("id") @Nonnull String id,
@@ -110,7 +117,8 @@ public class ScreeningProfile {
             @JsonProperty("items_read") long itemsRead,
             @JsonProperty("period_from") @Nullable String periodFrom,
             @JsonProperty("period_to") @Nullable String periodTo,
-            @JsonProperty("collected_at") @Nonnull String collectedAt) {
+            @JsonProperty("collected_at") @Nonnull String collectedAt,
+            @JsonProperty("record") @Nullable Record record) {
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.platform = Optional.ofNullable(platform)
                 .orElseThrow(() -> new IllegalArgumentException("platform cannot be null"));
@@ -132,6 +140,7 @@ public class ScreeningProfile {
         this.periodTo = periodTo;
         this.collectedAt = Optional.ofNullable(collectedAt)
                 .orElseThrow(() -> new IllegalArgumentException("collectedAt cannot be null"));
+        this.record = record;
     }
 
     public ScreeningProfile(
@@ -160,7 +169,8 @@ public class ScreeningProfile {
                 itemsRead,
                 null,
                 null,
-                collectedAt);
+                collectedAt,
+                null);
     }
 
     public String id() {
@@ -244,6 +254,13 @@ public class ScreeningProfile {
 
     public String collectedAt() {
         return this.collectedAt;
+    }
+
+    /**
+     * One answer from one source: where it came from, what found it and every field it holds.
+     */
+    public Optional<Record> record() {
+        return Optional.ofNullable(this.record);
     }
 
     public static Builder builder() {
@@ -349,6 +366,14 @@ public class ScreeningProfile {
         return this;
     }
 
+    /**
+     * One answer from one source: where it came from, what found it and every field it holds.
+     */
+    public ScreeningProfile withRecord(@Nullable Record record) {
+        this.record = record;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -373,7 +398,8 @@ public class ScreeningProfile {
                 && Utils.enhancedDeepEquals(this.itemsRead, other.itemsRead)
                 && Utils.enhancedDeepEquals(this.periodFrom, other.periodFrom)
                 && Utils.enhancedDeepEquals(this.periodTo, other.periodTo)
-                && Utils.enhancedDeepEquals(this.collectedAt, other.collectedAt);
+                && Utils.enhancedDeepEquals(this.collectedAt, other.collectedAt)
+                && Utils.enhancedDeepEquals(this.record, other.record);
     }
 
     @Override
@@ -394,7 +420,8 @@ public class ScreeningProfile {
                 itemsRead,
                 periodFrom,
                 periodTo,
-                collectedAt);
+                collectedAt,
+                record);
     }
 
     @Override
@@ -432,7 +459,9 @@ public class ScreeningProfile {
                 "periodTo",
                 periodTo,
                 "collectedAt",
-                collectedAt);
+                collectedAt,
+                "record",
+                record);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -469,6 +498,8 @@ public class ScreeningProfile {
         private String periodTo;
 
         private String collectedAt;
+
+        private Record record;
 
         private Builder() {
             // force use of static builder() method
@@ -573,6 +604,14 @@ public class ScreeningProfile {
             return this;
         }
 
+        /**
+         * One answer from one source: where it came from, what found it and every field it holds.
+         */
+        public Builder record(@Nullable Record record) {
+            this.record = record;
+            return this;
+        }
+
         public ScreeningProfile build() {
             return new ScreeningProfile(
                     id,
@@ -590,7 +629,8 @@ public class ScreeningProfile {
                     itemsRead,
                     periodFrom,
                     periodTo,
-                    collectedAt);
+                    collectedAt,
+                    record);
         }
     }
 }
