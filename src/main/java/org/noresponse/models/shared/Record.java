@@ -35,7 +35,9 @@ public class Record {
     private List<RecordMatch> matched;
 
     /**
-     * Every field the source returned, in the order the source's connector lists them.
+     * Every field the source returned, in the order the source's connector lists them; a breach row's
+     * columns in name order. Nothing is withheld: a breach row's passwords, hashes and salts are fields
+     * like any other.
      */
     @JsonProperty("fields")
     private List<RecordField> fields;
@@ -87,7 +89,9 @@ public class Record {
     }
 
     /**
-     * Every field the source returned, in the order the source's connector lists them.
+     * Every field the source returned, in the order the source's connector lists them; a breach row's
+     * columns in name order. Nothing is withheld: a breach row's passwords, hashes and salts are fields
+     * like any other.
      */
     public List<RecordField> fields() {
         return this.fields;
@@ -130,7 +134,9 @@ public class Record {
     }
 
     /**
-     * Every field the source returned, in the order the source's connector lists them.
+     * Every field the source returned, in the order the source's connector lists them; a breach row's
+     * columns in name order. Nothing is withheld: a breach row's passwords, hashes and salts are fields
+     * like any other.
      */
     public Record withFields(@Nonnull List<RecordField> fields) {
         this.fields = Utils.checkNotNull(fields, "fields");
@@ -225,7 +231,9 @@ public class Record {
         }
 
         /**
-         * Every field the source returned, in the order the source's connector lists them.
+         * Every field the source returned, in the order the source's connector lists them; a breach row's
+         * columns in name order. Nothing is withheld: a breach row's passwords, hashes and salts are fields
+         * like any other.
          */
         public Builder fields(@Nonnull List<RecordField> fields) {
             this.fields = Utils.checkNotNull(fields, "fields");

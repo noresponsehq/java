@@ -25,7 +25,8 @@ public class RecordField {
     private String field;
 
     /**
-     * The value as the source wrote it. A count is written in decimal and a time in RFC 3339.
+     * The value as the source wrote it. A count is written in decimal and a time in RFC 3339; a breach
+     * column's value is as the leak holds it.
      */
     @JsonProperty("original")
     private String original;
@@ -82,7 +83,8 @@ public class RecordField {
     }
 
     /**
-     * The value as the source wrote it. A count is written in decimal and a time in RFC 3339.
+     * The value as the source wrote it. A count is written in decimal and a time in RFC 3339; a breach
+     * column's value is as the leak holds it.
      */
     public String original() {
         return this.original;
@@ -126,7 +128,8 @@ public class RecordField {
     }
 
     /**
-     * The value as the source wrote it. A count is written in decimal and a time in RFC 3339.
+     * The value as the source wrote it. A count is written in decimal and a time in RFC 3339; a breach
+     * column's value is as the leak holds it.
      */
     public RecordField withOriginal(@Nonnull String original) {
         this.original = Utils.checkNotNull(original, "original");
@@ -214,7 +217,8 @@ public class RecordField {
         }
 
         /**
-         * The value as the source wrote it. A count is written in decimal and a time in RFC 3339.
+         * The value as the source wrote it. A count is written in decimal and a time in RFC 3339; a breach
+         * column's value is as the leak holds it.
          */
         public Builder original(@Nonnull String original) {
             this.original = Utils.checkNotNull(original, "original");

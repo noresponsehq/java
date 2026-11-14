@@ -18,13 +18,15 @@ import org.noresponse.utils.Utils;
  */
 public class RecordSource {
     /**
-     * The id of the connector that read the record.
+     * The id of the connector that read the record: breach for a breach row.
      */
     @JsonProperty("connector")
     private String connector;
 
     /**
-     * The kind of source: platform for an account read off a live platform.
+     * The kind of source: platform for an account read off a live platform; for a breach row, the kind of
+     * leak its table is: site_breach, credential_list, stealer_log, scrape, hacking_forum, abuse_service
+     * or darkweb_site.
      */
     @JsonProperty("kind")
     private String kind;
@@ -44,7 +46,7 @@ public class RecordSource {
     private String table;
 
     /**
-     * When the source's data dates from, at the precision it is known.
+     * When the source's data dates from, at the precision it is known: YYYY or YYYY-MM for a breach table.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("date")
@@ -70,14 +72,16 @@ public class RecordSource {
     }
 
     /**
-     * The id of the connector that read the record.
+     * The id of the connector that read the record: breach for a breach row.
      */
     public String connector() {
         return this.connector;
     }
 
     /**
-     * The kind of source: platform for an account read off a live platform.
+     * The kind of source: platform for an account read off a live platform; for a breach row, the kind of
+     * leak its table is: site_breach, credential_list, stealer_log, scrape, hacking_forum, abuse_service
+     * or darkweb_site.
      */
     public String kind() {
         return this.kind;
@@ -98,7 +102,7 @@ public class RecordSource {
     }
 
     /**
-     * When the source's data dates from, at the precision it is known.
+     * When the source's data dates from, at the precision it is known: YYYY or YYYY-MM for a breach table.
      */
     public Optional<String> date() {
         return Optional.ofNullable(this.date);
@@ -109,7 +113,7 @@ public class RecordSource {
     }
 
     /**
-     * The id of the connector that read the record.
+     * The id of the connector that read the record: breach for a breach row.
      */
     public RecordSource withConnector(@Nonnull String connector) {
         this.connector = Utils.checkNotNull(connector, "connector");
@@ -117,7 +121,9 @@ public class RecordSource {
     }
 
     /**
-     * The kind of source: platform for an account read off a live platform.
+     * The kind of source: platform for an account read off a live platform; for a breach row, the kind of
+     * leak its table is: site_breach, credential_list, stealer_log, scrape, hacking_forum, abuse_service
+     * or darkweb_site.
      */
     public RecordSource withKind(@Nonnull String kind) {
         this.kind = Utils.checkNotNull(kind, "kind");
@@ -141,7 +147,7 @@ public class RecordSource {
     }
 
     /**
-     * When the source's data dates from, at the precision it is known.
+     * When the source's data dates from, at the precision it is known: YYYY or YYYY-MM for a breach table.
      */
     public RecordSource withDate(@Nullable String date) {
         this.date = date;
@@ -193,7 +199,7 @@ public class RecordSource {
         }
 
         /**
-         * The id of the connector that read the record.
+         * The id of the connector that read the record: breach for a breach row.
          */
         public Builder connector(@Nonnull String connector) {
             this.connector = Utils.checkNotNull(connector, "connector");
@@ -201,7 +207,9 @@ public class RecordSource {
         }
 
         /**
-         * The kind of source: platform for an account read off a live platform.
+         * The kind of source: platform for an account read off a live platform; for a breach row, the kind of
+         * leak its table is: site_breach, credential_list, stealer_log, scrape, hacking_forum, abuse_service
+         * or darkweb_site.
          */
         public Builder kind(@Nonnull String kind) {
             this.kind = Utils.checkNotNull(kind, "kind");
@@ -225,7 +233,7 @@ public class RecordSource {
         }
 
         /**
-         * When the source's data dates from, at the precision it is known.
+         * When the source's data dates from, at the precision it is known: YYYY or YYYY-MM for a breach table.
          */
         public Builder date(@Nullable String date) {
             this.date = date;

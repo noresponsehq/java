@@ -18,7 +18,8 @@ import org.noresponse.utils.Utils;
  */
 public class RecordMatch {
     /**
-     * The kind of searched value: email, phone, username, name, or handle for a profile read of a handle.
+     * The kind of searched value: email, phone, username, ip, name, or handle for a profile read of a
+     * handle.
      */
     @JsonProperty("by")
     private String by;
@@ -41,7 +42,8 @@ public class RecordMatch {
     }
 
     /**
-     * The kind of searched value: email, phone, username, name, or handle for a profile read of a handle.
+     * The kind of searched value: email, phone, username, ip, name, or handle for a profile read of a
+     * handle.
      */
     public String by() {
         return this.by;
@@ -59,7 +61,8 @@ public class RecordMatch {
     }
 
     /**
-     * The kind of searched value: email, phone, username, name, or handle for a profile read of a handle.
+     * The kind of searched value: email, phone, username, ip, name, or handle for a profile read of a
+     * handle.
      */
     public RecordMatch withBy(@Nonnull String by) {
         this.by = Utils.checkNotNull(by, "by");
@@ -108,7 +111,8 @@ public class RecordMatch {
         }
 
         /**
-         * The kind of searched value: email, phone, username, name, or handle for a profile read of a handle.
+         * The kind of searched value: email, phone, username, ip, name, or handle for a profile read of a
+         * handle.
          */
         public Builder by(@Nonnull String by) {
             this.by = Utils.checkNotNull(by, "by");
