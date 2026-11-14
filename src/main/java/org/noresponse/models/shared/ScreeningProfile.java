@@ -77,6 +77,18 @@ public class ScreeningProfile {
     private long itemsRead;
 
     /**
+     * Why fewer posts were read than the screening's depth asks for while the account holds more.
+     * platform_limit: the platform shows the screening no more of them. page_limit: the pages a screening
+     * reads ran out first.
+     *
+     * <p>rate_limited or unavailable: a later page was held back or failed; the posts before it are kept and
+     * the person is partial. Absent when the account was read to its end or to the depth.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("posts_stopped")
+    private PostsStopped postsStopped;
+
+    /**
      * The oldest item read.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -115,6 +127,7 @@ public class ScreeningProfile {
             @JsonProperty("match") @Nonnull ScreeningMatch match,
             @JsonProperty("collector") @Nonnull String collector,
             @JsonProperty("items_read") long itemsRead,
+            @JsonProperty("posts_stopped") @Nullable PostsStopped postsStopped,
             @JsonProperty("period_from") @Nullable String periodFrom,
             @JsonProperty("period_to") @Nullable String periodTo,
             @JsonProperty("collected_at") @Nonnull String collectedAt,
@@ -136,6 +149,7 @@ public class ScreeningProfile {
         this.collector = Optional.ofNullable(collector)
                 .orElseThrow(() -> new IllegalArgumentException("collector cannot be null"));
         this.itemsRead = itemsRead;
+        this.postsStopped = postsStopped;
         this.periodFrom = periodFrom;
         this.periodTo = periodTo;
         this.collectedAt = Optional.ofNullable(collectedAt)
@@ -167,6 +181,7 @@ public class ScreeningProfile {
                 match,
                 collector,
                 itemsRead,
+                null,
                 null,
                 null,
                 collectedAt,
@@ -236,6 +251,18 @@ public class ScreeningProfile {
 
     public long itemsRead() {
         return this.itemsRead;
+    }
+
+    /**
+     * Why fewer posts were read than the screening's depth asks for while the account holds more.
+     * platform_limit: the platform shows the screening no more of them. page_limit: the pages a screening
+     * reads ran out first.
+     *
+     * <p>rate_limited or unavailable: a later page was held back or failed; the posts before it are kept and
+     * the person is partial. Absent when the account was read to its end or to the depth.
+     */
+    public Optional<PostsStopped> postsStopped() {
+        return Optional.ofNullable(this.postsStopped);
     }
 
     /**
@@ -346,6 +373,19 @@ public class ScreeningProfile {
     }
 
     /**
+     * Why fewer posts were read than the screening's depth asks for while the account holds more.
+     * platform_limit: the platform shows the screening no more of them. page_limit: the pages a screening
+     * reads ran out first.
+     *
+     * <p>rate_limited or unavailable: a later page was held back or failed; the posts before it are kept and
+     * the person is partial. Absent when the account was read to its end or to the depth.
+     */
+    public ScreeningProfile withPostsStopped(@Nullable PostsStopped postsStopped) {
+        this.postsStopped = postsStopped;
+        return this;
+    }
+
+    /**
      * The oldest item read.
      */
     public ScreeningProfile withPeriodFrom(@Nullable String periodFrom) {
@@ -396,6 +436,7 @@ public class ScreeningProfile {
                 && Utils.enhancedDeepEquals(this.match, other.match)
                 && Utils.enhancedDeepEquals(this.collector, other.collector)
                 && Utils.enhancedDeepEquals(this.itemsRead, other.itemsRead)
+                && Utils.enhancedDeepEquals(this.postsStopped, other.postsStopped)
                 && Utils.enhancedDeepEquals(this.periodFrom, other.periodFrom)
                 && Utils.enhancedDeepEquals(this.periodTo, other.periodTo)
                 && Utils.enhancedDeepEquals(this.collectedAt, other.collectedAt)
@@ -418,6 +459,7 @@ public class ScreeningProfile {
                 match,
                 collector,
                 itemsRead,
+                postsStopped,
                 periodFrom,
                 periodTo,
                 collectedAt,
@@ -454,6 +496,8 @@ public class ScreeningProfile {
                 collector,
                 "itemsRead",
                 itemsRead,
+                "postsStopped",
+                postsStopped,
                 "periodFrom",
                 periodFrom,
                 "periodTo",
@@ -492,6 +536,8 @@ public class ScreeningProfile {
         private String collector;
 
         private long itemsRead;
+
+        private PostsStopped postsStopped;
 
         private String periodFrom;
 
@@ -584,6 +630,19 @@ public class ScreeningProfile {
         }
 
         /**
+         * Why fewer posts were read than the screening's depth asks for while the account holds more.
+         * platform_limit: the platform shows the screening no more of them. page_limit: the pages a screening
+         * reads ran out first.
+         *
+         * <p>rate_limited or unavailable: a later page was held back or failed; the posts before it are kept and
+         * the person is partial. Absent when the account was read to its end or to the depth.
+         */
+        public Builder postsStopped(@Nullable PostsStopped postsStopped) {
+            this.postsStopped = postsStopped;
+            return this;
+        }
+
+        /**
          * The oldest item read.
          */
         public Builder periodFrom(@Nullable String periodFrom) {
@@ -627,6 +686,7 @@ public class ScreeningProfile {
                     match,
                     collector,
                     itemsRead,
+                    postsStopped,
                     periodFrom,
                     periodTo,
                     collectedAt,

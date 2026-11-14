@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: e35dda82a9d1dbc8212834372cb65efc
+  docChecksum: 0ac44c9e951e6d9f179798f00cf1ee15
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 12.0.0
-  configChecksum: e1aa860ce9e5a511a6fd2291ac15d221
+  releaseVersion: 12.0.1
+  configChecksum: 25ae6f6e445e617b1d9e2b7fdfd191e6
 features:
   java:
     additionalDependencies: 0.1.0
@@ -1098,6 +1098,8 @@ trackedFiles:
     last_write_checksum: sha1:768f73d2f66c2c9f71dfdde39e106829ad915112
   docs/models/shared/Population.md:
     last_write_checksum: sha1:8369b6448b8ddf1ac3719f7a627a732997e56f68
+  docs/models/shared/PostsStopped.md:
+    last_write_checksum: sha1:02d44951824f75dbf21188bdb091b57e8b06f138
   docs/models/shared/Principal.md:
     last_write_checksum: sha1:985e8dae88f95802ea865ad7c5f8d1510e3b05d9
   docs/models/shared/Priority.md:
@@ -1273,9 +1275,9 @@ trackedFiles:
   docs/models/shared/ScreeningPlatformCoverageStatus.md:
     last_write_checksum: sha1:c671b832e92b2cf8760eb32d1bb32dc6efb7bcb2
   docs/models/shared/ScreeningPost.md:
-    last_write_checksum: sha1:d5cd5f02de359a09593f31fcbeb8506aea68c022
+    last_write_checksum: sha1:69e7c263d79af279c80c0c9091dbc22b441ddc36
   docs/models/shared/ScreeningProfile.md:
-    last_write_checksum: sha1:c12d9eda880387d5b63a69e0dae9122e1663ca51
+    last_write_checksum: sha1:43b338660ba217cbde1ecf05be7be082ae0f8161
   docs/models/shared/ScreeningRequest.md:
     last_write_checksum: sha1:9e143915b75993f112f58fe3b78319b4e4b4e369
   docs/models/shared/ScreeningSpend.md:
@@ -1453,7 +1455,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:99d16a2d1d8823ad5a12b43b500fbcc601915b78
+    last_write_checksum: sha1:b7dda6504f381080253d5ce2f6364042d7e89bb5
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1541,7 +1543,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:706d46cceb6db32571c6665d883eb82de2cf2ced
+    last_write_checksum: sha1:e69ff33d785746ff03a742a0222654bd5db2f47c
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -3304,6 +3306,8 @@ trackedFiles:
     last_write_checksum: sha1:199a401e1703a06e9236988cd0efbcad1c489fe0
   src/main/java/org/noresponse/models/shared/Population.java:
     last_write_checksum: sha1:42a7156d05a6c96185f91de271dc3d40d3a0fd3a
+  src/main/java/org/noresponse/models/shared/PostsStopped.java:
+    last_write_checksum: sha1:7969e9929e5ee045987a2abd2b7bd6f86a3f806a
   src/main/java/org/noresponse/models/shared/Principal.java:
     last_write_checksum: sha1:dd7c5c239ceede70160e0c280cfdfd6ef1fbdc0b
   src/main/java/org/noresponse/models/shared/Priority.java:
@@ -3479,9 +3483,9 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/ScreeningPlatformCoverageStatus.java:
     last_write_checksum: sha1:adc9a76d3e5283f3030f246b4b54742c3be6318c
   src/main/java/org/noresponse/models/shared/ScreeningPost.java:
-    last_write_checksum: sha1:1f41b5d779cc7c52084c585f41bebed2925ec1b8
+    last_write_checksum: sha1:a7f6872b25a021010f38dc85dc3c10a6542e2f4a
   src/main/java/org/noresponse/models/shared/ScreeningProfile.java:
-    last_write_checksum: sha1:ea18e5000c2cd1ae737eea032def6f84cc1d6dda
+    last_write_checksum: sha1:ed2d3ec85bfbe30b75e653227f75282dc6edce92
   src/main/java/org/noresponse/models/shared/ScreeningRequest.java:
     last_write_checksum: sha1:4e5e7790273cb728f625dfad0164a83b05f3de43
   src/main/java/org/noresponse/models/shared/ScreeningSpend.java:
@@ -6513,7 +6517,7 @@ examples:
           person_id: "per_01JA2Z8K6Q4V7W9XBCDEFGHJKM"
       responses:
         "200":
-          application/json: {"person": {"id": "per_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "group_id": "grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "external_id": "ticket-1042", "name": "Jordan Example", "email": "jordan@company-example.com", "phone": "+14155550100", "company": "Example Ltd", "city": "Melbourne", "handles": [{"platform": "bluesky", "handle": "jordan_example"}], "match_state": "none_found", "highest_band": "critical", "decision": "cleared", "decision_note": "Known to the venue team.", "decided_by": "user_2abc", "decided_at": "2026-01-01T00:00:00Z", "coverage": {"accounts_found": 584223, "accounts_accessible": 507558, "items_read": 185088, "period_from": "2026-01-01T00:00:00Z", "period_to": "2026-01-02T00:00:00Z", "platforms": [{"platform": "tiktok", "status": "failed", "accounts_found": 267619, "items_read": 384393}]}, "last_screening_id": "scn_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "screened_at": "2026-01-01T00:00:00Z", "created_at": "2026-01-01T00:00:00Z", "updated_at": "2026-01-01T00:00:00Z", "spend": {"total_minor": 746915, "by_implementation": []}}, "profiles": [], "findings": [], "posts": [{"id": "itm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "kind": "post", "text": "Great coffee this morning before the commute.", "reply_to": "https://synthetic.invalid/synthetic/jordanexample42/p0", "profile_id": "prf_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "permalink": "https://synthetic.invalid/synthetic/jordanexample42/p1", "posted_at": "2026-01-01T00:00:00Z", "screenshot_sha256": "9c56cc51b374c3ba189210d5b6d4bf57790d351c96c47c02190ecf1e430635ab", "captured_at": "2026-01-01T00:00:00Z"}], "media": [], "reviews": [], "lookup": {"checks": [], "summary": {"phone": {"country": "AU", "carrier": "Telstra"}, "ip": {"country": "AU"}}, "details": {"phone_names": [{"value": "Alex Example", "seen_by": 454010}], "breaches": [{"name": "Example Forum", "domain": "forum.example.com", "category": "forum", "kind": "stealer_log", "matched_on": "ip"}], "breach_names": [{"value": "Alex Example", "seen_in": 212258, "sites": ["forum.example.com"]}], "events": [{"year": 583669, "kind": "created", "site": "example.com", "category": "site_breach", "family": "code_hosting", "identifier": "email"}], "accounts": [{"name": "Wix", "domain": "wix.com", "identifier": "email", "outcome": "not_found", "first_name_prefix": "Al"}], "attribute_conflicts": [{"attribute": "birth_date", "sites": ["forum.example.com"]}]}, "records": [{"id": "rec_3f9a1c22d4e5b6a73f9a1c22d4e5b6a7", "source": {"connector": "bluesky", "kind": "platform", "site": "bsky.app", "table": "users", "date": "2019-03"}, "matched": [{"by": "handle", "field": "username"}], "fields": [], "observed_at": "2026-01-02T00:00:00Z"}], "remaining": [{"source": {"connector": "bluesky", "kind": "platform", "site": "bsky.app", "table": "users", "date": "2019-03"}, "by": "email", "rows": 458020}], "looked_at": "2026-01-01T00:00:00Z"}, "other_groups": {"total": 113148, "items": []}}
+          application/json: {"person": {"id": "per_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "group_id": "grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "external_id": "ticket-1042", "name": "Jordan Example", "email": "jordan@company-example.com", "phone": "+14155550100", "company": "Example Ltd", "city": "Melbourne", "handles": [{"platform": "bluesky", "handle": "jordan_example"}], "match_state": "none_found", "highest_band": "critical", "decision": "cleared", "decision_note": "Known to the venue team.", "decided_by": "user_2abc", "decided_at": "2026-01-01T00:00:00Z", "coverage": {"accounts_found": 584223, "accounts_accessible": 507558, "items_read": 185088, "period_from": "2026-01-01T00:00:00Z", "period_to": "2026-01-02T00:00:00Z", "platforms": [{"platform": "tiktok", "status": "failed", "accounts_found": 267619, "items_read": 384393}]}, "last_screening_id": "scn_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "screened_at": "2026-01-01T00:00:00Z", "created_at": "2026-01-01T00:00:00Z", "updated_at": "2026-01-01T00:00:00Z", "spend": {"total_minor": 746915, "by_implementation": []}}, "profiles": [], "findings": [], "posts": [{"id": "itm_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "kind": "post", "text": "Great coffee this morning before the commute.", "reply_to": "https://synthetic.invalid/synthetic/jordanexample42/p0", "repost_of": "https://synthetic.invalid/synthetic/caseyexample7/p2", "quote_of": "https://synthetic.invalid/synthetic/caseyexample7/p3", "profile_id": "prf_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "permalink": "https://synthetic.invalid/synthetic/jordanexample42/p1", "posted_at": "2026-01-01T00:00:00Z", "screenshot_sha256": "9c56cc51b374c3ba189210d5b6d4bf57790d351c96c47c02190ecf1e430635ab", "captured_at": "2026-01-01T00:00:00Z"}], "media": [], "reviews": [], "lookup": {"checks": [], "summary": {"phone": {"country": "AU", "carrier": "Telstra"}, "ip": {"country": "AU"}}, "details": {"phone_names": [{"value": "Alex Example", "seen_by": 454010}], "breaches": [{"name": "Example Forum", "domain": "forum.example.com", "category": "forum", "kind": "stealer_log", "matched_on": "ip"}], "breach_names": [{"value": "Alex Example", "seen_in": 212258, "sites": ["forum.example.com"]}], "events": [{"year": 583669, "kind": "created", "site": "example.com", "category": "site_breach", "family": "code_hosting", "identifier": "email"}], "accounts": [{"name": "Wix", "domain": "wix.com", "identifier": "email", "outcome": "not_found", "first_name_prefix": "Al"}], "attribute_conflicts": [{"attribute": "birth_date", "sites": ["forum.example.com"]}]}, "records": [{"id": "rec_3f9a1c22d4e5b6a73f9a1c22d4e5b6a7", "source": {"connector": "bluesky", "kind": "platform", "site": "bsky.app", "table": "users", "date": "2019-03"}, "matched": [{"by": "handle", "field": "username"}], "fields": [], "observed_at": "2026-01-02T00:00:00Z"}], "remaining": [{"source": {"connector": "bluesky", "kind": "platform", "site": "bsky.app", "table": "users", "date": "2019-03"}, "by": "email", "rows": 458020}], "looked_at": "2026-01-01T00:00:00Z"}, "other_groups": {"total": 113148, "items": []}}
         "400":
           application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 400, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "invalid_idempotency_key", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
         "401":

@@ -33,6 +33,21 @@ public class ScreeningPost {
     @JsonProperty("reply_to")
     private String replyTo;
 
+    /**
+     * The permalink of the post this one reposts. text then holds that post's author's words, not the
+     * person's.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("repost_of")
+    private String repostOf;
+
+    /**
+     * The permalink of the post this one quotes. text holds the person's own words alone.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("quote_of")
+    private String quoteOf;
+
     @JsonProperty("profile_id")
     private String profileId;
 
@@ -61,6 +76,8 @@ public class ScreeningPost {
             @JsonProperty("id") @Nonnull String id,
             @JsonProperty("text") @Nonnull String text,
             @JsonProperty("reply_to") @Nullable String replyTo,
+            @JsonProperty("repost_of") @Nullable String repostOf,
+            @JsonProperty("quote_of") @Nullable String quoteOf,
             @JsonProperty("profile_id") @Nonnull String profileId,
             @JsonProperty("permalink") @Nonnull String permalink,
             @JsonProperty("posted_at") @Nonnull String postedAt,
@@ -70,6 +87,8 @@ public class ScreeningPost {
         this.kind = Builder._SINGLETON_VALUE_Kind.value();
         this.text = Optional.ofNullable(text).orElseThrow(() -> new IllegalArgumentException("text cannot be null"));
         this.replyTo = replyTo;
+        this.repostOf = repostOf;
+        this.quoteOf = quoteOf;
         this.profileId = Optional.ofNullable(profileId)
                 .orElseThrow(() -> new IllegalArgumentException("profileId cannot be null"));
         this.permalink = Optional.ofNullable(permalink)
@@ -86,7 +105,7 @@ public class ScreeningPost {
             @Nonnull String profileId,
             @Nonnull String permalink,
             @Nonnull String postedAt) {
-        this(id, text, null, profileId, permalink, postedAt, null, null);
+        this(id, text, null, null, null, profileId, permalink, postedAt, null, null);
     }
 
     public String id() {
@@ -103,6 +122,21 @@ public class ScreeningPost {
 
     public Optional<String> replyTo() {
         return Optional.ofNullable(this.replyTo);
+    }
+
+    /**
+     * The permalink of the post this one reposts. text then holds that post's author's words, not the
+     * person's.
+     */
+    public Optional<String> repostOf() {
+        return Optional.ofNullable(this.repostOf);
+    }
+
+    /**
+     * The permalink of the post this one quotes. text holds the person's own words alone.
+     */
+    public Optional<String> quoteOf() {
+        return Optional.ofNullable(this.quoteOf);
     }
 
     public String profileId() {
@@ -150,6 +184,23 @@ public class ScreeningPost {
         return this;
     }
 
+    /**
+     * The permalink of the post this one reposts. text then holds that post's author's words, not the
+     * person's.
+     */
+    public ScreeningPost withRepostOf(@Nullable String repostOf) {
+        this.repostOf = repostOf;
+        return this;
+    }
+
+    /**
+     * The permalink of the post this one quotes. text holds the person's own words alone.
+     */
+    public ScreeningPost withQuoteOf(@Nullable String quoteOf) {
+        this.quoteOf = quoteOf;
+        return this;
+    }
+
     public ScreeningPost withProfileId(@Nonnull String profileId) {
         this.profileId = Utils.checkNotNull(profileId, "profileId");
         return this;
@@ -194,6 +245,8 @@ public class ScreeningPost {
                 && Utils.enhancedDeepEquals(this.kind, other.kind)
                 && Utils.enhancedDeepEquals(this.text, other.text)
                 && Utils.enhancedDeepEquals(this.replyTo, other.replyTo)
+                && Utils.enhancedDeepEquals(this.repostOf, other.repostOf)
+                && Utils.enhancedDeepEquals(this.quoteOf, other.quoteOf)
                 && Utils.enhancedDeepEquals(this.profileId, other.profileId)
                 && Utils.enhancedDeepEquals(this.permalink, other.permalink)
                 && Utils.enhancedDeepEquals(this.postedAt, other.postedAt)
@@ -204,7 +257,17 @@ public class ScreeningPost {
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                id, kind, text, replyTo, profileId, permalink, postedAt, screenshotSha256, capturedAt);
+                id,
+                kind,
+                text,
+                replyTo,
+                repostOf,
+                quoteOf,
+                profileId,
+                permalink,
+                postedAt,
+                screenshotSha256,
+                capturedAt);
     }
 
     @Override
@@ -219,6 +282,10 @@ public class ScreeningPost {
                 text,
                 "replyTo",
                 replyTo,
+                "repostOf",
+                repostOf,
+                "quoteOf",
+                quoteOf,
                 "profileId",
                 profileId,
                 "permalink",
@@ -239,6 +306,10 @@ public class ScreeningPost {
         private String text;
 
         private String replyTo;
+
+        private String repostOf;
+
+        private String quoteOf;
 
         private String profileId;
 
@@ -266,6 +337,23 @@ public class ScreeningPost {
 
         public Builder replyTo(@Nullable String replyTo) {
             this.replyTo = replyTo;
+            return this;
+        }
+
+        /**
+         * The permalink of the post this one reposts. text then holds that post's author's words, not the
+         * person's.
+         */
+        public Builder repostOf(@Nullable String repostOf) {
+            this.repostOf = repostOf;
+            return this;
+        }
+
+        /**
+         * The permalink of the post this one quotes. text holds the person's own words alone.
+         */
+        public Builder quoteOf(@Nullable String quoteOf) {
+            this.quoteOf = quoteOf;
             return this;
         }
 
@@ -301,7 +389,8 @@ public class ScreeningPost {
         }
 
         public ScreeningPost build() {
-            return new ScreeningPost(id, text, replyTo, profileId, permalink, postedAt, screenshotSha256, capturedAt);
+            return new ScreeningPost(
+                    id, text, replyTo, repostOf, quoteOf, profileId, permalink, postedAt, screenshotSha256, capturedAt);
         }
 
         private static final LazySingletonValue<String> _SINGLETON_VALUE_Kind =
