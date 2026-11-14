@@ -36,6 +36,8 @@ public class RecordField {
      * comes from the value itself where its shape is certain (an email, an IP, a URL, an international
      * phone number), else from the answer stored for the source's column, else text. A value of any kind
      * is returned.
+     *
+     * <p>Each kind's description says what it holds and the form value takes.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("kind")
@@ -46,7 +48,7 @@ public class RecordField {
      * dates, with the roles joined and born. A platform account's field and a breach row's column with the
      * same meaning carry the same kind and role. A linked_account field is named by its network.
      *
-     * <p>Absent for a field only its source returns.
+     * <p>Absent for a field only its source returns. Each role's description names the kinds its values have.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("role")
@@ -121,6 +123,8 @@ public class RecordField {
      * comes from the value itself where its shape is certain (an email, an IP, a URL, an international
      * phone number), else from the answer stored for the source's column, else text. A value of any kind
      * is returned.
+     *
+     * <p>Each kind's description says what it holds and the form value takes.
      */
     public Optional<RecordKind> kind() {
         return Optional.ofNullable(this.kind);
@@ -131,7 +135,7 @@ public class RecordField {
      * dates, with the roles joined and born. A platform account's field and a breach row's column with the
      * same meaning carry the same kind and role. A linked_account field is named by its network.
      *
-     * <p>Absent for a field only its source returns.
+     * <p>Absent for a field only its source returns. Each role's description names the kinds its values have.
      */
     public Optional<RecordRole> role() {
         return Optional.ofNullable(this.role);
@@ -189,6 +193,8 @@ public class RecordField {
      * comes from the value itself where its shape is certain (an email, an IP, a URL, an international
      * phone number), else from the answer stored for the source's column, else text. A value of any kind
      * is returned.
+     *
+     * <p>Each kind's description says what it holds and the form value takes.
      */
     public RecordField withKind(@Nullable RecordKind kind) {
         this.kind = kind;
@@ -200,7 +206,7 @@ public class RecordField {
      * dates, with the roles joined and born. A platform account's field and a breach row's column with the
      * same meaning carry the same kind and role. A linked_account field is named by its network.
      *
-     * <p>Absent for a field only its source returns.
+     * <p>Absent for a field only its source returns. Each role's description names the kinds its values have.
      */
     public RecordField withRole(@Nullable RecordRole role) {
         this.role = role;
@@ -322,6 +328,8 @@ public class RecordField {
          * comes from the value itself where its shape is certain (an email, an IP, a URL, an international
          * phone number), else from the answer stored for the source's column, else text. A value of any kind
          * is returned.
+         *
+         * <p>Each kind's description says what it holds and the form value takes.
          */
         public Builder kind(@Nullable RecordKind kind) {
             this.kind = kind;
@@ -333,7 +341,7 @@ public class RecordField {
          * dates, with the roles joined and born. A platform account's field and a breach row's column with the
          * same meaning carry the same kind and role. A linked_account field is named by its network.
          *
-         * <p>Absent for a field only its source returns.
+         * <p>Absent for a field only its source returns. Each role's description names the kinds its values have.
          */
         public Builder role(@Nullable RecordRole role) {
             this.role = role;

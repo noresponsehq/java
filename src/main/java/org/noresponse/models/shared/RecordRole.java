@@ -22,7 +22,7 @@ import java.util.Optional;
  * dates, with the roles joined and born. A platform account's field and a breach row's column with the
  * same meaning carry the same kind and role. A linked_account field is named by its network.
  *
- * <p>Absent for a field only its source returns.
+ * <p>Absent for a field only its source returns. Each role's description names the kinds its values have.
  */
 public class RecordRole {
 

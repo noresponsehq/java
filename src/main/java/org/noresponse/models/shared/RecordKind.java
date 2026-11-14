@@ -22,6 +22,8 @@ import java.util.Optional;
  * comes from the value itself where its shape is certain (an email, an IP, a URL, an international
  * phone number), else from the answer stored for the source's column, else text. A value of any kind
  * is returned.
+ *
+ * <p>Each kind's description says what it holds and the form value takes.
  */
 public class RecordKind {
 
