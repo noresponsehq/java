@@ -32,46 +32,62 @@ public class RecordField {
     private String original;
 
     /**
-     * What sort of value the field holds. Absent until the field's kind is known.
+     * What sort of value a field holds, which decides how it is cleaned, compared and searched again. It
+     * comes from the value itself where its shape is certain (an email, an IP, a URL, an international
+     * phone number), else from the answer stored for the source's column, else text. A value of any kind
+     * is returned.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("kind")
-    private String kind;
+    private RecordKind kind;
 
     /**
-     * Which common field it is, where many sources share it, such as handle, display_name, account_id,
-     * profile_link, picture, bio, website, linked_account (named by its network), account_status, joined,
-     * last_updated, organisation, location, followers, following or posts. Absent for a field only this
-     * source returns.
+     * Which common field a value is, where many sources share it: a join date and a birth date are both
+     * dates, with the roles joined and born. A platform account's field and a breach row's column with the
+     * same meaning carry the same kind and role. A linked_account field is named by its network.
+     *
+     * <p>Absent for a field only its source returns.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("role")
-    private String role;
+    private RecordRole role;
 
     /**
-     * The cleaned value. Absent when it cannot be cleaned, or until the field's kind is known.
+     * The value cleaned to its kind's one form: an email in lower case, a phone number in international
+     * form when its country is known, a date in ISO form, a country as its two-letter code, a flag as true
+     * or false. Absent when the value cannot be cleaned as its kind; original still holds it.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("value")
     private String value;
 
+    /**
+     * What the value shows of itself beyond its kind: the likely algorithm of a hash, the likely coin of a
+     * crypto address or the currency of an amount.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("detail")
+    private String detail;
+
     @JsonCreator
     public RecordField(
             @JsonProperty("field") @Nonnull String field,
             @JsonProperty("original") @Nonnull String original,
-            @JsonProperty("kind") @Nullable String kind,
-            @JsonProperty("role") @Nullable String role,
-            @JsonProperty("value") @Nullable String value) {
+            @JsonProperty("kind") @Nullable RecordKind kind,
+            @JsonProperty("role") @Nullable RecordRole role,
+            @JsonProperty("value") @Nullable String value,
+            @JsonProperty("detail") @Nullable String detail) {
         this.field = Optional.ofNullable(field).orElseThrow(() -> new IllegalArgumentException("field cannot be null"));
         this.original = Optional.ofNullable(original)
                 .orElseThrow(() -> new IllegalArgumentException("original cannot be null"));
         this.kind = kind;
         this.role = role;
         this.value = value;
+        this.detail = detail;
     }
 
     public RecordField(@Nonnull String field, @Nonnull String original) {
-        this(field, original, null, null, null);
+        this(field, original, null, null, null, null);
     }
 
     /**
@@ -91,27 +107,41 @@ public class RecordField {
     }
 
     /**
-     * What sort of value the field holds. Absent until the field's kind is known.
+     * What sort of value a field holds, which decides how it is cleaned, compared and searched again. It
+     * comes from the value itself where its shape is certain (an email, an IP, a URL, an international
+     * phone number), else from the answer stored for the source's column, else text. A value of any kind
+     * is returned.
      */
-    public Optional<String> kind() {
+    public Optional<RecordKind> kind() {
         return Optional.ofNullable(this.kind);
     }
 
     /**
-     * Which common field it is, where many sources share it, such as handle, display_name, account_id,
-     * profile_link, picture, bio, website, linked_account (named by its network), account_status, joined,
-     * last_updated, organisation, location, followers, following or posts. Absent for a field only this
-     * source returns.
+     * Which common field a value is, where many sources share it: a join date and a birth date are both
+     * dates, with the roles joined and born. A platform account's field and a breach row's column with the
+     * same meaning carry the same kind and role. A linked_account field is named by its network.
+     *
+     * <p>Absent for a field only its source returns.
      */
-    public Optional<String> role() {
+    public Optional<RecordRole> role() {
         return Optional.ofNullable(this.role);
     }
 
     /**
-     * The cleaned value. Absent when it cannot be cleaned, or until the field's kind is known.
+     * The value cleaned to its kind's one form: an email in lower case, a phone number in international
+     * form when its country is known, a date in ISO form, a country as its two-letter code, a flag as true
+     * or false. Absent when the value cannot be cleaned as its kind; original still holds it.
      */
     public Optional<String> value() {
         return Optional.ofNullable(this.value);
+    }
+
+    /**
+     * What the value shows of itself beyond its kind: the likely algorithm of a hash, the likely coin of a
+     * crypto address or the currency of an amount.
+     */
+    public Optional<String> detail() {
+        return Optional.ofNullable(this.detail);
     }
 
     public static Builder builder() {
@@ -137,29 +167,44 @@ public class RecordField {
     }
 
     /**
-     * What sort of value the field holds. Absent until the field's kind is known.
+     * What sort of value a field holds, which decides how it is cleaned, compared and searched again. It
+     * comes from the value itself where its shape is certain (an email, an IP, a URL, an international
+     * phone number), else from the answer stored for the source's column, else text. A value of any kind
+     * is returned.
      */
-    public RecordField withKind(@Nullable String kind) {
+    public RecordField withKind(@Nullable RecordKind kind) {
         this.kind = kind;
         return this;
     }
 
     /**
-     * Which common field it is, where many sources share it, such as handle, display_name, account_id,
-     * profile_link, picture, bio, website, linked_account (named by its network), account_status, joined,
-     * last_updated, organisation, location, followers, following or posts. Absent for a field only this
-     * source returns.
+     * Which common field a value is, where many sources share it: a join date and a birth date are both
+     * dates, with the roles joined and born. A platform account's field and a breach row's column with the
+     * same meaning carry the same kind and role. A linked_account field is named by its network.
+     *
+     * <p>Absent for a field only its source returns.
      */
-    public RecordField withRole(@Nullable String role) {
+    public RecordField withRole(@Nullable RecordRole role) {
         this.role = role;
         return this;
     }
 
     /**
-     * The cleaned value. Absent when it cannot be cleaned, or until the field's kind is known.
+     * The value cleaned to its kind's one form: an email in lower case, a phone number in international
+     * form when its country is known, a date in ISO form, a country as its two-letter code, a flag as true
+     * or false. Absent when the value cannot be cleaned as its kind; original still holds it.
      */
     public RecordField withValue(@Nullable String value) {
         this.value = value;
+        return this;
+    }
+
+    /**
+     * What the value shows of itself beyond its kind: the likely algorithm of a hash, the likely coin of a
+     * crypto address or the currency of an amount.
+     */
+    public RecordField withDetail(@Nullable String detail) {
+        this.detail = detail;
         return this;
     }
 
@@ -176,18 +221,31 @@ public class RecordField {
                 && Utils.enhancedDeepEquals(this.original, other.original)
                 && Utils.enhancedDeepEquals(this.kind, other.kind)
                 && Utils.enhancedDeepEquals(this.role, other.role)
-                && Utils.enhancedDeepEquals(this.value, other.value);
+                && Utils.enhancedDeepEquals(this.value, other.value)
+                && Utils.enhancedDeepEquals(this.detail, other.detail);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(field, original, kind, role, value);
+        return Utils.enhancedHash(field, original, kind, role, value, detail);
     }
 
     @Override
     public String toString() {
         return Utils.toString(
-                RecordField.class, "field", field, "original", original, "kind", kind, "role", role, "value", value);
+                RecordField.class,
+                "field",
+                field,
+                "original",
+                original,
+                "kind",
+                kind,
+                "role",
+                role,
+                "value",
+                value,
+                "detail",
+                detail);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -197,11 +255,13 @@ public class RecordField {
 
         private String original;
 
-        private String kind;
+        private RecordKind kind;
 
-        private String role;
+        private RecordRole role;
 
         private String value;
+
+        private String detail;
 
         private Builder() {
             // force use of static builder() method
@@ -226,34 +286,49 @@ public class RecordField {
         }
 
         /**
-         * What sort of value the field holds. Absent until the field's kind is known.
+         * What sort of value a field holds, which decides how it is cleaned, compared and searched again. It
+         * comes from the value itself where its shape is certain (an email, an IP, a URL, an international
+         * phone number), else from the answer stored for the source's column, else text. A value of any kind
+         * is returned.
          */
-        public Builder kind(@Nullable String kind) {
+        public Builder kind(@Nullable RecordKind kind) {
             this.kind = kind;
             return this;
         }
 
         /**
-         * Which common field it is, where many sources share it, such as handle, display_name, account_id,
-         * profile_link, picture, bio, website, linked_account (named by its network), account_status, joined,
-         * last_updated, organisation, location, followers, following or posts. Absent for a field only this
-         * source returns.
+         * Which common field a value is, where many sources share it: a join date and a birth date are both
+         * dates, with the roles joined and born. A platform account's field and a breach row's column with the
+         * same meaning carry the same kind and role. A linked_account field is named by its network.
+         *
+         * <p>Absent for a field only its source returns.
          */
-        public Builder role(@Nullable String role) {
+        public Builder role(@Nullable RecordRole role) {
             this.role = role;
             return this;
         }
 
         /**
-         * The cleaned value. Absent when it cannot be cleaned, or until the field's kind is known.
+         * The value cleaned to its kind's one form: an email in lower case, a phone number in international
+         * form when its country is known, a date in ISO form, a country as its two-letter code, a flag as true
+         * or false. Absent when the value cannot be cleaned as its kind; original still holds it.
          */
         public Builder value(@Nullable String value) {
             this.value = value;
             return this;
         }
 
+        /**
+         * What the value shows of itself beyond its kind: the likely algorithm of a hash, the likely coin of a
+         * crypto address or the currency of an amount.
+         */
+        public Builder detail(@Nullable String detail) {
+            this.detail = detail;
+            return this;
+        }
+
         public RecordField build() {
-            return new RecordField(field, original, kind, role, value);
+            return new RecordField(field, original, kind, role, value, detail);
         }
     }
 }
