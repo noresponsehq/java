@@ -57,9 +57,10 @@ public class Invite {
     private String externalUserId;
 
     /**
-     * The stable member id that issued this invite, or the authenticated live API key prefix for
-     * members_manage automation. Reissuing preserves the original creator; the audit event names the
-     * reissuing actor.
+     * The stable member id that issued this invite, the authenticated live API key prefix for
+     * members_manage automation, or, for an invite NoResponse issued for the workspace, NoResponse's own
+     * id (adm_ or nrc_). Reissuing preserves the original creator; the audit event names the reissuing
+     * actor.
      */
     @JsonProperty("created_by")
     private String createdBy;
@@ -182,9 +183,10 @@ public class Invite {
     }
 
     /**
-     * The stable member id that issued this invite, or the authenticated live API key prefix for
-     * members_manage automation. Reissuing preserves the original creator; the audit event names the
-     * reissuing actor.
+     * The stable member id that issued this invite, the authenticated live API key prefix for
+     * members_manage automation, or, for an invite NoResponse issued for the workspace, NoResponse's own
+     * id (adm_ or nrc_). Reissuing preserves the original creator; the audit event names the reissuing
+     * actor.
      */
     public String createdBy() {
         return this.createdBy;
@@ -277,9 +279,10 @@ public class Invite {
     }
 
     /**
-     * The stable member id that issued this invite, or the authenticated live API key prefix for
-     * members_manage automation. Reissuing preserves the original creator; the audit event names the
-     * reissuing actor.
+     * The stable member id that issued this invite, the authenticated live API key prefix for
+     * members_manage automation, or, for an invite NoResponse issued for the workspace, NoResponse's own
+     * id (adm_ or nrc_). Reissuing preserves the original creator; the audit event names the reissuing
+     * actor.
      */
     public Invite withCreatedBy(@Nonnull String createdBy) {
         this.createdBy = Utils.checkNotNull(createdBy, "createdBy");
@@ -476,9 +479,10 @@ public class Invite {
         }
 
         /**
-         * The stable member id that issued this invite, or the authenticated live API key prefix for
-         * members_manage automation. Reissuing preserves the original creator; the audit event names the
-         * reissuing actor.
+         * The stable member id that issued this invite, the authenticated live API key prefix for
+         * members_manage automation, or, for an invite NoResponse issued for the workspace, NoResponse's own
+         * id (adm_ or nrc_). Reissuing preserves the original creator; the audit event names the reissuing
+         * actor.
          */
         public Builder createdBy(@Nonnull String createdBy) {
             this.createdBy = Utils.checkNotNull(createdBy, "createdBy");
