@@ -15,7 +15,7 @@ import org.noresponse.utils.Utils;
 /**
  * Principal
  *
- * <p>A person the event protects.
+ * <p>A person the group protects.
  */
 public class Principal {
     /**

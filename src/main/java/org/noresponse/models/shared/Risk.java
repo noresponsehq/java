@@ -106,9 +106,9 @@ public class Risk {
     private List<RiskReason> reasons;
 
     /**
-     * A few typed facts per identifier: an assessment's risk.summary, and an event screening attendee's
-     * lookup summary. Every fact is optional: absent means the evidence did not answer and makes no claim,
-     * while false or 0 is a definite answer.
+     * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
+     * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
+     * false or 0 is a definite answer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("summary")
@@ -275,9 +275,9 @@ public class Risk {
     }
 
     /**
-     * A few typed facts per identifier: an assessment's risk.summary, and an event screening attendee's
-     * lookup summary. Every fact is optional: absent means the evidence did not answer and makes no claim,
-     * while false or 0 is a definite answer.
+     * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
+     * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
+     * false or 0 is a definite answer.
      */
     public Optional<RiskSummary> summary() {
         return Optional.ofNullable(this.summary);
@@ -392,9 +392,9 @@ public class Risk {
     }
 
     /**
-     * A few typed facts per identifier: an assessment's risk.summary, and an event screening attendee's
-     * lookup summary. Every fact is optional: absent means the evidence did not answer and makes no claim,
-     * while false or 0 is a definite answer.
+     * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
+     * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
+     * false or 0 is a definite answer.
      */
     public Risk withSummary(@Nullable RiskSummary summary) {
         this.summary = summary;
@@ -619,9 +619,9 @@ public class Risk {
         }
 
         /**
-         * A few typed facts per identifier: an assessment's risk.summary, and an event screening attendee's
-         * lookup summary. Every fact is optional: absent means the evidence did not answer and makes no claim,
-         * while false or 0 is a definite answer.
+         * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
+         * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
+         * false or 0 is a definite answer.
          */
         public Builder summary(@Nullable RiskSummary summary) {
             this.summary = summary;

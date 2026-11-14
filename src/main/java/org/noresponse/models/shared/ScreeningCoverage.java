@@ -31,8 +31,8 @@ public class ScreeningCoverage {
     private long itemsRead;
 
     /**
-     * Items read that the analyser could not analyse. Above zero, the attendee is partial: a finding may
-     * be missing from them.
+     * Items read that the analyser could not analyse. Above zero, the person is partial: a finding may be
+     * missing from them.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("items_not_analysed")
@@ -63,9 +63,9 @@ public class ScreeningCoverage {
     private List<ScreeningPlatformCoverage> platforms;
 
     /**
-     * Requested platforms where the attendee gave the screening nothing to look up, such as no handle for
-     * a platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is
-     * not in platforms, is not none_found and does not make the attendee partial.
+     * Requested platforms where the person gave the screening nothing to look up, such as no handle for a
+     * platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is not
+     * in platforms, is not none_found and does not make the person partial.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("not_searched")
@@ -115,8 +115,8 @@ public class ScreeningCoverage {
     }
 
     /**
-     * Items read that the analyser could not analyse. Above zero, the attendee is partial: a finding may
-     * be missing from them.
+     * Items read that the analyser could not analyse. Above zero, the person is partial: a finding may be
+     * missing from them.
      */
     public Optional<Long> itemsNotAnalysed() {
         return Optional.ofNullable(this.itemsNotAnalysed);
@@ -148,9 +148,9 @@ public class ScreeningCoverage {
     }
 
     /**
-     * Requested platforms where the attendee gave the screening nothing to look up, such as no handle for
-     * a platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is
-     * not in platforms, is not none_found and does not make the attendee partial.
+     * Requested platforms where the person gave the screening nothing to look up, such as no handle for a
+     * platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is not
+     * in platforms, is not none_found and does not make the person partial.
      */
     public Optional<List<HandlePlatform>> notSearched() {
         return Optional.ofNullable(this.notSearched);
@@ -176,8 +176,8 @@ public class ScreeningCoverage {
     }
 
     /**
-     * Items read that the analyser could not analyse. Above zero, the attendee is partial: a finding may
-     * be missing from them.
+     * Items read that the analyser could not analyse. Above zero, the person is partial: a finding may be
+     * missing from them.
      */
     public ScreeningCoverage withItemsNotAnalysed(@Nullable Long itemsNotAnalysed) {
         this.itemsNotAnalysed = itemsNotAnalysed;
@@ -214,9 +214,9 @@ public class ScreeningCoverage {
     }
 
     /**
-     * Requested platforms where the attendee gave the screening nothing to look up, such as no handle for
-     * a platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is
-     * not in platforms, is not none_found and does not make the attendee partial.
+     * Requested platforms where the person gave the screening nothing to look up, such as no handle for a
+     * platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is not
+     * in platforms, is not none_found and does not make the person partial.
      */
     public ScreeningCoverage withNotSearched(@Nullable List<HandlePlatform> notSearched) {
         this.notSearched = notSearched;
@@ -322,8 +322,8 @@ public class ScreeningCoverage {
         }
 
         /**
-         * Items read that the analyser could not analyse. Above zero, the attendee is partial: a finding may
-         * be missing from them.
+         * Items read that the analyser could not analyse. Above zero, the person is partial: a finding may be
+         * missing from them.
          */
         public Builder itemsNotAnalysed(@Nullable Long itemsNotAnalysed) {
             this.itemsNotAnalysed = itemsNotAnalysed;
@@ -360,9 +360,9 @@ public class ScreeningCoverage {
         }
 
         /**
-         * Requested platforms where the attendee gave the screening nothing to look up, such as no handle for
-         * a platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is
-         * not in platforms, is not none_found and does not make the attendee partial.
+         * Requested platforms where the person gave the screening nothing to look up, such as no handle for a
+         * platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is not
+         * in platforms, is not none_found and does not make the person partial.
          */
         public Builder notSearched(@Nullable List<HandlePlatform> notSearched) {
             this.notSearched = notSearched;

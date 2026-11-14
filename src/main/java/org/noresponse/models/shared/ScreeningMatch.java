@@ -12,12 +12,12 @@ import org.noresponse.utils.Utils;
 /**
  * ScreeningMatch
  *
- * <p>How a profile was matched to the attendee: the state its evidence earns, and the evidence.
+ * <p>How a profile was matched to the person: the state its evidence earns, and the evidence.
  */
 public class ScreeningMatch {
     /**
-     * How sure the screening is that a profile is the attendee's, from its evidence: confirmed is a handle
-     * on the attendee row, or two or more hard identifiers (email, phone, a supplied handle, or a fact an
+     * How sure the screening is that a profile is the person's, from its evidence: confirmed is a handle
+     * on the person row, or two or more hard identifiers (email, phone, a supplied handle, or a fact an
      * existing source returned); probable is one identifier beyond the name; possible is the name alone.
      */
     @JsonProperty("state")
@@ -36,8 +36,8 @@ public class ScreeningMatch {
     }
 
     /**
-     * How sure the screening is that a profile is the attendee's, from its evidence: confirmed is a handle
-     * on the attendee row, or two or more hard identifiers (email, phone, a supplied handle, or a fact an
+     * How sure the screening is that a profile is the person's, from its evidence: confirmed is a handle
+     * on the person row, or two or more hard identifiers (email, phone, a supplied handle, or a fact an
      * existing source returned); probable is one identifier beyond the name; possible is the name alone.
      */
     public ProfileMatchState state() {
@@ -53,8 +53,8 @@ public class ScreeningMatch {
     }
 
     /**
-     * How sure the screening is that a profile is the attendee's, from its evidence: confirmed is a handle
-     * on the attendee row, or two or more hard identifiers (email, phone, a supplied handle, or a fact an
+     * How sure the screening is that a profile is the person's, from its evidence: confirmed is a handle
+     * on the person row, or two or more hard identifiers (email, phone, a supplied handle, or a fact an
      * existing source returned); probable is one identifier beyond the name; possible is the name alone.
      */
     public ScreeningMatch withState(@Nonnull ProfileMatchState state) {
@@ -102,8 +102,8 @@ public class ScreeningMatch {
         }
 
         /**
-         * How sure the screening is that a profile is the attendee's, from its evidence: confirmed is a handle
-         * on the attendee row, or two or more hard identifiers (email, phone, a supplied handle, or a fact an
+         * How sure the screening is that a profile is the person's, from its evidence: confirmed is a handle
+         * on the person row, or two or more hard identifiers (email, phone, a supplied handle, or a fact an
          * existing source returned); probable is one identifier beyond the name; possible is the name alone.
          */
         public Builder state(@Nonnull ProfileMatchState state) {

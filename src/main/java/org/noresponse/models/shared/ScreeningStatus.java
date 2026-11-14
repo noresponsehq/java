@@ -18,8 +18,8 @@ import java.util.Optional;
 /**
  * ScreeningStatus
  *
- * <p>partial finished with some attendees or platforms not covered; attendees_failed and
- * attendees_partial count them.
+ * <p>partial finished with some people or platforms not covered; people_failed and people_partial count
+ * them.
  */
 public class ScreeningStatus {
 

@@ -13,9 +13,9 @@ import org.noresponse.utils.Utils;
 /**
  * RiskSummary
  *
- * <p>A few typed facts per identifier: an assessment's risk.summary, and an event screening attendee's
- * lookup summary. Every fact is optional: absent means the evidence did not answer and makes no claim,
- * while false or 0 is a definite answer.
+ * <p>A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
+ * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
+ * false or 0 is a definite answer.
  */
 public class RiskSummary {
 

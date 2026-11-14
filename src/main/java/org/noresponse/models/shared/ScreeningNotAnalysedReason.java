@@ -22,7 +22,7 @@ import java.util.Optional;
  * the image could not be fetched from the platform.
  *
  * <p>image_unsupported: not a JPEG, PNG, GIF or WebP image, or too large to send. image_limit: past the
- * most images one attendee's analysis reads. refused: the model declined to read it.
+ * most images one person's analysis reads. refused: the model declined to read it.
  *
  * <p>unfinished: the model cut its batch short or answered outside the schema, or the request was
  * rejected. unverified: a finding cited it with words it does not contain or an image it did not

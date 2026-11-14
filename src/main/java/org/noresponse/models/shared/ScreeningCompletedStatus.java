@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * ScreeningCompletedStatus
  *
- * <p>completed reached every attendee; partial left some not fully covered (partial_coverage); failed
+ * <p>completed reached every person; partial left some not fully covered (partial_coverage); failed
  * covered nobody.
  */
 public enum ScreeningCompletedStatus {

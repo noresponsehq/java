@@ -23,8 +23,8 @@ public class UsageCount {
      * assessments: assessments admitted. webhook_deliveries: events sent to endpoints, one per event per
      * endpoint. key_usage_events: key-usage events accepted.
      *
-     * <p>screenings: attendees a screening recorded a final result for, one per attendee per screening; a
-     * failed attendee counts only when its lookups were kept.
+     * <p>screenings: people a screening recorded a final result for, one per person per screening; a failed
+     * person counts only when its lookups were kept.
      */
     @JsonProperty("metric")
     private Metric metric;
@@ -81,8 +81,8 @@ public class UsageCount {
      * assessments: assessments admitted. webhook_deliveries: events sent to endpoints, one per event per
      * endpoint. key_usage_events: key-usage events accepted.
      *
-     * <p>screenings: attendees a screening recorded a final result for, one per attendee per screening; a
-     * failed attendee counts only when its lookups were kept.
+     * <p>screenings: people a screening recorded a final result for, one per person per screening; a failed
+     * person counts only when its lookups were kept.
      */
     public Metric metric() {
         return this.metric;
@@ -124,8 +124,8 @@ public class UsageCount {
      * assessments: assessments admitted. webhook_deliveries: events sent to endpoints, one per event per
      * endpoint. key_usage_events: key-usage events accepted.
      *
-     * <p>screenings: attendees a screening recorded a final result for, one per attendee per screening; a
-     * failed attendee counts only when its lookups were kept.
+     * <p>screenings: people a screening recorded a final result for, one per person per screening; a failed
+     * person counts only when its lookups were kept.
      */
     public UsageCount withMetric(@Nonnull Metric metric) {
         this.metric = Utils.checkNotNull(metric, "metric");
@@ -226,8 +226,8 @@ public class UsageCount {
          * assessments: assessments admitted. webhook_deliveries: events sent to endpoints, one per event per
          * endpoint. key_usage_events: key-usage events accepted.
          *
-         * <p>screenings: attendees a screening recorded a final result for, one per attendee per screening; a
-         * failed attendee counts only when its lookups were kept.
+         * <p>screenings: people a screening recorded a final result for, one per person per screening; a failed
+         * person counts only when its lookups were kept.
          */
         public Builder metric(@Nonnull Metric metric) {
             this.metric = Utils.checkNotNull(metric, "metric");

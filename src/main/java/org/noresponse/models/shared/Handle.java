@@ -11,7 +11,7 @@ import org.noresponse.utils.Utils;
 /**
  * Handle
  *
- * <p>An account the attendee is known to hold.
+ * <p>An account the person is known to hold.
  */
 public class Handle {
     /**

@@ -22,15 +22,15 @@ public class Screening {
     @JsonProperty("id")
     private String id;
 
-    @JsonProperty("event_id")
-    private String eventId;
+    @JsonProperty("group_id")
+    private String groupId;
 
     @JsonProperty("environment")
     private AuditSettingsEnvironment environment;
 
     /**
-     * partial finished with some attendees or platforms not covered; attendees_failed and
-     * attendees_partial count them.
+     * partial finished with some people or platforms not covered; people_failed and people_partial count
+     * them.
      */
     @JsonProperty("status")
     private ScreeningStatus status;
@@ -62,40 +62,40 @@ public class Screening {
     private String expiresAt;
 
     /**
-     * Attendees selected when the screening started.
+     * People selected when the screening started.
      */
-    @JsonProperty("attendees_total")
-    private long attendeesTotal;
+    @JsonProperty("people_total")
+    private long peopleTotal;
 
     /**
-     * Attendees screened so far, failed ones included.
+     * People screened so far, failed ones included.
      */
-    @JsonProperty("attendees_done")
-    private long attendeesDone;
+    @JsonProperty("people_done")
+    private long peopleDone;
 
-    @JsonProperty("attendees_flagged")
-    private long attendeesFlagged;
+    @JsonProperty("people_flagged")
+    private long peopleFlagged;
 
-    @JsonProperty("attendees_failed")
-    private long attendeesFailed;
+    @JsonProperty("people_failed")
+    private long peopleFailed;
 
     /**
-     * Attendees screened with some requested platform not covered; their coverage names which.
+     * People screened with some requested platform not covered; their coverage names which.
      */
-    @JsonProperty("attendees_partial")
-    private long attendeesPartial;
+    @JsonProperty("people_partial")
+    private long peoplePartial;
 
     /**
-     * What the screening was estimated to cost when it started, in minor units of USD (cents): its
-     * attendees at its depth and platforms. Until the screening finishes, what it has not yet spent counts
-     * against the environment's screening_daily_cap.
+     * What the screening was estimated to cost when it started, in minor units of USD (cents): its people
+     * at its depth and platforms. Until the screening finishes, what it has not yet spent counts against
+     * the environment's screening_daily_cap.
      */
     @JsonProperty("estimated_spend")
     private long estimatedSpend;
 
     /**
-     * What the attendees it has screened recorded, in minor units of USD. Each counts toward the UTC day
-     * it was recorded on; a failed attendee records nothing.
+     * What the people it has screened recorded, in minor units of USD. Each counts toward the UTC day it
+     * was recorded on; a failed person records nothing.
      */
     @JsonProperty("spent")
     private long spent;
@@ -116,7 +116,7 @@ public class Screening {
     @JsonCreator
     public Screening(
             @JsonProperty("id") @Nonnull String id,
-            @JsonProperty("event_id") @Nonnull String eventId,
+            @JsonProperty("group_id") @Nonnull String groupId,
             @JsonProperty("environment") @Nonnull AuditSettingsEnvironment environment,
             @JsonProperty("status") @Nonnull ScreeningStatus status,
             @JsonProperty("depth") @Nonnull ScreeningDepth depth,
@@ -126,18 +126,18 @@ public class Screening {
             @JsonProperty("started_at") @Nullable String startedAt,
             @JsonProperty("finished_at") @Nullable String finishedAt,
             @JsonProperty("expires_at") @Nonnull String expiresAt,
-            @JsonProperty("attendees_total") long attendeesTotal,
-            @JsonProperty("attendees_done") long attendeesDone,
-            @JsonProperty("attendees_flagged") long attendeesFlagged,
-            @JsonProperty("attendees_failed") long attendeesFailed,
-            @JsonProperty("attendees_partial") long attendeesPartial,
+            @JsonProperty("people_total") long peopleTotal,
+            @JsonProperty("people_done") long peopleDone,
+            @JsonProperty("people_flagged") long peopleFlagged,
+            @JsonProperty("people_failed") long peopleFailed,
+            @JsonProperty("people_partial") long peoplePartial,
             @JsonProperty("estimated_spend") long estimatedSpend,
             @JsonProperty("spent") long spent,
             @JsonProperty("spend") @Nonnull ScreeningSpend spend,
             @JsonProperty("error_code") @Nullable String errorCode) {
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
-        this.eventId =
-                Optional.ofNullable(eventId).orElseThrow(() -> new IllegalArgumentException("eventId cannot be null"));
+        this.groupId =
+                Optional.ofNullable(groupId).orElseThrow(() -> new IllegalArgumentException("groupId cannot be null"));
         this.environment = Optional.ofNullable(environment)
                 .orElseThrow(() -> new IllegalArgumentException("environment cannot be null"));
         this.status =
@@ -153,11 +153,11 @@ public class Screening {
         this.finishedAt = finishedAt;
         this.expiresAt = Optional.ofNullable(expiresAt)
                 .orElseThrow(() -> new IllegalArgumentException("expiresAt cannot be null"));
-        this.attendeesTotal = attendeesTotal;
-        this.attendeesDone = attendeesDone;
-        this.attendeesFlagged = attendeesFlagged;
-        this.attendeesFailed = attendeesFailed;
-        this.attendeesPartial = attendeesPartial;
+        this.peopleTotal = peopleTotal;
+        this.peopleDone = peopleDone;
+        this.peopleFlagged = peopleFlagged;
+        this.peopleFailed = peopleFailed;
+        this.peoplePartial = peoplePartial;
         this.estimatedSpend = estimatedSpend;
         this.spent = spent;
         this.spend = Optional.ofNullable(spend).orElseThrow(() -> new IllegalArgumentException("spend cannot be null"));
@@ -166,7 +166,7 @@ public class Screening {
 
     public Screening(
             @Nonnull String id,
-            @Nonnull String eventId,
+            @Nonnull String groupId,
             @Nonnull AuditSettingsEnvironment environment,
             @Nonnull ScreeningStatus status,
             @Nonnull ScreeningDepth depth,
@@ -174,17 +174,17 @@ public class Screening {
             @Nonnull String requestedBy,
             @Nonnull String createdAt,
             @Nonnull String expiresAt,
-            long attendeesTotal,
-            long attendeesDone,
-            long attendeesFlagged,
-            long attendeesFailed,
-            long attendeesPartial,
+            long peopleTotal,
+            long peopleDone,
+            long peopleFlagged,
+            long peopleFailed,
+            long peoplePartial,
             long estimatedSpend,
             long spent,
             @Nonnull ScreeningSpend spend) {
         this(
                 id,
-                eventId,
+                groupId,
                 environment,
                 status,
                 depth,
@@ -194,11 +194,11 @@ public class Screening {
                 null,
                 null,
                 expiresAt,
-                attendeesTotal,
-                attendeesDone,
-                attendeesFlagged,
-                attendeesFailed,
-                attendeesPartial,
+                peopleTotal,
+                peopleDone,
+                peopleFlagged,
+                peopleFailed,
+                peoplePartial,
                 estimatedSpend,
                 spent,
                 spend,
@@ -209,8 +209,8 @@ public class Screening {
         return this.id;
     }
 
-    public String eventId() {
-        return this.eventId;
+    public String groupId() {
+        return this.groupId;
     }
 
     public AuditSettingsEnvironment environment() {
@@ -218,8 +218,8 @@ public class Screening {
     }
 
     /**
-     * partial finished with some attendees or platforms not covered; attendees_failed and
-     * attendees_partial count them.
+     * partial finished with some people or platforms not covered; people_failed and people_partial count
+     * them.
      */
     public ScreeningStatus status() {
         return this.status;
@@ -257,46 +257,46 @@ public class Screening {
     }
 
     /**
-     * Attendees selected when the screening started.
+     * People selected when the screening started.
      */
-    public long attendeesTotal() {
-        return this.attendeesTotal;
+    public long peopleTotal() {
+        return this.peopleTotal;
     }
 
     /**
-     * Attendees screened so far, failed ones included.
+     * People screened so far, failed ones included.
      */
-    public long attendeesDone() {
-        return this.attendeesDone;
+    public long peopleDone() {
+        return this.peopleDone;
     }
 
-    public long attendeesFlagged() {
-        return this.attendeesFlagged;
+    public long peopleFlagged() {
+        return this.peopleFlagged;
     }
 
-    public long attendeesFailed() {
-        return this.attendeesFailed;
+    public long peopleFailed() {
+        return this.peopleFailed;
     }
 
     /**
-     * Attendees screened with some requested platform not covered; their coverage names which.
+     * People screened with some requested platform not covered; their coverage names which.
      */
-    public long attendeesPartial() {
-        return this.attendeesPartial;
+    public long peoplePartial() {
+        return this.peoplePartial;
     }
 
     /**
-     * What the screening was estimated to cost when it started, in minor units of USD (cents): its
-     * attendees at its depth and platforms. Until the screening finishes, what it has not yet spent counts
-     * against the environment's screening_daily_cap.
+     * What the screening was estimated to cost when it started, in minor units of USD (cents): its people
+     * at its depth and platforms. Until the screening finishes, what it has not yet spent counts against
+     * the environment's screening_daily_cap.
      */
     public long estimatedSpend() {
         return this.estimatedSpend;
     }
 
     /**
-     * What the attendees it has screened recorded, in minor units of USD. Each counts toward the UTC day
-     * it was recorded on; a failed attendee records nothing.
+     * What the people it has screened recorded, in minor units of USD. Each counts toward the UTC day it
+     * was recorded on; a failed person records nothing.
      */
     public long spent() {
         return this.spent;
@@ -325,8 +325,8 @@ public class Screening {
         return this;
     }
 
-    public Screening withEventId(@Nonnull String eventId) {
-        this.eventId = Utils.checkNotNull(eventId, "eventId");
+    public Screening withGroupId(@Nonnull String groupId) {
+        this.groupId = Utils.checkNotNull(groupId, "groupId");
         return this;
     }
 
@@ -336,8 +336,8 @@ public class Screening {
     }
 
     /**
-     * partial finished with some attendees or platforms not covered; attendees_failed and
-     * attendees_partial count them.
+     * partial finished with some people or platforms not covered; people_failed and people_partial count
+     * them.
      */
     public Screening withStatus(@Nonnull ScreeningStatus status) {
         this.status = Utils.checkNotNull(status, "status");
@@ -383,43 +383,43 @@ public class Screening {
     }
 
     /**
-     * Attendees selected when the screening started.
+     * People selected when the screening started.
      */
-    public Screening withAttendeesTotal(long attendeesTotal) {
-        this.attendeesTotal = attendeesTotal;
+    public Screening withPeopleTotal(long peopleTotal) {
+        this.peopleTotal = peopleTotal;
         return this;
     }
 
     /**
-     * Attendees screened so far, failed ones included.
+     * People screened so far, failed ones included.
      */
-    public Screening withAttendeesDone(long attendeesDone) {
-        this.attendeesDone = attendeesDone;
+    public Screening withPeopleDone(long peopleDone) {
+        this.peopleDone = peopleDone;
         return this;
     }
 
-    public Screening withAttendeesFlagged(long attendeesFlagged) {
-        this.attendeesFlagged = attendeesFlagged;
+    public Screening withPeopleFlagged(long peopleFlagged) {
+        this.peopleFlagged = peopleFlagged;
         return this;
     }
 
-    public Screening withAttendeesFailed(long attendeesFailed) {
-        this.attendeesFailed = attendeesFailed;
+    public Screening withPeopleFailed(long peopleFailed) {
+        this.peopleFailed = peopleFailed;
         return this;
     }
 
     /**
-     * Attendees screened with some requested platform not covered; their coverage names which.
+     * People screened with some requested platform not covered; their coverage names which.
      */
-    public Screening withAttendeesPartial(long attendeesPartial) {
-        this.attendeesPartial = attendeesPartial;
+    public Screening withPeoplePartial(long peoplePartial) {
+        this.peoplePartial = peoplePartial;
         return this;
     }
 
     /**
-     * What the screening was estimated to cost when it started, in minor units of USD (cents): its
-     * attendees at its depth and platforms. Until the screening finishes, what it has not yet spent counts
-     * against the environment's screening_daily_cap.
+     * What the screening was estimated to cost when it started, in minor units of USD (cents): its people
+     * at its depth and platforms. Until the screening finishes, what it has not yet spent counts against
+     * the environment's screening_daily_cap.
      */
     public Screening withEstimatedSpend(long estimatedSpend) {
         this.estimatedSpend = estimatedSpend;
@@ -427,8 +427,8 @@ public class Screening {
     }
 
     /**
-     * What the attendees it has screened recorded, in minor units of USD. Each counts toward the UTC day
-     * it was recorded on; a failed attendee records nothing.
+     * What the people it has screened recorded, in minor units of USD. Each counts toward the UTC day it
+     * was recorded on; a failed person records nothing.
      */
     public Screening withSpent(long spent) {
         this.spent = spent;
@@ -461,7 +461,7 @@ public class Screening {
         }
         Screening other = (Screening) o;
         return Utils.enhancedDeepEquals(this.id, other.id)
-                && Utils.enhancedDeepEquals(this.eventId, other.eventId)
+                && Utils.enhancedDeepEquals(this.groupId, other.groupId)
                 && Utils.enhancedDeepEquals(this.environment, other.environment)
                 && Utils.enhancedDeepEquals(this.status, other.status)
                 && Utils.enhancedDeepEquals(this.depth, other.depth)
@@ -471,11 +471,11 @@ public class Screening {
                 && Utils.enhancedDeepEquals(this.startedAt, other.startedAt)
                 && Utils.enhancedDeepEquals(this.finishedAt, other.finishedAt)
                 && Utils.enhancedDeepEquals(this.expiresAt, other.expiresAt)
-                && Utils.enhancedDeepEquals(this.attendeesTotal, other.attendeesTotal)
-                && Utils.enhancedDeepEquals(this.attendeesDone, other.attendeesDone)
-                && Utils.enhancedDeepEquals(this.attendeesFlagged, other.attendeesFlagged)
-                && Utils.enhancedDeepEquals(this.attendeesFailed, other.attendeesFailed)
-                && Utils.enhancedDeepEquals(this.attendeesPartial, other.attendeesPartial)
+                && Utils.enhancedDeepEquals(this.peopleTotal, other.peopleTotal)
+                && Utils.enhancedDeepEquals(this.peopleDone, other.peopleDone)
+                && Utils.enhancedDeepEquals(this.peopleFlagged, other.peopleFlagged)
+                && Utils.enhancedDeepEquals(this.peopleFailed, other.peopleFailed)
+                && Utils.enhancedDeepEquals(this.peoplePartial, other.peoplePartial)
                 && Utils.enhancedDeepEquals(this.estimatedSpend, other.estimatedSpend)
                 && Utils.enhancedDeepEquals(this.spent, other.spent)
                 && Utils.enhancedDeepEquals(this.spend, other.spend)
@@ -486,7 +486,7 @@ public class Screening {
     public int hashCode() {
         return Utils.enhancedHash(
                 id,
-                eventId,
+                groupId,
                 environment,
                 status,
                 depth,
@@ -496,11 +496,11 @@ public class Screening {
                 startedAt,
                 finishedAt,
                 expiresAt,
-                attendeesTotal,
-                attendeesDone,
-                attendeesFlagged,
-                attendeesFailed,
-                attendeesPartial,
+                peopleTotal,
+                peopleDone,
+                peopleFlagged,
+                peopleFailed,
+                peoplePartial,
                 estimatedSpend,
                 spent,
                 spend,
@@ -513,8 +513,8 @@ public class Screening {
                 Screening.class,
                 "id",
                 id,
-                "eventId",
-                eventId,
+                "groupId",
+                groupId,
                 "environment",
                 environment,
                 "status",
@@ -533,16 +533,16 @@ public class Screening {
                 finishedAt,
                 "expiresAt",
                 expiresAt,
-                "attendeesTotal",
-                attendeesTotal,
-                "attendeesDone",
-                attendeesDone,
-                "attendeesFlagged",
-                attendeesFlagged,
-                "attendeesFailed",
-                attendeesFailed,
-                "attendeesPartial",
-                attendeesPartial,
+                "peopleTotal",
+                peopleTotal,
+                "peopleDone",
+                peopleDone,
+                "peopleFlagged",
+                peopleFlagged,
+                "peopleFailed",
+                peopleFailed,
+                "peoplePartial",
+                peoplePartial,
                 "estimatedSpend",
                 estimatedSpend,
                 "spent",
@@ -558,7 +558,7 @@ public class Screening {
 
         private String id;
 
-        private String eventId;
+        private String groupId;
 
         private AuditSettingsEnvironment environment;
 
@@ -578,15 +578,15 @@ public class Screening {
 
         private String expiresAt;
 
-        private long attendeesTotal;
+        private long peopleTotal;
 
-        private long attendeesDone;
+        private long peopleDone;
 
-        private long attendeesFlagged;
+        private long peopleFlagged;
 
-        private long attendeesFailed;
+        private long peopleFailed;
 
-        private long attendeesPartial;
+        private long peoplePartial;
 
         private long estimatedSpend;
 
@@ -605,8 +605,8 @@ public class Screening {
             return this;
         }
 
-        public Builder eventId(@Nonnull String eventId) {
-            this.eventId = Utils.checkNotNull(eventId, "eventId");
+        public Builder groupId(@Nonnull String groupId) {
+            this.groupId = Utils.checkNotNull(groupId, "groupId");
             return this;
         }
 
@@ -616,8 +616,8 @@ public class Screening {
         }
 
         /**
-         * partial finished with some attendees or platforms not covered; attendees_failed and
-         * attendees_partial count them.
+         * partial finished with some people or platforms not covered; people_failed and people_partial count
+         * them.
          */
         public Builder status(@Nonnull ScreeningStatus status) {
             this.status = Utils.checkNotNull(status, "status");
@@ -663,43 +663,43 @@ public class Screening {
         }
 
         /**
-         * Attendees selected when the screening started.
+         * People selected when the screening started.
          */
-        public Builder attendeesTotal(long attendeesTotal) {
-            this.attendeesTotal = attendeesTotal;
+        public Builder peopleTotal(long peopleTotal) {
+            this.peopleTotal = peopleTotal;
             return this;
         }
 
         /**
-         * Attendees screened so far, failed ones included.
+         * People screened so far, failed ones included.
          */
-        public Builder attendeesDone(long attendeesDone) {
-            this.attendeesDone = attendeesDone;
+        public Builder peopleDone(long peopleDone) {
+            this.peopleDone = peopleDone;
             return this;
         }
 
-        public Builder attendeesFlagged(long attendeesFlagged) {
-            this.attendeesFlagged = attendeesFlagged;
+        public Builder peopleFlagged(long peopleFlagged) {
+            this.peopleFlagged = peopleFlagged;
             return this;
         }
 
-        public Builder attendeesFailed(long attendeesFailed) {
-            this.attendeesFailed = attendeesFailed;
+        public Builder peopleFailed(long peopleFailed) {
+            this.peopleFailed = peopleFailed;
             return this;
         }
 
         /**
-         * Attendees screened with some requested platform not covered; their coverage names which.
+         * People screened with some requested platform not covered; their coverage names which.
          */
-        public Builder attendeesPartial(long attendeesPartial) {
-            this.attendeesPartial = attendeesPartial;
+        public Builder peoplePartial(long peoplePartial) {
+            this.peoplePartial = peoplePartial;
             return this;
         }
 
         /**
-         * What the screening was estimated to cost when it started, in minor units of USD (cents): its
-         * attendees at its depth and platforms. Until the screening finishes, what it has not yet spent counts
-         * against the environment's screening_daily_cap.
+         * What the screening was estimated to cost when it started, in minor units of USD (cents): its people
+         * at its depth and platforms. Until the screening finishes, what it has not yet spent counts against
+         * the environment's screening_daily_cap.
          */
         public Builder estimatedSpend(long estimatedSpend) {
             this.estimatedSpend = estimatedSpend;
@@ -707,8 +707,8 @@ public class Screening {
         }
 
         /**
-         * What the attendees it has screened recorded, in minor units of USD. Each counts toward the UTC day
-         * it was recorded on; a failed attendee records nothing.
+         * What the people it has screened recorded, in minor units of USD. Each counts toward the UTC day it
+         * was recorded on; a failed person records nothing.
          */
         public Builder spent(long spent) {
             this.spent = spent;
@@ -734,7 +734,7 @@ public class Screening {
         public Screening build() {
             return new Screening(
                     id,
-                    eventId,
+                    groupId,
                     environment,
                     status,
                     depth,
@@ -744,11 +744,11 @@ public class Screening {
                     startedAt,
                     finishedAt,
                     expiresAt,
-                    attendeesTotal,
-                    attendeesDone,
-                    attendeesFlagged,
-                    attendeesFailed,
-                    attendeesPartial,
+                    peopleTotal,
+                    peopleDone,
+                    peopleFlagged,
+                    peopleFailed,
+                    peoplePartial,
                     estimatedSpend,
                     spent,
                     spend,

@@ -33,4 +33,4 @@ KeyScope custom = KeyScope.of("custom_value");
 | `POLICY_PUBLISH` | policy_publish   |
 | `MEMBERS`        | members          |
 | `MEMBERS_MANAGE` | members_manage   |
-| `EVENTS`         | events           |
+| `GROUPS`         | groups           |

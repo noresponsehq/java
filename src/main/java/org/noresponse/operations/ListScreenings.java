@@ -114,7 +114,7 @@ public class ListScreenings {
             String url = Utils.generateURL(
                     klass,
                     this.baseUrl,
-                    "/v1/workspaces/{workspace_id}/events/{environment}/{event_id}/screenings",
+                    "/v1/workspaces/{workspace_id}/groups/{environment}/{group_id}/screenings",
                     request,
                     null);
             HTTPRequest req = new HTTPRequest(url, "GET");

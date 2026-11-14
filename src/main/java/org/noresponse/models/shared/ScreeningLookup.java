@@ -15,25 +15,25 @@ import org.noresponse.utils.Utils;
 /**
  * ScreeningLookup
  *
- * <p>What the signup check's lookups found for an attendee: account presence for the email, phone and
- * usernames (the attendee's handles), the phone lookup, the email domain's registration and the breach
+ * <p>What the signup check's lookups found for a person: account presence for the email, phone and
+ * usernames (the person's handles), the phone lookup, the email domain's registration and the breach
  * search. Context and coverage for the reviewer, not a finding: nothing here sets a band or a match
  * state.
  */
 public class ScreeningLookup {
     /**
      * Each lane each identifier was looked up in, identifiers in the order email, phone, username and
-     * lanes in the order accounts, phone, breach, domain. Every lane the attendee's identifiers are looked
+     * lanes in the order accounts, phone, breach, domain. Every lane the person's identifiers are looked
      * up in is listed: one that no source answered, or that no source could be asked in, is not_covered.
-     * Empty when the attendee has no email, phone or handle to look up.
+     * Empty when the person has no email, phone or handle to look up.
      */
     @JsonProperty("checks")
     private List<ScreeningLookupCheck> checks;
 
     /**
-     * A few typed facts per identifier: an assessment's risk.summary, and an event screening attendee's
-     * lookup summary. Every fact is optional: absent means the evidence did not answer and makes no claim,
-     * while false or 0 is a definite answer.
+     * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
+     * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
+     * false or 0 is a definite answer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("summary")
@@ -73,18 +73,18 @@ public class ScreeningLookup {
 
     /**
      * Each lane each identifier was looked up in, identifiers in the order email, phone, username and
-     * lanes in the order accounts, phone, breach, domain. Every lane the attendee's identifiers are looked
+     * lanes in the order accounts, phone, breach, domain. Every lane the person's identifiers are looked
      * up in is listed: one that no source answered, or that no source could be asked in, is not_covered.
-     * Empty when the attendee has no email, phone or handle to look up.
+     * Empty when the person has no email, phone or handle to look up.
      */
     public List<ScreeningLookupCheck> checks() {
         return this.checks;
     }
 
     /**
-     * A few typed facts per identifier: an assessment's risk.summary, and an event screening attendee's
-     * lookup summary. Every fact is optional: absent means the evidence did not answer and makes no claim,
-     * while false or 0 is a definite answer.
+     * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
+     * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
+     * false or 0 is a definite answer.
      */
     public Optional<RiskSummary> summary() {
         return Optional.ofNullable(this.summary);
@@ -111,9 +111,9 @@ public class ScreeningLookup {
 
     /**
      * Each lane each identifier was looked up in, identifiers in the order email, phone, username and
-     * lanes in the order accounts, phone, breach, domain. Every lane the attendee's identifiers are looked
+     * lanes in the order accounts, phone, breach, domain. Every lane the person's identifiers are looked
      * up in is listed: one that no source answered, or that no source could be asked in, is not_covered.
-     * Empty when the attendee has no email, phone or handle to look up.
+     * Empty when the person has no email, phone or handle to look up.
      */
     public ScreeningLookup withChecks(@Nonnull List<ScreeningLookupCheck> checks) {
         this.checks = Utils.checkNotNull(checks, "checks");
@@ -121,9 +121,9 @@ public class ScreeningLookup {
     }
 
     /**
-     * A few typed facts per identifier: an assessment's risk.summary, and an event screening attendee's
-     * lookup summary. Every fact is optional: absent means the evidence did not answer and makes no claim,
-     * while false or 0 is a definite answer.
+     * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
+     * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
+     * false or 0 is a definite answer.
      */
     public ScreeningLookup withSummary(@Nullable RiskSummary summary) {
         this.summary = summary;
@@ -190,9 +190,9 @@ public class ScreeningLookup {
 
         /**
          * Each lane each identifier was looked up in, identifiers in the order email, phone, username and
-         * lanes in the order accounts, phone, breach, domain. Every lane the attendee's identifiers are looked
+         * lanes in the order accounts, phone, breach, domain. Every lane the person's identifiers are looked
          * up in is listed: one that no source answered, or that no source could be asked in, is not_covered.
-         * Empty when the attendee has no email, phone or handle to look up.
+         * Empty when the person has no email, phone or handle to look up.
          */
         public Builder checks(@Nonnull List<ScreeningLookupCheck> checks) {
             this.checks = Utils.checkNotNull(checks, "checks");
@@ -200,9 +200,9 @@ public class ScreeningLookup {
         }
 
         /**
-         * A few typed facts per identifier: an assessment's risk.summary, and an event screening attendee's
-         * lookup summary. Every fact is optional: absent means the evidence did not answer and makes no claim,
-         * while false or 0 is a definite answer.
+         * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
+         * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
+         * false or 0 is a definite answer.
          */
         public Builder summary(@Nullable RiskSummary summary) {
             this.summary = summary;

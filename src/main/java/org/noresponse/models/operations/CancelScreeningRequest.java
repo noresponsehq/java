@@ -26,8 +26,8 @@ public class CancelScreeningRequest {
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=environment")
     private KeyEnvironment environment;
 
-    @NoResponseMetadata("pathParam:style=simple,explode=false,name=event_id")
-    private String eventId;
+    @NoResponseMetadata("pathParam:style=simple,explode=false,name=group_id")
+    private String groupId;
 
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=screening_id")
     private String screeningId;
@@ -39,15 +39,15 @@ public class CancelScreeningRequest {
     public CancelScreeningRequest(
             @Nonnull String workspaceId,
             @Nonnull KeyEnvironment environment,
-            @Nonnull String eventId,
+            @Nonnull String groupId,
             @Nonnull String screeningId,
             @Nonnull ScreeningCancelRequest body) {
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
         this.environment = Optional.ofNullable(environment)
                 .orElseThrow(() -> new IllegalArgumentException("environment cannot be null"));
-        this.eventId =
-                Optional.ofNullable(eventId).orElseThrow(() -> new IllegalArgumentException("eventId cannot be null"));
+        this.groupId =
+                Optional.ofNullable(groupId).orElseThrow(() -> new IllegalArgumentException("groupId cannot be null"));
         this.screeningId = Optional.ofNullable(screeningId)
                 .orElseThrow(() -> new IllegalArgumentException("screeningId cannot be null"));
         this.body = Optional.ofNullable(body).orElseThrow(() -> new IllegalArgumentException("body cannot be null"));
@@ -70,8 +70,8 @@ public class CancelScreeningRequest {
         return this.environment;
     }
 
-    public String eventId() {
-        return this.eventId;
+    public String groupId() {
+        return this.groupId;
     }
 
     public String screeningId() {
@@ -105,8 +105,8 @@ public class CancelScreeningRequest {
         return this;
     }
 
-    public CancelScreeningRequest withEventId(@Nonnull String eventId) {
-        this.eventId = Utils.checkNotNull(eventId, "eventId");
+    public CancelScreeningRequest withGroupId(@Nonnull String groupId) {
+        this.groupId = Utils.checkNotNull(groupId, "groupId");
         return this;
     }
 
@@ -131,14 +131,14 @@ public class CancelScreeningRequest {
         CancelScreeningRequest other = (CancelScreeningRequest) o;
         return Utils.enhancedDeepEquals(this.workspaceId, other.workspaceId)
                 && Utils.enhancedDeepEquals(this.environment, other.environment)
-                && Utils.enhancedDeepEquals(this.eventId, other.eventId)
+                && Utils.enhancedDeepEquals(this.groupId, other.groupId)
                 && Utils.enhancedDeepEquals(this.screeningId, other.screeningId)
                 && Utils.enhancedDeepEquals(this.body, other.body);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(workspaceId, environment, eventId, screeningId, body);
+        return Utils.enhancedHash(workspaceId, environment, groupId, screeningId, body);
     }
 
     @Override
@@ -149,8 +149,8 @@ public class CancelScreeningRequest {
                 workspaceId,
                 "environment",
                 environment,
-                "eventId",
-                eventId,
+                "groupId",
+                groupId,
                 "screeningId",
                 screeningId,
                 "body",
@@ -164,7 +164,7 @@ public class CancelScreeningRequest {
 
         private KeyEnvironment environment;
 
-        private String eventId;
+        private String groupId;
 
         private String screeningId;
 
@@ -193,8 +193,8 @@ public class CancelScreeningRequest {
             return this;
         }
 
-        public Builder eventId(@Nonnull String eventId) {
-            this.eventId = Utils.checkNotNull(eventId, "eventId");
+        public Builder groupId(@Nonnull String groupId) {
+            this.groupId = Utils.checkNotNull(groupId, "groupId");
             return this;
         }
 
@@ -209,7 +209,7 @@ public class CancelScreeningRequest {
         }
 
         public CancelScreeningRequest build() {
-            return new CancelScreeningRequest(workspaceId, environment, eventId, screeningId, body);
+            return new CancelScreeningRequest(workspaceId, environment, groupId, screeningId, body);
         }
     }
 }

@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v10.0.21'
+    implementation 'com.github.noresponsehq:java:v11.0.0'
 }
 ```
 
@@ -39,7 +39,7 @@ dependencies {
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v10.0.21</version>
+  <version>v11.0.0</version>
 </dependency>
 ```
 
@@ -95,7 +95,7 @@ Act on `account().get().risk().decision()`: `allow`, `step_up`, `review` or `blo
 | --- | --- |
 | Configure this client and explore its methods | [Java SDK guide](https://docs.noresponse.org/sdks/java) |
 | Act when an account's decision changes | [Late results](https://docs.noresponse.org/guides/late-results) |
-| Screen an event's attendees and record decisions | [Events and screenings](https://docs.noresponse.org/reference/events) |
+| Screen a group's people and record decisions | [Groups and screenings](https://docs.noresponse.org/reference/groups) |
 | Explore request and response fields | [API reference](https://docs.noresponse.org/api-reference) |
 
 <details>
@@ -238,11 +238,11 @@ try {
     } else if (event instanceof WebhookEndpointDisabledEvent) {
         // data().endpointId() failed for 72 hours: fix it, verify it again
     } else if (event instanceof ScreeningCompletedEvent) {
-        // screening.completed: counts by band, no footprint and partial coverage; it names no attendee
-    } else if (event instanceof AttendeeFlaggedEvent) {
-        // attendee.flagged: the attendee's highest band and match state, never what was posted
-    } else if (event instanceof AttendeeDecidedEvent) {
-        // attendee.decided: cleared, watch or escalated; keep the latest decidedAt per attendee
+        // screening.completed: counts by band, no footprint and partial coverage; it names no person
+    } else if (event instanceof PersonFlaggedEvent) {
+        // person.flagged: the person's highest band and match state, never what was posted
+    } else if (event instanceof PersonDecidedEvent) {
+        // person.decided: cleared, watch or escalated; keep the latest decidedAt per person
     } else if (event instanceof AccountRiskChangedEvent) {
         /* account.risk_changed, the one event to act on: a flow's decision changed, at
            data().account().riskVersion(). This verifier alone does not enforce it: use handleRiskChange (below) as this endpoint's receiver. */

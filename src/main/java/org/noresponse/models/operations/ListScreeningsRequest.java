@@ -29,8 +29,8 @@ public class ListScreeningsRequest {
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=environment")
     private KeyEnvironment environment;
 
-    @NoResponseMetadata("pathParam:style=simple,explode=false,name=event_id")
-    private String eventId;
+    @NoResponseMetadata("pathParam:style=simple,explode=false,name=group_id")
+    private String groupId;
 
     /**
      * At most this many items.
@@ -48,22 +48,22 @@ public class ListScreeningsRequest {
     public ListScreeningsRequest(
             @Nonnull String workspaceId,
             @Nonnull KeyEnvironment environment,
-            @Nonnull String eventId,
+            @Nonnull String groupId,
             @Nullable Long limit,
             @Nullable String before) {
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
         this.environment = Optional.ofNullable(environment)
                 .orElseThrow(() -> new IllegalArgumentException("environment cannot be null"));
-        this.eventId =
-                Optional.ofNullable(eventId).orElseThrow(() -> new IllegalArgumentException("eventId cannot be null"));
+        this.groupId =
+                Optional.ofNullable(groupId).orElseThrow(() -> new IllegalArgumentException("groupId cannot be null"));
         this.limit = Optional.ofNullable(limit).orElse(Builder._SINGLETON_VALUE_Limit.value());
         this.before = before;
     }
 
     public ListScreeningsRequest(
-            @Nonnull String workspaceId, @Nonnull KeyEnvironment environment, @Nonnull String eventId) {
-        this(workspaceId, environment, eventId, null, null);
+            @Nonnull String workspaceId, @Nonnull KeyEnvironment environment, @Nonnull String groupId) {
+        this(workspaceId, environment, groupId, null, null);
     }
 
     /**
@@ -83,8 +83,8 @@ public class ListScreeningsRequest {
         return this.environment;
     }
 
-    public String eventId() {
-        return this.eventId;
+    public String groupId() {
+        return this.groupId;
     }
 
     /**
@@ -124,8 +124,8 @@ public class ListScreeningsRequest {
         return this;
     }
 
-    public ListScreeningsRequest withEventId(@Nonnull String eventId) {
-        this.eventId = Utils.checkNotNull(eventId, "eventId");
+    public ListScreeningsRequest withGroupId(@Nonnull String groupId) {
+        this.groupId = Utils.checkNotNull(groupId, "groupId");
         return this;
     }
 
@@ -156,14 +156,14 @@ public class ListScreeningsRequest {
         ListScreeningsRequest other = (ListScreeningsRequest) o;
         return Utils.enhancedDeepEquals(this.workspaceId, other.workspaceId)
                 && Utils.enhancedDeepEquals(this.environment, other.environment)
-                && Utils.enhancedDeepEquals(this.eventId, other.eventId)
+                && Utils.enhancedDeepEquals(this.groupId, other.groupId)
                 && Utils.enhancedDeepEquals(this.limit, other.limit)
                 && Utils.enhancedDeepEquals(this.before, other.before);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(workspaceId, environment, eventId, limit, before);
+        return Utils.enhancedHash(workspaceId, environment, groupId, limit, before);
     }
 
     @Override
@@ -174,8 +174,8 @@ public class ListScreeningsRequest {
                 workspaceId,
                 "environment",
                 environment,
-                "eventId",
-                eventId,
+                "groupId",
+                groupId,
                 "limit",
                 limit,
                 "before",
@@ -189,7 +189,7 @@ public class ListScreeningsRequest {
 
         private KeyEnvironment environment;
 
-        private String eventId;
+        private String groupId;
 
         private Long limit;
 
@@ -218,8 +218,8 @@ public class ListScreeningsRequest {
             return this;
         }
 
-        public Builder eventId(@Nonnull String eventId) {
-            this.eventId = Utils.checkNotNull(eventId, "eventId");
+        public Builder groupId(@Nonnull String groupId) {
+            this.groupId = Utils.checkNotNull(groupId, "groupId");
             return this;
         }
 
@@ -240,7 +240,7 @@ public class ListScreeningsRequest {
         }
 
         public ListScreeningsRequest build() {
-            return new ListScreeningsRequest(workspaceId, environment, eventId, limit, before);
+            return new ListScreeningsRequest(workspaceId, environment, groupId, limit, before);
         }
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =

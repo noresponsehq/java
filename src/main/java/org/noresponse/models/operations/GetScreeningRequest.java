@@ -25,8 +25,8 @@ public class GetScreeningRequest {
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=environment")
     private KeyEnvironment environment;
 
-    @NoResponseMetadata("pathParam:style=simple,explode=false,name=event_id")
-    private String eventId;
+    @NoResponseMetadata("pathParam:style=simple,explode=false,name=group_id")
+    private String groupId;
 
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=screening_id")
     private String screeningId;
@@ -35,14 +35,14 @@ public class GetScreeningRequest {
     public GetScreeningRequest(
             @Nonnull String workspaceId,
             @Nonnull KeyEnvironment environment,
-            @Nonnull String eventId,
+            @Nonnull String groupId,
             @Nonnull String screeningId) {
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
         this.environment = Optional.ofNullable(environment)
                 .orElseThrow(() -> new IllegalArgumentException("environment cannot be null"));
-        this.eventId =
-                Optional.ofNullable(eventId).orElseThrow(() -> new IllegalArgumentException("eventId cannot be null"));
+        this.groupId =
+                Optional.ofNullable(groupId).orElseThrow(() -> new IllegalArgumentException("groupId cannot be null"));
         this.screeningId = Optional.ofNullable(screeningId)
                 .orElseThrow(() -> new IllegalArgumentException("screeningId cannot be null"));
     }
@@ -64,8 +64,8 @@ public class GetScreeningRequest {
         return this.environment;
     }
 
-    public String eventId() {
-        return this.eventId;
+    public String groupId() {
+        return this.groupId;
     }
 
     public String screeningId() {
@@ -95,8 +95,8 @@ public class GetScreeningRequest {
         return this;
     }
 
-    public GetScreeningRequest withEventId(@Nonnull String eventId) {
-        this.eventId = Utils.checkNotNull(eventId, "eventId");
+    public GetScreeningRequest withGroupId(@Nonnull String groupId) {
+        this.groupId = Utils.checkNotNull(groupId, "groupId");
         return this;
     }
 
@@ -116,13 +116,13 @@ public class GetScreeningRequest {
         GetScreeningRequest other = (GetScreeningRequest) o;
         return Utils.enhancedDeepEquals(this.workspaceId, other.workspaceId)
                 && Utils.enhancedDeepEquals(this.environment, other.environment)
-                && Utils.enhancedDeepEquals(this.eventId, other.eventId)
+                && Utils.enhancedDeepEquals(this.groupId, other.groupId)
                 && Utils.enhancedDeepEquals(this.screeningId, other.screeningId);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(workspaceId, environment, eventId, screeningId);
+        return Utils.enhancedHash(workspaceId, environment, groupId, screeningId);
     }
 
     @Override
@@ -133,8 +133,8 @@ public class GetScreeningRequest {
                 workspaceId,
                 "environment",
                 environment,
-                "eventId",
-                eventId,
+                "groupId",
+                groupId,
                 "screeningId",
                 screeningId);
     }
@@ -146,7 +146,7 @@ public class GetScreeningRequest {
 
         private KeyEnvironment environment;
 
-        private String eventId;
+        private String groupId;
 
         private String screeningId;
 
@@ -173,8 +173,8 @@ public class GetScreeningRequest {
             return this;
         }
 
-        public Builder eventId(@Nonnull String eventId) {
-            this.eventId = Utils.checkNotNull(eventId, "eventId");
+        public Builder groupId(@Nonnull String groupId) {
+            this.groupId = Utils.checkNotNull(groupId, "groupId");
             return this;
         }
 
@@ -184,7 +184,7 @@ public class GetScreeningRequest {
         }
 
         public GetScreeningRequest build() {
-            return new GetScreeningRequest(workspaceId, environment, eventId, screeningId);
+            return new GetScreeningRequest(workspaceId, environment, groupId, screeningId);
         }
     }
 }

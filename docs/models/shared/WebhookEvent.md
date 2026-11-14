@@ -17,8 +17,8 @@ The body of every webhook delivery: {id, type, created_at, data}, where type cho
 | `"account.risk_changed"` | [AccountRiskChangedEvent](../../models/shared/AccountRiskChangedEvent.md) |
 | `"audit.event"` | [AuditEventEvent](../../models/shared/AuditEventEvent.md) |
 | `"screening.completed"` | [ScreeningCompletedEvent](../../models/shared/ScreeningCompletedEvent.md) |
-| `"attendee.flagged"` | [AttendeeFlaggedEvent](../../models/shared/AttendeeFlaggedEvent.md) |
-| `"attendee.decided"` | [AttendeeDecidedEvent](../../models/shared/AttendeeDecidedEvent.md) |
+| `"person.flagged"` | [PersonFlaggedEvent](../../models/shared/PersonFlaggedEvent.md) |
+| `"person.decided"` | [PersonDecidedEvent](../../models/shared/PersonDecidedEvent.md) |
 
 ### [`AssessmentUpdatedEvent`](../../models/shared/AssessmentUpdatedEvent.md)
 
@@ -214,11 +214,11 @@ WebhookEvent value = ScreeningCompletedEvent.builder()
     .createdAt("2026-10-14T09:00:02.000Z")
     .data(ScreeningCompleted.builder()
         .screeningId("scn_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-        .eventId("evn_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .groupId("grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
         .status(ScreeningCompletedStatus.PARTIAL)
-        .attendeesTotal(522012L)
-        .attendeesScreened(497622L)
-        .attendeesFlagged(147551L)
+        .peopleTotal(522012L)
+        .peopleScreened(497622L)
+        .peopleFlagged(147551L)
         .byBand(ScreeningCompletedByBand.builder()
             .critical(972377L)
             .high(929219L)
@@ -240,20 +240,20 @@ WebhookEvent value = ScreeningCompletedEvent.builder()
 - [ScreeningCompletedStatus](../../models/shared/ScreeningCompletedStatus.md)
 - [ScreeningCompletedByBand](../../models/shared/ScreeningCompletedByBand.md)
 
-### [`AttendeeFlaggedEvent`](../../models/shared/AttendeeFlaggedEvent.md)
+### [`PersonFlaggedEvent`](../../models/shared/PersonFlaggedEvent.md)
 
-Discriminator value: `"attendee.flagged"`
+Discriminator value: `"person.flagged"`
 
 ```java
-WebhookEvent value = AttendeeFlaggedEvent.builder()
+WebhookEvent value = PersonFlaggedEvent.builder()
     .id("evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ1")
     .createdAt("2026-10-14T09:00:02.000Z")
-    .data(AttendeeFlagged.builder()
-        .eventId("evn_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-        .attendeeId("att_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+    .data(PersonFlagged.builder()
+        .groupId("grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .personId("per_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
         .screeningId("scn_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-        .highestBand(HighestBand.CRITICAL)
-        .matchState(AttendeeFlaggedMatchState.NONE_FOUND)
+        .highestBand(HighestBand.MODERATE)
+        .matchState(PersonFlaggedMatchState.NONE_FOUND)
         .flaggedAt("2026-11-20T07:41:09.000Z")
         .build())
     .build();
@@ -261,30 +261,30 @@ WebhookEvent value = AttendeeFlaggedEvent.builder()
 
 **Referred Types:**
 
-- [AttendeeFlagged](../../models/shared/AttendeeFlagged.md)
+- [PersonFlagged](../../models/shared/PersonFlagged.md)
 - [HighestBand](../../models/shared/HighestBand.md)
-- [AttendeeFlaggedMatchState](../../models/shared/AttendeeFlaggedMatchState.md)
+- [PersonFlaggedMatchState](../../models/shared/PersonFlaggedMatchState.md)
 
-### [`AttendeeDecidedEvent`](../../models/shared/AttendeeDecidedEvent.md)
+### [`PersonDecidedEvent`](../../models/shared/PersonDecidedEvent.md)
 
-Discriminator value: `"attendee.decided"`
+Discriminator value: `"person.decided"`
 
 ```java
-WebhookEvent value = AttendeeDecidedEvent.builder()
+WebhookEvent value = PersonDecidedEvent.builder()
     .id("evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ1")
     .createdAt("2026-10-14T09:00:02.000Z")
-    .data(AttendeeDecided.builder()
-        .eventId("evn_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-        .attendeeId("att_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+    .data(PersonDecided.builder()
+        .groupId("grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .personId("per_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
         .reviewId("arv_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-        .decision(AttendeeDecision.WATCH)
+        .decision(PersonDecision.ESCALATED)
         .decidedBy("email:2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae")
         .decidedAt("2026-11-20T09:03:27.000Z")
         .build())
     .build();
 ```
 
-**Referred Types:** [AttendeeDecided](../../models/shared/AttendeeDecided.md), [AttendeeDecision](../../models/shared/AttendeeDecision.md)
+**Referred Types:** [PersonDecided](../../models/shared/PersonDecided.md), [PersonDecision](../../models/shared/PersonDecision.md)
 
 ## Consumption Patterns
 
@@ -316,11 +316,11 @@ switch (value.type()) {
     case "screening.completed":
         // Handle screening.completed discriminator variant
         break;
-    case "attendee.flagged":
-        // Handle attendee.flagged discriminator variant
+    case "person.flagged":
+        // Handle person.flagged discriminator variant
         break;
-    case "attendee.decided":
-        // Handle attendee.decided discriminator variant
+    case "person.decided":
+        // Handle person.decided discriminator variant
         break;
     default:
         // Handle unknown discriminator variant
@@ -346,10 +346,10 @@ if (value instanceof AssessmentUpdatedEvent assessmentUpdatedEvent) {
     // Handle AuditEventEvent variant
 } else if (value instanceof ScreeningCompletedEvent screeningCompletedEvent) {
     // Handle ScreeningCompletedEvent variant
-} else if (value instanceof AttendeeFlaggedEvent attendeeFlaggedEvent) {
-    // Handle AttendeeFlaggedEvent variant
-} else if (value instanceof AttendeeDecidedEvent attendeeDecidedEvent) {
-    // Handle AttendeeDecidedEvent variant
+} else if (value instanceof PersonFlaggedEvent personFlaggedEvent) {
+    // Handle PersonFlaggedEvent variant
+} else if (value instanceof PersonDecidedEvent personDecidedEvent) {
+    // Handle PersonDecidedEvent variant
 } else {
     // Handle unknown discriminator variant
 }
@@ -383,11 +383,11 @@ switch (value) {
     case ScreeningCompletedEvent screeningCompletedEvent -> {
         // Handle ScreeningCompletedEvent variant
     }
-    case AttendeeFlaggedEvent attendeeFlaggedEvent -> {
-        // Handle AttendeeFlaggedEvent variant
+    case PersonFlaggedEvent personFlaggedEvent -> {
+        // Handle PersonFlaggedEvent variant
     }
-    case AttendeeDecidedEvent attendeeDecidedEvent -> {
-        // Handle AttendeeDecidedEvent variant
+    case PersonDecidedEvent personDecidedEvent -> {
+        // Handle PersonDecidedEvent variant
     }
     default -> {
         // Handle unknown discriminator variant

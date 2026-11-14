@@ -15,11 +15,11 @@ import org.noresponse.utils.Utils;
 /**
  * ScreeningCompleted
  *
- * <p>A screening of an event finished. It counts only the attendees this screening set out to reach, not
- * who they are: read the roster with GET
- * /v1/workspaces/{workspace_id}/events/{environment}/{event_id}/attendees, filtered by band, to act on
- * them. attendees_screened + partial_coverage = attendees_total, attendees_flagged is the sum of
- * by_band, no_footprint counts screened attendees with no flag whose accounts were not found, and
+ * <p>A screening of a group finished. It counts only the people this screening set out to reach, not who
+ * they are: read the roster with GET
+ * /v1/workspaces/{workspace_id}/groups/{environment}/{group_id}/people, filtered by band, to act on
+ * them. people_screened + partial_coverage = people_total, people_flagged is the sum of by_band,
+ * no_footprint counts screened people with no flag whose accounts were not found, and
  * no_profile_to_check those the screening had nothing to look up for on any requested platform.
  *
  * <p>A cancelled screening sends no event.
@@ -32,13 +32,13 @@ public class ScreeningCompleted {
     private String screeningId;
 
     /**
-     * The event it screened.
+     * The group it screened.
      */
-    @JsonProperty("event_id")
-    private String eventId;
+    @JsonProperty("group_id")
+    private String groupId;
 
     /**
-     * completed reached every attendee; partial left some not fully covered (partial_coverage); failed
+     * completed reached every person; partial left some not fully covered (partial_coverage); failed
      * covered nobody.
      */
     @JsonProperty("status")
@@ -53,32 +53,32 @@ public class ScreeningCompleted {
     private String errorCode;
 
     /**
-     * Every attendee the screening set out to reach: those no screening had reached and those on watch or
+     * Every person the screening set out to reach: those no screening had reached and those on watch or
      * escalated.
      */
-    @JsonProperty("attendees_total")
-    private long attendeesTotal;
+    @JsonProperty("people_total")
+    private long peopleTotal;
 
     /**
-     * Attendees the screening covered, flagged or not.
+     * People the screening covered, flagged or not.
      */
-    @JsonProperty("attendees_screened")
-    private long attendeesScreened;
+    @JsonProperty("people_screened")
+    private long peopleScreened;
 
     /**
-     * Screened attendees with a finding: the sum of by_band.
+     * Screened people with a finding: the sum of by_band.
      */
-    @JsonProperty("attendees_flagged")
-    private long attendeesFlagged;
+    @JsonProperty("people_flagged")
+    private long peopleFlagged;
 
     /**
-     * Screened attendees by the band of their most severe finding.
+     * Screened people by the band of their most severe finding.
      */
     @JsonProperty("by_band")
     private ScreeningCompletedByBand byBand;
 
     /**
-     * Screened attendees with no finding whose accounts were not found (match_state none_found). A clean
+     * Screened people with no finding whose accounts were not found (match_state none_found). A clean
      * result for someone with no visible accounts is not the same as a clean result for someone whose
      * accounts were read.
      */
@@ -86,16 +86,16 @@ public class ScreeningCompleted {
     private long noFootprint;
 
     /**
-     * Screened attendees with no profile to check: the list gave nothing to look up on any requested
-     * platform, such as no handle, so nobody looked for a profile (no_profile_to_check on the attendee).
-     * Not in no_footprint, and not partial: nothing failed. Their lookups are on their reports.
+     * Screened people with no profile to check: the list gave nothing to look up on any requested
+     * platform, such as no handle, so nobody looked for a profile (no_profile_to_check on the person). Not
+     * in no_footprint, and not partial: nothing failed. Their lookups are on their reports.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("no_profile_to_check")
     private Long noProfileToCheck;
 
     /**
-     * Attendees the screening did not fully cover. Read each one's coverage on its attendee.
+     * People the screening did not fully cover. Read each one's coverage on its person.
      */
     @JsonProperty("partial_coverage")
     private long partialCoverage;
@@ -109,12 +109,12 @@ public class ScreeningCompleted {
     @JsonCreator
     public ScreeningCompleted(
             @JsonProperty("screening_id") @Nonnull String screeningId,
-            @JsonProperty("event_id") @Nonnull String eventId,
+            @JsonProperty("group_id") @Nonnull String groupId,
             @JsonProperty("status") @Nonnull ScreeningCompletedStatus status,
             @JsonProperty("error_code") @Nullable String errorCode,
-            @JsonProperty("attendees_total") long attendeesTotal,
-            @JsonProperty("attendees_screened") long attendeesScreened,
-            @JsonProperty("attendees_flagged") long attendeesFlagged,
+            @JsonProperty("people_total") long peopleTotal,
+            @JsonProperty("people_screened") long peopleScreened,
+            @JsonProperty("people_flagged") long peopleFlagged,
             @JsonProperty("by_band") @Nonnull ScreeningCompletedByBand byBand,
             @JsonProperty("no_footprint") long noFootprint,
             @JsonProperty("no_profile_to_check") @Nullable Long noProfileToCheck,
@@ -122,14 +122,14 @@ public class ScreeningCompleted {
             @JsonProperty("finished_at") @Nonnull String finishedAt) {
         this.screeningId = Optional.ofNullable(screeningId)
                 .orElseThrow(() -> new IllegalArgumentException("screeningId cannot be null"));
-        this.eventId =
-                Optional.ofNullable(eventId).orElseThrow(() -> new IllegalArgumentException("eventId cannot be null"));
+        this.groupId =
+                Optional.ofNullable(groupId).orElseThrow(() -> new IllegalArgumentException("groupId cannot be null"));
         this.status =
                 Optional.ofNullable(status).orElseThrow(() -> new IllegalArgumentException("status cannot be null"));
         this.errorCode = errorCode;
-        this.attendeesTotal = attendeesTotal;
-        this.attendeesScreened = attendeesScreened;
-        this.attendeesFlagged = attendeesFlagged;
+        this.peopleTotal = peopleTotal;
+        this.peopleScreened = peopleScreened;
+        this.peopleFlagged = peopleFlagged;
         this.byBand =
                 Optional.ofNullable(byBand).orElseThrow(() -> new IllegalArgumentException("byBand cannot be null"));
         this.noFootprint = noFootprint;
@@ -141,23 +141,23 @@ public class ScreeningCompleted {
 
     public ScreeningCompleted(
             @Nonnull String screeningId,
-            @Nonnull String eventId,
+            @Nonnull String groupId,
             @Nonnull ScreeningCompletedStatus status,
-            long attendeesTotal,
-            long attendeesScreened,
-            long attendeesFlagged,
+            long peopleTotal,
+            long peopleScreened,
+            long peopleFlagged,
             @Nonnull ScreeningCompletedByBand byBand,
             long noFootprint,
             long partialCoverage,
             @Nonnull String finishedAt) {
         this(
                 screeningId,
-                eventId,
+                groupId,
                 status,
                 null,
-                attendeesTotal,
-                attendeesScreened,
-                attendeesFlagged,
+                peopleTotal,
+                peopleScreened,
+                peopleFlagged,
                 byBand,
                 noFootprint,
                 null,
@@ -173,14 +173,14 @@ public class ScreeningCompleted {
     }
 
     /**
-     * The event it screened.
+     * The group it screened.
      */
-    public String eventId() {
-        return this.eventId;
+    public String groupId() {
+        return this.groupId;
     }
 
     /**
-     * completed reached every attendee; partial left some not fully covered (partial_coverage); failed
+     * completed reached every person; partial left some not fully covered (partial_coverage); failed
      * covered nobody.
      */
     public ScreeningCompletedStatus status() {
@@ -196,36 +196,36 @@ public class ScreeningCompleted {
     }
 
     /**
-     * Every attendee the screening set out to reach: those no screening had reached and those on watch or
+     * Every person the screening set out to reach: those no screening had reached and those on watch or
      * escalated.
      */
-    public long attendeesTotal() {
-        return this.attendeesTotal;
+    public long peopleTotal() {
+        return this.peopleTotal;
     }
 
     /**
-     * Attendees the screening covered, flagged or not.
+     * People the screening covered, flagged or not.
      */
-    public long attendeesScreened() {
-        return this.attendeesScreened;
+    public long peopleScreened() {
+        return this.peopleScreened;
     }
 
     /**
-     * Screened attendees with a finding: the sum of by_band.
+     * Screened people with a finding: the sum of by_band.
      */
-    public long attendeesFlagged() {
-        return this.attendeesFlagged;
+    public long peopleFlagged() {
+        return this.peopleFlagged;
     }
 
     /**
-     * Screened attendees by the band of their most severe finding.
+     * Screened people by the band of their most severe finding.
      */
     public ScreeningCompletedByBand byBand() {
         return this.byBand;
     }
 
     /**
-     * Screened attendees with no finding whose accounts were not found (match_state none_found). A clean
+     * Screened people with no finding whose accounts were not found (match_state none_found). A clean
      * result for someone with no visible accounts is not the same as a clean result for someone whose
      * accounts were read.
      */
@@ -234,16 +234,16 @@ public class ScreeningCompleted {
     }
 
     /**
-     * Screened attendees with no profile to check: the list gave nothing to look up on any requested
-     * platform, such as no handle, so nobody looked for a profile (no_profile_to_check on the attendee).
-     * Not in no_footprint, and not partial: nothing failed. Their lookups are on their reports.
+     * Screened people with no profile to check: the list gave nothing to look up on any requested
+     * platform, such as no handle, so nobody looked for a profile (no_profile_to_check on the person). Not
+     * in no_footprint, and not partial: nothing failed. Their lookups are on their reports.
      */
     public Optional<Long> noProfileToCheck() {
         return Optional.ofNullable(this.noProfileToCheck);
     }
 
     /**
-     * Attendees the screening did not fully cover. Read each one's coverage on its attendee.
+     * People the screening did not fully cover. Read each one's coverage on its person.
      */
     public long partialCoverage() {
         return this.partialCoverage;
@@ -269,15 +269,15 @@ public class ScreeningCompleted {
     }
 
     /**
-     * The event it screened.
+     * The group it screened.
      */
-    public ScreeningCompleted withEventId(@Nonnull String eventId) {
-        this.eventId = Utils.checkNotNull(eventId, "eventId");
+    public ScreeningCompleted withGroupId(@Nonnull String groupId) {
+        this.groupId = Utils.checkNotNull(groupId, "groupId");
         return this;
     }
 
     /**
-     * completed reached every attendee; partial left some not fully covered (partial_coverage); failed
+     * completed reached every person; partial left some not fully covered (partial_coverage); failed
      * covered nobody.
      */
     public ScreeningCompleted withStatus(@Nonnull ScreeningCompletedStatus status) {
@@ -295,32 +295,32 @@ public class ScreeningCompleted {
     }
 
     /**
-     * Every attendee the screening set out to reach: those no screening had reached and those on watch or
+     * Every person the screening set out to reach: those no screening had reached and those on watch or
      * escalated.
      */
-    public ScreeningCompleted withAttendeesTotal(long attendeesTotal) {
-        this.attendeesTotal = attendeesTotal;
+    public ScreeningCompleted withPeopleTotal(long peopleTotal) {
+        this.peopleTotal = peopleTotal;
         return this;
     }
 
     /**
-     * Attendees the screening covered, flagged or not.
+     * People the screening covered, flagged or not.
      */
-    public ScreeningCompleted withAttendeesScreened(long attendeesScreened) {
-        this.attendeesScreened = attendeesScreened;
+    public ScreeningCompleted withPeopleScreened(long peopleScreened) {
+        this.peopleScreened = peopleScreened;
         return this;
     }
 
     /**
-     * Screened attendees with a finding: the sum of by_band.
+     * Screened people with a finding: the sum of by_band.
      */
-    public ScreeningCompleted withAttendeesFlagged(long attendeesFlagged) {
-        this.attendeesFlagged = attendeesFlagged;
+    public ScreeningCompleted withPeopleFlagged(long peopleFlagged) {
+        this.peopleFlagged = peopleFlagged;
         return this;
     }
 
     /**
-     * Screened attendees by the band of their most severe finding.
+     * Screened people by the band of their most severe finding.
      */
     public ScreeningCompleted withByBand(@Nonnull ScreeningCompletedByBand byBand) {
         this.byBand = Utils.checkNotNull(byBand, "byBand");
@@ -328,7 +328,7 @@ public class ScreeningCompleted {
     }
 
     /**
-     * Screened attendees with no finding whose accounts were not found (match_state none_found). A clean
+     * Screened people with no finding whose accounts were not found (match_state none_found). A clean
      * result for someone with no visible accounts is not the same as a clean result for someone whose
      * accounts were read.
      */
@@ -338,9 +338,9 @@ public class ScreeningCompleted {
     }
 
     /**
-     * Screened attendees with no profile to check: the list gave nothing to look up on any requested
-     * platform, such as no handle, so nobody looked for a profile (no_profile_to_check on the attendee).
-     * Not in no_footprint, and not partial: nothing failed. Their lookups are on their reports.
+     * Screened people with no profile to check: the list gave nothing to look up on any requested
+     * platform, such as no handle, so nobody looked for a profile (no_profile_to_check on the person). Not
+     * in no_footprint, and not partial: nothing failed. Their lookups are on their reports.
      */
     public ScreeningCompleted withNoProfileToCheck(@Nullable Long noProfileToCheck) {
         this.noProfileToCheck = noProfileToCheck;
@@ -348,7 +348,7 @@ public class ScreeningCompleted {
     }
 
     /**
-     * Attendees the screening did not fully cover. Read each one's coverage on its attendee.
+     * People the screening did not fully cover. Read each one's coverage on its person.
      */
     public ScreeningCompleted withPartialCoverage(long partialCoverage) {
         this.partialCoverage = partialCoverage;
@@ -373,12 +373,12 @@ public class ScreeningCompleted {
         }
         ScreeningCompleted other = (ScreeningCompleted) o;
         return Utils.enhancedDeepEquals(this.screeningId, other.screeningId)
-                && Utils.enhancedDeepEquals(this.eventId, other.eventId)
+                && Utils.enhancedDeepEquals(this.groupId, other.groupId)
                 && Utils.enhancedDeepEquals(this.status, other.status)
                 && Utils.enhancedDeepEquals(this.errorCode, other.errorCode)
-                && Utils.enhancedDeepEquals(this.attendeesTotal, other.attendeesTotal)
-                && Utils.enhancedDeepEquals(this.attendeesScreened, other.attendeesScreened)
-                && Utils.enhancedDeepEquals(this.attendeesFlagged, other.attendeesFlagged)
+                && Utils.enhancedDeepEquals(this.peopleTotal, other.peopleTotal)
+                && Utils.enhancedDeepEquals(this.peopleScreened, other.peopleScreened)
+                && Utils.enhancedDeepEquals(this.peopleFlagged, other.peopleFlagged)
                 && Utils.enhancedDeepEquals(this.byBand, other.byBand)
                 && Utils.enhancedDeepEquals(this.noFootprint, other.noFootprint)
                 && Utils.enhancedDeepEquals(this.noProfileToCheck, other.noProfileToCheck)
@@ -390,12 +390,12 @@ public class ScreeningCompleted {
     public int hashCode() {
         return Utils.enhancedHash(
                 screeningId,
-                eventId,
+                groupId,
                 status,
                 errorCode,
-                attendeesTotal,
-                attendeesScreened,
-                attendeesFlagged,
+                peopleTotal,
+                peopleScreened,
+                peopleFlagged,
                 byBand,
                 noFootprint,
                 noProfileToCheck,
@@ -409,18 +409,18 @@ public class ScreeningCompleted {
                 ScreeningCompleted.class,
                 "screeningId",
                 screeningId,
-                "eventId",
-                eventId,
+                "groupId",
+                groupId,
                 "status",
                 status,
                 "errorCode",
                 errorCode,
-                "attendeesTotal",
-                attendeesTotal,
-                "attendeesScreened",
-                attendeesScreened,
-                "attendeesFlagged",
-                attendeesFlagged,
+                "peopleTotal",
+                peopleTotal,
+                "peopleScreened",
+                peopleScreened,
+                "peopleFlagged",
+                peopleFlagged,
                 "byBand",
                 byBand,
                 "noFootprint",
@@ -438,17 +438,17 @@ public class ScreeningCompleted {
 
         private String screeningId;
 
-        private String eventId;
+        private String groupId;
 
         private ScreeningCompletedStatus status;
 
         private String errorCode;
 
-        private long attendeesTotal;
+        private long peopleTotal;
 
-        private long attendeesScreened;
+        private long peopleScreened;
 
-        private long attendeesFlagged;
+        private long peopleFlagged;
 
         private ScreeningCompletedByBand byBand;
 
@@ -473,15 +473,15 @@ public class ScreeningCompleted {
         }
 
         /**
-         * The event it screened.
+         * The group it screened.
          */
-        public Builder eventId(@Nonnull String eventId) {
-            this.eventId = Utils.checkNotNull(eventId, "eventId");
+        public Builder groupId(@Nonnull String groupId) {
+            this.groupId = Utils.checkNotNull(groupId, "groupId");
             return this;
         }
 
         /**
-         * completed reached every attendee; partial left some not fully covered (partial_coverage); failed
+         * completed reached every person; partial left some not fully covered (partial_coverage); failed
          * covered nobody.
          */
         public Builder status(@Nonnull ScreeningCompletedStatus status) {
@@ -499,32 +499,32 @@ public class ScreeningCompleted {
         }
 
         /**
-         * Every attendee the screening set out to reach: those no screening had reached and those on watch or
+         * Every person the screening set out to reach: those no screening had reached and those on watch or
          * escalated.
          */
-        public Builder attendeesTotal(long attendeesTotal) {
-            this.attendeesTotal = attendeesTotal;
+        public Builder peopleTotal(long peopleTotal) {
+            this.peopleTotal = peopleTotal;
             return this;
         }
 
         /**
-         * Attendees the screening covered, flagged or not.
+         * People the screening covered, flagged or not.
          */
-        public Builder attendeesScreened(long attendeesScreened) {
-            this.attendeesScreened = attendeesScreened;
+        public Builder peopleScreened(long peopleScreened) {
+            this.peopleScreened = peopleScreened;
             return this;
         }
 
         /**
-         * Screened attendees with a finding: the sum of by_band.
+         * Screened people with a finding: the sum of by_band.
          */
-        public Builder attendeesFlagged(long attendeesFlagged) {
-            this.attendeesFlagged = attendeesFlagged;
+        public Builder peopleFlagged(long peopleFlagged) {
+            this.peopleFlagged = peopleFlagged;
             return this;
         }
 
         /**
-         * Screened attendees by the band of their most severe finding.
+         * Screened people by the band of their most severe finding.
          */
         public Builder byBand(@Nonnull ScreeningCompletedByBand byBand) {
             this.byBand = Utils.checkNotNull(byBand, "byBand");
@@ -532,7 +532,7 @@ public class ScreeningCompleted {
         }
 
         /**
-         * Screened attendees with no finding whose accounts were not found (match_state none_found). A clean
+         * Screened people with no finding whose accounts were not found (match_state none_found). A clean
          * result for someone with no visible accounts is not the same as a clean result for someone whose
          * accounts were read.
          */
@@ -542,9 +542,9 @@ public class ScreeningCompleted {
         }
 
         /**
-         * Screened attendees with no profile to check: the list gave nothing to look up on any requested
-         * platform, such as no handle, so nobody looked for a profile (no_profile_to_check on the attendee).
-         * Not in no_footprint, and not partial: nothing failed. Their lookups are on their reports.
+         * Screened people with no profile to check: the list gave nothing to look up on any requested
+         * platform, such as no handle, so nobody looked for a profile (no_profile_to_check on the person). Not
+         * in no_footprint, and not partial: nothing failed. Their lookups are on their reports.
          */
         public Builder noProfileToCheck(@Nullable Long noProfileToCheck) {
             this.noProfileToCheck = noProfileToCheck;
@@ -552,7 +552,7 @@ public class ScreeningCompleted {
         }
 
         /**
-         * Attendees the screening did not fully cover. Read each one's coverage on its attendee.
+         * People the screening did not fully cover. Read each one's coverage on its person.
          */
         public Builder partialCoverage(long partialCoverage) {
             this.partialCoverage = partialCoverage;
@@ -570,12 +570,12 @@ public class ScreeningCompleted {
         public ScreeningCompleted build() {
             return new ScreeningCompleted(
                     screeningId,
-                    eventId,
+                    groupId,
                     status,
                     errorCode,
-                    attendeesTotal,
-                    attendeesScreened,
-                    attendeesFlagged,
+                    peopleTotal,
+                    peopleScreened,
+                    peopleFlagged,
                     byBand,
                     noFootprint,
                     noProfileToCheck,

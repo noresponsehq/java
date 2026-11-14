@@ -34,7 +34,7 @@ public class KeyScope {
     public static final KeyScope POLICY_PUBLISH = new KeyScope("policy_publish");
     public static final KeyScope MEMBERS = new KeyScope("members");
     public static final KeyScope MEMBERS_MANAGE = new KeyScope("members_manage");
-    public static final KeyScope EVENTS = new KeyScope("events");
+    public static final KeyScope GROUPS = new KeyScope("groups");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -122,7 +122,7 @@ public class KeyScope {
         map.put("policy_publish", POLICY_PUBLISH);
         map.put("members", MEMBERS);
         map.put("members_manage", MEMBERS_MANAGE);
-        map.put("events", EVENTS);
+        map.put("groups", GROUPS);
         return map;
     }
 
@@ -145,7 +145,7 @@ public class KeyScope {
         map.put("policy_publish", KeyScopeEnum.POLICY_PUBLISH);
         map.put("members", KeyScopeEnum.MEMBERS);
         map.put("members_manage", KeyScopeEnum.MEMBERS_MANAGE);
-        map.put("events", KeyScopeEnum.EVENTS);
+        map.put("groups", KeyScopeEnum.GROUPS);
         return map;
     }
 
@@ -168,7 +168,7 @@ public class KeyScope {
         POLICY_PUBLISH("policy_publish"),
         MEMBERS("members"),
         MEMBERS_MANAGE("members_manage"),
-        EVENTS("events"),
+        GROUPS("groups"),
         ;
 
         private final String value;

@@ -118,7 +118,7 @@ public class CancelScreening {
             String url = Utils.generateURL(
                     klass,
                     this.baseUrl,
-                    "/v1/workspaces/{workspace_id}/events/{environment}/{event_id}/screenings/{screening_id}/cancel",
+                    "/v1/workspaces/{workspace_id}/groups/{environment}/{group_id}/screenings/{screening_id}/cancel",
                     request,
                     null);
             HTTPRequest req = new HTTPRequest(url, "POST");

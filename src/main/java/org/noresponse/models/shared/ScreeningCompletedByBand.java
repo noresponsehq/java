@@ -9,7 +9,7 @@ import org.noresponse.utils.Utils;
 /**
  * ScreeningCompletedByBand
  *
- * <p>Screened attendees by the band of their most severe finding.
+ * <p>Screened people by the band of their most severe finding.
  */
 public class ScreeningCompletedByBand {
 

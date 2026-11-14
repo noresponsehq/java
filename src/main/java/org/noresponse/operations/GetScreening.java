@@ -102,7 +102,7 @@ public class GetScreening {
             String url = Utils.generateURL(
                     klass,
                     this.baseUrl,
-                    "/v1/workspaces/{workspace_id}/events/{environment}/{event_id}/screenings/{screening_id}",
+                    "/v1/workspaces/{workspace_id}/groups/{environment}/{group_id}/screenings/{screening_id}",
                     request,
                     null);
             HTTPRequest req = new HTTPRequest(url, "GET");

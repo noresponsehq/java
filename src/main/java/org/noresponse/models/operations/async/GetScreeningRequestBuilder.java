@@ -41,8 +41,8 @@ public class GetScreeningRequestBuilder {
         return this;
     }
 
-    public GetScreeningRequestBuilder eventId(@Nonnull String eventId) {
-        this.pojoBuilder.eventId(eventId);
+    public GetScreeningRequestBuilder groupId(@Nonnull String groupId) {
+        this.pojoBuilder.groupId(groupId);
         this._setterCalled = true;
         return this;
     }

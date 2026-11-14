@@ -15,7 +15,7 @@ import org.noresponse.utils.Utils;
 /**
  * ScreeningProfile
  *
- * <p>An account the screening matched to the attendee, how it was matched, and how much of it was read.
+ * <p>An account the screening matched to the person, how it was matched, and how much of it was read.
  */
 public class ScreeningProfile {
 
@@ -62,7 +62,7 @@ public class ScreeningProfile {
     private Access access;
 
     /**
-     * How a profile was matched to the attendee: the state its evidence earns, and the evidence.
+     * How a profile was matched to the person: the state its evidence earns, and the evidence.
      */
     @JsonProperty("match")
     private ScreeningMatch match;
@@ -211,7 +211,7 @@ public class ScreeningProfile {
     }
 
     /**
-     * How a profile was matched to the attendee: the state its evidence earns, and the evidence.
+     * How a profile was matched to the person: the state its evidence earns, and the evidence.
      */
     public ScreeningMatch match() {
         return this.match;
@@ -308,7 +308,7 @@ public class ScreeningProfile {
     }
 
     /**
-     * How a profile was matched to the attendee: the state its evidence earns, and the evidence.
+     * How a profile was matched to the person: the state its evidence earns, and the evidence.
      */
     public ScreeningProfile withMatch(@Nonnull ScreeningMatch match) {
         this.match = Utils.checkNotNull(match, "match");
@@ -532,7 +532,7 @@ public class ScreeningProfile {
         }
 
         /**
-         * How a profile was matched to the attendee: the state its evidence earns, and the evidence.
+         * How a profile was matched to the person: the state its evidence earns, and the evidence.
          */
         public Builder match(@Nonnull ScreeningMatch match) {
             this.match = Utils.checkNotNull(match, "match");

@@ -14,13 +14,13 @@ import org.noresponse.utils.Utils;
 /**
  * ScreeningMatchEvidence
  *
- * <p>One identifier that ties a profile to the attendee.
+ * <p>One identifier that ties a profile to the person.
  */
 public class ScreeningMatchEvidence {
     /**
      * What matched. email, phone, supplied_handle and source_fact are hard identifiers; company, city and
-     * school are soft. supplied_handle is a handle on the attendee row; source_fact is an account a
-     * profile found by the attendee's lookups lists.
+     * school are soft. supplied_handle is a handle on the person row; source_fact is an account a profile
+     * found by the person's lookups lists.
      */
     @JsonProperty("kind")
     private ScreeningMatchEvidenceKind kind;
@@ -55,8 +55,8 @@ public class ScreeningMatchEvidence {
 
     /**
      * What matched. email, phone, supplied_handle and source_fact are hard identifiers; company, city and
-     * school are soft. supplied_handle is a handle on the attendee row; source_fact is an account a
-     * profile found by the attendee's lookups lists.
+     * school are soft. supplied_handle is a handle on the person row; source_fact is an account a profile
+     * found by the person's lookups lists.
      */
     public ScreeningMatchEvidenceKind kind() {
         return this.kind;
@@ -82,8 +82,8 @@ public class ScreeningMatchEvidence {
 
     /**
      * What matched. email, phone, supplied_handle and source_fact are hard identifiers; company, city and
-     * school are soft. supplied_handle is a handle on the attendee row; source_fact is an account a
-     * profile found by the attendee's lookups lists.
+     * school are soft. supplied_handle is a handle on the person row; source_fact is an account a profile
+     * found by the person's lookups lists.
      */
     public ScreeningMatchEvidence withKind(@Nonnull ScreeningMatchEvidenceKind kind) {
         this.kind = Utils.checkNotNull(kind, "kind");
@@ -145,8 +145,8 @@ public class ScreeningMatchEvidence {
 
         /**
          * What matched. email, phone, supplied_handle and source_fact are hard identifiers; company, city and
-         * school are soft. supplied_handle is a handle on the attendee row; source_fact is an account a
-         * profile found by the attendee's lookups lists.
+         * school are soft. supplied_handle is a handle on the person row; source_fact is an account a profile
+         * found by the person's lookups lists.
          */
         public Builder kind(@Nonnull ScreeningMatchEvidenceKind kind) {
             this.kind = Utils.checkNotNull(kind, "kind");

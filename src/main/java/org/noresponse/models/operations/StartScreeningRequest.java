@@ -26,8 +26,8 @@ public class StartScreeningRequest {
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=environment")
     private KeyEnvironment environment;
 
-    @NoResponseMetadata("pathParam:style=simple,explode=false,name=event_id")
-    private String eventId;
+    @NoResponseMetadata("pathParam:style=simple,explode=false,name=group_id")
+    private String groupId;
 
     /**
      * Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the
@@ -43,15 +43,15 @@ public class StartScreeningRequest {
     public StartScreeningRequest(
             @Nonnull String workspaceId,
             @Nonnull KeyEnvironment environment,
-            @Nonnull String eventId,
+            @Nonnull String groupId,
             @Nonnull String idempotencyKey,
             @Nonnull ScreeningRequest body) {
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
         this.environment = Optional.ofNullable(environment)
                 .orElseThrow(() -> new IllegalArgumentException("environment cannot be null"));
-        this.eventId =
-                Optional.ofNullable(eventId).orElseThrow(() -> new IllegalArgumentException("eventId cannot be null"));
+        this.groupId =
+                Optional.ofNullable(groupId).orElseThrow(() -> new IllegalArgumentException("groupId cannot be null"));
         this.idempotencyKey = Optional.ofNullable(idempotencyKey)
                 .orElseThrow(() -> new IllegalArgumentException("idempotencyKey cannot be null"));
         this.body = Optional.ofNullable(body).orElseThrow(() -> new IllegalArgumentException("body cannot be null"));
@@ -74,8 +74,8 @@ public class StartScreeningRequest {
         return this.environment;
     }
 
-    public String eventId() {
-        return this.eventId;
+    public String groupId() {
+        return this.groupId;
     }
 
     /**
@@ -113,8 +113,8 @@ public class StartScreeningRequest {
         return this;
     }
 
-    public StartScreeningRequest withEventId(@Nonnull String eventId) {
-        this.eventId = Utils.checkNotNull(eventId, "eventId");
+    public StartScreeningRequest withGroupId(@Nonnull String groupId) {
+        this.groupId = Utils.checkNotNull(groupId, "groupId");
         return this;
     }
 
@@ -143,14 +143,14 @@ public class StartScreeningRequest {
         StartScreeningRequest other = (StartScreeningRequest) o;
         return Utils.enhancedDeepEquals(this.workspaceId, other.workspaceId)
                 && Utils.enhancedDeepEquals(this.environment, other.environment)
-                && Utils.enhancedDeepEquals(this.eventId, other.eventId)
+                && Utils.enhancedDeepEquals(this.groupId, other.groupId)
                 && Utils.enhancedDeepEquals(this.idempotencyKey, other.idempotencyKey)
                 && Utils.enhancedDeepEquals(this.body, other.body);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(workspaceId, environment, eventId, idempotencyKey, body);
+        return Utils.enhancedHash(workspaceId, environment, groupId, idempotencyKey, body);
     }
 
     @Override
@@ -161,8 +161,8 @@ public class StartScreeningRequest {
                 workspaceId,
                 "environment",
                 environment,
-                "eventId",
-                eventId,
+                "groupId",
+                groupId,
                 "idempotencyKey",
                 idempotencyKey,
                 "body",
@@ -176,7 +176,7 @@ public class StartScreeningRequest {
 
         private KeyEnvironment environment;
 
-        private String eventId;
+        private String groupId;
 
         private String idempotencyKey;
 
@@ -205,8 +205,8 @@ public class StartScreeningRequest {
             return this;
         }
 
-        public Builder eventId(@Nonnull String eventId) {
-            this.eventId = Utils.checkNotNull(eventId, "eventId");
+        public Builder groupId(@Nonnull String groupId) {
+            this.groupId = Utils.checkNotNull(groupId, "groupId");
             return this;
         }
 
@@ -225,7 +225,7 @@ public class StartScreeningRequest {
         }
 
         public StartScreeningRequest build() {
-            return new StartScreeningRequest(workspaceId, environment, eventId, idempotencyKey, body);
+            return new StartScreeningRequest(workspaceId, environment, groupId, idempotencyKey, body);
         }
     }
 }

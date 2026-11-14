@@ -50,8 +50,8 @@ public class ConflictErrorCode {
     public static final ConflictErrorCode MEMBER_LIMIT_REACHED = new ConflictErrorCode("member_limit_reached");
     public static final ConflictErrorCode OWNER_INVITE_PENDING = new ConflictErrorCode("owner_invite_pending");
     public static final ConflictErrorCode AGGREGATE_ERASED_DATA = new ConflictErrorCode("aggregate_erased_data");
-    public static final ConflictErrorCode EVENT_CONFLICT = new ConflictErrorCode("event_conflict");
-    public static final ConflictErrorCode EVENT_LIMIT_REACHED = new ConflictErrorCode("event_limit_reached");
+    public static final ConflictErrorCode GROUP_CONFLICT = new ConflictErrorCode("group_conflict");
+    public static final ConflictErrorCode GROUP_LIMIT_REACHED = new ConflictErrorCode("group_limit_reached");
     public static final ConflictErrorCode SCREENING_CAP_EXCEEDED = new ConflictErrorCode("screening_cap_exceeded");
     public static final ConflictErrorCode SCREENING_UNAVAILABLE = new ConflictErrorCode("screening_unavailable");
 
@@ -150,8 +150,8 @@ public class ConflictErrorCode {
         map.put("member_limit_reached", MEMBER_LIMIT_REACHED);
         map.put("owner_invite_pending", OWNER_INVITE_PENDING);
         map.put("aggregate_erased_data", AGGREGATE_ERASED_DATA);
-        map.put("event_conflict", EVENT_CONFLICT);
-        map.put("event_limit_reached", EVENT_LIMIT_REACHED);
+        map.put("group_conflict", GROUP_CONFLICT);
+        map.put("group_limit_reached", GROUP_LIMIT_REACHED);
         map.put("screening_cap_exceeded", SCREENING_CAP_EXCEEDED);
         map.put("screening_unavailable", SCREENING_UNAVAILABLE);
         return map;
@@ -185,8 +185,8 @@ public class ConflictErrorCode {
         map.put("member_limit_reached", ConflictErrorCodeEnum.MEMBER_LIMIT_REACHED);
         map.put("owner_invite_pending", ConflictErrorCodeEnum.OWNER_INVITE_PENDING);
         map.put("aggregate_erased_data", ConflictErrorCodeEnum.AGGREGATE_ERASED_DATA);
-        map.put("event_conflict", ConflictErrorCodeEnum.EVENT_CONFLICT);
-        map.put("event_limit_reached", ConflictErrorCodeEnum.EVENT_LIMIT_REACHED);
+        map.put("group_conflict", ConflictErrorCodeEnum.GROUP_CONFLICT);
+        map.put("group_limit_reached", ConflictErrorCodeEnum.GROUP_LIMIT_REACHED);
         map.put("screening_cap_exceeded", ConflictErrorCodeEnum.SCREENING_CAP_EXCEEDED);
         map.put("screening_unavailable", ConflictErrorCodeEnum.SCREENING_UNAVAILABLE);
         return map;
@@ -220,8 +220,8 @@ public class ConflictErrorCode {
         MEMBER_LIMIT_REACHED("member_limit_reached"),
         OWNER_INVITE_PENDING("owner_invite_pending"),
         AGGREGATE_ERASED_DATA("aggregate_erased_data"),
-        EVENT_CONFLICT("event_conflict"),
-        EVENT_LIMIT_REACHED("event_limit_reached"),
+        GROUP_CONFLICT("group_conflict"),
+        GROUP_LIMIT_REACHED("group_limit_reached"),
         SCREENING_CAP_EXCEEDED("screening_cap_exceeded"),
         SCREENING_UNAVAILABLE("screening_unavailable"),
         ;
