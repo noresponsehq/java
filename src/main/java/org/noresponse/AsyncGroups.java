@@ -14,6 +14,7 @@ import org.noresponse.models.operations.DeleteGroupRequest;
 import org.noresponse.models.operations.GetGroupRequest;
 import org.noresponse.models.operations.GetPersonRequest;
 import org.noresponse.models.operations.GetScreeningRequest;
+import org.noresponse.models.operations.JudgeRecordRequest;
 import org.noresponse.models.operations.ListGroupsRequest;
 import org.noresponse.models.operations.ListPeopleRequest;
 import org.noresponse.models.operations.ListScreeningsRequest;
@@ -34,6 +35,8 @@ import org.noresponse.models.operations.async.GetPersonRequestBuilder;
 import org.noresponse.models.operations.async.GetPersonResponse;
 import org.noresponse.models.operations.async.GetScreeningRequestBuilder;
 import org.noresponse.models.operations.async.GetScreeningResponse;
+import org.noresponse.models.operations.async.JudgeRecordRequestBuilder;
+import org.noresponse.models.operations.async.JudgeRecordResponse;
 import org.noresponse.models.operations.async.ListGroupsRequestBuilder;
 import org.noresponse.models.operations.async.ListGroupsResponse;
 import org.noresponse.models.operations.async.ListPeopleRequestBuilder;
@@ -56,6 +59,7 @@ import org.noresponse.operations.DeleteGroup;
 import org.noresponse.operations.GetGroup;
 import org.noresponse.operations.GetPerson;
 import org.noresponse.operations.GetScreening;
+import org.noresponse.operations.JudgeRecord;
 import org.noresponse.operations.ListGroups;
 import org.noresponse.operations.ListPeople;
 import org.noresponse.operations.ListScreenings;
@@ -488,6 +492,48 @@ public class AsyncGroups {
     public CompletableFuture<ReviewPersonResponse> reviewPerson(@Nonnull ReviewPersonRequest request) {
         AsyncRequestOperation<ReviewPersonRequest, ReviewPersonResponse> operation =
                 new ReviewPerson.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Join one of a person's records to them, or reject it.
+     *
+     * <p>Join one of a person's lookup records to them whatever its likelihood, or reject it so it stays a
+     * lead. The verdict sticks while lookups find the same record.
+     *
+     * @return The async call builder
+     */
+    public JudgeRecordRequestBuilder judgeRecord() {
+        return new JudgeRecordRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Join one of a person's records to them, or reject it.
+     *
+     * <p>Join one of a person's lookup records to them whatever its likelihood, or reject it so it stays a
+     * lead. The verdict sticks while lookups find the same record.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return {@code CompletableFuture<JudgeRecordResponse>} - The async response
+     */
+    public CompletableFuture<JudgeRecordResponse> judgeRecord(@Nonnull JudgeRecordRequest request) {
+        return judgeRecord(request, null);
+    }
+
+    /**
+     * Join one of a person's records to them, or reject it.
+     *
+     * <p>Join one of a person's lookup records to them whatever its likelihood, or reject it so it stays a
+     * lead. The verdict sticks while lookups find the same record.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return {@code CompletableFuture<JudgeRecordResponse>} - The async response
+     */
+    public CompletableFuture<JudgeRecordResponse> judgeRecord(
+            @Nonnull JudgeRecordRequest request, @Nullable Options options) {
+        AsyncRequestOperation<JudgeRecordRequest, JudgeRecordResponse> operation =
+                new JudgeRecord.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 

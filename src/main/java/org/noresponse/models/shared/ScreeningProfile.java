@@ -106,7 +106,8 @@ public class ScreeningProfile {
     private String collectedAt;
 
     /**
-     * One answer from one source: where it came from, what found it and every field it holds.
+     * One answer from one source: where it came from, what found it and every field it holds. A person's
+     * lookup records also say how likely each is the person.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("record")
@@ -284,7 +285,8 @@ public class ScreeningProfile {
     }
 
     /**
-     * One answer from one source: where it came from, what found it and every field it holds.
+     * One answer from one source: where it came from, what found it and every field it holds. A person's
+     * lookup records also say how likely each is the person.
      */
     public Optional<Record> record() {
         return Optional.ofNullable(this.record);
@@ -407,7 +409,8 @@ public class ScreeningProfile {
     }
 
     /**
-     * One answer from one source: where it came from, what found it and every field it holds.
+     * One answer from one source: where it came from, what found it and every field it holds. A person's
+     * lookup records also say how likely each is the person.
      */
     public ScreeningProfile withRecord(@Nullable Record record) {
         this.record = record;
@@ -664,7 +667,8 @@ public class ScreeningProfile {
         }
 
         /**
-         * One answer from one source: where it came from, what found it and every field it holds.
+         * One answer from one source: where it came from, what found it and every field it holds. A person's
+         * lookup records also say how likely each is the person.
          */
         public Builder record(@Nullable Record record) {
             this.record = record;

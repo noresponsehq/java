@@ -15,6 +15,7 @@ Groups, lists of people, screenings and reviewer decisions.
 * [addPeople](#addpeople) - Add or update a batch of people.
 * [getPerson](#getperson) - Read a person's report.
 * [reviewPerson](#reviewperson) - Record a decision on a person.
+* [judgeRecord](#judgerecord) - Join one of a person's records to them, or reject it.
 * [listScreenings](#listscreenings) - List a group's screenings.
 * [startScreening](#startscreening) - Start a screening.
 * [getScreening](#getscreening) - Read a screening.
@@ -660,6 +661,82 @@ public class Application {
 ### Response
 
 **[ReviewPersonResponse](../../models/operations/ReviewPersonResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## judgeRecord
+
+Join one of a person's lookup records to them whatever its likelihood, or reject it so it stays a lead. The verdict sticks while lookups find the same record.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="judgeRecord" method="post" path="/v1/workspaces/{workspace_id}/groups/{environment}/{group_id}/people/{person_id}/records" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.JudgeRecordRequest;
+import org.noresponse.models.operations.JudgeRecordResponse;
+import org.noresponse.models.shared.KeyEnvironment;
+import org.noresponse.models.shared.RecordVerdictRequest;
+import org.noresponse.models.shared.Verdict;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        JudgeRecordRequest req = JudgeRecordRequest.builder()
+                .workspaceId("tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .environment(KeyEnvironment.TEST)
+                .groupId("grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .personId("per_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .body(RecordVerdictRequest.builder()
+                    .recordId("rec_3f9a1c22d4e5b6a73f9a1c22d4e5b6a7")
+                    .verdict(Verdict.REJECTED)
+                    .build())
+                .build();
+
+        JudgeRecordResponse res = sdk.groups().judgeRecord()
+                .request(req)
+                .call();
+
+        if (res.recordVerdict().isPresent()) {
+            System.out.println(res.recordVerdict().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `request`                                                           | [JudgeRecordRequest](../../models/operations/JudgeRecordRequest.md) | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+
+### Response
+
+**[JudgeRecordResponse](../../models/operations/JudgeRecordResponse.md)**
 
 ### Errors
 

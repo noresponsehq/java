@@ -27,6 +27,9 @@ import org.noresponse.models.operations.GetPersonResponse;
 import org.noresponse.models.operations.GetScreeningRequest;
 import org.noresponse.models.operations.GetScreeningRequestBuilder;
 import org.noresponse.models.operations.GetScreeningResponse;
+import org.noresponse.models.operations.JudgeRecordRequest;
+import org.noresponse.models.operations.JudgeRecordRequestBuilder;
+import org.noresponse.models.operations.JudgeRecordResponse;
 import org.noresponse.models.operations.ListGroupsRequest;
 import org.noresponse.models.operations.ListGroupsRequestBuilder;
 import org.noresponse.models.operations.ListGroupsResponse;
@@ -55,6 +58,7 @@ import org.noresponse.operations.DeleteGroup;
 import org.noresponse.operations.GetGroup;
 import org.noresponse.operations.GetPerson;
 import org.noresponse.operations.GetScreening;
+import org.noresponse.operations.JudgeRecord;
 import org.noresponse.operations.ListGroups;
 import org.noresponse.operations.ListPeople;
 import org.noresponse.operations.ListScreenings;
@@ -500,6 +504,49 @@ public class Groups {
     public ReviewPersonResponse reviewPerson(@Nonnull ReviewPersonRequest request) {
         RequestOperation<ReviewPersonRequest, ReviewPersonResponse> operation =
                 new ReviewPerson.Sync(sdkConfiguration, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Join one of a person's records to them, or reject it.
+     *
+     * <p>Join one of a person's lookup records to them whatever its likelihood, or reject it so it stays a
+     * lead. The verdict sticks while lookups find the same record.
+     *
+     * @return The call builder
+     */
+    public JudgeRecordRequestBuilder judgeRecord() {
+        return new JudgeRecordRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Join one of a person's records to them, or reject it.
+     *
+     * <p>Join one of a person's lookup records to them whatever its likelihood, or reject it so it stays a
+     * lead. The verdict sticks while lookups find the same record.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public JudgeRecordResponse judgeRecord(@Nonnull JudgeRecordRequest request) {
+        return judgeRecord(request, null);
+    }
+
+    /**
+     * Join one of a person's records to them, or reject it.
+     *
+     * <p>Join one of a person's lookup records to them whatever its likelihood, or reject it so it stays a
+     * lead. The verdict sticks while lookups find the same record.
+     *
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public JudgeRecordResponse judgeRecord(@Nonnull JudgeRecordRequest request, @Nullable Options options) {
+        RequestOperation<JudgeRecordRequest, JudgeRecordResponse> operation =
+                new JudgeRecord.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
