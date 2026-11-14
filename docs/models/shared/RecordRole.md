@@ -28,7 +28,9 @@ RecordRole custom = RecordRole.of("custom_value");
 | `BORN`             | born               |
 | `BOT`              | bot                |
 | `CALLER_CATEGORY`  | caller_category    |
+| `CHARGEBACKS`      | chargebacks        |
 | `COVER_PICTURE`    | cover_picture      |
+| `DECLINES`         | declines           |
 | `DELETED`          | deleted            |
 | `DELETED_ON`       | deleted_on         |
 | `DEPARTMENT`       | department         |
@@ -64,6 +66,7 @@ RecordRole custom = RecordRole.of("custom_value");
 | `OTHER_IP`         | other_ip           |
 | `PAID`             | paid               |
 | `PASSWORD_CHANGED` | password_changed   |
+| `PAYMENT_METHOD`   | payment_method     |
 | `PICTURE`          | picture            |
 | `POINTS`           | points             |
 | `POSTS`            | posts              |
@@ -84,6 +87,7 @@ RecordRole custom = RecordRole.of("custom_value");
 | `SITE_ROLE`        | site_role          |
 | `SPAM_SCORE`       | spam_score         |
 | `STREET`           | street             |
+| `TRADES`           | trades             |
 | `VERIFIED`         | verified           |
 | `WARNINGS`         | warnings           |
 | `WEBSITE`          | website            |

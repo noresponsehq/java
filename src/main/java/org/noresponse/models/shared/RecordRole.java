@@ -36,7 +36,9 @@ public class RecordRole {
     public static final RecordRole BORN = new RecordRole("born");
     public static final RecordRole BOT = new RecordRole("bot");
     public static final RecordRole CALLER_CATEGORY = new RecordRole("caller_category");
+    public static final RecordRole CHARGEBACKS = new RecordRole("chargebacks");
     public static final RecordRole COVER_PICTURE = new RecordRole("cover_picture");
+    public static final RecordRole DECLINES = new RecordRole("declines");
     public static final RecordRole DELETED = new RecordRole("deleted");
     public static final RecordRole DELETED_ON = new RecordRole("deleted_on");
     public static final RecordRole DEPARTMENT = new RecordRole("department");
@@ -72,6 +74,7 @@ public class RecordRole {
     public static final RecordRole OTHER_IP = new RecordRole("other_ip");
     public static final RecordRole PAID = new RecordRole("paid");
     public static final RecordRole PASSWORD_CHANGED = new RecordRole("password_changed");
+    public static final RecordRole PAYMENT_METHOD = new RecordRole("payment_method");
     public static final RecordRole PICTURE = new RecordRole("picture");
     public static final RecordRole POINTS = new RecordRole("points");
     public static final RecordRole POSTS = new RecordRole("posts");
@@ -92,6 +95,7 @@ public class RecordRole {
     public static final RecordRole SITE_ROLE = new RecordRole("site_role");
     public static final RecordRole SPAM_SCORE = new RecordRole("spam_score");
     public static final RecordRole STREET = new RecordRole("street");
+    public static final RecordRole TRADES = new RecordRole("trades");
     public static final RecordRole VERIFIED = new RecordRole("verified");
     public static final RecordRole WARNINGS = new RecordRole("warnings");
     public static final RecordRole WEBSITE = new RecordRole("website");
@@ -175,7 +179,9 @@ public class RecordRole {
         map.put("born", BORN);
         map.put("bot", BOT);
         map.put("caller_category", CALLER_CATEGORY);
+        map.put("chargebacks", CHARGEBACKS);
         map.put("cover_picture", COVER_PICTURE);
+        map.put("declines", DECLINES);
         map.put("deleted", DELETED);
         map.put("deleted_on", DELETED_ON);
         map.put("department", DEPARTMENT);
@@ -211,6 +217,7 @@ public class RecordRole {
         map.put("other_ip", OTHER_IP);
         map.put("paid", PAID);
         map.put("password_changed", PASSWORD_CHANGED);
+        map.put("payment_method", PAYMENT_METHOD);
         map.put("picture", PICTURE);
         map.put("points", POINTS);
         map.put("posts", POSTS);
@@ -231,6 +238,7 @@ public class RecordRole {
         map.put("site_role", SITE_ROLE);
         map.put("spam_score", SPAM_SCORE);
         map.put("street", STREET);
+        map.put("trades", TRADES);
         map.put("verified", VERIFIED);
         map.put("warnings", WARNINGS);
         map.put("website", WEBSITE);
@@ -249,7 +257,9 @@ public class RecordRole {
         map.put("born", RecordRoleEnum.BORN);
         map.put("bot", RecordRoleEnum.BOT);
         map.put("caller_category", RecordRoleEnum.CALLER_CATEGORY);
+        map.put("chargebacks", RecordRoleEnum.CHARGEBACKS);
         map.put("cover_picture", RecordRoleEnum.COVER_PICTURE);
+        map.put("declines", RecordRoleEnum.DECLINES);
         map.put("deleted", RecordRoleEnum.DELETED);
         map.put("deleted_on", RecordRoleEnum.DELETED_ON);
         map.put("department", RecordRoleEnum.DEPARTMENT);
@@ -285,6 +295,7 @@ public class RecordRole {
         map.put("other_ip", RecordRoleEnum.OTHER_IP);
         map.put("paid", RecordRoleEnum.PAID);
         map.put("password_changed", RecordRoleEnum.PASSWORD_CHANGED);
+        map.put("payment_method", RecordRoleEnum.PAYMENT_METHOD);
         map.put("picture", RecordRoleEnum.PICTURE);
         map.put("points", RecordRoleEnum.POINTS);
         map.put("posts", RecordRoleEnum.POSTS);
@@ -305,6 +316,7 @@ public class RecordRole {
         map.put("site_role", RecordRoleEnum.SITE_ROLE);
         map.put("spam_score", RecordRoleEnum.SPAM_SCORE);
         map.put("street", RecordRoleEnum.STREET);
+        map.put("trades", RecordRoleEnum.TRADES);
         map.put("verified", RecordRoleEnum.VERIFIED);
         map.put("warnings", RecordRoleEnum.WARNINGS);
         map.put("website", RecordRoleEnum.WEBSITE);
@@ -323,7 +335,9 @@ public class RecordRole {
         BORN("born"),
         BOT("bot"),
         CALLER_CATEGORY("caller_category"),
+        CHARGEBACKS("chargebacks"),
         COVER_PICTURE("cover_picture"),
+        DECLINES("declines"),
         DELETED("deleted"),
         DELETED_ON("deleted_on"),
         DEPARTMENT("department"),
@@ -359,6 +373,7 @@ public class RecordRole {
         OTHER_IP("other_ip"),
         PAID("paid"),
         PASSWORD_CHANGED("password_changed"),
+        PAYMENT_METHOD("payment_method"),
         PICTURE("picture"),
         POINTS("points"),
         POSTS("posts"),
@@ -379,6 +394,7 @@ public class RecordRole {
         SITE_ROLE("site_role"),
         SPAM_SCORE("spam_score"),
         STREET("street"),
+        TRADES("trades"),
         VERIFIED("verified"),
         WARNINGS("warnings"),
         WEBSITE("website"),
