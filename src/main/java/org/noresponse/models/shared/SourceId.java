@@ -21,7 +21,8 @@ import java.util.Optional;
  * <p>A NoResponse source: github (GitHub accounts), phone (the phone lookup), breach (breach exposure),
  * rdap (the email domain's registration), mx (the email domain's mail servers), ipintel (IP
  * intelligence) or an email account source that searches one platform for an account by email address
- * (adobe, nvidia, wix, life360, zapier, google). google runs only for Gmail addresses.
+ * (adobe, nvidia, wix, life360, zapier, google). google runs only for Gmail addresses. scratch
+ * searches Scratch for an account by username.
  */
 public class SourceId {
 
@@ -37,6 +38,7 @@ public class SourceId {
     public static final SourceId LIFE360 = new SourceId("life360");
     public static final SourceId ZAPIER = new SourceId("zapier");
     public static final SourceId GOOGLE = new SourceId("google");
+    public static final SourceId SCRATCH = new SourceId("scratch");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -119,6 +121,7 @@ public class SourceId {
         map.put("life360", LIFE360);
         map.put("zapier", ZAPIER);
         map.put("google", GOOGLE);
+        map.put("scratch", SCRATCH);
         return map;
     }
 
@@ -136,6 +139,7 @@ public class SourceId {
         map.put("life360", SourceIdEnum.LIFE360);
         map.put("zapier", SourceIdEnum.ZAPIER);
         map.put("google", SourceIdEnum.GOOGLE);
+        map.put("scratch", SourceIdEnum.SCRATCH);
         return map;
     }
 
@@ -153,6 +157,7 @@ public class SourceId {
         LIFE360("life360"),
         ZAPIER("zapier"),
         GOOGLE("google"),
+        SCRATCH("scratch"),
         ;
 
         private final String value;
