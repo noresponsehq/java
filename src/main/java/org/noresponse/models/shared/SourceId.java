@@ -28,8 +28,9 @@ import java.util.Optional;
  * <p>scratch, dailymotion, substack, duolingo, dockerhub, wikipedia, internetarchive, telegram, spotify,
  * patreon, wordpress, okru and flickr each search that platform for an account by username; telegram
  * also searches by phone number, through a logged-in Telegram lookup account. whatsapp searches
- * WhatsApp for an account by phone number. opplysningen (1881, Norway), ratsit (Sweden) and
- * reverseaustralia (Australia) each look up a phone number of their own country on that site.
+ * WhatsApp for an account by phone number, and life360_phone searches Life360 for one. opplysningen
+ * (1881, Norway), ratsit (Sweden) and reverseaustralia (Australia) each look up a phone number of
+ * their own country on that site.
  *
  * <p>youtube searches YouTube for a channel by username.
  */
@@ -45,6 +46,7 @@ public class SourceId {
     public static final SourceId NVIDIA = new SourceId("nvidia");
     public static final SourceId WIX = new SourceId("wix");
     public static final SourceId LIFE360 = new SourceId("life360");
+    public static final SourceId LIFE360_PHONE = new SourceId("life360_phone");
     public static final SourceId ZAPIER = new SourceId("zapier");
     public static final SourceId X_EMAIL = new SourceId("x_email");
     public static final SourceId SNAPCHAT_EMAIL = new SourceId("snapchat_email");
@@ -150,6 +152,7 @@ public class SourceId {
         map.put("nvidia", NVIDIA);
         map.put("wix", WIX);
         map.put("life360", LIFE360);
+        map.put("life360_phone", LIFE360_PHONE);
         map.put("zapier", ZAPIER);
         map.put("x_email", X_EMAIL);
         map.put("snapchat_email", SNAPCHAT_EMAIL);
@@ -190,6 +193,7 @@ public class SourceId {
         map.put("nvidia", SourceIdEnum.NVIDIA);
         map.put("wix", SourceIdEnum.WIX);
         map.put("life360", SourceIdEnum.LIFE360);
+        map.put("life360_phone", SourceIdEnum.LIFE360_PHONE);
         map.put("zapier", SourceIdEnum.ZAPIER);
         map.put("x_email", SourceIdEnum.X_EMAIL);
         map.put("snapchat_email", SourceIdEnum.SNAPCHAT_EMAIL);
@@ -230,6 +234,7 @@ public class SourceId {
         NVIDIA("nvidia"),
         WIX("wix"),
         LIFE360("life360"),
+        LIFE360_PHONE("life360_phone"),
         ZAPIER("zapier"),
         X_EMAIL("x_email"),
         SNAPCHAT_EMAIL("snapchat_email"),
