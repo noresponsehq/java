@@ -1,4 +1,4 @@
-<a href="https://noresponse.org"><img src="https://raw.githubusercontent.com/noresponsehq/.github/main/profile/sdk-header.png" alt="NoResponse · Identity Intelligence" width="100%"></a>
+<a href="https://noresponse.org"><img src="https://raw.githubusercontent.com/noresponsehq/.github/main/profile/sdk-header.png" alt="NoResponse · investigate everyone, everywhere, all at once" width="100%"></a>
 
 # NoResponse for Java
 
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v12.0.19'
+    implementation 'com.github.noresponsehq:java:v12.0.20'
 }
 ```
 
@@ -39,7 +39,7 @@ dependencies {
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v12.0.19</version>
+  <version>v12.0.20</version>
 </dependency>
 ```
 
