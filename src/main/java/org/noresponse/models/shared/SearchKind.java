@@ -18,7 +18,8 @@ import java.util.Optional;
 /**
  * SearchKind
  *
- * <p>The kind of the value searched.
+ * <p>The kind of the value searched. A domain search finds the leaked rows of every email address at the
+ * domain.
  */
 public class SearchKind {
 
@@ -29,6 +30,7 @@ public class SearchKind {
     public static final SearchKind PASSWORD = new SearchKind("password");
     public static final SearchKind HASH = new SearchKind("hash");
     public static final SearchKind IP = new SearchKind("ip");
+    public static final SearchKind DOMAIN = new SearchKind("domain");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -106,6 +108,7 @@ public class SearchKind {
         map.put("password", PASSWORD);
         map.put("hash", HASH);
         map.put("ip", IP);
+        map.put("domain", DOMAIN);
         return map;
     }
 
@@ -118,6 +121,7 @@ public class SearchKind {
         map.put("password", SearchKindEnum.PASSWORD);
         map.put("hash", SearchKindEnum.HASH);
         map.put("ip", SearchKindEnum.IP);
+        map.put("domain", SearchKindEnum.DOMAIN);
         return map;
     }
 
@@ -130,6 +134,7 @@ public class SearchKind {
         PASSWORD("password"),
         HASH("hash"),
         IP("ip"),
+        DOMAIN("domain"),
         ;
 
         private final String value;

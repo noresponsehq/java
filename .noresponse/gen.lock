@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: bcba00b7f77348ef1b292993ff620b96
+  docChecksum: 93a5e7d8b251c61da3c0b7db3fcf7757
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 12.0.18
-  configChecksum: b8809dc2a2b618f1d2f0fc0bfe2b1af2
+  releaseVersion: 12.0.19
+  configChecksum: 31ad7a0c73b0071b44de2a5ff695e0dd
 features:
   java:
     additionalDependencies: 0.1.0
@@ -1147,7 +1147,7 @@ trackedFiles:
   docs/models/shared/RecordKind.md:
     last_write_checksum: sha1:98a1c5dff30c925377b5daab25a63a39a2808f74
   docs/models/shared/RecordMatch.md:
-    last_write_checksum: sha1:16d95e25ac581b686aedb642f5c3fc155dab0772
+    last_write_checksum: sha1:e39b4335344536b6117102add97d794f9a735214
   docs/models/shared/RecordRemaining.md:
     last_write_checksum: sha1:736bcd23222a4f3e8c2a3f90525d8771307da2c9
   docs/models/shared/RecordRole.md:
@@ -1313,9 +1313,9 @@ trackedFiles:
   docs/models/shared/ScreeningStatus.md:
     last_write_checksum: sha1:6957cf96d51af2add31ae1f58c2334eb6cd3c023
   docs/models/shared/Search.md:
-    last_write_checksum: sha1:54a972d9edf5ffca35f2b234dfede36d45e10d26
+    last_write_checksum: sha1:6b0e6458b97af72431a5ef567e68d402f1dd22ad
   docs/models/shared/SearchKind.md:
-    last_write_checksum: sha1:f75b13bdfc38fa43c82d09e6e9527eb16b8aba2f
+    last_write_checksum: sha1:03d69df99578c47dff5a015f407d5e68a0de0d3d
   docs/models/shared/SearchRequest.md:
     last_write_checksum: sha1:14dcf592134cf96add8252e117f0853b794fd2a0
   docs/models/shared/SearchStatus.md:
@@ -1489,7 +1489,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:7b3156334cdccee4b2649b91879bb081fec87a30
+    last_write_checksum: sha1:92bd8d9e5e8ecee5379f5d71fcc1be092ec03c5c
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1577,7 +1577,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:73f79931ebf2bd9da27fc101c38133567e7e7cc6
+    last_write_checksum: sha1:5d74bbeb331e4e07d1c90179436aad183436e4af
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -3407,7 +3407,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/RecordKind.java:
     last_write_checksum: sha1:4403d8bfd3e913f3dd2da6f31c8f5d22a5ce1b4c
   src/main/java/org/noresponse/models/shared/RecordMatch.java:
-    last_write_checksum: sha1:c97213e888122f4cbdaf6d13c1da5e759fa934f0
+    last_write_checksum: sha1:3b5d106e76c0a8dca785fc58dda9f6b618254f63
   src/main/java/org/noresponse/models/shared/RecordRemaining.java:
     last_write_checksum: sha1:8822a3c488746604af9f9bc22f662640da98f1ed
   src/main/java/org/noresponse/models/shared/RecordRole.java:
@@ -3573,9 +3573,9 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/ScreeningStatus.java:
     last_write_checksum: sha1:341632f762d4a1782869309768e9bdb81da896f8
   src/main/java/org/noresponse/models/shared/Search.java:
-    last_write_checksum: sha1:ed78b27ef53ec84e6e6501100bb993e6eb719c62
+    last_write_checksum: sha1:4fe98320f132eafc7fd75e33ef53b420268cdd7e
   src/main/java/org/noresponse/models/shared/SearchKind.java:
-    last_write_checksum: sha1:a5de2685a0c8737454c7bf035c5e6ce8d8085d41
+    last_write_checksum: sha1:c30d621337c9127a2d84a119d78c6b5e4d448cb0
   src/main/java/org/noresponse/models/shared/SearchRequest.java:
     last_write_checksum: sha1:30c9d520cadf9a3d79be62ef798294f2ba6d9049
   src/main/java/org/noresponse/models/shared/SearchStatus.java:
@@ -6672,7 +6672,7 @@ examples:
         application/json: {"record_id": "rec_3f9a1c22d4e5b6a73f9a1c22d4e5b6a7", "field": "username", "table": "FORUM_EXAMPLE_COM_2019"}
       responses:
         "202":
-          application/json: {"search_id": "srh_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "record_id": "rec_3f9a1c22d4e5b6a73f9a1c22d4e5b6a7", "field": "username", "table": "FORUM_EXAMPLE_COM_2019", "kind": "email", "value": "jordanexample42", "status": "completed", "sources": 369225, "answered": 317146, "found": 776513, "estimated_spend": 346465, "spent": 341223, "requested_by": "user_2abc", "created_at": "2026-01-01T00:00:00Z", "finished_at": "2026-01-01T00:00:05Z"}
+          application/json: {"search_id": "srh_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "record_id": "rec_3f9a1c22d4e5b6a73f9a1c22d4e5b6a7", "field": "username", "table": "FORUM_EXAMPLE_COM_2019", "kind": "phone", "value": "jordanexample42", "status": "completed", "sources": 369225, "answered": 317146, "found": 776513, "estimated_spend": 346465, "spent": 341223, "requested_by": "user_2abc", "created_at": "2026-01-01T00:00:00Z", "finished_at": "2026-01-01T00:00:05Z"}
         "400":
           application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 400, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "webhook_url_refused", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
         "401":

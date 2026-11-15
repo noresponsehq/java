@@ -43,7 +43,8 @@ public class Search {
     private String table;
 
     /**
-     * The kind of the value searched.
+     * The kind of the value searched. A domain search finds the leaked rows of every email address at the
+     * domain.
      */
     @JsonProperty("kind")
     private SearchKind kind;
@@ -229,7 +230,8 @@ public class Search {
     }
 
     /**
-     * The kind of the value searched.
+     * The kind of the value searched. A domain search finds the leaked rows of every email address at the
+     * domain.
      */
     public SearchKind kind() {
         return this.kind;
@@ -356,7 +358,8 @@ public class Search {
     }
 
     /**
-     * The kind of the value searched.
+     * The kind of the value searched. A domain search finds the leaked rows of every email address at the
+     * domain.
      */
     public Search withKind(@Nonnull SearchKind kind) {
         this.kind = Utils.checkNotNull(kind, "kind");
@@ -623,7 +626,8 @@ public class Search {
         }
 
         /**
-         * The kind of the value searched.
+         * The kind of the value searched. A domain search finds the leaked rows of every email address at the
+         * domain.
          */
         public Builder kind(@Nonnull SearchKind kind) {
             this.kind = Utils.checkNotNull(kind, "kind");
