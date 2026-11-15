@@ -61,8 +61,10 @@ public class Record {
      * rare value more than a common one, and a different birth date or full name lowers it.
      *
      * <p>What is known is what the person's row gives and the values of their own records: those found by
-     * their email or phone, and those a reviewer joined. Present on a person's lookup records, with
-     * agreed, clashed and joined.
+     * their email or phone, and those a reviewer joined. A record whose source kind starts with domain_
+     * describes an email's domain, not the person, so it is not compared and adds nothing to what is
+     * known: it stays at 0.99 when the person's own email found it and at 0.5 otherwise. Present on a
+     * person's lookup records, with agreed, clashed and joined.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("likelihood")
@@ -183,8 +185,10 @@ public class Record {
      * rare value more than a common one, and a different birth date or full name lowers it.
      *
      * <p>What is known is what the person's row gives and the values of their own records: those found by
-     * their email or phone, and those a reviewer joined. Present on a person's lookup records, with
-     * agreed, clashed and joined.
+     * their email or phone, and those a reviewer joined. A record whose source kind starts with domain_
+     * describes an email's domain, not the person, so it is not compared and adds nothing to what is
+     * known: it stays at 0.99 when the person's own email found it and at 0.5 otherwise. Present on a
+     * person's lookup records, with agreed, clashed and joined.
      */
     public Optional<Double> likelihood() {
         return Optional.ofNullable(this.likelihood);
@@ -277,8 +281,10 @@ public class Record {
      * rare value more than a common one, and a different birth date or full name lowers it.
      *
      * <p>What is known is what the person's row gives and the values of their own records: those found by
-     * their email or phone, and those a reviewer joined. Present on a person's lookup records, with
-     * agreed, clashed and joined.
+     * their email or phone, and those a reviewer joined. A record whose source kind starts with domain_
+     * describes an email's domain, not the person, so it is not compared and adds nothing to what is
+     * known: it stays at 0.99 when the person's own email found it and at 0.5 otherwise. Present on a
+     * person's lookup records, with agreed, clashed and joined.
      */
     public Record withLikelihood(@Nullable Double likelihood) {
         this.likelihood = likelihood;
@@ -452,8 +458,10 @@ public class Record {
          * rare value more than a common one, and a different birth date or full name lowers it.
          *
          * <p>What is known is what the person's row gives and the values of their own records: those found by
-         * their email or phone, and those a reviewer joined. Present on a person's lookup records, with
-         * agreed, clashed and joined.
+         * their email or phone, and those a reviewer joined. A record whose source kind starts with domain_
+         * describes an email's domain, not the person, so it is not compared and adds nothing to what is
+         * known: it stays at 0.99 when the person's own email found it and at 0.5 otherwise. Present on a
+         * person's lookup records, with agreed, clashed and joined.
          */
         public Builder likelihood(@Nullable Double likelihood) {
             this.likelihood = likelihood;
