@@ -23,7 +23,8 @@ import java.util.Optional;
  * intelligence) or an email account source that searches one platform for an account by email address
  * (adobe, nvidia, wix, life360, zapier, google). google runs only for Gmail addresses. scratch,
  * dailymotion, substack, duolingo, dockerhub, wikipedia, internetarchive, telegram, spotify, patreon,
- * wordpress, okru and flickr each search that platform for an account by username.
+ * wordpress, okru and flickr each search that platform for an account by username; telegram also
+ * searches by phone number, through a logged-in Telegram lookup account.
  *
  * <p>whatsapp searches WhatsApp for an account by phone number.
  */
