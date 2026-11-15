@@ -22,8 +22,8 @@ import java.util.Optional;
  * rdap (the email domain's registration), mx (the email domain's mail servers), ipintel (IP
  * intelligence) or an email account source that searches one platform for an account by email address
  * (adobe, nvidia, wix, life360, zapier, google). google runs only for Gmail addresses. scratch,
- * dailymotion, substack, duolingo, dockerhub, wikipedia and internetarchive each search that platform
- * for an account by username.
+ * dailymotion, substack, duolingo, dockerhub, wikipedia, internetarchive, telegram, spotify, patreon,
+ * wordpress, okru and flickr each search that platform for an account by username.
  */
 public class SourceId {
 
@@ -46,6 +46,12 @@ public class SourceId {
     public static final SourceId DOCKERHUB = new SourceId("dockerhub");
     public static final SourceId WIKIPEDIA = new SourceId("wikipedia");
     public static final SourceId INTERNETARCHIVE = new SourceId("internetarchive");
+    public static final SourceId TELEGRAM = new SourceId("telegram");
+    public static final SourceId SPOTIFY = new SourceId("spotify");
+    public static final SourceId PATREON = new SourceId("patreon");
+    public static final SourceId WORDPRESS = new SourceId("wordpress");
+    public static final SourceId OKRU = new SourceId("okru");
+    public static final SourceId FLICKR = new SourceId("flickr");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -135,6 +141,12 @@ public class SourceId {
         map.put("dockerhub", DOCKERHUB);
         map.put("wikipedia", WIKIPEDIA);
         map.put("internetarchive", INTERNETARCHIVE);
+        map.put("telegram", TELEGRAM);
+        map.put("spotify", SPOTIFY);
+        map.put("patreon", PATREON);
+        map.put("wordpress", WORDPRESS);
+        map.put("okru", OKRU);
+        map.put("flickr", FLICKR);
         return map;
     }
 
@@ -159,6 +171,12 @@ public class SourceId {
         map.put("dockerhub", SourceIdEnum.DOCKERHUB);
         map.put("wikipedia", SourceIdEnum.WIKIPEDIA);
         map.put("internetarchive", SourceIdEnum.INTERNETARCHIVE);
+        map.put("telegram", SourceIdEnum.TELEGRAM);
+        map.put("spotify", SourceIdEnum.SPOTIFY);
+        map.put("patreon", SourceIdEnum.PATREON);
+        map.put("wordpress", SourceIdEnum.WORDPRESS);
+        map.put("okru", SourceIdEnum.OKRU);
+        map.put("flickr", SourceIdEnum.FLICKR);
         return map;
     }
 
@@ -183,6 +201,12 @@ public class SourceId {
         DOCKERHUB("dockerhub"),
         WIKIPEDIA("wikipedia"),
         INTERNETARCHIVE("internetarchive"),
+        TELEGRAM("telegram"),
+        SPOTIFY("spotify"),
+        PATREON("patreon"),
+        WORDPRESS("wordpress"),
+        OKRU("okru"),
+        FLICKR("flickr"),
         ;
 
         private final String value;
