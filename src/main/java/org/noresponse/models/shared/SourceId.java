@@ -28,7 +28,10 @@ import java.util.Optional;
  * <p>scratch, dailymotion, substack, duolingo, dockerhub, wikipedia, internetarchive, telegram, spotify,
  * patreon, wordpress, okru and flickr each search that platform for an account by username; telegram
  * also searches by phone number, through a logged-in Telegram lookup account. whatsapp searches
- * WhatsApp for an account by phone number. youtube searches YouTube for a channel by username.
+ * WhatsApp for an account by phone number. opplysningen (1881, Norway), ratsit (Sweden) and
+ * reverseaustralia (Australia) each look up a phone number of their own country on that site.
+ *
+ * <p>youtube searches YouTube for a channel by username.
  */
 public class SourceId {
 
@@ -64,6 +67,9 @@ public class SourceId {
     public static final SourceId OKRU = new SourceId("okru");
     public static final SourceId FLICKR = new SourceId("flickr");
     public static final SourceId WHATSAPP = new SourceId("whatsapp");
+    public static final SourceId OPPLYSNINGEN = new SourceId("opplysningen");
+    public static final SourceId RATSIT = new SourceId("ratsit");
+    public static final SourceId REVERSEAUSTRALIA = new SourceId("reverseaustralia");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -166,6 +172,9 @@ public class SourceId {
         map.put("okru", OKRU);
         map.put("flickr", FLICKR);
         map.put("whatsapp", WHATSAPP);
+        map.put("opplysningen", OPPLYSNINGEN);
+        map.put("ratsit", RATSIT);
+        map.put("reverseaustralia", REVERSEAUSTRALIA);
         return map;
     }
 
@@ -203,6 +212,9 @@ public class SourceId {
         map.put("okru", SourceIdEnum.OKRU);
         map.put("flickr", SourceIdEnum.FLICKR);
         map.put("whatsapp", SourceIdEnum.WHATSAPP);
+        map.put("opplysningen", SourceIdEnum.OPPLYSNINGEN);
+        map.put("ratsit", SourceIdEnum.RATSIT);
+        map.put("reverseaustralia", SourceIdEnum.REVERSEAUSTRALIA);
         return map;
     }
 
@@ -240,6 +252,9 @@ public class SourceId {
         OKRU("okru"),
         FLICKR("flickr"),
         WHATSAPP("whatsapp"),
+        OPPLYSNINGEN("opplysningen"),
+        RATSIT("ratsit"),
+        REVERSEAUSTRALIA("reverseaustralia"),
         ;
 
         private final String value;
