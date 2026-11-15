@@ -22,8 +22,9 @@ import java.util.Optional;
  * rdap (the email domain's registration), mx (the email domain's mail servers), ipintel (IP
  * intelligence) or an email account source that searches one platform for an account by email address
  * (adobe, nvidia, wix, life360, zapier, x_email, snapchat_email, amazon, spotify_email, google,
- * duolingo_email). x_email, snapchat_email, amazon and spotify_email only say whether the email has an
- * account on X, Snapchat, Amazon or Spotify. google runs only for Gmail addresses.
+ * duolingo_email, chesscom_email). x_email, snapchat_email, amazon, spotify_email and chesscom_email
+ * only say whether the email has an account on X, Snapchat, Amazon, Spotify or Chess.com. google runs
+ * only for Gmail addresses.
  *
  * <p>scratch, dailymotion, substack, duolingo, dockerhub, wikipedia, internetarchive, telegram, spotify,
  * patreon, wordpress, okru, flickr and chesscom each search that platform for an account by username;
@@ -52,6 +53,7 @@ public class SourceId {
     public static final SourceId SNAPCHAT_EMAIL = new SourceId("snapchat_email");
     public static final SourceId AMAZON = new SourceId("amazon");
     public static final SourceId SPOTIFY_EMAIL = new SourceId("spotify_email");
+    public static final SourceId CHESSCOM_EMAIL = new SourceId("chesscom_email");
     public static final SourceId GOOGLE = new SourceId("google");
     public static final SourceId SCRATCH = new SourceId("scratch");
     public static final SourceId DAILYMOTION = new SourceId("dailymotion");
@@ -161,6 +163,7 @@ public class SourceId {
         map.put("snapchat_email", SNAPCHAT_EMAIL);
         map.put("amazon", AMAZON);
         map.put("spotify_email", SPOTIFY_EMAIL);
+        map.put("chesscom_email", CHESSCOM_EMAIL);
         map.put("google", GOOGLE);
         map.put("scratch", SCRATCH);
         map.put("dailymotion", DAILYMOTION);
@@ -205,6 +208,7 @@ public class SourceId {
         map.put("snapchat_email", SourceIdEnum.SNAPCHAT_EMAIL);
         map.put("amazon", SourceIdEnum.AMAZON);
         map.put("spotify_email", SourceIdEnum.SPOTIFY_EMAIL);
+        map.put("chesscom_email", SourceIdEnum.CHESSCOM_EMAIL);
         map.put("google", SourceIdEnum.GOOGLE);
         map.put("scratch", SourceIdEnum.SCRATCH);
         map.put("dailymotion", SourceIdEnum.DAILYMOTION);
@@ -249,6 +253,7 @@ public class SourceId {
         SNAPCHAT_EMAIL("snapchat_email"),
         AMAZON("amazon"),
         SPOTIFY_EMAIL("spotify_email"),
+        CHESSCOM_EMAIL("chesscom_email"),
         GOOGLE("google"),
         SCRATCH("scratch"),
         DAILYMOTION("dailymotion"),
