@@ -29,8 +29,8 @@ import java.util.Optional;
  * patreon, wordpress, okru, flickr and chesscom each search that platform for an account by username;
  * telegram also searches by phone number, through a logged-in Telegram lookup account. whatsapp
  * searches WhatsApp for an account by phone number, and life360_phone searches Life360 for one.
- * opplysningen (1881, Norway), ratsit (Sweden) and reverseaustralia (Australia) each look up a phone
- * number of their own country on that site.
+ * opplysningen (1881, Norway), ratsit (Sweden), numlookup and usphonebook (the US) and
+ * reverseaustralia (Australia) each look up a phone number of their own country on that site.
  *
  * <p>youtube searches YouTube for a channel by username.
  */
@@ -72,6 +72,8 @@ public class SourceId {
     public static final SourceId WHATSAPP = new SourceId("whatsapp");
     public static final SourceId OPPLYSNINGEN = new SourceId("opplysningen");
     public static final SourceId RATSIT = new SourceId("ratsit");
+    public static final SourceId NUMLOOKUP = new SourceId("numlookup");
+    public static final SourceId USPHONEBOOK = new SourceId("usphonebook");
     public static final SourceId REVERSEAUSTRALIA = new SourceId("reverseaustralia");
 
     // This map will grow whenever a Color gets created with a new
@@ -179,6 +181,8 @@ public class SourceId {
         map.put("whatsapp", WHATSAPP);
         map.put("opplysningen", OPPLYSNINGEN);
         map.put("ratsit", RATSIT);
+        map.put("numlookup", NUMLOOKUP);
+        map.put("usphonebook", USPHONEBOOK);
         map.put("reverseaustralia", REVERSEAUSTRALIA);
         return map;
     }
@@ -221,6 +225,8 @@ public class SourceId {
         map.put("whatsapp", SourceIdEnum.WHATSAPP);
         map.put("opplysningen", SourceIdEnum.OPPLYSNINGEN);
         map.put("ratsit", SourceIdEnum.RATSIT);
+        map.put("numlookup", SourceIdEnum.NUMLOOKUP);
+        map.put("usphonebook", SourceIdEnum.USPHONEBOOK);
         map.put("reverseaustralia", SourceIdEnum.REVERSEAUSTRALIA);
         return map;
     }
@@ -263,6 +269,8 @@ public class SourceId {
         WHATSAPP("whatsapp"),
         OPPLYSNINGEN("opplysningen"),
         RATSIT("ratsit"),
+        NUMLOOKUP("numlookup"),
+        USPHONEBOOK("usphonebook"),
         REVERSEAUSTRALIA("reverseaustralia"),
         ;
 
