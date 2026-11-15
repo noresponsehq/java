@@ -21,10 +21,10 @@ import java.util.Optional;
  * <p>A NoResponse source: github (GitHub accounts), phone (the phone lookup), breach (breach exposure),
  * rdap (the email domain's registration), mx (the email domain's mail servers), ipintel (IP
  * intelligence) or an email account source that searches one platform for an account by email address
- * (adobe, nvidia, wix, life360, zapier, google). google runs only for Gmail addresses. scratch,
- * dailymotion, substack, duolingo, dockerhub, wikipedia, internetarchive, telegram, spotify, patreon,
- * wordpress, okru and flickr each search that platform for an account by username; telegram also
- * searches by phone number, through a logged-in Telegram lookup account.
+ * (adobe, nvidia, wix, life360, zapier, google, duolingo_email). google runs only for Gmail addresses.
+ * scratch, dailymotion, substack, duolingo, dockerhub, wikipedia, internetarchive, telegram, spotify,
+ * patreon, wordpress, okru and flickr each search that platform for an account by username; telegram
+ * also searches by phone number, through a logged-in Telegram lookup account.
  *
  * <p>whatsapp searches WhatsApp for an account by phone number.
  */
@@ -46,6 +46,7 @@ public class SourceId {
     public static final SourceId DAILYMOTION = new SourceId("dailymotion");
     public static final SourceId SUBSTACK = new SourceId("substack");
     public static final SourceId DUOLINGO = new SourceId("duolingo");
+    public static final SourceId DUOLINGO_EMAIL = new SourceId("duolingo_email");
     public static final SourceId DOCKERHUB = new SourceId("dockerhub");
     public static final SourceId WIKIPEDIA = new SourceId("wikipedia");
     public static final SourceId INTERNETARCHIVE = new SourceId("internetarchive");
@@ -142,6 +143,7 @@ public class SourceId {
         map.put("dailymotion", DAILYMOTION);
         map.put("substack", SUBSTACK);
         map.put("duolingo", DUOLINGO);
+        map.put("duolingo_email", DUOLINGO_EMAIL);
         map.put("dockerhub", DOCKERHUB);
         map.put("wikipedia", WIKIPEDIA);
         map.put("internetarchive", INTERNETARCHIVE);
@@ -173,6 +175,7 @@ public class SourceId {
         map.put("dailymotion", SourceIdEnum.DAILYMOTION);
         map.put("substack", SourceIdEnum.SUBSTACK);
         map.put("duolingo", SourceIdEnum.DUOLINGO);
+        map.put("duolingo_email", SourceIdEnum.DUOLINGO_EMAIL);
         map.put("dockerhub", SourceIdEnum.DOCKERHUB);
         map.put("wikipedia", SourceIdEnum.WIKIPEDIA);
         map.put("internetarchive", SourceIdEnum.INTERNETARCHIVE);
@@ -204,6 +207,7 @@ public class SourceId {
         DAILYMOTION("dailymotion"),
         SUBSTACK("substack"),
         DUOLINGO("duolingo"),
+        DUOLINGO_EMAIL("duolingo_email"),
         DOCKERHUB("dockerhub"),
         WIKIPEDIA("wikipedia"),
         INTERNETARCHIVE("internetarchive"),
