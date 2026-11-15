@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: aef5662028ea3dd500fe672dc8c48ff3
+  docChecksum: 3f04863dce77f4824dace24dbbc64f4e
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 12.0.29
-  configChecksum: f907c78589a41db6a337d4037f46a205
+  releaseVersion: 12.0.30
+  configChecksum: 6227af92af4a92eb641636fa049ba686
 features:
   java:
     additionalDependencies: 0.1.0
@@ -555,7 +555,7 @@ trackedFiles:
   docs/models/shared/Action.md:
     last_write_checksum: sha1:9c5c811ff1a88c9fa5fbc2b86198272f84e8b12f
   docs/models/shared/Actor.md:
-    last_write_checksum: sha1:460a2d918c3e0a6cf30af7c2d67dd56ff55d78b6
+    last_write_checksum: sha1:802bec97bc253ceee9082f9939f9c7323e3ea813
   docs/models/shared/Admission.md:
     last_write_checksum: sha1:a196319b18a46e1b875723d3a06f34ce172f0104
   docs/models/shared/AggregateBucket.md:
@@ -1326,6 +1326,8 @@ trackedFiles:
     last_write_checksum: sha1:3df8e79dc90d0e3906c44075e62c57c3e1fd3948
   docs/models/shared/SentIdentifiers.md:
     last_write_checksum: sha1:86a3311800e4dc9cd20983e14d27fdbcee13ec31
+  docs/models/shared/ServiceActor.md:
+    last_write_checksum: sha1:ac2e29a236cf43e1db1a47299bc23fc4b6132b9c
   docs/models/shared/Settings.md:
     last_write_checksum: sha1:8a627c05d74abdd14f9dbcdec65301a39bec72d4
   docs/models/shared/SettingsFlows.md:
@@ -1401,7 +1403,7 @@ trackedFiles:
   docs/models/shared/WebhookEndpointState.md:
     last_write_checksum: sha1:93334b410fd3f3a5ff73570de73b55a7504ea09f
   docs/models/shared/WebhookEvent.md:
-    last_write_checksum: sha1:350e58ece1d464bff50084d40f9cfd64142ee00e
+    last_write_checksum: sha1:3580be54649803a962771443b1b9974d234992e3
   docs/models/shared/WebhookKeyRotation.md:
     last_write_checksum: sha1:0663fc26f832bd915cb51f150ab7b3476152ad0e
   docs/models/shared/WebhookKeyRotationRequest.md:
@@ -1491,7 +1493,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:c4187a398687f46d4bf941bd4a132ad9d16d6e5c
+    last_write_checksum: sha1:894697b7ce832d6f3f80321ccd50bc6a497d3f59
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1579,7 +1581,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:eb5c43da9b24fb41666977aaacb1cec544fb8180
+    last_write_checksum: sha1:4c6a73d74601d0c23a33191da8c2f122500a7e76
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -2817,7 +2819,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/Action.java:
     last_write_checksum: sha1:62ef75a42fdfbd93fd809cf8249620fc8132cb06
   src/main/java/org/noresponse/models/shared/Actor.java:
-    last_write_checksum: sha1:cf5894a8a0864a1ffe96a1c6fe0f3c45a5342b70
+    last_write_checksum: sha1:315988bc9fcabd7269b7f0fb5f62f076ac2feb8f
   src/main/java/org/noresponse/models/shared/Admission.java:
     last_write_checksum: sha1:ee941781c23a57e745b275db086a236abf18a13b
   src/main/java/org/noresponse/models/shared/AggregateBucket.java:
@@ -3588,6 +3590,8 @@ trackedFiles:
     last_write_checksum: sha1:00b00c44a639cbb7ac54ac986cb718e03d21f198
   src/main/java/org/noresponse/models/shared/SentIdentifiers.java:
     last_write_checksum: sha1:d9e514b9851b199eddfd1a281d5d087e3451b336
+  src/main/java/org/noresponse/models/shared/ServiceActor.java:
+    last_write_checksum: sha1:fc65bc690305563781c4f27b284bcb5f22e82694
   src/main/java/org/noresponse/models/shared/Settings.java:
     last_write_checksum: sha1:b1156a731176935e8363ac47c2f38c8d6ed8690b
   src/main/java/org/noresponse/models/shared/SettingsFlows.java:

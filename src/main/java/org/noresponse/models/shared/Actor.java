@@ -34,6 +34,11 @@ public class Actor {
         return new Actor(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>() {}));
     }
 
+    public static Actor of(ServiceActor value) {
+        Utils.checkNotNull(value, "value");
+        return new Actor(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>() {}));
+    }
+
     /**
      * Returns an {@link Optional} containing the value if it is of type {@code UserActor},
      * otherwise returns an empty {@link Optional}.
@@ -56,6 +61,19 @@ public class Actor {
     public Optional<KeyActor> keyActor() {
         if (value.value() instanceof KeyActor) {
             return Optional.of((KeyActor) value.value());
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Returns an {@link Optional} containing the value if it is of type {@code ServiceActor},
+     * otherwise returns an empty {@link Optional}.
+     *
+     * @return an {@link Optional} containing the {@code ServiceActor} value, or empty if not of this type
+     */
+    public Optional<ServiceActor> serviceActor() {
+        if (value.value() instanceof ServiceActor) {
+            return Optional.of((ServiceActor) value.value());
         }
         return Optional.empty();
     }
@@ -97,7 +115,8 @@ public class Actor {
                     Actor.class,
                     false,
                     TypeReferenceWithShape.of(new TypeReference<UserActor>() {}, JsonShape.DEFAULT),
-                    TypeReferenceWithShape.of(new TypeReference<KeyActor>() {}, JsonShape.DEFAULT));
+                    TypeReferenceWithShape.of(new TypeReference<KeyActor>() {}, JsonShape.DEFAULT),
+                    TypeReferenceWithShape.of(new TypeReference<ServiceActor>() {}, JsonShape.DEFAULT));
         }
     }
 

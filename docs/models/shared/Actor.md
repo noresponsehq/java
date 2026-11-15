@@ -21,6 +21,14 @@ Actor value = Actor.of(KeyActor.builder()
     .build());
 ```
 
+### [`ServiceActor`](../../models/shared/ServiceActor.md)
+
+```java
+Actor value = Actor.of(ServiceActor.builder()
+    .name("replenisher")
+    .build());
+```
+
 ## Consumption Patterns
 
 ### Java 11+ (Accessor Methods)
@@ -32,6 +40,9 @@ if (value.userActor().isPresent()) {
 } else if (value.keyActor().isPresent()) {
     org.noresponse.models.shared.KeyActor keyActorValue = value.keyActor().get();
     // Handle keyActor variant
+} else if (value.serviceActor().isPresent()) {
+    org.noresponse.models.shared.ServiceActor serviceActorValue = value.serviceActor().get();
+    // Handle serviceActor variant
 } else if (value.asJson().isPresent()) {
     com.fasterxml.jackson.databind.JsonNode raw = value.asJson().get();
     // Handle unknown variant fallback
