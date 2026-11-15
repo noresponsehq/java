@@ -75,7 +75,8 @@ public class RecordField {
 
     /**
      * How distinctive a searchable value is: an email, phone, username, password, hash, person name or IP.
-     * Absent for other values, and when its rating could not be worked out, such as when a count failed.
+     * Absent for other values, for a field with no value, and when its rating could not be worked out,
+     * such as when a count failed.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("distinctive")
@@ -164,7 +165,8 @@ public class RecordField {
 
     /**
      * How distinctive a searchable value is: an email, phone, username, password, hash, person name or IP.
-     * Absent for other values, and when its rating could not be worked out, such as when a count failed.
+     * Absent for other values, for a field with no value, and when its rating could not be worked out,
+     * such as when a count failed.
      */
     public Optional<RecordDistinctive> distinctive() {
         return Optional.ofNullable(this.distinctive);
@@ -240,7 +242,8 @@ public class RecordField {
 
     /**
      * How distinctive a searchable value is: an email, phone, username, password, hash, person name or IP.
-     * Absent for other values, and when its rating could not be worked out, such as when a count failed.
+     * Absent for other values, for a field with no value, and when its rating could not be worked out,
+     * such as when a count failed.
      */
     public RecordField withDistinctive(@Nullable RecordDistinctive distinctive) {
         this.distinctive = distinctive;
@@ -377,7 +380,8 @@ public class RecordField {
 
         /**
          * How distinctive a searchable value is: an email, phone, username, password, hash, person name or IP.
-         * Absent for other values, and when its rating could not be worked out, such as when a count failed.
+         * Absent for other values, for a field with no value, and when its rating could not be worked out,
+         * such as when a count failed.
          */
         public Builder distinctive(@Nullable RecordDistinctive distinctive) {
             this.distinctive = distinctive;

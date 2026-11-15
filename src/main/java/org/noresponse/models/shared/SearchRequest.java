@@ -25,7 +25,8 @@ public class SearchRequest {
 
     /**
      * The name of the record's field whose value to search. Its kind must be email, phone, username,
-     * person_name, password, hash or ip.
+     * person_name, password, hash, ip or domain, and it must have a value: a field the source masked or
+     * that could not be cleaned is not searched.
      */
     @JsonProperty("field")
     private String field;
@@ -62,7 +63,8 @@ public class SearchRequest {
 
     /**
      * The name of the record's field whose value to search. Its kind must be email, phone, username,
-     * person_name, password, hash or ip.
+     * person_name, password, hash, ip or domain, and it must have a value: a field the source masked or
+     * that could not be cleaned is not searched.
      */
     public String field() {
         return this.field;
@@ -90,7 +92,8 @@ public class SearchRequest {
 
     /**
      * The name of the record's field whose value to search. Its kind must be email, phone, username,
-     * person_name, password, hash or ip.
+     * person_name, password, hash, ip or domain, and it must have a value: a field the source masked or
+     * that could not be cleaned is not searched.
      */
     public SearchRequest withField(@Nonnull String field) {
         this.field = Utils.checkNotNull(field, "field");
@@ -153,7 +156,8 @@ public class SearchRequest {
 
         /**
          * The name of the record's field whose value to search. Its kind must be email, phone, username,
-         * person_name, password, hash or ip.
+         * person_name, password, hash, ip or domain, and it must have a value: a field the source masked or
+         * that could not be cleaned is not searched.
          */
         public Builder field(@Nonnull String field) {
             this.field = Utils.checkNotNull(field, "field");
