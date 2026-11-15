@@ -8,6 +8,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.lang.Override;
 import java.lang.String;
+import java.util.List;
 import java.util.Optional;
 import org.noresponse.utils.Utils;
 
@@ -65,6 +66,15 @@ public class ScreeningLookupCheck {
     @JsonProperty("reason")
     private FailureReason reason;
 
+    /**
+     * Each source that did not give a definite answer, by connector, with why: the same connector id a
+     * record's source names. A source of the lane that no connector covers is counted in sources and not
+     * named here.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("unanswered")
+    private List<ScreeningLookupCheckUnansweredItem> unanswered;
+
     @JsonCreator
     public ScreeningLookupCheck(
             @JsonProperty("identifier") @Nonnull IdentifierSearchKind identifier,
@@ -73,7 +83,8 @@ public class ScreeningLookupCheck {
             @JsonProperty("sources") long sources,
             @JsonProperty("answered") long answered,
             @JsonProperty("found") long found,
-            @JsonProperty("reason") @Nullable FailureReason reason) {
+            @JsonProperty("reason") @Nullable FailureReason reason,
+            @JsonProperty("unanswered") @Nullable List<ScreeningLookupCheckUnansweredItem> unanswered) {
         this.identifier = Optional.ofNullable(identifier)
                 .orElseThrow(() -> new IllegalArgumentException("identifier cannot be null"));
         this.lane = Optional.ofNullable(lane).orElseThrow(() -> new IllegalArgumentException("lane cannot be null"));
@@ -83,6 +94,7 @@ public class ScreeningLookupCheck {
         this.answered = answered;
         this.found = found;
         this.reason = reason;
+        this.unanswered = unanswered;
     }
 
     public ScreeningLookupCheck(
@@ -92,7 +104,7 @@ public class ScreeningLookupCheck {
             long sources,
             long answered,
             long found) {
-        this(identifier, lane, status, sources, answered, found, null);
+        this(identifier, lane, status, sources, answered, found, null, null);
     }
 
     public IdentifierSearchKind identifier() {
@@ -146,6 +158,15 @@ public class ScreeningLookupCheck {
      */
     public Optional<FailureReason> reason() {
         return Optional.ofNullable(this.reason);
+    }
+
+    /**
+     * Each source that did not give a definite answer, by connector, with why: the same connector id a
+     * record's source names. A source of the lane that no connector covers is counted in sources and not
+     * named here.
+     */
+    public Optional<List<ScreeningLookupCheckUnansweredItem>> unanswered() {
+        return Optional.ofNullable(this.unanswered);
     }
 
     public static Builder builder() {
@@ -212,6 +233,16 @@ public class ScreeningLookupCheck {
         return this;
     }
 
+    /**
+     * Each source that did not give a definite answer, by connector, with why: the same connector id a
+     * record's source names. A source of the lane that no connector covers is counted in sources and not
+     * named here.
+     */
+    public ScreeningLookupCheck withUnanswered(@Nullable List<ScreeningLookupCheckUnansweredItem> unanswered) {
+        this.unanswered = unanswered;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -227,12 +258,13 @@ public class ScreeningLookupCheck {
                 && Utils.enhancedDeepEquals(this.sources, other.sources)
                 && Utils.enhancedDeepEquals(this.answered, other.answered)
                 && Utils.enhancedDeepEquals(this.found, other.found)
-                && Utils.enhancedDeepEquals(this.reason, other.reason);
+                && Utils.enhancedDeepEquals(this.reason, other.reason)
+                && Utils.enhancedDeepEquals(this.unanswered, other.unanswered);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(identifier, lane, status, sources, answered, found, reason);
+        return Utils.enhancedHash(identifier, lane, status, sources, answered, found, reason, unanswered);
     }
 
     @Override
@@ -252,7 +284,9 @@ public class ScreeningLookupCheck {
                 "found",
                 found,
                 "reason",
-                reason);
+                reason,
+                "unanswered",
+                unanswered);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -271,6 +305,8 @@ public class ScreeningLookupCheck {
         private long found;
 
         private FailureReason reason;
+
+        private List<ScreeningLookupCheckUnansweredItem> unanswered;
 
         private Builder() {
             // force use of static builder() method
@@ -336,8 +372,18 @@ public class ScreeningLookupCheck {
             return this;
         }
 
+        /**
+         * Each source that did not give a definite answer, by connector, with why: the same connector id a
+         * record's source names. A source of the lane that no connector covers is counted in sources and not
+         * named here.
+         */
+        public Builder unanswered(@Nullable List<ScreeningLookupCheckUnansweredItem> unanswered) {
+            this.unanswered = unanswered;
+            return this;
+        }
+
         public ScreeningLookupCheck build() {
-            return new ScreeningLookupCheck(identifier, lane, status, sources, answered, found, reason);
+            return new ScreeningLookupCheck(identifier, lane, status, sources, answered, found, reason, unanswered);
         }
     }
 }
