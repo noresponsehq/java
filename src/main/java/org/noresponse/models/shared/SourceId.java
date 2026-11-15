@@ -26,7 +26,8 @@ import java.util.Optional;
  * patreon, wordpress, okru and flickr each search that platform for an account by username; telegram
  * also searches by phone number, through a logged-in Telegram lookup account.
  *
- * <p>whatsapp searches WhatsApp for an account by phone number.
+ * <p>whatsapp searches WhatsApp for an account by phone number. youtube searches YouTube for a channel by
+ * username.
  */
 public class SourceId {
 
@@ -51,6 +52,7 @@ public class SourceId {
     public static final SourceId WIKIPEDIA = new SourceId("wikipedia");
     public static final SourceId INTERNETARCHIVE = new SourceId("internetarchive");
     public static final SourceId TELEGRAM = new SourceId("telegram");
+    public static final SourceId YOUTUBE = new SourceId("youtube");
     public static final SourceId SPOTIFY = new SourceId("spotify");
     public static final SourceId PATREON = new SourceId("patreon");
     public static final SourceId WORDPRESS = new SourceId("wordpress");
@@ -148,6 +150,7 @@ public class SourceId {
         map.put("wikipedia", WIKIPEDIA);
         map.put("internetarchive", INTERNETARCHIVE);
         map.put("telegram", TELEGRAM);
+        map.put("youtube", YOUTUBE);
         map.put("spotify", SPOTIFY);
         map.put("patreon", PATREON);
         map.put("wordpress", WORDPRESS);
@@ -180,6 +183,7 @@ public class SourceId {
         map.put("wikipedia", SourceIdEnum.WIKIPEDIA);
         map.put("internetarchive", SourceIdEnum.INTERNETARCHIVE);
         map.put("telegram", SourceIdEnum.TELEGRAM);
+        map.put("youtube", SourceIdEnum.YOUTUBE);
         map.put("spotify", SourceIdEnum.SPOTIFY);
         map.put("patreon", SourceIdEnum.PATREON);
         map.put("wordpress", SourceIdEnum.WORDPRESS);
@@ -212,6 +216,7 @@ public class SourceId {
         WIKIPEDIA("wikipedia"),
         INTERNETARCHIVE("internetarchive"),
         TELEGRAM("telegram"),
+        YOUTUBE("youtube"),
         SPOTIFY("spotify"),
         PATREON("patreon"),
         WORDPRESS("wordpress"),
