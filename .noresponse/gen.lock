@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 23e4a131d26ecec1dab727cc11d26310
+  docChecksum: f671165299a10a504bc0f6c0a159beb9
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 12.0.26
-  configChecksum: 40b905f558dc42e358204cdec41c01d1
+  releaseVersion: 12.0.27
+  configChecksum: 4f5507c87e05449ca9178b7160f60769
 features:
   java:
     additionalDependencies: 0.1.0
@@ -1143,9 +1143,9 @@ trackedFiles:
   docs/models/shared/RecordDistinctive.md:
     last_write_checksum: sha1:0c5bbee3a359af2e4127aad80218b8d27ec0cd79
   docs/models/shared/RecordField.md:
-    last_write_checksum: sha1:ba2349fb6bc76e1c73c83948fd6ede52a37fb644
+    last_write_checksum: sha1:b93f69a0ce9495dcea5db04249af0ab6eac7ab4f
   docs/models/shared/RecordKind.md:
-    last_write_checksum: sha1:98a1c5dff30c925377b5daab25a63a39a2808f74
+    last_write_checksum: sha1:ae59b29a63570d0a59783f03afcd0c5191f84610
   docs/models/shared/RecordMatch.md:
     last_write_checksum: sha1:e39b4335344536b6117102add97d794f9a735214
   docs/models/shared/RecordRemaining.md:
@@ -1489,7 +1489,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:bb7b37c27d7a4ef1f910af1701cbfcedcc159e53
+    last_write_checksum: sha1:4fa8fb20ae3cc08b0cb5b5a2b610019741858ecb
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1577,7 +1577,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:b28cb3e16c462d4fd9ef5afe575fec2c75dac686
+    last_write_checksum: sha1:23416f2db0105a65bf7ea196f63aadd2225d694f
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -3403,9 +3403,9 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/RecordDistinctive.java:
     last_write_checksum: sha1:34362084d349dde919bee7510ecf8838814c8ec6
   src/main/java/org/noresponse/models/shared/RecordField.java:
-    last_write_checksum: sha1:8fd6e138db889c7daf5ed4cbbdab8f25993cb437
+    last_write_checksum: sha1:1d5497cb6dfd8cf90780223131a4b5677af11b3f
   src/main/java/org/noresponse/models/shared/RecordKind.java:
-    last_write_checksum: sha1:4403d8bfd3e913f3dd2da6f31c8f5d22a5ce1b4c
+    last_write_checksum: sha1:2983b7097d5f5f32de86ff374b920b04419738b6
   src/main/java/org/noresponse/models/shared/RecordMatch.java:
     last_write_checksum: sha1:3b5d106e76c0a8dca785fc58dda9f6b618254f63
   src/main/java/org/noresponse/models/shared/RecordRemaining.java:
