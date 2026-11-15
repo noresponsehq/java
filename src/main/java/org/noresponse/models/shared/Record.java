@@ -23,7 +23,7 @@ import org.noresponse.utils.Utils;
 public class Record {
     /**
      * Made from the source and the fields' names and original values, so the same answer found twice is
-     * one record with the same id.
+     * one record with the same id. Its fields are typed as its latest finding typed them.
      */
     @JsonProperty("id")
     private String id;
@@ -140,7 +140,7 @@ public class Record {
 
     /**
      * Made from the source and the fields' names and original values, so the same answer found twice is
-     * one record with the same id.
+     * one record with the same id. Its fields are typed as its latest finding typed them.
      */
     public String id() {
         return this.id;
@@ -229,7 +229,7 @@ public class Record {
 
     /**
      * Made from the source and the fields' names and original values, so the same answer found twice is
-     * one record with the same id.
+     * one record with the same id. Its fields are typed as its latest finding typed them.
      */
     public Record withId(@Nonnull String id) {
         this.id = Utils.checkNotNull(id, "id");
@@ -404,7 +404,7 @@ public class Record {
 
         /**
          * Made from the source and the fields' names and original values, so the same answer found twice is
-         * one record with the same id.
+         * one record with the same id. Its fields are typed as its latest finding typed them.
          */
         public Builder id(@Nonnull String id) {
             this.id = Utils.checkNotNull(id, "id");
