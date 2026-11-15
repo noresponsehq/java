@@ -99,12 +99,7 @@ public class ListPeople {
         }
 
         <T> HttpRequest buildRequest(T request, Class<T> klass) throws Exception {
-            String url = Utils.generateURL(
-                    klass,
-                    this.baseUrl,
-                    "/v1/workspaces/{workspace_id}/groups/{environment}/{group_id}/people",
-                    request,
-                    null);
+            String url = Utils.generateURL(klass, this.baseUrl, "/v1/groups/{group_id}/people", request, null);
             HTTPRequest req = new HTTPRequest(url, "GET");
             req.addHeader("Accept", "application/json").addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));

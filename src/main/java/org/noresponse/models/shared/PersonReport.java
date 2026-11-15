@@ -26,25 +26,25 @@ public class PersonReport {
     private Person person;
 
     /**
-     * The accounts the latest screening matched, with how each was matched.
+     * The accounts this result matched, with how each was matched.
      */
     @JsonProperty("profiles")
     private List<ScreeningProfile> profiles;
 
     /**
-     * What the latest screening flagged, most severe first, each citing its evidence.
+     * What this result flagged, most severe first, each citing its evidence.
      */
     @JsonProperty("findings")
     private List<ScreeningFinding> findings;
 
     /**
-     * The posts the findings cite.
+     * All posts retained for this result, including posts that no finding cites.
      */
     @JsonProperty("posts")
     private List<ScreeningPost> posts;
 
     /**
-     * The images and videos the findings cite.
+     * All images and videos retained for this result, including media that no finding cites.
      */
     @JsonProperty("media")
     private List<ScreeningMedia> media;
@@ -137,28 +137,28 @@ public class PersonReport {
     }
 
     /**
-     * The accounts the latest screening matched, with how each was matched.
+     * The accounts this result matched, with how each was matched.
      */
     public List<ScreeningProfile> profiles() {
         return this.profiles;
     }
 
     /**
-     * What the latest screening flagged, most severe first, each citing its evidence.
+     * What this result flagged, most severe first, each citing its evidence.
      */
     public List<ScreeningFinding> findings() {
         return this.findings;
     }
 
     /**
-     * The posts the findings cite.
+     * All posts retained for this result, including posts that no finding cites.
      */
     public List<ScreeningPost> posts() {
         return this.posts;
     }
 
     /**
-     * The images and videos the findings cite.
+     * All images and videos retained for this result, including media that no finding cites.
      */
     public List<ScreeningMedia> media() {
         return this.media;
@@ -219,7 +219,7 @@ public class PersonReport {
     }
 
     /**
-     * The accounts the latest screening matched, with how each was matched.
+     * The accounts this result matched, with how each was matched.
      */
     public PersonReport withProfiles(@Nonnull List<ScreeningProfile> profiles) {
         this.profiles = Utils.checkNotNull(profiles, "profiles");
@@ -227,7 +227,7 @@ public class PersonReport {
     }
 
     /**
-     * What the latest screening flagged, most severe first, each citing its evidence.
+     * What this result flagged, most severe first, each citing its evidence.
      */
     public PersonReport withFindings(@Nonnull List<ScreeningFinding> findings) {
         this.findings = Utils.checkNotNull(findings, "findings");
@@ -235,7 +235,7 @@ public class PersonReport {
     }
 
     /**
-     * The posts the findings cite.
+     * All posts retained for this result, including posts that no finding cites.
      */
     public PersonReport withPosts(@Nonnull List<ScreeningPost> posts) {
         this.posts = Utils.checkNotNull(posts, "posts");
@@ -243,7 +243,7 @@ public class PersonReport {
     }
 
     /**
-     * The images and videos the findings cite.
+     * All images and videos retained for this result, including media that no finding cites.
      */
     public PersonReport withMedia(@Nonnull List<ScreeningMedia> media) {
         this.media = Utils.checkNotNull(media, "media");
@@ -386,7 +386,7 @@ public class PersonReport {
         }
 
         /**
-         * The accounts the latest screening matched, with how each was matched.
+         * The accounts this result matched, with how each was matched.
          */
         public Builder profiles(@Nonnull List<ScreeningProfile> profiles) {
             this.profiles = Utils.checkNotNull(profiles, "profiles");
@@ -394,7 +394,7 @@ public class PersonReport {
         }
 
         /**
-         * What the latest screening flagged, most severe first, each citing its evidence.
+         * What this result flagged, most severe first, each citing its evidence.
          */
         public Builder findings(@Nonnull List<ScreeningFinding> findings) {
             this.findings = Utils.checkNotNull(findings, "findings");
@@ -402,7 +402,7 @@ public class PersonReport {
         }
 
         /**
-         * The posts the findings cite.
+         * All posts retained for this result, including posts that no finding cites.
          */
         public Builder posts(@Nonnull List<ScreeningPost> posts) {
             this.posts = Utils.checkNotNull(posts, "posts");
@@ -410,7 +410,7 @@ public class PersonReport {
         }
 
         /**
-         * The images and videos the findings cite.
+         * All images and videos retained for this result, including media that no finding cites.
          */
         public Builder media(@Nonnull List<ScreeningMedia> media) {
             this.media = Utils.checkNotNull(media, "media");

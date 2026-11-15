@@ -76,9 +76,8 @@ public class CreateGroup {
                     this.sdkConfiguration, this.baseUrl, "createGroup", java.util.Optional.empty(), securitySource());
         }
 
-        <T, U> HttpRequest buildRequest(T request, Class<T> klass, TypeReference<U> typeReference) throws Exception {
-            String url = Utils.generateURL(
-                    klass, this.baseUrl, "/v1/workspaces/{workspace_id}/groups/{environment}", request, null);
+        <T, U> HttpRequest buildRequest(T request, TypeReference<U> typeReference) throws Exception {
+            String url = Utils.generateURL(this.baseUrl, "/v1/groups");
             HTTPRequest req = new HTTPRequest(url, "POST");
             Object convertedRequest = Utils.convertToShape(request, JsonShape.DEFAULT, typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(convertedRequest, "body", "json", false);
@@ -101,8 +100,7 @@ public class CreateGroup {
         }
 
         private HttpRequest onBuildRequest(CreateGroupRequest request) throws Exception {
-            HttpRequest req =
-                    buildRequest(request, CreateGroupRequest.class, new TypeReference<CreateGroupRequest>() {});
+            HttpRequest req = buildRequest(request, new TypeReference<CreateGroupRequest>() {});
             return sdkConfiguration.hooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -221,8 +219,7 @@ public class CreateGroup {
         }
 
         private CompletableFuture<HttpRequest> onBuildRequest(CreateGroupRequest request) throws Exception {
-            HttpRequest req =
-                    buildRequest(request, CreateGroupRequest.class, new TypeReference<CreateGroupRequest>() {});
+            HttpRequest req = buildRequest(request, new TypeReference<CreateGroupRequest>() {});
             return this.sdkConfiguration.asyncHooks().beforeRequest(createBeforeRequestContext(), req);
         }
 

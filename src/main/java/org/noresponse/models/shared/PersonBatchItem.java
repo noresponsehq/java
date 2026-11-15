@@ -1,10 +1,14 @@
 package org.noresponse.models.shared;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.lang.Override;
 import java.lang.String;
+import java.util.List;
 import java.util.Optional;
 import org.noresponse.utils.Utils;
 
@@ -24,15 +28,25 @@ public class PersonBatchItem {
     @JsonProperty("outcome")
     private PersonBatchItemOutcome outcome;
 
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("suggested_matches")
+    private List<PersonMatch> suggestedMatches;
+
     @JsonCreator
     public PersonBatchItem(
             @JsonProperty("index") long index,
             @JsonProperty("id") @Nonnull String id,
-            @JsonProperty("outcome") @Nonnull PersonBatchItemOutcome outcome) {
+            @JsonProperty("outcome") @Nonnull PersonBatchItemOutcome outcome,
+            @JsonProperty("suggested_matches") @Nullable List<PersonMatch> suggestedMatches) {
         this.index = index;
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.outcome =
                 Optional.ofNullable(outcome).orElseThrow(() -> new IllegalArgumentException("outcome cannot be null"));
+        this.suggestedMatches = suggestedMatches;
+    }
+
+    public PersonBatchItem(long index, @Nonnull String id, @Nonnull PersonBatchItemOutcome outcome) {
+        this(index, id, outcome, null);
     }
 
     /**
@@ -51,6 +65,10 @@ public class PersonBatchItem {
      */
     public PersonBatchItemOutcome outcome() {
         return this.outcome;
+    }
+
+    public Optional<List<PersonMatch>> suggestedMatches() {
+        return Optional.ofNullable(this.suggestedMatches);
     }
 
     public static Builder builder() {
@@ -78,6 +96,11 @@ public class PersonBatchItem {
         return this;
     }
 
+    public PersonBatchItem withSuggestedMatches(@Nullable List<PersonMatch> suggestedMatches) {
+        this.suggestedMatches = suggestedMatches;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -89,17 +112,27 @@ public class PersonBatchItem {
         PersonBatchItem other = (PersonBatchItem) o;
         return Utils.enhancedDeepEquals(this.index, other.index)
                 && Utils.enhancedDeepEquals(this.id, other.id)
-                && Utils.enhancedDeepEquals(this.outcome, other.outcome);
+                && Utils.enhancedDeepEquals(this.outcome, other.outcome)
+                && Utils.enhancedDeepEquals(this.suggestedMatches, other.suggestedMatches);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(index, id, outcome);
+        return Utils.enhancedHash(index, id, outcome, suggestedMatches);
     }
 
     @Override
     public String toString() {
-        return Utils.toString(PersonBatchItem.class, "index", index, "id", id, "outcome", outcome);
+        return Utils.toString(
+                PersonBatchItem.class,
+                "index",
+                index,
+                "id",
+                id,
+                "outcome",
+                outcome,
+                "suggestedMatches",
+                suggestedMatches);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -110,6 +143,8 @@ public class PersonBatchItem {
         private String id;
 
         private PersonBatchItemOutcome outcome;
+
+        private List<PersonMatch> suggestedMatches;
 
         private Builder() {
             // force use of static builder() method
@@ -136,8 +171,13 @@ public class PersonBatchItem {
             return this;
         }
 
+        public Builder suggestedMatches(@Nullable List<PersonMatch> suggestedMatches) {
+            this.suggestedMatches = suggestedMatches;
+            return this;
+        }
+
         public PersonBatchItem build() {
-            return new PersonBatchItem(index, id, outcome);
+            return new PersonBatchItem(index, id, outcome, suggestedMatches);
         }
     }
 }

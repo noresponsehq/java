@@ -82,12 +82,6 @@ public class Group {
     private long version;
 
     /**
-     * When raw collected items and unmatched candidate profiles are purged: 30 days after the group ends.
-     */
-    @JsonProperty("purge_after")
-    private String purgeAfter;
-
-    /**
      * The member or key label that created the group.
      */
     @JsonProperty("created_by")
@@ -112,7 +106,6 @@ public class Group {
             @JsonProperty("topics") @Nonnull List<String> topics,
             @JsonProperty("people") long people,
             @JsonProperty("version") long version,
-            @JsonProperty("purge_after") @Nonnull String purgeAfter,
             @JsonProperty("created_by") @Nonnull String createdBy,
             @JsonProperty("created_at") @Nonnull String createdAt,
             @JsonProperty("updated_at") @Nonnull String updatedAt) {
@@ -132,8 +125,6 @@ public class Group {
                 Optional.ofNullable(topics).orElseThrow(() -> new IllegalArgumentException("topics cannot be null"));
         this.people = people;
         this.version = version;
-        this.purgeAfter = Optional.ofNullable(purgeAfter)
-                .orElseThrow(() -> new IllegalArgumentException("purgeAfter cannot be null"));
         this.createdBy = Optional.ofNullable(createdBy)
                 .orElseThrow(() -> new IllegalArgumentException("createdBy cannot be null"));
         this.createdAt = Optional.ofNullable(createdAt)
@@ -152,7 +143,6 @@ public class Group {
             @Nonnull List<String> topics,
             long people,
             long version,
-            @Nonnull String purgeAfter,
             @Nonnull String createdBy,
             @Nonnull String createdAt,
             @Nonnull String updatedAt) {
@@ -168,7 +158,6 @@ public class Group {
                 topics,
                 people,
                 version,
-                purgeAfter,
                 createdBy,
                 createdAt,
                 updatedAt);
@@ -243,13 +232,6 @@ public class Group {
      */
     public long version() {
         return this.version;
-    }
-
-    /**
-     * When raw collected items and unmatched candidate profiles are purged: 30 days after the group ends.
-     */
-    public String purgeAfter() {
-        return this.purgeAfter;
     }
 
     /**
@@ -354,14 +336,6 @@ public class Group {
     }
 
     /**
-     * When raw collected items and unmatched candidate profiles are purged: 30 days after the group ends.
-     */
-    public Group withPurgeAfter(@Nonnull String purgeAfter) {
-        this.purgeAfter = Utils.checkNotNull(purgeAfter, "purgeAfter");
-        return this;
-    }
-
-    /**
      * The member or key label that created the group.
      */
     public Group withCreatedBy(@Nonnull String createdBy) {
@@ -399,7 +373,6 @@ public class Group {
                 && Utils.enhancedDeepEquals(this.topics, other.topics)
                 && Utils.enhancedDeepEquals(this.people, other.people)
                 && Utils.enhancedDeepEquals(this.version, other.version)
-                && Utils.enhancedDeepEquals(this.purgeAfter, other.purgeAfter)
                 && Utils.enhancedDeepEquals(this.createdBy, other.createdBy)
                 && Utils.enhancedDeepEquals(this.createdAt, other.createdAt)
                 && Utils.enhancedDeepEquals(this.updatedAt, other.updatedAt);
@@ -419,7 +392,6 @@ public class Group {
                 topics,
                 people,
                 version,
-                purgeAfter,
                 createdBy,
                 createdAt,
                 updatedAt);
@@ -451,8 +423,6 @@ public class Group {
                 people,
                 "version",
                 version,
-                "purgeAfter",
-                purgeAfter,
                 "createdBy",
                 createdBy,
                 "createdAt",
@@ -485,8 +455,6 @@ public class Group {
         private long people;
 
         private long version;
-
-        private String purgeAfter;
 
         private String createdBy;
 
@@ -581,14 +549,6 @@ public class Group {
         }
 
         /**
-         * When raw collected items and unmatched candidate profiles are purged: 30 days after the group ends.
-         */
-        public Builder purgeAfter(@Nonnull String purgeAfter) {
-            this.purgeAfter = Utils.checkNotNull(purgeAfter, "purgeAfter");
-            return this;
-        }
-
-        /**
          * The member or key label that created the group.
          */
         public Builder createdBy(@Nonnull String createdBy) {
@@ -619,7 +579,6 @@ public class Group {
                     topics,
                     people,
                     version,
-                    purgeAfter,
                     createdBy,
                     createdAt,
                     updatedAt);

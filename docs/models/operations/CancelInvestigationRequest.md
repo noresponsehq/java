@@ -1,0 +1,9 @@
+# CancelInvestigationRequest
+
+
+## Fields
+
+| Field                                                                   | Setter Type                                                             | Getter Type                                                             | Required                                                                | Description                                                             | Example                                                                 |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `investigationId`                                                       | *String*                                                                | *String*                                                                | :heavy_check_mark:                                                      | N/A                                                                     | inv_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                          |
+| `body`                                                                  | [ScreeningCancelRequest](../../models/shared/ScreeningCancelRequest.md) | [ScreeningCancelRequest](../../models/shared/ScreeningCancelRequest.md) | :heavy_check_mark:                                                      | N/A                                                                     |                                                                         |

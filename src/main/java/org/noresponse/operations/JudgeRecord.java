@@ -104,11 +104,7 @@ public class JudgeRecord {
 
         <T, U> HttpRequest buildRequest(T request, Class<T> klass, TypeReference<U> typeReference) throws Exception {
             String url = Utils.generateURL(
-                    klass,
-                    this.baseUrl,
-                    "/v1/workspaces/{workspace_id}/groups/{environment}/{group_id}/people/{person_id}/records",
-                    request,
-                    null);
+                    klass, this.baseUrl, "/v1/groups/{group_id}/people/{person_id}/records", request, null);
             HTTPRequest req = new HTTPRequest(url, "POST");
             Object convertedRequest = Utils.convertToShape(request, JsonShape.DEFAULT, typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(convertedRequest, "body", "json", false);

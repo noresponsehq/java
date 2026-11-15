@@ -8,26 +8,11 @@ import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
-import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.utils.LazySingletonValue;
 import org.noresponse.utils.NoResponseMetadata;
 import org.noresponse.utils.Utils;
 
 public class ListScreeningsRequest {
-    /**
-     * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-     * test environment's id answer 404.
-     */
-    @NoResponseMetadata("pathParam:style=simple,explode=false,name=workspace_id")
-    private String workspaceId;
-
-    /**
-     * The environment: live or test. Each has its own settings. Any other value answers 400.
-     *
-     * <p>An API key reads and changes only its own environment's; the other answers 404.
-     */
-    @NoResponseMetadata("pathParam:style=simple,explode=false,name=environment")
-    private KeyEnvironment environment;
 
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=group_id")
     private String groupId;
@@ -45,42 +30,15 @@ public class ListScreeningsRequest {
     private String before;
 
     @JsonCreator
-    public ListScreeningsRequest(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
-            @Nonnull String groupId,
-            @Nullable Long limit,
-            @Nullable String before) {
-        this.workspaceId = Optional.ofNullable(workspaceId)
-                .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
-        this.environment = Optional.ofNullable(environment)
-                .orElseThrow(() -> new IllegalArgumentException("environment cannot be null"));
+    public ListScreeningsRequest(@Nonnull String groupId, @Nullable Long limit, @Nullable String before) {
         this.groupId =
                 Optional.ofNullable(groupId).orElseThrow(() -> new IllegalArgumentException("groupId cannot be null"));
         this.limit = Optional.ofNullable(limit).orElse(Builder._SINGLETON_VALUE_Limit.value());
         this.before = before;
     }
 
-    public ListScreeningsRequest(
-            @Nonnull String workspaceId, @Nonnull KeyEnvironment environment, @Nonnull String groupId) {
-        this(workspaceId, environment, groupId, null, null);
-    }
-
-    /**
-     * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-     * test environment's id answer 404.
-     */
-    public String workspaceId() {
-        return this.workspaceId;
-    }
-
-    /**
-     * The environment: live or test. Each has its own settings. Any other value answers 400.
-     *
-     * <p>An API key reads and changes only its own environment's; the other answers 404.
-     */
-    public KeyEnvironment environment() {
-        return this.environment;
+    public ListScreeningsRequest(@Nonnull String groupId) {
+        this(groupId, null, null);
     }
 
     public String groupId() {
@@ -103,25 +61,6 @@ public class ListScreeningsRequest {
 
     public static Builder builder() {
         return new Builder();
-    }
-
-    /**
-     * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-     * test environment's id answer 404.
-     */
-    public ListScreeningsRequest withWorkspaceId(@Nonnull String workspaceId) {
-        this.workspaceId = Utils.checkNotNull(workspaceId, "workspaceId");
-        return this;
-    }
-
-    /**
-     * The environment: live or test. Each has its own settings. Any other value answers 400.
-     *
-     * <p>An API key reads and changes only its own environment's; the other answers 404.
-     */
-    public ListScreeningsRequest withEnvironment(@Nonnull KeyEnvironment environment) {
-        this.environment = Utils.checkNotNull(environment, "environment");
-        return this;
     }
 
     public ListScreeningsRequest withGroupId(@Nonnull String groupId) {
@@ -154,40 +93,23 @@ public class ListScreeningsRequest {
             return false;
         }
         ListScreeningsRequest other = (ListScreeningsRequest) o;
-        return Utils.enhancedDeepEquals(this.workspaceId, other.workspaceId)
-                && Utils.enhancedDeepEquals(this.environment, other.environment)
-                && Utils.enhancedDeepEquals(this.groupId, other.groupId)
+        return Utils.enhancedDeepEquals(this.groupId, other.groupId)
                 && Utils.enhancedDeepEquals(this.limit, other.limit)
                 && Utils.enhancedDeepEquals(this.before, other.before);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(workspaceId, environment, groupId, limit, before);
+        return Utils.enhancedHash(groupId, limit, before);
     }
 
     @Override
     public String toString() {
-        return Utils.toString(
-                ListScreeningsRequest.class,
-                "workspaceId",
-                workspaceId,
-                "environment",
-                environment,
-                "groupId",
-                groupId,
-                "limit",
-                limit,
-                "before",
-                before);
+        return Utils.toString(ListScreeningsRequest.class, "groupId", groupId, "limit", limit, "before", before);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
-
-        private String workspaceId;
-
-        private KeyEnvironment environment;
 
         private String groupId;
 
@@ -197,25 +119,6 @@ public class ListScreeningsRequest {
 
         private Builder() {
             // force use of static builder() method
-        }
-
-        /**
-         * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-         * test environment's id answer 404.
-         */
-        public Builder workspaceId(@Nonnull String workspaceId) {
-            this.workspaceId = Utils.checkNotNull(workspaceId, "workspaceId");
-            return this;
-        }
-
-        /**
-         * The environment: live or test. Each has its own settings. Any other value answers 400.
-         *
-         * <p>An API key reads and changes only its own environment's; the other answers 404.
-         */
-        public Builder environment(@Nonnull KeyEnvironment environment) {
-            this.environment = Utils.checkNotNull(environment, "environment");
-            return this;
         }
 
         public Builder groupId(@Nonnull String groupId) {
@@ -240,7 +143,7 @@ public class ListScreeningsRequest {
         }
 
         public ListScreeningsRequest build() {
-            return new ListScreeningsRequest(workspaceId, environment, groupId, limit, before);
+            return new ListScreeningsRequest(groupId, limit, before);
         }
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =

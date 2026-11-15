@@ -8,7 +8,6 @@ import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
-import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.models.shared.ListPeopleBand;
 import org.noresponse.models.shared.ListPeopleDecision;
 import org.noresponse.models.shared.ListPeopleRole;
@@ -17,20 +16,6 @@ import org.noresponse.utils.NoResponseMetadata;
 import org.noresponse.utils.Utils;
 
 public class ListPeopleRequest {
-    /**
-     * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-     * test environment's id answer 404.
-     */
-    @NoResponseMetadata("pathParam:style=simple,explode=false,name=workspace_id")
-    private String workspaceId;
-
-    /**
-     * The environment: live or test. Each has its own settings. Any other value answers 400.
-     *
-     * <p>An API key reads and changes only its own environment's; the other answers 404.
-     */
-    @NoResponseMetadata("pathParam:style=simple,explode=false,name=environment")
-    private KeyEnvironment environment;
 
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=group_id")
     private String groupId;
@@ -67,18 +52,12 @@ public class ListPeopleRequest {
 
     @JsonCreator
     public ListPeopleRequest(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
             @Nonnull String groupId,
             @Nullable Long limit,
             @Nullable String after,
             @Nullable ListPeopleBand band,
             @Nullable ListPeopleDecision decision,
             @Nullable ListPeopleRole role) {
-        this.workspaceId = Optional.ofNullable(workspaceId)
-                .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
-        this.environment = Optional.ofNullable(environment)
-                .orElseThrow(() -> new IllegalArgumentException("environment cannot be null"));
         this.groupId =
                 Optional.ofNullable(groupId).orElseThrow(() -> new IllegalArgumentException("groupId cannot be null"));
         this.limit = Optional.ofNullable(limit).orElse(Builder._SINGLETON_VALUE_Limit.value());
@@ -88,26 +67,8 @@ public class ListPeopleRequest {
         this.role = role;
     }
 
-    public ListPeopleRequest(
-            @Nonnull String workspaceId, @Nonnull KeyEnvironment environment, @Nonnull String groupId) {
-        this(workspaceId, environment, groupId, null, null, null, null, null);
-    }
-
-    /**
-     * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-     * test environment's id answer 404.
-     */
-    public String workspaceId() {
-        return this.workspaceId;
-    }
-
-    /**
-     * The environment: live or test. Each has its own settings. Any other value answers 400.
-     *
-     * <p>An API key reads and changes only its own environment's; the other answers 404.
-     */
-    public KeyEnvironment environment() {
-        return this.environment;
+    public ListPeopleRequest(@Nonnull String groupId) {
+        this(groupId, null, null, null, null, null);
     }
 
     public String groupId() {
@@ -151,25 +112,6 @@ public class ListPeopleRequest {
 
     public static Builder builder() {
         return new Builder();
-    }
-
-    /**
-     * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-     * test environment's id answer 404.
-     */
-    public ListPeopleRequest withWorkspaceId(@Nonnull String workspaceId) {
-        this.workspaceId = Utils.checkNotNull(workspaceId, "workspaceId");
-        return this;
-    }
-
-    /**
-     * The environment: live or test. Each has its own settings. Any other value answers 400.
-     *
-     * <p>An API key reads and changes only its own environment's; the other answers 404.
-     */
-    public ListPeopleRequest withEnvironment(@Nonnull KeyEnvironment environment) {
-        this.environment = Utils.checkNotNull(environment, "environment");
-        return this;
     }
 
     public ListPeopleRequest withGroupId(@Nonnull String groupId) {
@@ -226,9 +168,7 @@ public class ListPeopleRequest {
             return false;
         }
         ListPeopleRequest other = (ListPeopleRequest) o;
-        return Utils.enhancedDeepEquals(this.workspaceId, other.workspaceId)
-                && Utils.enhancedDeepEquals(this.environment, other.environment)
-                && Utils.enhancedDeepEquals(this.groupId, other.groupId)
+        return Utils.enhancedDeepEquals(this.groupId, other.groupId)
                 && Utils.enhancedDeepEquals(this.limit, other.limit)
                 && Utils.enhancedDeepEquals(this.after, other.after)
                 && Utils.enhancedDeepEquals(this.band, other.band)
@@ -238,17 +178,13 @@ public class ListPeopleRequest {
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(workspaceId, environment, groupId, limit, after, band, decision, role);
+        return Utils.enhancedHash(groupId, limit, after, band, decision, role);
     }
 
     @Override
     public String toString() {
         return Utils.toString(
                 ListPeopleRequest.class,
-                "workspaceId",
-                workspaceId,
-                "environment",
-                environment,
                 "groupId",
                 groupId,
                 "limit",
@@ -266,10 +202,6 @@ public class ListPeopleRequest {
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
 
-        private String workspaceId;
-
-        private KeyEnvironment environment;
-
         private String groupId;
 
         private Long limit;
@@ -284,25 +216,6 @@ public class ListPeopleRequest {
 
         private Builder() {
             // force use of static builder() method
-        }
-
-        /**
-         * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-         * test environment's id answer 404.
-         */
-        public Builder workspaceId(@Nonnull String workspaceId) {
-            this.workspaceId = Utils.checkNotNull(workspaceId, "workspaceId");
-            return this;
-        }
-
-        /**
-         * The environment: live or test. Each has its own settings. Any other value answers 400.
-         *
-         * <p>An API key reads and changes only its own environment's; the other answers 404.
-         */
-        public Builder environment(@Nonnull KeyEnvironment environment) {
-            this.environment = Utils.checkNotNull(environment, "environment");
-            return this;
         }
 
         public Builder groupId(@Nonnull String groupId) {
@@ -351,7 +264,7 @@ public class ListPeopleRequest {
         }
 
         public ListPeopleRequest build() {
-            return new ListPeopleRequest(workspaceId, environment, groupId, limit, after, band, decision, role);
+            return new ListPeopleRequest(groupId, limit, after, band, decision, role);
         }
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =

@@ -54,6 +54,8 @@ public class ConflictErrorCode {
     public static final ConflictErrorCode GROUP_LIMIT_REACHED = new ConflictErrorCode("group_limit_reached");
     public static final ConflictErrorCode SCREENING_CAP_EXCEEDED = new ConflictErrorCode("screening_cap_exceeded");
     public static final ConflictErrorCode SCREENING_UNAVAILABLE = new ConflictErrorCode("screening_unavailable");
+    public static final ConflictErrorCode PERSON_REFERENCE_CONFLICT =
+            new ConflictErrorCode("person_reference_conflict");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -154,6 +156,7 @@ public class ConflictErrorCode {
         map.put("group_limit_reached", GROUP_LIMIT_REACHED);
         map.put("screening_cap_exceeded", SCREENING_CAP_EXCEEDED);
         map.put("screening_unavailable", SCREENING_UNAVAILABLE);
+        map.put("person_reference_conflict", PERSON_REFERENCE_CONFLICT);
         return map;
     }
 
@@ -189,6 +192,7 @@ public class ConflictErrorCode {
         map.put("group_limit_reached", ConflictErrorCodeEnum.GROUP_LIMIT_REACHED);
         map.put("screening_cap_exceeded", ConflictErrorCodeEnum.SCREENING_CAP_EXCEEDED);
         map.put("screening_unavailable", ConflictErrorCodeEnum.SCREENING_UNAVAILABLE);
+        map.put("person_reference_conflict", ConflictErrorCodeEnum.PERSON_REFERENCE_CONFLICT);
         return map;
     }
 
@@ -224,6 +228,7 @@ public class ConflictErrorCode {
         GROUP_LIMIT_REACHED("group_limit_reached"),
         SCREENING_CAP_EXCEEDED("screening_cap_exceeded"),
         SCREENING_UNAVAILABLE("screening_unavailable"),
+        PERSON_REFERENCE_CONFLICT("person_reference_conflict"),
         ;
 
         private final String value;

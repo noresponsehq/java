@@ -7,26 +7,10 @@ import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
 import org.noresponse.models.shared.GroupRequest;
-import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.utils.NoResponseMetadata;
 import org.noresponse.utils.Utils;
 
 public class CreateGroupRequest {
-    /**
-     * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-     * test environment's id answer 404.
-     */
-    @NoResponseMetadata("pathParam:style=simple,explode=false,name=workspace_id")
-    private String workspaceId;
-
-    /**
-     * The environment: live or test. Each has its own settings. Any other value answers 400.
-     *
-     * <p>An API key reads and changes only its own environment's; the other answers 404.
-     */
-    @NoResponseMetadata("pathParam:style=simple,explode=false,name=environment")
-    private KeyEnvironment environment;
-
     /**
      * Opaque request key, 16 to 128 characters. Repeating the key and request returns the same resource in
      * its current state while it is retained. A different request with the same key answers 409.
@@ -41,39 +25,13 @@ public class CreateGroupRequest {
     private GroupRequest body;
 
     @JsonCreator
-    public CreateGroupRequest(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
-            @Nullable String idempotencyKey,
-            @Nonnull GroupRequest body) {
-        this.workspaceId = Optional.ofNullable(workspaceId)
-                .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
-        this.environment = Optional.ofNullable(environment)
-                .orElseThrow(() -> new IllegalArgumentException("environment cannot be null"));
+    public CreateGroupRequest(@Nullable String idempotencyKey, @Nonnull GroupRequest body) {
         this.idempotencyKey = idempotencyKey;
         this.body = Optional.ofNullable(body).orElseThrow(() -> new IllegalArgumentException("body cannot be null"));
     }
 
-    public CreateGroupRequest(
-            @Nonnull String workspaceId, @Nonnull KeyEnvironment environment, @Nonnull GroupRequest body) {
-        this(workspaceId, environment, null, body);
-    }
-
-    /**
-     * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-     * test environment's id answer 404.
-     */
-    public String workspaceId() {
-        return this.workspaceId;
-    }
-
-    /**
-     * The environment: live or test. Each has its own settings. Any other value answers 400.
-     *
-     * <p>An API key reads and changes only its own environment's; the other answers 404.
-     */
-    public KeyEnvironment environment() {
-        return this.environment;
+    public CreateGroupRequest(@Nonnull GroupRequest body) {
+        this(null, body);
     }
 
     /**
@@ -93,25 +51,6 @@ public class CreateGroupRequest {
 
     public static Builder builder() {
         return new Builder();
-    }
-
-    /**
-     * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-     * test environment's id answer 404.
-     */
-    public CreateGroupRequest withWorkspaceId(@Nonnull String workspaceId) {
-        this.workspaceId = Utils.checkNotNull(workspaceId, "workspaceId");
-        return this;
-    }
-
-    /**
-     * The environment: live or test. Each has its own settings. Any other value answers 400.
-     *
-     * <p>An API key reads and changes only its own environment's; the other answers 404.
-     */
-    public CreateGroupRequest withEnvironment(@Nonnull KeyEnvironment environment) {
-        this.environment = Utils.checkNotNull(environment, "environment");
-        return this;
     }
 
     /**
@@ -140,37 +79,22 @@ public class CreateGroupRequest {
             return false;
         }
         CreateGroupRequest other = (CreateGroupRequest) o;
-        return Utils.enhancedDeepEquals(this.workspaceId, other.workspaceId)
-                && Utils.enhancedDeepEquals(this.environment, other.environment)
-                && Utils.enhancedDeepEquals(this.idempotencyKey, other.idempotencyKey)
+        return Utils.enhancedDeepEquals(this.idempotencyKey, other.idempotencyKey)
                 && Utils.enhancedDeepEquals(this.body, other.body);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(workspaceId, environment, idempotencyKey, body);
+        return Utils.enhancedHash(idempotencyKey, body);
     }
 
     @Override
     public String toString() {
-        return Utils.toString(
-                CreateGroupRequest.class,
-                "workspaceId",
-                workspaceId,
-                "environment",
-                environment,
-                "idempotencyKey",
-                idempotencyKey,
-                "body",
-                body);
+        return Utils.toString(CreateGroupRequest.class, "idempotencyKey", idempotencyKey, "body", body);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
-
-        private String workspaceId;
-
-        private KeyEnvironment environment;
 
         private String idempotencyKey;
 
@@ -178,25 +102,6 @@ public class CreateGroupRequest {
 
         private Builder() {
             // force use of static builder() method
-        }
-
-        /**
-         * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-         * test environment's id answer 404.
-         */
-        public Builder workspaceId(@Nonnull String workspaceId) {
-            this.workspaceId = Utils.checkNotNull(workspaceId, "workspaceId");
-            return this;
-        }
-
-        /**
-         * The environment: live or test. Each has its own settings. Any other value answers 400.
-         *
-         * <p>An API key reads and changes only its own environment's; the other answers 404.
-         */
-        public Builder environment(@Nonnull KeyEnvironment environment) {
-            this.environment = Utils.checkNotNull(environment, "environment");
-            return this;
         }
 
         /**
@@ -217,7 +122,7 @@ public class CreateGroupRequest {
         }
 
         public CreateGroupRequest build() {
-            return new CreateGroupRequest(workspaceId, environment, idempotencyKey, body);
+            return new CreateGroupRequest(idempotencyKey, body);
         }
     }
 }

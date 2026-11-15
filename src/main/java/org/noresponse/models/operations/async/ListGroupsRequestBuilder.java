@@ -2,14 +2,12 @@ package org.noresponse.models.operations.async;
 
 import static org.noresponse.operations.Operations.AsyncRequestOperation;
 
-import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.lang.Long;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 import org.noresponse.SDKConfiguration;
 import org.noresponse.models.operations.ListGroupsRequest;
-import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.operations.ListGroups;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
@@ -28,18 +26,6 @@ public class ListGroupsRequestBuilder {
         this.sdkConfiguration = sdkConfiguration;
         this.pojoBuilder = ListGroupsRequest.builder();
         this.optionsBuilder = Options.builder();
-    }
-
-    public ListGroupsRequestBuilder workspaceId(@Nonnull String workspaceId) {
-        this.pojoBuilder.workspaceId(workspaceId);
-        this._setterCalled = true;
-        return this;
-    }
-
-    public ListGroupsRequestBuilder environment(@Nonnull KeyEnvironment environment) {
-        this.pojoBuilder.environment(environment);
-        this._setterCalled = true;
-        return this;
     }
 
     public ListGroupsRequestBuilder limit(@Nullable Long limit) {

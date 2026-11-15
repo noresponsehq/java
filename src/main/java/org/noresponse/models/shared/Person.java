@@ -28,8 +28,7 @@ public class Person {
     private String groupId;
 
     /**
-     * Your own id for the person, unique within the group. A later row with the same external id updates
-     * this person.
+     * Your reference for the person in this workspace environment.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
@@ -158,6 +157,12 @@ public class Person {
     @JsonProperty("spend")
     private ScreeningSpend spend;
 
+    /**
+     * When workspace retention removes the person and their investigation history.
+     */
+    @JsonProperty("expires_at")
+    private String expiresAt;
+
     @JsonCreator
     public Person(
             @JsonProperty("id") @Nonnull String id,
@@ -182,7 +187,8 @@ public class Person {
             @JsonProperty("screened_at") @Nullable String screenedAt,
             @JsonProperty("created_at") @Nonnull String createdAt,
             @JsonProperty("updated_at") @Nonnull String updatedAt,
-            @JsonProperty("spend") @Nonnull ScreeningSpend spend) {
+            @JsonProperty("spend") @Nonnull ScreeningSpend spend,
+            @JsonProperty("expires_at") @Nonnull String expiresAt) {
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.groupId =
                 Optional.ofNullable(groupId).orElseThrow(() -> new IllegalArgumentException("groupId cannot be null"));
@@ -211,6 +217,8 @@ public class Person {
         this.updatedAt = Optional.ofNullable(updatedAt)
                 .orElseThrow(() -> new IllegalArgumentException("updatedAt cannot be null"));
         this.spend = Optional.ofNullable(spend).orElseThrow(() -> new IllegalArgumentException("spend cannot be null"));
+        this.expiresAt = Optional.ofNullable(expiresAt)
+                .orElseThrow(() -> new IllegalArgumentException("expiresAt cannot be null"));
     }
 
     public Person(
@@ -221,7 +229,8 @@ public class Person {
             @Nonnull ScreeningCoverage coverage,
             @Nonnull String createdAt,
             @Nonnull String updatedAt,
-            @Nonnull ScreeningSpend spend) {
+            @Nonnull ScreeningSpend spend,
+            @Nonnull String expiresAt) {
         this(
                 id,
                 groupId,
@@ -245,7 +254,8 @@ public class Person {
                 null,
                 createdAt,
                 updatedAt,
-                spend);
+                spend,
+                expiresAt);
     }
 
     public String id() {
@@ -257,8 +267,7 @@ public class Person {
     }
 
     /**
-     * Your own id for the person, unique within the group. A later row with the same external id updates
-     * this person.
+     * Your reference for the person in this workspace environment.
      */
     public Optional<String> externalId() {
         return Optional.ofNullable(this.externalId);
@@ -393,6 +402,13 @@ public class Person {
         return this.spend;
     }
 
+    /**
+     * When workspace retention removes the person and their investigation history.
+     */
+    public String expiresAt() {
+        return this.expiresAt;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -408,8 +424,7 @@ public class Person {
     }
 
     /**
-     * Your own id for the person, unique within the group. A later row with the same external id updates
-     * this person.
+     * Your reference for the person in this workspace environment.
      */
     public Person withExternalId(@Nullable String externalId) {
         this.externalId = externalId;
@@ -565,6 +580,14 @@ public class Person {
         return this;
     }
 
+    /**
+     * When workspace retention removes the person and their investigation history.
+     */
+    public Person withExpiresAt(@Nonnull String expiresAt) {
+        this.expiresAt = Utils.checkNotNull(expiresAt, "expiresAt");
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -596,7 +619,8 @@ public class Person {
                 && Utils.enhancedDeepEquals(this.screenedAt, other.screenedAt)
                 && Utils.enhancedDeepEquals(this.createdAt, other.createdAt)
                 && Utils.enhancedDeepEquals(this.updatedAt, other.updatedAt)
-                && Utils.enhancedDeepEquals(this.spend, other.spend);
+                && Utils.enhancedDeepEquals(this.spend, other.spend)
+                && Utils.enhancedDeepEquals(this.expiresAt, other.expiresAt);
     }
 
     @Override
@@ -624,7 +648,8 @@ public class Person {
                 screenedAt,
                 createdAt,
                 updatedAt,
-                spend);
+                spend,
+                expiresAt);
     }
 
     @Override
@@ -676,7 +701,9 @@ public class Person {
                 "updatedAt",
                 updatedAt,
                 "spend",
-                spend);
+                spend,
+                "expiresAt",
+                expiresAt);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -728,6 +755,8 @@ public class Person {
 
         private ScreeningSpend spend;
 
+        private String expiresAt;
+
         private Builder() {
             // force use of static builder() method
         }
@@ -743,8 +772,7 @@ public class Person {
         }
 
         /**
-         * Your own id for the person, unique within the group. A later row with the same external id updates
-         * this person.
+         * Your reference for the person in this workspace environment.
          */
         public Builder externalId(@Nullable String externalId) {
             this.externalId = externalId;
@@ -900,6 +928,14 @@ public class Person {
             return this;
         }
 
+        /**
+         * When workspace retention removes the person and their investigation history.
+         */
+        public Builder expiresAt(@Nonnull String expiresAt) {
+            this.expiresAt = Utils.checkNotNull(expiresAt, "expiresAt");
+            return this;
+        }
+
         public Person build() {
             return new Person(
                     id,
@@ -924,7 +960,8 @@ public class Person {
                     screenedAt,
                     createdAt,
                     updatedAt,
-                    spend);
+                    spend,
+                    expiresAt);
         }
     }
 }

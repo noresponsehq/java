@@ -9,7 +9,6 @@ import java.util.concurrent.CompletableFuture;
 import org.noresponse.SDKConfiguration;
 import org.noresponse.models.operations.UpdateGroupRequest;
 import org.noresponse.models.shared.GroupUpdate;
-import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.operations.UpdateGroup;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
@@ -28,18 +27,6 @@ public class UpdateGroupRequestBuilder {
         this.sdkConfiguration = sdkConfiguration;
         this.pojoBuilder = UpdateGroupRequest.builder();
         this.optionsBuilder = Options.builder();
-    }
-
-    public UpdateGroupRequestBuilder workspaceId(@Nonnull String workspaceId) {
-        this.pojoBuilder.workspaceId(workspaceId);
-        this._setterCalled = true;
-        return this;
-    }
-
-    public UpdateGroupRequestBuilder environment(@Nonnull KeyEnvironment environment) {
-        this.pojoBuilder.environment(environment);
-        this._setterCalled = true;
-        return this;
     }
 
     public UpdateGroupRequestBuilder groupId(@Nonnull String groupId) {

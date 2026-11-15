@@ -32,6 +32,7 @@ public class WebhookEventTypeIdResolver extends GenericTypeIdResolver<WebhookEve
         registerType("screening.completed", ScreeningCompletedEvent.class);
         registerType("person.flagged", PersonFlaggedEvent.class);
         registerType("person.decided", PersonDecidedEvent.class);
+        registerType("investigation.completed", InvestigationCompletedEvent.class);
     }
 
     @Override

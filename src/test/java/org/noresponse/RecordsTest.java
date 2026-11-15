@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
-import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.models.shared.Rating;
 import org.noresponse.models.shared.Record;
 import org.noresponse.models.shared.RecordField;
@@ -34,7 +33,7 @@ class RecordsTest {
         JsonNode report = Utils.mapper().readTree(body);
         String group = report.path("person").path("group_id").asText();
         String person = report.path("person").path("id").asText();
-        String workspace = "tnt_01JC8Y0A2B4C6D8E0F2G4H6J8K";
+
         String[] path = new String[1];
         HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
         server.createContext("/v1/", exchange -> {
@@ -47,9 +46,9 @@ class RecordsTest {
         try {
             NoResponse client = NoResponse.builder().apiKey("nrk_test_records_fixture")
                     .serverURL("http://127.0.0.1:" + server.getAddress().getPort()).build();
-            var lookup = client.groups().getPerson(workspace, KeyEnvironment.TEST, group, person)
+            var lookup = client.groups().getPerson(group, person)
                     .personReport().orElseThrow().lookup().orElseThrow();
-            assertEquals("/v1/workspaces/" + workspace + "/groups/test/" + group + "/people/" + person, path[0]);
+            assertEquals("/v1/groups/" + group + "/people/" + person, path[0]);
             List<Record> records = lookup.records().orElseThrow();
             Record account = records.get(0);
             Record row = records.get(1);

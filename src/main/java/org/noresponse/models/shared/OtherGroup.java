@@ -38,11 +38,11 @@ public class OtherGroup {
     private String personId;
 
     /**
-     * Which identifiers match, in this order. external_id appears only beside email or phone: the same
-     * external id alone is not a match, since ticket numbers may be reused across groups.
+     * The same workspace person explicitly belongs to this group. Membership requires an explicit person
+     * or customer reference.
      */
     @JsonProperty("matched_on")
-    private List<MatchedOn> matchedOn;
+    private List<OtherGroupMatchedOn> matchedOn;
 
     /**
      * How sure the latest screening is that it found the person's accounts. unscreened until a screening
@@ -93,7 +93,7 @@ public class OtherGroup {
             @JsonProperty("group_name") @Nonnull String groupName,
             @JsonProperty("group_starts_at") @Nonnull String groupStartsAt,
             @JsonProperty("person_id") @Nonnull String personId,
-            @JsonProperty("matched_on") @Nonnull List<MatchedOn> matchedOn,
+            @JsonProperty("matched_on") @Nonnull List<OtherGroupMatchedOn> matchedOn,
             @JsonProperty("match_state") @Nonnull MatchState matchState,
             @JsonProperty("no_profile_to_check") @Nullable Boolean noProfileToCheck,
             @JsonProperty("highest_band") @Nullable HighestBand highestBand,
@@ -124,7 +124,7 @@ public class OtherGroup {
             @Nonnull String groupName,
             @Nonnull String groupStartsAt,
             @Nonnull String personId,
-            @Nonnull List<MatchedOn> matchedOn,
+            @Nonnull List<OtherGroupMatchedOn> matchedOn,
             @Nonnull MatchState matchState) {
         this(groupId, groupName, groupStartsAt, personId, matchedOn, matchState, null, null, null, null, null);
     }
@@ -149,10 +149,10 @@ public class OtherGroup {
     }
 
     /**
-     * Which identifiers match, in this order. external_id appears only beside email or phone: the same
-     * external id alone is not a match, since ticket numbers may be reused across groups.
+     * The same workspace person explicitly belongs to this group. Membership requires an explicit person
+     * or customer reference.
      */
-    public List<MatchedOn> matchedOn() {
+    public List<OtherGroupMatchedOn> matchedOn() {
         return this.matchedOn;
     }
 
@@ -228,10 +228,10 @@ public class OtherGroup {
     }
 
     /**
-     * Which identifiers match, in this order. external_id appears only beside email or phone: the same
-     * external id alone is not a match, since ticket numbers may be reused across groups.
+     * The same workspace person explicitly belongs to this group. Membership requires an explicit person
+     * or customer reference.
      */
-    public OtherGroup withMatchedOn(@Nonnull List<MatchedOn> matchedOn) {
+    public OtherGroup withMatchedOn(@Nonnull List<OtherGroupMatchedOn> matchedOn) {
         this.matchedOn = Utils.checkNotNull(matchedOn, "matchedOn");
         return this;
     }
@@ -363,7 +363,7 @@ public class OtherGroup {
 
         private String personId;
 
-        private List<MatchedOn> matchedOn;
+        private List<OtherGroupMatchedOn> matchedOn;
 
         private MatchState matchState;
 
@@ -405,10 +405,10 @@ public class OtherGroup {
         }
 
         /**
-         * Which identifiers match, in this order. external_id appears only beside email or phone: the same
-         * external id alone is not a match, since ticket numbers may be reused across groups.
+         * The same workspace person explicitly belongs to this group. Membership requires an explicit person
+         * or customer reference.
          */
-        public Builder matchedOn(@Nonnull List<MatchedOn> matchedOn) {
+        public Builder matchedOn(@Nonnull List<OtherGroupMatchedOn> matchedOn) {
             this.matchedOn = Utils.checkNotNull(matchedOn, "matchedOn");
             return this;
         }

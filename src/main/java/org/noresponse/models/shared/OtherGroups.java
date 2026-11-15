@@ -17,13 +17,13 @@ import org.noresponse.utils.Utils;
  */
 public class OtherGroups {
     /**
-     * How many people of other groups match, of which items lists the 20 most recent.
+     * How many other groups include this person, of which items lists the 20 most recent.
      */
     @JsonProperty("total")
     private long total;
 
     /**
-     * The 20 people of the most recent other groups, newest group first.
+     * This person's memberships in the 20 most recent other groups, newest group first.
      */
     @JsonProperty("items")
     private List<OtherGroup> items;
@@ -35,14 +35,14 @@ public class OtherGroups {
     }
 
     /**
-     * How many people of other groups match, of which items lists the 20 most recent.
+     * How many other groups include this person, of which items lists the 20 most recent.
      */
     public long total() {
         return this.total;
     }
 
     /**
-     * The 20 people of the most recent other groups, newest group first.
+     * This person's memberships in the 20 most recent other groups, newest group first.
      */
     public List<OtherGroup> items() {
         return this.items;
@@ -53,7 +53,7 @@ public class OtherGroups {
     }
 
     /**
-     * How many people of other groups match, of which items lists the 20 most recent.
+     * How many other groups include this person, of which items lists the 20 most recent.
      */
     public OtherGroups withTotal(long total) {
         this.total = total;
@@ -61,7 +61,7 @@ public class OtherGroups {
     }
 
     /**
-     * The 20 people of the most recent other groups, newest group first.
+     * This person's memberships in the 20 most recent other groups, newest group first.
      */
     public OtherGroups withItems(@Nonnull List<OtherGroup> items) {
         this.items = Utils.checkNotNull(items, "items");
@@ -102,7 +102,7 @@ public class OtherGroups {
         }
 
         /**
-         * How many people of other groups match, of which items lists the 20 most recent.
+         * How many other groups include this person, of which items lists the 20 most recent.
          */
         public Builder total(long total) {
             this.total = total;
@@ -110,7 +110,7 @@ public class OtherGroups {
         }
 
         /**
-         * The 20 people of the most recent other groups, newest group first.
+         * This person's memberships in the 20 most recent other groups, newest group first.
          */
         public Builder items(@Nonnull List<OtherGroup> items) {
             this.items = Utils.checkNotNull(items, "items");

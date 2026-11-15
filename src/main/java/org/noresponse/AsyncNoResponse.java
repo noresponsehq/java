@@ -3,15 +3,16 @@ package org.noresponse;
 import org.noresponse.utils.Headers;
 
 /**
- * NoResponse API: Server-side risk assessment of account creation, login and purchase: a
- * recommendation, polling and signed webhooks.
+ * NoResponse API: Workspace people, source-grounded investigations, group screening and signup
+ * assessment recommendations.
  *
- * <p>Assess an account creation, login or purchase and get back the account's one current risk, poll a
- * pending assessment, page through an account's history, record what you later learned, report usage
- * of the API keys you issue to your accounts, rotate your API key, manage your webhook endpoints, and
- * register hosted endpoints that answer your WorkOS, Auth0 or Supabase sign-up and sign-in hooks.
- * Every response carries X-Request-ID; every error is an RFC 9457 problem document. Keep the API key
- * on your server.
+ * <p>NoResponse is an identity and people risk engine. Retain workspace people, investigate their
+ * identifiers, read complete source evidence and preserve investigation history. Groups organize
+ * people for screening and context-specific decisions.
+ *
+ * <p>Account creation, login and purchase assessments use the same engine. People-read access includes
+ * evidence by default; explicit evidence restrictions retain submitted details, job status, coverage
+ * and decision summaries. Keep the API key on your server.
  */
 public class AsyncNoResponse {
     private static final Headers _headers = Headers.EMPTY;
@@ -91,6 +92,14 @@ public class AsyncNoResponse {
      * Groups, lists of people, screenings and reviewer decisions.
      */
     private final AsyncGroups groups;
+    /**
+     * Workspace people, submitted identity, source evidence and expiry.
+     */
+    private final AsyncPeople people;
+    /**
+     * Person investigation jobs, retained results and contextual decisions.
+     */
+    private final AsyncInvestigations investigations;
     /**
      * Assessments of account creation, login and purchase.
      */
@@ -205,6 +214,18 @@ public class AsyncNoResponse {
     public AsyncGroups groups() {
         return groups;
     }
+    /**
+     * Workspace people, submitted identity, source evidence and expiry.
+     */
+    public AsyncPeople people() {
+        return people;
+    }
+    /**
+     * Person investigation jobs, retained results and contextual decisions.
+     */
+    public AsyncInvestigations investigations() {
+        return investigations;
+    }
 
     private SDKConfiguration sdkConfiguration;
     private final NoResponse syncSDK;
@@ -231,6 +252,8 @@ public class AsyncNoResponse {
         this.evaluations = new AsyncEvaluations(syncSDK.evaluations(), sdkConfiguration);
         this.operations = new AsyncOperations(syncSDK.operations(), sdkConfiguration);
         this.groups = new AsyncGroups(syncSDK.groups(), sdkConfiguration);
+        this.people = new AsyncPeople(syncSDK.people(), sdkConfiguration);
+        this.investigations = new AsyncInvestigations(syncSDK.investigations(), sdkConfiguration);
     }
 
     /**

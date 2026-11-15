@@ -1,0 +1,128 @@
+package org.noresponse.models.shared;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.Nonnull;
+import java.lang.Override;
+import java.lang.String;
+import java.util.List;
+import java.util.Optional;
+import org.noresponse.utils.Utils;
+
+/**
+ * InvestigationRequest
+ *
+ * <p>Runs a new investigation against one retained workspace person.
+ */
+public class InvestigationRequest {
+
+    @JsonProperty("depth")
+    private ScreeningDepth depth;
+
+    @JsonProperty("platforms")
+    private List<String> platforms;
+
+    @JsonProperty("person_id")
+    private String personId;
+
+    @JsonCreator
+    public InvestigationRequest(
+            @JsonProperty("depth") @Nonnull ScreeningDepth depth,
+            @JsonProperty("platforms") @Nonnull List<String> platforms,
+            @JsonProperty("person_id") @Nonnull String personId) {
+        this.depth = Optional.ofNullable(depth).orElseThrow(() -> new IllegalArgumentException("depth cannot be null"));
+        this.platforms = Optional.ofNullable(platforms)
+                .orElseThrow(() -> new IllegalArgumentException("platforms cannot be null"));
+        this.personId = Optional.ofNullable(personId)
+                .orElseThrow(() -> new IllegalArgumentException("personId cannot be null"));
+    }
+
+    public ScreeningDepth depth() {
+        return this.depth;
+    }
+
+    public List<String> platforms() {
+        return this.platforms;
+    }
+
+    public String personId() {
+        return this.personId;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public InvestigationRequest withDepth(@Nonnull ScreeningDepth depth) {
+        this.depth = Utils.checkNotNull(depth, "depth");
+        return this;
+    }
+
+    public InvestigationRequest withPlatforms(@Nonnull List<String> platforms) {
+        this.platforms = Utils.checkNotNull(platforms, "platforms");
+        return this;
+    }
+
+    public InvestigationRequest withPersonId(@Nonnull String personId) {
+        this.personId = Utils.checkNotNull(personId, "personId");
+        return this;
+    }
+
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        InvestigationRequest other = (InvestigationRequest) o;
+        return Utils.enhancedDeepEquals(this.depth, other.depth)
+                && Utils.enhancedDeepEquals(this.platforms, other.platforms)
+                && Utils.enhancedDeepEquals(this.personId, other.personId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Utils.enhancedHash(depth, platforms, personId);
+    }
+
+    @Override
+    public String toString() {
+        return Utils.toString(
+                InvestigationRequest.class, "depth", depth, "platforms", platforms, "personId", personId);
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public static final class Builder {
+
+        private ScreeningDepth depth;
+
+        private List<String> platforms;
+
+        private String personId;
+
+        private Builder() {
+            // force use of static builder() method
+        }
+
+        public Builder depth(@Nonnull ScreeningDepth depth) {
+            this.depth = Utils.checkNotNull(depth, "depth");
+            return this;
+        }
+
+        public Builder platforms(@Nonnull List<String> platforms) {
+            this.platforms = Utils.checkNotNull(platforms, "platforms");
+            return this;
+        }
+
+        public Builder personId(@Nonnull String personId) {
+            this.personId = Utils.checkNotNull(personId, "personId");
+            return this;
+        }
+
+        public InvestigationRequest build() {
+            return new InvestigationRequest(depth, platforms, personId);
+        }
+    }
+}

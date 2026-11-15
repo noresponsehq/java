@@ -1,0 +1,9 @@
+# RemoveGroupPersonRequest
+
+
+## Fields
+
+| Field                          | Setter Type                    | Getter Type                    | Required                       | Description                    | Example                        |
+| ------------------------------ | ------------------------------ | ------------------------------ | ------------------------------ | ------------------------------ | ------------------------------ |
+| `groupId`                      | *String*                       | *String*                       | :heavy_check_mark:             | N/A                            | grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM |
+| `personId`                     | *String*                       | *String*                       | :heavy_check_mark:             | N/A                            | per_01JA2Z8K6Q4V7W9XBCDEFGHJKM |

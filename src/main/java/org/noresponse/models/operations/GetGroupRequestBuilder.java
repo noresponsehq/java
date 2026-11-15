@@ -6,7 +6,6 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.lang.String;
 import org.noresponse.SDKConfiguration;
-import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.operations.GetGroup;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
@@ -25,18 +24,6 @@ public class GetGroupRequestBuilder {
         this.sdkConfiguration = sdkConfiguration;
         this.pojoBuilder = GetGroupRequest.builder();
         this.optionsBuilder = Options.builder();
-    }
-
-    public GetGroupRequestBuilder workspaceId(@Nonnull String workspaceId) {
-        this.pojoBuilder.workspaceId(workspaceId);
-        this._setterCalled = true;
-        return this;
-    }
-
-    public GetGroupRequestBuilder environment(@Nonnull KeyEnvironment environment) {
-        this.pojoBuilder.environment(environment);
-        this._setterCalled = true;
-        return this;
     }
 
     public GetGroupRequestBuilder groupId(@Nonnull String groupId) {

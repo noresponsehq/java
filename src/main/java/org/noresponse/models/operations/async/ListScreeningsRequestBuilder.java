@@ -4,6 +4,8 @@ import static org.noresponse.operations.Operations.AsyncRequestOperation;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Long;
+import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 import org.noresponse.SDKConfiguration;
 import org.noresponse.models.operations.ListScreeningsRequest;
@@ -16,12 +18,33 @@ import org.noresponse.utils.Utils;
 public class ListScreeningsRequestBuilder {
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers();
+    private final ListScreeningsRequest.Builder pojoBuilder;
     private ListScreeningsRequest request;
     private final Options.Builder optionsBuilder;
+    private boolean _setterCalled;
 
     public ListScreeningsRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
+        this.pojoBuilder = ListScreeningsRequest.builder();
         this.optionsBuilder = Options.builder();
+    }
+
+    public ListScreeningsRequestBuilder groupId(@Nonnull String groupId) {
+        this.pojoBuilder.groupId(groupId);
+        this._setterCalled = true;
+        return this;
+    }
+
+    public ListScreeningsRequestBuilder limit(@Nullable Long limit) {
+        this.pojoBuilder.limit(limit);
+        this._setterCalled = true;
+        return this;
+    }
+
+    public ListScreeningsRequestBuilder before(@Nullable String before) {
+        this.pojoBuilder.before(before);
+        this._setterCalled = true;
+        return this;
     }
 
     public ListScreeningsRequestBuilder retryConfig(RetryConfig retryConfig) {
@@ -29,12 +52,10 @@ public class ListScreeningsRequestBuilder {
         return this;
     }
 
-    public ListScreeningsRequestBuilder request(@Nonnull ListScreeningsRequest request) {
-        this.request = Utils.checkNotNull(request, "request");
-        return this;
-    }
-
     private ListScreeningsRequest _buildRequest() {
+        if (this._setterCalled) {
+            this.request = this.pojoBuilder.build();
+        }
         return this.request;
     }
 

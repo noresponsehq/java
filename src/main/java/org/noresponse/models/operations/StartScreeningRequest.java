@@ -5,26 +5,11 @@ import jakarta.annotation.Nonnull;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
-import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.models.shared.ScreeningRequest;
 import org.noresponse.utils.NoResponseMetadata;
 import org.noresponse.utils.Utils;
 
 public class StartScreeningRequest {
-    /**
-     * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-     * test environment's id answer 404.
-     */
-    @NoResponseMetadata("pathParam:style=simple,explode=false,name=workspace_id")
-    private String workspaceId;
-
-    /**
-     * The environment: live or test. Each has its own settings. Any other value answers 400.
-     *
-     * <p>An API key reads and changes only its own environment's; the other answers 404.
-     */
-    @NoResponseMetadata("pathParam:style=simple,explode=false,name=environment")
-    private KeyEnvironment environment;
 
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=group_id")
     private String groupId;
@@ -41,37 +26,12 @@ public class StartScreeningRequest {
 
     @JsonCreator
     public StartScreeningRequest(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
-            @Nonnull String groupId,
-            @Nonnull String idempotencyKey,
-            @Nonnull ScreeningRequest body) {
-        this.workspaceId = Optional.ofNullable(workspaceId)
-                .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
-        this.environment = Optional.ofNullable(environment)
-                .orElseThrow(() -> new IllegalArgumentException("environment cannot be null"));
+            @Nonnull String groupId, @Nonnull String idempotencyKey, @Nonnull ScreeningRequest body) {
         this.groupId =
                 Optional.ofNullable(groupId).orElseThrow(() -> new IllegalArgumentException("groupId cannot be null"));
         this.idempotencyKey = Optional.ofNullable(idempotencyKey)
                 .orElseThrow(() -> new IllegalArgumentException("idempotencyKey cannot be null"));
         this.body = Optional.ofNullable(body).orElseThrow(() -> new IllegalArgumentException("body cannot be null"));
-    }
-
-    /**
-     * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-     * test environment's id answer 404.
-     */
-    public String workspaceId() {
-        return this.workspaceId;
-    }
-
-    /**
-     * The environment: live or test. Each has its own settings. Any other value answers 400.
-     *
-     * <p>An API key reads and changes only its own environment's; the other answers 404.
-     */
-    public KeyEnvironment environment() {
-        return this.environment;
     }
 
     public String groupId() {
@@ -92,25 +52,6 @@ public class StartScreeningRequest {
 
     public static Builder builder() {
         return new Builder();
-    }
-
-    /**
-     * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-     * test environment's id answer 404.
-     */
-    public StartScreeningRequest withWorkspaceId(@Nonnull String workspaceId) {
-        this.workspaceId = Utils.checkNotNull(workspaceId, "workspaceId");
-        return this;
-    }
-
-    /**
-     * The environment: live or test. Each has its own settings. Any other value answers 400.
-     *
-     * <p>An API key reads and changes only its own environment's; the other answers 404.
-     */
-    public StartScreeningRequest withEnvironment(@Nonnull KeyEnvironment environment) {
-        this.environment = Utils.checkNotNull(environment, "environment");
-        return this;
     }
 
     public StartScreeningRequest withGroupId(@Nonnull String groupId) {
@@ -141,40 +82,24 @@ public class StartScreeningRequest {
             return false;
         }
         StartScreeningRequest other = (StartScreeningRequest) o;
-        return Utils.enhancedDeepEquals(this.workspaceId, other.workspaceId)
-                && Utils.enhancedDeepEquals(this.environment, other.environment)
-                && Utils.enhancedDeepEquals(this.groupId, other.groupId)
+        return Utils.enhancedDeepEquals(this.groupId, other.groupId)
                 && Utils.enhancedDeepEquals(this.idempotencyKey, other.idempotencyKey)
                 && Utils.enhancedDeepEquals(this.body, other.body);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(workspaceId, environment, groupId, idempotencyKey, body);
+        return Utils.enhancedHash(groupId, idempotencyKey, body);
     }
 
     @Override
     public String toString() {
         return Utils.toString(
-                StartScreeningRequest.class,
-                "workspaceId",
-                workspaceId,
-                "environment",
-                environment,
-                "groupId",
-                groupId,
-                "idempotencyKey",
-                idempotencyKey,
-                "body",
-                body);
+                StartScreeningRequest.class, "groupId", groupId, "idempotencyKey", idempotencyKey, "body", body);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
-
-        private String workspaceId;
-
-        private KeyEnvironment environment;
 
         private String groupId;
 
@@ -184,25 +109,6 @@ public class StartScreeningRequest {
 
         private Builder() {
             // force use of static builder() method
-        }
-
-        /**
-         * Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a
-         * test environment's id answer 404.
-         */
-        public Builder workspaceId(@Nonnull String workspaceId) {
-            this.workspaceId = Utils.checkNotNull(workspaceId, "workspaceId");
-            return this;
-        }
-
-        /**
-         * The environment: live or test. Each has its own settings. Any other value answers 400.
-         *
-         * <p>An API key reads and changes only its own environment's; the other answers 404.
-         */
-        public Builder environment(@Nonnull KeyEnvironment environment) {
-            this.environment = Utils.checkNotNull(environment, "environment");
-            return this;
         }
 
         public Builder groupId(@Nonnull String groupId) {
@@ -225,7 +131,7 @@ public class StartScreeningRequest {
         }
 
         public StartScreeningRequest build() {
-            return new StartScreeningRequest(workspaceId, environment, groupId, idempotencyKey, body);
+            return new StartScreeningRequest(groupId, idempotencyKey, body);
         }
     }
 }

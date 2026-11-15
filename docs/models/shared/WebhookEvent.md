@@ -19,6 +19,7 @@ The body of every webhook delivery: {id, type, created_at, data}, where type cho
 | `"screening.completed"` | [ScreeningCompletedEvent](../../models/shared/ScreeningCompletedEvent.md) |
 | `"person.flagged"` | [PersonFlaggedEvent](../../models/shared/PersonFlaggedEvent.md) |
 | `"person.decided"` | [PersonDecidedEvent](../../models/shared/PersonDecidedEvent.md) |
+| `"investigation.completed"` | [InvestigationCompletedEvent](../../models/shared/InvestigationCompletedEvent.md) |
 
 ### [`AssessmentUpdatedEvent`](../../models/shared/AssessmentUpdatedEvent.md)
 
@@ -284,6 +285,26 @@ WebhookEvent value = PersonDecidedEvent.builder()
 
 **Referred Types:** [PersonDecided](../../models/shared/PersonDecided.md), [PersonDecision](../../models/shared/PersonDecision.md)
 
+### [`InvestigationCompletedEvent`](../../models/shared/InvestigationCompletedEvent.md)
+
+Discriminator value: `"investigation.completed"`
+
+```java
+WebhookEvent value = InvestigationCompletedEvent.builder()
+    .id("evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ1")
+    .createdAt("2026-10-14T09:00:02.000Z")
+    .data(InvestigationCompleted.builder()
+        .investigationId("inv_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .personId("per_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+        .status(InvestigationCompletedStatus.PARTIAL)
+        .finishedAt("2026-11-20T08:12:44.000Z")
+        .errorCode("expired")
+        .build())
+    .build();
+```
+
+**Referred Types:** [InvestigationCompleted](../../models/shared/InvestigationCompleted.md), [InvestigationCompletedStatus](../../models/shared/InvestigationCompletedStatus.md)
+
 ## Consumption Patterns
 
 ### Java 11+ (Discriminator Switch)
@@ -320,6 +341,9 @@ switch (value.type()) {
     case "person.decided":
         // Handle person.decided discriminator variant
         break;
+    case "investigation.completed":
+        // Handle investigation.completed discriminator variant
+        break;
     default:
         // Handle unknown discriminator variant
 }
@@ -348,6 +372,8 @@ if (value instanceof AssessmentUpdatedEvent assessmentUpdatedEvent) {
     // Handle PersonFlaggedEvent variant
 } else if (value instanceof PersonDecidedEvent personDecidedEvent) {
     // Handle PersonDecidedEvent variant
+} else if (value instanceof InvestigationCompletedEvent investigationCompletedEvent) {
+    // Handle InvestigationCompletedEvent variant
 } else {
     // Handle unknown discriminator variant
 }
@@ -386,6 +412,9 @@ switch (value) {
     }
     case PersonDecidedEvent personDecidedEvent -> {
         // Handle PersonDecidedEvent variant
+    }
+    case InvestigationCompletedEvent investigationCompletedEvent -> {
+        // Handle InvestigationCompletedEvent variant
     }
     default -> {
         // Handle unknown discriminator variant

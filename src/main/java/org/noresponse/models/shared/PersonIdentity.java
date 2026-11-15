@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.lang.Override;
 import java.lang.String;
@@ -12,15 +11,10 @@ import java.util.List;
 import java.util.Optional;
 import org.noresponse.utils.Utils;
 
-/**
- * PersonIdentity
- *
- * <p>What you know about a person. Stored encrypted under the workspace's key.
- */
 public class PersonIdentity {
     /**
-     * Your own id for the person, unique within the group. A later row with the same external id updates
-     * this person.
+     * Your reference for this person within the workspace environment. Only an explicit reference or
+     * person_id can reuse an existing person.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
@@ -29,6 +23,7 @@ public class PersonIdentity {
     /**
      * The person's full name.
      */
+    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("name")
     private String name;
 
@@ -60,12 +55,13 @@ public class PersonIdentity {
     @JsonProperty("city")
     private String city;
 
-    /**
-     * Accounts the person is known to hold, at most 20.
-     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("handles")
     private List<Handle> handles;
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("person_id")
+    private String personId;
 
     /**
      * The person's role in the group: guest (a ticket holder), crew, vendor or press. Leave it out when
@@ -79,30 +75,32 @@ public class PersonIdentity {
     @JsonCreator
     public PersonIdentity(
             @JsonProperty("external_id") @Nullable String externalId,
-            @JsonProperty("name") @Nonnull String name,
+            @JsonProperty("name") @Nullable String name,
             @JsonProperty("email") @Nullable String email,
             @JsonProperty("phone") @Nullable String phone,
             @JsonProperty("company") @Nullable String company,
             @JsonProperty("city") @Nullable String city,
             @JsonProperty("handles") @Nullable List<Handle> handles,
+            @JsonProperty("person_id") @Nullable String personId,
             @JsonProperty("role") @Nullable PersonRole role) {
         this.externalId = externalId;
-        this.name = Optional.ofNullable(name).orElseThrow(() -> new IllegalArgumentException("name cannot be null"));
+        this.name = name;
         this.email = email;
         this.phone = phone;
         this.company = company;
         this.city = city;
         this.handles = handles;
+        this.personId = personId;
         this.role = role;
     }
 
-    public PersonIdentity(@Nonnull String name) {
-        this(null, name, null, null, null, null, null, null);
+    public PersonIdentity() {
+        this(null, null, null, null, null, null, null, null, null);
     }
 
     /**
-     * Your own id for the person, unique within the group. A later row with the same external id updates
-     * this person.
+     * Your reference for this person within the workspace environment. Only an explicit reference or
+     * person_id can reuse an existing person.
      */
     public Optional<String> externalId() {
         return Optional.ofNullable(this.externalId);
@@ -111,8 +109,8 @@ public class PersonIdentity {
     /**
      * The person's full name.
      */
-    public String name() {
-        return this.name;
+    public Optional<String> name() {
+        return Optional.ofNullable(this.name);
     }
 
     /**
@@ -143,11 +141,12 @@ public class PersonIdentity {
         return Optional.ofNullable(this.city);
     }
 
-    /**
-     * Accounts the person is known to hold, at most 20.
-     */
     public Optional<List<Handle>> handles() {
         return Optional.ofNullable(this.handles);
+    }
+
+    public Optional<String> personId() {
+        return Optional.ofNullable(this.personId);
     }
 
     /**
@@ -164,8 +163,8 @@ public class PersonIdentity {
     }
 
     /**
-     * Your own id for the person, unique within the group. A later row with the same external id updates
-     * this person.
+     * Your reference for this person within the workspace environment. Only an explicit reference or
+     * person_id can reuse an existing person.
      */
     public PersonIdentity withExternalId(@Nullable String externalId) {
         this.externalId = externalId;
@@ -175,8 +174,8 @@ public class PersonIdentity {
     /**
      * The person's full name.
      */
-    public PersonIdentity withName(@Nonnull String name) {
-        this.name = Utils.checkNotNull(name, "name");
+    public PersonIdentity withName(@Nullable String name) {
+        this.name = name;
         return this;
     }
 
@@ -212,11 +211,13 @@ public class PersonIdentity {
         return this;
     }
 
-    /**
-     * Accounts the person is known to hold, at most 20.
-     */
     public PersonIdentity withHandles(@Nullable List<Handle> handles) {
         this.handles = handles;
+        return this;
+    }
+
+    public PersonIdentity withPersonId(@Nullable String personId) {
+        this.personId = personId;
         return this;
     }
 
@@ -246,12 +247,13 @@ public class PersonIdentity {
                 && Utils.enhancedDeepEquals(this.company, other.company)
                 && Utils.enhancedDeepEquals(this.city, other.city)
                 && Utils.enhancedDeepEquals(this.handles, other.handles)
+                && Utils.enhancedDeepEquals(this.personId, other.personId)
                 && Utils.enhancedDeepEquals(this.role, other.role);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(externalId, name, email, phone, company, city, handles, role);
+        return Utils.enhancedHash(externalId, name, email, phone, company, city, handles, personId, role);
     }
 
     @Override
@@ -272,6 +274,8 @@ public class PersonIdentity {
                 city,
                 "handles",
                 handles,
+                "personId",
+                personId,
                 "role",
                 role);
     }
@@ -293,6 +297,8 @@ public class PersonIdentity {
 
         private List<Handle> handles;
 
+        private String personId;
+
         private PersonRole role;
 
         private Builder() {
@@ -300,8 +306,8 @@ public class PersonIdentity {
         }
 
         /**
-         * Your own id for the person, unique within the group. A later row with the same external id updates
-         * this person.
+         * Your reference for this person within the workspace environment. Only an explicit reference or
+         * person_id can reuse an existing person.
          */
         public Builder externalId(@Nullable String externalId) {
             this.externalId = externalId;
@@ -311,8 +317,8 @@ public class PersonIdentity {
         /**
          * The person's full name.
          */
-        public Builder name(@Nonnull String name) {
-            this.name = Utils.checkNotNull(name, "name");
+        public Builder name(@Nullable String name) {
+            this.name = name;
             return this;
         }
 
@@ -348,11 +354,13 @@ public class PersonIdentity {
             return this;
         }
 
-        /**
-         * Accounts the person is known to hold, at most 20.
-         */
         public Builder handles(@Nullable List<Handle> handles) {
             this.handles = handles;
+            return this;
+        }
+
+        public Builder personId(@Nullable String personId) {
+            this.personId = personId;
             return this;
         }
 
@@ -367,7 +375,7 @@ public class PersonIdentity {
         }
 
         public PersonIdentity build() {
-            return new PersonIdentity(externalId, name, email, phone, company, city, handles, role);
+            return new PersonIdentity(externalId, name, email, phone, company, city, handles, personId, role);
         }
     }
 }

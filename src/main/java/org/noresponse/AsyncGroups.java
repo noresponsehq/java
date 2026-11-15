@@ -19,6 +19,7 @@ import org.noresponse.models.operations.JudgeRecordRequest;
 import org.noresponse.models.operations.ListGroupsRequest;
 import org.noresponse.models.operations.ListPeopleRequest;
 import org.noresponse.models.operations.ListScreeningsRequest;
+import org.noresponse.models.operations.RemoveGroupPersonRequest;
 import org.noresponse.models.operations.ReviewPersonRequest;
 import org.noresponse.models.operations.RunSearchRequest;
 import org.noresponse.models.operations.StartScreeningRequest;
@@ -48,6 +49,8 @@ import org.noresponse.models.operations.async.ListPeopleRequestBuilder;
 import org.noresponse.models.operations.async.ListPeopleResponse;
 import org.noresponse.models.operations.async.ListScreeningsRequestBuilder;
 import org.noresponse.models.operations.async.ListScreeningsResponse;
+import org.noresponse.models.operations.async.RemoveGroupPersonRequestBuilder;
+import org.noresponse.models.operations.async.RemoveGroupPersonResponse;
 import org.noresponse.models.operations.async.ReviewPersonRequestBuilder;
 import org.noresponse.models.operations.async.ReviewPersonResponse;
 import org.noresponse.models.operations.async.RunSearchRequestBuilder;
@@ -60,7 +63,12 @@ import org.noresponse.models.operations.async.UpdateGroupRequestBuilder;
 import org.noresponse.models.operations.async.UpdateGroupResponse;
 import org.noresponse.models.shared.GroupRequest;
 import org.noresponse.models.shared.GroupUpdate;
-import org.noresponse.models.shared.KeyEnvironment;
+import org.noresponse.models.shared.PersonBatchRequest;
+import org.noresponse.models.shared.PersonReviewRequest;
+import org.noresponse.models.shared.RecordVerdictRequest;
+import org.noresponse.models.shared.ScreeningCancelRequest;
+import org.noresponse.models.shared.ScreeningRequest;
+import org.noresponse.models.shared.SearchRequest;
 import org.noresponse.operations.AddPeople;
 import org.noresponse.operations.CancelScreening;
 import org.noresponse.operations.CreateGroup;
@@ -73,6 +81,7 @@ import org.noresponse.operations.JudgeRecord;
 import org.noresponse.operations.ListGroups;
 import org.noresponse.operations.ListPeople;
 import org.noresponse.operations.ListScreenings;
+import org.noresponse.operations.RemoveGroupPerson;
 import org.noresponse.operations.ReviewPerson;
 import org.noresponse.operations.RunSearch;
 import org.noresponse.operations.StartScreening;
@@ -109,7 +118,8 @@ public class AsyncGroups {
      * <p>Groups, newest first. The people scope grants this operation. Explicit evidence.read restrictions
      * override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
      * @return The async call builder
      */
@@ -123,15 +133,13 @@ public class AsyncGroups {
      * <p>Groups, newest first. The people scope grants this operation. Explicit evidence.read restrictions
      * override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
      * @return {@code CompletableFuture<ListGroupsResponse>} - The async response
      */
-    public CompletableFuture<ListGroupsResponse> list(
-            @Nonnull String workspaceId, @Nonnull KeyEnvironment environment) {
-        return list(workspaceId, environment, null, null, null);
+    public CompletableFuture<ListGroupsResponse> listDirect() {
+        return list(null, null, null);
     }
 
     /**
@@ -140,22 +148,17 @@ public class AsyncGroups {
      * <p>Groups, newest first. The people scope grants this operation. Explicit evidence.read restrictions
      * override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
      * @param limit At most this many items.
      * @param before Read groups older than this one.
      * @param options additional options
      * @return {@code CompletableFuture<ListGroupsResponse>} - The async response
      */
     public CompletableFuture<ListGroupsResponse> list(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
-            @Nullable Long limit,
-            @Nullable String before,
-            @Nullable Options options) {
-        ListGroupsRequest request = new ListGroupsRequest(workspaceId, environment, limit, before);
+            @Nullable Long limit, @Nullable String before, @Nullable Options options) {
+        ListGroupsRequest request = new ListGroupsRequest(limit, before);
         AsyncRequestOperation<ListGroupsRequest, ListGroupsResponse> operation =
                 new ListGroups.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -173,7 +176,7 @@ public class AsyncGroups {
      * deliberate new operation. The people_write scope grants this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * accepted for existing integrations. The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -193,16 +196,13 @@ public class AsyncGroups {
      * deliberate new operation. The people_write scope grants this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * accepted for existing integrations. The API key selects the workspace and environment.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
      * @param body Creates a group.
      * @return {@code CompletableFuture<CreateGroupResponse>} - The async response
      */
-    public CompletableFuture<CreateGroupResponse> create(
-            @Nonnull String workspaceId, @Nonnull KeyEnvironment environment, @Nonnull GroupRequest body) {
-        return create(workspaceId, environment, null, body);
+    public CompletableFuture<CreateGroupResponse> create(@Nonnull GroupRequest body) {
+        return create(null, body);
     }
 
     /**
@@ -217,20 +217,14 @@ public class AsyncGroups {
      * deliberate new operation. The people_write scope grants this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * accepted for existing integrations. The API key selects the workspace and environment.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
      * @param idempotencyKey Opaque request key, 16 to 128 characters. Repeating the key and request returns the same resource in its current state while it is retained. A different request with the same key answers 409. Use a new key for a deliberate new operation. Keys are scoped to the environment and operation; person searches also scope them to the group and person.
      * @param body Creates a group.
      * @return {@code CompletableFuture<CreateGroupResponse>} - The async response
      */
-    public CompletableFuture<CreateGroupResponse> create(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
-            @Nullable String idempotencyKey,
-            @Nonnull GroupRequest body) {
-        CreateGroupRequest request = new CreateGroupRequest(workspaceId, environment, idempotencyKey, body);
+    public CompletableFuture<CreateGroupResponse> create(@Nullable String idempotencyKey, @Nonnull GroupRequest body) {
+        CreateGroupRequest request = new CreateGroupRequest(idempotencyKey, body);
         AsyncRequestOperation<CreateGroupRequest, CreateGroupResponse> operation =
                 new CreateGroup.Async(sdkConfiguration, _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -242,7 +236,8 @@ public class AsyncGroups {
      * <p>The group and how many people it holds. The people scope grants this operation. Explicit
      * evidence.read restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
      * @return The async call builder
      */
@@ -256,16 +251,14 @@ public class AsyncGroups {
      * <p>The group and how many people it holds. The people scope grants this operation. Explicit
      * evidence.read restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
      * @param groupId
      * @return {@code CompletableFuture<GetGroupResponse>} - The async response
      */
-    public CompletableFuture<GetGroupResponse> get(
-            @Nonnull String workspaceId, @Nonnull KeyEnvironment environment, @Nonnull String groupId) {
-        return get(workspaceId, environment, groupId, null);
+    public CompletableFuture<GetGroupResponse> get(@Nonnull String groupId) {
+        return get(groupId, null);
     }
 
     /**
@@ -274,20 +267,15 @@ public class AsyncGroups {
      * <p>The group and how many people it holds. The people scope grants this operation. Explicit
      * evidence.read restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
      * @param groupId
      * @param options additional options
      * @return {@code CompletableFuture<GetGroupResponse>} - The async response
      */
-    public CompletableFuture<GetGroupResponse> get(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
-            @Nonnull String groupId,
-            @Nullable Options options) {
-        GetGroupRequest request = new GetGroupRequest(workspaceId, environment, groupId);
+    public CompletableFuture<GetGroupResponse> get(@Nonnull String groupId, @Nullable Options options) {
+        GetGroupRequest request = new GetGroupRequest(groupId);
         AsyncRequestOperation<GetGroupRequest, GetGroupResponse> operation =
                 new GetGroup.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -300,7 +288,7 @@ public class AsyncGroups {
      * (409 group_conflict otherwise). The people_write scope grants this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * accepted for existing integrations. The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -315,20 +303,14 @@ public class AsyncGroups {
      * (409 group_conflict otherwise). The people_write scope grants this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * accepted for existing integrations. The API key selects the workspace and environment.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
      * @param groupId
      * @param body Changes the fields it names; at least one besides expected_version.
      * @return {@code CompletableFuture<UpdateGroupResponse>} - The async response
      */
-    public CompletableFuture<UpdateGroupResponse> update(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
-            @Nonnull String groupId,
-            @Nonnull GroupUpdate body) {
-        return update(workspaceId, environment, groupId, body, null);
+    public CompletableFuture<UpdateGroupResponse> update(@Nonnull String groupId, @Nonnull GroupUpdate body) {
+        return update(groupId, body, null);
     }
 
     /**
@@ -338,22 +320,16 @@ public class AsyncGroups {
      * (409 group_conflict otherwise). The people_write scope grants this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * accepted for existing integrations. The API key selects the workspace and environment.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
      * @param groupId
      * @param body Changes the fields it names; at least one besides expected_version.
      * @param options additional options
      * @return {@code CompletableFuture<UpdateGroupResponse>} - The async response
      */
     public CompletableFuture<UpdateGroupResponse> update(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
-            @Nonnull String groupId,
-            @Nonnull GroupUpdate body,
-            @Nullable Options options) {
-        UpdateGroupRequest request = new UpdateGroupRequest(workspaceId, environment, groupId, body);
+            @Nonnull String groupId, @Nonnull GroupUpdate body, @Nullable Options options) {
+        UpdateGroupRequest request = new UpdateGroupRequest(groupId, body);
         AsyncRequestOperation<UpdateGroupRequest, UpdateGroupResponse> operation =
                 new UpdateGroup.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -362,9 +338,12 @@ public class AsyncGroups {
     /**
      * Erase a group.
      *
-     * <p>Erases the group with its people, their reviews and its screenings, and stops any screening still
-     * running. The delete scope is required; group read, write, investigation and review access do not
-     * grant deletion.
+     * <p>Deletes the group, its memberships and its review context, and cancels unfinished group work.
+     * Workspace people, source evidence and completed investigations remain available. Retained
+     * investigations no longer name the deleted group.
+     *
+     * <p>The delete scope is required; group read, write, investigation and review access do not grant
+     * deletion. The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -375,39 +354,36 @@ public class AsyncGroups {
     /**
      * Erase a group.
      *
-     * <p>Erases the group with its people, their reviews and its screenings, and stops any screening still
-     * running. The delete scope is required; group read, write, investigation and review access do not
-     * grant deletion.
+     * <p>Deletes the group, its memberships and its review context, and cancels unfinished group work.
+     * Workspace people, source evidence and completed investigations remain available. Retained
+     * investigations no longer name the deleted group.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
+     * <p>The delete scope is required; group read, write, investigation and review access do not grant
+     * deletion. The API key selects the workspace and environment.
+     *
      * @param groupId
      * @return {@code CompletableFuture<DeleteGroupResponse>} - The async response
      */
-    public CompletableFuture<DeleteGroupResponse> delete(
-            @Nonnull String workspaceId, @Nonnull KeyEnvironment environment, @Nonnull String groupId) {
-        return delete(workspaceId, environment, groupId, null);
+    public CompletableFuture<DeleteGroupResponse> delete(@Nonnull String groupId) {
+        return delete(groupId, null);
     }
 
     /**
      * Erase a group.
      *
-     * <p>Erases the group with its people, their reviews and its screenings, and stops any screening still
-     * running. The delete scope is required; group read, write, investigation and review access do not
-     * grant deletion.
+     * <p>Deletes the group, its memberships and its review context, and cancels unfinished group work.
+     * Workspace people, source evidence and completed investigations remain available. Retained
+     * investigations no longer name the deleted group.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
+     * <p>The delete scope is required; group read, write, investigation and review access do not grant
+     * deletion. The API key selects the workspace and environment.
+     *
      * @param groupId
      * @param options additional options
      * @return {@code CompletableFuture<DeleteGroupResponse>} - The async response
      */
-    public CompletableFuture<DeleteGroupResponse> delete(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
-            @Nonnull String groupId,
-            @Nullable Options options) {
-        DeleteGroupRequest request = new DeleteGroupRequest(workspaceId, environment, groupId);
+    public CompletableFuture<DeleteGroupResponse> delete(@Nonnull String groupId, @Nullable Options options) {
+        DeleteGroupRequest request = new DeleteGroupRequest(groupId);
         AsyncRequestOperation<DeleteGroupRequest, DeleteGroupResponse> operation =
                 new DeleteGroup.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -421,7 +397,7 @@ public class AsyncGroups {
      * this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * accepted for existing integrations. The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -437,7 +413,7 @@ public class AsyncGroups {
      * this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * accepted for existing integrations. The API key selects the workspace and environment.
      *
      * @param request The request object containing all the parameters for the API call.
      * @return {@code CompletableFuture<ListPeopleResponse>} - The async response
@@ -454,7 +430,7 @@ public class AsyncGroups {
      * this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * accepted for existing integrations. The API key selects the workspace and environment.
      *
      * @param request The request object containing all the parameters for the API call.
      * @param options additional options
@@ -470,17 +446,20 @@ public class AsyncGroups {
     /**
      * Add or update a batch of people.
      *
-     * <p>Adds 1 to 500 people, at most 512 KiB. A row naming an existing person in the group (the same
-     * external_id, else the same email, else the same phone) updates it; a changed identity is screened
-     * afresh by the next screening. Identities are stored encrypted under the workspace's key.
+     * <p>Adds 1 to 500 workspace people to this group, at most 512 KiB. An explicit person_id or external_id
+     * reuses the named workspace person. A reference-only row keeps submitted details; an identity
+     * supplied with that reference replaces those details.
      *
-     * <p>Idempotency-Key is required: a retry with the same key and body within 24 hours answers the first
-     * result with Idempotent-Replayed: true, and the same key with another body answers 409
-     * idempotency_key_reused. A group holds at most 20000 people. The people_write scope grants this
-     * operation.
+     * <p>A shared email or phone only suggests matches and does not merge people. A changed identity clears
+     * current group screening summaries; prior investigation history remains available. Identities are
+     * encrypted under the workspace key.
      *
-     * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * <p>Idempotency-Key is required: the same key and body return the original import result while it is
+     * retained, with Idempotent-Replayed: true. A different body answers 409 idempotency_key_reused. A
+     * group holds at most 20000 people.
+     *
+     * <p>The people_write scope grants this operation; groups is also accepted. Suggested matches require
+     * people-read access. The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -491,46 +470,61 @@ public class AsyncGroups {
     /**
      * Add or update a batch of people.
      *
-     * <p>Adds 1 to 500 people, at most 512 KiB. A row naming an existing person in the group (the same
-     * external_id, else the same email, else the same phone) updates it; a changed identity is screened
-     * afresh by the next screening. Identities are stored encrypted under the workspace's key.
+     * <p>Adds 1 to 500 workspace people to this group, at most 512 KiB. An explicit person_id or external_id
+     * reuses the named workspace person. A reference-only row keeps submitted details; an identity
+     * supplied with that reference replaces those details.
      *
-     * <p>Idempotency-Key is required: a retry with the same key and body within 24 hours answers the first
-     * result with Idempotent-Replayed: true, and the same key with another body answers 409
-     * idempotency_key_reused. A group holds at most 20000 people. The people_write scope grants this
-     * operation.
+     * <p>A shared email or phone only suggests matches and does not merge people. A changed identity clears
+     * current group screening summaries; prior investigation history remains available. Identities are
+     * encrypted under the workspace key.
      *
-     * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * <p>Idempotency-Key is required: the same key and body return the original import result while it is
+     * retained, with Idempotent-Replayed: true. A different body answers 409 idempotency_key_reused. A
+     * group holds at most 20000 people.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * <p>The people_write scope grants this operation; groups is also accepted. Suggested matches require
+     * people-read access. The API key selects the workspace and environment.
+     *
+     * @param groupId
+     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
+     * @param body Adds 1 to 500 workspace people to the group. Reuses an explicit person_id or external_id. Matching email or phone values only suggest people; automatic merging is disabled.
      * @return {@code CompletableFuture<AddPeopleResponse>} - The async response
      */
-    public CompletableFuture<AddPeopleResponse> addPeople(@Nonnull AddPeopleRequest request) {
-        return addPeople(request, null);
+    public CompletableFuture<AddPeopleResponse> addPeople(
+            @Nonnull String groupId, @Nonnull String idempotencyKey, @Nonnull PersonBatchRequest body) {
+        return addPeople(groupId, idempotencyKey, body, null);
     }
 
     /**
      * Add or update a batch of people.
      *
-     * <p>Adds 1 to 500 people, at most 512 KiB. A row naming an existing person in the group (the same
-     * external_id, else the same email, else the same phone) updates it; a changed identity is screened
-     * afresh by the next screening. Identities are stored encrypted under the workspace's key.
+     * <p>Adds 1 to 500 workspace people to this group, at most 512 KiB. An explicit person_id or external_id
+     * reuses the named workspace person. A reference-only row keeps submitted details; an identity
+     * supplied with that reference replaces those details.
      *
-     * <p>Idempotency-Key is required: a retry with the same key and body within 24 hours answers the first
-     * result with Idempotent-Replayed: true, and the same key with another body answers 409
-     * idempotency_key_reused. A group holds at most 20000 people. The people_write scope grants this
-     * operation.
+     * <p>A shared email or phone only suggests matches and does not merge people. A changed identity clears
+     * current group screening summaries; prior investigation history remains available. Identities are
+     * encrypted under the workspace key.
      *
-     * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * <p>Idempotency-Key is required: the same key and body return the original import result while it is
+     * retained, with Idempotent-Replayed: true. A different body answers 409 idempotency_key_reused. A
+     * group holds at most 20000 people.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * <p>The people_write scope grants this operation; groups is also accepted. Suggested matches require
+     * people-read access. The API key selects the workspace and environment.
+     *
+     * @param groupId
+     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
+     * @param body Adds 1 to 500 workspace people to the group. Reuses an explicit person_id or external_id. Matching email or phone values only suggest people; automatic merging is disabled.
      * @param options additional options
      * @return {@code CompletableFuture<AddPeopleResponse>} - The async response
      */
     public CompletableFuture<AddPeopleResponse> addPeople(
-            @Nonnull AddPeopleRequest request, @Nullable Options options) {
+            @Nonnull String groupId,
+            @Nonnull String idempotencyKey,
+            @Nonnull PersonBatchRequest body,
+            @Nullable Options options) {
+        AddPeopleRequest request = new AddPeopleRequest(groupId, idempotencyKey, body);
         AsyncRequestOperation<AddPeopleRequest, AddPeopleResponse> operation =
                 new AddPeople.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -539,16 +533,16 @@ public class AsyncGroups {
     /**
      * Read a person's report.
      *
-     * <p>The person, the profiles the screening matched with how each was matched, its findings with their
-     * evidence, every recorded decision, and the other groups in the environment where a person with the
-     * same email or phone appears, with the decision recorded there. Profiles and findings fill in as the
-     * screening pipeline ships. The people scope grants this operation.
+     * <p>Returns submitted details, this group's latest screening evidence and contextual decisions, and the
+     * other groups that explicitly include the same workspace person. Membership requires an explicit
+     * person or customer reference. The people scope grants this operation; groups is also accepted.
      *
-     * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations. Each successful read is durably audited as person.viewed.
+     * <p>Each successful read is durably audited as person.viewed. Full source records, posts and media are
+     * returned by default. Explicit evidence.read denial keeps submitted details, coverage, job status and
+     * decision summaries, hides collected evidence and free-text notes, and sets evidence_restricted to
+     * true.
      *
-     * <p>Restricted responses keep submitted details, coverage, job status and decision summaries and set
-     * evidence_restricted to true.
+     * <p>The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -559,61 +553,101 @@ public class AsyncGroups {
     /**
      * Read a person's report.
      *
-     * <p>The person, the profiles the screening matched with how each was matched, its findings with their
-     * evidence, every recorded decision, and the other groups in the environment where a person with the
-     * same email or phone appears, with the decision recorded there. Profiles and findings fill in as the
-     * screening pipeline ships. The people scope grants this operation.
+     * <p>Returns submitted details, this group's latest screening evidence and contextual decisions, and the
+     * other groups that explicitly include the same workspace person. Membership requires an explicit
+     * person or customer reference. The people scope grants this operation; groups is also accepted.
      *
-     * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations. Each successful read is durably audited as person.viewed.
+     * <p>Each successful read is durably audited as person.viewed. Full source records, posts and media are
+     * returned by default. Explicit evidence.read denial keeps submitted details, coverage, job status and
+     * decision summaries, hides collected evidence and free-text notes, and sets evidence_restricted to
+     * true.
      *
-     * <p>Restricted responses keep submitted details, coverage, job status and decision summaries and set
-     * evidence_restricted to true.
+     * <p>The API key selects the workspace and environment.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
      * @param groupId
      * @param personId
      * @return {@code CompletableFuture<GetPersonResponse>} - The async response
      */
-    public CompletableFuture<GetPersonResponse> getPerson(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
-            @Nonnull String groupId,
-            @Nonnull String personId) {
-        return getPerson(workspaceId, environment, groupId, personId, null);
+    public CompletableFuture<GetPersonResponse> getPerson(@Nonnull String groupId, @Nonnull String personId) {
+        return getPerson(groupId, personId, null);
     }
 
     /**
      * Read a person's report.
      *
-     * <p>The person, the profiles the screening matched with how each was matched, its findings with their
-     * evidence, every recorded decision, and the other groups in the environment where a person with the
-     * same email or phone appears, with the decision recorded there. Profiles and findings fill in as the
-     * screening pipeline ships. The people scope grants this operation.
+     * <p>Returns submitted details, this group's latest screening evidence and contextual decisions, and the
+     * other groups that explicitly include the same workspace person. Membership requires an explicit
+     * person or customer reference. The people scope grants this operation; groups is also accepted.
      *
-     * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations. Each successful read is durably audited as person.viewed.
+     * <p>Each successful read is durably audited as person.viewed. Full source records, posts and media are
+     * returned by default. Explicit evidence.read denial keeps submitted details, coverage, job status and
+     * decision summaries, hides collected evidence and free-text notes, and sets evidence_restricted to
+     * true.
      *
-     * <p>Restricted responses keep submitted details, coverage, job status and decision summaries and set
-     * evidence_restricted to true.
+     * <p>The API key selects the workspace and environment.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
      * @param groupId
      * @param personId
      * @param options additional options
      * @return {@code CompletableFuture<GetPersonResponse>} - The async response
      */
     public CompletableFuture<GetPersonResponse> getPerson(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
-            @Nonnull String groupId,
-            @Nonnull String personId,
-            @Nullable Options options) {
-        GetPersonRequest request = new GetPersonRequest(workspaceId, environment, groupId, personId);
+            @Nonnull String groupId, @Nonnull String personId, @Nullable Options options) {
+        GetPersonRequest request = new GetPersonRequest(groupId, personId);
         AsyncRequestOperation<GetPersonRequest, GetPersonResponse> operation =
                 new GetPerson.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Remove a person from a group
+     *
+     * <p>Removes this membership and its group review history. Keeps the workspace person, source evidence
+     * and completed investigations. Needs delete access.
+     *
+     * <p>The API key selects the workspace and environment.
+     *
+     * @return The async call builder
+     */
+    public RemoveGroupPersonRequestBuilder removePerson() {
+        return new RemoveGroupPersonRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Remove a person from a group
+     *
+     * <p>Removes this membership and its group review history. Keeps the workspace person, source evidence
+     * and completed investigations. Needs delete access.
+     *
+     * <p>The API key selects the workspace and environment.
+     *
+     * @param groupId
+     * @param personId
+     * @return {@code CompletableFuture<RemoveGroupPersonResponse>} - The async response
+     */
+    public CompletableFuture<RemoveGroupPersonResponse> removePerson(
+            @Nonnull String groupId, @Nonnull String personId) {
+        return removePerson(groupId, personId, null);
+    }
+
+    /**
+     * Remove a person from a group
+     *
+     * <p>Removes this membership and its group review history. Keeps the workspace person, source evidence
+     * and completed investigations. Needs delete access.
+     *
+     * <p>The API key selects the workspace and environment.
+     *
+     * @param groupId
+     * @param personId
+     * @param options additional options
+     * @return {@code CompletableFuture<RemoveGroupPersonResponse>} - The async response
+     */
+    public CompletableFuture<RemoveGroupPersonResponse> removePerson(
+            @Nonnull String groupId, @Nonnull String personId, @Nullable Options options) {
+        RemoveGroupPersonRequest request = new RemoveGroupPersonRequest(groupId, personId);
+        AsyncRequestOperation<RemoveGroupPersonRequest, RemoveGroupPersonResponse> operation =
+                new RemoveGroupPerson.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 
@@ -625,6 +659,8 @@ public class AsyncGroups {
      *
      * <p>The decisions scope grants this operation. Explicit evidence.read restrictions override default
      * evidence access. The groups scope is also accepted for existing integrations.
+     *
+     * <p>The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -641,10 +677,16 @@ public class AsyncGroups {
      * <p>The decisions scope grants this operation. Explicit evidence.read restrictions override default
      * evidence access. The groups scope is also accepted for existing integrations.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * <p>The API key selects the workspace and environment.
+     *
+     * @param groupId
+     * @param personId
+     * @param body Records a decision on a person.
      * @return {@code CompletableFuture<ReviewPersonResponse>} - The async response
      */
-    public CompletableFuture<ReviewPersonResponse> reviewPerson(@Nonnull ReviewPersonRequest request) {
+    public CompletableFuture<ReviewPersonResponse> reviewPerson(
+            @Nonnull String groupId, @Nonnull String personId, @Nonnull PersonReviewRequest body) {
+        ReviewPersonRequest request = new ReviewPersonRequest(groupId, personId, body);
         AsyncRequestOperation<ReviewPersonRequest, ReviewPersonResponse> operation =
                 new ReviewPerson.Async(sdkConfiguration, _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -661,7 +703,8 @@ public class AsyncGroups {
      * <p>Each verdict is audited as person.record_judged. The decisions scope grants this operation. Explicit
      * evidence.read restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
      * @return The async call builder
      */
@@ -680,13 +723,17 @@ public class AsyncGroups {
      * <p>Each verdict is audited as person.record_judged. The decisions scope grants this operation. Explicit
      * evidence.read restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * @param groupId
+     * @param personId
+     * @param body A reviewer's verdict on whether one of a person's lookup records is theirs.
      * @return {@code CompletableFuture<JudgeRecordResponse>} - The async response
      */
-    public CompletableFuture<JudgeRecordResponse> judgeRecord(@Nonnull JudgeRecordRequest request) {
-        return judgeRecord(request, null);
+    public CompletableFuture<JudgeRecordResponse> judgeRecord(
+            @Nonnull String groupId, @Nonnull String personId, @Nonnull RecordVerdictRequest body) {
+        return judgeRecord(groupId, personId, body, null);
     }
 
     /**
@@ -700,14 +747,21 @@ public class AsyncGroups {
      * <p>Each verdict is audited as person.record_judged. The decisions scope grants this operation. Explicit
      * evidence.read restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * @param groupId
+     * @param personId
+     * @param body A reviewer's verdict on whether one of a person's lookup records is theirs.
      * @param options additional options
      * @return {@code CompletableFuture<JudgeRecordResponse>} - The async response
      */
     public CompletableFuture<JudgeRecordResponse> judgeRecord(
-            @Nonnull JudgeRecordRequest request, @Nullable Options options) {
+            @Nonnull String groupId,
+            @Nonnull String personId,
+            @Nonnull RecordVerdictRequest body,
+            @Nullable Options options) {
+        JudgeRecordRequest request = new JudgeRecordRequest(groupId, personId, body);
         AsyncRequestOperation<JudgeRecordRequest, JudgeRecordResponse> operation =
                 new JudgeRecord.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -743,7 +797,8 @@ public class AsyncGroups {
      * <p>Use a new key for a deliberate new operation. The investigations scope grants this operation.
      * Explicit evidence.read restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
      * @return The async call builder
      */
@@ -781,12 +836,64 @@ public class AsyncGroups {
      * <p>Use a new key for a deliberate new operation. The investigations scope grants this operation.
      * Explicit evidence.read restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * @param groupId
+     * @param personId
+     * @param body The value to search again, named by the record and field that hold it rather than sent again.
      * @return {@code CompletableFuture<StartSearchResponse>} - The async response
      */
-    public CompletableFuture<StartSearchResponse> startSearch(@Nonnull StartSearchRequest request) {
+    public CompletableFuture<StartSearchResponse> startSearch(
+            @Nonnull String groupId, @Nonnull String personId, @Nonnull SearchRequest body) {
+        return startSearch(groupId, personId, null, body);
+    }
+
+    /**
+     * Search again on a value of one of a person's records.
+     *
+     * <p>Starts a new search on the value of one field of one of the person's records: a lookup's, a
+     * profile's or one an earlier search found. Name the record and the field; the value itself is not
+     * sent. The field's kind must be email, phone, username, person_name, password, hash, ip or domain.
+     *
+     * <p>A domain search finds the breach rows of every email address at the domain, which must be a
+     * registrable domain or a host under one; any other domain answers 400. Nothing ever searches again by
+     * itself: a search starts only when a person asks. The search runs the breach search and the account
+     * and phone lookups that take the value's kind, under the environment's source controls, and finishes
+     * seconds later.
+     *
+     * <p>A password or hash search counts first: it stops at counted with rows, how many breach rows hold the
+     * value, and runs only when a person runs it. Name a table, as a lookup remaining entry names it, to
+     * fetch the rows an earlier search left out, up to 100. What the search finds joins the person's
+     * lookup records as leads, each match naming the search; the person report lists the searches, each
+     * with the value and the record and field it came from, and its records are scored like the rest.
+     *
+     * <p>Without an Idempotency-Key, starting the same open search returns it. Its estimate counts against
+     * the environment's screening_daily_cap, and one the cap cannot hold answers 409
+     * screening_cap_exceeded. A record or field the person does not hold answers 404.
+     *
+     * <p>Each search is audited as person.search_started. Send an Idempotency-Key to retry safely: the same
+     * key and request return the same resource in its current state while it is retained, even after work
+     * completes. Reusing the key with different input answers 409 idempotency_key_reused.
+     *
+     * <p>Use a new key for a deliberate new operation. The investigations scope grants this operation.
+     * Explicit evidence.read restrictions override default evidence access.
+     *
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
+     *
+     * @param groupId
+     * @param personId
+     * @param idempotencyKey Opaque request key, 16 to 128 characters. Repeating the key and request returns the same resource in its current state while it is retained. A different request with the same key answers 409. Use a new key for a deliberate new operation. Keys are scoped to the environment and operation; person searches also scope them to the group and person.
+     * @param body The value to search again, named by the record and field that hold it rather than sent again.
+     * @return {@code CompletableFuture<StartSearchResponse>} - The async response
+     */
+    public CompletableFuture<StartSearchResponse> startSearch(
+            @Nonnull String groupId,
+            @Nonnull String personId,
+            @Nullable String idempotencyKey,
+            @Nonnull SearchRequest body) {
+        StartSearchRequest request = new StartSearchRequest(groupId, personId, idempotencyKey, body);
         AsyncRequestOperation<StartSearchRequest, StartSearchResponse> operation =
                 new StartSearch.Async(sdkConfiguration, _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -803,7 +910,7 @@ public class AsyncGroups {
      * person.search_run. The investigations scope grants this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * accepted for existing integrations. The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -822,13 +929,20 @@ public class AsyncGroups {
      * person.search_run. The investigations scope grants this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * accepted for existing integrations. The API key selects the workspace and environment.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * @param groupId
+     * @param personId
+     * @param searchId
+     * @param body An empty object.
      * @return {@code CompletableFuture<RunSearchResponse>} - The async response
      */
-    public CompletableFuture<RunSearchResponse> runSearch(@Nonnull RunSearchRequest request) {
-        return runSearch(request, null);
+    public CompletableFuture<RunSearchResponse> runSearch(
+            @Nonnull String groupId,
+            @Nonnull String personId,
+            @Nonnull String searchId,
+            @Nonnull ScreeningCancelRequest body) {
+        return runSearch(groupId, personId, searchId, body, null);
     }
 
     /**
@@ -842,14 +956,22 @@ public class AsyncGroups {
      * person.search_run. The investigations scope grants this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
-     * accepted for existing integrations.
+     * accepted for existing integrations. The API key selects the workspace and environment.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * @param groupId
+     * @param personId
+     * @param searchId
+     * @param body An empty object.
      * @param options additional options
      * @return {@code CompletableFuture<RunSearchResponse>} - The async response
      */
     public CompletableFuture<RunSearchResponse> runSearch(
-            @Nonnull RunSearchRequest request, @Nullable Options options) {
+            @Nonnull String groupId,
+            @Nonnull String personId,
+            @Nonnull String searchId,
+            @Nonnull ScreeningCancelRequest body,
+            @Nullable Options options) {
+        RunSearchRequest request = new RunSearchRequest(groupId, personId, searchId, body);
         AsyncRequestOperation<RunSearchRequest, RunSearchResponse> operation =
                 new RunSearch.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -861,7 +983,8 @@ public class AsyncGroups {
      * <p>Screenings, newest first. The people scope grants this operation. Explicit evidence.read
      * restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
      * @return The async call builder
      */
@@ -875,13 +998,14 @@ public class AsyncGroups {
      * <p>Screenings, newest first. The people scope grants this operation. Explicit evidence.read
      * restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * @param groupId
      * @return {@code CompletableFuture<ListScreeningsResponse>} - The async response
      */
-    public CompletableFuture<ListScreeningsResponse> listScreenings(@Nonnull ListScreeningsRequest request) {
-        return listScreenings(request, null);
+    public CompletableFuture<ListScreeningsResponse> listScreenings(@Nonnull String groupId) {
+        return listScreenings(groupId, null, null, null);
     }
 
     /**
@@ -890,14 +1014,18 @@ public class AsyncGroups {
      * <p>Screenings, newest first. The people scope grants this operation. Explicit evidence.read
      * restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * @param groupId
+     * @param limit At most this many items.
+     * @param before Read screenings older than this one.
      * @param options additional options
      * @return {@code CompletableFuture<ListScreeningsResponse>} - The async response
      */
     public CompletableFuture<ListScreeningsResponse> listScreenings(
-            @Nonnull ListScreeningsRequest request, @Nullable Options options) {
+            @Nonnull String groupId, @Nullable Long limit, @Nullable String before, @Nullable Options options) {
+        ListScreeningsRequest request = new ListScreeningsRequest(groupId, limit, before);
         AsyncRequestOperation<ListScreeningsRequest, ListScreeningsResponse> operation =
                 new ListScreenings.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -920,7 +1048,8 @@ public class AsyncGroups {
      * investigations scope grants this operation. Explicit evidence.read restrictions override default
      * evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
      * @return The async call builder
      */
@@ -945,13 +1074,17 @@ public class AsyncGroups {
      * investigations scope grants this operation. Explicit evidence.read restrictions override default
      * evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * @param groupId
+     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
+     * @param body Screens the group's people no screening has reached and everyone on watch or escalated.
      * @return {@code CompletableFuture<StartScreeningResponse>} - The async response
      */
-    public CompletableFuture<StartScreeningResponse> startScreening(@Nonnull StartScreeningRequest request) {
-        return startScreening(request, null);
+    public CompletableFuture<StartScreeningResponse> startScreening(
+            @Nonnull String groupId, @Nonnull String idempotencyKey, @Nonnull ScreeningRequest body) {
+        return startScreening(groupId, idempotencyKey, body, null);
     }
 
     /**
@@ -971,14 +1104,21 @@ public class AsyncGroups {
      * investigations scope grants this operation. Explicit evidence.read restrictions override default
      * evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * @param groupId
+     * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
+     * @param body Screens the group's people no screening has reached and everyone on watch or escalated.
      * @param options additional options
      * @return {@code CompletableFuture<StartScreeningResponse>} - The async response
      */
     public CompletableFuture<StartScreeningResponse> startScreening(
-            @Nonnull StartScreeningRequest request, @Nullable Options options) {
+            @Nonnull String groupId,
+            @Nonnull String idempotencyKey,
+            @Nonnull ScreeningRequest body,
+            @Nullable Options options) {
+        StartScreeningRequest request = new StartScreeningRequest(groupId, idempotencyKey, body);
         AsyncRequestOperation<StartScreeningRequest, StartScreeningResponse> operation =
                 new StartScreening.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -990,7 +1130,8 @@ public class AsyncGroups {
      * <p>The screening's status and progress. The people scope grants this operation. Explicit evidence.read
      * restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
      * @return The async call builder
      */
@@ -1004,20 +1145,15 @@ public class AsyncGroups {
      * <p>The screening's status and progress. The people scope grants this operation. Explicit evidence.read
      * restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
      * @param groupId
      * @param screeningId
      * @return {@code CompletableFuture<GetScreeningResponse>} - The async response
      */
-    public CompletableFuture<GetScreeningResponse> getScreening(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
-            @Nonnull String groupId,
-            @Nonnull String screeningId) {
-        return getScreening(workspaceId, environment, groupId, screeningId, null);
+    public CompletableFuture<GetScreeningResponse> getScreening(@Nonnull String groupId, @Nonnull String screeningId) {
+        return getScreening(groupId, screeningId, null);
     }
 
     /**
@@ -1026,22 +1162,17 @@ public class AsyncGroups {
      * <p>The screening's status and progress. The people scope grants this operation. Explicit evidence.read
      * restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
-     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
      * @param groupId
      * @param screeningId
      * @param options additional options
      * @return {@code CompletableFuture<GetScreeningResponse>} - The async response
      */
     public CompletableFuture<GetScreeningResponse> getScreening(
-            @Nonnull String workspaceId,
-            @Nonnull KeyEnvironment environment,
-            @Nonnull String groupId,
-            @Nonnull String screeningId,
-            @Nullable Options options) {
-        GetScreeningRequest request = new GetScreeningRequest(workspaceId, environment, groupId, screeningId);
+            @Nonnull String groupId, @Nonnull String screeningId, @Nullable Options options) {
+        GetScreeningRequest request = new GetScreeningRequest(groupId, screeningId);
         AsyncRequestOperation<GetScreeningRequest, GetScreeningResponse> operation =
                 new GetScreening.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -1056,7 +1187,8 @@ public class AsyncGroups {
      * <p>The body is an empty object. The investigations scope grants this operation. Explicit evidence.read
      * restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
      * @return The async call builder
      */
@@ -1073,13 +1205,17 @@ public class AsyncGroups {
      * <p>The body is an empty object. The investigations scope grants this operation. Explicit evidence.read
      * restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * @param groupId
+     * @param screeningId
+     * @param body An empty object.
      * @return {@code CompletableFuture<CancelScreeningResponse>} - The async response
      */
-    public CompletableFuture<CancelScreeningResponse> cancelScreening(@Nonnull CancelScreeningRequest request) {
-        return cancelScreening(request, null);
+    public CompletableFuture<CancelScreeningResponse> cancelScreening(
+            @Nonnull String groupId, @Nonnull String screeningId, @Nonnull ScreeningCancelRequest body) {
+        return cancelScreening(groupId, screeningId, body, null);
     }
 
     /**
@@ -1091,14 +1227,21 @@ public class AsyncGroups {
      * <p>The body is an empty object. The investigations scope grants this operation. Explicit evidence.read
      * restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations.
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
      *
-     * @param request The request object containing all the parameters for the API call.
+     * @param groupId
+     * @param screeningId
+     * @param body An empty object.
      * @param options additional options
      * @return {@code CompletableFuture<CancelScreeningResponse>} - The async response
      */
     public CompletableFuture<CancelScreeningResponse> cancelScreening(
-            @Nonnull CancelScreeningRequest request, @Nullable Options options) {
+            @Nonnull String groupId,
+            @Nonnull String screeningId,
+            @Nonnull ScreeningCancelRequest body,
+            @Nullable Options options) {
+        CancelScreeningRequest request = new CancelScreeningRequest(groupId, screeningId, body);
         AsyncRequestOperation<CancelScreeningRequest, CancelScreeningResponse> operation =
                 new CancelScreening.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -1112,6 +1255,8 @@ public class AsyncGroups {
      *
      * <p>Explicit evidence restrictions also hide free-text decision notes. No raw evidence enters audit
      * logs. Follow next_after until absent for a complete export.
+     *
+     * <p>The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -1128,6 +1273,8 @@ public class AsyncGroups {
      * <p>Explicit evidence restrictions also hide free-text decision notes. No raw evidence enters audit
      * logs. Follow next_after until absent for a complete export.
      *
+     * <p>The API key selects the workspace and environment.
+     *
      * @param request The request object containing all the parameters for the API call.
      * @return {@code CompletableFuture<ExportPeopleResponse>} - The async response
      */
@@ -1143,6 +1290,8 @@ public class AsyncGroups {
      *
      * <p>Explicit evidence restrictions also hide free-text decision notes. No raw evidence enters audit
      * logs. Follow next_after until absent for a complete export.
+     *
+     * <p>The API key selects the workspace and environment.
      *
      * @param request The request object containing all the parameters for the API call.
      * @param options additional options

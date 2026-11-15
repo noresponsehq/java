@@ -15,37 +15,35 @@ import java.util.Optional;
  * without runtime errors. Instances are immutable singletons with reference equality.
  * Use {@code asEnum()} for switch expressions.
  */
-public class MatchedOn {
+public class OtherGroupMatchedOn {
 
-    public static final MatchedOn EMAIL = new MatchedOn("email");
-    public static final MatchedOn PHONE = new MatchedOn("phone");
-    public static final MatchedOn EXTERNAL_ID = new MatchedOn("external_id");
+    public static final OtherGroupMatchedOn PERSON_ID = new OtherGroupMatchedOn("person_id");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
     // careful). Keep this field lower case to avoid clashing with
     // generated member names which will always be upper cased (Java
     // convention)
-    private static final Map<String, MatchedOn> values = createValuesMap();
-    private static final Map<String, MatchedOnEnum> enums = createEnumsMap();
+    private static final Map<String, OtherGroupMatchedOn> values = createValuesMap();
+    private static final Map<String, OtherGroupMatchedOnEnum> enums = createEnumsMap();
 
     private final String value;
 
-    private MatchedOn(String value) {
+    private OtherGroupMatchedOn(String value) {
         this.value = value;
     }
 
     /**
-     * Returns a MatchedOn with the given value. For a specific value the
+     * Returns a OtherGroupMatchedOn with the given value. For a specific value the
      * returned object will always be a singleton so reference equality
      * is satisfied when the values are the same.
      *
-     * @param value value to be wrapped as MatchedOn
+     * @param value value to be wrapped as OtherGroupMatchedOn
      */
     @JsonCreator
-    public static MatchedOn of(String value) {
-        synchronized (MatchedOn.class) {
-            return values.computeIfAbsent(value, v -> new MatchedOn(v));
+    public static OtherGroupMatchedOn of(String value) {
+        synchronized (OtherGroupMatchedOn.class) {
+            return values.computeIfAbsent(value, v -> new OtherGroupMatchedOn(v));
         }
     }
 
@@ -54,7 +52,7 @@ public class MatchedOn {
         return value;
     }
 
-    public Optional<MatchedOnEnum> asEnum() {
+    public Optional<OtherGroupMatchedOnEnum> asEnum() {
         return Optional.ofNullable(enums.getOrDefault(value, null));
     }
 
@@ -72,48 +70,42 @@ public class MatchedOn {
         if (this == obj) return true;
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
-        MatchedOn other = (MatchedOn) obj;
+        OtherGroupMatchedOn other = (OtherGroupMatchedOn) obj;
         return Objects.equals(value, other.value);
     }
 
     @Override
     public String toString() {
-        return "MatchedOn [value=" + value + "]";
+        return "OtherGroupMatchedOn [value=" + value + "]";
     }
 
     // return an array just like an enum
-    public static MatchedOn[] values() {
-        synchronized (MatchedOn.class) {
-            return values.values().toArray(new MatchedOn[] {});
+    public static OtherGroupMatchedOn[] values() {
+        synchronized (OtherGroupMatchedOn.class) {
+            return values.values().toArray(new OtherGroupMatchedOn[] {});
         }
     }
 
-    private static final Map<String, MatchedOn> createValuesMap() {
-        Map<String, MatchedOn> map = new LinkedHashMap<>();
-        map.put("email", EMAIL);
-        map.put("phone", PHONE);
-        map.put("external_id", EXTERNAL_ID);
+    private static final Map<String, OtherGroupMatchedOn> createValuesMap() {
+        Map<String, OtherGroupMatchedOn> map = new LinkedHashMap<>();
+        map.put("person_id", PERSON_ID);
         return map;
     }
 
-    private static final Map<String, MatchedOnEnum> createEnumsMap() {
-        Map<String, MatchedOnEnum> map = new HashMap<>();
-        map.put("email", MatchedOnEnum.EMAIL);
-        map.put("phone", MatchedOnEnum.PHONE);
-        map.put("external_id", MatchedOnEnum.EXTERNAL_ID);
+    private static final Map<String, OtherGroupMatchedOnEnum> createEnumsMap() {
+        Map<String, OtherGroupMatchedOnEnum> map = new HashMap<>();
+        map.put("person_id", OtherGroupMatchedOnEnum.PERSON_ID);
         return map;
     }
 
-    public enum MatchedOnEnum {
+    public enum OtherGroupMatchedOnEnum {
 
-        EMAIL("email"),
-        PHONE("phone"),
-        EXTERNAL_ID("external_id"),
+        PERSON_ID("person_id"),
         ;
 
         private final String value;
 
-        private MatchedOnEnum(String value) {
+        private OtherGroupMatchedOnEnum(String value) {
             this.value = value;
         }
 

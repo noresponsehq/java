@@ -1,0 +1,9 @@
+# PersonMatch
+
+
+## Fields
+
+| Field                                                                      | Setter Type                                                                | Getter Type                                                                | Required                                                                   | Description                                                                | Example                                                                    |
+| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `personId`                                                                 | *String*                                                                   | *String*                                                                   | :heavy_check_mark:                                                         | N/A                                                                        | per_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                             |
+| `matchedOn`                                                                | List\<[PersonMatchMatchedOn](../../models/shared/PersonMatchMatchedOn.md)> | List\<[PersonMatchMatchedOn](../../models/shared/PersonMatchMatchedOn.md)> | :heavy_check_mark:                                                         | N/A                                                                        |                                                                            |

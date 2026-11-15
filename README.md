@@ -2,7 +2,7 @@
 
 # NoResponse for Java
 
-Investigate everyone, everywhere, all at once. Find the accounts and leaked rows behind an email, phone, username or name, screen groups of people, and assess sign-ups with the NoResponse API. The client's `groups` calls create groups, add people, screen them and read each person's records: see the [quickstart](https://docs.noresponse.org/quickstart).
+NoResponse is an identity and people risk engine. Create a person, investigate the accounts and source records behind their identifiers, and keep investigation history. Groups organize people for events, venues and team review. Signup assessment uses the same engine.
 
 Java 11+ · Gradle and Maven through JitPack.
 
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v13.0.4'
+    implementation 'com.github.noresponsehq:java:v14.0.0'
 }
 ```
 
@@ -39,13 +39,44 @@ dependencies {
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v13.0.4</version>
+  <version>v14.0.0</version>
 </dependency>
 ```
 
 </details>
 
-## Quick start
+## Investigate a person
+
+```java
+import java.util.List;
+import org.noresponse.NoResponse;
+import org.noresponse.models.shared.InvestigationRequest;
+import org.noresponse.models.shared.ScreeningDepth;
+import org.noresponse.models.shared.WorkspacePersonRequest;
+
+public class Investigate {
+    public static void main(String[] args) throws Exception {
+        var client = NoResponse.builder().apiKey(System.getenv("NORESPONSE_API_KEY")).build();
+        var created = client.people().create().idempotencyKey("case-1042-person-create").body(
+                WorkspacePersonRequest.builder().externalId("case-person-1042")
+                        .name("Jordan Example").email("jordan@example.com").build()
+        ).call().workspacePersonResult().orElseThrow();
+        var job = client.investigations().create().idempotencyKey("case-1042-investigation-1").body(
+                InvestigationRequest.builder().personId(created.person().id())
+                        .depth(ScreeningDepth.STANDARD).platforms(List.of("x")).build()
+        ).call().investigation().orElseThrow();
+        System.out.println(job.id());
+    }
+}
+```
+
+After `investigation.completed`, use `client.investigations().get().investigationId(id).call().investigationReport()` to read that investigation's report.
+
+The API key selects the workspace and environment. This flow needs `people_write` to create a person, `investigations` to start work, and `people` to read the report. Save the investigation id and key: retry the same work with the same key; use a new key for a deliberate new investigation. A person can belong to several groups or none. Their `expires_at` comes from workspace retention.
+
+Evidence is included by default for pre-verified customers. An explicit evidence restriction keeps submitted details, status, coverage and decision summaries, and withholds collected records, profiles, posts, media and discovered identifiers. Each investigation and group keeps its own review context.
+
+## Assess a signup
 
 ```java
 import org.noresponse.IdempotencyKey;

@@ -33,6 +33,7 @@ import org.noresponse.models.shared.EndpointVerificationEvent;
 import org.noresponse.models.shared.PersonDecidedEvent;
 import org.noresponse.models.shared.PersonFlaggedEvent;
 import org.noresponse.models.shared.ScreeningCompletedEvent;
+import org.noresponse.models.shared.InvestigationCompletedEvent;
 import org.noresponse.models.shared.WebhookEndpointDisabledEvent;
 import org.noresponse.models.shared.WebhookEvent;
 import org.noresponse.models.shared.WorkspaceDeletedEvent;
@@ -50,17 +51,18 @@ class WebhookVectorTest {
     private static final Map<String, String> SECRETS =
             Map.of(VECTOR.path("key_id").asText(), VECTOR.path("secret_utf8").asText());
     private static final Instant NOW = Instant.ofEpochSecond(VECTOR.path("timestamp").asLong());
-    private static final Map<String, Class<? extends WebhookEvent>> TYPES = Map.of(
-            "assessment.updated", AssessmentUpdatedEvent.class,
-            "endpoint.verification", EndpointVerificationEvent.class,
-            "account.deleted", AccountDeletedEvent.class,
-            "workspace.deleted", WorkspaceDeletedEvent.class,
-            "webhook_endpoint.disabled", WebhookEndpointDisabledEvent.class,
-            "account.risk_changed", AccountRiskChangedEvent.class,
-            "audit.event", AuditEventEvent.class,
-            "screening.completed", ScreeningCompletedEvent.class,
-            "person.flagged", PersonFlaggedEvent.class,
-            "person.decided", PersonDecidedEvent.class);
+    private static final Map<String, Class<? extends WebhookEvent>> TYPES = Map.ofEntries(
+            Map.entry("assessment.updated", AssessmentUpdatedEvent.class),
+            Map.entry("endpoint.verification", EndpointVerificationEvent.class),
+            Map.entry("account.deleted", AccountDeletedEvent.class),
+            Map.entry("workspace.deleted", WorkspaceDeletedEvent.class),
+            Map.entry("webhook_endpoint.disabled", WebhookEndpointDisabledEvent.class),
+            Map.entry("account.risk_changed", AccountRiskChangedEvent.class),
+            Map.entry("audit.event", AuditEventEvent.class),
+            Map.entry("screening.completed", ScreeningCompletedEvent.class),
+            Map.entry("person.flagged", PersonFlaggedEvent.class),
+            Map.entry("person.decided", PersonDecidedEvent.class),
+            Map.entry("investigation.completed", InvestigationCompletedEvent.class));
 
     private static JsonNode read(Path path) {
         try {

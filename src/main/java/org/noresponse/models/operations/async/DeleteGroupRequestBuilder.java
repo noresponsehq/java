@@ -8,7 +8,6 @@ import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 import org.noresponse.SDKConfiguration;
 import org.noresponse.models.operations.DeleteGroupRequest;
-import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.operations.DeleteGroup;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
@@ -27,18 +26,6 @@ public class DeleteGroupRequestBuilder {
         this.sdkConfiguration = sdkConfiguration;
         this.pojoBuilder = DeleteGroupRequest.builder();
         this.optionsBuilder = Options.builder();
-    }
-
-    public DeleteGroupRequestBuilder workspaceId(@Nonnull String workspaceId) {
-        this.pojoBuilder.workspaceId(workspaceId);
-        this._setterCalled = true;
-        return this;
-    }
-
-    public DeleteGroupRequestBuilder environment(@Nonnull KeyEnvironment environment) {
-        this.pojoBuilder.environment(environment);
-        this._setterCalled = true;
-        return this;
     }
 
     public DeleteGroupRequestBuilder groupId(@Nonnull String groupId) {

@@ -7,7 +7,6 @@ import jakarta.annotation.Nullable;
 import java.lang.String;
 import org.noresponse.SDKConfiguration;
 import org.noresponse.models.shared.GroupRequest;
-import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.operations.CreateGroup;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Utils;
@@ -22,18 +21,6 @@ public class CreateGroupRequestBuilder {
     public CreateGroupRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.pojoBuilder = CreateGroupRequest.builder();
-    }
-
-    public CreateGroupRequestBuilder workspaceId(@Nonnull String workspaceId) {
-        this.pojoBuilder.workspaceId(workspaceId);
-        this._setterCalled = true;
-        return this;
-    }
-
-    public CreateGroupRequestBuilder environment(@Nonnull KeyEnvironment environment) {
-        this.pojoBuilder.environment(environment);
-        this._setterCalled = true;
-        return this;
     }
 
     public CreateGroupRequestBuilder idempotencyKey(@Nullable String idempotencyKey) {

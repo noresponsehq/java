@@ -106,7 +106,7 @@ public class RunSearch {
             String url = Utils.generateURL(
                     klass,
                     this.baseUrl,
-                    "/v1/workspaces/{workspace_id}/groups/{environment}/{group_id}/people/{person_id}/searches/{search_id}/run",
+                    "/v1/groups/{group_id}/people/{person_id}/searches/{search_id}/run",
                     request,
                     null);
             HTTPRequest req = new HTTPRequest(url, "POST");

@@ -8,7 +8,6 @@ import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 import org.noresponse.SDKConfiguration;
 import org.noresponse.models.operations.GetPersonRequest;
-import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.operations.GetPerson;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
@@ -27,18 +26,6 @@ public class GetPersonRequestBuilder {
         this.sdkConfiguration = sdkConfiguration;
         this.pojoBuilder = GetPersonRequest.builder();
         this.optionsBuilder = Options.builder();
-    }
-
-    public GetPersonRequestBuilder workspaceId(@Nonnull String workspaceId) {
-        this.pojoBuilder.workspaceId(workspaceId);
-        this._setterCalled = true;
-        return this;
-    }
-
-    public GetPersonRequestBuilder environment(@Nonnull KeyEnvironment environment) {
-        this.pojoBuilder.environment(environment);
-        this._setterCalled = true;
-        return this;
     }
 
     public GetPersonRequestBuilder groupId(@Nonnull String groupId) {
