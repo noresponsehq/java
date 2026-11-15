@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Boolean;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
@@ -38,6 +39,21 @@ public class ScreeningMedia {
      */
     @JsonProperty("media_url")
     private String mediaUrl;
+
+    /**
+     * For an image that is a video's cover frame, the id of that video's media item.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("cover_of")
+    private String coverOf;
+
+    /**
+     * true on a video the analyser read from its cover frame (the image whose cover_of names it) and its
+     * caption alone. Left out otherwise.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("frame_only")
+    private Boolean frameOnly;
 
     /**
      * The caption or alt text.
@@ -75,6 +91,8 @@ public class ScreeningMedia {
             @JsonProperty("post_id") @Nullable String postId,
             @JsonProperty("media_type") @Nonnull MediaType mediaType,
             @JsonProperty("media_url") @Nonnull String mediaUrl,
+            @JsonProperty("cover_of") @Nullable String coverOf,
+            @JsonProperty("frame_only") @Nullable Boolean frameOnly,
             @JsonProperty("text") @Nullable String text,
             @JsonProperty("profile_id") @Nonnull String profileId,
             @JsonProperty("permalink") @Nonnull String permalink,
@@ -88,6 +106,8 @@ public class ScreeningMedia {
                 .orElseThrow(() -> new IllegalArgumentException("mediaType cannot be null"));
         this.mediaUrl = Optional.ofNullable(mediaUrl)
                 .orElseThrow(() -> new IllegalArgumentException("mediaUrl cannot be null"));
+        this.coverOf = coverOf;
+        this.frameOnly = frameOnly;
         this.text = text;
         this.profileId = Optional.ofNullable(profileId)
                 .orElseThrow(() -> new IllegalArgumentException("profileId cannot be null"));
@@ -106,7 +126,7 @@ public class ScreeningMedia {
             @Nonnull String profileId,
             @Nonnull String permalink,
             @Nonnull String postedAt) {
-        this(id, null, mediaType, mediaUrl, null, profileId, permalink, postedAt, null, null);
+        this(id, null, mediaType, mediaUrl, null, null, null, profileId, permalink, postedAt, null, null);
     }
 
     public String id() {
@@ -130,6 +150,21 @@ public class ScreeningMedia {
      */
     public String mediaUrl() {
         return this.mediaUrl;
+    }
+
+    /**
+     * For an image that is a video's cover frame, the id of that video's media item.
+     */
+    public Optional<String> coverOf() {
+        return Optional.ofNullable(this.coverOf);
+    }
+
+    /**
+     * true on a video the analyser read from its cover frame (the image whose cover_of names it) and its
+     * caption alone. Left out otherwise.
+     */
+    public Optional<Boolean> frameOnly() {
+        return Optional.ofNullable(this.frameOnly);
     }
 
     /**
@@ -193,6 +228,23 @@ public class ScreeningMedia {
     }
 
     /**
+     * For an image that is a video's cover frame, the id of that video's media item.
+     */
+    public ScreeningMedia withCoverOf(@Nullable String coverOf) {
+        this.coverOf = coverOf;
+        return this;
+    }
+
+    /**
+     * true on a video the analyser read from its cover frame (the image whose cover_of names it) and its
+     * caption alone. Left out otherwise.
+     */
+    public ScreeningMedia withFrameOnly(@Nullable Boolean frameOnly) {
+        this.frameOnly = frameOnly;
+        return this;
+    }
+
+    /**
      * The caption or alt text.
      */
     public ScreeningMedia withText(@Nullable String text) {
@@ -245,6 +297,8 @@ public class ScreeningMedia {
                 && Utils.enhancedDeepEquals(this.postId, other.postId)
                 && Utils.enhancedDeepEquals(this.mediaType, other.mediaType)
                 && Utils.enhancedDeepEquals(this.mediaUrl, other.mediaUrl)
+                && Utils.enhancedDeepEquals(this.coverOf, other.coverOf)
+                && Utils.enhancedDeepEquals(this.frameOnly, other.frameOnly)
                 && Utils.enhancedDeepEquals(this.text, other.text)
                 && Utils.enhancedDeepEquals(this.profileId, other.profileId)
                 && Utils.enhancedDeepEquals(this.permalink, other.permalink)
@@ -261,6 +315,8 @@ public class ScreeningMedia {
                 postId,
                 mediaType,
                 mediaUrl,
+                coverOf,
+                frameOnly,
                 text,
                 profileId,
                 permalink,
@@ -283,6 +339,10 @@ public class ScreeningMedia {
                 mediaType,
                 "mediaUrl",
                 mediaUrl,
+                "coverOf",
+                coverOf,
+                "frameOnly",
+                frameOnly,
                 "text",
                 text,
                 "profileId",
@@ -307,6 +367,10 @@ public class ScreeningMedia {
         private MediaType mediaType;
 
         private String mediaUrl;
+
+        private String coverOf;
+
+        private Boolean frameOnly;
 
         private String text;
 
@@ -344,6 +408,23 @@ public class ScreeningMedia {
          */
         public Builder mediaUrl(@Nonnull String mediaUrl) {
             this.mediaUrl = Utils.checkNotNull(mediaUrl, "mediaUrl");
+            return this;
+        }
+
+        /**
+         * For an image that is a video's cover frame, the id of that video's media item.
+         */
+        public Builder coverOf(@Nullable String coverOf) {
+            this.coverOf = coverOf;
+            return this;
+        }
+
+        /**
+         * true on a video the analyser read from its cover frame (the image whose cover_of names it) and its
+         * caption alone. Left out otherwise.
+         */
+        public Builder frameOnly(@Nullable Boolean frameOnly) {
+            this.frameOnly = frameOnly;
             return this;
         }
 
@@ -392,6 +473,8 @@ public class ScreeningMedia {
                     postId,
                     mediaType,
                     mediaUrl,
+                    coverOf,
+                    frameOnly,
                     text,
                     profileId,
                     permalink,

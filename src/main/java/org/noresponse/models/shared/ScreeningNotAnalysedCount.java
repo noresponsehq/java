@@ -15,8 +15,8 @@ import org.noresponse.utils.Utils;
  */
 public class ScreeningNotAnalysedCount {
     /**
-     * Why an item read was not analysed. video: a video, whose caption alone is read. image_unavailable:
-     * the image could not be fetched from the platform.
+     * Why an item read was not analysed. video: a video with no cover frame the analyser could read, whose
+     * caption alone is read. image_unavailable: the image could not be fetched from the platform.
      *
      * <p>image_unsupported: not a JPEG, PNG, GIF or WebP image, or too large to send. image_limit: past the
      * most images one person's analysis reads. refused: the model declined to read it.
@@ -40,8 +40,8 @@ public class ScreeningNotAnalysedCount {
     }
 
     /**
-     * Why an item read was not analysed. video: a video, whose caption alone is read. image_unavailable:
-     * the image could not be fetched from the platform.
+     * Why an item read was not analysed. video: a video with no cover frame the analyser could read, whose
+     * caption alone is read. image_unavailable: the image could not be fetched from the platform.
      *
      * <p>image_unsupported: not a JPEG, PNG, GIF or WebP image, or too large to send. image_limit: past the
      * most images one person's analysis reads. refused: the model declined to read it.
@@ -63,8 +63,8 @@ public class ScreeningNotAnalysedCount {
     }
 
     /**
-     * Why an item read was not analysed. video: a video, whose caption alone is read. image_unavailable:
-     * the image could not be fetched from the platform.
+     * Why an item read was not analysed. video: a video with no cover frame the analyser could read, whose
+     * caption alone is read. image_unavailable: the image could not be fetched from the platform.
      *
      * <p>image_unsupported: not a JPEG, PNG, GIF or WebP image, or too large to send. image_limit: past the
      * most images one person's analysis reads. refused: the model declined to read it.
@@ -117,8 +117,8 @@ public class ScreeningNotAnalysedCount {
         }
 
         /**
-         * Why an item read was not analysed. video: a video, whose caption alone is read. image_unavailable:
-         * the image could not be fetched from the platform.
+         * Why an item read was not analysed. video: a video with no cover frame the analyser could read, whose
+         * caption alone is read. image_unavailable: the image could not be fetched from the platform.
          *
          * <p>image_unsupported: not a JPEG, PNG, GIF or WebP image, or too large to send. image_limit: past the
          * most images one person's analysis reads. refused: the model declined to read it.
