@@ -18,7 +18,8 @@ import java.util.Optional;
 /**
  * HandlePlatform
  *
- * <p>A platform a screening can cover. synthetic is the deterministic connector's own platform, for
+ * <p>A platform a screening can cover. github and scratch through flickr are each one read of the public
+ * profile a handle names, with no posts. synthetic is the deterministic connector's own platform, for
  * exercising the product end to end with no network.
  */
 public class HandlePlatform {
@@ -33,6 +34,19 @@ public class HandlePlatform {
     public static final HandlePlatform REDDIT = new HandlePlatform("reddit");
     public static final HandlePlatform TELEGRAM = new HandlePlatform("telegram");
     public static final HandlePlatform LINKEDIN = new HandlePlatform("linkedin");
+    public static final HandlePlatform GITHUB = new HandlePlatform("github");
+    public static final HandlePlatform SCRATCH = new HandlePlatform("scratch");
+    public static final HandlePlatform DAILYMOTION = new HandlePlatform("dailymotion");
+    public static final HandlePlatform SUBSTACK = new HandlePlatform("substack");
+    public static final HandlePlatform DUOLINGO = new HandlePlatform("duolingo");
+    public static final HandlePlatform DOCKERHUB = new HandlePlatform("dockerhub");
+    public static final HandlePlatform WIKIPEDIA = new HandlePlatform("wikipedia");
+    public static final HandlePlatform INTERNETARCHIVE = new HandlePlatform("internetarchive");
+    public static final HandlePlatform SPOTIFY = new HandlePlatform("spotify");
+    public static final HandlePlatform PATREON = new HandlePlatform("patreon");
+    public static final HandlePlatform WORDPRESS = new HandlePlatform("wordpress");
+    public static final HandlePlatform OKRU = new HandlePlatform("okru");
+    public static final HandlePlatform FLICKR = new HandlePlatform("flickr");
     public static final HandlePlatform SYNTHETIC = new HandlePlatform("synthetic");
 
     // This map will grow whenever a Color gets created with a new
@@ -114,6 +128,19 @@ public class HandlePlatform {
         map.put("reddit", REDDIT);
         map.put("telegram", TELEGRAM);
         map.put("linkedin", LINKEDIN);
+        map.put("github", GITHUB);
+        map.put("scratch", SCRATCH);
+        map.put("dailymotion", DAILYMOTION);
+        map.put("substack", SUBSTACK);
+        map.put("duolingo", DUOLINGO);
+        map.put("dockerhub", DOCKERHUB);
+        map.put("wikipedia", WIKIPEDIA);
+        map.put("internetarchive", INTERNETARCHIVE);
+        map.put("spotify", SPOTIFY);
+        map.put("patreon", PATREON);
+        map.put("wordpress", WORDPRESS);
+        map.put("okru", OKRU);
+        map.put("flickr", FLICKR);
         map.put("synthetic", SYNTHETIC);
         return map;
     }
@@ -130,6 +157,19 @@ public class HandlePlatform {
         map.put("reddit", HandlePlatformEnum.REDDIT);
         map.put("telegram", HandlePlatformEnum.TELEGRAM);
         map.put("linkedin", HandlePlatformEnum.LINKEDIN);
+        map.put("github", HandlePlatformEnum.GITHUB);
+        map.put("scratch", HandlePlatformEnum.SCRATCH);
+        map.put("dailymotion", HandlePlatformEnum.DAILYMOTION);
+        map.put("substack", HandlePlatformEnum.SUBSTACK);
+        map.put("duolingo", HandlePlatformEnum.DUOLINGO);
+        map.put("dockerhub", HandlePlatformEnum.DOCKERHUB);
+        map.put("wikipedia", HandlePlatformEnum.WIKIPEDIA);
+        map.put("internetarchive", HandlePlatformEnum.INTERNETARCHIVE);
+        map.put("spotify", HandlePlatformEnum.SPOTIFY);
+        map.put("patreon", HandlePlatformEnum.PATREON);
+        map.put("wordpress", HandlePlatformEnum.WORDPRESS);
+        map.put("okru", HandlePlatformEnum.OKRU);
+        map.put("flickr", HandlePlatformEnum.FLICKR);
         map.put("synthetic", HandlePlatformEnum.SYNTHETIC);
         return map;
     }
@@ -146,6 +186,19 @@ public class HandlePlatform {
         REDDIT("reddit"),
         TELEGRAM("telegram"),
         LINKEDIN("linkedin"),
+        GITHUB("github"),
+        SCRATCH("scratch"),
+        DAILYMOTION("dailymotion"),
+        SUBSTACK("substack"),
+        DUOLINGO("duolingo"),
+        DOCKERHUB("dockerhub"),
+        WIKIPEDIA("wikipedia"),
+        INTERNETARCHIVE("internetarchive"),
+        SPOTIFY("spotify"),
+        PATREON("patreon"),
+        WORDPRESS("wordpress"),
+        OKRU("okru"),
+        FLICKR("flickr"),
         SYNTHETIC("synthetic"),
         ;
 

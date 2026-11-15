@@ -15,7 +15,8 @@ import org.noresponse.utils.Utils;
  */
 public class Handle {
     /**
-     * A platform a screening can cover. synthetic is the deterministic connector's own platform, for
+     * A platform a screening can cover. github and scratch through flickr are each one read of the public
+     * profile a handle names, with no posts. synthetic is the deterministic connector's own platform, for
      * exercising the product end to end with no network.
      */
     @JsonProperty("platform")
@@ -38,7 +39,8 @@ public class Handle {
     }
 
     /**
-     * A platform a screening can cover. synthetic is the deterministic connector's own platform, for
+     * A platform a screening can cover. github and scratch through flickr are each one read of the public
+     * profile a handle names, with no posts. synthetic is the deterministic connector's own platform, for
      * exercising the product end to end with no network.
      */
     public HandlePlatform platform() {
@@ -57,7 +59,8 @@ public class Handle {
     }
 
     /**
-     * A platform a screening can cover. synthetic is the deterministic connector's own platform, for
+     * A platform a screening can cover. github and scratch through flickr are each one read of the public
+     * profile a handle names, with no posts. synthetic is the deterministic connector's own platform, for
      * exercising the product end to end with no network.
      */
     public Handle withPlatform(@Nonnull HandlePlatform platform) {
@@ -108,7 +111,8 @@ public class Handle {
         }
 
         /**
-         * A platform a screening can cover. synthetic is the deterministic connector's own platform, for
+         * A platform a screening can cover. github and scratch through flickr are each one read of the public
+         * profile a handle names, with no posts. synthetic is the deterministic connector's own platform, for
          * exercising the product end to end with no network.
          */
         public Builder platform(@Nonnull HandlePlatform platform) {
