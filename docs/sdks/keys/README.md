@@ -10,6 +10,7 @@ Your own API keys.
 * [create](#create) - Create an API key.
 * [list](#list) - List API keys.
 * [revoke](#revoke) - Revoke an API key.
+* [updateAccess](#updateaccess) - Restrict an API key.
 
 ## rotate
 
@@ -380,6 +381,77 @@ public class Application {
 ### Response
 
 **[RevokeKeyResponse](../../models/operations/RevokeKeyResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## updateAccess
+
+Replaces the explicit restrictions on an active key. Restrictions take effect on its next request and survive rotation. The issuer must be able to grant the resulting access in the key environment. A restricted caller cannot remove its own restrictions or grant unrestricted access to another key. Changes are audited without recording the secret.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="updateKeyAccess" method="patch" path="/v1/workspaces/{workspace_id}/keys/{key_id}" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.List;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.UpdateKeyAccessResponse;
+import org.noresponse.models.shared.KeyAccessRequest;
+import org.noresponse.models.shared.KeyAccessRequestDeniedAction;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        UpdateKeyAccessResponse res = sdk.keys().updateAccess()
+                .workspaceId("tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .keyId("01JA2ZE4K5M6N7P8Q9R0S1T2V3")
+                .body(KeyAccessRequest.builder()
+                    .deniedActions(List.of(
+                        KeyAccessRequestDeniedAction.POLICY_PUBLISH))
+                    .build())
+                .call();
+
+        if (res.key().isPresent()) {
+            System.out.println(res.key().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                                          | Type                                                                                                                               | Required                                                                                                                           | Description                                                                                                                        | Example                                                                                                                            |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `workspaceId`                                                                                                                      | *String*                                                                                                                           | :heavy_check_mark:                                                                                                                 | Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404. | tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                                                                                     |
+| `keyId`                                                                                                                            | *String*                                                                                                                           | :heavy_check_mark:                                                                                                                 | The key's id. A key of another workspace answers 404, as does a key of the other environment to an API key.                        | 01JA2ZE4K5M6N7P8Q9R0S1T2V3                                                                                                         |
+| `body`                                                                                                                             | [KeyAccessRequest](../../models/shared/KeyAccessRequest.md)                                                                        | :heavy_check_mark:                                                                                                                 | N/A                                                                                                                                |                                                                                                                                    |
+
+### Response
+
+**[UpdateKeyAccessResponse](../../models/operations/UpdateKeyAccessResponse.md)**
 
 ### Errors
 

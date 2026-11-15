@@ -76,6 +76,14 @@ public class KeyRequest {
     @JsonProperty("request_id")
     private String requestId;
 
+    /**
+     * Explicit restrictions that override scope grants. An empty list restores the access supplied by the
+     * scopes. Rotation preserves these restrictions.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("denied_actions")
+    private List<KeyRequestDeniedAction> deniedActions;
+
     @JsonCreator
     public KeyRequest(
             @JsonProperty("environment") @Nonnull KeyEnvironment environment,
@@ -84,7 +92,8 @@ public class KeyRequest {
             @JsonProperty("purpose") @Nullable String purpose,
             @JsonProperty("kind") @Nullable KeyKind kind,
             @JsonProperty("expires_at") @Nullable String expiresAt,
-            @JsonProperty("request_id") @Nullable String requestId) {
+            @JsonProperty("request_id") @Nullable String requestId,
+            @JsonProperty("denied_actions") @Nullable List<KeyRequestDeniedAction> deniedActions) {
         this.environment = Optional.ofNullable(environment)
                 .orElseThrow(() -> new IllegalArgumentException("environment cannot be null"));
         this.scopes =
@@ -94,10 +103,11 @@ public class KeyRequest {
         this.kind = kind;
         this.expiresAt = expiresAt;
         this.requestId = requestId;
+        this.deniedActions = deniedActions;
     }
 
     public KeyRequest(@Nonnull KeyEnvironment environment, @Nonnull List<KeyRequestScope> scopes) {
-        this(environment, scopes, null, null, null, null, null);
+        this(environment, scopes, null, null, null, null, null, null);
     }
 
     /**
@@ -149,6 +159,14 @@ public class KeyRequest {
      */
     public Optional<String> requestId() {
         return Optional.ofNullable(this.requestId);
+    }
+
+    /**
+     * Explicit restrictions that override scope grants. An empty list restores the access supplied by the
+     * scopes. Rotation preserves these restrictions.
+     */
+    public Optional<List<KeyRequestDeniedAction>> deniedActions() {
+        return Optional.ofNullable(this.deniedActions);
     }
 
     public static Builder builder() {
@@ -213,6 +231,15 @@ public class KeyRequest {
         return this;
     }
 
+    /**
+     * Explicit restrictions that override scope grants. An empty list restores the access supplied by the
+     * scopes. Rotation preserves these restrictions.
+     */
+    public KeyRequest withDeniedActions(@Nullable List<KeyRequestDeniedAction> deniedActions) {
+        this.deniedActions = deniedActions;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -228,12 +255,13 @@ public class KeyRequest {
                 && Utils.enhancedDeepEquals(this.purpose, other.purpose)
                 && Utils.enhancedDeepEquals(this.kind, other.kind)
                 && Utils.enhancedDeepEquals(this.expiresAt, other.expiresAt)
-                && Utils.enhancedDeepEquals(this.requestId, other.requestId);
+                && Utils.enhancedDeepEquals(this.requestId, other.requestId)
+                && Utils.enhancedDeepEquals(this.deniedActions, other.deniedActions);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(environment, scopes, name, purpose, kind, expiresAt, requestId);
+        return Utils.enhancedHash(environment, scopes, name, purpose, kind, expiresAt, requestId, deniedActions);
     }
 
     @Override
@@ -253,7 +281,9 @@ public class KeyRequest {
                 "expiresAt",
                 expiresAt,
                 "requestId",
-                requestId);
+                requestId,
+                "deniedActions",
+                deniedActions);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -272,6 +302,8 @@ public class KeyRequest {
         private String expiresAt;
 
         private String requestId;
+
+        private List<KeyRequestDeniedAction> deniedActions;
 
         private Builder() {
             // force use of static builder() method
@@ -335,8 +367,17 @@ public class KeyRequest {
             return this;
         }
 
+        /**
+         * Explicit restrictions that override scope grants. An empty list restores the access supplied by the
+         * scopes. Rotation preserves these restrictions.
+         */
+        public Builder deniedActions(@Nullable List<KeyRequestDeniedAction> deniedActions) {
+            this.deniedActions = deniedActions;
+            return this;
+        }
+
         public KeyRequest build() {
-            return new KeyRequest(environment, scopes, name, purpose, kind, expiresAt, requestId);
+            return new KeyRequest(environment, scopes, name, purpose, kind, expiresAt, requestId, deniedActions);
         }
     }
 }

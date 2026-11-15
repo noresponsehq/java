@@ -31,3 +31,7 @@ KeyRequestScope value = KeyRequestScope.ASSESS;
 | `MEMBERS`        | members          |
 | `MEMBERS_MANAGE` | members_manage   |
 | `GROUPS`         | groups           |
+| `PEOPLE`         | people           |
+| `PEOPLE_WRITE`   | people_write     |
+| `INVESTIGATIONS` | investigations   |
+| `DECISIONS`      | decisions        |

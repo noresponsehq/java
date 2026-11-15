@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Boolean;
 import java.lang.Override;
 import java.lang.String;
 import java.util.List;
@@ -79,6 +80,15 @@ public class PersonReport {
     @JsonProperty("other_groups")
     private OtherGroups otherGroups;
 
+    /**
+     * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
+     * remain available. Collected records, profiles, findings, posts, media, discovered values and
+     * free-text decision notes are withheld.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("evidence_restricted")
+    private Boolean evidenceRestricted;
+
     @JsonCreator
     public PersonReport(
             @JsonProperty("person") @Nonnull Person person,
@@ -89,7 +99,8 @@ public class PersonReport {
             @JsonProperty("reviews") @Nonnull List<PersonReview> reviews,
             @JsonProperty("lookup") @Nullable ScreeningLookup lookup,
             @JsonProperty("searches") @Nullable List<Search> searches,
-            @JsonProperty("other_groups") @Nonnull OtherGroups otherGroups) {
+            @JsonProperty("other_groups") @Nonnull OtherGroups otherGroups,
+            @JsonProperty("evidence_restricted") @Nullable Boolean evidenceRestricted) {
         this.person =
                 Optional.ofNullable(person).orElseThrow(() -> new IllegalArgumentException("person cannot be null"));
         this.profiles = Optional.ofNullable(profiles)
@@ -104,6 +115,7 @@ public class PersonReport {
         this.searches = searches;
         this.otherGroups = Optional.ofNullable(otherGroups)
                 .orElseThrow(() -> new IllegalArgumentException("otherGroups cannot be null"));
+        this.evidenceRestricted = evidenceRestricted;
     }
 
     public PersonReport(
@@ -114,7 +126,7 @@ public class PersonReport {
             @Nonnull List<ScreeningMedia> media,
             @Nonnull List<PersonReview> reviews,
             @Nonnull OtherGroups otherGroups) {
-        this(person, profiles, findings, posts, media, reviews, null, null, otherGroups);
+        this(person, profiles, findings, posts, media, reviews, null, null, otherGroups, null);
     }
 
     /**
@@ -183,6 +195,15 @@ public class PersonReport {
      */
     public OtherGroups otherGroups() {
         return this.otherGroups;
+    }
+
+    /**
+     * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
+     * remain available. Collected records, profiles, findings, posts, media, discovered values and
+     * free-text decision notes are withheld.
+     */
+    public Optional<Boolean> evidenceRestricted() {
+        return Optional.ofNullable(this.evidenceRestricted);
     }
 
     public static Builder builder() {
@@ -266,6 +287,16 @@ public class PersonReport {
         return this;
     }
 
+    /**
+     * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
+     * remain available. Collected records, profiles, findings, posts, media, discovered values and
+     * free-text decision notes are withheld.
+     */
+    public PersonReport withEvidenceRestricted(@Nullable Boolean evidenceRestricted) {
+        this.evidenceRestricted = evidenceRestricted;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -283,12 +314,14 @@ public class PersonReport {
                 && Utils.enhancedDeepEquals(this.reviews, other.reviews)
                 && Utils.enhancedDeepEquals(this.lookup, other.lookup)
                 && Utils.enhancedDeepEquals(this.searches, other.searches)
-                && Utils.enhancedDeepEquals(this.otherGroups, other.otherGroups);
+                && Utils.enhancedDeepEquals(this.otherGroups, other.otherGroups)
+                && Utils.enhancedDeepEquals(this.evidenceRestricted, other.evidenceRestricted);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(person, profiles, findings, posts, media, reviews, lookup, searches, otherGroups);
+        return Utils.enhancedHash(
+                person, profiles, findings, posts, media, reviews, lookup, searches, otherGroups, evidenceRestricted);
     }
 
     @Override
@@ -312,7 +345,9 @@ public class PersonReport {
                 "searches",
                 searches,
                 "otherGroups",
-                otherGroups);
+                otherGroups,
+                "evidenceRestricted",
+                evidenceRestricted);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -335,6 +370,8 @@ public class PersonReport {
         private List<Search> searches;
 
         private OtherGroups otherGroups;
+
+        private Boolean evidenceRestricted;
 
         private Builder() {
             // force use of static builder() method
@@ -417,8 +454,28 @@ public class PersonReport {
             return this;
         }
 
+        /**
+         * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
+         * remain available. Collected records, profiles, findings, posts, media, discovered values and
+         * free-text decision notes are withheld.
+         */
+        public Builder evidenceRestricted(@Nullable Boolean evidenceRestricted) {
+            this.evidenceRestricted = evidenceRestricted;
+            return this;
+        }
+
         public PersonReport build() {
-            return new PersonReport(person, profiles, findings, posts, media, reviews, lookup, searches, otherGroups);
+            return new PersonReport(
+                    person,
+                    profiles,
+                    findings,
+                    posts,
+                    media,
+                    reviews,
+                    lookup,
+                    searches,
+                    otherGroups,
+                    evidenceRestricted);
         }
     }
 }

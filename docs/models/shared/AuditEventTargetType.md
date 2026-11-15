@@ -27,3 +27,5 @@ AuditEventTargetType custom = AuditEventTargetType.of("custom_value");
 | `INTEGRATION`      | integration        |
 | `BILLING`          | billing            |
 | `REVIEW`           | review             |
+| `PERSON`           | person             |
+| `GROUP`            | group              |

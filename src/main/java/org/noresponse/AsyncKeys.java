@@ -9,6 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import org.noresponse.models.operations.CreateKeyRequest;
 import org.noresponse.models.operations.ListKeysRequest;
 import org.noresponse.models.operations.RevokeKeyRequest;
+import org.noresponse.models.operations.UpdateKeyAccessRequest;
 import org.noresponse.models.operations.async.CreateKeyRequestBuilder;
 import org.noresponse.models.operations.async.CreateKeyResponse;
 import org.noresponse.models.operations.async.ListKeysRequestBuilder;
@@ -17,12 +18,16 @@ import org.noresponse.models.operations.async.RevokeKeyRequestBuilder;
 import org.noresponse.models.operations.async.RevokeKeyResponse;
 import org.noresponse.models.operations.async.RotateApiKeyRequestBuilder;
 import org.noresponse.models.operations.async.RotateApiKeyResponse;
+import org.noresponse.models.operations.async.UpdateKeyAccessRequestBuilder;
+import org.noresponse.models.operations.async.UpdateKeyAccessResponse;
+import org.noresponse.models.shared.KeyAccessRequest;
 import org.noresponse.models.shared.KeyRequest;
 import org.noresponse.models.shared.KeyRotationRequest;
 import org.noresponse.operations.CreateKey;
 import org.noresponse.operations.ListKeys;
 import org.noresponse.operations.RevokeKey;
 import org.noresponse.operations.RotateApiKey;
+import org.noresponse.operations.UpdateKeyAccess;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 
@@ -221,6 +226,66 @@ public class AsyncKeys {
         RevokeKeyRequest request = new RevokeKeyRequest(workspaceId, keyId);
         AsyncRequestOperation<RevokeKeyRequest, RevokeKeyResponse> operation =
                 new RevokeKey.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Restrict an API key.
+     *
+     * <p>Replaces the explicit restrictions on an active key. Restrictions take effect on its next request
+     * and survive rotation. The issuer must be able to grant the resulting access in the key environment.
+     *
+     * <p>A restricted caller cannot remove its own restrictions or grant unrestricted access to another key.
+     * Changes are audited without recording the secret.
+     *
+     * @return The async call builder
+     */
+    public UpdateKeyAccessRequestBuilder updateAccess() {
+        return new UpdateKeyAccessRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Restrict an API key.
+     *
+     * <p>Replaces the explicit restrictions on an active key. Restrictions take effect on its next request
+     * and survive rotation. The issuer must be able to grant the resulting access in the key environment.
+     *
+     * <p>A restricted caller cannot remove its own restrictions or grant unrestricted access to another key.
+     * Changes are audited without recording the secret.
+     *
+     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
+     * @param keyId The key's id. A key of another workspace answers 404, as does a key of the other environment to an API key.
+     * @param body
+     * @return {@code CompletableFuture<UpdateKeyAccessResponse>} - The async response
+     */
+    public CompletableFuture<UpdateKeyAccessResponse> updateAccess(
+            @Nonnull String workspaceId, @Nonnull String keyId, @Nonnull KeyAccessRequest body) {
+        return updateAccess(workspaceId, keyId, body, null);
+    }
+
+    /**
+     * Restrict an API key.
+     *
+     * <p>Replaces the explicit restrictions on an active key. Restrictions take effect on its next request
+     * and survive rotation. The issuer must be able to grant the resulting access in the key environment.
+     *
+     * <p>A restricted caller cannot remove its own restrictions or grant unrestricted access to another key.
+     * Changes are audited without recording the secret.
+     *
+     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
+     * @param keyId The key's id. A key of another workspace answers 404, as does a key of the other environment to an API key.
+     * @param body
+     * @param options additional options
+     * @return {@code CompletableFuture<UpdateKeyAccessResponse>} - The async response
+     */
+    public CompletableFuture<UpdateKeyAccessResponse> updateAccess(
+            @Nonnull String workspaceId,
+            @Nonnull String keyId,
+            @Nonnull KeyAccessRequest body,
+            @Nullable Options options) {
+        UpdateKeyAccessRequest request = new UpdateKeyAccessRequest(workspaceId, keyId, body);
+        AsyncRequestOperation<UpdateKeyAccessRequest, UpdateKeyAccessResponse> operation =
+                new UpdateKeyAccess.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 }

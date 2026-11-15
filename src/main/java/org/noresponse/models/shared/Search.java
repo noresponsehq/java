@@ -50,7 +50,7 @@ public class Search {
     private SearchKind kind;
 
     /**
-     * The value searched: the field's cleaned value, else as the source wrote it.
+     * The searched value. Empty in person reports when evidence.read is denied.
      */
     @JsonProperty("value")
     private String value;
@@ -238,7 +238,7 @@ public class Search {
     }
 
     /**
-     * The value searched: the field's cleaned value, else as the source wrote it.
+     * The searched value. Empty in person reports when evidence.read is denied.
      */
     public String value() {
         return this.value;
@@ -367,7 +367,7 @@ public class Search {
     }
 
     /**
-     * The value searched: the field's cleaned value, else as the source wrote it.
+     * The searched value. Empty in person reports when evidence.read is denied.
      */
     public Search withValue(@Nonnull String value) {
         this.value = Utils.checkNotNull(value, "value");
@@ -635,7 +635,7 @@ public class Search {
         }
 
         /**
-         * The value searched: the field's cleaned value, else as the source wrote it.
+         * The searched value. Empty in person reports when evidence.read is denied.
          */
         public Builder value(@Nonnull String value) {
             this.value = Utils.checkNotNull(value, "value");

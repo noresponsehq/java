@@ -151,6 +151,14 @@ public class Key {
     @JsonProperty("last_used_at")
     private String lastUsedAt;
 
+    /**
+     * Explicit restrictions that override scope grants. An empty list restores the access supplied by the
+     * scopes. Rotation preserves these restrictions.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("denied_actions")
+    private List<KeyDeniedAction> deniedActions;
+
     @JsonCreator
     public Key(
             @JsonProperty("id") @Nonnull String id,
@@ -170,7 +178,8 @@ public class Key {
             @JsonProperty("kind") @Nullable KeyKind kind,
             @JsonProperty("owner_user_id") @Nullable String ownerUserId,
             @JsonProperty("rotated_to") @Nullable String rotatedTo,
-            @JsonProperty("last_used_at") @Nullable String lastUsedAt) {
+            @JsonProperty("last_used_at") @Nullable String lastUsedAt,
+            @JsonProperty("denied_actions") @Nullable List<KeyDeniedAction> deniedActions) {
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
@@ -195,6 +204,7 @@ public class Key {
         this.ownerUserId = ownerUserId;
         this.rotatedTo = rotatedTo;
         this.lastUsedAt = lastUsedAt;
+        this.deniedActions = deniedActions;
     }
 
     public Key(
@@ -213,6 +223,7 @@ public class Key {
                 scopes,
                 status,
                 createdAt,
+                null,
                 null,
                 null,
                 null,
@@ -360,6 +371,14 @@ public class Key {
      */
     public Optional<String> lastUsedAt() {
         return Optional.ofNullable(this.lastUsedAt);
+    }
+
+    /**
+     * Explicit restrictions that override scope grants. An empty list restores the access supplied by the
+     * scopes. Rotation preserves these restrictions.
+     */
+    public Optional<List<KeyDeniedAction>> deniedActions() {
+        return Optional.ofNullable(this.deniedActions);
     }
 
     public static Builder builder() {
@@ -520,6 +539,15 @@ public class Key {
         return this;
     }
 
+    /**
+     * Explicit restrictions that override scope grants. An empty list restores the access supplied by the
+     * scopes. Rotation preserves these restrictions.
+     */
+    public Key withDeniedActions(@Nullable List<KeyDeniedAction> deniedActions) {
+        this.deniedActions = deniedActions;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -546,7 +574,8 @@ public class Key {
                 && Utils.enhancedDeepEquals(this.kind, other.kind)
                 && Utils.enhancedDeepEquals(this.ownerUserId, other.ownerUserId)
                 && Utils.enhancedDeepEquals(this.rotatedTo, other.rotatedTo)
-                && Utils.enhancedDeepEquals(this.lastUsedAt, other.lastUsedAt);
+                && Utils.enhancedDeepEquals(this.lastUsedAt, other.lastUsedAt)
+                && Utils.enhancedDeepEquals(this.deniedActions, other.deniedActions);
     }
 
     @Override
@@ -569,7 +598,8 @@ public class Key {
                 kind,
                 ownerUserId,
                 rotatedTo,
-                lastUsedAt);
+                lastUsedAt,
+                deniedActions);
     }
 
     @Override
@@ -611,7 +641,9 @@ public class Key {
                 "rotatedTo",
                 rotatedTo,
                 "lastUsedAt",
-                lastUsedAt);
+                lastUsedAt,
+                "deniedActions",
+                deniedActions);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -652,6 +684,8 @@ public class Key {
         private String rotatedTo;
 
         private String lastUsedAt;
+
+        private List<KeyDeniedAction> deniedActions;
 
         private Builder() {
             // force use of static builder() method
@@ -811,6 +845,15 @@ public class Key {
             return this;
         }
 
+        /**
+         * Explicit restrictions that override scope grants. An empty list restores the access supplied by the
+         * scopes. Rotation preserves these restrictions.
+         */
+        public Builder deniedActions(@Nullable List<KeyDeniedAction> deniedActions) {
+            this.deniedActions = deniedActions;
+            return this;
+        }
+
         public Key build() {
             return new Key(
                     id,
@@ -830,7 +873,8 @@ public class Key {
                     kind,
                     ownerUserId,
                     rotatedTo,
-                    lastUsedAt);
+                    lastUsedAt,
+                    deniedActions);
         }
     }
 }

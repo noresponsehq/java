@@ -35,6 +35,10 @@ public class KeyScope {
     public static final KeyScope MEMBERS = new KeyScope("members");
     public static final KeyScope MEMBERS_MANAGE = new KeyScope("members_manage");
     public static final KeyScope GROUPS = new KeyScope("groups");
+    public static final KeyScope PEOPLE = new KeyScope("people");
+    public static final KeyScope PEOPLE_WRITE = new KeyScope("people_write");
+    public static final KeyScope INVESTIGATIONS = new KeyScope("investigations");
+    public static final KeyScope DECISIONS = new KeyScope("decisions");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -123,6 +127,10 @@ public class KeyScope {
         map.put("members", MEMBERS);
         map.put("members_manage", MEMBERS_MANAGE);
         map.put("groups", GROUPS);
+        map.put("people", PEOPLE);
+        map.put("people_write", PEOPLE_WRITE);
+        map.put("investigations", INVESTIGATIONS);
+        map.put("decisions", DECISIONS);
         return map;
     }
 
@@ -146,6 +154,10 @@ public class KeyScope {
         map.put("members", KeyScopeEnum.MEMBERS);
         map.put("members_manage", KeyScopeEnum.MEMBERS_MANAGE);
         map.put("groups", KeyScopeEnum.GROUPS);
+        map.put("people", KeyScopeEnum.PEOPLE);
+        map.put("people_write", KeyScopeEnum.PEOPLE_WRITE);
+        map.put("investigations", KeyScopeEnum.INVESTIGATIONS);
+        map.put("decisions", KeyScopeEnum.DECISIONS);
         return map;
     }
 
@@ -169,6 +181,10 @@ public class KeyScope {
         MEMBERS("members"),
         MEMBERS_MANAGE("members_manage"),
         GROUPS("groups"),
+        PEOPLE("people"),
+        PEOPLE_WRITE("people_write"),
+        INVESTIGATIONS("investigations"),
+        DECISIONS("decisions"),
         ;
 
         private final String value;

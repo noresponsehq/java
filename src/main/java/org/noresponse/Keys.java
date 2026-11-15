@@ -16,12 +16,17 @@ import org.noresponse.models.operations.RevokeKeyRequestBuilder;
 import org.noresponse.models.operations.RevokeKeyResponse;
 import org.noresponse.models.operations.RotateApiKeyRequestBuilder;
 import org.noresponse.models.operations.RotateApiKeyResponse;
+import org.noresponse.models.operations.UpdateKeyAccessRequest;
+import org.noresponse.models.operations.UpdateKeyAccessRequestBuilder;
+import org.noresponse.models.operations.UpdateKeyAccessResponse;
+import org.noresponse.models.shared.KeyAccessRequest;
 import org.noresponse.models.shared.KeyRequest;
 import org.noresponse.models.shared.KeyRotationRequest;
 import org.noresponse.operations.CreateKey;
 import org.noresponse.operations.ListKeys;
 import org.noresponse.operations.RevokeKey;
 import org.noresponse.operations.RotateApiKey;
+import org.noresponse.operations.UpdateKeyAccess;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 
@@ -225,6 +230,68 @@ public class Keys {
         RevokeKeyRequest request = new RevokeKeyRequest(workspaceId, keyId);
         RequestOperation<RevokeKeyRequest, RevokeKeyResponse> operation =
                 new RevokeKey.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Restrict an API key.
+     *
+     * <p>Replaces the explicit restrictions on an active key. Restrictions take effect on its next request
+     * and survive rotation. The issuer must be able to grant the resulting access in the key environment.
+     *
+     * <p>A restricted caller cannot remove its own restrictions or grant unrestricted access to another key.
+     * Changes are audited without recording the secret.
+     *
+     * @return The call builder
+     */
+    public UpdateKeyAccessRequestBuilder updateAccess() {
+        return new UpdateKeyAccessRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Restrict an API key.
+     *
+     * <p>Replaces the explicit restrictions on an active key. Restrictions take effect on its next request
+     * and survive rotation. The issuer must be able to grant the resulting access in the key environment.
+     *
+     * <p>A restricted caller cannot remove its own restrictions or grant unrestricted access to another key.
+     * Changes are audited without recording the secret.
+     *
+     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
+     * @param keyId The key's id. A key of another workspace answers 404, as does a key of the other environment to an API key.
+     * @param body
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public UpdateKeyAccessResponse updateAccess(
+            @Nonnull String workspaceId, @Nonnull String keyId, @Nonnull KeyAccessRequest body) {
+        return updateAccess(workspaceId, keyId, body, null);
+    }
+
+    /**
+     * Restrict an API key.
+     *
+     * <p>Replaces the explicit restrictions on an active key. Restrictions take effect on its next request
+     * and survive rotation. The issuer must be able to grant the resulting access in the key environment.
+     *
+     * <p>A restricted caller cannot remove its own restrictions or grant unrestricted access to another key.
+     * Changes are audited without recording the secret.
+     *
+     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
+     * @param keyId The key's id. A key of another workspace answers 404, as does a key of the other environment to an API key.
+     * @param body
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public UpdateKeyAccessResponse updateAccess(
+            @Nonnull String workspaceId,
+            @Nonnull String keyId,
+            @Nonnull KeyAccessRequest body,
+            @Nullable Options options) {
+        UpdateKeyAccessRequest request = new UpdateKeyAccessRequest(workspaceId, keyId, body);
+        RequestOperation<UpdateKeyAccessRequest, UpdateKeyAccessResponse> operation =
+                new UpdateKeyAccess.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 }

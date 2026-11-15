@@ -31,6 +31,8 @@ public class AuditEventTargetType {
     public static final AuditEventTargetType INTEGRATION = new AuditEventTargetType("integration");
     public static final AuditEventTargetType BILLING = new AuditEventTargetType("billing");
     public static final AuditEventTargetType REVIEW = new AuditEventTargetType("review");
+    public static final AuditEventTargetType PERSON = new AuditEventTargetType("person");
+    public static final AuditEventTargetType GROUP = new AuditEventTargetType("group");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -110,6 +112,8 @@ public class AuditEventTargetType {
         map.put("integration", INTEGRATION);
         map.put("billing", BILLING);
         map.put("review", REVIEW);
+        map.put("person", PERSON);
+        map.put("group", GROUP);
         return map;
     }
 
@@ -124,6 +128,8 @@ public class AuditEventTargetType {
         map.put("integration", AuditEventTargetTypeEnum.INTEGRATION);
         map.put("billing", AuditEventTargetTypeEnum.BILLING);
         map.put("review", AuditEventTargetTypeEnum.REVIEW);
+        map.put("person", AuditEventTargetTypeEnum.PERSON);
+        map.put("group", AuditEventTargetTypeEnum.GROUP);
         return map;
     }
 
@@ -138,6 +144,8 @@ public class AuditEventTargetType {
         INTEGRATION("integration"),
         BILLING("billing"),
         REVIEW("review"),
+        PERSON("person"),
+        GROUP("group"),
         ;
 
         private final String value;
