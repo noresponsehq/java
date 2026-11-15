@@ -2,7 +2,7 @@
 
 # NoResponse for Java
 
-Assess sign-ups, logins and purchases with the NoResponse Identity Intelligence API.
+Investigate everyone, everywhere, all at once. Find the accounts and leaked rows behind an email, phone, username or name, screen groups of people, and assess sign-ups with the NoResponse API. The client's `groups` calls create groups, add people, screen them and read each person's records: see the [quickstart](https://docs.noresponse.org/quickstart).
 
 Java 11+ · Gradle and Maven through JitPack.
 
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v12.0.22'
+    implementation 'com.github.noresponsehq:java:v12.0.23'
 }
 ```
 
@@ -39,7 +39,7 @@ dependencies {
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v12.0.22</version>
+  <version>v12.0.23</version>
 </dependency>
 ```
 
