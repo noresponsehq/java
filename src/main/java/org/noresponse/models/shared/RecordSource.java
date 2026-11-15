@@ -26,7 +26,8 @@ public class RecordSource {
     /**
      * The kind of source: platform for an account read off a live platform; for a breach row, the kind of
      * leak its table is: site_breach, credential_list, stealer_log, scrape, hacking_forum, abuse_service
-     * or darkweb_site.
+     * or darkweb_site; domain_registry for an email domain's registry record and domain_dns for its mail
+     * records.
      */
     @JsonProperty("kind")
     private String kind;
@@ -81,7 +82,8 @@ public class RecordSource {
     /**
      * The kind of source: platform for an account read off a live platform; for a breach row, the kind of
      * leak its table is: site_breach, credential_list, stealer_log, scrape, hacking_forum, abuse_service
-     * or darkweb_site.
+     * or darkweb_site; domain_registry for an email domain's registry record and domain_dns for its mail
+     * records.
      */
     public String kind() {
         return this.kind;
@@ -123,7 +125,8 @@ public class RecordSource {
     /**
      * The kind of source: platform for an account read off a live platform; for a breach row, the kind of
      * leak its table is: site_breach, credential_list, stealer_log, scrape, hacking_forum, abuse_service
-     * or darkweb_site.
+     * or darkweb_site; domain_registry for an email domain's registry record and domain_dns for its mail
+     * records.
      */
     public RecordSource withKind(@Nonnull String kind) {
         this.kind = Utils.checkNotNull(kind, "kind");
@@ -209,7 +212,8 @@ public class RecordSource {
         /**
          * The kind of source: platform for an account read off a live platform; for a breach row, the kind of
          * leak its table is: site_breach, credential_list, stealer_log, scrape, hacking_forum, abuse_service
-         * or darkweb_site.
+         * or darkweb_site; domain_registry for an email domain's registry record and domain_dns for its mail
+         * records.
          */
         public Builder kind(@Nonnull String kind) {
             this.kind = Utils.checkNotNull(kind, "kind");
