@@ -31,7 +31,7 @@ public class SettingsRequest {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("refused_sources")
-    private List<SourceId> refusedSources;
+    private List<String> refusedSources;
 
     /**
      * Replaces the daily screening cap, in minor units of USD; null removes the cap. Needs settings.write
@@ -63,7 +63,7 @@ public class SettingsRequest {
     @JsonCreator
     public SettingsRequest(
             @JsonProperty("retention_days") @Nullable Long retentionDays,
-            @JsonProperty("refused_sources") @Nullable List<SourceId> refusedSources,
+            @JsonProperty("refused_sources") @Nullable List<String> refusedSources,
             @JsonProperty("screening_daily_cap") @Nullable JsonNullable<Long> screeningDailyCap,
             @JsonProperty("flows") @Nullable SettingsRequestFlows flows,
             @JsonProperty("expected_policy_version") @Nullable Long expectedPolicyVersion,
@@ -87,7 +87,7 @@ public class SettingsRequest {
     /**
      * Replaces the refused sources; [] refuses none. A change applies to new assessments within a minute.
      */
-    public Optional<List<SourceId>> refusedSources() {
+    public Optional<List<String>> refusedSources() {
         return Optional.ofNullable(this.refusedSources);
     }
 
@@ -130,7 +130,7 @@ public class SettingsRequest {
     /**
      * Replaces the refused sources; [] refuses none. A change applies to new assessments within a minute.
      */
-    public SettingsRequest withRefusedSources(@Nullable List<SourceId> refusedSources) {
+    public SettingsRequest withRefusedSources(@Nullable List<String> refusedSources) {
         this.refusedSources = refusedSources;
         return this;
     }
@@ -212,7 +212,7 @@ public class SettingsRequest {
 
         private Long retentionDays;
 
-        private List<SourceId> refusedSources;
+        private List<String> refusedSources;
 
         private JsonNullable<Long> screeningDailyCap;
 
@@ -234,7 +234,7 @@ public class SettingsRequest {
         /**
          * Replaces the refused sources; [] refuses none. A change applies to new assessments within a minute.
          */
-        public Builder refusedSources(@Nullable List<SourceId> refusedSources) {
+        public Builder refusedSources(@Nullable List<String> refusedSources) {
             this.refusedSources = refusedSources;
             return this;
         }

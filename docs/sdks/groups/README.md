@@ -1011,7 +1011,8 @@ public class Application {
                 .idempotencyKey("account-acct_7f3a9c")
                 .body(ScreeningRequest.builder()
                     .depth(ScreeningDepth.STANDARD)
-                    .platforms(List.of())
+                    .platforms(List.of(
+                        "bluesky"))
                     .build())
                 .build();
 

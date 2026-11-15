@@ -80,7 +80,7 @@ public class Settings {
      * is not reused.
      */
     @JsonProperty("refused_sources")
-    private List<SourceId> refusedSources;
+    private List<String> refusedSources;
 
     /**
      * The most the environment's screenings may spend in one UTC day, in minor units of USD (cents), 0 to
@@ -100,7 +100,7 @@ public class Settings {
             @JsonProperty("updated_by") @Nullable String updatedBy,
             @JsonProperty("updated_at") @Nullable String updatedAt,
             @JsonProperty("flows") @Nonnull SettingsFlows flows,
-            @JsonProperty("refused_sources") @Nonnull List<SourceId> refusedSources,
+            @JsonProperty("refused_sources") @Nonnull List<String> refusedSources,
             @JsonProperty("screening_daily_cap") @Nullable Long screeningDailyCap) {
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
@@ -122,7 +122,7 @@ public class Settings {
             long retentionDays,
             long policyVersion,
             @Nonnull SettingsFlows flows,
-            @Nonnull List<SourceId> refusedSources) {
+            @Nonnull List<String> refusedSources) {
         this(workspaceId, environment, retentionDays, policyVersion, null, null, flows, refusedSources, null);
     }
 
@@ -185,7 +185,7 @@ public class Settings {
      * coverage-unavailable as unavailable) rather than not_found, and a stored result of a refused source
      * is not reused.
      */
-    public List<SourceId> refusedSources() {
+    public List<String> refusedSources() {
         return this.refusedSources;
     }
 
@@ -268,7 +268,7 @@ public class Settings {
      * coverage-unavailable as unavailable) rather than not_found, and a stored result of a refused source
      * is not reused.
      */
-    public Settings withRefusedSources(@Nonnull List<SourceId> refusedSources) {
+    public Settings withRefusedSources(@Nonnull List<String> refusedSources) {
         this.refusedSources = Utils.checkNotNull(refusedSources, "refusedSources");
         return this;
     }
@@ -358,7 +358,7 @@ public class Settings {
 
         private SettingsFlows flows;
 
-        private List<SourceId> refusedSources;
+        private List<String> refusedSources;
 
         private Long screeningDailyCap;
 
@@ -432,7 +432,7 @@ public class Settings {
          * coverage-unavailable as unavailable) rather than not_found, and a stored result of a refused source
          * is not reused.
          */
-        public Builder refusedSources(@Nonnull List<SourceId> refusedSources) {
+        public Builder refusedSources(@Nonnull List<String> refusedSources) {
             this.refusedSources = Utils.checkNotNull(refusedSources, "refusedSources");
             return this;
         }

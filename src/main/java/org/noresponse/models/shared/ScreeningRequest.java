@@ -20,12 +20,12 @@ public class ScreeningRequest {
     private ScreeningDepth depth;
 
     @JsonProperty("platforms")
-    private List<HandlePlatform> platforms;
+    private List<String> platforms;
 
     @JsonCreator
     public ScreeningRequest(
             @JsonProperty("depth") @Nonnull ScreeningDepth depth,
-            @JsonProperty("platforms") @Nonnull List<HandlePlatform> platforms) {
+            @JsonProperty("platforms") @Nonnull List<String> platforms) {
         this.depth = Optional.ofNullable(depth).orElseThrow(() -> new IllegalArgumentException("depth cannot be null"));
         this.platforms = Optional.ofNullable(platforms)
                 .orElseThrow(() -> new IllegalArgumentException("platforms cannot be null"));
@@ -35,7 +35,7 @@ public class ScreeningRequest {
         return this.depth;
     }
 
-    public List<HandlePlatform> platforms() {
+    public List<String> platforms() {
         return this.platforms;
     }
 
@@ -48,7 +48,7 @@ public class ScreeningRequest {
         return this;
     }
 
-    public ScreeningRequest withPlatforms(@Nonnull List<HandlePlatform> platforms) {
+    public ScreeningRequest withPlatforms(@Nonnull List<String> platforms) {
         this.platforms = Utils.checkNotNull(platforms, "platforms");
         return this;
     }
@@ -81,7 +81,7 @@ public class ScreeningRequest {
 
         private ScreeningDepth depth;
 
-        private List<HandlePlatform> platforms;
+        private List<String> platforms;
 
         private Builder() {
             // force use of static builder() method
@@ -92,7 +92,7 @@ public class ScreeningRequest {
             return this;
         }
 
-        public Builder platforms(@Nonnull List<HandlePlatform> platforms) {
+        public Builder platforms(@Nonnull List<String> platforms) {
             this.platforms = Utils.checkNotNull(platforms, "platforms");
             return this;
         }

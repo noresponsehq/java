@@ -23,14 +23,16 @@ public class ScreeningProfile {
     private String id;
 
     /**
-     * A platform a screening can cover. github and scratch through flickr are each one read of the public
-     * profile a handle names, with no posts; chesscom also reads the profile's stats, clubs and last two
-     * months of games, for its activity and contacts, and through a signed-in session up to 100 of the
-     * player's friends, each a contact with the date the friendship began. synthetic is the deterministic
-     * connector's own platform, for exercising the product end to end with no network.
+     * A platform a screening can cover, such as instagram, x, bluesky, youtube, tiktok or github. The
+     * screening registry owns the set: a request that names a platform it does not cover answers 422. A
+     * new platform adds an id without changing this contract, so read a platform you do not know in a
+     * response as one you have not seen before, not as an error.
+     *
+     * <p>synthetic is the deterministic connector's own platform, for exercising the product end to end with
+     * no network.
      */
     @JsonProperty("platform")
-    private HandlePlatform platform;
+    private String platform;
 
     @JsonProperty("handle")
     private String handle;
@@ -119,7 +121,7 @@ public class ScreeningProfile {
     @JsonCreator
     public ScreeningProfile(
             @JsonProperty("id") @Nonnull String id,
-            @JsonProperty("platform") @Nonnull HandlePlatform platform,
+            @JsonProperty("platform") @Nonnull String platform,
             @JsonProperty("handle") @Nonnull String handle,
             @JsonProperty("url") @Nonnull String url,
             @JsonProperty("display_name") @Nullable String displayName,
@@ -163,7 +165,7 @@ public class ScreeningProfile {
 
     public ScreeningProfile(
             @Nonnull String id,
-            @Nonnull HandlePlatform platform,
+            @Nonnull String platform,
             @Nonnull String handle,
             @Nonnull String url,
             @Nonnull Access access,
@@ -197,13 +199,15 @@ public class ScreeningProfile {
     }
 
     /**
-     * A platform a screening can cover. github and scratch through flickr are each one read of the public
-     * profile a handle names, with no posts; chesscom also reads the profile's stats, clubs and last two
-     * months of games, for its activity and contacts, and through a signed-in session up to 100 of the
-     * player's friends, each a contact with the date the friendship began. synthetic is the deterministic
-     * connector's own platform, for exercising the product end to end with no network.
+     * A platform a screening can cover, such as instagram, x, bluesky, youtube, tiktok or github. The
+     * screening registry owns the set: a request that names a platform it does not cover answers 422. A
+     * new platform adds an id without changing this contract, so read a platform you do not know in a
+     * response as one you have not seen before, not as an error.
+     *
+     * <p>synthetic is the deterministic connector's own platform, for exercising the product end to end with
+     * no network.
      */
-    public HandlePlatform platform() {
+    public String platform() {
         return this.platform;
     }
 
@@ -308,13 +312,15 @@ public class ScreeningProfile {
     }
 
     /**
-     * A platform a screening can cover. github and scratch through flickr are each one read of the public
-     * profile a handle names, with no posts; chesscom also reads the profile's stats, clubs and last two
-     * months of games, for its activity and contacts, and through a signed-in session up to 100 of the
-     * player's friends, each a contact with the date the friendship began. synthetic is the deterministic
-     * connector's own platform, for exercising the product end to end with no network.
+     * A platform a screening can cover, such as instagram, x, bluesky, youtube, tiktok or github. The
+     * screening registry owns the set: a request that names a platform it does not cover answers 422. A
+     * new platform adds an id without changing this contract, so read a platform you do not know in a
+     * response as one you have not seen before, not as an error.
+     *
+     * <p>synthetic is the deterministic connector's own platform, for exercising the product end to end with
+     * no network.
      */
-    public ScreeningProfile withPlatform(@Nonnull HandlePlatform platform) {
+    public ScreeningProfile withPlatform(@Nonnull String platform) {
         this.platform = Utils.checkNotNull(platform, "platform");
         return this;
     }
@@ -525,7 +531,7 @@ public class ScreeningProfile {
 
         private String id;
 
-        private HandlePlatform platform;
+        private String platform;
 
         private String handle;
 
@@ -569,13 +575,15 @@ public class ScreeningProfile {
         }
 
         /**
-         * A platform a screening can cover. github and scratch through flickr are each one read of the public
-         * profile a handle names, with no posts; chesscom also reads the profile's stats, clubs and last two
-         * months of games, for its activity and contacts, and through a signed-in session up to 100 of the
-         * player's friends, each a contact with the date the friendship began. synthetic is the deterministic
-         * connector's own platform, for exercising the product end to end with no network.
+         * A platform a screening can cover, such as instagram, x, bluesky, youtube, tiktok or github. The
+         * screening registry owns the set: a request that names a platform it does not cover answers 422. A
+         * new platform adds an id without changing this contract, so read a platform you do not know in a
+         * response as one you have not seen before, not as an error.
+         *
+         * <p>synthetic is the deterministic connector's own platform, for exercising the product end to end with
+         * no network.
          */
-        public Builder platform(@Nonnull HandlePlatform platform) {
+        public Builder platform(@Nonnull String platform) {
             this.platform = Utils.checkNotNull(platform, "platform");
             return this;
         }

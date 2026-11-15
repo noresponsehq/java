@@ -108,7 +108,7 @@ public class Application {
 
         UpdateSettingsResponse res = sdk.settings().update()
                 .workspaceId("tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-                .environment(KeyEnvironment.TEST)
+                .environment(KeyEnvironment.LIVE)
                 .body(SettingsRequest.builder()
                     .retentionDays(30L)
                     .expectedPolicyVersion(1L)
@@ -144,7 +144,6 @@ import org.noresponse.models.shared.KeyEnvironment;
 import org.noresponse.models.shared.OnExpiry;
 import org.noresponse.models.shared.SettingsRequest;
 import org.noresponse.models.shared.SettingsRequestFlows;
-import org.noresponse.models.shared.SourceId;
 import org.noresponse.models.shared.UsageCountDepth;
 
 public class Application {
@@ -161,7 +160,7 @@ public class Application {
                 .body(SettingsRequest.builder()
                     .retentionDays(90L)
                     .refusedSources(List.of(
-                        SourceId.PHONE))
+                        "phone"))
                     .flows(SettingsRequestFlows.builder()
                         .accountCreation(FlowChange.builder()
                             .admission(Admission.HELD)

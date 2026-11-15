@@ -39,7 +39,7 @@ public class Screening {
     private ScreeningDepth depth;
 
     @JsonProperty("platforms")
-    private List<HandlePlatform> platforms;
+    private List<String> platforms;
 
     @JsonProperty("requested_by")
     private String requestedBy;
@@ -120,7 +120,7 @@ public class Screening {
             @JsonProperty("environment") @Nonnull AuditSettingsEnvironment environment,
             @JsonProperty("status") @Nonnull ScreeningStatus status,
             @JsonProperty("depth") @Nonnull ScreeningDepth depth,
-            @JsonProperty("platforms") @Nonnull List<HandlePlatform> platforms,
+            @JsonProperty("platforms") @Nonnull List<String> platforms,
             @JsonProperty("requested_by") @Nonnull String requestedBy,
             @JsonProperty("created_at") @Nonnull String createdAt,
             @JsonProperty("started_at") @Nullable String startedAt,
@@ -170,7 +170,7 @@ public class Screening {
             @Nonnull AuditSettingsEnvironment environment,
             @Nonnull ScreeningStatus status,
             @Nonnull ScreeningDepth depth,
-            @Nonnull List<HandlePlatform> platforms,
+            @Nonnull List<String> platforms,
             @Nonnull String requestedBy,
             @Nonnull String createdAt,
             @Nonnull String expiresAt,
@@ -229,7 +229,7 @@ public class Screening {
         return this.depth;
     }
 
-    public List<HandlePlatform> platforms() {
+    public List<String> platforms() {
         return this.platforms;
     }
 
@@ -349,7 +349,7 @@ public class Screening {
         return this;
     }
 
-    public Screening withPlatforms(@Nonnull List<HandlePlatform> platforms) {
+    public Screening withPlatforms(@Nonnull List<String> platforms) {
         this.platforms = Utils.checkNotNull(platforms, "platforms");
         return this;
     }
@@ -566,7 +566,7 @@ public class Screening {
 
         private ScreeningDepth depth;
 
-        private List<HandlePlatform> platforms;
+        private List<String> platforms;
 
         private String requestedBy;
 
@@ -629,7 +629,7 @@ public class Screening {
             return this;
         }
 
-        public Builder platforms(@Nonnull List<HandlePlatform> platforms) {
+        public Builder platforms(@Nonnull List<String> platforms) {
             this.platforms = Utils.checkNotNull(platforms, "platforms");
             return this;
         }

@@ -77,7 +77,7 @@ public class ScreeningCoverage {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("not_searched")
-    private List<HandlePlatform> notSearched;
+    private List<String> notSearched;
 
     @JsonCreator
     public ScreeningCoverage(
@@ -90,7 +90,7 @@ public class ScreeningCoverage {
             @JsonProperty("period_from") @Nullable String periodFrom,
             @JsonProperty("period_to") @Nullable String periodTo,
             @JsonProperty("platforms") @Nonnull List<ScreeningPlatformCoverage> platforms,
-            @JsonProperty("not_searched") @Nullable List<HandlePlatform> notSearched) {
+            @JsonProperty("not_searched") @Nullable List<String> notSearched) {
         this.accountsFound = accountsFound;
         this.accountsAccessible = accountsAccessible;
         this.itemsRead = itemsRead;
@@ -170,7 +170,7 @@ public class ScreeningCoverage {
      * platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is not
      * in platforms, is not none_found and does not make the person partial.
      */
-    public Optional<List<HandlePlatform>> notSearched() {
+    public Optional<List<String>> notSearched() {
         return Optional.ofNullable(this.notSearched);
     }
 
@@ -245,7 +245,7 @@ public class ScreeningCoverage {
      * platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is not
      * in platforms, is not none_found and does not make the person partial.
      */
-    public ScreeningCoverage withNotSearched(@Nullable List<HandlePlatform> notSearched) {
+    public ScreeningCoverage withNotSearched(@Nullable List<String> notSearched) {
         this.notSearched = notSearched;
         return this;
     }
@@ -333,7 +333,7 @@ public class ScreeningCoverage {
 
         private List<ScreeningPlatformCoverage> platforms;
 
-        private List<HandlePlatform> notSearched;
+        private List<String> notSearched;
 
         private Builder() {
             // force use of static builder() method
@@ -406,7 +406,7 @@ public class ScreeningCoverage {
          * platform that reads supplied handles only. Nothing looked and nothing failed: such a platform is not
          * in platforms, is not none_found and does not make the person partial.
          */
-        public Builder notSearched(@Nullable List<HandlePlatform> notSearched) {
+        public Builder notSearched(@Nullable List<String> notSearched) {
             this.notSearched = notSearched;
             return this;
         }
