@@ -47,7 +47,8 @@ public class RecordSource {
     private String table;
 
     /**
-     * When the source's data dates from, at the precision it is known: YYYY or YYYY-MM for a breach table.
+     * When the source's data dates from, at the precision it is known: YYYY or YYYY-MM for a breach table,
+     * and YYYY-MM-DD, the day the computer was infected, for a row of a stealer log.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("date")
@@ -104,7 +105,8 @@ public class RecordSource {
     }
 
     /**
-     * When the source's data dates from, at the precision it is known: YYYY or YYYY-MM for a breach table.
+     * When the source's data dates from, at the precision it is known: YYYY or YYYY-MM for a breach table,
+     * and YYYY-MM-DD, the day the computer was infected, for a row of a stealer log.
      */
     public Optional<String> date() {
         return Optional.ofNullable(this.date);
@@ -150,7 +152,8 @@ public class RecordSource {
     }
 
     /**
-     * When the source's data dates from, at the precision it is known: YYYY or YYYY-MM for a breach table.
+     * When the source's data dates from, at the precision it is known: YYYY or YYYY-MM for a breach table,
+     * and YYYY-MM-DD, the day the computer was infected, for a row of a stealer log.
      */
     public RecordSource withDate(@Nullable String date) {
         this.date = date;
@@ -237,7 +240,8 @@ public class RecordSource {
         }
 
         /**
-         * When the source's data dates from, at the precision it is known: YYYY or YYYY-MM for a breach table.
+         * When the source's data dates from, at the precision it is known: YYYY or YYYY-MM for a breach table,
+         * and YYYY-MM-DD, the day the computer was infected, for a row of a stealer log.
          */
         public Builder date(@Nullable String date) {
             this.date = date;
