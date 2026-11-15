@@ -26,11 +26,11 @@ import java.util.Optional;
  * account on X, Snapchat, Amazon or Spotify. google runs only for Gmail addresses.
  *
  * <p>scratch, dailymotion, substack, duolingo, dockerhub, wikipedia, internetarchive, telegram, spotify,
- * patreon, wordpress, okru and flickr each search that platform for an account by username; telegram
- * also searches by phone number, through a logged-in Telegram lookup account. whatsapp searches
- * WhatsApp for an account by phone number, and life360_phone searches Life360 for one. opplysningen
- * (1881, Norway), ratsit (Sweden) and reverseaustralia (Australia) each look up a phone number of
- * their own country on that site.
+ * patreon, wordpress, okru, flickr and chesscom each search that platform for an account by username;
+ * telegram also searches by phone number, through a logged-in Telegram lookup account. whatsapp
+ * searches WhatsApp for an account by phone number, and life360_phone searches Life360 for one.
+ * opplysningen (1881, Norway), ratsit (Sweden) and reverseaustralia (Australia) each look up a phone
+ * number of their own country on that site.
  *
  * <p>youtube searches YouTube for a channel by username.
  */
@@ -68,6 +68,7 @@ public class SourceId {
     public static final SourceId WORDPRESS = new SourceId("wordpress");
     public static final SourceId OKRU = new SourceId("okru");
     public static final SourceId FLICKR = new SourceId("flickr");
+    public static final SourceId CHESSCOM = new SourceId("chesscom");
     public static final SourceId WHATSAPP = new SourceId("whatsapp");
     public static final SourceId OPPLYSNINGEN = new SourceId("opplysningen");
     public static final SourceId RATSIT = new SourceId("ratsit");
@@ -174,6 +175,7 @@ public class SourceId {
         map.put("wordpress", WORDPRESS);
         map.put("okru", OKRU);
         map.put("flickr", FLICKR);
+        map.put("chesscom", CHESSCOM);
         map.put("whatsapp", WHATSAPP);
         map.put("opplysningen", OPPLYSNINGEN);
         map.put("ratsit", RATSIT);
@@ -215,6 +217,7 @@ public class SourceId {
         map.put("wordpress", SourceIdEnum.WORDPRESS);
         map.put("okru", SourceIdEnum.OKRU);
         map.put("flickr", SourceIdEnum.FLICKR);
+        map.put("chesscom", SourceIdEnum.CHESSCOM);
         map.put("whatsapp", SourceIdEnum.WHATSAPP);
         map.put("opplysningen", SourceIdEnum.OPPLYSNINGEN);
         map.put("ratsit", SourceIdEnum.RATSIT);
@@ -256,6 +259,7 @@ public class SourceId {
         WORDPRESS("wordpress"),
         OKRU("okru"),
         FLICKR("flickr"),
+        CHESSCOM("chesscom"),
         WHATSAPP("whatsapp"),
         OPPLYSNINGEN("opplysningen"),
         RATSIT("ratsit"),

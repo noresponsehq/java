@@ -19,8 +19,9 @@ import java.util.Optional;
  * HandlePlatform
  *
  * <p>A platform a screening can cover. github and scratch through flickr are each one read of the public
- * profile a handle names, with no posts. synthetic is the deterministic connector's own platform, for
- * exercising the product end to end with no network.
+ * profile a handle names, with no posts; chesscom also reads the profile's stats, clubs and last two
+ * months of games, for its activity and contacts. synthetic is the deterministic connector's own
+ * platform, for exercising the product end to end with no network.
  */
 public class HandlePlatform {
 
@@ -47,6 +48,7 @@ public class HandlePlatform {
     public static final HandlePlatform WORDPRESS = new HandlePlatform("wordpress");
     public static final HandlePlatform OKRU = new HandlePlatform("okru");
     public static final HandlePlatform FLICKR = new HandlePlatform("flickr");
+    public static final HandlePlatform CHESSCOM = new HandlePlatform("chesscom");
     public static final HandlePlatform SYNTHETIC = new HandlePlatform("synthetic");
 
     // This map will grow whenever a Color gets created with a new
@@ -141,6 +143,7 @@ public class HandlePlatform {
         map.put("wordpress", WORDPRESS);
         map.put("okru", OKRU);
         map.put("flickr", FLICKR);
+        map.put("chesscom", CHESSCOM);
         map.put("synthetic", SYNTHETIC);
         return map;
     }
@@ -170,6 +173,7 @@ public class HandlePlatform {
         map.put("wordpress", HandlePlatformEnum.WORDPRESS);
         map.put("okru", HandlePlatformEnum.OKRU);
         map.put("flickr", HandlePlatformEnum.FLICKR);
+        map.put("chesscom", HandlePlatformEnum.CHESSCOM);
         map.put("synthetic", HandlePlatformEnum.SYNTHETIC);
         return map;
     }
@@ -199,6 +203,7 @@ public class HandlePlatform {
         WORDPRESS("wordpress"),
         OKRU("okru"),
         FLICKR("flickr"),
+        CHESSCOM("chesscom"),
         SYNTHETIC("synthetic"),
         ;
 

@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: ade2c2a4132e7697dac95349eeb9ab30
+  docChecksum: 787bd84c5c8121cf6a012c66cd69b34c
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 12.0.23
-  configChecksum: 40453c217fb2f8835ebda05b7a911b95
+  releaseVersion: 12.0.24
+  configChecksum: 650c1ef326e31f3c74838404fc323b75
 features:
   java:
     additionalDependencies: 0.1.0
@@ -823,9 +823,9 @@ trackedFiles:
   docs/models/shared/GroupUpdate.md:
     last_write_checksum: sha1:c8cd7223c9f5b745db9c3ad174692a5e57bb6912
   docs/models/shared/Handle.md:
-    last_write_checksum: sha1:496f3c07806ad164af7cd3709069e52565bacdcc
+    last_write_checksum: sha1:72d2919e21241e3372a3bc1b73142b09268294ab
   docs/models/shared/HandlePlatform.md:
-    last_write_checksum: sha1:900863043b51e82592350e022df3282d9c006106
+    last_write_checksum: sha1:e2d3bbf6fb0ec4e2f0bcda364b7ab1f910a3bd58
   docs/models/shared/HighestBand.md:
     last_write_checksum: sha1:cbe9beab9221c5afa755372acf30667e94825a5f
   docs/models/shared/HookPoint.md:
@@ -1151,7 +1151,7 @@ trackedFiles:
   docs/models/shared/RecordRemaining.md:
     last_write_checksum: sha1:736bcd23222a4f3e8c2a3f90525d8771307da2c9
   docs/models/shared/RecordRole.md:
-    last_write_checksum: sha1:e352de919ee8a1754c05d9b19790c8b10b69ed4e
+    last_write_checksum: sha1:483b9bea5f0aa72f9660ed41ee3d4994df3d6b4b
   docs/models/shared/RecordSource.md:
     last_write_checksum: sha1:49e3a9e41824632381fea1925bffc69b9bb4facb
   docs/models/shared/RecordVerdict.md:
@@ -1295,13 +1295,13 @@ trackedFiles:
   docs/models/shared/ScreeningNotAnalysedReason.md:
     last_write_checksum: sha1:ff586b51f34341d57dc9e3bb6cf849db3662470b
   docs/models/shared/ScreeningPlatformCoverage.md:
-    last_write_checksum: sha1:46b8ecaf2c81c0452870cac964a6e91d7018770f
+    last_write_checksum: sha1:8d39f1c49191822c097d0d4996484cee6d80171e
   docs/models/shared/ScreeningPlatformCoverageStatus.md:
     last_write_checksum: sha1:c671b832e92b2cf8760eb32d1bb32dc6efb7bcb2
   docs/models/shared/ScreeningPost.md:
     last_write_checksum: sha1:c7ca3b850cbc067429a37b6b76fd54a42f29514c
   docs/models/shared/ScreeningProfile.md:
-    last_write_checksum: sha1:be37355a765c16a5d188689c84f31a06cf37cb22
+    last_write_checksum: sha1:0925be08b9024103bba771901b82ca3875ff1edb
   docs/models/shared/ScreeningRequest.md:
     last_write_checksum: sha1:9e143915b75993f112f58fe3b78319b4e4b4e369
   docs/models/shared/ScreeningSpend.md:
@@ -1351,7 +1351,7 @@ trackedFiles:
   docs/models/shared/Source.md:
     last_write_checksum: sha1:c362c9555f421bf5b04df94e230a33199baef98e
   docs/models/shared/SourceId.md:
-    last_write_checksum: sha1:f11f1c4e3f082981d24df842e252e4e7fd7b938e
+    last_write_checksum: sha1:2da3956828a8faa5740618b6a194ed969007f737
   docs/models/shared/Status.md:
     last_write_checksum: sha1:ad9f64543ca6847cd28afed2583cad96cdc05d53
   docs/models/shared/Thresholds.md:
@@ -1489,7 +1489,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:38e01f489783066aae5bf8afa79392ea439c3d3c
+    last_write_checksum: sha1:53f2e2b1a1005daca820b47b6d28830427e42d25
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1577,7 +1577,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:34f0b72775174e21363548f935234a1f00d98313
+    last_write_checksum: sha1:0bcc14c2eaf275a7cbc6d1789cc261b5d7e4efaa
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -3083,9 +3083,9 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/GroupUpdate.java:
     last_write_checksum: sha1:f35370bae0b3388192441d1fdf3e34396a309263
   src/main/java/org/noresponse/models/shared/Handle.java:
-    last_write_checksum: sha1:139f799da1893ad875124bda2e20e6cf1bd821d5
+    last_write_checksum: sha1:e2e6b07ece061ed6e395e1c703e6f3cbaaab3189
   src/main/java/org/noresponse/models/shared/HandlePlatform.java:
-    last_write_checksum: sha1:aaf3b376b66506afdb20d88320afa6113bd58fad
+    last_write_checksum: sha1:6bd6a019ceaf2fa2b5f450c986503ba747943ddc
   src/main/java/org/noresponse/models/shared/HighestBand.java:
     last_write_checksum: sha1:3c57dcaf7c81b8113ba84202dcad62daeaad8ed6
   src/main/java/org/noresponse/models/shared/HookPoint.java:
@@ -3411,7 +3411,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/RecordRemaining.java:
     last_write_checksum: sha1:8822a3c488746604af9f9bc22f662640da98f1ed
   src/main/java/org/noresponse/models/shared/RecordRole.java:
-    last_write_checksum: sha1:9ece8b5d40e508287ae15d70894df0a4993c539a
+    last_write_checksum: sha1:59559d406a9e6c39114c97663e730913e58130be
   src/main/java/org/noresponse/models/shared/RecordSource.java:
     last_write_checksum: sha1:4d345dcc896ee4a7da3209c4d38ba1d623420b4c
   src/main/java/org/noresponse/models/shared/RecordVerdict.java:
@@ -3555,13 +3555,13 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/ScreeningNotAnalysedReason.java:
     last_write_checksum: sha1:759cf910b2f3641f83f897aabb8197679f601147
   src/main/java/org/noresponse/models/shared/ScreeningPlatformCoverage.java:
-    last_write_checksum: sha1:fcd0288a7be3ab359991ee0b51445120abedd7a3
+    last_write_checksum: sha1:98b5c23927d341449066cdadd10f218bf3820b67
   src/main/java/org/noresponse/models/shared/ScreeningPlatformCoverageStatus.java:
     last_write_checksum: sha1:adc9a76d3e5283f3030f246b4b54742c3be6318c
   src/main/java/org/noresponse/models/shared/ScreeningPost.java:
     last_write_checksum: sha1:9bfa90cb73f3923b472a50b3d15eedd05e704709
   src/main/java/org/noresponse/models/shared/ScreeningProfile.java:
-    last_write_checksum: sha1:19e47d2654fa7fe5fd0edb4a59bdab25498086f4
+    last_write_checksum: sha1:35b398b53e5562090520ef2e2fece72f1a02cee5
   src/main/java/org/noresponse/models/shared/ScreeningRequest.java:
     last_write_checksum: sha1:4e5e7790273cb728f625dfad0164a83b05f3de43
   src/main/java/org/noresponse/models/shared/ScreeningSpend.java:
@@ -3611,7 +3611,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/Source.java:
     last_write_checksum: sha1:84767ff11656ea3d7971f2d98cbbed00e3f23572
   src/main/java/org/noresponse/models/shared/SourceId.java:
-    last_write_checksum: sha1:e74dce7f110abcd9686349ffb2656974b07653f1
+    last_write_checksum: sha1:32402b5c8559f0297b0452965eeb22e24214f3ed
   src/main/java/org/noresponse/models/shared/Status.java:
     last_write_checksum: sha1:5a624d69d234fdb66c613c34c74ab3d6f1d87c9a
   src/main/java/org/noresponse/models/shared/Thresholds.java:
@@ -6796,7 +6796,7 @@ examples:
         application/json: {}
       responses:
         "200":
-          application/json: {"id": "scn_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "group_id": "grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "environment": "test", "status": "partial", "depth": "standard", "platforms": ["threads"], "requested_by": "user_2abc", "created_at": "2026-01-01T00:00:00Z", "started_at": "2026-01-01T00:00:00Z", "finished_at": "2026-01-02T00:00:00Z", "expires_at": "2026-01-02T00:00:00Z", "people_total": 438718, "people_done": 951747, "people_flagged": 942514, "people_failed": 682715, "people_partial": 283813, "estimated_spend": 375895, "spent": 990898, "spend": {"total_minor": 51134, "by_implementation": []}, "error_code": "user_cancelled"}
+          application/json: {"id": "scn_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "group_id": "grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "environment": "test", "status": "partial", "depth": "standard", "platforms": ["reddit"], "requested_by": "user_2abc", "created_at": "2026-01-01T00:00:00Z", "started_at": "2026-01-01T00:00:00Z", "finished_at": "2026-01-02T00:00:00Z", "expires_at": "2026-01-02T00:00:00Z", "people_total": 438718, "people_done": 951747, "people_flagged": 942514, "people_failed": 682715, "people_partial": 283813, "estimated_spend": 375895, "spent": 990898, "spend": {"total_minor": 51134, "by_implementation": []}, "error_code": "user_cancelled"}
         "400":
           application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 400, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "invalid_request", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
         "401":

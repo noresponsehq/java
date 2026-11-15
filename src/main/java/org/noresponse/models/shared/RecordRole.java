@@ -37,6 +37,7 @@ public class RecordRole {
     public static final RecordRole BOT = new RecordRole("bot");
     public static final RecordRole CALLER_CATEGORY = new RecordRole("caller_category");
     public static final RecordRole CHARGEBACKS = new RecordRole("chargebacks");
+    public static final RecordRole CONTACT = new RecordRole("contact");
     public static final RecordRole COVER_PICTURE = new RecordRole("cover_picture");
     public static final RecordRole DECLINES = new RecordRole("declines");
     public static final RecordRole DELETED = new RecordRole("deleted");
@@ -180,6 +181,7 @@ public class RecordRole {
         map.put("bot", BOT);
         map.put("caller_category", CALLER_CATEGORY);
         map.put("chargebacks", CHARGEBACKS);
+        map.put("contact", CONTACT);
         map.put("cover_picture", COVER_PICTURE);
         map.put("declines", DECLINES);
         map.put("deleted", DELETED);
@@ -258,6 +260,7 @@ public class RecordRole {
         map.put("bot", RecordRoleEnum.BOT);
         map.put("caller_category", RecordRoleEnum.CALLER_CATEGORY);
         map.put("chargebacks", RecordRoleEnum.CHARGEBACKS);
+        map.put("contact", RecordRoleEnum.CONTACT);
         map.put("cover_picture", RecordRoleEnum.COVER_PICTURE);
         map.put("declines", RecordRoleEnum.DECLINES);
         map.put("deleted", RecordRoleEnum.DELETED);
@@ -336,6 +339,7 @@ public class RecordRole {
         BOT("bot"),
         CALLER_CATEGORY("caller_category"),
         CHARGEBACKS("chargebacks"),
+        CONTACT("contact"),
         COVER_PICTURE("cover_picture"),
         DECLINES("declines"),
         DELETED("deleted"),
