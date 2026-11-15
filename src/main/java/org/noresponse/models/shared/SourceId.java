@@ -21,8 +21,9 @@ import java.util.Optional;
  * <p>A NoResponse source: github (GitHub accounts), phone (the phone lookup), breach (breach exposure),
  * rdap (the email domain's registration), mx (the email domain's mail servers), ipintel (IP
  * intelligence) or an email account source that searches one platform for an account by email address
- * (adobe, nvidia, wix, life360, zapier, google). google runs only for Gmail addresses. scratch
- * searches Scratch for an account by username.
+ * (adobe, nvidia, wix, life360, zapier, google). google runs only for Gmail addresses. scratch,
+ * dailymotion, substack, duolingo, dockerhub, wikipedia and internetarchive each search that platform
+ * for an account by username.
  */
 public class SourceId {
 
@@ -39,6 +40,12 @@ public class SourceId {
     public static final SourceId ZAPIER = new SourceId("zapier");
     public static final SourceId GOOGLE = new SourceId("google");
     public static final SourceId SCRATCH = new SourceId("scratch");
+    public static final SourceId DAILYMOTION = new SourceId("dailymotion");
+    public static final SourceId SUBSTACK = new SourceId("substack");
+    public static final SourceId DUOLINGO = new SourceId("duolingo");
+    public static final SourceId DOCKERHUB = new SourceId("dockerhub");
+    public static final SourceId WIKIPEDIA = new SourceId("wikipedia");
+    public static final SourceId INTERNETARCHIVE = new SourceId("internetarchive");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -122,6 +129,12 @@ public class SourceId {
         map.put("zapier", ZAPIER);
         map.put("google", GOOGLE);
         map.put("scratch", SCRATCH);
+        map.put("dailymotion", DAILYMOTION);
+        map.put("substack", SUBSTACK);
+        map.put("duolingo", DUOLINGO);
+        map.put("dockerhub", DOCKERHUB);
+        map.put("wikipedia", WIKIPEDIA);
+        map.put("internetarchive", INTERNETARCHIVE);
         return map;
     }
 
@@ -140,6 +153,12 @@ public class SourceId {
         map.put("zapier", SourceIdEnum.ZAPIER);
         map.put("google", SourceIdEnum.GOOGLE);
         map.put("scratch", SourceIdEnum.SCRATCH);
+        map.put("dailymotion", SourceIdEnum.DAILYMOTION);
+        map.put("substack", SourceIdEnum.SUBSTACK);
+        map.put("duolingo", SourceIdEnum.DUOLINGO);
+        map.put("dockerhub", SourceIdEnum.DOCKERHUB);
+        map.put("wikipedia", SourceIdEnum.WIKIPEDIA);
+        map.put("internetarchive", SourceIdEnum.INTERNETARCHIVE);
         return map;
     }
 
@@ -158,6 +177,12 @@ public class SourceId {
         ZAPIER("zapier"),
         GOOGLE("google"),
         SCRATCH("scratch"),
+        DAILYMOTION("dailymotion"),
+        SUBSTACK("substack"),
+        DUOLINGO("duolingo"),
+        DOCKERHUB("dockerhub"),
+        WIKIPEDIA("wikipedia"),
+        INTERNETARCHIVE("internetarchive"),
         ;
 
         private final String value;
