@@ -2,6 +2,7 @@ package org.noresponse.models.operations;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
@@ -32,6 +33,16 @@ public class StartSearchRequest {
     @NoResponseMetadata("pathParam:style=simple,explode=false,name=person_id")
     private String personId;
 
+    /**
+     * Opaque request key, 16 to 128 characters. Repeating the key and request returns the same resource in
+     * its current state while it is retained. A different request with the same key answers 409.
+     *
+     * <p>Use a new key for a deliberate new operation. Keys are scoped to the environment and operation;
+     * person searches also scope them to the group and person.
+     */
+    @NoResponseMetadata("header:style=simple,explode=false,name=Idempotency-Key")
+    private String idempotencyKey;
+
     @NoResponseMetadata("request:mediaType=application/json")
     private SearchRequest body;
 
@@ -41,6 +52,7 @@ public class StartSearchRequest {
             @Nonnull KeyEnvironment environment,
             @Nonnull String groupId,
             @Nonnull String personId,
+            @Nullable String idempotencyKey,
             @Nonnull SearchRequest body) {
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
@@ -50,7 +62,17 @@ public class StartSearchRequest {
                 Optional.ofNullable(groupId).orElseThrow(() -> new IllegalArgumentException("groupId cannot be null"));
         this.personId = Optional.ofNullable(personId)
                 .orElseThrow(() -> new IllegalArgumentException("personId cannot be null"));
+        this.idempotencyKey = idempotencyKey;
         this.body = Optional.ofNullable(body).orElseThrow(() -> new IllegalArgumentException("body cannot be null"));
+    }
+
+    public StartSearchRequest(
+            @Nonnull String workspaceId,
+            @Nonnull KeyEnvironment environment,
+            @Nonnull String groupId,
+            @Nonnull String personId,
+            @Nonnull SearchRequest body) {
+        this(workspaceId, environment, groupId, personId, null, body);
     }
 
     /**
@@ -76,6 +98,17 @@ public class StartSearchRequest {
 
     public String personId() {
         return this.personId;
+    }
+
+    /**
+     * Opaque request key, 16 to 128 characters. Repeating the key and request returns the same resource in
+     * its current state while it is retained. A different request with the same key answers 409.
+     *
+     * <p>Use a new key for a deliberate new operation. Keys are scoped to the environment and operation;
+     * person searches also scope them to the group and person.
+     */
+    public Optional<String> idempotencyKey() {
+        return Optional.ofNullable(this.idempotencyKey);
     }
 
     public SearchRequest body() {
@@ -115,6 +148,18 @@ public class StartSearchRequest {
         return this;
     }
 
+    /**
+     * Opaque request key, 16 to 128 characters. Repeating the key and request returns the same resource in
+     * its current state while it is retained. A different request with the same key answers 409.
+     *
+     * <p>Use a new key for a deliberate new operation. Keys are scoped to the environment and operation;
+     * person searches also scope them to the group and person.
+     */
+    public StartSearchRequest withIdempotencyKey(@Nullable String idempotencyKey) {
+        this.idempotencyKey = idempotencyKey;
+        return this;
+    }
+
     public StartSearchRequest withBody(@Nonnull SearchRequest body) {
         this.body = Utils.checkNotNull(body, "body");
         return this;
@@ -133,12 +178,13 @@ public class StartSearchRequest {
                 && Utils.enhancedDeepEquals(this.environment, other.environment)
                 && Utils.enhancedDeepEquals(this.groupId, other.groupId)
                 && Utils.enhancedDeepEquals(this.personId, other.personId)
+                && Utils.enhancedDeepEquals(this.idempotencyKey, other.idempotencyKey)
                 && Utils.enhancedDeepEquals(this.body, other.body);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(workspaceId, environment, groupId, personId, body);
+        return Utils.enhancedHash(workspaceId, environment, groupId, personId, idempotencyKey, body);
     }
 
     @Override
@@ -153,6 +199,8 @@ public class StartSearchRequest {
                 groupId,
                 "personId",
                 personId,
+                "idempotencyKey",
+                idempotencyKey,
                 "body",
                 body);
     }
@@ -167,6 +215,8 @@ public class StartSearchRequest {
         private String groupId;
 
         private String personId;
+
+        private String idempotencyKey;
 
         private SearchRequest body;
 
@@ -203,13 +253,25 @@ public class StartSearchRequest {
             return this;
         }
 
+        /**
+         * Opaque request key, 16 to 128 characters. Repeating the key and request returns the same resource in
+         * its current state while it is retained. A different request with the same key answers 409.
+         *
+         * <p>Use a new key for a deliberate new operation. Keys are scoped to the environment and operation;
+         * person searches also scope them to the group and person.
+         */
+        public Builder idempotencyKey(@Nullable String idempotencyKey) {
+            this.idempotencyKey = idempotencyKey;
+            return this;
+        }
+
         public Builder body(@Nonnull SearchRequest body) {
             this.body = Utils.checkNotNull(body, "body");
             return this;
         }
 
         public StartSearchRequest build() {
-            return new StartSearchRequest(workspaceId, environment, groupId, personId, body);
+            return new StartSearchRequest(workspaceId, environment, groupId, personId, idempotencyKey, body);
         }
     }
 }

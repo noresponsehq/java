@@ -155,7 +155,10 @@ public class AsyncGroups {
      * Create a group to screen.
      *
      * <p>Create a group to screen: its name, start, venue, host, the principals it protects and the sensitive
-     * topics posts are read against. An environment holds at most 1000 groups.
+     * topics posts are read against. An environment holds at most 1000 groups. Send an Idempotency-Key to
+     * repeat a request safely while the group is retained.
+     *
+     * <p>A replay returns the same group in its current state; changed input returns 409.
      *
      * @return The async call builder
      */
@@ -167,7 +170,10 @@ public class AsyncGroups {
      * Create a group to screen.
      *
      * <p>Create a group to screen: its name, start, venue, host, the principals it protects and the sensitive
-     * topics posts are read against. An environment holds at most 1000 groups.
+     * topics posts are read against. An environment holds at most 1000 groups. Send an Idempotency-Key to
+     * repeat a request safely while the group is retained.
+     *
+     * <p>A replay returns the same group in its current state; changed input returns 409.
      *
      * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
      * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
@@ -176,7 +182,30 @@ public class AsyncGroups {
      */
     public CompletableFuture<CreateGroupResponse> create(
             @Nonnull String workspaceId, @Nonnull KeyEnvironment environment, @Nonnull GroupRequest body) {
-        CreateGroupRequest request = new CreateGroupRequest(workspaceId, environment, body);
+        return create(workspaceId, environment, null, body);
+    }
+
+    /**
+     * Create a group to screen.
+     *
+     * <p>Create a group to screen: its name, start, venue, host, the principals it protects and the sensitive
+     * topics posts are read against. An environment holds at most 1000 groups. Send an Idempotency-Key to
+     * repeat a request safely while the group is retained.
+     *
+     * <p>A replay returns the same group in its current state; changed input returns 409.
+     *
+     * @param workspaceId Your workspace id, as each key lists it in workspace_id. Another workspace, a malformed id and a test environment's id answer 404.
+     * @param environment The environment the key belongs to. A live key assesses with live sources; a test key answers from the deterministic simulator.
+     * @param idempotencyKey Opaque request key, 16 to 128 characters. Repeating the key and request returns the same resource in its current state while it is retained. A different request with the same key answers 409. Use a new key for a deliberate new operation. Keys are scoped to the environment and operation; person searches also scope them to the group and person.
+     * @param body Creates a group.
+     * @return {@code CompletableFuture<CreateGroupResponse>} - The async response
+     */
+    public CompletableFuture<CreateGroupResponse> create(
+            @Nonnull String workspaceId,
+            @Nonnull KeyEnvironment environment,
+            @Nullable String idempotencyKey,
+            @Nonnull GroupRequest body) {
+        CreateGroupRequest request = new CreateGroupRequest(workspaceId, environment, idempotencyKey, body);
         AsyncRequestOperation<CreateGroupRequest, CreateGroupResponse> operation =
                 new CreateGroup.Async(sdkConfiguration, _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
@@ -552,6 +581,9 @@ public class AsyncGroups {
      * Nothing searches again by itself. A password or hash search counts its breach rows first and runs
      * only when you run it; read the person to see each search and what it found.
      *
+     * <p>Send an Idempotency-Key to return the same search after a lost answer, even after it completes. A
+     * different request with the same key returns 409. Use a new key for a deliberate new search.
+     *
      * @return The async call builder
      */
     public StartSearchRequestBuilder startSearch() {
@@ -565,28 +597,15 @@ public class AsyncGroups {
      * Nothing searches again by itself. A password or hash search counts its breach rows first and runs
      * only when you run it; read the person to see each search and what it found.
      *
+     * <p>Send an Idempotency-Key to return the same search after a lost answer, even after it completes. A
+     * different request with the same key returns 409. Use a new key for a deliberate new search.
+     *
      * @param request The request object containing all the parameters for the API call.
      * @return {@code CompletableFuture<StartSearchResponse>} - The async response
      */
     public CompletableFuture<StartSearchResponse> startSearch(@Nonnull StartSearchRequest request) {
-        return startSearch(request, null);
-    }
-
-    /**
-     * Search again on a value of one of a person's records.
-     *
-     * <p>Search again on the value of one field of one of a person's records, named by the record and field.
-     * Nothing searches again by itself. A password or hash search counts its breach rows first and runs
-     * only when you run it; read the person to see each search and what it found.
-     *
-     * @param request The request object containing all the parameters for the API call.
-     * @param options additional options
-     * @return {@code CompletableFuture<StartSearchResponse>} - The async response
-     */
-    public CompletableFuture<StartSearchResponse> startSearch(
-            @Nonnull StartSearchRequest request, @Nullable Options options) {
         AsyncRequestOperation<StartSearchRequest, StartSearchResponse> operation =
-                new StartSearch.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+                new StartSearch.Async(sdkConfiguration, _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 

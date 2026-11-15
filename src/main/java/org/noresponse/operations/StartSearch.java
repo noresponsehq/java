@@ -6,7 +6,6 @@ import static org.noresponse.utils.Exceptions.unchecked;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import java.io.InputStream;
 import java.lang.Exception;
 import java.lang.IllegalArgumentException;
@@ -15,11 +14,8 @@ import java.lang.String;
 import java.lang.Throwable;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import org.noresponse.SDKConfiguration;
 import org.noresponse.SecuritySource;
@@ -33,8 +29,6 @@ import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.StartSearchRequest;
 import org.noresponse.models.operations.StartSearchResponse;
 import org.noresponse.models.shared.Search;
-import org.noresponse.utils.AsyncRetries;
-import org.noresponse.utils.BackoffStrategy;
 import org.noresponse.utils.Blob;
 import org.noresponse.utils.HTTPClient;
 import org.noresponse.utils.HTTPRequest;
@@ -42,10 +36,6 @@ import org.noresponse.utils.Headers;
 import org.noresponse.utils.Hook.AfterErrorContextImpl;
 import org.noresponse.utils.Hook.AfterSuccessContextImpl;
 import org.noresponse.utils.Hook.BeforeRequestContextImpl;
-import org.noresponse.utils.NonRetryableException;
-import org.noresponse.utils.Options;
-import org.noresponse.utils.Retries;
-import org.noresponse.utils.RetryConfig;
 import org.noresponse.utils.SerializedBody;
 import org.noresponse.utils.Utils;
 import org.noresponse.utils.Utils.JsonShape;
@@ -56,30 +46,14 @@ public class StartSearch {
         final SDKConfiguration sdkConfiguration;
         final String baseUrl;
         final SecuritySource securitySource;
-        final List<String> retryStatusCodes;
-        final RetryConfig retryConfig;
         final HTTPClient client;
         final Headers _headers;
 
-        public Base(@Nonnull SDKConfiguration sdkConfiguration, @Nullable Options options, Headers _headers) {
+        public Base(@Nonnull SDKConfiguration sdkConfiguration, Headers _headers) {
             this.sdkConfiguration = sdkConfiguration;
             this._headers = _headers;
             this.baseUrl = this.sdkConfiguration.serverUrl();
             this.securitySource = this.sdkConfiguration.securitySource();
-            Optional.ofNullable(options).ifPresent(o -> o.validate(List.of(Options.Option.RETRY_CONFIG)));
-            this.retryStatusCodes = List.of("408", "429", "5XX");
-            this.retryConfig = Optional.ofNullable(options)
-                    .flatMap(Options::retryConfig)
-                    .or(sdkConfiguration::retryConfig)
-                    .orElse(RetryConfig.builder()
-                            .backoff(BackoffStrategy.builder()
-                                    .initialInterval(500, TimeUnit.MILLISECONDS)
-                                    .maxInterval(8000, TimeUnit.MILLISECONDS)
-                                    .baseFactor((double) (2))
-                                    .maxElapsedTime(30000, TimeUnit.MILLISECONDS)
-                                    .retryConnectError(true)
-                                    .build())
-                            .build());
             this.client = this.sdkConfiguration.client();
         }
 
@@ -118,6 +92,7 @@ public class StartSearch {
             req.setBody(Optional.ofNullable(serializedRequestBody));
             req.addHeader("Accept", "application/json").addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -125,8 +100,8 @@ public class StartSearch {
     }
 
     public static class Sync extends Base implements RequestOperation<StartSearchRequest, StartSearchResponse> {
-        public Sync(@Nonnull SDKConfiguration sdkConfiguration, @Nullable Options options, Headers _headers) {
-            super(sdkConfiguration, options, _headers);
+        public Sync(@Nonnull SDKConfiguration sdkConfiguration, Headers _headers) {
+            super(sdkConfiguration, _headers);
         }
 
         private HttpRequest onBuildRequest(StartSearchRequest request) throws Exception {
@@ -148,28 +123,20 @@ public class StartSearch {
 
         @Override
         public HttpResponse<InputStream> doRequest(StartSearchRequest request) {
-            Retries retries = Retries.builder()
-                    .action(() -> {
-                        HttpRequest r;
-                        try {
-                            r = onBuildRequest(request);
-                        } catch (Exception e) {
-                            throw new NonRetryableException(e);
-                        }
-                        try {
-                            HttpResponse<InputStream> httpRes = client.send(r);
-                            if (Utils.statusCodeMatches(httpRes.statusCode(), "4XX", "5XX")) {
-                                return onError(httpRes, null);
-                            }
-                            return httpRes;
-                        } catch (Exception e) {
-                            return onError(null, e);
-                        }
-                    })
-                    .retryConfig(retryConfig)
-                    .statusCodes(retryStatusCodes)
-                    .build();
-            return unchecked(() -> onSuccess(retries.run())).get();
+            HttpRequest r = unchecked(() -> onBuildRequest(request)).get();
+            HttpResponse<InputStream> httpRes;
+            try {
+                httpRes = client.send(r);
+                if (Utils.statusCodeMatches(httpRes.statusCode(), "4XX", "5XX")) {
+                    httpRes = onError(httpRes, null);
+                } else {
+                    httpRes = onSuccess(httpRes);
+                }
+            } catch (Exception e) {
+                httpRes = unchecked(() -> onError(null, e)).get();
+            }
+
+            return httpRes;
         }
 
         @Override
@@ -252,15 +219,9 @@ public class StartSearch {
 
     public static class Async extends Base
             implements AsyncRequestOperation<StartSearchRequest, org.noresponse.models.operations.async.StartSearchResponse> {
-        private final ScheduledExecutorService retryScheduler;
 
-        public Async(
-                @Nonnull SDKConfiguration sdkConfiguration,
-                @Nullable Options options,
-                @Nullable ScheduledExecutorService retryScheduler,
-                Headers _headers) {
-            super(sdkConfiguration, options, _headers);
-            this.retryScheduler = retryScheduler;
+        public Async(@Nonnull SDKConfiguration sdkConfiguration, Headers _headers) {
+            super(sdkConfiguration, _headers);
         }
 
         private CompletableFuture<HttpRequest> onBuildRequest(StartSearchRequest request) throws Exception {
@@ -279,12 +240,7 @@ public class StartSearch {
 
         @Override
         public CompletableFuture<HttpResponse<Blob>> doRequest(StartSearchRequest request) {
-            AsyncRetries retries = AsyncRetries.builder()
-                    .retryConfig(retryConfig)
-                    .statusCodes(retryStatusCodes)
-                    .scheduler(retryScheduler)
-                    .build();
-            return retries.retry(() -> unchecked(() -> onBuildRequest(request))
+            return unchecked(() -> onBuildRequest(request))
                     .get()
                     .thenCompose(client::sendAsync)
                     .handle((resp, err) -> {
@@ -296,7 +252,7 @@ public class StartSearch {
                         }
                         return CompletableFuture.completedFuture(resp);
                     })
-                    .thenCompose(Function.identity()))
+                    .thenCompose(Function.identity())
                     .thenCompose(this::onSuccess);
         }
 

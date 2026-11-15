@@ -3,6 +3,7 @@ package org.noresponse.models.operations.async;
 import static org.noresponse.operations.Operations.AsyncRequestOperation;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 import org.noresponse.SDKConfiguration;
@@ -33,6 +34,12 @@ public class CreateGroupRequestBuilder {
 
     public CreateGroupRequestBuilder environment(@Nonnull KeyEnvironment environment) {
         this.pojoBuilder.environment(environment);
+        this._setterCalled = true;
+        return this;
+    }
+
+    public CreateGroupRequestBuilder idempotencyKey(@Nullable String idempotencyKey) {
+        this.pojoBuilder.idempotencyKey(idempotencyKey);
         this._setterCalled = true;
         return this;
     }

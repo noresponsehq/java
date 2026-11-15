@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: d0a9087a9ebee84d500948a3022a3790
+  docChecksum: 8c217f661e091f63535dfd8d529c7a26
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 13.0.1
-  configChecksum: 4dc6328bce36de48e230021f74a1d22f
+  releaseVersion: 13.0.2
+  configChecksum: 20c93dd6f80a39d6fd07e92b32c256fb
 features:
   java:
     additionalDependencies: 0.1.0
@@ -103,7 +103,7 @@ trackedFiles:
   docs/models/operations/CreateCustomerExportResponse.md:
     last_write_checksum: sha1:b6d57f19ea001b498bb57cb34d99a1df2829490f
   docs/models/operations/CreateGroupRequest.md:
-    last_write_checksum: sha1:79b8ff32fc13778c089a695ca10158c9148a201f
+    last_write_checksum: sha1:6d3e4456c1982a11e101d5a5a929a49bf80f7b5e
   docs/models/operations/CreateGroupResponse.md:
     last_write_checksum: sha1:d30cbf05711564d9b80d7ad3c7f732aab2d36909
   docs/models/operations/CreateIntegrationResponse.md:
@@ -465,7 +465,7 @@ trackedFiles:
   docs/models/operations/StartScreeningResponse.md:
     last_write_checksum: sha1:7a6968a26554c22c34ff906fce61bfccb358ba6d
   docs/models/operations/StartSearchRequest.md:
-    last_write_checksum: sha1:571634f12260e4fb31b04d4b068c2af0db963b69
+    last_write_checksum: sha1:ea3aba82cdba740ef59aa37b322c5c2afd29f854
   docs/models/operations/StartSearchResponse.md:
     last_write_checksum: sha1:39cc5f066a4bee56f19d3df004ee71a3f2b180d9
   docs/models/operations/SummarizeWorkspaceOperationsRequest.md:
@@ -1461,7 +1461,7 @@ trackedFiles:
   docs/sdks/exports/README.md:
     last_write_checksum: sha1:a8d9ee477929dd8df68abbfc33fa18c427a9308c
   docs/sdks/groups/README.md:
-    last_write_checksum: sha1:d801970749db772f7a4f8baff04a45b15aaf2fce
+    last_write_checksum: sha1:0a78960dc49b460fa1b2c4015cf931d6ffec7291
   docs/sdks/integrations/README.md:
     last_write_checksum: sha1:06e34285f130ba04bf48f93b26716ee6f771f602
   docs/sdks/invites/README.md:
@@ -1489,7 +1489,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:1fc797ed954cb499679fb05e060a4888fcf93bef
+    last_write_checksum: sha1:b7f31956cb4d7f41a12d28dd88f4cb0d0256bff8
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1519,7 +1519,7 @@ trackedFiles:
   src/main/java/org/noresponse/AsyncExports.java:
     last_write_checksum: sha1:39fbd913537a2f253145d12c005e86620c1c0cf5
   src/main/java/org/noresponse/AsyncGroups.java:
-    last_write_checksum: sha1:65e99909988f82355a1a31cec8f1e6c658c2b61c
+    last_write_checksum: sha1:9ef2073f75e43248fec6c54c6490c4283d909840
   src/main/java/org/noresponse/AsyncIntegrations.java:
     last_write_checksum: sha1:4a00dc1a1ee01fa512a93e393bb77be8c92cdda5
   src/main/java/org/noresponse/AsyncInvites.java:
@@ -1555,7 +1555,7 @@ trackedFiles:
   src/main/java/org/noresponse/Exports.java:
     last_write_checksum: sha1:5d502c9bbbfff43e373e9279624b0f22054aba08
   src/main/java/org/noresponse/Groups.java:
-    last_write_checksum: sha1:f4508e7f71291ffefaa0880faf949655a8a3c6f1
+    last_write_checksum: sha1:e69ac588ed044f41bda19cafe509338d5713d166
   src/main/java/org/noresponse/Integrations.java:
     last_write_checksum: sha1:5519815150df2536ccb68ec7b4ec441145b7ae09
   src/main/java/org/noresponse/Invites.java:
@@ -1577,7 +1577,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:cf9147b9019c092fa54d496e1b749bb8bfdf84a0
+    last_write_checksum: sha1:795bd15c989e449283d4b785d225096c5475f577
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -1691,9 +1691,9 @@ trackedFiles:
   src/main/java/org/noresponse/models/operations/CreateCustomerExportResponse.java:
     last_write_checksum: sha1:9f956f1633107cb780e5d02a135a1f11054d7533
   src/main/java/org/noresponse/models/operations/CreateGroupRequest.java:
-    last_write_checksum: sha1:6820222d02dda25d7aa0921e346e06f56429dc1f
+    last_write_checksum: sha1:3401d3dcc63d16b4d9d0111952e2da86568f8776
   src/main/java/org/noresponse/models/operations/CreateGroupRequestBuilder.java:
-    last_write_checksum: sha1:a26a54d5f557f7a083dc625c86175940d76923d0
+    last_write_checksum: sha1:350ef739c5114049bca99f411b3450308f04ae00
   src/main/java/org/noresponse/models/operations/CreateGroupResponse.java:
     last_write_checksum: sha1:ec55d1d124a6ad5670ee5350e743ed02dd794b40
   src/main/java/org/noresponse/models/operations/CreateIntegrationRequestBuilder.java:
@@ -2241,9 +2241,9 @@ trackedFiles:
   src/main/java/org/noresponse/models/operations/StartScreeningResponse.java:
     last_write_checksum: sha1:7e85926e8ae828fd345f9727a3189d9d70846dba
   src/main/java/org/noresponse/models/operations/StartSearchRequest.java:
-    last_write_checksum: sha1:24e77b67f9ed1a19bf75eac453512ae1e3f860ac
+    last_write_checksum: sha1:ac311e923411e3c9daa36ee279d4f15c616e41c7
   src/main/java/org/noresponse/models/operations/StartSearchRequestBuilder.java:
-    last_write_checksum: sha1:b1bea5c63af788053fa5d4fb8aad460610e80107
+    last_write_checksum: sha1:a05ea9266070a772af265a80c2c47f2b3b98560b
   src/main/java/org/noresponse/models/operations/StartSearchResponse.java:
     last_write_checksum: sha1:ae97401dc97c396f71dbbd958c3177384556d0ea
   src/main/java/org/noresponse/models/operations/SummarizeWorkspaceOperationsRequest.java:
@@ -2349,7 +2349,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/operations/async/CreateCustomerExportResponse.java:
     last_write_checksum: sha1:e899cb3cbe9d398dd5f9e445936a620441e22dcc
   src/main/java/org/noresponse/models/operations/async/CreateGroupRequestBuilder.java:
-    last_write_checksum: sha1:8cca66da4bcbed74a67612f951f78d63783fcc6d
+    last_write_checksum: sha1:2ce3acc3b2e514b2fc3efb3863fa1ed728563a88
   src/main/java/org/noresponse/models/operations/async/CreateGroupResponse.java:
     last_write_checksum: sha1:b4b4557b18f9f453e467077a33f8211dd4a29405
   src/main/java/org/noresponse/models/operations/async/CreateIntegrationRequestBuilder.java:
@@ -2725,7 +2725,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/operations/async/StartScreeningResponse.java:
     last_write_checksum: sha1:40bf02b7b4559c0cebc7783c7b59c08c627f8cca
   src/main/java/org/noresponse/models/operations/async/StartSearchRequestBuilder.java:
-    last_write_checksum: sha1:0f664b95e9d1f09492800c20eefff0bda509df7e
+    last_write_checksum: sha1:4c0e0c57b71802d9d862583003b5a53c4bd4dcb1
   src/main/java/org/noresponse/models/operations/async/StartSearchResponse.java:
     last_write_checksum: sha1:1d78b94465df4e92dbb6208b5c084a835ce33325
   src/main/java/org/noresponse/models/operations/async/SummarizeWorkspaceOperationsRequestBuilder.java:
@@ -3763,7 +3763,7 @@ trackedFiles:
   src/main/java/org/noresponse/operations/CreateCustomerExport.java:
     last_write_checksum: sha1:78d44b41af90286a91551f2113721d229b9a58aa
   src/main/java/org/noresponse/operations/CreateGroup.java:
-    last_write_checksum: sha1:91ad25ea12e0dd829e78253a5d1b0b1bc351e30e
+    last_write_checksum: sha1:4c29cc44f777e38f951bc590624423f86ed08d71
   src/main/java/org/noresponse/operations/CreateIntegration.java:
     last_write_checksum: sha1:3236c29df8d14dd1fbfd1bc6931b819b3a3d15a6
   src/main/java/org/noresponse/operations/CreateInvite.java:
@@ -3953,7 +3953,7 @@ trackedFiles:
   src/main/java/org/noresponse/operations/StartScreening.java:
     last_write_checksum: sha1:e10080485b2010261e1f9c00604bb0b00a7456c9
   src/main/java/org/noresponse/operations/StartSearch.java:
-    last_write_checksum: sha1:fa914cda82d0de214f4413c1f8f800b7ff66873f
+    last_write_checksum: sha1:cdc1b463aa8771aa77502b515a40c6fee91beb4a
   src/main/java/org/noresponse/operations/SummarizeWorkspaceOperations.java:
     last_write_checksum: sha1:7348abc5f0495d6850513a792cf3f888267e67de
   src/main/java/org/noresponse/operations/UpdateAuditRetention.java:
@@ -6466,6 +6466,8 @@ examples:
         path:
           workspace_id: "tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM"
           environment: "live"
+        header:
+          Idempotency-Key: "request-01JA2Z8K6Q4V7W9XBCDEFGHJKM"
       requestBody:
         application/json: {"name": "Annual shareholder meeting", "starts_at": "2026-01-01T00:00:00Z", "ends_at": "2026-01-02T00:00:00Z", "venue": "Example Convention Centre", "host": "Example Holdings", "principals": [{"name": "Alex Principal", "aliases": ["Alex P"]}], "topics": ["executive pay"]}
       responses:
@@ -6668,6 +6670,8 @@ examples:
           environment: "live"
           group_id: "grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM"
           person_id: "per_01JA2Z8K6Q4V7W9XBCDEFGHJKM"
+        header:
+          Idempotency-Key: "request-01JA2Z8K6Q4V7W9XBCDEFGHJKM"
       requestBody:
         application/json: {"record_id": "rec_3f9a1c22d4e5b6a73f9a1c22d4e5b6a7", "field": "username", "table": "FORUM_EXAMPLE_COM_2019"}
       responses:

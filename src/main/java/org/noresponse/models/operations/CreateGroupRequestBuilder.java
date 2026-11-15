@@ -3,6 +3,7 @@ package org.noresponse.models.operations;
 import static org.noresponse.operations.Operations.RequestOperation;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.lang.String;
 import org.noresponse.SDKConfiguration;
 import org.noresponse.models.shared.GroupRequest;
@@ -31,6 +32,12 @@ public class CreateGroupRequestBuilder {
 
     public CreateGroupRequestBuilder environment(@Nonnull KeyEnvironment environment) {
         this.pojoBuilder.environment(environment);
+        this._setterCalled = true;
+        return this;
+    }
+
+    public CreateGroupRequestBuilder idempotencyKey(@Nullable String idempotencyKey) {
+        this.pojoBuilder.idempotencyKey(idempotencyKey);
         this._setterCalled = true;
         return this;
     }
