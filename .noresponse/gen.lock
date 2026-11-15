@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 1ab2c6ed8628c389e577d8fa1513bb35
+  docChecksum: 887b47f37c8b2d2cfd752fa8ff320b2e
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 12.0.12
-  configChecksum: b22eb351dc3fa988a3d42106cd7e91f8
+  releaseVersion: 12.0.13
+  configChecksum: ddcd209a877b82dd34b5668b5ed2d429
 features:
   java:
     additionalDependencies: 0.1.0
@@ -1351,7 +1351,7 @@ trackedFiles:
   docs/models/shared/Source.md:
     last_write_checksum: sha1:c362c9555f421bf5b04df94e230a33199baef98e
   docs/models/shared/SourceId.md:
-    last_write_checksum: sha1:e31505696d41febc3ef872df8f52861f79814933
+    last_write_checksum: sha1:095573caa5d8938abb022ea23c5f4afddcbda46d
   docs/models/shared/Status.md:
     last_write_checksum: sha1:ad9f64543ca6847cd28afed2583cad96cdc05d53
   docs/models/shared/Thresholds.md:
@@ -1489,7 +1489,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:ac2b3f29c0c9f5ac5afcc5f7c7e29084080ff819
+    last_write_checksum: sha1:c169bbcb736e9a1b47da638254ffd282d3ad77cb
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1577,7 +1577,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:4cf6d894b35edf8b6c703c902a8a7b1cf3215e21
+    last_write_checksum: sha1:600850e988bb208b84485e00cf2c4d645272ebdd
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -3611,7 +3611,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/Source.java:
     last_write_checksum: sha1:84767ff11656ea3d7971f2d98cbbed00e3f23572
   src/main/java/org/noresponse/models/shared/SourceId.java:
-    last_write_checksum: sha1:29ec9d8aeab5b299cb69e416763150dfd519ffe8
+    last_write_checksum: sha1:740049511e34f232f345517a98b30241feb656f0
   src/main/java/org/noresponse/models/shared/Status.java:
     last_write_checksum: sha1:5a624d69d234fdb66c613c34c74ab3d6f1d87c9a
   src/main/java/org/noresponse/models/shared/Thresholds.java:
@@ -5563,7 +5563,7 @@ examples:
         application/json: {"version": 157178, "expected_policy_version": 260899, "change_reason": "Adjust thresholds after reviewing retained evidence"}
       responses:
         "200":
-          application/json: {"workspace_id": "tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "environment": "live", "retention_days": 450670, "policy_version": 529327, "updated_by": "nrk_live_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "updated_at": "2026-10-23T09:14:12.000Z", "flows": {"account_creation": {"step_up": 477126, "review": 980395, "default_depth": "quick", "inherits_account_creation": false, "admission": "immediate", "hold_seconds": 948838, "on_expiry": "block"}, "login": {"step_up": 867829, "review": 523593, "default_depth": "quick", "inherits_account_creation": false, "admission": "held", "hold_seconds": 363505, "on_expiry": "block"}, "purchase": {"step_up": 374559, "review": 194632, "default_depth": "quick", "inherits_account_creation": true, "admission": "held", "hold_seconds": 365509, "on_expiry": "allow"}}, "refused_sources": ["okru"], "screening_daily_cap": null}
+          application/json: {"workspace_id": "tnt_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "environment": "live", "retention_days": 450670, "policy_version": 529327, "updated_by": "nrk_live_01JA2Z8K6Q4V7W9XBCDEFGHJKM", "updated_at": "2026-10-23T09:14:12.000Z", "flows": {"account_creation": {"step_up": 477126, "review": 980395, "default_depth": "quick", "inherits_account_creation": false, "admission": "immediate", "hold_seconds": 948838, "on_expiry": "block"}, "login": {"step_up": 867829, "review": 523593, "default_depth": "quick", "inherits_account_creation": false, "admission": "held", "hold_seconds": 363505, "on_expiry": "block"}, "purchase": {"step_up": 374559, "review": 194632, "default_depth": "quick", "inherits_account_creation": true, "admission": "held", "hold_seconds": 365509, "on_expiry": "allow"}}, "refused_sources": ["flickr"], "screening_daily_cap": null}
         "400":
           application/problem+json: {"type": "https://docs.noresponse.org/errors/invalid_request", "title": "Invalid request", "status": 400, "detail": "identifiers: at least one of email, username or phone is required.", "instance": "/v1/assessments", "code": "invalid_idempotency_key", "request_id": "9f2c4b7a1d3e4f5a8b6c0d1e2f3a4b5c", "invalid_params": [{"field": "identifiers", "reason": "at least one of email, username or phone is required", "example": "new.user@example.com"}]}
         "401":
