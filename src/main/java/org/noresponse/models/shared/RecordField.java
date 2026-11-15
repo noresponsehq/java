@@ -57,7 +57,9 @@ public class RecordField {
     /**
      * The value cleaned to its kind's one form: an email in lower case, a phone number in international
      * form when its country is known, a date in ISO form, a country as its two-letter code, a flag as true
-     * or false. Absent when the value cannot be cleaned as its kind; original still holds it.
+     * or false. Absent when the value cannot be cleaned as its kind, or when the source masked it or cut
+     * it short, with a run of asterisks or bullets or a trailing ellipsis, in a kind that links people or
+     * is searched again; original still holds it.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("value")
@@ -144,7 +146,9 @@ public class RecordField {
     /**
      * The value cleaned to its kind's one form: an email in lower case, a phone number in international
      * form when its country is known, a date in ISO form, a country as its two-letter code, a flag as true
-     * or false. Absent when the value cannot be cleaned as its kind; original still holds it.
+     * or false. Absent when the value cannot be cleaned as its kind, or when the source masked it or cut
+     * it short, with a run of asterisks or bullets or a trailing ellipsis, in a kind that links people or
+     * is searched again; original still holds it.
      */
     public Optional<String> value() {
         return Optional.ofNullable(this.value);
@@ -216,7 +220,9 @@ public class RecordField {
     /**
      * The value cleaned to its kind's one form: an email in lower case, a phone number in international
      * form when its country is known, a date in ISO form, a country as its two-letter code, a flag as true
-     * or false. Absent when the value cannot be cleaned as its kind; original still holds it.
+     * or false. Absent when the value cannot be cleaned as its kind, or when the source masked it or cut
+     * it short, with a run of asterisks or bullets or a trailing ellipsis, in a kind that links people or
+     * is searched again; original still holds it.
      */
     public RecordField withValue(@Nullable String value) {
         this.value = value;
@@ -351,7 +357,9 @@ public class RecordField {
         /**
          * The value cleaned to its kind's one form: an email in lower case, a phone number in international
          * form when its country is known, a date in ISO form, a country as its two-letter code, a flag as true
-         * or false. Absent when the value cannot be cleaned as its kind; original still holds it.
+         * or false. Absent when the value cannot be cleaned as its kind, or when the source masked it or cut
+         * it short, with a run of asterisks or bullets or a trailing ellipsis, in a kind that links people or
+         * is searched again; original still holds it.
          */
         public Builder value(@Nullable String value) {
             this.value = value;
