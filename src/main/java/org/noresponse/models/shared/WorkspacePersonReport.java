@@ -135,6 +135,14 @@ public class WorkspacePersonReport {
     @JsonProperty("evidence_investigation")
     private JsonNullable<Investigation> evidenceInvestigation;
 
+    /**
+     * An investigator's profile of this person, written from the evidence of a settled investigation. Null
+     * until an investigation completes or partially completes, and null when evidence.read is denied.
+     */
+    @JsonInclude(Include.ALWAYS)
+    @JsonProperty("written_profile")
+    private JsonNullable<WrittenProfile> writtenProfile;
+
     @JsonCreator
     public WorkspacePersonReport(
             @JsonProperty("external_id") @Nullable String externalId,
@@ -154,7 +162,8 @@ public class WorkspacePersonReport {
             @JsonProperty("media") @Nonnull List<ScreeningMedia> media,
             @JsonProperty("lookup") @Nullable ScreeningLookup lookup,
             @JsonProperty("evidence_restricted") @Nullable Boolean evidenceRestricted,
-            @JsonProperty("evidence_investigation") @Nullable Investigation evidenceInvestigation) {
+            @JsonProperty("evidence_investigation") @Nullable Investigation evidenceInvestigation,
+            @JsonProperty("written_profile") @Nullable WrittenProfile writtenProfile) {
         this.externalId = externalId;
         this.name = name;
         this.email = email;
@@ -178,6 +187,7 @@ public class WorkspacePersonReport {
         this.lookup = lookup;
         this.evidenceRestricted = evidenceRestricted;
         this.evidenceInvestigation = JsonNullable.of(evidenceInvestigation);
+        this.writtenProfile = JsonNullable.of(writtenProfile);
     }
 
     public WorkspacePersonReport(
@@ -205,6 +215,7 @@ public class WorkspacePersonReport {
                 findings,
                 posts,
                 media,
+                null,
                 null,
                 null,
                 null);
@@ -331,6 +342,14 @@ public class WorkspacePersonReport {
      */
     public JsonNullable<Investigation> evidenceInvestigation() {
         return this.evidenceInvestigation;
+    }
+
+    /**
+     * An investigator's profile of this person, written from the evidence of a settled investigation. Null
+     * until an investigation completes or partially completes, and null when evidence.read is denied.
+     */
+    public JsonNullable<WrittenProfile> writtenProfile() {
+        return this.writtenProfile;
     }
 
     public static Builder builder() {
@@ -478,6 +497,15 @@ public class WorkspacePersonReport {
         return this;
     }
 
+    /**
+     * An investigator's profile of this person, written from the evidence of a settled investigation. Null
+     * until an investigation completes or partially completes, and null when evidence.read is denied.
+     */
+    public WorkspacePersonReport withWrittenProfile(@Nullable WrittenProfile writtenProfile) {
+        this.writtenProfile = JsonNullable.of(writtenProfile);
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -504,7 +532,8 @@ public class WorkspacePersonReport {
                 && Utils.enhancedDeepEquals(this.media, other.media)
                 && Utils.enhancedDeepEquals(this.lookup, other.lookup)
                 && Utils.enhancedDeepEquals(this.evidenceRestricted, other.evidenceRestricted)
-                && Utils.enhancedDeepEquals(this.evidenceInvestigation, other.evidenceInvestigation);
+                && Utils.enhancedDeepEquals(this.evidenceInvestigation, other.evidenceInvestigation)
+                && Utils.enhancedDeepEquals(this.writtenProfile, other.writtenProfile);
     }
 
     @Override
@@ -527,7 +556,8 @@ public class WorkspacePersonReport {
                 media,
                 lookup,
                 evidenceRestricted,
-                evidenceInvestigation);
+                evidenceInvestigation,
+                writtenProfile);
     }
 
     @Override
@@ -569,7 +599,9 @@ public class WorkspacePersonReport {
                 "evidenceRestricted",
                 evidenceRestricted,
                 "evidenceInvestigation",
-                evidenceInvestigation);
+                evidenceInvestigation,
+                "writtenProfile",
+                writtenProfile);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -610,6 +642,8 @@ public class WorkspacePersonReport {
         private Boolean evidenceRestricted;
 
         private Investigation evidenceInvestigation;
+
+        private WrittenProfile writtenProfile;
 
         private Builder() {
             // force use of static builder() method
@@ -756,6 +790,15 @@ public class WorkspacePersonReport {
             return this;
         }
 
+        /**
+         * An investigator's profile of this person, written from the evidence of a settled investigation. Null
+         * until an investigation completes or partially completes, and null when evidence.read is denied.
+         */
+        public Builder writtenProfile(@Nullable WrittenProfile writtenProfile) {
+            this.writtenProfile = writtenProfile;
+            return this;
+        }
+
         public WorkspacePersonReport build() {
             return new WorkspacePersonReport(
                     externalId,
@@ -775,7 +818,8 @@ public class WorkspacePersonReport {
                     media,
                     lookup,
                     evidenceRestricted,
-                    evidenceInvestigation);
+                    evidenceInvestigation,
+                    writtenProfile);
         }
     }
 }
