@@ -787,10 +787,11 @@ public class AsyncGroups {
      * registrable domain or a host under one; any other domain answers 400. After a workspace person's own
      * investigation, enrichment also starts searches by itself, with requested_by enrichment, on the
      * distinctive usernames of records more than 0.5 likely to be the person's: each value at most once
-     * per person, at most 5 searches from one search's records and 20 per person, at most 6 searches deep,
-     * within the screening cap. A record a search finds starts from the likelihood of the record it came
-     * from, divided by one plus the results the search found on that site, so a chain grows less likely
-     * with each search and stops.
+     * per person (once more if that search failed), at most 5 searches from one search's records and 20
+     * per person, at most 6 searches deep, within the screening cap; at the cap it waits and tries again
+     * later. A record a search finds starts from the likelihood of the record it came from, divided by one
+     * plus the results the search found on that site, so a chain grows less likely with each search and
+     * stops.
      *
      * <p>Group screening only suggests. The search runs the breach search and the account and phone lookups
      * that take the value's kind, under the environment's source controls, and finishes seconds later. A
@@ -833,10 +834,11 @@ public class AsyncGroups {
      * registrable domain or a host under one; any other domain answers 400. After a workspace person's own
      * investigation, enrichment also starts searches by itself, with requested_by enrichment, on the
      * distinctive usernames of records more than 0.5 likely to be the person's: each value at most once
-     * per person, at most 5 searches from one search's records and 20 per person, at most 6 searches deep,
-     * within the screening cap. A record a search finds starts from the likelihood of the record it came
-     * from, divided by one plus the results the search found on that site, so a chain grows less likely
-     * with each search and stops.
+     * per person (once more if that search failed), at most 5 searches from one search's records and 20
+     * per person, at most 6 searches deep, within the screening cap; at the cap it waits and tries again
+     * later. A record a search finds starts from the likelihood of the record it came from, divided by one
+     * plus the results the search found on that site, so a chain grows less likely with each search and
+     * stops.
      *
      * <p>Group screening only suggests. The search runs the breach search and the account and phone lookups
      * that take the value's kind, under the environment's source controls, and finishes seconds later. A
@@ -883,10 +885,11 @@ public class AsyncGroups {
      * registrable domain or a host under one; any other domain answers 400. After a workspace person's own
      * investigation, enrichment also starts searches by itself, with requested_by enrichment, on the
      * distinctive usernames of records more than 0.5 likely to be the person's: each value at most once
-     * per person, at most 5 searches from one search's records and 20 per person, at most 6 searches deep,
-     * within the screening cap. A record a search finds starts from the likelihood of the record it came
-     * from, divided by one plus the results the search found on that site, so a chain grows less likely
-     * with each search and stops.
+     * per person (once more if that search failed), at most 5 searches from one search's records and 20
+     * per person, at most 6 searches deep, within the screening cap; at the cap it waits and tries again
+     * later. A record a search finds starts from the likelihood of the record it came from, divided by one
+     * plus the results the search found on that site, so a chain grows less likely with each search and
+     * stops.
      *
      * <p>Group screening only suggests. The search runs the breach search and the account and phone lookups
      * that take the value's kind, under the environment's source controls, and finishes seconds later. A
