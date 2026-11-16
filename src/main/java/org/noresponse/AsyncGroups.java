@@ -454,12 +454,15 @@ public class AsyncGroups {
      * current group screening summaries; prior investigation history remains available. Identities are
      * encrypted under the workspace key.
      *
-     * <p>Idempotency-Key is required: the same key and body return the original import result while it is
-     * retained, with Idempotent-Replayed: true. A different body answers 409 idempotency_key_reused. A
-     * group holds at most 20000 people.
+     * <p>Idempotency-Key is required: the same key and body return the original import result with
+     * Idempotent-Replayed: true while its people remain retained. An expired or deleted imported person
+     * answers 404; expired or deleted match suggestions are omitted. A different body answers 409
+     * idempotency_key_reused.
      *
-     * <p>The people_write scope grants this operation; groups is also accepted. Suggested matches require
-     * people-read access. The API key selects the workspace and environment.
+     * <p>A group holds at most 20000 people. The people_write scope grants this operation; groups is also
+     * accepted. Suggested matches require people-read access.
+     *
+     * <p>The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -478,12 +481,15 @@ public class AsyncGroups {
      * current group screening summaries; prior investigation history remains available. Identities are
      * encrypted under the workspace key.
      *
-     * <p>Idempotency-Key is required: the same key and body return the original import result while it is
-     * retained, with Idempotent-Replayed: true. A different body answers 409 idempotency_key_reused. A
-     * group holds at most 20000 people.
+     * <p>Idempotency-Key is required: the same key and body return the original import result with
+     * Idempotent-Replayed: true while its people remain retained. An expired or deleted imported person
+     * answers 404; expired or deleted match suggestions are omitted. A different body answers 409
+     * idempotency_key_reused.
      *
-     * <p>The people_write scope grants this operation; groups is also accepted. Suggested matches require
-     * people-read access. The API key selects the workspace and environment.
+     * <p>A group holds at most 20000 people. The people_write scope grants this operation; groups is also
+     * accepted. Suggested matches require people-read access.
+     *
+     * <p>The API key selects the workspace and environment.
      *
      * @param groupId
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
@@ -506,12 +512,15 @@ public class AsyncGroups {
      * current group screening summaries; prior investigation history remains available. Identities are
      * encrypted under the workspace key.
      *
-     * <p>Idempotency-Key is required: the same key and body return the original import result while it is
-     * retained, with Idempotent-Replayed: true. A different body answers 409 idempotency_key_reused. A
-     * group holds at most 20000 people.
+     * <p>Idempotency-Key is required: the same key and body return the original import result with
+     * Idempotent-Replayed: true while its people remain retained. An expired or deleted imported person
+     * answers 404; expired or deleted match suggestions are omitted. A different body answers 409
+     * idempotency_key_reused.
      *
-     * <p>The people_write scope grants this operation; groups is also accepted. Suggested matches require
-     * people-read access. The API key selects the workspace and environment.
+     * <p>A group holds at most 20000 people. The people_write scope grants this operation; groups is also
+     * accepted. Suggested matches require people-read access.
+     *
+     * <p>The API key selects the workspace and environment.
      *
      * @param groupId
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
