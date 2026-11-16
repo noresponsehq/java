@@ -46,6 +46,7 @@ public class ConflictErrorCode {
     public static final ConflictErrorCode EVALUATION_CONFLICT = new ConflictErrorCode("evaluation_conflict");
     public static final ConflictErrorCode EVALUATION_NO_PROPOSAL = new ConflictErrorCode("evaluation_no_proposal");
     public static final ConflictErrorCode EVALUATION_LIMIT_REACHED = new ConflictErrorCode("evaluation_limit_reached");
+    public static final ConflictErrorCode EVALUATION_UNAVAILABLE = new ConflictErrorCode("evaluation_unavailable");
     public static final ConflictErrorCode ALREADY_MEMBER = new ConflictErrorCode("already_member");
     public static final ConflictErrorCode MEMBER_LIMIT_REACHED = new ConflictErrorCode("member_limit_reached");
     public static final ConflictErrorCode OWNER_INVITE_PENDING = new ConflictErrorCode("owner_invite_pending");
@@ -148,6 +149,7 @@ public class ConflictErrorCode {
         map.put("evaluation_conflict", EVALUATION_CONFLICT);
         map.put("evaluation_no_proposal", EVALUATION_NO_PROPOSAL);
         map.put("evaluation_limit_reached", EVALUATION_LIMIT_REACHED);
+        map.put("evaluation_unavailable", EVALUATION_UNAVAILABLE);
         map.put("already_member", ALREADY_MEMBER);
         map.put("member_limit_reached", MEMBER_LIMIT_REACHED);
         map.put("owner_invite_pending", OWNER_INVITE_PENDING);
@@ -184,6 +186,7 @@ public class ConflictErrorCode {
         map.put("evaluation_conflict", ConflictErrorCodeEnum.EVALUATION_CONFLICT);
         map.put("evaluation_no_proposal", ConflictErrorCodeEnum.EVALUATION_NO_PROPOSAL);
         map.put("evaluation_limit_reached", ConflictErrorCodeEnum.EVALUATION_LIMIT_REACHED);
+        map.put("evaluation_unavailable", ConflictErrorCodeEnum.EVALUATION_UNAVAILABLE);
         map.put("already_member", ConflictErrorCodeEnum.ALREADY_MEMBER);
         map.put("member_limit_reached", ConflictErrorCodeEnum.MEMBER_LIMIT_REACHED);
         map.put("owner_invite_pending", ConflictErrorCodeEnum.OWNER_INVITE_PENDING);
@@ -220,6 +223,7 @@ public class ConflictErrorCode {
         EVALUATION_CONFLICT("evaluation_conflict"),
         EVALUATION_NO_PROPOSAL("evaluation_no_proposal"),
         EVALUATION_LIMIT_REACHED("evaluation_limit_reached"),
+        EVALUATION_UNAVAILABLE("evaluation_unavailable"),
         ALREADY_MEMBER("already_member"),
         MEMBER_LIMIT_REACHED("member_limit_reached"),
         OWNER_INVITE_PENDING("owner_invite_pending"),
