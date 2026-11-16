@@ -66,8 +66,8 @@ public class PersonReport {
     private ScreeningLookup lookup;
 
     /**
-     * The searches people started on this person's values, newest first: each names the value, and the
-     * record and field it came from. Absent when nobody searched.
+     * The searches on this person's values in this group, newest first: each names the value, the record
+     * and field it came from, and the search that found that record. Absent when nothing was searched.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("searches")
@@ -182,8 +182,8 @@ public class PersonReport {
     }
 
     /**
-     * The searches people started on this person's values, newest first: each names the value, and the
-     * record and field it came from. Absent when nobody searched.
+     * The searches on this person's values in this group, newest first: each names the value, the record
+     * and field it came from, and the search that found that record. Absent when nothing was searched.
      */
     public Optional<List<Search>> searches() {
         return Optional.ofNullable(this.searches);
@@ -270,8 +270,8 @@ public class PersonReport {
     }
 
     /**
-     * The searches people started on this person's values, newest first: each names the value, and the
-     * record and field it came from. Absent when nobody searched.
+     * The searches on this person's values in this group, newest first: each names the value, the record
+     * and field it came from, and the search that found that record. Absent when nothing was searched.
      */
     public PersonReport withSearches(@Nullable List<Search> searches) {
         this.searches = searches;
@@ -437,8 +437,8 @@ public class PersonReport {
         }
 
         /**
-         * The searches people started on this person's values, newest first: each names the value, and the
-         * record and field it came from. Absent when nobody searched.
+         * The searches on this person's values in this group, newest first: each names the value, the record
+         * and field it came from, and the search that found that record. Absent when nothing was searched.
          */
         public Builder searches(@Nullable List<Search> searches) {
             this.searches = searches;

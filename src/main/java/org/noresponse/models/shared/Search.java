@@ -15,8 +15,7 @@ import org.noresponse.utils.Utils;
 /**
  * Search
  *
- * <p>One search a person started on a value of one of a person's records. Nothing searches again by
- * itself.
+ * <p>One search on a value of one of a person's records, started by a person or by enrichment.
  */
 public class Search {
 
@@ -115,10 +114,28 @@ public class Search {
     private ErrorCode errorCode;
 
     /**
-     * Who started the search.
+     * Who started the search: the member or key, or enrichment when the engine started it on a value an
+     * earlier result showed.
      */
     @JsonProperty("requested_by")
     private String requestedBy;
+
+    /**
+     * The search that found the record this value came from. Absent when the record came from the person's
+     * investigation.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("parent_search_id")
+    private String parentSearchId;
+
+    /**
+     * How many searches lie between the person's investigation and this one, this one included: 1 for a
+     * value of a record the investigation found, 2 for a value of a record a depth-1 search found, and so
+     * on.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("depth")
+    private Long depth;
 
     @JsonProperty("created_at")
     private String createdAt;
@@ -144,6 +161,8 @@ public class Search {
             @JsonProperty("spent") long spent,
             @JsonProperty("error_code") @Nullable ErrorCode errorCode,
             @JsonProperty("requested_by") @Nonnull String requestedBy,
+            @JsonProperty("parent_search_id") @Nullable String parentSearchId,
+            @JsonProperty("depth") @Nullable Long depth,
             @JsonProperty("created_at") @Nonnull String createdAt,
             @JsonProperty("finished_at") @Nullable String finishedAt) {
         this.searchId = Optional.ofNullable(searchId)
@@ -165,6 +184,8 @@ public class Search {
         this.errorCode = errorCode;
         this.requestedBy = Optional.ofNullable(requestedBy)
                 .orElseThrow(() -> new IllegalArgumentException("requestedBy cannot be null"));
+        this.parentSearchId = parentSearchId;
+        this.depth = depth;
         this.createdAt = Optional.ofNullable(createdAt)
                 .orElseThrow(() -> new IllegalArgumentException("createdAt cannot be null"));
         this.finishedAt = finishedAt;
@@ -200,6 +221,8 @@ public class Search {
                 spent,
                 null,
                 requestedBy,
+                null,
+                null,
                 createdAt,
                 null);
     }
@@ -310,10 +333,28 @@ public class Search {
     }
 
     /**
-     * Who started the search.
+     * Who started the search: the member or key, or enrichment when the engine started it on a value an
+     * earlier result showed.
      */
     public String requestedBy() {
         return this.requestedBy;
+    }
+
+    /**
+     * The search that found the record this value came from. Absent when the record came from the person's
+     * investigation.
+     */
+    public Optional<String> parentSearchId() {
+        return Optional.ofNullable(this.parentSearchId);
+    }
+
+    /**
+     * How many searches lie between the person's investigation and this one, this one included: 1 for a
+     * value of a record the investigation found, 2 for a value of a record a depth-1 search found, and so
+     * on.
+     */
+    public Optional<Long> depth() {
+        return Optional.ofNullable(this.depth);
     }
 
     public String createdAt() {
@@ -448,10 +489,30 @@ public class Search {
     }
 
     /**
-     * Who started the search.
+     * Who started the search: the member or key, or enrichment when the engine started it on a value an
+     * earlier result showed.
      */
     public Search withRequestedBy(@Nonnull String requestedBy) {
         this.requestedBy = Utils.checkNotNull(requestedBy, "requestedBy");
+        return this;
+    }
+
+    /**
+     * The search that found the record this value came from. Absent when the record came from the person's
+     * investigation.
+     */
+    public Search withParentSearchId(@Nullable String parentSearchId) {
+        this.parentSearchId = parentSearchId;
+        return this;
+    }
+
+    /**
+     * How many searches lie between the person's investigation and this one, this one included: 1 for a
+     * value of a record the investigation found, 2 for a value of a record a depth-1 search found, and so
+     * on.
+     */
+    public Search withDepth(@Nullable Long depth) {
+        this.depth = depth;
         return this;
     }
 
@@ -489,6 +550,8 @@ public class Search {
                 && Utils.enhancedDeepEquals(this.spent, other.spent)
                 && Utils.enhancedDeepEquals(this.errorCode, other.errorCode)
                 && Utils.enhancedDeepEquals(this.requestedBy, other.requestedBy)
+                && Utils.enhancedDeepEquals(this.parentSearchId, other.parentSearchId)
+                && Utils.enhancedDeepEquals(this.depth, other.depth)
                 && Utils.enhancedDeepEquals(this.createdAt, other.createdAt)
                 && Utils.enhancedDeepEquals(this.finishedAt, other.finishedAt);
     }
@@ -511,6 +574,8 @@ public class Search {
                 spent,
                 errorCode,
                 requestedBy,
+                parentSearchId,
+                depth,
                 createdAt,
                 finishedAt);
     }
@@ -549,6 +614,10 @@ public class Search {
                 errorCode,
                 "requestedBy",
                 requestedBy,
+                "parentSearchId",
+                parentSearchId,
+                "depth",
+                depth,
                 "createdAt",
                 createdAt,
                 "finishedAt",
@@ -587,6 +656,10 @@ public class Search {
         private ErrorCode errorCode;
 
         private String requestedBy;
+
+        private String parentSearchId;
+
+        private Long depth;
 
         private String createdAt;
 
@@ -716,10 +789,30 @@ public class Search {
         }
 
         /**
-         * Who started the search.
+         * Who started the search: the member or key, or enrichment when the engine started it on a value an
+         * earlier result showed.
          */
         public Builder requestedBy(@Nonnull String requestedBy) {
             this.requestedBy = Utils.checkNotNull(requestedBy, "requestedBy");
+            return this;
+        }
+
+        /**
+         * The search that found the record this value came from. Absent when the record came from the person's
+         * investigation.
+         */
+        public Builder parentSearchId(@Nullable String parentSearchId) {
+            this.parentSearchId = parentSearchId;
+            return this;
+        }
+
+        /**
+         * How many searches lie between the person's investigation and this one, this one included: 1 for a
+         * value of a record the investigation found, 2 for a value of a record a depth-1 search found, and so
+         * on.
+         */
+        public Builder depth(@Nullable Long depth) {
+            this.depth = depth;
             return this;
         }
 
@@ -750,6 +843,8 @@ public class Search {
                     spent,
                     errorCode,
                     requestedBy,
+                    parentSearchId,
+                    depth,
                     createdAt,
                     finishedAt);
         }

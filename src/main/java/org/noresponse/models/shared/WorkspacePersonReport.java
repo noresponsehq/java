@@ -118,6 +118,15 @@ public class WorkspacePersonReport {
     private ScreeningLookup lookup;
 
     /**
+     * Every search on this person's values, newest first, whether a person started it or enrichment did:
+     * each names the value, the record and field it came from, and the search that found that record.
+     * Absent when nothing was searched.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("searches")
+    private List<Search> searches;
+
+    /**
      * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
      * remain available. Collected records, profiles, findings, posts, media, discovered values and
      * free-text decision notes are withheld.
@@ -161,6 +170,7 @@ public class WorkspacePersonReport {
             @JsonProperty("posts") @Nonnull List<ScreeningPost> posts,
             @JsonProperty("media") @Nonnull List<ScreeningMedia> media,
             @JsonProperty("lookup") @Nullable ScreeningLookup lookup,
+            @JsonProperty("searches") @Nullable List<Search> searches,
             @JsonProperty("evidence_restricted") @Nullable Boolean evidenceRestricted,
             @JsonProperty("evidence_investigation") @Nullable Investigation evidenceInvestigation,
             @JsonProperty("written_profile") @Nullable WrittenProfile writtenProfile) {
@@ -185,6 +195,7 @@ public class WorkspacePersonReport {
         this.posts = Optional.ofNullable(posts).orElseThrow(() -> new IllegalArgumentException("posts cannot be null"));
         this.media = Optional.ofNullable(media).orElseThrow(() -> new IllegalArgumentException("media cannot be null"));
         this.lookup = lookup;
+        this.searches = searches;
         this.evidenceRestricted = evidenceRestricted;
         this.evidenceInvestigation = JsonNullable.of(evidenceInvestigation);
         this.writtenProfile = JsonNullable.of(writtenProfile);
@@ -215,6 +226,7 @@ public class WorkspacePersonReport {
                 findings,
                 posts,
                 media,
+                null,
                 null,
                 null,
                 null,
@@ -324,6 +336,15 @@ public class WorkspacePersonReport {
      */
     public Optional<ScreeningLookup> lookup() {
         return Optional.ofNullable(this.lookup);
+    }
+
+    /**
+     * Every search on this person's values, newest first, whether a person started it or enrichment did:
+     * each names the value, the record and field it came from, and the search that found that record.
+     * Absent when nothing was searched.
+     */
+    public Optional<List<Search>> searches() {
+        return Optional.ofNullable(this.searches);
     }
 
     /**
@@ -478,6 +499,16 @@ public class WorkspacePersonReport {
     }
 
     /**
+     * Every search on this person's values, newest first, whether a person started it or enrichment did:
+     * each names the value, the record and field it came from, and the search that found that record.
+     * Absent when nothing was searched.
+     */
+    public WorkspacePersonReport withSearches(@Nullable List<Search> searches) {
+        this.searches = searches;
+        return this;
+    }
+
+    /**
      * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
      * remain available. Collected records, profiles, findings, posts, media, discovered values and
      * free-text decision notes are withheld.
@@ -531,6 +562,7 @@ public class WorkspacePersonReport {
                 && Utils.enhancedDeepEquals(this.posts, other.posts)
                 && Utils.enhancedDeepEquals(this.media, other.media)
                 && Utils.enhancedDeepEquals(this.lookup, other.lookup)
+                && Utils.enhancedDeepEquals(this.searches, other.searches)
                 && Utils.enhancedDeepEquals(this.evidenceRestricted, other.evidenceRestricted)
                 && Utils.enhancedDeepEquals(this.evidenceInvestigation, other.evidenceInvestigation)
                 && Utils.enhancedDeepEquals(this.writtenProfile, other.writtenProfile);
@@ -555,6 +587,7 @@ public class WorkspacePersonReport {
                 posts,
                 media,
                 lookup,
+                searches,
                 evidenceRestricted,
                 evidenceInvestigation,
                 writtenProfile);
@@ -596,6 +629,8 @@ public class WorkspacePersonReport {
                 media,
                 "lookup",
                 lookup,
+                "searches",
+                searches,
                 "evidenceRestricted",
                 evidenceRestricted,
                 "evidenceInvestigation",
@@ -638,6 +673,8 @@ public class WorkspacePersonReport {
         private List<ScreeningMedia> media;
 
         private ScreeningLookup lookup;
+
+        private List<Search> searches;
 
         private Boolean evidenceRestricted;
 
@@ -771,6 +808,16 @@ public class WorkspacePersonReport {
         }
 
         /**
+         * Every search on this person's values, newest first, whether a person started it or enrichment did:
+         * each names the value, the record and field it came from, and the search that found that record.
+         * Absent when nothing was searched.
+         */
+        public Builder searches(@Nullable List<Search> searches) {
+            this.searches = searches;
+            return this;
+        }
+
+        /**
          * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
          * remain available. Collected records, profiles, findings, posts, media, discovered values and
          * free-text decision notes are withheld.
@@ -817,6 +864,7 @@ public class WorkspacePersonReport {
                     posts,
                     media,
                     lookup,
+                    searches,
                     evidenceRestricted,
                     evidenceInvestigation,
                     writtenProfile);
