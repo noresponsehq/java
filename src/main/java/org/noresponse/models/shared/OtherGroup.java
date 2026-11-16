@@ -28,8 +28,12 @@ public class OtherGroup {
     @JsonProperty("group_name")
     private String groupName;
 
+    /**
+     * The other group's optional event start; null for an ongoing group.
+     */
+    @JsonInclude(Include.ALWAYS)
     @JsonProperty("group_starts_at")
-    private String groupStartsAt;
+    private JsonNullable<String> groupStartsAt;
 
     /**
      * The person on that group's list.
@@ -91,7 +95,7 @@ public class OtherGroup {
     public OtherGroup(
             @JsonProperty("group_id") @Nonnull String groupId,
             @JsonProperty("group_name") @Nonnull String groupName,
-            @JsonProperty("group_starts_at") @Nonnull String groupStartsAt,
+            @JsonProperty("group_starts_at") @Nullable String groupStartsAt,
             @JsonProperty("person_id") @Nonnull String personId,
             @JsonProperty("matched_on") @Nonnull List<OtherGroupMatchedOn> matchedOn,
             @JsonProperty("match_state") @Nonnull MatchState matchState,
@@ -104,8 +108,7 @@ public class OtherGroup {
                 Optional.ofNullable(groupId).orElseThrow(() -> new IllegalArgumentException("groupId cannot be null"));
         this.groupName = Optional.ofNullable(groupName)
                 .orElseThrow(() -> new IllegalArgumentException("groupName cannot be null"));
-        this.groupStartsAt = Optional.ofNullable(groupStartsAt)
-                .orElseThrow(() -> new IllegalArgumentException("groupStartsAt cannot be null"));
+        this.groupStartsAt = JsonNullable.of(groupStartsAt);
         this.personId = Optional.ofNullable(personId)
                 .orElseThrow(() -> new IllegalArgumentException("personId cannot be null"));
         this.matchedOn = Optional.ofNullable(matchedOn)
@@ -122,11 +125,10 @@ public class OtherGroup {
     public OtherGroup(
             @Nonnull String groupId,
             @Nonnull String groupName,
-            @Nonnull String groupStartsAt,
             @Nonnull String personId,
             @Nonnull List<OtherGroupMatchedOn> matchedOn,
             @Nonnull MatchState matchState) {
-        this(groupId, groupName, groupStartsAt, personId, matchedOn, matchState, null, null, null, null, null);
+        this(groupId, groupName, null, personId, matchedOn, matchState, null, null, null, null, null);
     }
 
     public String groupId() {
@@ -137,7 +139,10 @@ public class OtherGroup {
         return this.groupName;
     }
 
-    public String groupStartsAt() {
+    /**
+     * The other group's optional event start; null for an ongoing group.
+     */
+    public JsonNullable<String> groupStartsAt() {
         return this.groupStartsAt;
     }
 
@@ -214,8 +219,11 @@ public class OtherGroup {
         return this;
     }
 
-    public OtherGroup withGroupStartsAt(@Nonnull String groupStartsAt) {
-        this.groupStartsAt = Utils.checkNotNull(groupStartsAt, "groupStartsAt");
+    /**
+     * The other group's optional event start; null for an ongoing group.
+     */
+    public OtherGroup withGroupStartsAt(@Nullable String groupStartsAt) {
+        this.groupStartsAt = JsonNullable.of(groupStartsAt);
         return this;
     }
 
@@ -391,8 +399,11 @@ public class OtherGroup {
             return this;
         }
 
-        public Builder groupStartsAt(@Nonnull String groupStartsAt) {
-            this.groupStartsAt = Utils.checkNotNull(groupStartsAt, "groupStartsAt");
+        /**
+         * The other group's optional event start; null for an ongoing group.
+         */
+        public Builder groupStartsAt(@Nullable String groupStartsAt) {
+            this.groupStartsAt = groupStartsAt;
             return this;
         }
 

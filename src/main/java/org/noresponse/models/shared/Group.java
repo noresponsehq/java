@@ -11,11 +11,13 @@ import java.lang.String;
 import java.util.List;
 import java.util.Optional;
 import org.noresponse.utils.Utils;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
  * Group
  *
- * <p>A group and its screening context.
+ * <p>A workspace group for a building, organization or event. Dates are optional and do not control
+ * person retention.
  */
 public class Group {
 
@@ -32,16 +34,18 @@ public class Group {
     private String name;
 
     /**
-     * When the group starts.
+     * Optional event start; null for an ongoing group.
      */
+    @JsonInclude(Include.ALWAYS)
     @JsonProperty("starts_at")
-    private String startsAt;
+    private JsonNullable<String> startsAt;
 
     /**
-     * When the group ends, at or after its start; the start when omitted.
+     * Optional event end; requires starts_at and must be at or after it. Null when no end is set.
      */
+    @JsonInclude(Include.ALWAYS)
     @JsonProperty("ends_at")
-    private String endsAt;
+    private JsonNullable<String> endsAt;
 
     /**
      * Where the group is held.
@@ -98,8 +102,8 @@ public class Group {
             @JsonProperty("id") @Nonnull String id,
             @JsonProperty("environment") @Nonnull AuditSettingsEnvironment environment,
             @JsonProperty("name") @Nonnull String name,
-            @JsonProperty("starts_at") @Nonnull String startsAt,
-            @JsonProperty("ends_at") @Nonnull String endsAt,
+            @JsonProperty("starts_at") @Nullable String startsAt,
+            @JsonProperty("ends_at") @Nullable String endsAt,
             @JsonProperty("venue") @Nullable String venue,
             @JsonProperty("host") @Nullable String host,
             @JsonProperty("principals") @Nonnull List<Principal> principals,
@@ -113,10 +117,8 @@ public class Group {
         this.environment = Optional.ofNullable(environment)
                 .orElseThrow(() -> new IllegalArgumentException("environment cannot be null"));
         this.name = Optional.ofNullable(name).orElseThrow(() -> new IllegalArgumentException("name cannot be null"));
-        this.startsAt = Optional.ofNullable(startsAt)
-                .orElseThrow(() -> new IllegalArgumentException("startsAt cannot be null"));
-        this.endsAt =
-                Optional.ofNullable(endsAt).orElseThrow(() -> new IllegalArgumentException("endsAt cannot be null"));
+        this.startsAt = JsonNullable.of(startsAt);
+        this.endsAt = JsonNullable.of(endsAt);
         this.venue = venue;
         this.host = host;
         this.principals = Optional.ofNullable(principals)
@@ -137,8 +139,6 @@ public class Group {
             @Nonnull String id,
             @Nonnull AuditSettingsEnvironment environment,
             @Nonnull String name,
-            @Nonnull String startsAt,
-            @Nonnull String endsAt,
             @Nonnull List<Principal> principals,
             @Nonnull List<String> topics,
             long people,
@@ -150,8 +150,8 @@ public class Group {
                 id,
                 environment,
                 name,
-                startsAt,
-                endsAt,
+                null,
+                null,
                 null,
                 null,
                 principals,
@@ -179,16 +179,16 @@ public class Group {
     }
 
     /**
-     * When the group starts.
+     * Optional event start; null for an ongoing group.
      */
-    public String startsAt() {
+    public JsonNullable<String> startsAt() {
         return this.startsAt;
     }
 
     /**
-     * When the group ends, at or after its start; the start when omitted.
+     * Optional event end; requires starts_at and must be at or after it. Null when no end is set.
      */
-    public String endsAt() {
+    public JsonNullable<String> endsAt() {
         return this.endsAt;
     }
 
@@ -272,18 +272,18 @@ public class Group {
     }
 
     /**
-     * When the group starts.
+     * Optional event start; null for an ongoing group.
      */
-    public Group withStartsAt(@Nonnull String startsAt) {
-        this.startsAt = Utils.checkNotNull(startsAt, "startsAt");
+    public Group withStartsAt(@Nullable String startsAt) {
+        this.startsAt = JsonNullable.of(startsAt);
         return this;
     }
 
     /**
-     * When the group ends, at or after its start; the start when omitted.
+     * Optional event end; requires starts_at and must be at or after it. Null when no end is set.
      */
-    public Group withEndsAt(@Nonnull String endsAt) {
-        this.endsAt = Utils.checkNotNull(endsAt, "endsAt");
+    public Group withEndsAt(@Nullable String endsAt) {
+        this.endsAt = JsonNullable.of(endsAt);
         return this;
     }
 
@@ -485,18 +485,18 @@ public class Group {
         }
 
         /**
-         * When the group starts.
+         * Optional event start; null for an ongoing group.
          */
-        public Builder startsAt(@Nonnull String startsAt) {
-            this.startsAt = Utils.checkNotNull(startsAt, "startsAt");
+        public Builder startsAt(@Nullable String startsAt) {
+            this.startsAt = startsAt;
             return this;
         }
 
         /**
-         * When the group ends, at or after its start; the start when omitted.
+         * Optional event end; requires starts_at and must be at or after it. Null when no end is set.
          */
-        public Builder endsAt(@Nonnull String endsAt) {
-            this.endsAt = Utils.checkNotNull(endsAt, "endsAt");
+        public Builder endsAt(@Nullable String endsAt) {
+            this.endsAt = endsAt;
             return this;
         }
 

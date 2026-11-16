@@ -11,11 +11,12 @@ import java.lang.String;
 import java.util.List;
 import java.util.Optional;
 import org.noresponse.utils.Utils;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
  * GroupUpdate
  *
- * <p>Changes the fields it names; at least one besides expected_version.
+ * <p>Updates a group. Dates describe an optional event and do not control person retention.
  */
 public class GroupUpdate {
     /**
@@ -26,18 +27,20 @@ public class GroupUpdate {
     private String name;
 
     /**
-     * When the group starts.
+     * Optional event start; null for an ongoing group. Omit to keep the current value; send null to clear
+     * it.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("starts_at")
-    private String startsAt;
+    private JsonNullable<String> startsAt;
 
     /**
-     * When the group ends, at or after its start; the start when omitted.
+     * Optional event end; requires starts_at and must be at or after it. Null when no end is set. Omit to
+     * keep the current value; send null to clear it.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("ends_at")
-    private String endsAt;
+    private JsonNullable<String> endsAt;
 
     /**
      * Where the group is held.
@@ -78,16 +81,16 @@ public class GroupUpdate {
     @JsonCreator
     public GroupUpdate(
             @JsonProperty("name") @Nullable String name,
-            @JsonProperty("starts_at") @Nullable String startsAt,
-            @JsonProperty("ends_at") @Nullable String endsAt,
+            @JsonProperty("starts_at") @Nullable JsonNullable<String> startsAt,
+            @JsonProperty("ends_at") @Nullable JsonNullable<String> endsAt,
             @JsonProperty("venue") @Nullable String venue,
             @JsonProperty("host") @Nullable String host,
             @JsonProperty("principals") @Nullable List<Principal> principals,
             @JsonProperty("topics") @Nullable List<String> topics,
             @JsonProperty("expected_version") @Nullable Long expectedVersion) {
         this.name = name;
-        this.startsAt = startsAt;
-        this.endsAt = endsAt;
+        this.startsAt = Optional.ofNullable(startsAt).orElse(JsonNullable.undefined());
+        this.endsAt = Optional.ofNullable(endsAt).orElse(JsonNullable.undefined());
         this.venue = venue;
         this.host = host;
         this.principals = principals;
@@ -107,17 +110,19 @@ public class GroupUpdate {
     }
 
     /**
-     * When the group starts.
+     * Optional event start; null for an ongoing group. Omit to keep the current value; send null to clear
+     * it.
      */
-    public Optional<String> startsAt() {
-        return Optional.ofNullable(this.startsAt);
+    public JsonNullable<String> startsAt() {
+        return this.startsAt;
     }
 
     /**
-     * When the group ends, at or after its start; the start when omitted.
+     * Optional event end; requires starts_at and must be at or after it. Null when no end is set. Omit to
+     * keep the current value; send null to clear it.
      */
-    public Optional<String> endsAt() {
-        return Optional.ofNullable(this.endsAt);
+    public JsonNullable<String> endsAt() {
+        return this.endsAt;
     }
 
     /**
@@ -169,18 +174,20 @@ public class GroupUpdate {
     }
 
     /**
-     * When the group starts.
+     * Optional event start; null for an ongoing group. Omit to keep the current value; send null to clear
+     * it.
      */
     public GroupUpdate withStartsAt(@Nullable String startsAt) {
-        this.startsAt = startsAt;
+        this.startsAt = JsonNullable.of(startsAt);
         return this;
     }
 
     /**
-     * When the group ends, at or after its start; the start when omitted.
+     * Optional event end; requires starts_at and must be at or after it. Null when no end is set. Omit to
+     * keep the current value; send null to clear it.
      */
     public GroupUpdate withEndsAt(@Nullable String endsAt) {
-        this.endsAt = endsAt;
+        this.endsAt = JsonNullable.of(endsAt);
         return this;
     }
 
@@ -276,9 +283,9 @@ public class GroupUpdate {
 
         private String name;
 
-        private String startsAt;
+        private JsonNullable<String> startsAt;
 
-        private String endsAt;
+        private JsonNullable<String> endsAt;
 
         private String venue;
 
@@ -303,18 +310,20 @@ public class GroupUpdate {
         }
 
         /**
-         * When the group starts.
+         * Optional event start; null for an ongoing group. Omit to keep the current value; send null to clear
+         * it.
          */
         public Builder startsAt(@Nullable String startsAt) {
-            this.startsAt = startsAt;
+            this.startsAt = JsonNullable.of(startsAt);
             return this;
         }
 
         /**
-         * When the group ends, at or after its start; the start when omitted.
+         * Optional event end; requires starts_at and must be at or after it. Null when no end is set. Omit to
+         * keep the current value; send null to clear it.
          */
         public Builder endsAt(@Nullable String endsAt) {
-            this.endsAt = endsAt;
+            this.endsAt = JsonNullable.of(endsAt);
             return this;
         }
 

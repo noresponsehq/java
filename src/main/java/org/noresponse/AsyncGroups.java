@@ -198,7 +198,7 @@ public class AsyncGroups {
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
      * accepted for existing integrations. The API key selects the workspace and environment.
      *
-     * @param body Creates a group.
+     * @param body Creates an ongoing group or an event with optional dates.
      * @return {@code CompletableFuture<CreateGroupResponse>} - The async response
      */
     public CompletableFuture<CreateGroupResponse> create(@Nonnull GroupRequest body) {
@@ -220,7 +220,7 @@ public class AsyncGroups {
      * accepted for existing integrations. The API key selects the workspace and environment.
      *
      * @param idempotencyKey Opaque request key, 16 to 128 characters. Repeating the key and request returns the same resource in its current state while it is retained. A different request with the same key answers 409. Use a new key for a deliberate new operation. Keys are scoped to the environment and operation; person searches also scope them to the group and person.
-     * @param body Creates a group.
+     * @param body Creates an ongoing group or an event with optional dates.
      * @return {@code CompletableFuture<CreateGroupResponse>} - The async response
      */
     public CompletableFuture<CreateGroupResponse> create(@Nullable String idempotencyKey, @Nonnull GroupRequest body) {
@@ -306,7 +306,7 @@ public class AsyncGroups {
      * accepted for existing integrations. The API key selects the workspace and environment.
      *
      * @param groupId
-     * @param body Changes the fields it names; at least one besides expected_version.
+     * @param body Updates a group. Dates describe an optional event and do not control person retention.
      * @return {@code CompletableFuture<UpdateGroupResponse>} - The async response
      */
     public CompletableFuture<UpdateGroupResponse> update(@Nonnull String groupId, @Nonnull GroupUpdate body) {
@@ -323,7 +323,7 @@ public class AsyncGroups {
      * accepted for existing integrations. The API key selects the workspace and environment.
      *
      * @param groupId
-     * @param body Changes the fields it names; at least one besides expected_version.
+     * @param body Updates a group. Dates describe an optional event and do not control person retention.
      * @param options additional options
      * @return {@code CompletableFuture<UpdateGroupResponse>} - The async response
      */
