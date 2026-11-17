@@ -403,7 +403,8 @@ public class AsyncPeople {
      * search's records and 20 per person, at most 6 searches deep, within max_spend and the deadline when
      * set, and within the screening cap; at the screening cap it waits and tries again later. A record a
      * search finds starts from the likelihood of the record it came from, divided by one plus the results
-     * the search found on that site, so a chain grows less likely with each search and stops.
+     * the search found on that site, or anywhere for a name search, so a chain grows less likely with each
+     * search and stops.
      *
      * <p>A group takes mode suggest while the workspace has not set a mode. In suggest mode enrichment starts
      * none by itself, and the person report lists what it would start in suggested_searches. The search
@@ -456,7 +457,8 @@ public class AsyncPeople {
      * search's records and 20 per person, at most 6 searches deep, within max_spend and the deadline when
      * set, and within the screening cap; at the screening cap it waits and tries again later. A record a
      * search finds starts from the likelihood of the record it came from, divided by one plus the results
-     * the search found on that site, so a chain grows less likely with each search and stops.
+     * the search found on that site, or anywhere for a name search, so a chain grows less likely with each
+     * search and stops.
      *
      * <p>A group takes mode suggest while the workspace has not set a mode. In suggest mode enrichment starts
      * none by itself, and the person report lists what it would start in suggested_searches. The search
@@ -512,7 +514,8 @@ public class AsyncPeople {
      * search's records and 20 per person, at most 6 searches deep, within max_spend and the deadline when
      * set, and within the screening cap; at the screening cap it waits and tries again later. A record a
      * search finds starts from the likelihood of the record it came from, divided by one plus the results
-     * the search found on that site, so a chain grows less likely with each search and stops.
+     * the search found on that site, or anywhere for a name search, so a chain grows less likely with each
+     * search and stops.
      *
      * <p>A group takes mode suggest while the workspace has not set a mode. In suggest mode enrichment starts
      * none by itself, and the person report lists what it would start in suggested_searches. The search
