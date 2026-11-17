@@ -74,6 +74,17 @@ public class PersonReport {
     private List<Search> searches;
 
     /**
+     * The searches enrichment would start on this person in this group, likeliest record first. Group
+     * screening follows the environment's enrichment setting, with suggest as its mode while the workspace
+     * has not set one. In off mode the list is empty.
+     *
+     * <p>In suggest mode enrichment starts none of them by itself; in automatic mode it starts them as its
+     * limits allow. Empty when evidence.read is denied.
+     */
+    @JsonProperty("suggested_searches")
+    private List<SuggestedSearch> suggestedSearches;
+
+    /**
      * Where else in the environment the person appears, read live from those groups: deleting one removes
      * it here.
      */
@@ -99,6 +110,7 @@ public class PersonReport {
             @JsonProperty("reviews") @Nonnull List<PersonReview> reviews,
             @JsonProperty("lookup") @Nullable ScreeningLookup lookup,
             @JsonProperty("searches") @Nullable List<Search> searches,
+            @JsonProperty("suggested_searches") @Nonnull List<SuggestedSearch> suggestedSearches,
             @JsonProperty("other_groups") @Nonnull OtherGroups otherGroups,
             @JsonProperty("evidence_restricted") @Nullable Boolean evidenceRestricted) {
         this.person =
@@ -113,6 +125,8 @@ public class PersonReport {
                 Optional.ofNullable(reviews).orElseThrow(() -> new IllegalArgumentException("reviews cannot be null"));
         this.lookup = lookup;
         this.searches = searches;
+        this.suggestedSearches = Optional.ofNullable(suggestedSearches)
+                .orElseThrow(() -> new IllegalArgumentException("suggestedSearches cannot be null"));
         this.otherGroups = Optional.ofNullable(otherGroups)
                 .orElseThrow(() -> new IllegalArgumentException("otherGroups cannot be null"));
         this.evidenceRestricted = evidenceRestricted;
@@ -125,8 +139,9 @@ public class PersonReport {
             @Nonnull List<ScreeningPost> posts,
             @Nonnull List<ScreeningMedia> media,
             @Nonnull List<PersonReview> reviews,
+            @Nonnull List<SuggestedSearch> suggestedSearches,
             @Nonnull OtherGroups otherGroups) {
-        this(person, profiles, findings, posts, media, reviews, null, null, otherGroups, null);
+        this(person, profiles, findings, posts, media, reviews, null, null, suggestedSearches, otherGroups, null);
     }
 
     /**
@@ -187,6 +202,18 @@ public class PersonReport {
      */
     public Optional<List<Search>> searches() {
         return Optional.ofNullable(this.searches);
+    }
+
+    /**
+     * The searches enrichment would start on this person in this group, likeliest record first. Group
+     * screening follows the environment's enrichment setting, with suggest as its mode while the workspace
+     * has not set one. In off mode the list is empty.
+     *
+     * <p>In suggest mode enrichment starts none of them by itself; in automatic mode it starts them as its
+     * limits allow. Empty when evidence.read is denied.
+     */
+    public List<SuggestedSearch> suggestedSearches() {
+        return this.suggestedSearches;
     }
 
     /**
@@ -279,6 +306,19 @@ public class PersonReport {
     }
 
     /**
+     * The searches enrichment would start on this person in this group, likeliest record first. Group
+     * screening follows the environment's enrichment setting, with suggest as its mode while the workspace
+     * has not set one. In off mode the list is empty.
+     *
+     * <p>In suggest mode enrichment starts none of them by itself; in automatic mode it starts them as its
+     * limits allow. Empty when evidence.read is denied.
+     */
+    public PersonReport withSuggestedSearches(@Nonnull List<SuggestedSearch> suggestedSearches) {
+        this.suggestedSearches = Utils.checkNotNull(suggestedSearches, "suggestedSearches");
+        return this;
+    }
+
+    /**
      * Where else in the environment the person appears, read live from those groups: deleting one removes
      * it here.
      */
@@ -314,6 +354,7 @@ public class PersonReport {
                 && Utils.enhancedDeepEquals(this.reviews, other.reviews)
                 && Utils.enhancedDeepEquals(this.lookup, other.lookup)
                 && Utils.enhancedDeepEquals(this.searches, other.searches)
+                && Utils.enhancedDeepEquals(this.suggestedSearches, other.suggestedSearches)
                 && Utils.enhancedDeepEquals(this.otherGroups, other.otherGroups)
                 && Utils.enhancedDeepEquals(this.evidenceRestricted, other.evidenceRestricted);
     }
@@ -321,7 +362,17 @@ public class PersonReport {
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                person, profiles, findings, posts, media, reviews, lookup, searches, otherGroups, evidenceRestricted);
+                person,
+                profiles,
+                findings,
+                posts,
+                media,
+                reviews,
+                lookup,
+                searches,
+                suggestedSearches,
+                otherGroups,
+                evidenceRestricted);
     }
 
     @Override
@@ -344,6 +395,8 @@ public class PersonReport {
                 lookup,
                 "searches",
                 searches,
+                "suggestedSearches",
+                suggestedSearches,
                 "otherGroups",
                 otherGroups,
                 "evidenceRestricted",
@@ -368,6 +421,8 @@ public class PersonReport {
         private ScreeningLookup lookup;
 
         private List<Search> searches;
+
+        private List<SuggestedSearch> suggestedSearches;
 
         private OtherGroups otherGroups;
 
@@ -446,6 +501,19 @@ public class PersonReport {
         }
 
         /**
+         * The searches enrichment would start on this person in this group, likeliest record first. Group
+         * screening follows the environment's enrichment setting, with suggest as its mode while the workspace
+         * has not set one. In off mode the list is empty.
+         *
+         * <p>In suggest mode enrichment starts none of them by itself; in automatic mode it starts them as its
+         * limits allow. Empty when evidence.read is denied.
+         */
+        public Builder suggestedSearches(@Nonnull List<SuggestedSearch> suggestedSearches) {
+            this.suggestedSearches = Utils.checkNotNull(suggestedSearches, "suggestedSearches");
+            return this;
+        }
+
+        /**
          * Where else in the environment the person appears, read live from those groups: deleting one removes
          * it here.
          */
@@ -474,6 +542,7 @@ public class PersonReport {
                     reviews,
                     lookup,
                     searches,
+                    suggestedSearches,
                     otherGroups,
                     evidenceRestricted);
         }

@@ -93,14 +93,15 @@ public class Settings {
     private JsonNullable<Long> screeningDailyCap;
 
     /**
-     * How enrichment searches the values a standalone investigation of a workspace person finds (POST
-     * /v1/investigations); group screening only suggests. Defaults: mode automatic, min_likelihood 0.5,
-     * kinds username, max_spend null and deadline null. An investigation request may override each field
-     * for that investigation.
+     * How enrichment searches the values that a workspace person's own investigation (POST
+     * /v1/investigations) and a group's screening find. Defaults: mode automatic, min_likelihood 0.5,
+     * kinds username, max_spend null and deadline null. Group screening follows the same setting, but
+     * takes mode suggest while the workspace has not set a mode.
      *
-     * <p>A change applies to the next search enrichment starts, investigations already run included.
-     * Enrichment also keeps to limits of its own: each value once per person (once more if that search
-     * failed), at most 5 searches from one search's records, 20 per person and 6 searches deep.
+     * <p>An investigation request may override each field for that investigation. A change applies to the
+     * next search enrichment starts, investigations already run included. Enrichment also keeps to limits
+     * of its own: each value once per person (once more if that search failed), at most 5 searches from
+     * one search's records, 20 per person and 6 searches deep.
      */
     @JsonProperty("enrichment")
     private Enrichment enrichment;
@@ -227,14 +228,15 @@ public class Settings {
     }
 
     /**
-     * How enrichment searches the values a standalone investigation of a workspace person finds (POST
-     * /v1/investigations); group screening only suggests. Defaults: mode automatic, min_likelihood 0.5,
-     * kinds username, max_spend null and deadline null. An investigation request may override each field
-     * for that investigation.
+     * How enrichment searches the values that a workspace person's own investigation (POST
+     * /v1/investigations) and a group's screening find. Defaults: mode automatic, min_likelihood 0.5,
+     * kinds username, max_spend null and deadline null. Group screening follows the same setting, but
+     * takes mode suggest while the workspace has not set a mode.
      *
-     * <p>A change applies to the next search enrichment starts, investigations already run included.
-     * Enrichment also keeps to limits of its own: each value once per person (once more if that search
-     * failed), at most 5 searches from one search's records, 20 per person and 6 searches deep.
+     * <p>An investigation request may override each field for that investigation. A change applies to the
+     * next search enrichment starts, investigations already run included. Enrichment also keeps to limits
+     * of its own: each value once per person (once more if that search failed), at most 5 searches from
+     * one search's records, 20 per person and 6 searches deep.
      */
     public Enrichment enrichment() {
         return this.enrichment;
@@ -326,14 +328,15 @@ public class Settings {
     }
 
     /**
-     * How enrichment searches the values a standalone investigation of a workspace person finds (POST
-     * /v1/investigations); group screening only suggests. Defaults: mode automatic, min_likelihood 0.5,
-     * kinds username, max_spend null and deadline null. An investigation request may override each field
-     * for that investigation.
+     * How enrichment searches the values that a workspace person's own investigation (POST
+     * /v1/investigations) and a group's screening find. Defaults: mode automatic, min_likelihood 0.5,
+     * kinds username, max_spend null and deadline null. Group screening follows the same setting, but
+     * takes mode suggest while the workspace has not set a mode.
      *
-     * <p>A change applies to the next search enrichment starts, investigations already run included.
-     * Enrichment also keeps to limits of its own: each value once per person (once more if that search
-     * failed), at most 5 searches from one search's records, 20 per person and 6 searches deep.
+     * <p>An investigation request may override each field for that investigation. A change applies to the
+     * next search enrichment starts, investigations already run included. Enrichment also keeps to limits
+     * of its own: each value once per person (once more if that search failed), at most 5 searches from
+     * one search's records, 20 per person and 6 searches deep.
      */
     public Settings withEnrichment(@Nonnull Enrichment enrichment) {
         this.enrichment = Utils.checkNotNull(enrichment, "enrichment");
@@ -511,14 +514,15 @@ public class Settings {
         }
 
         /**
-         * How enrichment searches the values a standalone investigation of a workspace person finds (POST
-         * /v1/investigations); group screening only suggests. Defaults: mode automatic, min_likelihood 0.5,
-         * kinds username, max_spend null and deadline null. An investigation request may override each field
-         * for that investigation.
+         * How enrichment searches the values that a workspace person's own investigation (POST
+         * /v1/investigations) and a group's screening find. Defaults: mode automatic, min_likelihood 0.5,
+         * kinds username, max_spend null and deadline null. Group screening follows the same setting, but
+         * takes mode suggest while the workspace has not set a mode.
          *
-         * <p>A change applies to the next search enrichment starts, investigations already run included.
-         * Enrichment also keeps to limits of its own: each value once per person (once more if that search
-         * failed), at most 5 searches from one search's records, 20 per person and 6 searches deep.
+         * <p>An investigation request may override each field for that investigation. A change applies to the
+         * next search enrichment starts, investigations already run included. Enrichment also keeps to limits
+         * of its own: each value once per person (once more if that search failed), at most 5 searches from
+         * one search's records, 20 per person and 6 searches deep.
          */
         public Builder enrichment(@Nonnull Enrichment enrichment) {
             this.enrichment = Utils.checkNotNull(enrichment, "enrichment");

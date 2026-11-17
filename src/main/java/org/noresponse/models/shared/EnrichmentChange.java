@@ -22,9 +22,12 @@ import org.openapitools.jackson.nullable.JsonNullable;
  */
 public class EnrichmentChange {
     /**
-     * off: enrichment starts no search. suggest: enrichment starts no search by itself. automatic: after a
-     * workspace person's own investigation, and each time a search on that person finishes, enrichment
-     * starts searches by itself.
+     * off: enrichment starts no search and suggests none. suggest: enrichment starts no search by itself,
+     * and the person report lists the searches it would start in suggested_searches. automatic: after a
+     * workspace person's own investigation or a group's screening, and each time a search on that person
+     * finishes, enrichment starts searches by itself.
+     *
+     * <p>A group takes suggest while the workspace has not set a mode.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("mode")
@@ -82,9 +85,12 @@ public class EnrichmentChange {
     }
 
     /**
-     * off: enrichment starts no search. suggest: enrichment starts no search by itself. automatic: after a
-     * workspace person's own investigation, and each time a search on that person finishes, enrichment
-     * starts searches by itself.
+     * off: enrichment starts no search and suggests none. suggest: enrichment starts no search by itself,
+     * and the person report lists the searches it would start in suggested_searches. automatic: after a
+     * workspace person's own investigation or a group's screening, and each time a search on that person
+     * finishes, enrichment starts searches by itself.
+     *
+     * <p>A group takes suggest while the workspace has not set a mode.
      */
     public Optional<EnrichmentMode> mode() {
         return Optional.ofNullable(this.mode);
@@ -128,9 +134,12 @@ public class EnrichmentChange {
     }
 
     /**
-     * off: enrichment starts no search. suggest: enrichment starts no search by itself. automatic: after a
-     * workspace person's own investigation, and each time a search on that person finishes, enrichment
-     * starts searches by itself.
+     * off: enrichment starts no search and suggests none. suggest: enrichment starts no search by itself,
+     * and the person report lists the searches it would start in suggested_searches. automatic: after a
+     * workspace person's own investigation or a group's screening, and each time a search on that person
+     * finishes, enrichment starts searches by itself.
+     *
+     * <p>A group takes suggest while the workspace has not set a mode.
      */
     public EnrichmentChange withMode(@Nullable EnrichmentMode mode) {
         this.mode = mode;
@@ -229,9 +238,12 @@ public class EnrichmentChange {
         }
 
         /**
-         * off: enrichment starts no search. suggest: enrichment starts no search by itself. automatic: after a
-         * workspace person's own investigation, and each time a search on that person finishes, enrichment
-         * starts searches by itself.
+         * off: enrichment starts no search and suggests none. suggest: enrichment starts no search by itself,
+         * and the person report lists the searches it would start in suggested_searches. automatic: after a
+         * workspace person's own investigation or a group's screening, and each time a search on that person
+         * finishes, enrichment starts searches by itself.
+         *
+         * <p>A group takes suggest while the workspace has not set a mode.
          */
         public Builder mode(@Nullable EnrichmentMode mode) {
             this.mode = mode;

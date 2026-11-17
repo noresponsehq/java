@@ -127,6 +127,16 @@ public class WorkspacePersonReport {
     private List<Search> searches;
 
     /**
+     * The searches enrichment would start on this person, likeliest record first, under the environment's
+     * enrichment setting for a person's own investigation. In off mode the list is empty. In suggest mode
+     * enrichment starts none of them by itself; in automatic mode it starts them as its limits allow.
+     *
+     * <p>Empty when evidence.read is denied.
+     */
+    @JsonProperty("suggested_searches")
+    private List<SuggestedSearch> suggestedSearches;
+
+    /**
      * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
      * remain available. Collected records, profiles, findings, posts, media, discovered values and
      * free-text decision notes are withheld.
@@ -171,6 +181,7 @@ public class WorkspacePersonReport {
             @JsonProperty("media") @Nonnull List<ScreeningMedia> media,
             @JsonProperty("lookup") @Nullable ScreeningLookup lookup,
             @JsonProperty("searches") @Nullable List<Search> searches,
+            @JsonProperty("suggested_searches") @Nonnull List<SuggestedSearch> suggestedSearches,
             @JsonProperty("evidence_restricted") @Nullable Boolean evidenceRestricted,
             @JsonProperty("evidence_investigation") @Nullable Investigation evidenceInvestigation,
             @JsonProperty("written_profile") @Nullable WrittenProfile writtenProfile) {
@@ -196,6 +207,8 @@ public class WorkspacePersonReport {
         this.media = Optional.ofNullable(media).orElseThrow(() -> new IllegalArgumentException("media cannot be null"));
         this.lookup = lookup;
         this.searches = searches;
+        this.suggestedSearches = Optional.ofNullable(suggestedSearches)
+                .orElseThrow(() -> new IllegalArgumentException("suggestedSearches cannot be null"));
         this.evidenceRestricted = evidenceRestricted;
         this.evidenceInvestigation = JsonNullable.of(evidenceInvestigation);
         this.writtenProfile = JsonNullable.of(writtenProfile);
@@ -209,7 +222,8 @@ public class WorkspacePersonReport {
             @Nonnull List<ScreeningProfile> profiles,
             @Nonnull List<ScreeningFinding> findings,
             @Nonnull List<ScreeningPost> posts,
-            @Nonnull List<ScreeningMedia> media) {
+            @Nonnull List<ScreeningMedia> media,
+            @Nonnull List<SuggestedSearch> suggestedSearches) {
         this(
                 null,
                 null,
@@ -228,6 +242,7 @@ public class WorkspacePersonReport {
                 media,
                 null,
                 null,
+                suggestedSearches,
                 null,
                 null,
                 null);
@@ -345,6 +360,17 @@ public class WorkspacePersonReport {
      */
     public Optional<List<Search>> searches() {
         return Optional.ofNullable(this.searches);
+    }
+
+    /**
+     * The searches enrichment would start on this person, likeliest record first, under the environment's
+     * enrichment setting for a person's own investigation. In off mode the list is empty. In suggest mode
+     * enrichment starts none of them by itself; in automatic mode it starts them as its limits allow.
+     *
+     * <p>Empty when evidence.read is denied.
+     */
+    public List<SuggestedSearch> suggestedSearches() {
+        return this.suggestedSearches;
     }
 
     /**
@@ -509,6 +535,18 @@ public class WorkspacePersonReport {
     }
 
     /**
+     * The searches enrichment would start on this person, likeliest record first, under the environment's
+     * enrichment setting for a person's own investigation. In off mode the list is empty. In suggest mode
+     * enrichment starts none of them by itself; in automatic mode it starts them as its limits allow.
+     *
+     * <p>Empty when evidence.read is denied.
+     */
+    public WorkspacePersonReport withSuggestedSearches(@Nonnull List<SuggestedSearch> suggestedSearches) {
+        this.suggestedSearches = Utils.checkNotNull(suggestedSearches, "suggestedSearches");
+        return this;
+    }
+
+    /**
      * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
      * remain available. Collected records, profiles, findings, posts, media, discovered values and
      * free-text decision notes are withheld.
@@ -563,6 +601,7 @@ public class WorkspacePersonReport {
                 && Utils.enhancedDeepEquals(this.media, other.media)
                 && Utils.enhancedDeepEquals(this.lookup, other.lookup)
                 && Utils.enhancedDeepEquals(this.searches, other.searches)
+                && Utils.enhancedDeepEquals(this.suggestedSearches, other.suggestedSearches)
                 && Utils.enhancedDeepEquals(this.evidenceRestricted, other.evidenceRestricted)
                 && Utils.enhancedDeepEquals(this.evidenceInvestigation, other.evidenceInvestigation)
                 && Utils.enhancedDeepEquals(this.writtenProfile, other.writtenProfile);
@@ -588,6 +627,7 @@ public class WorkspacePersonReport {
                 media,
                 lookup,
                 searches,
+                suggestedSearches,
                 evidenceRestricted,
                 evidenceInvestigation,
                 writtenProfile);
@@ -631,6 +671,8 @@ public class WorkspacePersonReport {
                 lookup,
                 "searches",
                 searches,
+                "suggestedSearches",
+                suggestedSearches,
                 "evidenceRestricted",
                 evidenceRestricted,
                 "evidenceInvestigation",
@@ -675,6 +717,8 @@ public class WorkspacePersonReport {
         private ScreeningLookup lookup;
 
         private List<Search> searches;
+
+        private List<SuggestedSearch> suggestedSearches;
 
         private Boolean evidenceRestricted;
 
@@ -818,6 +862,18 @@ public class WorkspacePersonReport {
         }
 
         /**
+         * The searches enrichment would start on this person, likeliest record first, under the environment's
+         * enrichment setting for a person's own investigation. In off mode the list is empty. In suggest mode
+         * enrichment starts none of them by itself; in automatic mode it starts them as its limits allow.
+         *
+         * <p>Empty when evidence.read is denied.
+         */
+        public Builder suggestedSearches(@Nonnull List<SuggestedSearch> suggestedSearches) {
+            this.suggestedSearches = Utils.checkNotNull(suggestedSearches, "suggestedSearches");
+            return this;
+        }
+
+        /**
          * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
          * remain available. Collected records, profiles, findings, posts, media, discovered values and
          * free-text decision notes are withheld.
@@ -865,6 +921,7 @@ public class WorkspacePersonReport {
                     media,
                     lookup,
                     searches,
+                    suggestedSearches,
                     evidenceRestricted,
                     evidenceInvestigation,
                     writtenProfile);
