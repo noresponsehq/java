@@ -10,6 +10,7 @@ Workspace people, submitted identity, source evidence and expiry.
 * [create](#create) - Create or reuse a workspace person.
 * [get](#get) - Read a workspace person.
 * [delete](#delete) - Delete a workspace person.
+* [judgeRecord](#judgerecord) - Join one of a workspace person's records to them, or reject it.
 
 ## list
 
@@ -248,6 +249,74 @@ public class Application {
 ### Response
 
 **[DeleteWorkspacePersonResponse](../../models/operations/DeleteWorkspacePersonResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## judgeRecord
+
+Records a verdict on one of the records the person report holds: joined makes the record the person's whatever its likelihood, and rejected keeps it a lead that leads nowhere. The verdict belongs to the person on their own: the person report and enrichment follow it, and each group keeps its own verdicts. It sticks for as long as the person's evidence holds the same record, and a later verdict on the same record replaces it. After each verdict, enrichment reads the person again under the environment's enrichment setting: it starts no search from a rejected record or from what a search of it found, and a joined record's values lead on. A record the person report does not hold answers 404. Each verdict is audited as person.record_judged. The decisions scope grants this operation. Explicit evidence.read restrictions override default evidence access. The groups scope is also accepted for existing integrations. The API key selects the workspace and environment.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="judgeWorkspacePersonRecord" method="post" path="/v1/people/{person_id}/records" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.JudgeWorkspacePersonRecordResponse;
+import org.noresponse.models.shared.RecordVerdictRequest;
+import org.noresponse.models.shared.Verdict;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        JudgeWorkspacePersonRecordResponse res = sdk.people().judgeRecord()
+                .personId("per_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .body(RecordVerdictRequest.builder()
+                    .recordId("rec_3f9a1c22d4e5b6a73f9a1c22d4e5b6a7")
+                    .verdict(Verdict.REJECTED)
+                    .build())
+                .call();
+
+        if (res.recordVerdict().isPresent()) {
+            System.out.println(res.recordVerdict().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         | Example                                                             |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `personId`                                                          | *String*                                                            | :heavy_check_mark:                                                  | N/A                                                                 | per_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                      |
+| `body`                                                              | [RecordVerdictRequest](../../models/shared/RecordVerdictRequest.md) | :heavy_check_mark:                                                  | N/A                                                                 |                                                                     |
+
+### Response
+
+**[JudgeWorkspacePersonRecordResponse](../../models/operations/JudgeWorkspacePersonRecordResponse.md)**
 
 ### Errors
 

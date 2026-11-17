@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import org.noresponse.models.operations.CreateWorkspacePersonRequest;
 import org.noresponse.models.operations.DeleteWorkspacePersonRequest;
 import org.noresponse.models.operations.GetWorkspacePersonRequest;
+import org.noresponse.models.operations.JudgeWorkspacePersonRecordRequest;
 import org.noresponse.models.operations.ListWorkspacePeopleRequest;
 import org.noresponse.models.operations.async.CreateWorkspacePersonRequestBuilder;
 import org.noresponse.models.operations.async.CreateWorkspacePersonResponse;
@@ -17,12 +18,16 @@ import org.noresponse.models.operations.async.DeleteWorkspacePersonRequestBuilde
 import org.noresponse.models.operations.async.DeleteWorkspacePersonResponse;
 import org.noresponse.models.operations.async.GetWorkspacePersonRequestBuilder;
 import org.noresponse.models.operations.async.GetWorkspacePersonResponse;
+import org.noresponse.models.operations.async.JudgeWorkspacePersonRecordRequestBuilder;
+import org.noresponse.models.operations.async.JudgeWorkspacePersonRecordResponse;
 import org.noresponse.models.operations.async.ListWorkspacePeopleRequestBuilder;
 import org.noresponse.models.operations.async.ListWorkspacePeopleResponse;
+import org.noresponse.models.shared.RecordVerdictRequest;
 import org.noresponse.models.shared.WorkspacePersonRequest;
 import org.noresponse.operations.CreateWorkspacePerson;
 import org.noresponse.operations.DeleteWorkspacePerson;
 import org.noresponse.operations.GetWorkspacePerson;
+import org.noresponse.operations.JudgeWorkspacePersonRecord;
 import org.noresponse.operations.ListWorkspacePeople;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
@@ -280,6 +285,91 @@ public class AsyncPeople {
         DeleteWorkspacePersonRequest request = new DeleteWorkspacePersonRequest(personId);
         AsyncRequestOperation<DeleteWorkspacePersonRequest, DeleteWorkspacePersonResponse> operation =
                 new DeleteWorkspacePerson.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Join one of a workspace person's records to them, or reject it.
+     *
+     * <p>Records a verdict on one of the records the person report holds: joined makes the record the
+     * person's whatever its likelihood, and rejected keeps it a lead that leads nowhere. The verdict
+     * belongs to the person on their own: the person report and enrichment follow it, and each group keeps
+     * its own verdicts. It sticks for as long as the person's evidence holds the same record, and a later
+     * verdict on the same record replaces it.
+     *
+     * <p>After each verdict, enrichment reads the person again under the environment's enrichment setting: it
+     * starts no search from a rejected record or from what a search of it found, and a joined record's
+     * values lead on. A record the person report does not hold answers 404. Each verdict is audited as
+     * person.record_judged.
+     *
+     * <p>The decisions scope grants this operation. Explicit evidence.read restrictions override default
+     * evidence access. The groups scope is also accepted for existing integrations.
+     *
+     * <p>The API key selects the workspace and environment.
+     *
+     * @return The async call builder
+     */
+    public JudgeWorkspacePersonRecordRequestBuilder judgeRecord() {
+        return new JudgeWorkspacePersonRecordRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Join one of a workspace person's records to them, or reject it.
+     *
+     * <p>Records a verdict on one of the records the person report holds: joined makes the record the
+     * person's whatever its likelihood, and rejected keeps it a lead that leads nowhere. The verdict
+     * belongs to the person on their own: the person report and enrichment follow it, and each group keeps
+     * its own verdicts. It sticks for as long as the person's evidence holds the same record, and a later
+     * verdict on the same record replaces it.
+     *
+     * <p>After each verdict, enrichment reads the person again under the environment's enrichment setting: it
+     * starts no search from a rejected record or from what a search of it found, and a joined record's
+     * values lead on. A record the person report does not hold answers 404. Each verdict is audited as
+     * person.record_judged.
+     *
+     * <p>The decisions scope grants this operation. Explicit evidence.read restrictions override default
+     * evidence access. The groups scope is also accepted for existing integrations.
+     *
+     * <p>The API key selects the workspace and environment.
+     *
+     * @param personId
+     * @param body A reviewer's verdict on whether one of a person's lookup records is theirs.
+     * @return {@code CompletableFuture<JudgeWorkspacePersonRecordResponse>} - The async response
+     */
+    public CompletableFuture<JudgeWorkspacePersonRecordResponse> judgeRecord(
+            @Nonnull String personId, @Nonnull RecordVerdictRequest body) {
+        return judgeRecord(personId, body, null);
+    }
+
+    /**
+     * Join one of a workspace person's records to them, or reject it.
+     *
+     * <p>Records a verdict on one of the records the person report holds: joined makes the record the
+     * person's whatever its likelihood, and rejected keeps it a lead that leads nowhere. The verdict
+     * belongs to the person on their own: the person report and enrichment follow it, and each group keeps
+     * its own verdicts. It sticks for as long as the person's evidence holds the same record, and a later
+     * verdict on the same record replaces it.
+     *
+     * <p>After each verdict, enrichment reads the person again under the environment's enrichment setting: it
+     * starts no search from a rejected record or from what a search of it found, and a joined record's
+     * values lead on. A record the person report does not hold answers 404. Each verdict is audited as
+     * person.record_judged.
+     *
+     * <p>The decisions scope grants this operation. Explicit evidence.read restrictions override default
+     * evidence access. The groups scope is also accepted for existing integrations.
+     *
+     * <p>The API key selects the workspace and environment.
+     *
+     * @param personId
+     * @param body A reviewer's verdict on whether one of a person's lookup records is theirs.
+     * @param options additional options
+     * @return {@code CompletableFuture<JudgeWorkspacePersonRecordResponse>} - The async response
+     */
+    public CompletableFuture<JudgeWorkspacePersonRecordResponse> judgeRecord(
+            @Nonnull String personId, @Nonnull RecordVerdictRequest body, @Nullable Options options) {
+        JudgeWorkspacePersonRecordRequest request = new JudgeWorkspacePersonRecordRequest(personId, body);
+        AsyncRequestOperation<JudgeWorkspacePersonRecordRequest, JudgeWorkspacePersonRecordResponse> operation =
+                new JudgeWorkspacePersonRecord.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 }
