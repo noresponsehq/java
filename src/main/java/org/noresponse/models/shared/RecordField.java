@@ -77,7 +77,8 @@ public class RecordField {
     /**
      * How distinctive a searchable value is: an email, phone, username, password, hash, person name or IP.
      * Absent for other values, for a field with no value, and when its rating could not be worked out,
-     * such as when a count failed.
+     * such as when a count failed. Linkage weighs a password, hash or username by these numbers: the rarer
+     * the value, the more a shared one counts.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("distinctive")
@@ -168,7 +169,8 @@ public class RecordField {
     /**
      * How distinctive a searchable value is: an email, phone, username, password, hash, person name or IP.
      * Absent for other values, for a field with no value, and when its rating could not be worked out,
-     * such as when a count failed.
+     * such as when a count failed. Linkage weighs a password, hash or username by these numbers: the rarer
+     * the value, the more a shared one counts.
      */
     public Optional<RecordDistinctive> distinctive() {
         return Optional.ofNullable(this.distinctive);
@@ -246,7 +248,8 @@ public class RecordField {
     /**
      * How distinctive a searchable value is: an email, phone, username, password, hash, person name or IP.
      * Absent for other values, for a field with no value, and when its rating could not be worked out,
-     * such as when a count failed.
+     * such as when a count failed. Linkage weighs a password, hash or username by these numbers: the rarer
+     * the value, the more a shared one counts.
      */
     public RecordField withDistinctive(@Nullable RecordDistinctive distinctive) {
         this.distinctive = distinctive;
@@ -385,7 +388,8 @@ public class RecordField {
         /**
          * How distinctive a searchable value is: an email, phone, username, password, hash, person name or IP.
          * Absent for other values, for a field with no value, and when its rating could not be worked out,
-         * such as when a count failed.
+         * such as when a count failed. Linkage weighs a password, hash or username by these numbers: the rarer
+         * the value, the more a shared one counts.
          */
         public Builder distinctive(@Nullable RecordDistinctive distinctive) {
             this.distinctive = distinctive;
