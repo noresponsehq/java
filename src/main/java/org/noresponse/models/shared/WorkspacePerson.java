@@ -54,6 +54,14 @@ public class WorkspacePerson {
     private String city;
 
     /**
+     * A username the person uses, with no platform. A search looks it up on every platform that finds
+     * accounts by username.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("username")
+    private String username;
+
+    /**
      * Accounts the person is known to hold, at most 20.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -84,6 +92,7 @@ public class WorkspacePerson {
             @JsonProperty("phone") @Nullable String phone,
             @JsonProperty("company") @Nullable String company,
             @JsonProperty("city") @Nullable String city,
+            @JsonProperty("username") @Nullable String username,
             @JsonProperty("handles") @Nullable List<Handle> handles,
             @JsonProperty("id") @Nonnull String id,
             @JsonProperty("created_at") @Nonnull String createdAt,
@@ -95,6 +104,7 @@ public class WorkspacePerson {
         this.phone = phone;
         this.company = company;
         this.city = city;
+        this.username = username;
         this.handles = handles;
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.createdAt = Optional.ofNullable(createdAt)
@@ -107,7 +117,7 @@ public class WorkspacePerson {
 
     public WorkspacePerson(
             @Nonnull String id, @Nonnull String createdAt, @Nonnull String updatedAt, @Nonnull String expiresAt) {
-        this(null, null, null, null, null, null, null, id, createdAt, updatedAt, expiresAt);
+        this(null, null, null, null, null, null, null, null, id, createdAt, updatedAt, expiresAt);
     }
 
     /**
@@ -148,6 +158,14 @@ public class WorkspacePerson {
      */
     public Optional<String> city() {
         return Optional.ofNullable(this.city);
+    }
+
+    /**
+     * A username the person uses, with no platform. A search looks it up on every platform that finds
+     * accounts by username.
+     */
+    public Optional<String> username() {
+        return Optional.ofNullable(this.username);
     }
 
     /**
@@ -228,6 +246,15 @@ public class WorkspacePerson {
     }
 
     /**
+     * A username the person uses, with no platform. A search looks it up on every platform that finds
+     * accounts by username.
+     */
+    public WorkspacePerson withUsername(@Nullable String username) {
+        this.username = username;
+        return this;
+    }
+
+    /**
      * Accounts the person is known to hold, at most 20.
      */
     public WorkspacePerson withHandles(@Nullable List<Handle> handles) {
@@ -274,6 +301,7 @@ public class WorkspacePerson {
                 && Utils.enhancedDeepEquals(this.phone, other.phone)
                 && Utils.enhancedDeepEquals(this.company, other.company)
                 && Utils.enhancedDeepEquals(this.city, other.city)
+                && Utils.enhancedDeepEquals(this.username, other.username)
                 && Utils.enhancedDeepEquals(this.handles, other.handles)
                 && Utils.enhancedDeepEquals(this.id, other.id)
                 && Utils.enhancedDeepEquals(this.createdAt, other.createdAt)
@@ -284,7 +312,7 @@ public class WorkspacePerson {
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                externalId, name, email, phone, company, city, handles, id, createdAt, updatedAt, expiresAt);
+                externalId, name, email, phone, company, city, username, handles, id, createdAt, updatedAt, expiresAt);
     }
 
     @Override
@@ -303,6 +331,8 @@ public class WorkspacePerson {
                 company,
                 "city",
                 city,
+                "username",
+                username,
                 "handles",
                 handles,
                 "id",
@@ -329,6 +359,8 @@ public class WorkspacePerson {
         private String company;
 
         private String city;
+
+        private String username;
 
         private List<Handle> handles;
 
@@ -391,6 +423,15 @@ public class WorkspacePerson {
         }
 
         /**
+         * A username the person uses, with no platform. A search looks it up on every platform that finds
+         * accounts by username.
+         */
+        public Builder username(@Nullable String username) {
+            this.username = username;
+            return this;
+        }
+
+        /**
          * Accounts the person is known to hold, at most 20.
          */
         public Builder handles(@Nullable List<Handle> handles) {
@@ -424,7 +465,18 @@ public class WorkspacePerson {
 
         public WorkspacePerson build() {
             return new WorkspacePerson(
-                    externalId, name, email, phone, company, city, handles, id, createdAt, updatedAt, expiresAt);
+                    externalId,
+                    name,
+                    email,
+                    phone,
+                    company,
+                    city,
+                    username,
+                    handles,
+                    id,
+                    createdAt,
+                    updatedAt,
+                    expiresAt);
         }
     }
 }

@@ -38,6 +38,18 @@ public class ListWorkspacePeopleRequestBuilder {
         return this;
     }
 
+    public ListWorkspacePeopleRequestBuilder email(@Nullable String email) {
+        this.pojoBuilder.email(email);
+        this._setterCalled = true;
+        return this;
+    }
+
+    public ListWorkspacePeopleRequestBuilder phone(@Nullable String phone) {
+        this.pojoBuilder.phone(phone);
+        this._setterCalled = true;
+        return this;
+    }
+
     public ListWorkspacePeopleRequestBuilder retryConfig(RetryConfig retryConfig) {
         this.optionsBuilder.retryConfig(retryConfig);
         return this;

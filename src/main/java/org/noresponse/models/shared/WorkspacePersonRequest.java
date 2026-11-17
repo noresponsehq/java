@@ -55,6 +55,14 @@ public class WorkspacePersonRequest {
     @JsonProperty("city")
     private String city;
 
+    /**
+     * A username the person uses, with no platform. A search looks it up on every platform that finds
+     * accounts by username.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("username")
+    private String username;
+
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("handles")
     private List<Handle> handles;
@@ -71,6 +79,7 @@ public class WorkspacePersonRequest {
             @JsonProperty("phone") @Nullable String phone,
             @JsonProperty("company") @Nullable String company,
             @JsonProperty("city") @Nullable String city,
+            @JsonProperty("username") @Nullable String username,
             @JsonProperty("handles") @Nullable List<Handle> handles,
             @JsonProperty("person_id") @Nullable String personId) {
         this.externalId = externalId;
@@ -79,12 +88,13 @@ public class WorkspacePersonRequest {
         this.phone = phone;
         this.company = company;
         this.city = city;
+        this.username = username;
         this.handles = handles;
         this.personId = personId;
     }
 
     public WorkspacePersonRequest() {
-        this(null, null, null, null, null, null, null, null);
+        this(null, null, null, null, null, null, null, null, null);
     }
 
     /**
@@ -128,6 +138,14 @@ public class WorkspacePersonRequest {
      */
     public Optional<String> city() {
         return Optional.ofNullable(this.city);
+    }
+
+    /**
+     * A username the person uses, with no platform. A search looks it up on every platform that finds
+     * accounts by username.
+     */
+    public Optional<String> username() {
+        return Optional.ofNullable(this.username);
     }
 
     public Optional<List<Handle>> handles() {
@@ -191,6 +209,15 @@ public class WorkspacePersonRequest {
         return this;
     }
 
+    /**
+     * A username the person uses, with no platform. A search looks it up on every platform that finds
+     * accounts by username.
+     */
+    public WorkspacePersonRequest withUsername(@Nullable String username) {
+        this.username = username;
+        return this;
+    }
+
     public WorkspacePersonRequest withHandles(@Nullable List<Handle> handles) {
         this.handles = handles;
         return this;
@@ -216,13 +243,14 @@ public class WorkspacePersonRequest {
                 && Utils.enhancedDeepEquals(this.phone, other.phone)
                 && Utils.enhancedDeepEquals(this.company, other.company)
                 && Utils.enhancedDeepEquals(this.city, other.city)
+                && Utils.enhancedDeepEquals(this.username, other.username)
                 && Utils.enhancedDeepEquals(this.handles, other.handles)
                 && Utils.enhancedDeepEquals(this.personId, other.personId);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(externalId, name, email, phone, company, city, handles, personId);
+        return Utils.enhancedHash(externalId, name, email, phone, company, city, username, handles, personId);
     }
 
     @Override
@@ -241,6 +269,8 @@ public class WorkspacePersonRequest {
                 company,
                 "city",
                 city,
+                "username",
+                username,
                 "handles",
                 handles,
                 "personId",
@@ -261,6 +291,8 @@ public class WorkspacePersonRequest {
         private String company;
 
         private String city;
+
+        private String username;
 
         private List<Handle> handles;
 
@@ -319,6 +351,15 @@ public class WorkspacePersonRequest {
             return this;
         }
 
+        /**
+         * A username the person uses, with no platform. A search looks it up on every platform that finds
+         * accounts by username.
+         */
+        public Builder username(@Nullable String username) {
+            this.username = username;
+            return this;
+        }
+
         public Builder handles(@Nullable List<Handle> handles) {
             this.handles = handles;
             return this;
@@ -330,7 +371,8 @@ public class WorkspacePersonRequest {
         }
 
         public WorkspacePersonRequest build() {
-            return new WorkspacePersonRequest(externalId, name, email, phone, company, city, handles, personId);
+            return new WorkspacePersonRequest(
+                    externalId, name, email, phone, company, city, username, handles, personId);
         }
     }
 }

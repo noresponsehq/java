@@ -70,6 +70,9 @@ public class People {
      * returned person records a person.viewed audit event. Expired people are excluded before background
      * deletion.
      *
+     * <p>email and phone narrow the list to people holding that exact address or number, so a client can open
+     * the person it already has instead of adding a duplicate.
+     *
      * @return The call builder
      */
     public ListWorkspacePeopleRequestBuilder list() {
@@ -83,11 +86,14 @@ public class People {
      * returned person records a person.viewed audit event. Expired people are excluded before background
      * deletion.
      *
+     * <p>email and phone narrow the list to people holding that exact address or number, so a client can open
+     * the person it already has instead of adding a duplicate.
+     *
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
     public ListWorkspacePeopleResponse listDirect() {
-        return list(null, null, null);
+        return list(null, null, null, null, null);
     }
 
     /**
@@ -97,14 +103,24 @@ public class People {
      * returned person records a person.viewed audit event. Expired people are excluded before background
      * deletion.
      *
+     * <p>email and phone narrow the list to people holding that exact address or number, so a client can open
+     * the person it already has instead of adding a duplicate.
+     *
      * @param limit
      * @param after Pass next_cursor from the prior page.
+     * @param email Return only people whose email is this address, compared without case or surrounding spaces.
+     * @param phone Return only people whose phone is this number, compared without surrounding spaces.
      * @param options additional options
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
-    public ListWorkspacePeopleResponse list(@Nullable Long limit, @Nullable String after, @Nullable Options options) {
-        ListWorkspacePeopleRequest request = new ListWorkspacePeopleRequest(limit, after);
+    public ListWorkspacePeopleResponse list(
+            @Nullable Long limit,
+            @Nullable String after,
+            @Nullable String email,
+            @Nullable String phone,
+            @Nullable Options options) {
+        ListWorkspacePeopleRequest request = new ListWorkspacePeopleRequest(limit, after, email, phone);
         RequestOperation<ListWorkspacePeopleRequest, ListWorkspacePeopleResponse> operation =
                 new ListWorkspacePeople.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));

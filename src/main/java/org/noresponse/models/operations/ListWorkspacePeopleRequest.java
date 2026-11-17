@@ -22,14 +22,29 @@ public class ListWorkspacePeopleRequest {
     @NoResponseMetadata("queryParam:style=form,explode=true,name=after")
     private String after;
 
+    /**
+     * Return only people whose email is this address, compared without case or surrounding spaces.
+     */
+    @NoResponseMetadata("queryParam:style=form,explode=true,name=email")
+    private String email;
+
+    /**
+     * Return only people whose phone is this number, compared without surrounding spaces.
+     */
+    @NoResponseMetadata("queryParam:style=form,explode=true,name=phone")
+    private String phone;
+
     @JsonCreator
-    public ListWorkspacePeopleRequest(@Nullable Long limit, @Nullable String after) {
+    public ListWorkspacePeopleRequest(
+            @Nullable Long limit, @Nullable String after, @Nullable String email, @Nullable String phone) {
         this.limit = Optional.ofNullable(limit).orElse(Builder._SINGLETON_VALUE_Limit.value());
         this.after = after;
+        this.email = email;
+        this.phone = phone;
     }
 
     public ListWorkspacePeopleRequest() {
-        this(null, null);
+        this(null, null, null, null);
     }
 
     public Optional<Long> limit() {
@@ -41,6 +56,20 @@ public class ListWorkspacePeopleRequest {
      */
     public Optional<String> after() {
         return Optional.ofNullable(this.after);
+    }
+
+    /**
+     * Return only people whose email is this address, compared without case or surrounding spaces.
+     */
+    public Optional<String> email() {
+        return Optional.ofNullable(this.email);
+    }
+
+    /**
+     * Return only people whose phone is this number, compared without surrounding spaces.
+     */
+    public Optional<String> phone() {
+        return Optional.ofNullable(this.phone);
     }
 
     public static Builder builder() {
@@ -60,6 +89,22 @@ public class ListWorkspacePeopleRequest {
         return this;
     }
 
+    /**
+     * Return only people whose email is this address, compared without case or surrounding spaces.
+     */
+    public ListWorkspacePeopleRequest withEmail(@Nullable String email) {
+        this.email = email;
+        return this;
+    }
+
+    /**
+     * Return only people whose phone is this number, compared without surrounding spaces.
+     */
+    public ListWorkspacePeopleRequest withPhone(@Nullable String phone) {
+        this.phone = phone;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -69,17 +114,21 @@ public class ListWorkspacePeopleRequest {
             return false;
         }
         ListWorkspacePeopleRequest other = (ListWorkspacePeopleRequest) o;
-        return Utils.enhancedDeepEquals(this.limit, other.limit) && Utils.enhancedDeepEquals(this.after, other.after);
+        return Utils.enhancedDeepEquals(this.limit, other.limit)
+                && Utils.enhancedDeepEquals(this.after, other.after)
+                && Utils.enhancedDeepEquals(this.email, other.email)
+                && Utils.enhancedDeepEquals(this.phone, other.phone);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(limit, after);
+        return Utils.enhancedHash(limit, after, email, phone);
     }
 
     @Override
     public String toString() {
-        return Utils.toString(ListWorkspacePeopleRequest.class, "limit", limit, "after", after);
+        return Utils.toString(
+                ListWorkspacePeopleRequest.class, "limit", limit, "after", after, "email", email, "phone", phone);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -88,6 +137,10 @@ public class ListWorkspacePeopleRequest {
         private Long limit;
 
         private String after;
+
+        private String email;
+
+        private String phone;
 
         private Builder() {
             // force use of static builder() method
@@ -106,8 +159,24 @@ public class ListWorkspacePeopleRequest {
             return this;
         }
 
+        /**
+         * Return only people whose email is this address, compared without case or surrounding spaces.
+         */
+        public Builder email(@Nullable String email) {
+            this.email = email;
+            return this;
+        }
+
+        /**
+         * Return only people whose phone is this number, compared without surrounding spaces.
+         */
+        public Builder phone(@Nullable String phone) {
+            this.phone = phone;
+            return this;
+        }
+
         public ListWorkspacePeopleRequest build() {
-            return new ListWorkspacePeopleRequest(limit, after);
+            return new ListWorkspacePeopleRequest(limit, after, email, phone);
         }
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =
