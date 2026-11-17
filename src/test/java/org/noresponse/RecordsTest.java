@@ -79,7 +79,7 @@ class RecordsTest {
             assertEquals("203.0.113.5", columns.get("lastip").value().orElseThrow());
             assertTrue(columns.get("birthday").value().isEmpty(), "an ambiguous date keeps its original and no value");
             assertEquals("07/03/1990", columns.get("birthday").original());
-            assertEquals(0.99, row.likelihood().orElseThrow());
+            assertEquals(0.8, row.likelihood().orElseThrow());
             assertTrue(row.verdict().isEmpty());
 
             var remaining = lookup.remaining().orElseThrow().get(0);
