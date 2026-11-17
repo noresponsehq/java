@@ -22,6 +22,11 @@ public class InvestigationRequest {
     @JsonProperty("depth")
     private ScreeningDepth depth;
 
+    /**
+     * The platforms to search. Leave it out for a full search: every platform a connector serves in the
+     * environment when the investigation starts, which the investigation then lists.
+     */
+    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("platforms")
     private List<String> platforms;
 
@@ -39,28 +44,30 @@ public class InvestigationRequest {
     @JsonCreator
     public InvestigationRequest(
             @JsonProperty("depth") @Nonnull ScreeningDepth depth,
-            @JsonProperty("platforms") @Nonnull List<String> platforms,
+            @JsonProperty("platforms") @Nullable List<String> platforms,
             @JsonProperty("person_id") @Nonnull String personId,
             @JsonProperty("enrichment") @Nullable EnrichmentChange enrichment) {
         this.depth = Optional.ofNullable(depth).orElseThrow(() -> new IllegalArgumentException("depth cannot be null"));
-        this.platforms = Optional.ofNullable(platforms)
-                .orElseThrow(() -> new IllegalArgumentException("platforms cannot be null"));
+        this.platforms = platforms;
         this.personId = Optional.ofNullable(personId)
                 .orElseThrow(() -> new IllegalArgumentException("personId cannot be null"));
         this.enrichment = enrichment;
     }
 
-    public InvestigationRequest(
-            @Nonnull ScreeningDepth depth, @Nonnull List<String> platforms, @Nonnull String personId) {
-        this(depth, platforms, personId, null);
+    public InvestigationRequest(@Nonnull ScreeningDepth depth, @Nonnull String personId) {
+        this(depth, null, personId, null);
     }
 
     public ScreeningDepth depth() {
         return this.depth;
     }
 
-    public List<String> platforms() {
-        return this.platforms;
+    /**
+     * The platforms to search. Leave it out for a full search: every platform a connector serves in the
+     * environment when the investigation starts, which the investigation then lists.
+     */
+    public Optional<List<String>> platforms() {
+        return Optional.ofNullable(this.platforms);
     }
 
     public String personId() {
@@ -84,8 +91,12 @@ public class InvestigationRequest {
         return this;
     }
 
-    public InvestigationRequest withPlatforms(@Nonnull List<String> platforms) {
-        this.platforms = Utils.checkNotNull(platforms, "platforms");
+    /**
+     * The platforms to search. Leave it out for a full search: every platform a connector serves in the
+     * environment when the investigation starts, which the investigation then lists.
+     */
+    public InvestigationRequest withPlatforms(@Nullable List<String> platforms) {
+        this.platforms = platforms;
         return this;
     }
 
@@ -157,8 +168,12 @@ public class InvestigationRequest {
             return this;
         }
 
-        public Builder platforms(@Nonnull List<String> platforms) {
-            this.platforms = Utils.checkNotNull(platforms, "platforms");
+        /**
+         * The platforms to search. Leave it out for a full search: every platform a connector serves in the
+         * environment when the investigation starts, which the investigation then lists.
+         */
+        public Builder platforms(@Nullable List<String> platforms) {
+            this.platforms = platforms;
             return this;
         }
 

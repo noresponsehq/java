@@ -110,9 +110,9 @@ public class Application {
                 .idempotencyKey("investigation-case-1042-first")
                 .body(InvestigationRequest.builder()
                     .depth(ScreeningDepth.STANDARD)
+                    .personId("per_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
                     .platforms(List.of(
                         "x"))
-                    .personId("per_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
                     .build())
                 .call();
 

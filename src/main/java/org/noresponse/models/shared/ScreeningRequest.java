@@ -1,8 +1,11 @@
 package org.noresponse.models.shared;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.lang.Override;
 import java.lang.String;
 import java.util.List;
@@ -19,24 +22,36 @@ public class ScreeningRequest {
     @JsonProperty("depth")
     private ScreeningDepth depth;
 
+    /**
+     * The platforms to search. Leave it out for a full search: every platform a connector serves in the
+     * environment when the screening starts, which the screening then lists.
+     */
+    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("platforms")
     private List<String> platforms;
 
     @JsonCreator
     public ScreeningRequest(
             @JsonProperty("depth") @Nonnull ScreeningDepth depth,
-            @JsonProperty("platforms") @Nonnull List<String> platforms) {
+            @JsonProperty("platforms") @Nullable List<String> platforms) {
         this.depth = Optional.ofNullable(depth).orElseThrow(() -> new IllegalArgumentException("depth cannot be null"));
-        this.platforms = Optional.ofNullable(platforms)
-                .orElseThrow(() -> new IllegalArgumentException("platforms cannot be null"));
+        this.platforms = platforms;
+    }
+
+    public ScreeningRequest(@Nonnull ScreeningDepth depth) {
+        this(depth, null);
     }
 
     public ScreeningDepth depth() {
         return this.depth;
     }
 
-    public List<String> platforms() {
-        return this.platforms;
+    /**
+     * The platforms to search. Leave it out for a full search: every platform a connector serves in the
+     * environment when the screening starts, which the screening then lists.
+     */
+    public Optional<List<String>> platforms() {
+        return Optional.ofNullable(this.platforms);
     }
 
     public static Builder builder() {
@@ -48,8 +63,12 @@ public class ScreeningRequest {
         return this;
     }
 
-    public ScreeningRequest withPlatforms(@Nonnull List<String> platforms) {
-        this.platforms = Utils.checkNotNull(platforms, "platforms");
+    /**
+     * The platforms to search. Leave it out for a full search: every platform a connector serves in the
+     * environment when the screening starts, which the screening then lists.
+     */
+    public ScreeningRequest withPlatforms(@Nullable List<String> platforms) {
+        this.platforms = platforms;
         return this;
     }
 
@@ -92,8 +111,12 @@ public class ScreeningRequest {
             return this;
         }
 
-        public Builder platforms(@Nonnull List<String> platforms) {
-            this.platforms = Utils.checkNotNull(platforms, "platforms");
+        /**
+         * The platforms to search. Leave it out for a full search: every platform a connector serves in the
+         * environment when the screening starts, which the screening then lists.
+         */
+        public Builder platforms(@Nullable List<String> platforms) {
+            this.platforms = platforms;
             return this;
         }
 

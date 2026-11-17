@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: fd34a9ff2e843f421e26497d35ae6157
+  docChecksum: 6e9d2016bcca3db0c5976db4d722c777
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 15.0.11
-  configChecksum: 2dbcbe290c5a7ff2d5188be51860d4cb
+  releaseVersion: 15.0.12
+  configChecksum: 23463a547560cf476545a898696bd74a
 features:
   java:
     additionalDependencies: 0.1.0
@@ -955,7 +955,7 @@ trackedFiles:
   docs/models/shared/InvestigationReport.md:
     last_write_checksum: sha1:088eb998241b295b36826561ed0ea73ea62e88ab
   docs/models/shared/InvestigationRequest.md:
-    last_write_checksum: sha1:1b744d0bd0b07cd46a05eaf048ce08f1164fbd54
+    last_write_checksum: sha1:b3358fadf1e0b87c6675e1c6bdaa4a1f8736b887
   docs/models/shared/InvestigationStatus.md:
     last_write_checksum: sha1:fdbe6f3a3ff7a6683cd963916d805de1bdca93f5
   docs/models/shared/InvestigationsList.md:
@@ -1413,7 +1413,7 @@ trackedFiles:
   docs/models/shared/ScreeningProfile.md:
     last_write_checksum: sha1:6557076e28114a9125d3c8db19585653681c752c
   docs/models/shared/ScreeningRequest.md:
-    last_write_checksum: sha1:f805e540a7a5a1536812740729a2d2cd1cb69287
+    last_write_checksum: sha1:a5e9341263928bfec4176135be2ff9c89cfa6e54
   docs/models/shared/ScreeningSpend.md:
     last_write_checksum: sha1:62f6132f83c10a46a83e72a5c79ae6d425d972aa
   docs/models/shared/ScreeningSpendLine.md:
@@ -1599,7 +1599,7 @@ trackedFiles:
   docs/sdks/integrations/README.md:
     last_write_checksum: sha1:06e34285f130ba04bf48f93b26716ee6f771f602
   docs/sdks/investigations/README.md:
-    last_write_checksum: sha1:771c8b7b3ed9d5e10dbfe1a622d99dae156ef487
+    last_write_checksum: sha1:cdc1897be28da2226124273f714700e51e68614d
   docs/sdks/invites/README.md:
     last_write_checksum: sha1:560312d9287dc9e12a7fb86da82ccea85434a3a5
   docs/sdks/keys/README.md:
@@ -1627,7 +1627,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:dee43d8f5d6fc5a9a6821d179de36c906fb5fc3d
+    last_write_checksum: sha1:a1d7ed2af8ebba26cced666e44eaf2ad8e82a8d5
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1723,7 +1723,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:256be6d8f0764c3fa1de32173801181ca699a12f
+    last_write_checksum: sha1:525824c01c4ebcc271fd95063437b4de65ffa178
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -3451,7 +3451,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/InvestigationReport.java:
     last_write_checksum: sha1:a7cf266cde36be5ef28c2f8a73dd6edccf06de34
   src/main/java/org/noresponse/models/shared/InvestigationRequest.java:
-    last_write_checksum: sha1:0d81b73b4d30cddc2cf1dfc487132e46191ca962
+    last_write_checksum: sha1:7d3b7596910577081583d131e30381e103d5d0f7
   src/main/java/org/noresponse/models/shared/InvestigationStatus.java:
     last_write_checksum: sha1:2fe8c9c9c916a31f034d7dc7cc426f501ba8d890
   src/main/java/org/noresponse/models/shared/InvestigationsList.java:
@@ -3909,7 +3909,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/ScreeningProfile.java:
     last_write_checksum: sha1:bdd245e49fbd6d1f469c72dd0cd6a2c6700ec627
   src/main/java/org/noresponse/models/shared/ScreeningRequest.java:
-    last_write_checksum: sha1:2ee41ba76b3ea6507a3dcb6a46fb15c4f98c387d
+    last_write_checksum: sha1:72b6d65b2957d6f08acf097248daae8738490768
   src/main/java/org/noresponse/models/shared/ScreeningSpend.java:
     last_write_checksum: sha1:30feb220997ad64a5bc90f925d03892e011cbef4
   src/main/java/org/noresponse/models/shared/ScreeningSpendLine.java:
