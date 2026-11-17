@@ -18,9 +18,10 @@ import org.openapitools.jackson.nullable.JsonNullable;
  * Settings
  *
  * <p>One environment's settings: how long its assessments are kept, and for each flow the risk thresholds
- * that decide it and the depth a request that names none is served at, the sources it refuses, and the
- * daily cap on screening spend. Live and test each have their own. A flow without thresholds of its
- * own uses account_creation's (inherits_account_creation).
+ * that decide it and the depth a request that names none is served at, the sources it refuses, the
+ * daily cap on screening spend, and how enrichment searches what an investigation finds. Live and test
+ * each have their own. A flow without thresholds of its own uses account_creation's
+ * (inherits_account_creation).
  *
  * <p>Every change is recorded in the audit log as settings.updated, with who made it.
  */
@@ -91,6 +92,19 @@ public class Settings {
     @JsonProperty("screening_daily_cap")
     private JsonNullable<Long> screeningDailyCap;
 
+    /**
+     * How enrichment searches the values a standalone investigation of a workspace person finds (POST
+     * /v1/investigations); group screening only suggests. Defaults: mode automatic, min_likelihood 0.5,
+     * kinds username, max_spend null and deadline null. An investigation request may override each field
+     * for that investigation.
+     *
+     * <p>A change applies to the next search enrichment starts, investigations already run included.
+     * Enrichment also keeps to limits of its own: each value once per person (once more if that search
+     * failed), at most 5 searches from one search's records, 20 per person and 6 searches deep.
+     */
+    @JsonProperty("enrichment")
+    private Enrichment enrichment;
+
     @JsonCreator
     public Settings(
             @JsonProperty("workspace_id") @Nonnull String workspaceId,
@@ -101,7 +115,8 @@ public class Settings {
             @JsonProperty("updated_at") @Nullable String updatedAt,
             @JsonProperty("flows") @Nonnull SettingsFlows flows,
             @JsonProperty("refused_sources") @Nonnull List<String> refusedSources,
-            @JsonProperty("screening_daily_cap") @Nullable Long screeningDailyCap) {
+            @JsonProperty("screening_daily_cap") @Nullable Long screeningDailyCap,
+            @JsonProperty("enrichment") @Nonnull Enrichment enrichment) {
         this.workspaceId = Optional.ofNullable(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("workspaceId cannot be null"));
         this.environment = Optional.ofNullable(environment)
@@ -114,6 +129,8 @@ public class Settings {
         this.refusedSources = Optional.ofNullable(refusedSources)
                 .orElseThrow(() -> new IllegalArgumentException("refusedSources cannot be null"));
         this.screeningDailyCap = JsonNullable.of(screeningDailyCap);
+        this.enrichment = Optional.ofNullable(enrichment)
+                .orElseThrow(() -> new IllegalArgumentException("enrichment cannot be null"));
     }
 
     public Settings(
@@ -122,8 +139,19 @@ public class Settings {
             long retentionDays,
             long policyVersion,
             @Nonnull SettingsFlows flows,
-            @Nonnull List<String> refusedSources) {
-        this(workspaceId, environment, retentionDays, policyVersion, null, null, flows, refusedSources, null);
+            @Nonnull List<String> refusedSources,
+            @Nonnull Enrichment enrichment) {
+        this(
+                workspaceId,
+                environment,
+                retentionDays,
+                policyVersion,
+                null,
+                null,
+                flows,
+                refusedSources,
+                null,
+                enrichment);
     }
 
     /**
@@ -196,6 +224,20 @@ public class Settings {
      */
     public JsonNullable<Long> screeningDailyCap() {
         return this.screeningDailyCap;
+    }
+
+    /**
+     * How enrichment searches the values a standalone investigation of a workspace person finds (POST
+     * /v1/investigations); group screening only suggests. Defaults: mode automatic, min_likelihood 0.5,
+     * kinds username, max_spend null and deadline null. An investigation request may override each field
+     * for that investigation.
+     *
+     * <p>A change applies to the next search enrichment starts, investigations already run included.
+     * Enrichment also keeps to limits of its own: each value once per person (once more if that search
+     * failed), at most 5 searches from one search's records, 20 per person and 6 searches deep.
+     */
+    public Enrichment enrichment() {
+        return this.enrichment;
     }
 
     public static Builder builder() {
@@ -283,6 +325,21 @@ public class Settings {
         return this;
     }
 
+    /**
+     * How enrichment searches the values a standalone investigation of a workspace person finds (POST
+     * /v1/investigations); group screening only suggests. Defaults: mode automatic, min_likelihood 0.5,
+     * kinds username, max_spend null and deadline null. An investigation request may override each field
+     * for that investigation.
+     *
+     * <p>A change applies to the next search enrichment starts, investigations already run included.
+     * Enrichment also keeps to limits of its own: each value once per person (once more if that search
+     * failed), at most 5 searches from one search's records, 20 per person and 6 searches deep.
+     */
+    public Settings withEnrichment(@Nonnull Enrichment enrichment) {
+        this.enrichment = Utils.checkNotNull(enrichment, "enrichment");
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -300,7 +357,8 @@ public class Settings {
                 && Utils.enhancedDeepEquals(this.updatedAt, other.updatedAt)
                 && Utils.enhancedDeepEquals(this.flows, other.flows)
                 && Utils.enhancedDeepEquals(this.refusedSources, other.refusedSources)
-                && Utils.enhancedDeepEquals(this.screeningDailyCap, other.screeningDailyCap);
+                && Utils.enhancedDeepEquals(this.screeningDailyCap, other.screeningDailyCap)
+                && Utils.enhancedDeepEquals(this.enrichment, other.enrichment);
     }
 
     @Override
@@ -314,7 +372,8 @@ public class Settings {
                 updatedAt,
                 flows,
                 refusedSources,
-                screeningDailyCap);
+                screeningDailyCap,
+                enrichment);
     }
 
     @Override
@@ -338,7 +397,9 @@ public class Settings {
                 "refusedSources",
                 refusedSources,
                 "screeningDailyCap",
-                screeningDailyCap);
+                screeningDailyCap,
+                "enrichment",
+                enrichment);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -361,6 +422,8 @@ public class Settings {
         private List<String> refusedSources;
 
         private Long screeningDailyCap;
+
+        private Enrichment enrichment;
 
         private Builder() {
             // force use of static builder() method
@@ -447,6 +510,21 @@ public class Settings {
             return this;
         }
 
+        /**
+         * How enrichment searches the values a standalone investigation of a workspace person finds (POST
+         * /v1/investigations); group screening only suggests. Defaults: mode automatic, min_likelihood 0.5,
+         * kinds username, max_spend null and deadline null. An investigation request may override each field
+         * for that investigation.
+         *
+         * <p>A change applies to the next search enrichment starts, investigations already run included.
+         * Enrichment also keeps to limits of its own: each value once per person (once more if that search
+         * failed), at most 5 searches from one search's records, 20 per person and 6 searches deep.
+         */
+        public Builder enrichment(@Nonnull Enrichment enrichment) {
+            this.enrichment = Utils.checkNotNull(enrichment, "enrichment");
+            return this;
+        }
+
         public Settings build() {
             return new Settings(
                     workspaceId,
@@ -457,7 +535,8 @@ public class Settings {
                     updatedAt,
                     flows,
                     refusedSources,
-                    screeningDailyCap);
+                    screeningDailyCap,
+                    enrichment);
         }
     }
 }

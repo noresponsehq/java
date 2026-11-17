@@ -1,8 +1,11 @@
 package org.noresponse.models.shared;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.lang.Override;
 import java.lang.String;
 import java.util.List;
@@ -25,16 +28,31 @@ public class InvestigationRequest {
     @JsonProperty("person_id")
     private String personId;
 
+    /**
+     * A change to enrichment. A field left out keeps the value in force; max_spend or deadline null
+     * removes the bound.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("enrichment")
+    private EnrichmentChange enrichment;
+
     @JsonCreator
     public InvestigationRequest(
             @JsonProperty("depth") @Nonnull ScreeningDepth depth,
             @JsonProperty("platforms") @Nonnull List<String> platforms,
-            @JsonProperty("person_id") @Nonnull String personId) {
+            @JsonProperty("person_id") @Nonnull String personId,
+            @JsonProperty("enrichment") @Nullable EnrichmentChange enrichment) {
         this.depth = Optional.ofNullable(depth).orElseThrow(() -> new IllegalArgumentException("depth cannot be null"));
         this.platforms = Optional.ofNullable(platforms)
                 .orElseThrow(() -> new IllegalArgumentException("platforms cannot be null"));
         this.personId = Optional.ofNullable(personId)
                 .orElseThrow(() -> new IllegalArgumentException("personId cannot be null"));
+        this.enrichment = enrichment;
+    }
+
+    public InvestigationRequest(
+            @Nonnull ScreeningDepth depth, @Nonnull List<String> platforms, @Nonnull String personId) {
+        this(depth, platforms, personId, null);
     }
 
     public ScreeningDepth depth() {
@@ -47,6 +65,14 @@ public class InvestigationRequest {
 
     public String personId() {
         return this.personId;
+    }
+
+    /**
+     * A change to enrichment. A field left out keeps the value in force; max_spend or deadline null
+     * removes the bound.
+     */
+    public Optional<EnrichmentChange> enrichment() {
+        return Optional.ofNullable(this.enrichment);
     }
 
     public static Builder builder() {
@@ -68,6 +94,15 @@ public class InvestigationRequest {
         return this;
     }
 
+    /**
+     * A change to enrichment. A field left out keeps the value in force; max_spend or deadline null
+     * removes the bound.
+     */
+    public InvestigationRequest withEnrichment(@Nullable EnrichmentChange enrichment) {
+        this.enrichment = enrichment;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -79,18 +114,27 @@ public class InvestigationRequest {
         InvestigationRequest other = (InvestigationRequest) o;
         return Utils.enhancedDeepEquals(this.depth, other.depth)
                 && Utils.enhancedDeepEquals(this.platforms, other.platforms)
-                && Utils.enhancedDeepEquals(this.personId, other.personId);
+                && Utils.enhancedDeepEquals(this.personId, other.personId)
+                && Utils.enhancedDeepEquals(this.enrichment, other.enrichment);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(depth, platforms, personId);
+        return Utils.enhancedHash(depth, platforms, personId, enrichment);
     }
 
     @Override
     public String toString() {
         return Utils.toString(
-                InvestigationRequest.class, "depth", depth, "platforms", platforms, "personId", personId);
+                InvestigationRequest.class,
+                "depth",
+                depth,
+                "platforms",
+                platforms,
+                "personId",
+                personId,
+                "enrichment",
+                enrichment);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -101,6 +145,8 @@ public class InvestigationRequest {
         private List<String> platforms;
 
         private String personId;
+
+        private EnrichmentChange enrichment;
 
         private Builder() {
             // force use of static builder() method
@@ -121,8 +167,17 @@ public class InvestigationRequest {
             return this;
         }
 
+        /**
+         * A change to enrichment. A field left out keeps the value in force; max_spend or deadline null
+         * removes the bound.
+         */
+        public Builder enrichment(@Nullable EnrichmentChange enrichment) {
+            this.enrichment = enrichment;
+            return this;
+        }
+
         public InvestigationRequest build() {
-            return new InvestigationRequest(depth, platforms, personId);
+            return new InvestigationRequest(depth, platforms, personId, enrichment);
         }
     }
 }

@@ -100,12 +100,16 @@ public class AsyncInvestigations {
      * Start an investigation for a person.
      *
      * <p>Starts an investigation against a retained workspace person, independently of group membership.
+     * enrichment overrides, field by field, how the environment's enrichment setting runs after this
+     * investigation; the person's latest investigation decides the enrichment that runs on them.
      * Idempotency-Key is required: the same key and input return the same retained job in its current
-     * state without repeating billable work. Different input with that key answers 409
-     * idempotency_key_reused; a deliberate new investigation uses a new key.
+     * state without repeating billable work.
      *
-     * <p>The response includes Location and Retry-After. The person's retention expiry limits both execution
-     * and retained history. The API key selects the workspace and environment.
+     * <p>Different input with that key answers 409 idempotency_key_reused; a deliberate new investigation
+     * uses a new key. The response includes Location and Retry-After. The person's retention expiry limits
+     * both execution and retained history.
+     *
+     * <p>The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -117,12 +121,16 @@ public class AsyncInvestigations {
      * Start an investigation for a person.
      *
      * <p>Starts an investigation against a retained workspace person, independently of group membership.
+     * enrichment overrides, field by field, how the environment's enrichment setting runs after this
+     * investigation; the person's latest investigation decides the enrichment that runs on them.
      * Idempotency-Key is required: the same key and input return the same retained job in its current
-     * state without repeating billable work. Different input with that key answers 409
-     * idempotency_key_reused; a deliberate new investigation uses a new key.
+     * state without repeating billable work.
      *
-     * <p>The response includes Location and Retry-After. The person's retention expiry limits both execution
-     * and retained history. The API key selects the workspace and environment.
+     * <p>Different input with that key answers 409 idempotency_key_reused; a deliberate new investigation
+     * uses a new key. The response includes Location and Retry-After. The person's retention expiry limits
+     * both execution and retained history.
+     *
+     * <p>The API key selects the workspace and environment.
      *
      * @param idempotencyKey Opaque request key, 16 to 128 characters. Repeating the key and request returns the same resource in its current state while it is retained. A different request with the same key answers 409. Use a new key for a deliberate new operation. Keys are scoped to the environment and operation; person searches also scope them to the group and person.
      * @param body Runs a new investigation against one retained workspace person.
@@ -137,12 +145,16 @@ public class AsyncInvestigations {
      * Start an investigation for a person.
      *
      * <p>Starts an investigation against a retained workspace person, independently of group membership.
+     * enrichment overrides, field by field, how the environment's enrichment setting runs after this
+     * investigation; the person's latest investigation decides the enrichment that runs on them.
      * Idempotency-Key is required: the same key and input return the same retained job in its current
-     * state without repeating billable work. Different input with that key answers 409
-     * idempotency_key_reused; a deliberate new investigation uses a new key.
+     * state without repeating billable work.
      *
-     * <p>The response includes Location and Retry-After. The person's retention expiry limits both execution
-     * and retained history. The API key selects the workspace and environment.
+     * <p>Different input with that key answers 409 idempotency_key_reused; a deliberate new investigation
+     * uses a new key. The response includes Location and Retry-After. The person's retention expiry limits
+     * both execution and retained history.
+     *
+     * <p>The API key selects the workspace and environment.
      *
      * @param idempotencyKey Opaque request key, 16 to 128 characters. Repeating the key and request returns the same resource in its current state while it is retained. A different request with the same key answers 409. Use a new key for a deliberate new operation. Keys are scoped to the environment and operation; person searches also scope them to the group and person.
      * @param body Runs a new investigation against one retained workspace person.

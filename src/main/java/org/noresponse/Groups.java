@@ -800,13 +800,15 @@ public class Groups {
      *
      * <p>A domain search finds the breach rows of every email address at the domain, which must be a
      * registrable domain or a host under one; any other domain answers 400. After a workspace person's own
-     * investigation, enrichment also starts searches by itself, with requested_by enrichment, on the
-     * distinctive usernames of records more than 0.5 likely to be the person's: each value at most once
-     * per person (once more if that search failed), at most 5 searches from one search's records and 20
-     * per person, at most 6 searches deep, within the screening cap; at the cap it waits and tries again
-     * later. A record a search finds starts from the likelihood of the record it came from, divided by one
-     * plus the results the search found on that site, so a chain grows less likely with each search and
-     * stops.
+     * investigation, while the environment's enrichment mode, or the investigation's override, is
+     * automatic, enrichment also starts searches by itself, with requested_by enrichment, on the
+     * distinctive values of the enrichment kinds (usernames by default; email addresses and phone numbers
+     * when named) of records more likely than min_likelihood (0.5 by default) to be the person's: each
+     * value at most once per person (once more if that search failed), at most 5 searches from one
+     * search's records and 20 per person, at most 6 searches deep, within max_spend and the deadline when
+     * set, and within the screening cap; at the screening cap it waits and tries again later. A record a
+     * search finds starts from the likelihood of the record it came from, divided by one plus the results
+     * the search found on that site, so a chain grows less likely with each search and stops.
      *
      * <p>Group screening only suggests. The search runs the breach search and the account and phone lookups
      * that take the value's kind, under the environment's source controls, and finishes seconds later. A
@@ -847,13 +849,15 @@ public class Groups {
      *
      * <p>A domain search finds the breach rows of every email address at the domain, which must be a
      * registrable domain or a host under one; any other domain answers 400. After a workspace person's own
-     * investigation, enrichment also starts searches by itself, with requested_by enrichment, on the
-     * distinctive usernames of records more than 0.5 likely to be the person's: each value at most once
-     * per person (once more if that search failed), at most 5 searches from one search's records and 20
-     * per person, at most 6 searches deep, within the screening cap; at the cap it waits and tries again
-     * later. A record a search finds starts from the likelihood of the record it came from, divided by one
-     * plus the results the search found on that site, so a chain grows less likely with each search and
-     * stops.
+     * investigation, while the environment's enrichment mode, or the investigation's override, is
+     * automatic, enrichment also starts searches by itself, with requested_by enrichment, on the
+     * distinctive values of the enrichment kinds (usernames by default; email addresses and phone numbers
+     * when named) of records more likely than min_likelihood (0.5 by default) to be the person's: each
+     * value at most once per person (once more if that search failed), at most 5 searches from one
+     * search's records and 20 per person, at most 6 searches deep, within max_spend and the deadline when
+     * set, and within the screening cap; at the screening cap it waits and tries again later. A record a
+     * search finds starts from the likelihood of the record it came from, divided by one plus the results
+     * the search found on that site, so a chain grows less likely with each search and stops.
      *
      * <p>Group screening only suggests. The search runs the breach search and the account and phone lookups
      * that take the value's kind, under the environment's source controls, and finishes seconds later. A
@@ -899,13 +903,15 @@ public class Groups {
      *
      * <p>A domain search finds the breach rows of every email address at the domain, which must be a
      * registrable domain or a host under one; any other domain answers 400. After a workspace person's own
-     * investigation, enrichment also starts searches by itself, with requested_by enrichment, on the
-     * distinctive usernames of records more than 0.5 likely to be the person's: each value at most once
-     * per person (once more if that search failed), at most 5 searches from one search's records and 20
-     * per person, at most 6 searches deep, within the screening cap; at the cap it waits and tries again
-     * later. A record a search finds starts from the likelihood of the record it came from, divided by one
-     * plus the results the search found on that site, so a chain grows less likely with each search and
-     * stops.
+     * investigation, while the environment's enrichment mode, or the investigation's override, is
+     * automatic, enrichment also starts searches by itself, with requested_by enrichment, on the
+     * distinctive values of the enrichment kinds (usernames by default; email addresses and phone numbers
+     * when named) of records more likely than min_likelihood (0.5 by default) to be the person's: each
+     * value at most once per person (once more if that search failed), at most 5 searches from one
+     * search's records and 20 per person, at most 6 searches deep, within max_spend and the deadline when
+     * set, and within the screening cap; at the screening cap it waits and tries again later. A record a
+     * search finds starts from the likelihood of the record it came from, divided by one plus the results
+     * the search found on that site, so a chain grows less likely with each search and stops.
      *
      * <p>Group screening only suggests. The search runs the breach search and the account and phone lookups
      * that take the value's kind, under the environment's source controls, and finishes seconds later. A

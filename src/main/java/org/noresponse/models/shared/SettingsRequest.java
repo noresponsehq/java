@@ -42,6 +42,14 @@ public class SettingsRequest {
     private JsonNullable<Long> screeningDailyCap;
 
     /**
+     * A change to enrichment. A field left out keeps the value in force; max_spend or deadline null
+     * removes the bound.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("enrichment")
+    private EnrichmentChange enrichment;
+
+    /**
      * Use account_creation or its deprecated alias signup, not both.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -65,19 +73,21 @@ public class SettingsRequest {
             @JsonProperty("retention_days") @Nullable Long retentionDays,
             @JsonProperty("refused_sources") @Nullable List<String> refusedSources,
             @JsonProperty("screening_daily_cap") @Nullable JsonNullable<Long> screeningDailyCap,
+            @JsonProperty("enrichment") @Nullable EnrichmentChange enrichment,
             @JsonProperty("flows") @Nullable SettingsRequestFlows flows,
             @JsonProperty("expected_policy_version") @Nullable Long expectedPolicyVersion,
             @JsonProperty("change_reason") @Nullable String changeReason) {
         this.retentionDays = retentionDays;
         this.refusedSources = refusedSources;
         this.screeningDailyCap = Optional.ofNullable(screeningDailyCap).orElse(JsonNullable.undefined());
+        this.enrichment = enrichment;
         this.flows = flows;
         this.expectedPolicyVersion = expectedPolicyVersion;
         this.changeReason = changeReason;
     }
 
     public SettingsRequest() {
-        this(null, null, null, null, null, null);
+        this(null, null, null, null, null, null, null);
     }
 
     public Optional<Long> retentionDays() {
@@ -97,6 +107,14 @@ public class SettingsRequest {
      */
     public JsonNullable<Long> screeningDailyCap() {
         return this.screeningDailyCap;
+    }
+
+    /**
+     * A change to enrichment. A field left out keeps the value in force; max_spend or deadline null
+     * removes the bound.
+     */
+    public Optional<EnrichmentChange> enrichment() {
+        return Optional.ofNullable(this.enrichment);
     }
 
     /**
@@ -145,6 +163,15 @@ public class SettingsRequest {
     }
 
     /**
+     * A change to enrichment. A field left out keeps the value in force; max_spend or deadline null
+     * removes the bound.
+     */
+    public SettingsRequest withEnrichment(@Nullable EnrichmentChange enrichment) {
+        this.enrichment = enrichment;
+        return this;
+    }
+
+    /**
      * Use account_creation or its deprecated alias signup, not both.
      */
     public SettingsRequest withFlows(@Nullable SettingsRequestFlows flows) {
@@ -178,6 +205,7 @@ public class SettingsRequest {
         return Utils.enhancedDeepEquals(this.retentionDays, other.retentionDays)
                 && Utils.enhancedDeepEquals(this.refusedSources, other.refusedSources)
                 && Utils.enhancedDeepEquals(this.screeningDailyCap, other.screeningDailyCap)
+                && Utils.enhancedDeepEquals(this.enrichment, other.enrichment)
                 && Utils.enhancedDeepEquals(this.flows, other.flows)
                 && Utils.enhancedDeepEquals(this.expectedPolicyVersion, other.expectedPolicyVersion)
                 && Utils.enhancedDeepEquals(this.changeReason, other.changeReason);
@@ -186,7 +214,13 @@ public class SettingsRequest {
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                retentionDays, refusedSources, screeningDailyCap, flows, expectedPolicyVersion, changeReason);
+                retentionDays,
+                refusedSources,
+                screeningDailyCap,
+                enrichment,
+                flows,
+                expectedPolicyVersion,
+                changeReason);
     }
 
     @Override
@@ -199,6 +233,8 @@ public class SettingsRequest {
                 refusedSources,
                 "screeningDailyCap",
                 screeningDailyCap,
+                "enrichment",
+                enrichment,
                 "flows",
                 flows,
                 "expectedPolicyVersion",
@@ -215,6 +251,8 @@ public class SettingsRequest {
         private List<String> refusedSources;
 
         private JsonNullable<Long> screeningDailyCap;
+
+        private EnrichmentChange enrichment;
 
         private SettingsRequestFlows flows;
 
@@ -249,6 +287,15 @@ public class SettingsRequest {
         }
 
         /**
+         * A change to enrichment. A field left out keeps the value in force; max_spend or deadline null
+         * removes the bound.
+         */
+        public Builder enrichment(@Nullable EnrichmentChange enrichment) {
+            this.enrichment = enrichment;
+            return this;
+        }
+
+        /**
          * Use account_creation or its deprecated alias signup, not both.
          */
         public Builder flows(@Nullable SettingsRequestFlows flows) {
@@ -272,7 +319,13 @@ public class SettingsRequest {
 
         public SettingsRequest build() {
             return new SettingsRequest(
-                    retentionDays, refusedSources, screeningDailyCap, flows, expectedPolicyVersion, changeReason);
+                    retentionDays,
+                    refusedSources,
+                    screeningDailyCap,
+                    enrichment,
+                    flows,
+                    expectedPolicyVersion,
+                    changeReason);
         }
     }
 }
