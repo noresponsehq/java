@@ -19,14 +19,17 @@ import java.util.Optional;
  * ScreeningMatchEvidenceKind
  *
  * <p>What matched. email, phone, supplied_handle and source_fact are hard identifiers; company, city and
- * school are soft. supplied_handle is a handle on the person row; source_fact is an account a profile
- * found by the person's lookups lists.
+ * school are soft. supplied_handle is a handle on the person row; supplied_username is an account at
+ * the person's platform-free username, which alone makes a possible match; source_fact is an account a
+ * profile found by the person's lookups lists.
  */
 public class ScreeningMatchEvidenceKind {
 
     public static final ScreeningMatchEvidenceKind EMAIL = new ScreeningMatchEvidenceKind("email");
     public static final ScreeningMatchEvidenceKind PHONE = new ScreeningMatchEvidenceKind("phone");
     public static final ScreeningMatchEvidenceKind SUPPLIED_HANDLE = new ScreeningMatchEvidenceKind("supplied_handle");
+    public static final ScreeningMatchEvidenceKind SUPPLIED_USERNAME =
+            new ScreeningMatchEvidenceKind("supplied_username");
     public static final ScreeningMatchEvidenceKind SOURCE_FACT = new ScreeningMatchEvidenceKind("source_fact");
     public static final ScreeningMatchEvidenceKind NAME = new ScreeningMatchEvidenceKind("name");
     public static final ScreeningMatchEvidenceKind COMPANY = new ScreeningMatchEvidenceKind("company");
@@ -105,6 +108,7 @@ public class ScreeningMatchEvidenceKind {
         map.put("email", EMAIL);
         map.put("phone", PHONE);
         map.put("supplied_handle", SUPPLIED_HANDLE);
+        map.put("supplied_username", SUPPLIED_USERNAME);
         map.put("source_fact", SOURCE_FACT);
         map.put("name", NAME);
         map.put("company", COMPANY);
@@ -118,6 +122,7 @@ public class ScreeningMatchEvidenceKind {
         map.put("email", ScreeningMatchEvidenceKindEnum.EMAIL);
         map.put("phone", ScreeningMatchEvidenceKindEnum.PHONE);
         map.put("supplied_handle", ScreeningMatchEvidenceKindEnum.SUPPLIED_HANDLE);
+        map.put("supplied_username", ScreeningMatchEvidenceKindEnum.SUPPLIED_USERNAME);
         map.put("source_fact", ScreeningMatchEvidenceKindEnum.SOURCE_FACT);
         map.put("name", ScreeningMatchEvidenceKindEnum.NAME);
         map.put("company", ScreeningMatchEvidenceKindEnum.COMPANY);
@@ -131,6 +136,7 @@ public class ScreeningMatchEvidenceKind {
         EMAIL("email"),
         PHONE("phone"),
         SUPPLIED_HANDLE("supplied_handle"),
+        SUPPLIED_USERNAME("supplied_username"),
         SOURCE_FACT("source_fact"),
         NAME("name"),
         COMPANY("company"),
