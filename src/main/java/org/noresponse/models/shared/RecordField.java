@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Boolean;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
@@ -84,6 +85,15 @@ public class RecordField {
     @JsonProperty("distinctive")
     private RecordDistinctive distinctive;
 
+    /**
+     * True when the value tells an investigator nothing on its own: a setting flag, a zero count, a bare
+     * number or a value with no letter or digit, in a field with no role. A field with a role is not
+     * noise. Investigation views hide noise by default; the field is still returned in full.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("noise")
+    private Boolean noise;
+
     @JsonCreator
     public RecordField(
             @JsonProperty("field") @Nonnull String field,
@@ -92,7 +102,8 @@ public class RecordField {
             @JsonProperty("role") @Nullable RecordRole role,
             @JsonProperty("value") @Nullable String value,
             @JsonProperty("detail") @Nullable String detail,
-            @JsonProperty("distinctive") @Nullable RecordDistinctive distinctive) {
+            @JsonProperty("distinctive") @Nullable RecordDistinctive distinctive,
+            @JsonProperty("noise") @Nullable Boolean noise) {
         this.field = Optional.ofNullable(field).orElseThrow(() -> new IllegalArgumentException("field cannot be null"));
         this.original = Optional.ofNullable(original)
                 .orElseThrow(() -> new IllegalArgumentException("original cannot be null"));
@@ -101,10 +112,11 @@ public class RecordField {
         this.value = value;
         this.detail = detail;
         this.distinctive = distinctive;
+        this.noise = noise;
     }
 
     public RecordField(@Nonnull String field, @Nonnull String original) {
-        this(field, original, null, null, null, null, null);
+        this(field, original, null, null, null, null, null, null);
     }
 
     /**
@@ -174,6 +186,15 @@ public class RecordField {
      */
     public Optional<RecordDistinctive> distinctive() {
         return Optional.ofNullable(this.distinctive);
+    }
+
+    /**
+     * True when the value tells an investigator nothing on its own: a setting flag, a zero count, a bare
+     * number or a value with no letter or digit, in a field with no role. A field with a role is not
+     * noise. Investigation views hide noise by default; the field is still returned in full.
+     */
+    public Optional<Boolean> noise() {
+        return Optional.ofNullable(this.noise);
     }
 
     public static Builder builder() {
@@ -256,6 +277,16 @@ public class RecordField {
         return this;
     }
 
+    /**
+     * True when the value tells an investigator nothing on its own: a setting flag, a zero count, a bare
+     * number or a value with no letter or digit, in a field with no role. A field with a role is not
+     * noise. Investigation views hide noise by default; the field is still returned in full.
+     */
+    public RecordField withNoise(@Nullable Boolean noise) {
+        this.noise = noise;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -271,12 +302,13 @@ public class RecordField {
                 && Utils.enhancedDeepEquals(this.role, other.role)
                 && Utils.enhancedDeepEquals(this.value, other.value)
                 && Utils.enhancedDeepEquals(this.detail, other.detail)
-                && Utils.enhancedDeepEquals(this.distinctive, other.distinctive);
+                && Utils.enhancedDeepEquals(this.distinctive, other.distinctive)
+                && Utils.enhancedDeepEquals(this.noise, other.noise);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(field, original, kind, role, value, detail, distinctive);
+        return Utils.enhancedHash(field, original, kind, role, value, detail, distinctive, noise);
     }
 
     @Override
@@ -296,7 +328,9 @@ public class RecordField {
                 "detail",
                 detail,
                 "distinctive",
-                distinctive);
+                distinctive,
+                "noise",
+                noise);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -315,6 +349,8 @@ public class RecordField {
         private String detail;
 
         private RecordDistinctive distinctive;
+
+        private Boolean noise;
 
         private Builder() {
             // force use of static builder() method
@@ -396,8 +432,18 @@ public class RecordField {
             return this;
         }
 
+        /**
+         * True when the value tells an investigator nothing on its own: a setting flag, a zero count, a bare
+         * number or a value with no letter or digit, in a field with no role. A field with a role is not
+         * noise. Investigation views hide noise by default; the field is still returned in full.
+         */
+        public Builder noise(@Nullable Boolean noise) {
+            this.noise = noise;
+            return this;
+        }
+
         public RecordField build() {
-            return new RecordField(field, original, kind, role, value, detail, distinctive);
+            return new RecordField(field, original, kind, role, value, detail, distinctive, noise);
         }
     }
 }
