@@ -24,6 +24,9 @@ public class ScreeningNotAnalysedCount {
      * <p>unfinished: the model cut its batch short or answered outside the schema, or the request was
      * rejected. unverified: a finding cited it with words it does not contain or an image it did not
      * describe. unspecified: the analyser gave no reason.
+     *
+     * <p>analysis_off: no analyser is switched on, so the investigation found, read and typed everything
+     * without AI and analysed nothing.
      */
     @JsonProperty("reason")
     private ScreeningNotAnalysedReason reason;
@@ -49,6 +52,9 @@ public class ScreeningNotAnalysedCount {
      * <p>unfinished: the model cut its batch short or answered outside the schema, or the request was
      * rejected. unverified: a finding cited it with words it does not contain or an image it did not
      * describe. unspecified: the analyser gave no reason.
+     *
+     * <p>analysis_off: no analyser is switched on, so the investigation found, read and typed everything
+     * without AI and analysed nothing.
      */
     public ScreeningNotAnalysedReason reason() {
         return this.reason;
@@ -72,6 +78,9 @@ public class ScreeningNotAnalysedCount {
      * <p>unfinished: the model cut its batch short or answered outside the schema, or the request was
      * rejected. unverified: a finding cited it with words it does not contain or an image it did not
      * describe. unspecified: the analyser gave no reason.
+     *
+     * <p>analysis_off: no analyser is switched on, so the investigation found, read and typed everything
+     * without AI and analysed nothing.
      */
     public ScreeningNotAnalysedCount withReason(@Nonnull ScreeningNotAnalysedReason reason) {
         this.reason = Utils.checkNotNull(reason, "reason");
@@ -126,6 +135,9 @@ public class ScreeningNotAnalysedCount {
          * <p>unfinished: the model cut its batch short or answered outside the schema, or the request was
          * rejected. unverified: a finding cited it with words it does not contain or an image it did not
          * describe. unspecified: the analyser gave no reason.
+         *
+         * <p>analysis_off: no analyser is switched on, so the investigation found, read and typed everything
+         * without AI and analysed nothing.
          */
         public Builder reason(@Nonnull ScreeningNotAnalysedReason reason) {
             this.reason = Utils.checkNotNull(reason, "reason");

@@ -27,6 +27,9 @@ import java.util.Optional;
  * <p>unfinished: the model cut its batch short or answered outside the schema, or the request was
  * rejected. unverified: a finding cited it with words it does not contain or an image it did not
  * describe. unspecified: the analyser gave no reason.
+ *
+ * <p>analysis_off: no analyser is switched on, so the investigation found, read and typed everything
+ * without AI and analysed nothing.
  */
 public class ScreeningNotAnalysedReason {
 
@@ -40,6 +43,7 @@ public class ScreeningNotAnalysedReason {
     public static final ScreeningNotAnalysedReason UNFINISHED = new ScreeningNotAnalysedReason("unfinished");
     public static final ScreeningNotAnalysedReason UNVERIFIED = new ScreeningNotAnalysedReason("unverified");
     public static final ScreeningNotAnalysedReason UNSPECIFIED = new ScreeningNotAnalysedReason("unspecified");
+    public static final ScreeningNotAnalysedReason ANALYSIS_OFF = new ScreeningNotAnalysedReason("analysis_off");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -118,6 +122,7 @@ public class ScreeningNotAnalysedReason {
         map.put("unfinished", UNFINISHED);
         map.put("unverified", UNVERIFIED);
         map.put("unspecified", UNSPECIFIED);
+        map.put("analysis_off", ANALYSIS_OFF);
         return map;
     }
 
@@ -131,6 +136,7 @@ public class ScreeningNotAnalysedReason {
         map.put("unfinished", ScreeningNotAnalysedReasonEnum.UNFINISHED);
         map.put("unverified", ScreeningNotAnalysedReasonEnum.UNVERIFIED);
         map.put("unspecified", ScreeningNotAnalysedReasonEnum.UNSPECIFIED);
+        map.put("analysis_off", ScreeningNotAnalysedReasonEnum.ANALYSIS_OFF);
         return map;
     }
 
@@ -144,6 +150,7 @@ public class ScreeningNotAnalysedReason {
         UNFINISHED("unfinished"),
         UNVERIFIED("unverified"),
         UNSPECIFIED("unspecified"),
+        ANALYSIS_OFF("analysis_off"),
         ;
 
         private final String value;

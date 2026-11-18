@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 77816f97ee2d8b0c2e325f812d78d354
+  docChecksum: dec2f55d4486bb26003e3924cd79b6d2
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 15.0.17
-  configChecksum: f675bf9d0dfbe7791231e65eddfc4940
+  releaseVersion: 15.0.18
+  configChecksum: b7cb96ffa28c6863f969ace1f7d24be0
 features:
   java:
     additionalDependencies: 0.1.0
@@ -1401,9 +1401,9 @@ trackedFiles:
   docs/models/shared/ScreeningMediaObservation.md:
     last_write_checksum: sha1:3527b45a716d3c9ecc58336fec72080e0ba32c9e
   docs/models/shared/ScreeningNotAnalysedCount.md:
-    last_write_checksum: sha1:56f7d8c529b5eb9fa5d94c7c385c4aeb37318407
+    last_write_checksum: sha1:47fbeadd28f4ad89d01cd53663e0f2a457142d46
   docs/models/shared/ScreeningNotAnalysedReason.md:
-    last_write_checksum: sha1:070a0c3b24fd3fb10577dcc99f6814c75e63bf05
+    last_write_checksum: sha1:bf2c48d0a27565c353e4b0ae59bdcfa1d4a1affe
   docs/models/shared/ScreeningPlatformCoverage.md:
     last_write_checksum: sha1:9245db340114d32c3983af149db8e30ccc14de18
   docs/models/shared/ScreeningPlatformCoverageStatus.md:
@@ -1627,7 +1627,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:837676845227edd69a5670a22831e6e86766598a
+    last_write_checksum: sha1:b60b5b9b0b68b2358b28f90b8912b4f862e300bd
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1723,7 +1723,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:8d27c34c46524844817f530634c14196c3e27c93
+    last_write_checksum: sha1:e8ee5ac3b04c16a8ba856c8e32359e24702f14eb
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -3897,9 +3897,9 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/ScreeningMediaObservation.java:
     last_write_checksum: sha1:0f008b4aed14d37259283d3dccefb675dbddca1a
   src/main/java/org/noresponse/models/shared/ScreeningNotAnalysedCount.java:
-    last_write_checksum: sha1:80b25b8241aa040769c3e3bec0518c0831851d6b
+    last_write_checksum: sha1:4ae6f4943a0a4e389ac97e64585d9cffc3e5c036
   src/main/java/org/noresponse/models/shared/ScreeningNotAnalysedReason.java:
-    last_write_checksum: sha1:a09e6315cfd70b033b1a25ac02dc4d2537a86c74
+    last_write_checksum: sha1:75ac2a68b63d7d78e47a9ab8c50663f4122dc79d
   src/main/java/org/noresponse/models/shared/ScreeningPlatformCoverage.java:
     last_write_checksum: sha1:66a0e609a8b01548ea15aa6d36e8574f0b2927d6
   src/main/java/org/noresponse/models/shared/ScreeningPlatformCoverageStatus.java:
