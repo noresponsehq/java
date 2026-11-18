@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: cc96f0359e1791be8d23acaaa4d346d5
+  docChecksum: 8fe54e7b8d2b2d49d5add7884367b383
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 15.0.13
-  configChecksum: 86970443301e315f552b98a710037011
+  releaseVersion: 15.0.14
+  configChecksum: bad12f653f11bab496cb11a670fb68ea
 features:
   java:
     additionalDependencies: 0.1.0
@@ -1627,7 +1627,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:af70a26e57ea7af8376fedafecfdf16666d06535
+    last_write_checksum: sha1:b4f3cb2235ec65f1ec1782f52258fae15b14247e
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1723,7 +1723,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:7e3fc54e281aec10a8a940109964be580e27f29e
+    last_write_checksum: sha1:2477cb0bd58c2af61bb0b79fed0c774b9502fb1e
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
