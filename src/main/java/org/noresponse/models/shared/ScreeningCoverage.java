@@ -79,6 +79,24 @@ public class ScreeningCoverage {
     @JsonProperty("not_searched")
     private List<String> notSearched;
 
+    /**
+     * How many sources this search asked and how many answered, across the lookup stage (sources asked
+     * whether an account exists for an identifier) and the platform stage (profiles read on each
+     * platform). A source that answered may have found nothing; one that did not answer failed or ran out
+     * of time.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("sources")
+    private ScreeningCoverageSources sources;
+
+    /**
+     * How long this search's latest attempt took, stage by stage. started_at minus the investigation's
+     * creation is the time spent queued or retrying.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("timing")
+    private ScreeningCoverageTiming timing;
+
     @JsonCreator
     public ScreeningCoverage(
             @JsonProperty("accounts_found") long accountsFound,
@@ -90,7 +108,9 @@ public class ScreeningCoverage {
             @JsonProperty("period_from") @Nullable String periodFrom,
             @JsonProperty("period_to") @Nullable String periodTo,
             @JsonProperty("platforms") @Nonnull List<ScreeningPlatformCoverage> platforms,
-            @JsonProperty("not_searched") @Nullable List<String> notSearched) {
+            @JsonProperty("not_searched") @Nullable List<String> notSearched,
+            @JsonProperty("sources") @Nullable ScreeningCoverageSources sources,
+            @JsonProperty("timing") @Nullable ScreeningCoverageTiming timing) {
         this.accountsFound = accountsFound;
         this.accountsAccessible = accountsAccessible;
         this.itemsRead = itemsRead;
@@ -102,6 +122,8 @@ public class ScreeningCoverage {
         this.platforms = Optional.ofNullable(platforms)
                 .orElseThrow(() -> new IllegalArgumentException("platforms cannot be null"));
         this.notSearched = notSearched;
+        this.sources = sources;
+        this.timing = timing;
     }
 
     public ScreeningCoverage(
@@ -109,7 +131,7 @@ public class ScreeningCoverage {
             long accountsAccessible,
             long itemsRead,
             @Nonnull List<ScreeningPlatformCoverage> platforms) {
-        this(accountsFound, accountsAccessible, itemsRead, null, null, null, null, null, platforms, null);
+        this(accountsFound, accountsAccessible, itemsRead, null, null, null, null, null, platforms, null, null, null);
     }
 
     public long accountsFound() {
@@ -172,6 +194,24 @@ public class ScreeningCoverage {
      */
     public Optional<List<String>> notSearched() {
         return Optional.ofNullable(this.notSearched);
+    }
+
+    /**
+     * How many sources this search asked and how many answered, across the lookup stage (sources asked
+     * whether an account exists for an identifier) and the platform stage (profiles read on each
+     * platform). A source that answered may have found nothing; one that did not answer failed or ran out
+     * of time.
+     */
+    public Optional<ScreeningCoverageSources> sources() {
+        return Optional.ofNullable(this.sources);
+    }
+
+    /**
+     * How long this search's latest attempt took, stage by stage. started_at minus the investigation's
+     * creation is the time spent queued or retrying.
+     */
+    public Optional<ScreeningCoverageTiming> timing() {
+        return Optional.ofNullable(this.timing);
     }
 
     public static Builder builder() {
@@ -250,6 +290,26 @@ public class ScreeningCoverage {
         return this;
     }
 
+    /**
+     * How many sources this search asked and how many answered, across the lookup stage (sources asked
+     * whether an account exists for an identifier) and the platform stage (profiles read on each
+     * platform). A source that answered may have found nothing; one that did not answer failed or ran out
+     * of time.
+     */
+    public ScreeningCoverage withSources(@Nullable ScreeningCoverageSources sources) {
+        this.sources = sources;
+        return this;
+    }
+
+    /**
+     * How long this search's latest attempt took, stage by stage. started_at minus the investigation's
+     * creation is the time spent queued or retrying.
+     */
+    public ScreeningCoverage withTiming(@Nullable ScreeningCoverageTiming timing) {
+        this.timing = timing;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -268,7 +328,9 @@ public class ScreeningCoverage {
                 && Utils.enhancedDeepEquals(this.periodFrom, other.periodFrom)
                 && Utils.enhancedDeepEquals(this.periodTo, other.periodTo)
                 && Utils.enhancedDeepEquals(this.platforms, other.platforms)
-                && Utils.enhancedDeepEquals(this.notSearched, other.notSearched);
+                && Utils.enhancedDeepEquals(this.notSearched, other.notSearched)
+                && Utils.enhancedDeepEquals(this.sources, other.sources)
+                && Utils.enhancedDeepEquals(this.timing, other.timing);
     }
 
     @Override
@@ -283,7 +345,9 @@ public class ScreeningCoverage {
                 periodFrom,
                 periodTo,
                 platforms,
-                notSearched);
+                notSearched,
+                sources,
+                timing);
     }
 
     @Override
@@ -309,7 +373,11 @@ public class ScreeningCoverage {
                 "platforms",
                 platforms,
                 "notSearched",
-                notSearched);
+                notSearched,
+                "sources",
+                sources,
+                "timing",
+                timing);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -334,6 +402,10 @@ public class ScreeningCoverage {
         private List<ScreeningPlatformCoverage> platforms;
 
         private List<String> notSearched;
+
+        private ScreeningCoverageSources sources;
+
+        private ScreeningCoverageTiming timing;
 
         private Builder() {
             // force use of static builder() method
@@ -411,6 +483,26 @@ public class ScreeningCoverage {
             return this;
         }
 
+        /**
+         * How many sources this search asked and how many answered, across the lookup stage (sources asked
+         * whether an account exists for an identifier) and the platform stage (profiles read on each
+         * platform). A source that answered may have found nothing; one that did not answer failed or ran out
+         * of time.
+         */
+        public Builder sources(@Nullable ScreeningCoverageSources sources) {
+            this.sources = sources;
+            return this;
+        }
+
+        /**
+         * How long this search's latest attempt took, stage by stage. started_at minus the investigation's
+         * creation is the time spent queued or retrying.
+         */
+        public Builder timing(@Nullable ScreeningCoverageTiming timing) {
+            this.timing = timing;
+            return this;
+        }
+
         public ScreeningCoverage build() {
             return new ScreeningCoverage(
                     accountsFound,
@@ -422,7 +514,9 @@ public class ScreeningCoverage {
                     periodFrom,
                     periodTo,
                     platforms,
-                    notSearched);
+                    notSearched,
+                    sources,
+                    timing);
         }
     }
 }
