@@ -8,7 +8,8 @@ import java.util.Optional;
 public enum EnrichmentChangeKind {
     USERNAME("username"),
     EMAIL("email"),
-    PHONE("phone");
+    PHONE("phone"),
+    PERSON_NAME("person_name");
 
     @JsonValue
     private final String value;

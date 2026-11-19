@@ -41,8 +41,8 @@ public class EnrichmentChange {
     private Double minLikelihood;
 
     /**
-     * The kinds of value enrichment searches: distinctive usernames, and email addresses and phone
-     * numbers, which belong to one person each.
+     * The kinds of value enrichment searches: distinctive usernames, email addresses and phone numbers,
+     * which belong to one person each, and distinctive person names, searched in the breach data.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("kinds")
@@ -104,8 +104,8 @@ public class EnrichmentChange {
     }
 
     /**
-     * The kinds of value enrichment searches: distinctive usernames, and email addresses and phone
-     * numbers, which belong to one person each.
+     * The kinds of value enrichment searches: distinctive usernames, email addresses and phone numbers,
+     * which belong to one person each, and distinctive person names, searched in the breach data.
      */
     public Optional<List<EnrichmentChangeKind>> kinds() {
         return Optional.ofNullable(this.kinds);
@@ -155,8 +155,8 @@ public class EnrichmentChange {
     }
 
     /**
-     * The kinds of value enrichment searches: distinctive usernames, and email addresses and phone
-     * numbers, which belong to one person each.
+     * The kinds of value enrichment searches: distinctive usernames, email addresses and phone numbers,
+     * which belong to one person each, and distinctive person names, searched in the breach data.
      */
     public EnrichmentChange withKinds(@Nullable List<EnrichmentChangeKind> kinds) {
         this.kinds = kinds;
@@ -259,8 +259,8 @@ public class EnrichmentChange {
         }
 
         /**
-         * The kinds of value enrichment searches: distinctive usernames, and email addresses and phone
-         * numbers, which belong to one person each.
+         * The kinds of value enrichment searches: distinctive usernames, email addresses and phone numbers,
+         * which belong to one person each, and distinctive person names, searched in the breach data.
          */
         public Builder kinds(@Nullable List<EnrichmentChangeKind> kinds) {
             this.kinds = kinds;

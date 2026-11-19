@@ -421,14 +421,14 @@ public class AsyncPeople {
      * registrable domain or a host under one; any other domain answers 400. After a workspace person's own
      * investigation or a group's screening, while the environment's enrichment mode, or an investigation's
      * override, is automatic, enrichment also starts searches by itself, with requested_by enrichment, on
-     * the distinctive values of the enrichment kinds (usernames by default; email addresses and phone
-     * numbers when named) of records more likely than min_likelihood (0.5 by default) to be the person's:
-     * each value at most once per person (once more if that search failed), at most 5 searches from one
-     * search's records and 20 per person, at most 6 searches deep, within max_spend and the deadline when
-     * set, and within the screening cap; at the screening cap it waits and tries again later. A record a
-     * search finds starts from the likelihood of the record it came from, divided by one plus the results
-     * the search found on that site, or anywhere for a name search, so a chain grows less likely with each
-     * search and stops.
+     * the distinctive values of the enrichment kinds (usernames by default; email addresses, phone numbers
+     * and person names when named) of records more likely than min_likelihood (0.5 by default) to be the
+     * person's: each value at most once per person (once more if that search failed), at most 5 searches
+     * from one search's records and 20 per person, at most 6 searches deep, within max_spend and the
+     * deadline when set, and within the screening cap; at the screening cap it waits and tries again
+     * later. A record a search finds starts from the likelihood of the record it came from, divided by one
+     * plus the results the search found on that site, or anywhere for a name search, so a chain grows less
+     * likely with each search and stops.
      *
      * <p>A group takes mode suggest while the workspace has not set a mode. In suggest mode enrichment starts
      * none by itself, and the person report lists what it would start in suggested_searches. The search
@@ -475,14 +475,14 @@ public class AsyncPeople {
      * registrable domain or a host under one; any other domain answers 400. After a workspace person's own
      * investigation or a group's screening, while the environment's enrichment mode, or an investigation's
      * override, is automatic, enrichment also starts searches by itself, with requested_by enrichment, on
-     * the distinctive values of the enrichment kinds (usernames by default; email addresses and phone
-     * numbers when named) of records more likely than min_likelihood (0.5 by default) to be the person's:
-     * each value at most once per person (once more if that search failed), at most 5 searches from one
-     * search's records and 20 per person, at most 6 searches deep, within max_spend and the deadline when
-     * set, and within the screening cap; at the screening cap it waits and tries again later. A record a
-     * search finds starts from the likelihood of the record it came from, divided by one plus the results
-     * the search found on that site, or anywhere for a name search, so a chain grows less likely with each
-     * search and stops.
+     * the distinctive values of the enrichment kinds (usernames by default; email addresses, phone numbers
+     * and person names when named) of records more likely than min_likelihood (0.5 by default) to be the
+     * person's: each value at most once per person (once more if that search failed), at most 5 searches
+     * from one search's records and 20 per person, at most 6 searches deep, within max_spend and the
+     * deadline when set, and within the screening cap; at the screening cap it waits and tries again
+     * later. A record a search finds starts from the likelihood of the record it came from, divided by one
+     * plus the results the search found on that site, or anywhere for a name search, so a chain grows less
+     * likely with each search and stops.
      *
      * <p>A group takes mode suggest while the workspace has not set a mode. In suggest mode enrichment starts
      * none by itself, and the person report lists what it would start in suggested_searches. The search
@@ -532,14 +532,14 @@ public class AsyncPeople {
      * registrable domain or a host under one; any other domain answers 400. After a workspace person's own
      * investigation or a group's screening, while the environment's enrichment mode, or an investigation's
      * override, is automatic, enrichment also starts searches by itself, with requested_by enrichment, on
-     * the distinctive values of the enrichment kinds (usernames by default; email addresses and phone
-     * numbers when named) of records more likely than min_likelihood (0.5 by default) to be the person's:
-     * each value at most once per person (once more if that search failed), at most 5 searches from one
-     * search's records and 20 per person, at most 6 searches deep, within max_spend and the deadline when
-     * set, and within the screening cap; at the screening cap it waits and tries again later. A record a
-     * search finds starts from the likelihood of the record it came from, divided by one plus the results
-     * the search found on that site, or anywhere for a name search, so a chain grows less likely with each
-     * search and stops.
+     * the distinctive values of the enrichment kinds (usernames by default; email addresses, phone numbers
+     * and person names when named) of records more likely than min_likelihood (0.5 by default) to be the
+     * person's: each value at most once per person (once more if that search failed), at most 5 searches
+     * from one search's records and 20 per person, at most 6 searches deep, within max_spend and the
+     * deadline when set, and within the screening cap; at the screening cap it waits and tries again
+     * later. A record a search finds starts from the likelihood of the record it came from, divided by one
+     * plus the results the search found on that site, or anywhere for a name search, so a chain grows less
+     * likely with each search and stops.
      *
      * <p>A group takes mode suggest while the workspace has not set a mode. In suggest mode enrichment starts
      * none by itself, and the person report lists what it would start in suggested_searches. The search

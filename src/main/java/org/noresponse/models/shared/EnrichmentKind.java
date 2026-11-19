@@ -20,6 +20,7 @@ public class EnrichmentKind {
     public static final EnrichmentKind USERNAME = new EnrichmentKind("username");
     public static final EnrichmentKind EMAIL = new EnrichmentKind("email");
     public static final EnrichmentKind PHONE = new EnrichmentKind("phone");
+    public static final EnrichmentKind PERSON_NAME = new EnrichmentKind("person_name");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -93,6 +94,7 @@ public class EnrichmentKind {
         map.put("username", USERNAME);
         map.put("email", EMAIL);
         map.put("phone", PHONE);
+        map.put("person_name", PERSON_NAME);
         return map;
     }
 
@@ -101,6 +103,7 @@ public class EnrichmentKind {
         map.put("username", EnrichmentKindEnum.USERNAME);
         map.put("email", EnrichmentKindEnum.EMAIL);
         map.put("phone", EnrichmentKindEnum.PHONE);
+        map.put("person_name", EnrichmentKindEnum.PERSON_NAME);
         return map;
     }
 
@@ -109,6 +112,7 @@ public class EnrichmentKind {
         USERNAME("username"),
         EMAIL("email"),
         PHONE("phone"),
+        PERSON_NAME("person_name"),
         ;
 
         private final String value;

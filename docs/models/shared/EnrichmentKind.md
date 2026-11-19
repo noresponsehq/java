@@ -14,8 +14,9 @@ EnrichmentKind custom = EnrichmentKind.of("custom_value");
 
 ## Values
 
-| Name       | Value      |
-| ---------- | ---------- |
-| `USERNAME` | username   |
-| `EMAIL`    | email      |
-| `PHONE`    | phone      |
+| Name          | Value         |
+| ------------- | ------------- |
+| `USERNAME`    | username      |
+| `EMAIL`       | email         |
+| `PHONE`       | phone         |
+| `PERSON_NAME` | person_name   |

@@ -46,8 +46,8 @@ public class Enrichment {
     private double minLikelihood;
 
     /**
-     * The kinds of value enrichment searches: distinctive usernames, and email addresses and phone
-     * numbers, which belong to one person each.
+     * The kinds of value enrichment searches: distinctive usernames, email addresses and phone numbers,
+     * which belong to one person each, and distinctive person names, searched in the breach data.
      */
     @JsonProperty("kinds")
     private List<EnrichmentKind> kinds;
@@ -108,8 +108,8 @@ public class Enrichment {
     }
 
     /**
-     * The kinds of value enrichment searches: distinctive usernames, and email addresses and phone
-     * numbers, which belong to one person each.
+     * The kinds of value enrichment searches: distinctive usernames, email addresses and phone numbers,
+     * which belong to one person each, and distinctive person names, searched in the breach data.
      */
     public List<EnrichmentKind> kinds() {
         return this.kinds;
@@ -159,8 +159,8 @@ public class Enrichment {
     }
 
     /**
-     * The kinds of value enrichment searches: distinctive usernames, and email addresses and phone
-     * numbers, which belong to one person each.
+     * The kinds of value enrichment searches: distinctive usernames, email addresses and phone numbers,
+     * which belong to one person each, and distinctive person names, searched in the breach data.
      */
     public Enrichment withKinds(@Nonnull List<EnrichmentKind> kinds) {
         this.kinds = Utils.checkNotNull(kinds, "kinds");
@@ -263,8 +263,8 @@ public class Enrichment {
         }
 
         /**
-         * The kinds of value enrichment searches: distinctive usernames, and email addresses and phone
-         * numbers, which belong to one person each.
+         * The kinds of value enrichment searches: distinctive usernames, email addresses and phone numbers,
+         * which belong to one person each, and distinctive person names, searched in the breach data.
          */
         public Builder kinds(@Nonnull List<EnrichmentKind> kinds) {
             this.kinds = Utils.checkNotNull(kinds, "kinds");

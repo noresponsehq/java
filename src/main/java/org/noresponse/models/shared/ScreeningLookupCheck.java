@@ -20,7 +20,7 @@ import org.noresponse.utils.Utils;
 public class ScreeningLookupCheck {
 
     @JsonProperty("identifier")
-    private IdentifierSearchKind identifier;
+    private Identifier identifier;
 
     /**
      * An evidence lane: accounts (account presence for email and username), phone, breach, domain (the
@@ -77,7 +77,7 @@ public class ScreeningLookupCheck {
 
     @JsonCreator
     public ScreeningLookupCheck(
-            @JsonProperty("identifier") @Nonnull IdentifierSearchKind identifier,
+            @JsonProperty("identifier") @Nonnull Identifier identifier,
             @JsonProperty("lane") @Nonnull Lane lane,
             @JsonProperty("status") @Nonnull ScreeningLookupCheckStatus status,
             @JsonProperty("sources") long sources,
@@ -98,7 +98,7 @@ public class ScreeningLookupCheck {
     }
 
     public ScreeningLookupCheck(
-            @Nonnull IdentifierSearchKind identifier,
+            @Nonnull Identifier identifier,
             @Nonnull Lane lane,
             @Nonnull ScreeningLookupCheckStatus status,
             long sources,
@@ -107,7 +107,7 @@ public class ScreeningLookupCheck {
         this(identifier, lane, status, sources, answered, found, null, null);
     }
 
-    public IdentifierSearchKind identifier() {
+    public Identifier identifier() {
         return this.identifier;
     }
 
@@ -173,7 +173,7 @@ public class ScreeningLookupCheck {
         return new Builder();
     }
 
-    public ScreeningLookupCheck withIdentifier(@Nonnull IdentifierSearchKind identifier) {
+    public ScreeningLookupCheck withIdentifier(@Nonnull Identifier identifier) {
         this.identifier = Utils.checkNotNull(identifier, "identifier");
         return this;
     }
@@ -292,7 +292,7 @@ public class ScreeningLookupCheck {
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
 
-        private IdentifierSearchKind identifier;
+        private Identifier identifier;
 
         private Lane lane;
 
@@ -312,7 +312,7 @@ public class ScreeningLookupCheck {
             // force use of static builder() method
         }
 
-        public Builder identifier(@Nonnull IdentifierSearchKind identifier) {
+        public Builder identifier(@Nonnull Identifier identifier) {
             this.identifier = Utils.checkNotNull(identifier, "identifier");
             return this;
         }
