@@ -39,23 +39,6 @@ public class ScreeningLookup {
     private List<ScreeningLookupAnswer> answers;
 
     /**
-     * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
-     * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
-     * false or 0 is a definite answer.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("summary")
-    private RiskSummary summary;
-
-    /**
-     * Merged observations behind the summary, served only to a caller who may read evidence: no provider,
-     * source, origin, raw breach record or score.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("details")
-    private RiskDetails details;
-
-    /**
      * What each source answered, whole, each answer once: every field of each account a connector found,
      * and every column of each breach row the person's email or usernames matched, under the source's own
      * names, and what each search a person started found, each match naming its search. Anyone who may
@@ -85,16 +68,12 @@ public class ScreeningLookup {
     public ScreeningLookup(
             @JsonProperty("checks") @Nonnull List<ScreeningLookupCheck> checks,
             @JsonProperty("answers") @Nullable List<ScreeningLookupAnswer> answers,
-            @JsonProperty("summary") @Nullable RiskSummary summary,
-            @JsonProperty("details") @Nullable RiskDetails details,
             @JsonProperty("records") @Nullable List<Record> records,
             @JsonProperty("remaining") @Nullable List<RecordRemaining> remaining,
             @JsonProperty("looked_at") @Nonnull String lookedAt) {
         this.checks =
                 Optional.ofNullable(checks).orElseThrow(() -> new IllegalArgumentException("checks cannot be null"));
         this.answers = answers;
-        this.summary = summary;
-        this.details = details;
         this.records = records;
         this.remaining = remaining;
         this.lookedAt = Optional.ofNullable(lookedAt)
@@ -102,7 +81,7 @@ public class ScreeningLookup {
     }
 
     public ScreeningLookup(@Nonnull List<ScreeningLookupCheck> checks, @Nonnull String lookedAt) {
-        this(checks, null, null, null, null, null, lookedAt);
+        this(checks, null, null, null, lookedAt);
     }
 
     /**
@@ -121,23 +100,6 @@ public class ScreeningLookup {
      */
     public Optional<List<ScreeningLookupAnswer>> answers() {
         return Optional.ofNullable(this.answers);
-    }
-
-    /**
-     * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
-     * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
-     * false or 0 is a definite answer.
-     */
-    public Optional<RiskSummary> summary() {
-        return Optional.ofNullable(this.summary);
-    }
-
-    /**
-     * Merged observations behind the summary, served only to a caller who may read evidence: no provider,
-     * source, origin, raw breach record or score.
-     */
-    public Optional<RiskDetails> details() {
-        return Optional.ofNullable(this.details);
     }
 
     /**
@@ -192,25 +154,6 @@ public class ScreeningLookup {
     }
 
     /**
-     * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
-     * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
-     * false or 0 is a definite answer.
-     */
-    public ScreeningLookup withSummary(@Nullable RiskSummary summary) {
-        this.summary = summary;
-        return this;
-    }
-
-    /**
-     * Merged observations behind the summary, served only to a caller who may read evidence: no provider,
-     * source, origin, raw breach record or score.
-     */
-    public ScreeningLookup withDetails(@Nullable RiskDetails details) {
-        this.details = details;
-        return this;
-    }
-
-    /**
      * What each source answered, whole, each answer once: every field of each account a connector found,
      * and every column of each breach row the person's email or usernames matched, under the source's own
      * names, and what each search a person started found, each match naming its search. Anyone who may
@@ -251,8 +194,6 @@ public class ScreeningLookup {
         ScreeningLookup other = (ScreeningLookup) o;
         return Utils.enhancedDeepEquals(this.checks, other.checks)
                 && Utils.enhancedDeepEquals(this.answers, other.answers)
-                && Utils.enhancedDeepEquals(this.summary, other.summary)
-                && Utils.enhancedDeepEquals(this.details, other.details)
                 && Utils.enhancedDeepEquals(this.records, other.records)
                 && Utils.enhancedDeepEquals(this.remaining, other.remaining)
                 && Utils.enhancedDeepEquals(this.lookedAt, other.lookedAt);
@@ -260,7 +201,7 @@ public class ScreeningLookup {
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(checks, answers, summary, details, records, remaining, lookedAt);
+        return Utils.enhancedHash(checks, answers, records, remaining, lookedAt);
     }
 
     @Override
@@ -271,10 +212,6 @@ public class ScreeningLookup {
                 checks,
                 "answers",
                 answers,
-                "summary",
-                summary,
-                "details",
-                details,
                 "records",
                 records,
                 "remaining",
@@ -289,10 +226,6 @@ public class ScreeningLookup {
         private List<ScreeningLookupCheck> checks;
 
         private List<ScreeningLookupAnswer> answers;
-
-        private RiskSummary summary;
-
-        private RiskDetails details;
 
         private List<Record> records;
 
@@ -321,25 +254,6 @@ public class ScreeningLookup {
          */
         public Builder answers(@Nullable List<ScreeningLookupAnswer> answers) {
             this.answers = answers;
-            return this;
-        }
-
-        /**
-         * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
-         * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
-         * false or 0 is a definite answer.
-         */
-        public Builder summary(@Nullable RiskSummary summary) {
-            this.summary = summary;
-            return this;
-        }
-
-        /**
-         * Merged observations behind the summary, served only to a caller who may read evidence: no provider,
-         * source, origin, raw breach record or score.
-         */
-        public Builder details(@Nullable RiskDetails details) {
-            this.details = details;
             return this;
         }
 
@@ -374,7 +288,7 @@ public class ScreeningLookup {
         }
 
         public ScreeningLookup build() {
-            return new ScreeningLookup(checks, answers, summary, details, records, remaining, lookedAt);
+            return new ScreeningLookup(checks, answers, records, remaining, lookedAt);
         }
     }
 }
