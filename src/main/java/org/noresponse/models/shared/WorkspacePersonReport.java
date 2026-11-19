@@ -92,6 +92,14 @@ public class WorkspacePersonReport {
     private String expiresAt;
 
     /**
+     * Every group this person belongs to in this environment, most recently added first, with their role
+     * in each. A person can belong to any number of groups; removing them from a group or deleting the
+     * group removes it here.
+     */
+    @JsonProperty("groups")
+    private List<PersonGroup> groups;
+
+    /**
      * The accounts this result matched, with how each was matched.
      */
     @JsonProperty("profiles")
@@ -192,6 +200,7 @@ public class WorkspacePersonReport {
             @JsonProperty("created_at") @Nonnull String createdAt,
             @JsonProperty("updated_at") @Nonnull String updatedAt,
             @JsonProperty("expires_at") @Nonnull String expiresAt,
+            @JsonProperty("groups") @Nonnull List<PersonGroup> groups,
             @JsonProperty("profiles") @Nonnull List<ScreeningProfile> profiles,
             @JsonProperty("findings") @Nonnull List<ScreeningFinding> findings,
             @JsonProperty("posts") @Nonnull List<ScreeningPost> posts,
@@ -218,6 +227,8 @@ public class WorkspacePersonReport {
                 .orElseThrow(() -> new IllegalArgumentException("updatedAt cannot be null"));
         this.expiresAt = Optional.ofNullable(expiresAt)
                 .orElseThrow(() -> new IllegalArgumentException("expiresAt cannot be null"));
+        this.groups =
+                Optional.ofNullable(groups).orElseThrow(() -> new IllegalArgumentException("groups cannot be null"));
         this.profiles = Optional.ofNullable(profiles)
                 .orElseThrow(() -> new IllegalArgumentException("profiles cannot be null"));
         this.findings = Optional.ofNullable(findings)
@@ -240,6 +251,7 @@ public class WorkspacePersonReport {
             @Nonnull String createdAt,
             @Nonnull String updatedAt,
             @Nonnull String expiresAt,
+            @Nonnull List<PersonGroup> groups,
             @Nonnull List<ScreeningProfile> profiles,
             @Nonnull List<ScreeningFinding> findings,
             @Nonnull List<ScreeningPost> posts,
@@ -259,6 +271,7 @@ public class WorkspacePersonReport {
                 createdAt,
                 updatedAt,
                 expiresAt,
+                groups,
                 profiles,
                 findings,
                 posts,
@@ -345,6 +358,15 @@ public class WorkspacePersonReport {
      */
     public String expiresAt() {
         return this.expiresAt;
+    }
+
+    /**
+     * Every group this person belongs to in this environment, most recently added first, with their role
+     * in each. A person can belong to any number of groups; removing them from a group or deleting the
+     * group removes it here.
+     */
+    public List<PersonGroup> groups() {
+        return this.groups;
     }
 
     /**
@@ -532,6 +554,16 @@ public class WorkspacePersonReport {
     }
 
     /**
+     * Every group this person belongs to in this environment, most recently added first, with their role
+     * in each. A person can belong to any number of groups; removing them from a group or deleting the
+     * group removes it here.
+     */
+    public WorkspacePersonReport withGroups(@Nonnull List<PersonGroup> groups) {
+        this.groups = Utils.checkNotNull(groups, "groups");
+        return this;
+    }
+
+    /**
      * The accounts this result matched, with how each was matched.
      */
     public WorkspacePersonReport withProfiles(@Nonnull List<ScreeningProfile> profiles) {
@@ -656,6 +688,7 @@ public class WorkspacePersonReport {
                 && Utils.enhancedDeepEquals(this.createdAt, other.createdAt)
                 && Utils.enhancedDeepEquals(this.updatedAt, other.updatedAt)
                 && Utils.enhancedDeepEquals(this.expiresAt, other.expiresAt)
+                && Utils.enhancedDeepEquals(this.groups, other.groups)
                 && Utils.enhancedDeepEquals(this.profiles, other.profiles)
                 && Utils.enhancedDeepEquals(this.findings, other.findings)
                 && Utils.enhancedDeepEquals(this.posts, other.posts)
@@ -684,6 +717,7 @@ public class WorkspacePersonReport {
                 createdAt,
                 updatedAt,
                 expiresAt,
+                groups,
                 profiles,
                 findings,
                 posts,
@@ -725,6 +759,8 @@ public class WorkspacePersonReport {
                 updatedAt,
                 "expiresAt",
                 expiresAt,
+                "groups",
+                groups,
                 "profiles",
                 profiles,
                 "findings",
@@ -775,6 +811,8 @@ public class WorkspacePersonReport {
         private String updatedAt;
 
         private String expiresAt;
+
+        private List<PersonGroup> groups;
 
         private List<ScreeningProfile> profiles;
 
@@ -886,6 +924,16 @@ public class WorkspacePersonReport {
          */
         public Builder expiresAt(@Nonnull String expiresAt) {
             this.expiresAt = Utils.checkNotNull(expiresAt, "expiresAt");
+            return this;
+        }
+
+        /**
+         * Every group this person belongs to in this environment, most recently added first, with their role
+         * in each. A person can belong to any number of groups; removing them from a group or deleting the
+         * group removes it here.
+         */
+        public Builder groups(@Nonnull List<PersonGroup> groups) {
+            this.groups = Utils.checkNotNull(groups, "groups");
             return this;
         }
 
@@ -1007,6 +1055,7 @@ public class WorkspacePersonReport {
                     createdAt,
                     updatedAt,
                     expiresAt,
+                    groups,
                     profiles,
                     findings,
                     posts,
