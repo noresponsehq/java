@@ -14,6 +14,7 @@ Workspace people, submitted identity, source evidence and expiry.
 * [startSearch](#startsearch) - Search again on a value of one of a workspace person's records.
 * [runSearch](#runsearch) - Run a counted password or hash search on a workspace person.
 * [reviewChange](#reviewchange) - Mark a change on a workspace person reviewed.
+* [schedule](#schedule) - Schedule a workspace person's reruns.
 
 ## list
 
@@ -526,6 +527,73 @@ public class Application {
 ### Response
 
 **[ReviewWorkspacePersonChangeResponse](../../models/operations/ReviewWorkspacePersonChangeResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## schedule
+
+Sets how often the person is investigated again: daily, weekly or monthly, counted from now, or off. Each due run starts one full investigation of the person, which the person's investigations list and whose changes the person report stores. Setting the period the schedule already has keeps its next run. The schedule lives in the database and the worker runs it, so a restart or a release neither skips nor repeats a run. Each change is audited as person.schedule_changed. The investigations scope grants this operation. The groups scope is also accepted for existing integrations. The API key selects the workspace and environment.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="scheduleWorkspacePerson" method="post" path="/v1/people/{person_id}/schedule" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.ScheduleWorkspacePersonResponse;
+import org.noresponse.models.shared.PersonScheduleRequest;
+import org.noresponse.models.shared.SchedulePeriod;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        ScheduleWorkspacePersonResponse res = sdk.people().schedule()
+                .personId("per_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .body(PersonScheduleRequest.builder()
+                    .period(SchedulePeriod.WEEKLY)
+                    .build())
+                .call();
+
+        if (res.personSchedule().isPresent()) {
+            System.out.println(res.personSchedule().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                             | Type                                                                  | Required                                                              | Description                                                           | Example                                                               |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `personId`                                                            | *String*                                                              | :heavy_check_mark:                                                    | N/A                                                                   | per_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                        |
+| `body`                                                                | [PersonScheduleRequest](../../models/shared/PersonScheduleRequest.md) | :heavy_check_mark:                                                    | N/A                                                                   |                                                                       |
+
+### Response
+
+**[ScheduleWorkspacePersonResponse](../../models/operations/ScheduleWorkspacePersonResponse.md)**
 
 ### Errors
 

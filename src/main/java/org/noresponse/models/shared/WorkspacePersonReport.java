@@ -186,6 +186,15 @@ public class WorkspacePersonReport {
     @JsonProperty("changes")
     private List<PersonChange> changes;
 
+    /**
+     * The person's rerun schedule. Each due run starts a full investigation of the person, as POST
+     * /v1/investigations with no platforms does, and its changes are stored as changes. The schedule lives
+     * in the database and the worker runs it, so it survives restarts and releases; each due run starts
+     * exactly one investigation.
+     */
+    @JsonProperty("schedule")
+    private PersonSchedule schedule;
+
     @JsonCreator
     public WorkspacePersonReport(
             @JsonProperty("external_id") @Nullable String externalId,
@@ -211,7 +220,8 @@ public class WorkspacePersonReport {
             @JsonProperty("evidence_restricted") @Nullable Boolean evidenceRestricted,
             @JsonProperty("evidence_investigation") @Nullable Investigation evidenceInvestigation,
             @JsonProperty("written_profile") @Nullable WrittenProfile writtenProfile,
-            @JsonProperty("changes") @Nonnull List<PersonChange> changes) {
+            @JsonProperty("changes") @Nonnull List<PersonChange> changes,
+            @JsonProperty("schedule") @Nonnull PersonSchedule schedule) {
         this.externalId = externalId;
         this.name = name;
         this.email = email;
@@ -244,6 +254,8 @@ public class WorkspacePersonReport {
         this.writtenProfile = JsonNullable.of(writtenProfile);
         this.changes =
                 Optional.ofNullable(changes).orElseThrow(() -> new IllegalArgumentException("changes cannot be null"));
+        this.schedule = Optional.ofNullable(schedule)
+                .orElseThrow(() -> new IllegalArgumentException("schedule cannot be null"));
     }
 
     public WorkspacePersonReport(
@@ -257,7 +269,8 @@ public class WorkspacePersonReport {
             @Nonnull List<ScreeningPost> posts,
             @Nonnull List<ScreeningMedia> media,
             @Nonnull List<SuggestedSearch> suggestedSearches,
-            @Nonnull List<PersonChange> changes) {
+            @Nonnull List<PersonChange> changes,
+            @Nonnull PersonSchedule schedule) {
         this(
                 null,
                 null,
@@ -282,7 +295,8 @@ public class WorkspacePersonReport {
                 null,
                 null,
                 null,
-                changes);
+                changes,
+                schedule);
     }
 
     /**
@@ -460,6 +474,16 @@ public class WorkspacePersonReport {
      */
     public List<PersonChange> changes() {
         return this.changes;
+    }
+
+    /**
+     * The person's rerun schedule. Each due run starts a full investigation of the person, as POST
+     * /v1/investigations with no platforms does, and its changes are stored as changes. The schedule lives
+     * in the database and the worker runs it, so it survives restarts and releases; each due run starts
+     * exactly one investigation.
+     */
+    public PersonSchedule schedule() {
+        return this.schedule;
     }
 
     public static Builder builder() {
@@ -667,6 +691,17 @@ public class WorkspacePersonReport {
         return this;
     }
 
+    /**
+     * The person's rerun schedule. Each due run starts a full investigation of the person, as POST
+     * /v1/investigations with no platforms does, and its changes are stored as changes. The schedule lives
+     * in the database and the worker runs it, so it survives restarts and releases; each due run starts
+     * exactly one investigation.
+     */
+    public WorkspacePersonReport withSchedule(@Nonnull PersonSchedule schedule) {
+        this.schedule = Utils.checkNotNull(schedule, "schedule");
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -699,7 +734,8 @@ public class WorkspacePersonReport {
                 && Utils.enhancedDeepEquals(this.evidenceRestricted, other.evidenceRestricted)
                 && Utils.enhancedDeepEquals(this.evidenceInvestigation, other.evidenceInvestigation)
                 && Utils.enhancedDeepEquals(this.writtenProfile, other.writtenProfile)
-                && Utils.enhancedDeepEquals(this.changes, other.changes);
+                && Utils.enhancedDeepEquals(this.changes, other.changes)
+                && Utils.enhancedDeepEquals(this.schedule, other.schedule);
     }
 
     @Override
@@ -728,7 +764,8 @@ public class WorkspacePersonReport {
                 evidenceRestricted,
                 evidenceInvestigation,
                 writtenProfile,
-                changes);
+                changes,
+                schedule);
     }
 
     @Override
@@ -782,7 +819,9 @@ public class WorkspacePersonReport {
                 "writtenProfile",
                 writtenProfile,
                 "changes",
-                changes);
+                changes,
+                "schedule",
+                schedule);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -835,6 +874,8 @@ public class WorkspacePersonReport {
         private WrittenProfile writtenProfile;
 
         private List<PersonChange> changes;
+
+        private PersonSchedule schedule;
 
         private Builder() {
             // force use of static builder() method
@@ -1041,6 +1082,17 @@ public class WorkspacePersonReport {
             return this;
         }
 
+        /**
+         * The person's rerun schedule. Each due run starts a full investigation of the person, as POST
+         * /v1/investigations with no platforms does, and its changes are stored as changes. The schedule lives
+         * in the database and the worker runs it, so it survives restarts and releases; each due run starts
+         * exactly one investigation.
+         */
+        public Builder schedule(@Nonnull PersonSchedule schedule) {
+            this.schedule = Utils.checkNotNull(schedule, "schedule");
+            return this;
+        }
+
         public WorkspacePersonReport build() {
             return new WorkspacePersonReport(
                     externalId,
@@ -1066,7 +1118,8 @@ public class WorkspacePersonReport {
                     evidenceRestricted,
                     evidenceInvestigation,
                     writtenProfile,
-                    changes);
+                    changes,
+                    schedule);
         }
     }
 }

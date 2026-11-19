@@ -27,9 +27,13 @@ import org.noresponse.models.operations.ReviewWorkspacePersonChangeResponse;
 import org.noresponse.models.operations.RunWorkspacePersonSearchRequest;
 import org.noresponse.models.operations.RunWorkspacePersonSearchRequestBuilder;
 import org.noresponse.models.operations.RunWorkspacePersonSearchResponse;
+import org.noresponse.models.operations.ScheduleWorkspacePersonRequest;
+import org.noresponse.models.operations.ScheduleWorkspacePersonRequestBuilder;
+import org.noresponse.models.operations.ScheduleWorkspacePersonResponse;
 import org.noresponse.models.operations.StartWorkspacePersonSearchRequest;
 import org.noresponse.models.operations.StartWorkspacePersonSearchRequestBuilder;
 import org.noresponse.models.operations.StartWorkspacePersonSearchResponse;
+import org.noresponse.models.shared.PersonScheduleRequest;
 import org.noresponse.models.shared.RecordVerdictRequest;
 import org.noresponse.models.shared.ScreeningCancelRequest;
 import org.noresponse.models.shared.SearchRequest;
@@ -41,6 +45,7 @@ import org.noresponse.operations.JudgeWorkspacePersonRecord;
 import org.noresponse.operations.ListWorkspacePeople;
 import org.noresponse.operations.ReviewWorkspacePersonChange;
 import org.noresponse.operations.RunWorkspacePersonSearch;
+import org.noresponse.operations.ScheduleWorkspacePerson;
 import org.noresponse.operations.StartWorkspacePersonSearch;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
@@ -734,6 +739,80 @@ public class People {
         ReviewWorkspacePersonChangeRequest request = new ReviewWorkspacePersonChangeRequest(personId, changeId, body);
         RequestOperation<ReviewWorkspacePersonChangeRequest, ReviewWorkspacePersonChangeResponse> operation =
                 new ReviewWorkspacePersonChange.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Schedule a workspace person's reruns.
+     *
+     * <p>Sets how often the person is investigated again: daily, weekly or monthly, counted from now, or off.
+     * Each due run starts one full investigation of the person, which the person's investigations list and
+     * whose changes the person report stores. Setting the period the schedule already has keeps its next
+     * run.
+     *
+     * <p>The schedule lives in the database and the worker runs it, so a restart or a release neither skips
+     * nor repeats a run. Each change is audited as person.schedule_changed. The investigations scope
+     * grants this operation.
+     *
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
+     *
+     * @return The call builder
+     */
+    public ScheduleWorkspacePersonRequestBuilder schedule() {
+        return new ScheduleWorkspacePersonRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Schedule a workspace person's reruns.
+     *
+     * <p>Sets how often the person is investigated again: daily, weekly or monthly, counted from now, or off.
+     * Each due run starts one full investigation of the person, which the person's investigations list and
+     * whose changes the person report stores. Setting the period the schedule already has keeps its next
+     * run.
+     *
+     * <p>The schedule lives in the database and the worker runs it, so a restart or a release neither skips
+     * nor repeats a run. Each change is audited as person.schedule_changed. The investigations scope
+     * grants this operation.
+     *
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
+     *
+     * @param personId
+     * @param body The schedule to set.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ScheduleWorkspacePersonResponse schedule(@Nonnull String personId, @Nonnull PersonScheduleRequest body) {
+        return schedule(personId, body, null);
+    }
+
+    /**
+     * Schedule a workspace person's reruns.
+     *
+     * <p>Sets how often the person is investigated again: daily, weekly or monthly, counted from now, or off.
+     * Each due run starts one full investigation of the person, which the person's investigations list and
+     * whose changes the person report stores. Setting the period the schedule already has keeps its next
+     * run.
+     *
+     * <p>The schedule lives in the database and the worker runs it, so a restart or a release neither skips
+     * nor repeats a run. Each change is audited as person.schedule_changed. The investigations scope
+     * grants this operation.
+     *
+     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
+     * environment.
+     *
+     * @param personId
+     * @param body The schedule to set.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ScheduleWorkspacePersonResponse schedule(
+            @Nonnull String personId, @Nonnull PersonScheduleRequest body, @Nullable Options options) {
+        ScheduleWorkspacePersonRequest request = new ScheduleWorkspacePersonRequest(personId, body);
+        RequestOperation<ScheduleWorkspacePersonRequest, ScheduleWorkspacePersonResponse> operation =
+                new ScheduleWorkspacePerson.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 }
