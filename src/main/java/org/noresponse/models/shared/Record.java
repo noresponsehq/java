@@ -109,6 +109,27 @@ public class Record {
     @JsonProperty("verdict")
     private Verdict verdict;
 
+    /**
+     * Why the record has its likelihood, as the items that make it up: what found it and each value it
+     * agrees or clashes with, each with its weight in bits. The bits add up to the likelihood before
+     * rounding: likelihood = 1 / (1 + 2^-sum). Only the strongest agreement of each kind counts, and a
+     * place counts once however many of its city, region, country and address agree.
+     *
+     * <p>Present on a person's lookup records that have any such item.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("evidence")
+    private List<RecordEvidence> evidence;
+
+    /**
+     * How the record connects to what the investigator gave: given first, then the ids of the joined
+     * records it reached the person through, nearest last. Each step follows what found the record before
+     * the strongest agreement. A record with no link to the person has no path.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("path")
+    private List<String> path;
+
     @JsonCreator
     public Record(
             @JsonProperty("id") @Nonnull String id,
@@ -120,7 +141,9 @@ public class Record {
             @JsonProperty("agreed") @Nullable List<String> agreed,
             @JsonProperty("clashed") @Nullable List<String> clashed,
             @JsonProperty("joined") @Nullable Boolean joined,
-            @JsonProperty("verdict") @Nullable Verdict verdict) {
+            @JsonProperty("verdict") @Nullable Verdict verdict,
+            @JsonProperty("evidence") @Nullable List<RecordEvidence> evidence,
+            @JsonProperty("path") @Nullable List<String> path) {
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.source =
                 Optional.ofNullable(source).orElseThrow(() -> new IllegalArgumentException("source cannot be null"));
@@ -135,6 +158,8 @@ public class Record {
         this.clashed = clashed;
         this.joined = joined;
         this.verdict = verdict;
+        this.evidence = evidence;
+        this.path = path;
     }
 
     public Record(
@@ -143,7 +168,7 @@ public class Record {
             @Nonnull List<RecordMatch> matched,
             @Nonnull List<RecordField> fields,
             @Nonnull String observedAt) {
-        this(id, source, matched, fields, observedAt, null, null, null, null, null);
+        this(id, source, matched, fields, observedAt, null, null, null, null, null, null, null);
     }
 
     /**
@@ -237,6 +262,27 @@ public class Record {
      */
     public Optional<Verdict> verdict() {
         return Optional.ofNullable(this.verdict);
+    }
+
+    /**
+     * Why the record has its likelihood, as the items that make it up: what found it and each value it
+     * agrees or clashes with, each with its weight in bits. The bits add up to the likelihood before
+     * rounding: likelihood = 1 / (1 + 2^-sum). Only the strongest agreement of each kind counts, and a
+     * place counts once however many of its city, region, country and address agree.
+     *
+     * <p>Present on a person's lookup records that have any such item.
+     */
+    public Optional<List<RecordEvidence>> evidence() {
+        return Optional.ofNullable(this.evidence);
+    }
+
+    /**
+     * How the record connects to what the investigator gave: given first, then the ids of the joined
+     * records it reached the person through, nearest last. Each step follows what found the record before
+     * the strongest agreement. A record with no link to the person has no path.
+     */
+    public Optional<List<String>> path() {
+        return Optional.ofNullable(this.path);
     }
 
     public static Builder builder() {
@@ -346,6 +392,29 @@ public class Record {
         return this;
     }
 
+    /**
+     * Why the record has its likelihood, as the items that make it up: what found it and each value it
+     * agrees or clashes with, each with its weight in bits. The bits add up to the likelihood before
+     * rounding: likelihood = 1 / (1 + 2^-sum). Only the strongest agreement of each kind counts, and a
+     * place counts once however many of its city, region, country and address agree.
+     *
+     * <p>Present on a person's lookup records that have any such item.
+     */
+    public Record withEvidence(@Nullable List<RecordEvidence> evidence) {
+        this.evidence = evidence;
+        return this;
+    }
+
+    /**
+     * How the record connects to what the investigator gave: given first, then the ids of the joined
+     * records it reached the person through, nearest last. Each step follows what found the record before
+     * the strongest agreement. A record with no link to the person has no path.
+     */
+    public Record withPath(@Nullable List<String> path) {
+        this.path = path;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -364,13 +433,15 @@ public class Record {
                 && Utils.enhancedDeepEquals(this.agreed, other.agreed)
                 && Utils.enhancedDeepEquals(this.clashed, other.clashed)
                 && Utils.enhancedDeepEquals(this.joined, other.joined)
-                && Utils.enhancedDeepEquals(this.verdict, other.verdict);
+                && Utils.enhancedDeepEquals(this.verdict, other.verdict)
+                && Utils.enhancedDeepEquals(this.evidence, other.evidence)
+                && Utils.enhancedDeepEquals(this.path, other.path);
     }
 
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                id, source, matched, fields, observedAt, likelihood, agreed, clashed, joined, verdict);
+                id, source, matched, fields, observedAt, likelihood, agreed, clashed, joined, verdict, evidence, path);
     }
 
     @Override
@@ -396,7 +467,11 @@ public class Record {
                 "joined",
                 joined,
                 "verdict",
-                verdict);
+                verdict,
+                "evidence",
+                evidence,
+                "path",
+                path);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -421,6 +496,10 @@ public class Record {
         private Boolean joined;
 
         private Verdict verdict;
+
+        private List<RecordEvidence> evidence;
+
+        private List<String> path;
 
         private Builder() {
             // force use of static builder() method
@@ -529,8 +608,43 @@ public class Record {
             return this;
         }
 
+        /**
+         * Why the record has its likelihood, as the items that make it up: what found it and each value it
+         * agrees or clashes with, each with its weight in bits. The bits add up to the likelihood before
+         * rounding: likelihood = 1 / (1 + 2^-sum). Only the strongest agreement of each kind counts, and a
+         * place counts once however many of its city, region, country and address agree.
+         *
+         * <p>Present on a person's lookup records that have any such item.
+         */
+        public Builder evidence(@Nullable List<RecordEvidence> evidence) {
+            this.evidence = evidence;
+            return this;
+        }
+
+        /**
+         * How the record connects to what the investigator gave: given first, then the ids of the joined
+         * records it reached the person through, nearest last. Each step follows what found the record before
+         * the strongest agreement. A record with no link to the person has no path.
+         */
+        public Builder path(@Nullable List<String> path) {
+            this.path = path;
+            return this;
+        }
+
         public Record build() {
-            return new Record(id, source, matched, fields, observedAt, likelihood, agreed, clashed, joined, verdict);
+            return new Record(
+                    id,
+                    source,
+                    matched,
+                    fields,
+                    observedAt,
+                    likelihood,
+                    agreed,
+                    clashed,
+                    joined,
+                    verdict,
+                    evidence,
+                    path);
         }
     }
 }
