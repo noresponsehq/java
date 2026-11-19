@@ -450,9 +450,10 @@ public class AsyncGroups {
      * reuses the named workspace person. A reference-only row keeps submitted details; an identity
      * supplied with that reference replaces those details.
      *
-     * <p>A shared email or phone only suggests matches and does not merge people. A changed identity clears
-     * current group screening summaries; prior investigation history remains available. Identities are
-     * encrypted under the workspace key.
+     * <p>A shared email or phone only suggests matches and does not merge people. Each person's match, band
+     * and coverage in the group come from their latest investigation; a changed identity sets aside
+     * investigations started before the change, and prior investigation history remains available.
+     * Identities are encrypted under the workspace key.
      *
      * <p>Idempotency-Key is required: the same key and body return the original import result with
      * Idempotent-Replayed: true while its people remain retained. An expired or deleted imported person
@@ -477,9 +478,10 @@ public class AsyncGroups {
      * reuses the named workspace person. A reference-only row keeps submitted details; an identity
      * supplied with that reference replaces those details.
      *
-     * <p>A shared email or phone only suggests matches and does not merge people. A changed identity clears
-     * current group screening summaries; prior investigation history remains available. Identities are
-     * encrypted under the workspace key.
+     * <p>A shared email or phone only suggests matches and does not merge people. Each person's match, band
+     * and coverage in the group come from their latest investigation; a changed identity sets aside
+     * investigations started before the change, and prior investigation history remains available.
+     * Identities are encrypted under the workspace key.
      *
      * <p>Idempotency-Key is required: the same key and body return the original import result with
      * Idempotent-Replayed: true while its people remain retained. An expired or deleted imported person
@@ -508,9 +510,10 @@ public class AsyncGroups {
      * reuses the named workspace person. A reference-only row keeps submitted details; an identity
      * supplied with that reference replaces those details.
      *
-     * <p>A shared email or phone only suggests matches and does not merge people. A changed identity clears
-     * current group screening summaries; prior investigation history remains available. Identities are
-     * encrypted under the workspace key.
+     * <p>A shared email or phone only suggests matches and does not merge people. Each person's match, band
+     * and coverage in the group come from their latest investigation; a changed identity sets aside
+     * investigations started before the change, and prior investigation history remains available.
+     * Identities are encrypted under the workspace key.
      *
      * <p>Idempotency-Key is required: the same key and body return the original import result with
      * Idempotent-Replayed: true while its people remain retained. An expired or deleted imported person
@@ -1085,10 +1088,10 @@ public class AsyncGroups {
     /**
      * Start a screening.
      *
-     * <p>Queues a screening of every person no screening has reached. One screening of a group runs at a
-     * time; it finishes completed, partial (some people not covered, counted in people_failed) or failed,
-     * and fails with error_code expired after 24 hours. Idempotency-Key is required and binds the body for
-     * the screening's life.
+     * <p>Queues a screening that reruns the full search for every person in the group. One screening of a
+     * group runs at a time; it finishes completed, partial (some people not covered, counted in
+     * people_failed) or failed, and fails with error_code expired after 24 hours. Idempotency-Key is
+     * required and binds the body for the screening's life.
      *
      * <p>The 202 body carries estimated_spend, what the selected people would cost at the depth and
      * platforms. A screening whose estimate exceeds the environment's screening_daily_cap, less the day's
@@ -1111,10 +1114,10 @@ public class AsyncGroups {
     /**
      * Start a screening.
      *
-     * <p>Queues a screening of every person no screening has reached. One screening of a group runs at a
-     * time; it finishes completed, partial (some people not covered, counted in people_failed) or failed,
-     * and fails with error_code expired after 24 hours. Idempotency-Key is required and binds the body for
-     * the screening's life.
+     * <p>Queues a screening that reruns the full search for every person in the group. One screening of a
+     * group runs at a time; it finishes completed, partial (some people not covered, counted in
+     * people_failed) or failed, and fails with error_code expired after 24 hours. Idempotency-Key is
+     * required and binds the body for the screening's life.
      *
      * <p>The 202 body carries estimated_spend, what the selected people would cost at the depth and
      * platforms. A screening whose estimate exceeds the environment's screening_daily_cap, less the day's
@@ -1141,10 +1144,10 @@ public class AsyncGroups {
     /**
      * Start a screening.
      *
-     * <p>Queues a screening of every person no screening has reached. One screening of a group runs at a
-     * time; it finishes completed, partial (some people not covered, counted in people_failed) or failed,
-     * and fails with error_code expired after 24 hours. Idempotency-Key is required and binds the body for
-     * the screening's life.
+     * <p>Queues a screening that reruns the full search for every person in the group. One screening of a
+     * group runs at a time; it finishes completed, partial (some people not covered, counted in
+     * people_failed) or failed, and fails with error_code expired after 24 hours. Idempotency-Key is
+     * required and binds the body for the screening's life.
      *
      * <p>The 202 body carries estimated_spend, what the selected people would cost at the depth and
      * platforms. A screening whose estimate exceeds the environment's screening_daily_cap, less the day's
