@@ -8,6 +8,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.lang.Boolean;
 import java.lang.Double;
+import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.List;
@@ -130,6 +131,16 @@ public class Record {
     @JsonProperty("path")
     private List<String> path;
 
+    /**
+     * For a record that is not the person's, the other person it belongs with: records that share this
+     * number share strong values, such as an email or a full name with a phone, and score as one person
+     * against each other. Absent on the person's own records and on a record that matches nobody else. A
+     * value that more than 20 strangers hold groups nobody.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("other_person")
+    private Long otherPerson;
+
     @JsonCreator
     public Record(
             @JsonProperty("id") @Nonnull String id,
@@ -143,7 +154,8 @@ public class Record {
             @JsonProperty("joined") @Nullable Boolean joined,
             @JsonProperty("verdict") @Nullable Verdict verdict,
             @JsonProperty("evidence") @Nullable List<RecordEvidence> evidence,
-            @JsonProperty("path") @Nullable List<String> path) {
+            @JsonProperty("path") @Nullable List<String> path,
+            @JsonProperty("other_person") @Nullable Long otherPerson) {
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.source =
                 Optional.ofNullable(source).orElseThrow(() -> new IllegalArgumentException("source cannot be null"));
@@ -160,6 +172,7 @@ public class Record {
         this.verdict = verdict;
         this.evidence = evidence;
         this.path = path;
+        this.otherPerson = otherPerson;
     }
 
     public Record(
@@ -168,7 +181,7 @@ public class Record {
             @Nonnull List<RecordMatch> matched,
             @Nonnull List<RecordField> fields,
             @Nonnull String observedAt) {
-        this(id, source, matched, fields, observedAt, null, null, null, null, null, null, null);
+        this(id, source, matched, fields, observedAt, null, null, null, null, null, null, null, null);
     }
 
     /**
@@ -283,6 +296,16 @@ public class Record {
      */
     public Optional<List<String>> path() {
         return Optional.ofNullable(this.path);
+    }
+
+    /**
+     * For a record that is not the person's, the other person it belongs with: records that share this
+     * number share strong values, such as an email or a full name with a phone, and score as one person
+     * against each other. Absent on the person's own records and on a record that matches nobody else. A
+     * value that more than 20 strangers hold groups nobody.
+     */
+    public Optional<Long> otherPerson() {
+        return Optional.ofNullable(this.otherPerson);
     }
 
     public static Builder builder() {
@@ -415,6 +438,17 @@ public class Record {
         return this;
     }
 
+    /**
+     * For a record that is not the person's, the other person it belongs with: records that share this
+     * number share strong values, such as an email or a full name with a phone, and score as one person
+     * against each other. Absent on the person's own records and on a record that matches nobody else. A
+     * value that more than 20 strangers hold groups nobody.
+     */
+    public Record withOtherPerson(@Nullable Long otherPerson) {
+        this.otherPerson = otherPerson;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -435,13 +469,26 @@ public class Record {
                 && Utils.enhancedDeepEquals(this.joined, other.joined)
                 && Utils.enhancedDeepEquals(this.verdict, other.verdict)
                 && Utils.enhancedDeepEquals(this.evidence, other.evidence)
-                && Utils.enhancedDeepEquals(this.path, other.path);
+                && Utils.enhancedDeepEquals(this.path, other.path)
+                && Utils.enhancedDeepEquals(this.otherPerson, other.otherPerson);
     }
 
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                id, source, matched, fields, observedAt, likelihood, agreed, clashed, joined, verdict, evidence, path);
+                id,
+                source,
+                matched,
+                fields,
+                observedAt,
+                likelihood,
+                agreed,
+                clashed,
+                joined,
+                verdict,
+                evidence,
+                path,
+                otherPerson);
     }
 
     @Override
@@ -471,7 +518,9 @@ public class Record {
                 "evidence",
                 evidence,
                 "path",
-                path);
+                path,
+                "otherPerson",
+                otherPerson);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -500,6 +549,8 @@ public class Record {
         private List<RecordEvidence> evidence;
 
         private List<String> path;
+
+        private Long otherPerson;
 
         private Builder() {
             // force use of static builder() method
@@ -631,6 +682,17 @@ public class Record {
             return this;
         }
 
+        /**
+         * For a record that is not the person's, the other person it belongs with: records that share this
+         * number share strong values, such as an email or a full name with a phone, and score as one person
+         * against each other. Absent on the person's own records and on a record that matches nobody else. A
+         * value that more than 20 strangers hold groups nobody.
+         */
+        public Builder otherPerson(@Nullable Long otherPerson) {
+            this.otherPerson = otherPerson;
+            return this;
+        }
+
         public Record build() {
             return new Record(
                     id,
@@ -644,7 +706,8 @@ public class Record {
                     joined,
                     verdict,
                     evidence,
-                    path);
+                    path,
+                    otherPerson);
         }
     }
 }

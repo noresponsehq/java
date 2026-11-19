@@ -58,6 +58,13 @@ public class ScreeningLookup {
     private List<RecordRemaining> remaining;
 
     /**
+     * Identifiers you gave that lead to different people. Absent when they agree.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("conflicts")
+    private List<RecordConflict> conflicts;
+
+    /**
      * When the lookups ran.
      */
     @JsonProperty("looked_at")
@@ -69,18 +76,20 @@ public class ScreeningLookup {
             @JsonProperty("answers") @Nullable List<ScreeningLookupAnswer> answers,
             @JsonProperty("records") @Nullable List<Record> records,
             @JsonProperty("remaining") @Nullable List<RecordRemaining> remaining,
+            @JsonProperty("conflicts") @Nullable List<RecordConflict> conflicts,
             @JsonProperty("looked_at") @Nonnull String lookedAt) {
         this.checks =
                 Optional.ofNullable(checks).orElseThrow(() -> new IllegalArgumentException("checks cannot be null"));
         this.answers = answers;
         this.records = records;
         this.remaining = remaining;
+        this.conflicts = conflicts;
         this.lookedAt = Optional.ofNullable(lookedAt)
                 .orElseThrow(() -> new IllegalArgumentException("lookedAt cannot be null"));
     }
 
     public ScreeningLookup(@Nonnull List<ScreeningLookupCheck> checks, @Nonnull String lookedAt) {
-        this(checks, null, null, null, lookedAt);
+        this(checks, null, null, null, null, lookedAt);
     }
 
     /**
@@ -119,6 +128,13 @@ public class ScreeningLookup {
      */
     public Optional<List<RecordRemaining>> remaining() {
         return Optional.ofNullable(this.remaining);
+    }
+
+    /**
+     * Identifiers you gave that lead to different people. Absent when they agree.
+     */
+    public Optional<List<RecordConflict>> conflicts() {
+        return Optional.ofNullable(this.conflicts);
     }
 
     /**
@@ -175,6 +191,14 @@ public class ScreeningLookup {
     }
 
     /**
+     * Identifiers you gave that lead to different people. Absent when they agree.
+     */
+    public ScreeningLookup withConflicts(@Nullable List<RecordConflict> conflicts) {
+        this.conflicts = conflicts;
+        return this;
+    }
+
+    /**
      * When the lookups ran.
      */
     public ScreeningLookup withLookedAt(@Nonnull String lookedAt) {
@@ -195,12 +219,13 @@ public class ScreeningLookup {
                 && Utils.enhancedDeepEquals(this.answers, other.answers)
                 && Utils.enhancedDeepEquals(this.records, other.records)
                 && Utils.enhancedDeepEquals(this.remaining, other.remaining)
+                && Utils.enhancedDeepEquals(this.conflicts, other.conflicts)
                 && Utils.enhancedDeepEquals(this.lookedAt, other.lookedAt);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(checks, answers, records, remaining, lookedAt);
+        return Utils.enhancedHash(checks, answers, records, remaining, conflicts, lookedAt);
     }
 
     @Override
@@ -215,6 +240,8 @@ public class ScreeningLookup {
                 records,
                 "remaining",
                 remaining,
+                "conflicts",
+                conflicts,
                 "lookedAt",
                 lookedAt);
     }
@@ -229,6 +256,8 @@ public class ScreeningLookup {
         private List<Record> records;
 
         private List<RecordRemaining> remaining;
+
+        private List<RecordConflict> conflicts;
 
         private String lookedAt;
 
@@ -279,6 +308,14 @@ public class ScreeningLookup {
         }
 
         /**
+         * Identifiers you gave that lead to different people. Absent when they agree.
+         */
+        public Builder conflicts(@Nullable List<RecordConflict> conflicts) {
+            this.conflicts = conflicts;
+            return this;
+        }
+
+        /**
          * When the lookups ran.
          */
         public Builder lookedAt(@Nonnull String lookedAt) {
@@ -287,7 +324,7 @@ public class ScreeningLookup {
         }
 
         public ScreeningLookup build() {
-            return new ScreeningLookup(checks, answers, records, remaining, lookedAt);
+            return new ScreeningLookup(checks, answers, records, remaining, conflicts, lookedAt);
         }
     }
 }
