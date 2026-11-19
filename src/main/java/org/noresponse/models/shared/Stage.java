@@ -15,6 +15,11 @@ import java.util.Optional;
  * without runtime errors. Instances are immutable singletons with reference equality.
  * Use {@code asEnum()} for switch expressions.
  */
+/**
+ * Stage
+ *
+ * <p>ai_typing and analysis appear only on searches recorded before the engine stopped analysing results.
+ */
 public class Stage {
 
     public static final Stage LOOKUP = new Stage("lookup");

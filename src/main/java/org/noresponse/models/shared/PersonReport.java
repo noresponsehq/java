@@ -32,19 +32,13 @@ public class PersonReport {
     private List<ScreeningProfile> profiles;
 
     /**
-     * What this result flagged, most severe first, each citing its evidence.
-     */
-    @JsonProperty("findings")
-    private List<ScreeningFinding> findings;
-
-    /**
-     * All posts retained for this result, including posts that no finding cites.
+     * All posts retained for this result.
      */
     @JsonProperty("posts")
     private List<ScreeningPost> posts;
 
     /**
-     * All images and videos retained for this result, including media that no finding cites.
+     * All images and videos retained for this result.
      */
     @JsonProperty("media")
     private List<ScreeningMedia> media;
@@ -58,8 +52,7 @@ public class PersonReport {
     /**
      * What the signup check's lookups found for a person: account presence for the email, phone and
      * usernames (the person's handles), the phone lookup, the email domain's registration and the breach
-     * search. Context and coverage for the reviewer, not a finding: nothing here sets a band or a match
-     * state.
+     * search. Nothing here sets a match state.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("lookup")
@@ -93,8 +86,8 @@ public class PersonReport {
 
     /**
      * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
-     * remain available. Collected records, profiles, findings, posts, media, discovered values and
-     * free-text decision notes are withheld.
+     * remain available. Collected records, profiles, posts, media, discovered values and free-text
+     * decision notes are withheld.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("evidence_restricted")
@@ -104,7 +97,6 @@ public class PersonReport {
     public PersonReport(
             @JsonProperty("person") @Nonnull Person person,
             @JsonProperty("profiles") @Nonnull List<ScreeningProfile> profiles,
-            @JsonProperty("findings") @Nonnull List<ScreeningFinding> findings,
             @JsonProperty("posts") @Nonnull List<ScreeningPost> posts,
             @JsonProperty("media") @Nonnull List<ScreeningMedia> media,
             @JsonProperty("reviews") @Nonnull List<PersonReview> reviews,
@@ -117,8 +109,6 @@ public class PersonReport {
                 Optional.ofNullable(person).orElseThrow(() -> new IllegalArgumentException("person cannot be null"));
         this.profiles = Optional.ofNullable(profiles)
                 .orElseThrow(() -> new IllegalArgumentException("profiles cannot be null"));
-        this.findings = Optional.ofNullable(findings)
-                .orElseThrow(() -> new IllegalArgumentException("findings cannot be null"));
         this.posts = Optional.ofNullable(posts).orElseThrow(() -> new IllegalArgumentException("posts cannot be null"));
         this.media = Optional.ofNullable(media).orElseThrow(() -> new IllegalArgumentException("media cannot be null"));
         this.reviews =
@@ -135,13 +125,12 @@ public class PersonReport {
     public PersonReport(
             @Nonnull Person person,
             @Nonnull List<ScreeningProfile> profiles,
-            @Nonnull List<ScreeningFinding> findings,
             @Nonnull List<ScreeningPost> posts,
             @Nonnull List<ScreeningMedia> media,
             @Nonnull List<PersonReview> reviews,
             @Nonnull List<SuggestedSearch> suggestedSearches,
             @Nonnull OtherGroups otherGroups) {
-        this(person, profiles, findings, posts, media, reviews, null, null, suggestedSearches, otherGroups, null);
+        this(person, profiles, posts, media, reviews, null, null, suggestedSearches, otherGroups, null);
     }
 
     /**
@@ -159,21 +148,14 @@ public class PersonReport {
     }
 
     /**
-     * What this result flagged, most severe first, each citing its evidence.
-     */
-    public List<ScreeningFinding> findings() {
-        return this.findings;
-    }
-
-    /**
-     * All posts retained for this result, including posts that no finding cites.
+     * All posts retained for this result.
      */
     public List<ScreeningPost> posts() {
         return this.posts;
     }
 
     /**
-     * All images and videos retained for this result, including media that no finding cites.
+     * All images and videos retained for this result.
      */
     public List<ScreeningMedia> media() {
         return this.media;
@@ -189,8 +171,7 @@ public class PersonReport {
     /**
      * What the signup check's lookups found for a person: account presence for the email, phone and
      * usernames (the person's handles), the phone lookup, the email domain's registration and the breach
-     * search. Context and coverage for the reviewer, not a finding: nothing here sets a band or a match
-     * state.
+     * search. Nothing here sets a match state.
      */
     public Optional<ScreeningLookup> lookup() {
         return Optional.ofNullable(this.lookup);
@@ -226,8 +207,8 @@ public class PersonReport {
 
     /**
      * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
-     * remain available. Collected records, profiles, findings, posts, media, discovered values and
-     * free-text decision notes are withheld.
+     * remain available. Collected records, profiles, posts, media, discovered values and free-text
+     * decision notes are withheld.
      */
     public Optional<Boolean> evidenceRestricted() {
         return Optional.ofNullable(this.evidenceRestricted);
@@ -254,15 +235,7 @@ public class PersonReport {
     }
 
     /**
-     * What this result flagged, most severe first, each citing its evidence.
-     */
-    public PersonReport withFindings(@Nonnull List<ScreeningFinding> findings) {
-        this.findings = Utils.checkNotNull(findings, "findings");
-        return this;
-    }
-
-    /**
-     * All posts retained for this result, including posts that no finding cites.
+     * All posts retained for this result.
      */
     public PersonReport withPosts(@Nonnull List<ScreeningPost> posts) {
         this.posts = Utils.checkNotNull(posts, "posts");
@@ -270,7 +243,7 @@ public class PersonReport {
     }
 
     /**
-     * All images and videos retained for this result, including media that no finding cites.
+     * All images and videos retained for this result.
      */
     public PersonReport withMedia(@Nonnull List<ScreeningMedia> media) {
         this.media = Utils.checkNotNull(media, "media");
@@ -288,8 +261,7 @@ public class PersonReport {
     /**
      * What the signup check's lookups found for a person: account presence for the email, phone and
      * usernames (the person's handles), the phone lookup, the email domain's registration and the breach
-     * search. Context and coverage for the reviewer, not a finding: nothing here sets a band or a match
-     * state.
+     * search. Nothing here sets a match state.
      */
     public PersonReport withLookup(@Nullable ScreeningLookup lookup) {
         this.lookup = lookup;
@@ -329,8 +301,8 @@ public class PersonReport {
 
     /**
      * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
-     * remain available. Collected records, profiles, findings, posts, media, discovered values and
-     * free-text decision notes are withheld.
+     * remain available. Collected records, profiles, posts, media, discovered values and free-text
+     * decision notes are withheld.
      */
     public PersonReport withEvidenceRestricted(@Nullable Boolean evidenceRestricted) {
         this.evidenceRestricted = evidenceRestricted;
@@ -348,7 +320,6 @@ public class PersonReport {
         PersonReport other = (PersonReport) o;
         return Utils.enhancedDeepEquals(this.person, other.person)
                 && Utils.enhancedDeepEquals(this.profiles, other.profiles)
-                && Utils.enhancedDeepEquals(this.findings, other.findings)
                 && Utils.enhancedDeepEquals(this.posts, other.posts)
                 && Utils.enhancedDeepEquals(this.media, other.media)
                 && Utils.enhancedDeepEquals(this.reviews, other.reviews)
@@ -364,7 +335,6 @@ public class PersonReport {
         return Utils.enhancedHash(
                 person,
                 profiles,
-                findings,
                 posts,
                 media,
                 reviews,
@@ -383,8 +353,6 @@ public class PersonReport {
                 person,
                 "profiles",
                 profiles,
-                "findings",
-                findings,
                 "posts",
                 posts,
                 "media",
@@ -409,8 +377,6 @@ public class PersonReport {
         private Person person;
 
         private List<ScreeningProfile> profiles;
-
-        private List<ScreeningFinding> findings;
 
         private List<ScreeningPost> posts;
 
@@ -449,15 +415,7 @@ public class PersonReport {
         }
 
         /**
-         * What this result flagged, most severe first, each citing its evidence.
-         */
-        public Builder findings(@Nonnull List<ScreeningFinding> findings) {
-            this.findings = Utils.checkNotNull(findings, "findings");
-            return this;
-        }
-
-        /**
-         * All posts retained for this result, including posts that no finding cites.
+         * All posts retained for this result.
          */
         public Builder posts(@Nonnull List<ScreeningPost> posts) {
             this.posts = Utils.checkNotNull(posts, "posts");
@@ -465,7 +423,7 @@ public class PersonReport {
         }
 
         /**
-         * All images and videos retained for this result, including media that no finding cites.
+         * All images and videos retained for this result.
          */
         public Builder media(@Nonnull List<ScreeningMedia> media) {
             this.media = Utils.checkNotNull(media, "media");
@@ -483,8 +441,7 @@ public class PersonReport {
         /**
          * What the signup check's lookups found for a person: account presence for the email, phone and
          * usernames (the person's handles), the phone lookup, the email domain's registration and the breach
-         * search. Context and coverage for the reviewer, not a finding: nothing here sets a band or a match
-         * state.
+         * search. Nothing here sets a match state.
          */
         public Builder lookup(@Nullable ScreeningLookup lookup) {
             this.lookup = lookup;
@@ -524,8 +481,8 @@ public class PersonReport {
 
         /**
          * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
-         * remain available. Collected records, profiles, findings, posts, media, discovered values and
-         * free-text decision notes are withheld.
+         * remain available. Collected records, profiles, posts, media, discovered values and free-text
+         * decision notes are withheld.
          */
         public Builder evidenceRestricted(@Nullable Boolean evidenceRestricted) {
             this.evidenceRestricted = evidenceRestricted;
@@ -536,7 +493,6 @@ public class PersonReport {
             return new PersonReport(
                     person,
                     profiles,
-                    findings,
                     posts,
                     media,
                     reviews,

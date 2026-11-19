@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.List;
@@ -29,29 +28,6 @@ public class ScreeningCoverage {
 
     @JsonProperty("items_read")
     private long itemsRead;
-
-    /**
-     * Items read that the analyser could not analyse. Above zero, the person is partial: a finding may be
-     * missing from them.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("items_not_analysed")
-    private Long itemsNotAnalysed;
-
-    /**
-     * items_not_analysed split by reason, each reason once with at least one item.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("not_analysed_by_reason")
-    private List<ScreeningNotAnalysedCount> notAnalysedByReason;
-
-    /**
-     * Videos the analyser read from their cover frame and caption alone, without their sound or later
-     * frames. They count as analysed and do not make the person partial. Left out when none.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("items_frame_only")
-    private Long itemsFrameOnly;
 
     /**
      * The oldest item read on any platform.
@@ -102,9 +78,6 @@ public class ScreeningCoverage {
             @JsonProperty("accounts_found") long accountsFound,
             @JsonProperty("accounts_accessible") long accountsAccessible,
             @JsonProperty("items_read") long itemsRead,
-            @JsonProperty("items_not_analysed") @Nullable Long itemsNotAnalysed,
-            @JsonProperty("not_analysed_by_reason") @Nullable List<ScreeningNotAnalysedCount> notAnalysedByReason,
-            @JsonProperty("items_frame_only") @Nullable Long itemsFrameOnly,
             @JsonProperty("period_from") @Nullable String periodFrom,
             @JsonProperty("period_to") @Nullable String periodTo,
             @JsonProperty("platforms") @Nonnull List<ScreeningPlatformCoverage> platforms,
@@ -114,9 +87,6 @@ public class ScreeningCoverage {
         this.accountsFound = accountsFound;
         this.accountsAccessible = accountsAccessible;
         this.itemsRead = itemsRead;
-        this.itemsNotAnalysed = itemsNotAnalysed;
-        this.notAnalysedByReason = notAnalysedByReason;
-        this.itemsFrameOnly = itemsFrameOnly;
         this.periodFrom = periodFrom;
         this.periodTo = periodTo;
         this.platforms = Optional.ofNullable(platforms)
@@ -131,7 +101,7 @@ public class ScreeningCoverage {
             long accountsAccessible,
             long itemsRead,
             @Nonnull List<ScreeningPlatformCoverage> platforms) {
-        this(accountsFound, accountsAccessible, itemsRead, null, null, null, null, null, platforms, null, null, null);
+        this(accountsFound, accountsAccessible, itemsRead, null, null, platforms, null, null, null);
     }
 
     public long accountsFound() {
@@ -144,29 +114,6 @@ public class ScreeningCoverage {
 
     public long itemsRead() {
         return this.itemsRead;
-    }
-
-    /**
-     * Items read that the analyser could not analyse. Above zero, the person is partial: a finding may be
-     * missing from them.
-     */
-    public Optional<Long> itemsNotAnalysed() {
-        return Optional.ofNullable(this.itemsNotAnalysed);
-    }
-
-    /**
-     * items_not_analysed split by reason, each reason once with at least one item.
-     */
-    public Optional<List<ScreeningNotAnalysedCount>> notAnalysedByReason() {
-        return Optional.ofNullable(this.notAnalysedByReason);
-    }
-
-    /**
-     * Videos the analyser read from their cover frame and caption alone, without their sound or later
-     * frames. They count as analysed and do not make the person partial. Left out when none.
-     */
-    public Optional<Long> itemsFrameOnly() {
-        return Optional.ofNullable(this.itemsFrameOnly);
     }
 
     /**
@@ -234,32 +181,6 @@ public class ScreeningCoverage {
     }
 
     /**
-     * Items read that the analyser could not analyse. Above zero, the person is partial: a finding may be
-     * missing from them.
-     */
-    public ScreeningCoverage withItemsNotAnalysed(@Nullable Long itemsNotAnalysed) {
-        this.itemsNotAnalysed = itemsNotAnalysed;
-        return this;
-    }
-
-    /**
-     * items_not_analysed split by reason, each reason once with at least one item.
-     */
-    public ScreeningCoverage withNotAnalysedByReason(@Nullable List<ScreeningNotAnalysedCount> notAnalysedByReason) {
-        this.notAnalysedByReason = notAnalysedByReason;
-        return this;
-    }
-
-    /**
-     * Videos the analyser read from their cover frame and caption alone, without their sound or later
-     * frames. They count as analysed and do not make the person partial. Left out when none.
-     */
-    public ScreeningCoverage withItemsFrameOnly(@Nullable Long itemsFrameOnly) {
-        this.itemsFrameOnly = itemsFrameOnly;
-        return this;
-    }
-
-    /**
      * The oldest item read on any platform.
      */
     public ScreeningCoverage withPeriodFrom(@Nullable String periodFrom) {
@@ -322,9 +243,6 @@ public class ScreeningCoverage {
         return Utils.enhancedDeepEquals(this.accountsFound, other.accountsFound)
                 && Utils.enhancedDeepEquals(this.accountsAccessible, other.accountsAccessible)
                 && Utils.enhancedDeepEquals(this.itemsRead, other.itemsRead)
-                && Utils.enhancedDeepEquals(this.itemsNotAnalysed, other.itemsNotAnalysed)
-                && Utils.enhancedDeepEquals(this.notAnalysedByReason, other.notAnalysedByReason)
-                && Utils.enhancedDeepEquals(this.itemsFrameOnly, other.itemsFrameOnly)
                 && Utils.enhancedDeepEquals(this.periodFrom, other.periodFrom)
                 && Utils.enhancedDeepEquals(this.periodTo, other.periodTo)
                 && Utils.enhancedDeepEquals(this.platforms, other.platforms)
@@ -339,9 +257,6 @@ public class ScreeningCoverage {
                 accountsFound,
                 accountsAccessible,
                 itemsRead,
-                itemsNotAnalysed,
-                notAnalysedByReason,
-                itemsFrameOnly,
                 periodFrom,
                 periodTo,
                 platforms,
@@ -360,12 +275,6 @@ public class ScreeningCoverage {
                 accountsAccessible,
                 "itemsRead",
                 itemsRead,
-                "itemsNotAnalysed",
-                itemsNotAnalysed,
-                "notAnalysedByReason",
-                notAnalysedByReason,
-                "itemsFrameOnly",
-                itemsFrameOnly,
                 "periodFrom",
                 periodFrom,
                 "periodTo",
@@ -388,12 +297,6 @@ public class ScreeningCoverage {
         private long accountsAccessible;
 
         private long itemsRead;
-
-        private Long itemsNotAnalysed;
-
-        private List<ScreeningNotAnalysedCount> notAnalysedByReason;
-
-        private Long itemsFrameOnly;
 
         private String periodFrom;
 
@@ -423,32 +326,6 @@ public class ScreeningCoverage {
 
         public Builder itemsRead(long itemsRead) {
             this.itemsRead = itemsRead;
-            return this;
-        }
-
-        /**
-         * Items read that the analyser could not analyse. Above zero, the person is partial: a finding may be
-         * missing from them.
-         */
-        public Builder itemsNotAnalysed(@Nullable Long itemsNotAnalysed) {
-            this.itemsNotAnalysed = itemsNotAnalysed;
-            return this;
-        }
-
-        /**
-         * items_not_analysed split by reason, each reason once with at least one item.
-         */
-        public Builder notAnalysedByReason(@Nullable List<ScreeningNotAnalysedCount> notAnalysedByReason) {
-            this.notAnalysedByReason = notAnalysedByReason;
-            return this;
-        }
-
-        /**
-         * Videos the analyser read from their cover frame and caption alone, without their sound or later
-         * frames. They count as analysed and do not make the person partial. Left out when none.
-         */
-        public Builder itemsFrameOnly(@Nullable Long itemsFrameOnly) {
-            this.itemsFrameOnly = itemsFrameOnly;
             return this;
         }
 
@@ -508,9 +385,6 @@ public class ScreeningCoverage {
                     accountsFound,
                     accountsAccessible,
                     itemsRead,
-                    itemsNotAnalysed,
-                    notAnalysedByReason,
-                    itemsFrameOnly,
                     periodFrom,
                     periodTo,
                     platforms,

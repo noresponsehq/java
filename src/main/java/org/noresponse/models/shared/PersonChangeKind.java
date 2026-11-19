@@ -22,8 +22,7 @@ import java.util.Optional;
  * breach_removed: a breach record appeared or disappeared. identifier_added and identifier_removed: an
  * email, phone, username, name or account id on an account the person already held.
  *
- * <p>field_changed: another field on such an account. finding_added: a new finding. posts_added: new
- * posts, counted in count.
+ * <p>field_changed: another field on such an account. posts_added: new posts, counted in count.
  */
 public class PersonChangeKind {
 
@@ -34,7 +33,6 @@ public class PersonChangeKind {
     public static final PersonChangeKind IDENTIFIER_ADDED = new PersonChangeKind("identifier_added");
     public static final PersonChangeKind IDENTIFIER_REMOVED = new PersonChangeKind("identifier_removed");
     public static final PersonChangeKind FIELD_CHANGED = new PersonChangeKind("field_changed");
-    public static final PersonChangeKind FINDING_ADDED = new PersonChangeKind("finding_added");
     public static final PersonChangeKind POSTS_ADDED = new PersonChangeKind("posts_added");
 
     // This map will grow whenever a Color gets created with a new
@@ -113,7 +111,6 @@ public class PersonChangeKind {
         map.put("identifier_added", IDENTIFIER_ADDED);
         map.put("identifier_removed", IDENTIFIER_REMOVED);
         map.put("field_changed", FIELD_CHANGED);
-        map.put("finding_added", FINDING_ADDED);
         map.put("posts_added", POSTS_ADDED);
         return map;
     }
@@ -127,7 +124,6 @@ public class PersonChangeKind {
         map.put("identifier_added", PersonChangeKindEnum.IDENTIFIER_ADDED);
         map.put("identifier_removed", PersonChangeKindEnum.IDENTIFIER_REMOVED);
         map.put("field_changed", PersonChangeKindEnum.FIELD_CHANGED);
-        map.put("finding_added", PersonChangeKindEnum.FINDING_ADDED);
         map.put("posts_added", PersonChangeKindEnum.POSTS_ADDED);
         return map;
     }
@@ -141,7 +137,6 @@ public class PersonChangeKind {
         IDENTIFIER_ADDED("identifier_added"),
         IDENTIFIER_REMOVED("identifier_removed"),
         FIELD_CHANGED("field_changed"),
-        FINDING_ADDED("finding_added"),
         POSTS_ADDED("posts_added"),
         ;
 

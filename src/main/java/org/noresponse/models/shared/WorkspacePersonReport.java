@@ -106,19 +106,13 @@ public class WorkspacePersonReport {
     private List<ScreeningProfile> profiles;
 
     /**
-     * What this result flagged, most severe first, each citing its evidence.
-     */
-    @JsonProperty("findings")
-    private List<ScreeningFinding> findings;
-
-    /**
-     * All posts retained for this result, including posts that no finding cites.
+     * All posts retained for this result.
      */
     @JsonProperty("posts")
     private List<ScreeningPost> posts;
 
     /**
-     * All images and videos retained for this result, including media that no finding cites.
+     * All images and videos retained for this result.
      */
     @JsonProperty("media")
     private List<ScreeningMedia> media;
@@ -126,8 +120,7 @@ public class WorkspacePersonReport {
     /**
      * What the signup check's lookups found for a person: account presence for the email, phone and
      * usernames (the person's handles), the phone lookup, the email domain's registration and the breach
-     * search. Context and coverage for the reviewer, not a finding: nothing here sets a band or a match
-     * state.
+     * search. Nothing here sets a match state.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("lookup")
@@ -154,8 +147,8 @@ public class WorkspacePersonReport {
 
     /**
      * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
-     * remain available. Collected records, profiles, findings, posts, media, discovered values and
-     * free-text decision notes are withheld.
+     * remain available. Collected records, profiles, posts, media, discovered values and free-text
+     * decision notes are withheld.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("evidence_restricted")
@@ -169,14 +162,6 @@ public class WorkspacePersonReport {
     @JsonInclude(Include.ALWAYS)
     @JsonProperty("evidence_investigation")
     private JsonNullable<Investigation> evidenceInvestigation;
-
-    /**
-     * An investigator's profile of this person, written from the evidence of a settled investigation. Null
-     * until an investigation completes or partially completes, and null when evidence.read is denied.
-     */
-    @JsonInclude(Include.ALWAYS)
-    @JsonProperty("written_profile")
-    private JsonNullable<WrittenProfile> writtenProfile;
 
     /**
      * What changed between each settled investigation of this person and the one before it, unreviewed
@@ -211,7 +196,6 @@ public class WorkspacePersonReport {
             @JsonProperty("expires_at") @Nonnull String expiresAt,
             @JsonProperty("groups") @Nonnull List<PersonGroup> groups,
             @JsonProperty("profiles") @Nonnull List<ScreeningProfile> profiles,
-            @JsonProperty("findings") @Nonnull List<ScreeningFinding> findings,
             @JsonProperty("posts") @Nonnull List<ScreeningPost> posts,
             @JsonProperty("media") @Nonnull List<ScreeningMedia> media,
             @JsonProperty("lookup") @Nullable ScreeningLookup lookup,
@@ -219,7 +203,6 @@ public class WorkspacePersonReport {
             @JsonProperty("suggested_searches") @Nonnull List<SuggestedSearch> suggestedSearches,
             @JsonProperty("evidence_restricted") @Nullable Boolean evidenceRestricted,
             @JsonProperty("evidence_investigation") @Nullable Investigation evidenceInvestigation,
-            @JsonProperty("written_profile") @Nullable WrittenProfile writtenProfile,
             @JsonProperty("changes") @Nonnull List<PersonChange> changes,
             @JsonProperty("schedule") @Nonnull PersonSchedule schedule) {
         this.externalId = externalId;
@@ -241,8 +224,6 @@ public class WorkspacePersonReport {
                 Optional.ofNullable(groups).orElseThrow(() -> new IllegalArgumentException("groups cannot be null"));
         this.profiles = Optional.ofNullable(profiles)
                 .orElseThrow(() -> new IllegalArgumentException("profiles cannot be null"));
-        this.findings = Optional.ofNullable(findings)
-                .orElseThrow(() -> new IllegalArgumentException("findings cannot be null"));
         this.posts = Optional.ofNullable(posts).orElseThrow(() -> new IllegalArgumentException("posts cannot be null"));
         this.media = Optional.ofNullable(media).orElseThrow(() -> new IllegalArgumentException("media cannot be null"));
         this.lookup = lookup;
@@ -251,7 +232,6 @@ public class WorkspacePersonReport {
                 .orElseThrow(() -> new IllegalArgumentException("suggestedSearches cannot be null"));
         this.evidenceRestricted = evidenceRestricted;
         this.evidenceInvestigation = JsonNullable.of(evidenceInvestigation);
-        this.writtenProfile = JsonNullable.of(writtenProfile);
         this.changes =
                 Optional.ofNullable(changes).orElseThrow(() -> new IllegalArgumentException("changes cannot be null"));
         this.schedule = Optional.ofNullable(schedule)
@@ -265,7 +245,6 @@ public class WorkspacePersonReport {
             @Nonnull String expiresAt,
             @Nonnull List<PersonGroup> groups,
             @Nonnull List<ScreeningProfile> profiles,
-            @Nonnull List<ScreeningFinding> findings,
             @Nonnull List<ScreeningPost> posts,
             @Nonnull List<ScreeningMedia> media,
             @Nonnull List<SuggestedSearch> suggestedSearches,
@@ -286,13 +265,11 @@ public class WorkspacePersonReport {
                 expiresAt,
                 groups,
                 profiles,
-                findings,
                 posts,
                 media,
                 null,
                 null,
                 suggestedSearches,
-                null,
                 null,
                 null,
                 changes,
@@ -391,21 +368,14 @@ public class WorkspacePersonReport {
     }
 
     /**
-     * What this result flagged, most severe first, each citing its evidence.
-     */
-    public List<ScreeningFinding> findings() {
-        return this.findings;
-    }
-
-    /**
-     * All posts retained for this result, including posts that no finding cites.
+     * All posts retained for this result.
      */
     public List<ScreeningPost> posts() {
         return this.posts;
     }
 
     /**
-     * All images and videos retained for this result, including media that no finding cites.
+     * All images and videos retained for this result.
      */
     public List<ScreeningMedia> media() {
         return this.media;
@@ -414,8 +384,7 @@ public class WorkspacePersonReport {
     /**
      * What the signup check's lookups found for a person: account presence for the email, phone and
      * usernames (the person's handles), the phone lookup, the email domain's registration and the breach
-     * search. Context and coverage for the reviewer, not a finding: nothing here sets a band or a match
-     * state.
+     * search. Nothing here sets a match state.
      */
     public Optional<ScreeningLookup> lookup() {
         return Optional.ofNullable(this.lookup);
@@ -443,8 +412,8 @@ public class WorkspacePersonReport {
 
     /**
      * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
-     * remain available. Collected records, profiles, findings, posts, media, discovered values and
-     * free-text decision notes are withheld.
+     * remain available. Collected records, profiles, posts, media, discovered values and free-text
+     * decision notes are withheld.
      */
     public Optional<Boolean> evidenceRestricted() {
         return Optional.ofNullable(this.evidenceRestricted);
@@ -457,14 +426,6 @@ public class WorkspacePersonReport {
      */
     public JsonNullable<Investigation> evidenceInvestigation() {
         return this.evidenceInvestigation;
-    }
-
-    /**
-     * An investigator's profile of this person, written from the evidence of a settled investigation. Null
-     * until an investigation completes or partially completes, and null when evidence.read is denied.
-     */
-    public JsonNullable<WrittenProfile> writtenProfile() {
-        return this.writtenProfile;
     }
 
     /**
@@ -596,15 +557,7 @@ public class WorkspacePersonReport {
     }
 
     /**
-     * What this result flagged, most severe first, each citing its evidence.
-     */
-    public WorkspacePersonReport withFindings(@Nonnull List<ScreeningFinding> findings) {
-        this.findings = Utils.checkNotNull(findings, "findings");
-        return this;
-    }
-
-    /**
-     * All posts retained for this result, including posts that no finding cites.
+     * All posts retained for this result.
      */
     public WorkspacePersonReport withPosts(@Nonnull List<ScreeningPost> posts) {
         this.posts = Utils.checkNotNull(posts, "posts");
@@ -612,7 +565,7 @@ public class WorkspacePersonReport {
     }
 
     /**
-     * All images and videos retained for this result, including media that no finding cites.
+     * All images and videos retained for this result.
      */
     public WorkspacePersonReport withMedia(@Nonnull List<ScreeningMedia> media) {
         this.media = Utils.checkNotNull(media, "media");
@@ -622,8 +575,7 @@ public class WorkspacePersonReport {
     /**
      * What the signup check's lookups found for a person: account presence for the email, phone and
      * usernames (the person's handles), the phone lookup, the email domain's registration and the breach
-     * search. Context and coverage for the reviewer, not a finding: nothing here sets a band or a match
-     * state.
+     * search. Nothing here sets a match state.
      */
     public WorkspacePersonReport withLookup(@Nullable ScreeningLookup lookup) {
         this.lookup = lookup;
@@ -654,8 +606,8 @@ public class WorkspacePersonReport {
 
     /**
      * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
-     * remain available. Collected records, profiles, findings, posts, media, discovered values and
-     * free-text decision notes are withheld.
+     * remain available. Collected records, profiles, posts, media, discovered values and free-text
+     * decision notes are withheld.
      */
     public WorkspacePersonReport withEvidenceRestricted(@Nullable Boolean evidenceRestricted) {
         this.evidenceRestricted = evidenceRestricted;
@@ -669,15 +621,6 @@ public class WorkspacePersonReport {
      */
     public WorkspacePersonReport withEvidenceInvestigation(@Nullable Investigation evidenceInvestigation) {
         this.evidenceInvestigation = JsonNullable.of(evidenceInvestigation);
-        return this;
-    }
-
-    /**
-     * An investigator's profile of this person, written from the evidence of a settled investigation. Null
-     * until an investigation completes or partially completes, and null when evidence.read is denied.
-     */
-    public WorkspacePersonReport withWrittenProfile(@Nullable WrittenProfile writtenProfile) {
-        this.writtenProfile = JsonNullable.of(writtenProfile);
         return this;
     }
 
@@ -725,7 +668,6 @@ public class WorkspacePersonReport {
                 && Utils.enhancedDeepEquals(this.expiresAt, other.expiresAt)
                 && Utils.enhancedDeepEquals(this.groups, other.groups)
                 && Utils.enhancedDeepEquals(this.profiles, other.profiles)
-                && Utils.enhancedDeepEquals(this.findings, other.findings)
                 && Utils.enhancedDeepEquals(this.posts, other.posts)
                 && Utils.enhancedDeepEquals(this.media, other.media)
                 && Utils.enhancedDeepEquals(this.lookup, other.lookup)
@@ -733,7 +675,6 @@ public class WorkspacePersonReport {
                 && Utils.enhancedDeepEquals(this.suggestedSearches, other.suggestedSearches)
                 && Utils.enhancedDeepEquals(this.evidenceRestricted, other.evidenceRestricted)
                 && Utils.enhancedDeepEquals(this.evidenceInvestigation, other.evidenceInvestigation)
-                && Utils.enhancedDeepEquals(this.writtenProfile, other.writtenProfile)
                 && Utils.enhancedDeepEquals(this.changes, other.changes)
                 && Utils.enhancedDeepEquals(this.schedule, other.schedule);
     }
@@ -755,7 +696,6 @@ public class WorkspacePersonReport {
                 expiresAt,
                 groups,
                 profiles,
-                findings,
                 posts,
                 media,
                 lookup,
@@ -763,7 +703,6 @@ public class WorkspacePersonReport {
                 suggestedSearches,
                 evidenceRestricted,
                 evidenceInvestigation,
-                writtenProfile,
                 changes,
                 schedule);
     }
@@ -800,8 +739,6 @@ public class WorkspacePersonReport {
                 groups,
                 "profiles",
                 profiles,
-                "findings",
-                findings,
                 "posts",
                 posts,
                 "media",
@@ -816,8 +753,6 @@ public class WorkspacePersonReport {
                 evidenceRestricted,
                 "evidenceInvestigation",
                 evidenceInvestigation,
-                "writtenProfile",
-                writtenProfile,
                 "changes",
                 changes,
                 "schedule",
@@ -855,8 +790,6 @@ public class WorkspacePersonReport {
 
         private List<ScreeningProfile> profiles;
 
-        private List<ScreeningFinding> findings;
-
         private List<ScreeningPost> posts;
 
         private List<ScreeningMedia> media;
@@ -870,8 +803,6 @@ public class WorkspacePersonReport {
         private Boolean evidenceRestricted;
 
         private Investigation evidenceInvestigation;
-
-        private WrittenProfile writtenProfile;
 
         private List<PersonChange> changes;
 
@@ -987,15 +918,7 @@ public class WorkspacePersonReport {
         }
 
         /**
-         * What this result flagged, most severe first, each citing its evidence.
-         */
-        public Builder findings(@Nonnull List<ScreeningFinding> findings) {
-            this.findings = Utils.checkNotNull(findings, "findings");
-            return this;
-        }
-
-        /**
-         * All posts retained for this result, including posts that no finding cites.
+         * All posts retained for this result.
          */
         public Builder posts(@Nonnull List<ScreeningPost> posts) {
             this.posts = Utils.checkNotNull(posts, "posts");
@@ -1003,7 +926,7 @@ public class WorkspacePersonReport {
         }
 
         /**
-         * All images and videos retained for this result, including media that no finding cites.
+         * All images and videos retained for this result.
          */
         public Builder media(@Nonnull List<ScreeningMedia> media) {
             this.media = Utils.checkNotNull(media, "media");
@@ -1013,8 +936,7 @@ public class WorkspacePersonReport {
         /**
          * What the signup check's lookups found for a person: account presence for the email, phone and
          * usernames (the person's handles), the phone lookup, the email domain's registration and the breach
-         * search. Context and coverage for the reviewer, not a finding: nothing here sets a band or a match
-         * state.
+         * search. Nothing here sets a match state.
          */
         public Builder lookup(@Nullable ScreeningLookup lookup) {
             this.lookup = lookup;
@@ -1045,8 +967,8 @@ public class WorkspacePersonReport {
 
         /**
          * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
-         * remain available. Collected records, profiles, findings, posts, media, discovered values and
-         * free-text decision notes are withheld.
+         * remain available. Collected records, profiles, posts, media, discovered values and free-text
+         * decision notes are withheld.
          */
         public Builder evidenceRestricted(@Nullable Boolean evidenceRestricted) {
             this.evidenceRestricted = evidenceRestricted;
@@ -1060,15 +982,6 @@ public class WorkspacePersonReport {
          */
         public Builder evidenceInvestigation(@Nullable Investigation evidenceInvestigation) {
             this.evidenceInvestigation = evidenceInvestigation;
-            return this;
-        }
-
-        /**
-         * An investigator's profile of this person, written from the evidence of a settled investigation. Null
-         * until an investigation completes or partially completes, and null when evidence.read is denied.
-         */
-        public Builder writtenProfile(@Nullable WrittenProfile writtenProfile) {
-            this.writtenProfile = writtenProfile;
             return this;
         }
 
@@ -1109,7 +1022,6 @@ public class WorkspacePersonReport {
                     expiresAt,
                     groups,
                     profiles,
-                    findings,
                     posts,
                     media,
                     lookup,
@@ -1117,7 +1029,6 @@ public class WorkspacePersonReport {
                     suggestedSearches,
                     evidenceRestricted,
                     evidenceInvestigation,
-                    writtenProfile,
                     changes,
                     schedule);
         }

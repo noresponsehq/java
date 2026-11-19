@@ -34,7 +34,7 @@ public class ScreeningMatchEvidence {
     private String detail;
 
     /**
-     * The resolver, collector or analyser that produced a record, by its catalogue name.
+     * The resolver or collector that produced a record, by its catalogue name.
      */
     @JsonProperty("resolver")
     private String resolver;
@@ -72,7 +72,7 @@ public class ScreeningMatchEvidence {
     }
 
     /**
-     * The resolver, collector or analyser that produced a record, by its catalogue name.
+     * The resolver or collector that produced a record, by its catalogue name.
      */
     public String resolver() {
         return this.resolver;
@@ -102,7 +102,7 @@ public class ScreeningMatchEvidence {
     }
 
     /**
-     * The resolver, collector or analyser that produced a record, by its catalogue name.
+     * The resolver or collector that produced a record, by its catalogue name.
      */
     public ScreeningMatchEvidence withResolver(@Nonnull String resolver) {
         this.resolver = Utils.checkNotNull(resolver, "resolver");
@@ -166,7 +166,7 @@ public class ScreeningMatchEvidence {
         }
 
         /**
-         * The resolver, collector or analyser that produced a record, by its catalogue name.
+         * The resolver or collector that produced a record, by its catalogue name.
          */
         public Builder resolver(@Nonnull String resolver) {
             this.resolver = Utils.checkNotNull(resolver, "resolver");

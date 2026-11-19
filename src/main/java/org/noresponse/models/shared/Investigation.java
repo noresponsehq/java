@@ -15,13 +15,6 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 public class Investigation {
     /**
-     * The most severe finding's band, or null when nothing was flagged.
-     */
-    @JsonInclude(Include.ALWAYS)
-    @JsonProperty("highest_band")
-    private JsonNullable<HighestBand> highestBand;
-
-    /**
      * The denominator of a screening: accounts found, how many could be read, items read and the period
      * they span, so a clean result is distinct from a person nobody could see.
      */
@@ -99,7 +92,6 @@ public class Investigation {
 
     @JsonCreator
     public Investigation(
-            @JsonProperty("highest_band") @Nullable HighestBand highestBand,
             @JsonProperty("coverage") @Nonnull ScreeningCoverage coverage,
             @JsonProperty("spend") @Nonnull ScreeningSpend spend,
             @JsonProperty("decision") @Nullable PersonDecision decision,
@@ -119,7 +111,6 @@ public class Investigation {
             @JsonProperty("finished_at") @Nullable String finishedAt,
             @JsonProperty("expires_at") @Nonnull String expiresAt,
             @JsonProperty("deadline_at") @Nonnull String deadlineAt) {
-        this.highestBand = JsonNullable.of(highestBand);
         this.coverage = Optional.ofNullable(coverage)
                 .orElseThrow(() -> new IllegalArgumentException("coverage cannot be null"));
         this.spend = Optional.ofNullable(spend).orElseThrow(() -> new IllegalArgumentException("spend cannot be null"));
@@ -160,7 +151,6 @@ public class Investigation {
             @Nonnull String expiresAt,
             @Nonnull String deadlineAt) {
         this(
-                null,
                 coverage,
                 spend,
                 null,
@@ -180,13 +170,6 @@ public class Investigation {
                 null,
                 expiresAt,
                 deadlineAt);
-    }
-
-    /**
-     * The most severe finding's band, or null when nothing was flagged.
-     */
-    public JsonNullable<HighestBand> highestBand() {
-        return this.highestBand;
     }
 
     /**
@@ -277,14 +260,6 @@ public class Investigation {
 
     public static Builder builder() {
         return new Builder();
-    }
-
-    /**
-     * The most severe finding's band, or null when nothing was flagged.
-     */
-    public Investigation withHighestBand(@Nullable HighestBand highestBand) {
-        this.highestBand = JsonNullable.of(highestBand);
-        return this;
     }
 
     /**
@@ -401,8 +376,7 @@ public class Investigation {
             return false;
         }
         Investigation other = (Investigation) o;
-        return Utils.enhancedDeepEquals(this.highestBand, other.highestBand)
-                && Utils.enhancedDeepEquals(this.coverage, other.coverage)
+        return Utils.enhancedDeepEquals(this.coverage, other.coverage)
                 && Utils.enhancedDeepEquals(this.spend, other.spend)
                 && Utils.enhancedDeepEquals(this.decision, other.decision)
                 && Utils.enhancedDeepEquals(this.decisionNote, other.decisionNote)
@@ -426,7 +400,6 @@ public class Investigation {
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-                highestBand,
                 coverage,
                 spend,
                 decision,
@@ -452,8 +425,6 @@ public class Investigation {
     public String toString() {
         return Utils.toString(
                 Investigation.class,
-                "highestBand",
-                highestBand,
                 "coverage",
                 coverage,
                 "spend",
@@ -497,8 +468,6 @@ public class Investigation {
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
 
-        private HighestBand highestBand;
-
         private ScreeningCoverage coverage;
 
         private ScreeningSpend spend;
@@ -539,14 +508,6 @@ public class Investigation {
 
         private Builder() {
             // force use of static builder() method
-        }
-
-        /**
-         * The most severe finding's band, or null when nothing was flagged.
-         */
-        public Builder highestBand(@Nullable HighestBand highestBand) {
-            this.highestBand = highestBand;
-            return this;
         }
 
         /**
@@ -656,7 +617,6 @@ public class Investigation {
 
         public Investigation build() {
             return new Investigation(
-                    highestBand,
                     coverage,
                     spend,
                     decision,

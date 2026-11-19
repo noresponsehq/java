@@ -31,7 +31,6 @@ import org.noresponse.models.shared.AssessmentUpdatedEvent;
 import org.noresponse.models.shared.AuditEventEvent;
 import org.noresponse.models.shared.EndpointVerificationEvent;
 import org.noresponse.models.shared.PersonDecidedEvent;
-import org.noresponse.models.shared.PersonFlaggedEvent;
 import org.noresponse.models.shared.ScreeningCompletedEvent;
 import org.noresponse.models.shared.InvestigationCompletedEvent;
 import org.noresponse.models.shared.WebhookEndpointDisabledEvent;
@@ -60,7 +59,6 @@ class WebhookVectorTest {
             Map.entry("account.risk_changed", AccountRiskChangedEvent.class),
             Map.entry("audit.event", AuditEventEvent.class),
             Map.entry("screening.completed", ScreeningCompletedEvent.class),
-            Map.entry("person.flagged", PersonFlaggedEvent.class),
             Map.entry("person.decided", PersonDecidedEvent.class),
             Map.entry("investigation.completed", InvestigationCompletedEvent.class));
 

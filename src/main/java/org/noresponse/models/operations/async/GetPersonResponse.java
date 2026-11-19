@@ -32,7 +32,7 @@ public class GetPersonResponse implements AsyncResponse {
     private HttpResponse<Blob> rawResponse;
 
     /**
-     * The person, their matched profiles, findings and every recorded decision.
+     * The person, their matched profiles and every recorded decision.
      */
     private PersonReport personReport;
 
@@ -86,7 +86,7 @@ public class GetPersonResponse implements AsyncResponse {
     }
 
     /**
-     * The person, their matched profiles, findings and every recorded decision.
+     * The person, their matched profiles and every recorded decision.
      */
     public Optional<PersonReport> personReport() {
         return Optional.ofNullable(this.personReport);
@@ -125,7 +125,7 @@ public class GetPersonResponse implements AsyncResponse {
     }
 
     /**
-     * The person, their matched profiles, findings and every recorded decision.
+     * The person, their matched profiles and every recorded decision.
      */
     public GetPersonResponse withPersonReport(@Nullable PersonReport personReport) {
         this.personReport = personReport;
@@ -216,7 +216,7 @@ public class GetPersonResponse implements AsyncResponse {
         }
 
         /**
-         * The person, their matched profiles, findings and every recorded decision.
+         * The person, their matched profiles and every recorded decision.
          */
         public Builder personReport(@Nullable PersonReport personReport) {
             this.personReport = personReport;

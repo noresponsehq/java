@@ -64,13 +64,6 @@ public class OtherGroup {
     private Boolean noProfileToCheck;
 
     /**
-     * That person's most severe band in that group, or null.
-     */
-    @JsonInclude(Include.ALWAYS)
-    @JsonProperty("highest_band")
-    private JsonNullable<HighestBand> highestBand;
-
-    /**
      * The latest reviewer decision in that group, or null before any.
      */
     @JsonInclude(Include.ALWAYS)
@@ -100,7 +93,6 @@ public class OtherGroup {
             @JsonProperty("matched_on") @Nonnull List<OtherGroupMatchedOn> matchedOn,
             @JsonProperty("match_state") @Nonnull MatchState matchState,
             @JsonProperty("no_profile_to_check") @Nullable Boolean noProfileToCheck,
-            @JsonProperty("highest_band") @Nullable HighestBand highestBand,
             @JsonProperty("decision") @Nullable PersonDecision decision,
             @JsonProperty("decided_by") @Nullable String decidedBy,
             @JsonProperty("decided_at") @Nullable String decidedAt) {
@@ -116,7 +108,6 @@ public class OtherGroup {
         this.matchState = Optional.ofNullable(matchState)
                 .orElseThrow(() -> new IllegalArgumentException("matchState cannot be null"));
         this.noProfileToCheck = noProfileToCheck;
-        this.highestBand = JsonNullable.of(highestBand);
         this.decision = JsonNullable.of(decision);
         this.decidedBy = decidedBy;
         this.decidedAt = decidedAt;
@@ -128,7 +119,7 @@ public class OtherGroup {
             @Nonnull String personId,
             @Nonnull List<OtherGroupMatchedOn> matchedOn,
             @Nonnull MatchState matchState) {
-        this(groupId, groupName, null, personId, matchedOn, matchState, null, null, null, null, null);
+        this(groupId, groupName, null, personId, matchedOn, matchState, null, null, null, null);
     }
 
     public String groupId() {
@@ -175,13 +166,6 @@ public class OtherGroup {
      */
     public Optional<Boolean> noProfileToCheck() {
         return Optional.ofNullable(this.noProfileToCheck);
-    }
-
-    /**
-     * That person's most severe band in that group, or null.
-     */
-    public JsonNullable<HighestBand> highestBand() {
-        return this.highestBand;
     }
 
     /**
@@ -263,14 +247,6 @@ public class OtherGroup {
     }
 
     /**
-     * That person's most severe band in that group, or null.
-     */
-    public OtherGroup withHighestBand(@Nullable HighestBand highestBand) {
-        this.highestBand = JsonNullable.of(highestBand);
-        return this;
-    }
-
-    /**
      * The latest reviewer decision in that group, or null before any.
      */
     public OtherGroup withDecision(@Nullable PersonDecision decision) {
@@ -310,7 +286,6 @@ public class OtherGroup {
                 && Utils.enhancedDeepEquals(this.matchedOn, other.matchedOn)
                 && Utils.enhancedDeepEquals(this.matchState, other.matchState)
                 && Utils.enhancedDeepEquals(this.noProfileToCheck, other.noProfileToCheck)
-                && Utils.enhancedDeepEquals(this.highestBand, other.highestBand)
                 && Utils.enhancedDeepEquals(this.decision, other.decision)
                 && Utils.enhancedDeepEquals(this.decidedBy, other.decidedBy)
                 && Utils.enhancedDeepEquals(this.decidedAt, other.decidedAt);
@@ -326,7 +301,6 @@ public class OtherGroup {
                 matchedOn,
                 matchState,
                 noProfileToCheck,
-                highestBand,
                 decision,
                 decidedBy,
                 decidedAt);
@@ -350,8 +324,6 @@ public class OtherGroup {
                 matchState,
                 "noProfileToCheck",
                 noProfileToCheck,
-                "highestBand",
-                highestBand,
                 "decision",
                 decision,
                 "decidedBy",
@@ -376,8 +348,6 @@ public class OtherGroup {
         private MatchState matchState;
 
         private Boolean noProfileToCheck;
-
-        private HighestBand highestBand;
 
         private PersonDecision decision;
 
@@ -443,14 +413,6 @@ public class OtherGroup {
         }
 
         /**
-         * That person's most severe band in that group, or null.
-         */
-        public Builder highestBand(@Nullable HighestBand highestBand) {
-            this.highestBand = highestBand;
-            return this;
-        }
-
-        /**
          * The latest reviewer decision in that group, or null before any.
          */
         public Builder decision(@Nullable PersonDecision decision) {
@@ -483,7 +445,6 @@ public class OtherGroup {
                     matchedOn,
                     matchState,
                     noProfileToCheck,
-                    highestBand,
                     decision,
                     decidedBy,
                     decidedAt);

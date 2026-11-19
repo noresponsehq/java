@@ -73,9 +73,6 @@ public class Screening {
     @JsonProperty("people_done")
     private long peopleDone;
 
-    @JsonProperty("people_flagged")
-    private long peopleFlagged;
-
     @JsonProperty("people_failed")
     private long peopleFailed;
 
@@ -128,7 +125,6 @@ public class Screening {
             @JsonProperty("expires_at") @Nonnull String expiresAt,
             @JsonProperty("people_total") long peopleTotal,
             @JsonProperty("people_done") long peopleDone,
-            @JsonProperty("people_flagged") long peopleFlagged,
             @JsonProperty("people_failed") long peopleFailed,
             @JsonProperty("people_partial") long peoplePartial,
             @JsonProperty("estimated_spend") long estimatedSpend,
@@ -155,7 +151,6 @@ public class Screening {
                 .orElseThrow(() -> new IllegalArgumentException("expiresAt cannot be null"));
         this.peopleTotal = peopleTotal;
         this.peopleDone = peopleDone;
-        this.peopleFlagged = peopleFlagged;
         this.peopleFailed = peopleFailed;
         this.peoplePartial = peoplePartial;
         this.estimatedSpend = estimatedSpend;
@@ -176,7 +171,6 @@ public class Screening {
             @Nonnull String expiresAt,
             long peopleTotal,
             long peopleDone,
-            long peopleFlagged,
             long peopleFailed,
             long peoplePartial,
             long estimatedSpend,
@@ -196,7 +190,6 @@ public class Screening {
                 expiresAt,
                 peopleTotal,
                 peopleDone,
-                peopleFlagged,
                 peopleFailed,
                 peoplePartial,
                 estimatedSpend,
@@ -268,10 +261,6 @@ public class Screening {
      */
     public long peopleDone() {
         return this.peopleDone;
-    }
-
-    public long peopleFlagged() {
-        return this.peopleFlagged;
     }
 
     public long peopleFailed() {
@@ -398,11 +387,6 @@ public class Screening {
         return this;
     }
 
-    public Screening withPeopleFlagged(long peopleFlagged) {
-        this.peopleFlagged = peopleFlagged;
-        return this;
-    }
-
     public Screening withPeopleFailed(long peopleFailed) {
         this.peopleFailed = peopleFailed;
         return this;
@@ -473,7 +457,6 @@ public class Screening {
                 && Utils.enhancedDeepEquals(this.expiresAt, other.expiresAt)
                 && Utils.enhancedDeepEquals(this.peopleTotal, other.peopleTotal)
                 && Utils.enhancedDeepEquals(this.peopleDone, other.peopleDone)
-                && Utils.enhancedDeepEquals(this.peopleFlagged, other.peopleFlagged)
                 && Utils.enhancedDeepEquals(this.peopleFailed, other.peopleFailed)
                 && Utils.enhancedDeepEquals(this.peoplePartial, other.peoplePartial)
                 && Utils.enhancedDeepEquals(this.estimatedSpend, other.estimatedSpend)
@@ -498,7 +481,6 @@ public class Screening {
                 expiresAt,
                 peopleTotal,
                 peopleDone,
-                peopleFlagged,
                 peopleFailed,
                 peoplePartial,
                 estimatedSpend,
@@ -537,8 +519,6 @@ public class Screening {
                 peopleTotal,
                 "peopleDone",
                 peopleDone,
-                "peopleFlagged",
-                peopleFlagged,
                 "peopleFailed",
                 peopleFailed,
                 "peoplePartial",
@@ -581,8 +561,6 @@ public class Screening {
         private long peopleTotal;
 
         private long peopleDone;
-
-        private long peopleFlagged;
 
         private long peopleFailed;
 
@@ -678,11 +656,6 @@ public class Screening {
             return this;
         }
 
-        public Builder peopleFlagged(long peopleFlagged) {
-            this.peopleFlagged = peopleFlagged;
-            return this;
-        }
-
         public Builder peopleFailed(long peopleFailed) {
             this.peopleFailed = peopleFailed;
             return this;
@@ -746,7 +719,6 @@ public class Screening {
                     expiresAt,
                     peopleTotal,
                     peopleDone,
-                    peopleFlagged,
                     peopleFailed,
                     peoplePartial,
                     estimatedSpend,

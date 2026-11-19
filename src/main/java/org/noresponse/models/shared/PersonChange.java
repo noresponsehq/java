@@ -23,15 +23,14 @@ public class PersonChange {
      * breach_removed: a breach record appeared or disappeared. identifier_added and identifier_removed: an
      * email, phone, username, name or account id on an account the person already held.
      *
-     * <p>field_changed: another field on such an account. finding_added: a new finding. posts_added: new
-     * posts, counted in count.
+     * <p>field_changed: another field on such an account. posts_added: new posts, counted in count.
      */
     @JsonProperty("kind")
     private PersonChangeKind kind;
 
     /**
      * One rule ranks every change: identity changes (accounts, breaches, identifiers) are high, profile
-     * fields and findings are medium, new posts are low.
+     * fields are medium, new posts are low.
      */
     @JsonProperty("significance")
     private Significance significance;
@@ -149,8 +148,7 @@ public class PersonChange {
      * breach_removed: a breach record appeared or disappeared. identifier_added and identifier_removed: an
      * email, phone, username, name or account id on an account the person already held.
      *
-     * <p>field_changed: another field on such an account. finding_added: a new finding. posts_added: new
-     * posts, counted in count.
+     * <p>field_changed: another field on such an account. posts_added: new posts, counted in count.
      */
     public PersonChangeKind kind() {
         return this.kind;
@@ -158,7 +156,7 @@ public class PersonChange {
 
     /**
      * One rule ranks every change: identity changes (accounts, breaches, identifiers) are high, profile
-     * fields and findings are medium, new posts are low.
+     * fields are medium, new posts are low.
      */
     public Significance significance() {
         return this.significance;
@@ -227,8 +225,7 @@ public class PersonChange {
      * breach_removed: a breach record appeared or disappeared. identifier_added and identifier_removed: an
      * email, phone, username, name or account id on an account the person already held.
      *
-     * <p>field_changed: another field on such an account. finding_added: a new finding. posts_added: new
-     * posts, counted in count.
+     * <p>field_changed: another field on such an account. posts_added: new posts, counted in count.
      */
     public PersonChange withKind(@Nonnull PersonChangeKind kind) {
         this.kind = Utils.checkNotNull(kind, "kind");
@@ -237,7 +234,7 @@ public class PersonChange {
 
     /**
      * One rule ranks every change: identity changes (accounts, breaches, identifiers) are high, profile
-     * fields and findings are medium, new posts are low.
+     * fields are medium, new posts are low.
      */
     public PersonChange withSignificance(@Nonnull Significance significance) {
         this.significance = Utils.checkNotNull(significance, "significance");
@@ -420,8 +417,7 @@ public class PersonChange {
          * breach_removed: a breach record appeared or disappeared. identifier_added and identifier_removed: an
          * email, phone, username, name or account id on an account the person already held.
          *
-         * <p>field_changed: another field on such an account. finding_added: a new finding. posts_added: new
-         * posts, counted in count.
+         * <p>field_changed: another field on such an account. posts_added: new posts, counted in count.
          */
         public Builder kind(@Nonnull PersonChangeKind kind) {
             this.kind = Utils.checkNotNull(kind, "kind");
@@ -430,7 +426,7 @@ public class PersonChange {
 
         /**
          * One rule ranks every change: identity changes (accounts, breaches, identifiers) are high, profile
-         * fields and findings are medium, new posts are low.
+         * fields are medium, new posts are low.
          */
         public Builder significance(@Nonnull Significance significance) {
             this.significance = Utils.checkNotNull(significance, "significance");

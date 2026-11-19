@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v17.0.3'
+    implementation 'com.github.noresponsehq:java:v18.0.0'
 }
 ```
 
@@ -39,7 +39,7 @@ dependencies {
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v17.0.3</version>
+  <version>v18.0.0</version>
 </dependency>
 ```
 
@@ -269,9 +269,7 @@ try {
     } else if (event instanceof WebhookEndpointDisabledEvent) {
         // data().endpointId() failed for 72 hours: fix it, verify it again
     } else if (event instanceof ScreeningCompletedEvent) {
-        // screening.completed: counts by band, no footprint and partial coverage; it names no person
-    } else if (event instanceof PersonFlaggedEvent) {
-        // person.flagged: the person's highest band and match state, never what was posted
+        // screening.completed: counts of people screened, no footprint and partial coverage; it names no person
     } else if (event instanceof PersonDecidedEvent) {
         // person.decided: cleared, watch or escalated; keep the latest decidedAt per person
     } else if (event instanceof AccountRiskChangedEvent) {

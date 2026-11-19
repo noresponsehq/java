@@ -22,7 +22,7 @@ class GroupDatesTest {
         assertNull(group.startsAt().get());
         assertTrue(group.endsAt().isPresent());
         assertNull(group.endsAt().get());
-        var other = mapper.readValue("{\"group_id\":\"grp_building\",\"group_name\":\"Harbour building\",\"group_starts_at\":null,\"person_id\":\"per_example\",\"matched_on\":[\"person_id\"],\"match_state\":\"unscreened\",\"highest_band\":null,\"decision\":null}", org.noresponse.models.shared.OtherGroup.class);
+        var other = mapper.readValue("{\"group_id\":\"grp_building\",\"group_name\":\"Harbour building\",\"group_starts_at\":null,\"person_id\":\"per_example\",\"matched_on\":[\"person_id\"],\"match_state\":\"unscreened\",\"decision\":null}", org.noresponse.models.shared.OtherGroup.class);
         assertNull(other.groupStartsAt().get());
     }
 }

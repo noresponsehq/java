@@ -73,7 +73,7 @@ public class ScreeningProfile {
     private ScreeningMatch match;
 
     /**
-     * The resolver, collector or analyser that produced a record, by its catalogue name.
+     * The resolver or collector that produced a record, by its catalogue name.
      */
     @JsonProperty("collector")
     private String collector;
@@ -254,7 +254,7 @@ public class ScreeningProfile {
     }
 
     /**
-     * The resolver, collector or analyser that produced a record, by its catalogue name.
+     * The resolver or collector that produced a record, by its catalogue name.
      */
     public String collector() {
         return this.collector;
@@ -377,7 +377,7 @@ public class ScreeningProfile {
     }
 
     /**
-     * The resolver, collector or analyser that produced a record, by its catalogue name.
+     * The resolver or collector that produced a record, by its catalogue name.
      */
     public ScreeningProfile withCollector(@Nonnull String collector) {
         this.collector = Utils.checkNotNull(collector, "collector");
@@ -640,7 +640,7 @@ public class ScreeningProfile {
         }
 
         /**
-         * The resolver, collector or analyser that produced a record, by its catalogue name.
+         * The resolver or collector that produced a record, by its catalogue name.
          */
         public Builder collector(@Nonnull String collector) {
             this.collector = Utils.checkNotNull(collector, "collector");

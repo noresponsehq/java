@@ -17,10 +17,10 @@ import org.noresponse.utils.Utils;
  *
  * <p>A screening of a group finished. It counts only the people this screening set out to reach, not who
  * they are: read the roster with GET
- * /v1/workspaces/{workspace_id}/groups/{environment}/{group_id}/people, filtered by band, to act on
- * them. people_screened + partial_coverage = people_total, people_flagged is the sum of by_band,
- * no_footprint counts screened people with no flag whose accounts were not found, and
- * no_profile_to_check those the screening had nothing to look up for on any requested platform.
+ * /v1/workspaces/{workspace_id}/groups/{environment}/{group_id}/people to act on them. people_screened
+ * + partial_coverage = people_total, no_footprint counts screened people whose accounts were not
+ * found, and no_profile_to_check those the screening had nothing to look up for on any requested
+ * platform.
  *
  * <p>A cancelled screening sends no event.
  */
@@ -59,27 +59,14 @@ public class ScreeningCompleted {
     private long peopleTotal;
 
     /**
-     * People the screening covered, flagged or not.
+     * People the screening covered.
      */
     @JsonProperty("people_screened")
     private long peopleScreened;
 
     /**
-     * Screened people with a finding: the sum of by_band.
-     */
-    @JsonProperty("people_flagged")
-    private long peopleFlagged;
-
-    /**
-     * Screened people by the band of their most severe finding.
-     */
-    @JsonProperty("by_band")
-    private ScreeningCompletedByBand byBand;
-
-    /**
-     * Screened people with no finding whose accounts were not found (match_state none_found). A clean
-     * result for someone with no visible accounts is not the same as a clean result for someone whose
-     * accounts were read.
+     * Screened people whose accounts were not found (match_state none_found). A clean result for someone
+     * with no visible accounts is not the same as a clean result for someone whose accounts were read.
      */
     @JsonProperty("no_footprint")
     private long noFootprint;
@@ -113,8 +100,6 @@ public class ScreeningCompleted {
             @JsonProperty("error_code") @Nullable String errorCode,
             @JsonProperty("people_total") long peopleTotal,
             @JsonProperty("people_screened") long peopleScreened,
-            @JsonProperty("people_flagged") long peopleFlagged,
-            @JsonProperty("by_band") @Nonnull ScreeningCompletedByBand byBand,
             @JsonProperty("no_footprint") long noFootprint,
             @JsonProperty("no_profile_to_check") @Nullable Long noProfileToCheck,
             @JsonProperty("partial_coverage") long partialCoverage,
@@ -128,9 +113,6 @@ public class ScreeningCompleted {
         this.errorCode = errorCode;
         this.peopleTotal = peopleTotal;
         this.peopleScreened = peopleScreened;
-        this.peopleFlagged = peopleFlagged;
-        this.byBand =
-                Optional.ofNullable(byBand).orElseThrow(() -> new IllegalArgumentException("byBand cannot be null"));
         this.noFootprint = noFootprint;
         this.noProfileToCheck = noProfileToCheck;
         this.partialCoverage = partialCoverage;
@@ -144,8 +126,6 @@ public class ScreeningCompleted {
             @Nonnull ScreeningCompletedStatus status,
             long peopleTotal,
             long peopleScreened,
-            long peopleFlagged,
-            @Nonnull ScreeningCompletedByBand byBand,
             long noFootprint,
             long partialCoverage,
             @Nonnull String finishedAt) {
@@ -156,8 +136,6 @@ public class ScreeningCompleted {
                 null,
                 peopleTotal,
                 peopleScreened,
-                peopleFlagged,
-                byBand,
                 noFootprint,
                 null,
                 partialCoverage,
@@ -202,30 +180,15 @@ public class ScreeningCompleted {
     }
 
     /**
-     * People the screening covered, flagged or not.
+     * People the screening covered.
      */
     public long peopleScreened() {
         return this.peopleScreened;
     }
 
     /**
-     * Screened people with a finding: the sum of by_band.
-     */
-    public long peopleFlagged() {
-        return this.peopleFlagged;
-    }
-
-    /**
-     * Screened people by the band of their most severe finding.
-     */
-    public ScreeningCompletedByBand byBand() {
-        return this.byBand;
-    }
-
-    /**
-     * Screened people with no finding whose accounts were not found (match_state none_found). A clean
-     * result for someone with no visible accounts is not the same as a clean result for someone whose
-     * accounts were read.
+     * Screened people whose accounts were not found (match_state none_found). A clean result for someone
+     * with no visible accounts is not the same as a clean result for someone whose accounts were read.
      */
     public long noFootprint() {
         return this.noFootprint;
@@ -301,7 +264,7 @@ public class ScreeningCompleted {
     }
 
     /**
-     * People the screening covered, flagged or not.
+     * People the screening covered.
      */
     public ScreeningCompleted withPeopleScreened(long peopleScreened) {
         this.peopleScreened = peopleScreened;
@@ -309,25 +272,8 @@ public class ScreeningCompleted {
     }
 
     /**
-     * Screened people with a finding: the sum of by_band.
-     */
-    public ScreeningCompleted withPeopleFlagged(long peopleFlagged) {
-        this.peopleFlagged = peopleFlagged;
-        return this;
-    }
-
-    /**
-     * Screened people by the band of their most severe finding.
-     */
-    public ScreeningCompleted withByBand(@Nonnull ScreeningCompletedByBand byBand) {
-        this.byBand = Utils.checkNotNull(byBand, "byBand");
-        return this;
-    }
-
-    /**
-     * Screened people with no finding whose accounts were not found (match_state none_found). A clean
-     * result for someone with no visible accounts is not the same as a clean result for someone whose
-     * accounts were read.
+     * Screened people whose accounts were not found (match_state none_found). A clean result for someone
+     * with no visible accounts is not the same as a clean result for someone whose accounts were read.
      */
     public ScreeningCompleted withNoFootprint(long noFootprint) {
         this.noFootprint = noFootprint;
@@ -375,8 +321,6 @@ public class ScreeningCompleted {
                 && Utils.enhancedDeepEquals(this.errorCode, other.errorCode)
                 && Utils.enhancedDeepEquals(this.peopleTotal, other.peopleTotal)
                 && Utils.enhancedDeepEquals(this.peopleScreened, other.peopleScreened)
-                && Utils.enhancedDeepEquals(this.peopleFlagged, other.peopleFlagged)
-                && Utils.enhancedDeepEquals(this.byBand, other.byBand)
                 && Utils.enhancedDeepEquals(this.noFootprint, other.noFootprint)
                 && Utils.enhancedDeepEquals(this.noProfileToCheck, other.noProfileToCheck)
                 && Utils.enhancedDeepEquals(this.partialCoverage, other.partialCoverage)
@@ -392,8 +336,6 @@ public class ScreeningCompleted {
                 errorCode,
                 peopleTotal,
                 peopleScreened,
-                peopleFlagged,
-                byBand,
                 noFootprint,
                 noProfileToCheck,
                 partialCoverage,
@@ -416,10 +358,6 @@ public class ScreeningCompleted {
                 peopleTotal,
                 "peopleScreened",
                 peopleScreened,
-                "peopleFlagged",
-                peopleFlagged,
-                "byBand",
-                byBand,
                 "noFootprint",
                 noFootprint,
                 "noProfileToCheck",
@@ -444,10 +382,6 @@ public class ScreeningCompleted {
         private long peopleTotal;
 
         private long peopleScreened;
-
-        private long peopleFlagged;
-
-        private ScreeningCompletedByBand byBand;
 
         private long noFootprint;
 
@@ -504,7 +438,7 @@ public class ScreeningCompleted {
         }
 
         /**
-         * People the screening covered, flagged or not.
+         * People the screening covered.
          */
         public Builder peopleScreened(long peopleScreened) {
             this.peopleScreened = peopleScreened;
@@ -512,25 +446,8 @@ public class ScreeningCompleted {
         }
 
         /**
-         * Screened people with a finding: the sum of by_band.
-         */
-        public Builder peopleFlagged(long peopleFlagged) {
-            this.peopleFlagged = peopleFlagged;
-            return this;
-        }
-
-        /**
-         * Screened people by the band of their most severe finding.
-         */
-        public Builder byBand(@Nonnull ScreeningCompletedByBand byBand) {
-            this.byBand = Utils.checkNotNull(byBand, "byBand");
-            return this;
-        }
-
-        /**
-         * Screened people with no finding whose accounts were not found (match_state none_found). A clean
-         * result for someone with no visible accounts is not the same as a clean result for someone whose
-         * accounts were read.
+         * Screened people whose accounts were not found (match_state none_found). A clean result for someone
+         * with no visible accounts is not the same as a clean result for someone whose accounts were read.
          */
         public Builder noFootprint(long noFootprint) {
             this.noFootprint = noFootprint;
@@ -571,8 +488,6 @@ public class ScreeningCompleted {
                     errorCode,
                     peopleTotal,
                     peopleScreened,
-                    peopleFlagged,
-                    byBand,
                     noFootprint,
                     noProfileToCheck,
                     partialCoverage,

@@ -15,6 +15,12 @@ import java.util.Optional;
  * without runtime errors. Instances are immutable singletons with reference equality.
  * Use {@code asEnum()} for switch expressions.
  */
+/**
+ * ScreeningSpendLineRole
+ *
+ * <p>What the implementation did. analyser appears only on spend recorded before the engine stopped
+ * analysing posts.
+ */
 public class ScreeningSpendLineRole {
 
     public static final ScreeningSpendLineRole RESOLVER = new ScreeningSpendLineRole("resolver");

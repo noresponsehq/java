@@ -105,13 +105,6 @@ public class Person {
     private Boolean noProfileToCheck;
 
     /**
-     * The most severe finding's band, or null when nothing was flagged.
-     */
-    @JsonInclude(Include.ALWAYS)
-    @JsonProperty("highest_band")
-    private JsonNullable<HighestBand> highestBand;
-
-    /**
      * The latest reviewer decision, or null before any.
      */
     @JsonInclude(Include.ALWAYS)
@@ -177,7 +170,6 @@ public class Person {
             @JsonProperty("role") @Nullable PersonRole role,
             @JsonProperty("match_state") @Nonnull MatchState matchState,
             @JsonProperty("no_profile_to_check") @Nullable Boolean noProfileToCheck,
-            @JsonProperty("highest_band") @Nullable HighestBand highestBand,
             @JsonProperty("decision") @Nullable PersonDecision decision,
             @JsonProperty("decision_note") @Nullable String decisionNote,
             @JsonProperty("decided_by") @Nullable String decidedBy,
@@ -203,7 +195,6 @@ public class Person {
         this.matchState = Optional.ofNullable(matchState)
                 .orElseThrow(() -> new IllegalArgumentException("matchState cannot be null"));
         this.noProfileToCheck = noProfileToCheck;
-        this.highestBand = JsonNullable.of(highestBand);
         this.decision = JsonNullable.of(decision);
         this.decisionNote = decisionNote;
         this.decidedBy = decidedBy;
@@ -243,7 +234,6 @@ public class Person {
                 null,
                 null,
                 matchState,
-                null,
                 null,
                 null,
                 null,
@@ -343,13 +333,6 @@ public class Person {
      */
     public Optional<Boolean> noProfileToCheck() {
         return Optional.ofNullable(this.noProfileToCheck);
-    }
-
-    /**
-     * The most severe finding's band, or null when nothing was flagged.
-     */
-    public JsonNullable<HighestBand> highestBand() {
-        return this.highestBand;
     }
 
     /**
@@ -513,14 +496,6 @@ public class Person {
     }
 
     /**
-     * The most severe finding's band, or null when nothing was flagged.
-     */
-    public Person withHighestBand(@Nullable HighestBand highestBand) {
-        this.highestBand = JsonNullable.of(highestBand);
-        return this;
-    }
-
-    /**
      * The latest reviewer decision, or null before any.
      */
     public Person withDecision(@Nullable PersonDecision decision) {
@@ -609,7 +584,6 @@ public class Person {
                 && Utils.enhancedDeepEquals(this.role, other.role)
                 && Utils.enhancedDeepEquals(this.matchState, other.matchState)
                 && Utils.enhancedDeepEquals(this.noProfileToCheck, other.noProfileToCheck)
-                && Utils.enhancedDeepEquals(this.highestBand, other.highestBand)
                 && Utils.enhancedDeepEquals(this.decision, other.decision)
                 && Utils.enhancedDeepEquals(this.decisionNote, other.decisionNote)
                 && Utils.enhancedDeepEquals(this.decidedBy, other.decidedBy)
@@ -638,7 +612,6 @@ public class Person {
                 role,
                 matchState,
                 noProfileToCheck,
-                highestBand,
                 decision,
                 decisionNote,
                 decidedBy,
@@ -680,8 +653,6 @@ public class Person {
                 matchState,
                 "noProfileToCheck",
                 noProfileToCheck,
-                "highestBand",
-                highestBand,
                 "decision",
                 decision,
                 "decisionNote",
@@ -732,8 +703,6 @@ public class Person {
         private MatchState matchState;
 
         private Boolean noProfileToCheck;
-
-        private HighestBand highestBand;
 
         private PersonDecision decision;
 
@@ -861,14 +830,6 @@ public class Person {
         }
 
         /**
-         * The most severe finding's band, or null when nothing was flagged.
-         */
-        public Builder highestBand(@Nullable HighestBand highestBand) {
-            this.highestBand = highestBand;
-            return this;
-        }
-
-        /**
          * The latest reviewer decision, or null before any.
          */
         public Builder decision(@Nullable PersonDecision decision) {
@@ -950,7 +911,6 @@ public class Person {
                     role,
                     matchState,
                     noProfileToCheck,
-                    highestBand,
                     decision,
                     decisionNote,
                     decidedBy,

@@ -399,9 +399,8 @@ public class Groups {
     /**
      * List a group's people.
      *
-     * <p>The roster in upload order, with each person's role, match state, highest finding band and decision.
-     * Filter by band (or none), decision (or undecided) and role (or unstated). The people scope grants
-     * this operation.
+     * <p>The roster in upload order, with each person's role, match state and decision. Filter by decision
+     * (or undecided) and role (or unstated). The people scope grants this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
      * accepted for existing integrations. The API key selects the workspace and environment.
@@ -415,9 +414,8 @@ public class Groups {
     /**
      * List a group's people.
      *
-     * <p>The roster in upload order, with each person's role, match state, highest finding band and decision.
-     * Filter by band (or none), decision (or undecided) and role (or unstated). The people scope grants
-     * this operation.
+     * <p>The roster in upload order, with each person's role, match state and decision. Filter by decision
+     * (or undecided) and role (or unstated). The people scope grants this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
      * accepted for existing integrations. The API key selects the workspace and environment.
@@ -433,9 +431,8 @@ public class Groups {
     /**
      * List a group's people.
      *
-     * <p>The roster in upload order, with each person's role, match state, highest finding band and decision.
-     * Filter by band (or none), decision (or undecided) and role (or unstated). The people scope grants
-     * this operation.
+     * <p>The roster in upload order, with each person's role, match state and decision. Filter by decision
+     * (or undecided) and role (or unstated). The people scope grants this operation.
      *
      * <p>Explicit evidence.read restrictions override default evidence access. The groups scope is also
      * accepted for existing integrations. The API key selects the workspace and environment.
@@ -458,8 +455,8 @@ public class Groups {
      * reuses the named workspace person. A reference-only row keeps submitted details; an identity
      * supplied with that reference replaces those details.
      *
-     * <p>A shared email or phone only suggests matches and does not merge people. Each person's match, band
-     * and coverage in the group come from their latest investigation; a changed identity sets aside
+     * <p>A shared email or phone only suggests matches and does not merge people. Each person's match and
+     * coverage in the group come from their latest investigation; a changed identity sets aside
      * investigations started before the change, and prior investigation history remains available.
      * Identities are encrypted under the workspace key.
      *
@@ -486,8 +483,8 @@ public class Groups {
      * reuses the named workspace person. A reference-only row keeps submitted details; an identity
      * supplied with that reference replaces those details.
      *
-     * <p>A shared email or phone only suggests matches and does not merge people. Each person's match, band
-     * and coverage in the group come from their latest investigation; a changed identity sets aside
+     * <p>A shared email or phone only suggests matches and does not merge people. Each person's match and
+     * coverage in the group come from their latest investigation; a changed identity sets aside
      * investigations started before the change, and prior investigation history remains available.
      * Identities are encrypted under the workspace key.
      *
@@ -519,8 +516,8 @@ public class Groups {
      * reuses the named workspace person. A reference-only row keeps submitted details; an identity
      * supplied with that reference replaces those details.
      *
-     * <p>A shared email or phone only suggests matches and does not merge people. Each person's match, band
-     * and coverage in the group come from their latest investigation; a changed identity sets aside
+     * <p>A shared email or phone only suggests matches and does not merge people. Each person's match and
+     * coverage in the group come from their latest investigation; a changed identity sets aside
      * investigations started before the change, and prior investigation history remains available.
      * Identities are encrypted under the workspace key.
      *

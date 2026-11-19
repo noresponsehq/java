@@ -15,11 +15,15 @@ import org.noresponse.utils.Utils;
  */
 public class ScreeningSpendLine {
     /**
-     * The resolver, collector or analyser that produced a record, by its catalogue name.
+     * The resolver or collector that produced a record, by its catalogue name.
      */
     @JsonProperty("implementation")
     private String implementation;
 
+    /**
+     * What the implementation did. analyser appears only on spend recorded before the engine stopped
+     * analysing posts.
+     */
     @JsonProperty("role")
     private ScreeningSpendLineRole role;
 
@@ -38,12 +42,16 @@ public class ScreeningSpendLine {
     }
 
     /**
-     * The resolver, collector or analyser that produced a record, by its catalogue name.
+     * The resolver or collector that produced a record, by its catalogue name.
      */
     public String implementation() {
         return this.implementation;
     }
 
+    /**
+     * What the implementation did. analyser appears only on spend recorded before the engine stopped
+     * analysing posts.
+     */
     public ScreeningSpendLineRole role() {
         return this.role;
     }
@@ -57,13 +65,17 @@ public class ScreeningSpendLine {
     }
 
     /**
-     * The resolver, collector or analyser that produced a record, by its catalogue name.
+     * The resolver or collector that produced a record, by its catalogue name.
      */
     public ScreeningSpendLine withImplementation(@Nonnull String implementation) {
         this.implementation = Utils.checkNotNull(implementation, "implementation");
         return this;
     }
 
+    /**
+     * What the implementation did. analyser appears only on spend recorded before the engine stopped
+     * analysing posts.
+     */
     public ScreeningSpendLine withRole(@Nonnull ScreeningSpendLineRole role) {
         this.role = Utils.checkNotNull(role, "role");
         return this;
@@ -113,13 +125,17 @@ public class ScreeningSpendLine {
         }
 
         /**
-         * The resolver, collector or analyser that produced a record, by its catalogue name.
+         * The resolver or collector that produced a record, by its catalogue name.
          */
         public Builder implementation(@Nonnull String implementation) {
             this.implementation = Utils.checkNotNull(implementation, "implementation");
             return this;
         }
 
+        /**
+         * What the implementation did. analyser appears only on spend recorded before the engine stopped
+         * analysing posts.
+         */
         public Builder role(@Nonnull ScreeningSpendLineRole role) {
             this.role = Utils.checkNotNull(role, "role");
             return this;

@@ -9,7 +9,9 @@ import java.util.Optional;
 import org.noresponse.utils.Utils;
 
 public class StageTime {
-
+    /**
+     * ai_typing and analysis appear only on searches recorded before the engine stopped analysing results.
+     */
     @JsonProperty("stage")
     private Stage stage;
 
@@ -22,6 +24,9 @@ public class StageTime {
         this.ms = ms;
     }
 
+    /**
+     * ai_typing and analysis appear only on searches recorded before the engine stopped analysing results.
+     */
     public Stage stage() {
         return this.stage;
     }
@@ -34,6 +39,9 @@ public class StageTime {
         return new Builder();
     }
 
+    /**
+     * ai_typing and analysis appear only on searches recorded before the engine stopped analysing results.
+     */
     public StageTime withStage(@Nonnull Stage stage) {
         this.stage = Utils.checkNotNull(stage, "stage");
         return this;
@@ -77,6 +85,9 @@ public class StageTime {
             // force use of static builder() method
         }
 
+        /**
+         * ai_typing and analysis appear only on searches recorded before the engine stopped analysing results.
+         */
         public Builder stage(@Nonnull Stage stage) {
             this.stage = Utils.checkNotNull(stage, "stage");
             return this;

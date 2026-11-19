@@ -17,7 +17,6 @@ The body of every webhook delivery: {id, type, created_at, data}, where type cho
 | `"account.risk_changed"` | [AccountRiskChangedEvent](../../models/shared/AccountRiskChangedEvent.md) |
 | `"audit.event"` | [AuditEventEvent](../../models/shared/AuditEventEvent.md) |
 | `"screening.completed"` | [ScreeningCompletedEvent](../../models/shared/ScreeningCompletedEvent.md) |
-| `"person.flagged"` | [PersonFlaggedEvent](../../models/shared/PersonFlaggedEvent.md) |
 | `"person.decided"` | [PersonDecidedEvent](../../models/shared/PersonDecidedEvent.md) |
 | `"investigation.completed"` | [InvestigationCompletedEvent](../../models/shared/InvestigationCompletedEvent.md) |
 
@@ -217,52 +216,15 @@ WebhookEvent value = ScreeningCompletedEvent.builder()
         .status(ScreeningCompletedStatus.PARTIAL)
         .peopleTotal(522012L)
         .peopleScreened(497622L)
-        .peopleFlagged(147551L)
-        .byBand(ScreeningCompletedByBand.builder()
-            .critical(972377L)
-            .high(929219L)
-            .moderate(893081L)
-            .low(566173L)
-            .info(91866L)
-            .build())
-        .noFootprint(761743L)
-        .partialCoverage(142551L)
+        .noFootprint(147551L)
+        .partialCoverage(972377L)
         .finishedAt("2026-11-20T08:12:44.000Z")
         .errorCode("expired")
         .build())
     .build();
 ```
 
-**Referred Types:**
-
-- [ScreeningCompleted](../../models/shared/ScreeningCompleted.md)
-- [ScreeningCompletedStatus](../../models/shared/ScreeningCompletedStatus.md)
-- [ScreeningCompletedByBand](../../models/shared/ScreeningCompletedByBand.md)
-
-### [`PersonFlaggedEvent`](../../models/shared/PersonFlaggedEvent.md)
-
-Discriminator value: `"person.flagged"`
-
-```java
-WebhookEvent value = PersonFlaggedEvent.builder()
-    .id("evt_01JA2ZB4N5P6Q7R8S9T0VWXYZ1")
-    .createdAt("2026-10-14T09:00:02.000Z")
-    .data(PersonFlagged.builder()
-        .groupId("grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-        .personId("per_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-        .screeningId("scn_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-        .highestBand(HighestBand.MODERATE)
-        .matchState(PersonFlaggedMatchState.NONE_FOUND)
-        .flaggedAt("2026-11-20T07:41:09.000Z")
-        .build())
-    .build();
-```
-
-**Referred Types:**
-
-- [PersonFlagged](../../models/shared/PersonFlagged.md)
-- [HighestBand](../../models/shared/HighestBand.md)
-- [PersonFlaggedMatchState](../../models/shared/PersonFlaggedMatchState.md)
+**Referred Types:** [ScreeningCompleted](../../models/shared/ScreeningCompleted.md), [ScreeningCompletedStatus](../../models/shared/ScreeningCompletedStatus.md)
 
 ### [`PersonDecidedEvent`](../../models/shared/PersonDecidedEvent.md)
 
@@ -335,9 +297,6 @@ switch (value.type()) {
     case "screening.completed":
         // Handle screening.completed discriminator variant
         break;
-    case "person.flagged":
-        // Handle person.flagged discriminator variant
-        break;
     case "person.decided":
         // Handle person.decided discriminator variant
         break;
@@ -368,8 +327,6 @@ if (value instanceof AssessmentUpdatedEvent assessmentUpdatedEvent) {
     // Handle AuditEventEvent variant
 } else if (value instanceof ScreeningCompletedEvent screeningCompletedEvent) {
     // Handle ScreeningCompletedEvent variant
-} else if (value instanceof PersonFlaggedEvent personFlaggedEvent) {
-    // Handle PersonFlaggedEvent variant
 } else if (value instanceof PersonDecidedEvent personDecidedEvent) {
     // Handle PersonDecidedEvent variant
 } else if (value instanceof InvestigationCompletedEvent investigationCompletedEvent) {
@@ -406,9 +363,6 @@ switch (value) {
     }
     case ScreeningCompletedEvent screeningCompletedEvent -> {
         // Handle ScreeningCompletedEvent variant
-    }
-    case PersonFlaggedEvent personFlaggedEvent -> {
-        // Handle PersonFlaggedEvent variant
     }
     case PersonDecidedEvent personDecidedEvent -> {
         // Handle PersonDecidedEvent variant

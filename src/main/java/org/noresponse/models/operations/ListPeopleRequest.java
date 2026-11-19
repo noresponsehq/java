@@ -8,7 +8,6 @@ import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
-import org.noresponse.models.shared.ListPeopleBand;
 import org.noresponse.models.shared.ListPeopleDecision;
 import org.noresponse.models.shared.ListPeopleRole;
 import org.noresponse.utils.LazySingletonValue;
@@ -33,12 +32,6 @@ public class ListPeopleRequest {
     private String after;
 
     /**
-     * Only people whose highest finding has this band; none for people with no finding.
-     */
-    @NoResponseMetadata("queryParam:style=form,explode=true,name=band")
-    private ListPeopleBand band;
-
-    /**
      * Only people with this decision; undecided for none yet.
      */
     @NoResponseMetadata("queryParam:style=form,explode=true,name=decision")
@@ -55,20 +48,18 @@ public class ListPeopleRequest {
             @Nonnull String groupId,
             @Nullable Long limit,
             @Nullable String after,
-            @Nullable ListPeopleBand band,
             @Nullable ListPeopleDecision decision,
             @Nullable ListPeopleRole role) {
         this.groupId =
                 Optional.ofNullable(groupId).orElseThrow(() -> new IllegalArgumentException("groupId cannot be null"));
         this.limit = Optional.ofNullable(limit).orElse(Builder._SINGLETON_VALUE_Limit.value());
         this.after = after;
-        this.band = band;
         this.decision = decision;
         this.role = role;
     }
 
     public ListPeopleRequest(@Nonnull String groupId) {
-        this(groupId, null, null, null, null, null);
+        this(groupId, null, null, null, null);
     }
 
     public String groupId() {
@@ -87,13 +78,6 @@ public class ListPeopleRequest {
      */
     public Optional<String> after() {
         return Optional.ofNullable(this.after);
-    }
-
-    /**
-     * Only people whose highest finding has this band; none for people with no finding.
-     */
-    public Optional<ListPeopleBand> band() {
-        return Optional.ofNullable(this.band);
     }
 
     /**
@@ -136,14 +120,6 @@ public class ListPeopleRequest {
     }
 
     /**
-     * Only people whose highest finding has this band; none for people with no finding.
-     */
-    public ListPeopleRequest withBand(@Nullable ListPeopleBand band) {
-        this.band = band;
-        return this;
-    }
-
-    /**
      * Only people with this decision; undecided for none yet.
      */
     public ListPeopleRequest withDecision(@Nullable ListPeopleDecision decision) {
@@ -171,14 +147,13 @@ public class ListPeopleRequest {
         return Utils.enhancedDeepEquals(this.groupId, other.groupId)
                 && Utils.enhancedDeepEquals(this.limit, other.limit)
                 && Utils.enhancedDeepEquals(this.after, other.after)
-                && Utils.enhancedDeepEquals(this.band, other.band)
                 && Utils.enhancedDeepEquals(this.decision, other.decision)
                 && Utils.enhancedDeepEquals(this.role, other.role);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(groupId, limit, after, band, decision, role);
+        return Utils.enhancedHash(groupId, limit, after, decision, role);
     }
 
     @Override
@@ -191,8 +166,6 @@ public class ListPeopleRequest {
                 limit,
                 "after",
                 after,
-                "band",
-                band,
                 "decision",
                 decision,
                 "role",
@@ -207,8 +180,6 @@ public class ListPeopleRequest {
         private Long limit;
 
         private String after;
-
-        private ListPeopleBand band;
 
         private ListPeopleDecision decision;
 
@@ -240,14 +211,6 @@ public class ListPeopleRequest {
         }
 
         /**
-         * Only people whose highest finding has this band; none for people with no finding.
-         */
-        public Builder band(@Nullable ListPeopleBand band) {
-            this.band = band;
-            return this;
-        }
-
-        /**
          * Only people with this decision; undecided for none yet.
          */
         public Builder decision(@Nullable ListPeopleDecision decision) {
@@ -264,7 +227,7 @@ public class ListPeopleRequest {
         }
 
         public ListPeopleRequest build() {
-            return new ListPeopleRequest(groupId, limit, after, band, decision, role);
+            return new ListPeopleRequest(groupId, limit, after, decision, role);
         }
 
         private static final LazySingletonValue<Long> _SINGLETON_VALUE_Limit =
