@@ -982,7 +982,6 @@ Queues a screening of every person no screening has reached. One screening of a 
 package hello.world;
 
 import java.lang.Exception;
-import java.util.List;
 import org.noresponse.NoResponse;
 import org.noresponse.models.errors.AuthenticationException;
 import org.noresponse.models.errors.BadRequestException;
@@ -1007,8 +1006,6 @@ public class Application {
                 .idempotencyKey("account-acct_7f3a9c")
                 .body(ScreeningRequest.builder()
                     .depth(ScreeningDepth.STANDARD)
-                    .platforms(List.of(
-                        "bluesky"))
                     .build())
                 .call();
 

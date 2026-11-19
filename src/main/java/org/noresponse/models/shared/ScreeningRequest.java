@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.lang.Deprecated;
 import java.lang.Override;
 import java.lang.String;
 import java.util.List;
@@ -23,11 +24,16 @@ public class ScreeningRequest {
     private ScreeningDepth depth;
 
     /**
-     * The platforms to search. Leave it out for a full search: every platform a connector serves in the
-     * environment when the screening starts, which the screening then lists.
+     * Deprecated: leave it out. Without it the screening is a full search: every platform a connector
+     * serves in the environment when the screening starts, which the screening then lists, each searched
+     * only with the identifiers its connector takes. A list sent here still limits the screening until a
+     * later contract release removes the field.
+     *
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("platforms")
+    @Deprecated
     private List<String> platforms;
 
     @JsonCreator
@@ -47,9 +53,14 @@ public class ScreeningRequest {
     }
 
     /**
-     * The platforms to search. Leave it out for a full search: every platform a connector serves in the
-     * environment when the screening starts, which the screening then lists.
+     * Deprecated: leave it out. Without it the screening is a full search: every platform a connector
+     * serves in the environment when the screening starts, which the screening then lists, each searched
+     * only with the identifiers its connector takes. A list sent here still limits the screening until a
+     * later contract release removes the field.
+     *
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
+    @Deprecated
     public Optional<List<String>> platforms() {
         return Optional.ofNullable(this.platforms);
     }
@@ -64,9 +75,14 @@ public class ScreeningRequest {
     }
 
     /**
-     * The platforms to search. Leave it out for a full search: every platform a connector serves in the
-     * environment when the screening starts, which the screening then lists.
+     * Deprecated: leave it out. Without it the screening is a full search: every platform a connector
+     * serves in the environment when the screening starts, which the screening then lists, each searched
+     * only with the identifiers its connector takes. A list sent here still limits the screening until a
+     * later contract release removes the field.
+     *
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
+    @Deprecated
     public ScreeningRequest withPlatforms(@Nullable List<String> platforms) {
         this.platforms = platforms;
         return this;
@@ -100,6 +116,7 @@ public class ScreeningRequest {
 
         private ScreeningDepth depth;
 
+        @Deprecated
         private List<String> platforms;
 
         private Builder() {
@@ -112,9 +129,14 @@ public class ScreeningRequest {
         }
 
         /**
-         * The platforms to search. Leave it out for a full search: every platform a connector serves in the
-         * environment when the screening starts, which the screening then lists.
+         * Deprecated: leave it out. Without it the screening is a full search: every platform a connector
+         * serves in the environment when the screening starts, which the screening then lists, each searched
+         * only with the identifiers its connector takes. A list sent here still limits the screening until a
+         * later contract release removes the field.
+         *
+         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
+        @Deprecated
         public Builder platforms(@Nullable List<String> platforms) {
             this.platforms = platforms;
             return this;

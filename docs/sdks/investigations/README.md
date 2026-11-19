@@ -86,7 +86,6 @@ Starts an investigation against a retained workspace person, independently of gr
 package hello.world;
 
 import java.lang.Exception;
-import java.util.List;
 import org.noresponse.NoResponse;
 import org.noresponse.models.errors.AuthenticationException;
 import org.noresponse.models.errors.BadRequestException;
@@ -111,8 +110,6 @@ public class Application {
                 .body(InvestigationRequest.builder()
                     .depth(ScreeningDepth.STANDARD)
                     .personId("per_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-                    .platforms(List.of(
-                        "x"))
                     .build())
                 .call();
 
