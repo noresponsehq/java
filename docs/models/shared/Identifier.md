@@ -17,4 +17,6 @@ Identifier custom = Identifier.of("custom_value");
 | Name       | Value      |
 | ---------- | ---------- |
 | `EMAIL`    | email      |
+| `PHONE`    | phone      |
 | `USERNAME` | username   |
+| `NAME`     | name       |

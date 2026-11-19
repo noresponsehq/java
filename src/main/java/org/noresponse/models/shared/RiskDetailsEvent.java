@@ -39,7 +39,7 @@ public class RiskDetailsEvent {
     private FootprintFamily family;
 
     @JsonProperty("identifier")
-    private Identifier identifier;
+    private RiskDetailsEventIdentifier identifier;
 
     @JsonCreator
     public RiskDetailsEvent(
@@ -49,7 +49,7 @@ public class RiskDetailsEvent {
             @JsonProperty("site") @Nonnull String site,
             @JsonProperty("category") @Nonnull String category,
             @JsonProperty("family") @Nonnull FootprintFamily family,
-            @JsonProperty("identifier") @Nonnull Identifier identifier) {
+            @JsonProperty("identifier") @Nonnull RiskDetailsEventIdentifier identifier) {
         this.year = year;
         this.month = month;
         this.kind = Optional.ofNullable(kind).orElseThrow(() -> new IllegalArgumentException("kind cannot be null"));
@@ -68,7 +68,7 @@ public class RiskDetailsEvent {
             @Nonnull String site,
             @Nonnull String category,
             @Nonnull FootprintFamily family,
-            @Nonnull Identifier identifier) {
+            @Nonnull RiskDetailsEventIdentifier identifier) {
         this(year, null, kind, site, category, family, identifier);
     }
 
@@ -101,7 +101,7 @@ public class RiskDetailsEvent {
         return this.family;
     }
 
-    public Identifier identifier() {
+    public RiskDetailsEventIdentifier identifier() {
         return this.identifier;
     }
 
@@ -144,7 +144,7 @@ public class RiskDetailsEvent {
         return this;
     }
 
-    public RiskDetailsEvent withIdentifier(@Nonnull Identifier identifier) {
+    public RiskDetailsEvent withIdentifier(@Nonnull RiskDetailsEventIdentifier identifier) {
         this.identifier = Utils.checkNotNull(identifier, "identifier");
         return this;
     }
@@ -207,7 +207,7 @@ public class RiskDetailsEvent {
 
         private FootprintFamily family;
 
-        private Identifier identifier;
+        private RiskDetailsEventIdentifier identifier;
 
         private Builder() {
             // force use of static builder() method
@@ -248,7 +248,7 @@ public class RiskDetailsEvent {
             return this;
         }
 
-        public Builder identifier(@Nonnull Identifier identifier) {
+        public Builder identifier(@Nonnull RiskDetailsEventIdentifier identifier) {
             this.identifier = Utils.checkNotNull(identifier, "identifier");
             return this;
         }

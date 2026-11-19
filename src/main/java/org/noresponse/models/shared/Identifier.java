@@ -18,7 +18,9 @@ import java.util.Optional;
 public class Identifier {
 
     public static final Identifier EMAIL = new Identifier("email");
+    public static final Identifier PHONE = new Identifier("phone");
     public static final Identifier USERNAME = new Identifier("username");
+    public static final Identifier NAME = new Identifier("name");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -90,21 +92,27 @@ public class Identifier {
     private static final Map<String, Identifier> createValuesMap() {
         Map<String, Identifier> map = new LinkedHashMap<>();
         map.put("email", EMAIL);
+        map.put("phone", PHONE);
         map.put("username", USERNAME);
+        map.put("name", NAME);
         return map;
     }
 
     private static final Map<String, IdentifierEnum> createEnumsMap() {
         Map<String, IdentifierEnum> map = new HashMap<>();
         map.put("email", IdentifierEnum.EMAIL);
+        map.put("phone", IdentifierEnum.PHONE);
         map.put("username", IdentifierEnum.USERNAME);
+        map.put("name", IdentifierEnum.NAME);
         return map;
     }
 
     public enum IdentifierEnum {
 
         EMAIL("email"),
+        PHONE("phone"),
         USERNAME("username"),
+        NAME("name"),
         ;
 
         private final String value;

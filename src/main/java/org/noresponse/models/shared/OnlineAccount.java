@@ -38,7 +38,7 @@ public class OnlineAccount {
     private String domain;
 
     @JsonProperty("identifier")
-    private Identifier identifier;
+    private RiskDetailsEventIdentifier identifier;
 
     /**
      * Per-signal outcome. A source that timed out, was blocked or errored reports blocked, unavailable or
@@ -105,7 +105,7 @@ public class OnlineAccount {
     public OnlineAccount(
             @JsonProperty("name") @Nonnull String name,
             @JsonProperty("domain") @Nonnull String domain,
-            @JsonProperty("identifier") @Nonnull Identifier identifier,
+            @JsonProperty("identifier") @Nonnull RiskDetailsEventIdentifier identifier,
             @JsonProperty("outcome") @Nonnull SignalOutcome outcome,
             @JsonProperty("reason") @Nullable FailureReason reason,
             @JsonProperty("sign_in") @Nullable List<SignIn> signIn,
@@ -133,7 +133,7 @@ public class OnlineAccount {
     public OnlineAccount(
             @Nonnull String name,
             @Nonnull String domain,
-            @Nonnull Identifier identifier,
+            @Nonnull RiskDetailsEventIdentifier identifier,
             @Nonnull SignalOutcome outcome) {
         this(name, domain, identifier, outcome, null, null, null, null, null, null, null);
     }
@@ -152,7 +152,7 @@ public class OnlineAccount {
         return this.domain;
     }
 
-    public Identifier identifier() {
+    public RiskDetailsEventIdentifier identifier() {
         return this.identifier;
     }
 
@@ -238,7 +238,7 @@ public class OnlineAccount {
         return this;
     }
 
-    public OnlineAccount withIdentifier(@Nonnull Identifier identifier) {
+    public OnlineAccount withIdentifier(@Nonnull RiskDetailsEventIdentifier identifier) {
         this.identifier = Utils.checkNotNull(identifier, "identifier");
         return this;
     }
@@ -386,7 +386,7 @@ public class OnlineAccount {
 
         private String domain;
 
-        private Identifier identifier;
+        private RiskDetailsEventIdentifier identifier;
 
         private SignalOutcome outcome;
 
@@ -424,7 +424,7 @@ public class OnlineAccount {
             return this;
         }
 
-        public Builder identifier(@Nonnull Identifier identifier) {
+        public Builder identifier(@Nonnull RiskDetailsEventIdentifier identifier) {
             this.identifier = Utils.checkNotNull(identifier, "identifier");
             return this;
         }

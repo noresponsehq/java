@@ -31,6 +31,14 @@ public class ScreeningLookup {
     private List<ScreeningLookupCheck> checks;
 
     /**
+     * Each source asked, with what it answered and when. answered_at is absent while the source has not
+     * answered.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("answers")
+    private List<ScreeningLookupAnswer> answers;
+
+    /**
      * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
      * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
      * false or 0 is a definite answer.
@@ -76,6 +84,7 @@ public class ScreeningLookup {
     @JsonCreator
     public ScreeningLookup(
             @JsonProperty("checks") @Nonnull List<ScreeningLookupCheck> checks,
+            @JsonProperty("answers") @Nullable List<ScreeningLookupAnswer> answers,
             @JsonProperty("summary") @Nullable RiskSummary summary,
             @JsonProperty("details") @Nullable RiskDetails details,
             @JsonProperty("records") @Nullable List<Record> records,
@@ -83,6 +92,7 @@ public class ScreeningLookup {
             @JsonProperty("looked_at") @Nonnull String lookedAt) {
         this.checks =
                 Optional.ofNullable(checks).orElseThrow(() -> new IllegalArgumentException("checks cannot be null"));
+        this.answers = answers;
         this.summary = summary;
         this.details = details;
         this.records = records;
@@ -92,7 +102,7 @@ public class ScreeningLookup {
     }
 
     public ScreeningLookup(@Nonnull List<ScreeningLookupCheck> checks, @Nonnull String lookedAt) {
-        this(checks, null, null, null, null, lookedAt);
+        this(checks, null, null, null, null, null, lookedAt);
     }
 
     /**
@@ -103,6 +113,14 @@ public class ScreeningLookup {
      */
     public List<ScreeningLookupCheck> checks() {
         return this.checks;
+    }
+
+    /**
+     * Each source asked, with what it answered and when. answered_at is absent while the source has not
+     * answered.
+     */
+    public Optional<List<ScreeningLookupAnswer>> answers() {
+        return Optional.ofNullable(this.answers);
     }
 
     /**
@@ -165,6 +183,15 @@ public class ScreeningLookup {
     }
 
     /**
+     * Each source asked, with what it answered and when. answered_at is absent while the source has not
+     * answered.
+     */
+    public ScreeningLookup withAnswers(@Nullable List<ScreeningLookupAnswer> answers) {
+        this.answers = answers;
+        return this;
+    }
+
+    /**
      * A few typed facts per identifier: an assessment's risk.summary, and a screened person's lookup
      * summary. Every fact is optional: absent means the evidence did not answer and makes no claim, while
      * false or 0 is a definite answer.
@@ -223,6 +250,7 @@ public class ScreeningLookup {
         }
         ScreeningLookup other = (ScreeningLookup) o;
         return Utils.enhancedDeepEquals(this.checks, other.checks)
+                && Utils.enhancedDeepEquals(this.answers, other.answers)
                 && Utils.enhancedDeepEquals(this.summary, other.summary)
                 && Utils.enhancedDeepEquals(this.details, other.details)
                 && Utils.enhancedDeepEquals(this.records, other.records)
@@ -232,7 +260,7 @@ public class ScreeningLookup {
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(checks, summary, details, records, remaining, lookedAt);
+        return Utils.enhancedHash(checks, answers, summary, details, records, remaining, lookedAt);
     }
 
     @Override
@@ -241,6 +269,8 @@ public class ScreeningLookup {
                 ScreeningLookup.class,
                 "checks",
                 checks,
+                "answers",
+                answers,
                 "summary",
                 summary,
                 "details",
@@ -257,6 +287,8 @@ public class ScreeningLookup {
     public static final class Builder {
 
         private List<ScreeningLookupCheck> checks;
+
+        private List<ScreeningLookupAnswer> answers;
 
         private RiskSummary summary;
 
@@ -280,6 +312,15 @@ public class ScreeningLookup {
          */
         public Builder checks(@Nonnull List<ScreeningLookupCheck> checks) {
             this.checks = Utils.checkNotNull(checks, "checks");
+            return this;
+        }
+
+        /**
+         * Each source asked, with what it answered and when. answered_at is absent while the source has not
+         * answered.
+         */
+        public Builder answers(@Nullable List<ScreeningLookupAnswer> answers) {
+            this.answers = answers;
             return this;
         }
 
@@ -333,7 +374,7 @@ public class ScreeningLookup {
         }
 
         public ScreeningLookup build() {
-            return new ScreeningLookup(checks, summary, details, records, remaining, lookedAt);
+            return new ScreeningLookup(checks, answers, summary, details, records, remaining, lookedAt);
         }
     }
 }
