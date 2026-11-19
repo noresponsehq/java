@@ -19,9 +19,6 @@ public class ErasureReceiptTargetName {
 
     public static final ErasureReceiptTargetName SERVING = new ErasureReceiptTargetName("serving");
     public static final ErasureReceiptTargetName OUTBOX = new ErasureReceiptTargetName("outbox");
-    public static final ErasureReceiptTargetName CACHE = new ErasureReceiptTargetName("cache");
-    public static final ErasureReceiptTargetName DOWNSTREAM_PROJECTION =
-            new ErasureReceiptTargetName("downstream_projection");
 
     // This map will grow whenever a Color gets created with a new
     // unrecognized value (a potential memory leak if the user is not
@@ -94,8 +91,6 @@ public class ErasureReceiptTargetName {
         Map<String, ErasureReceiptTargetName> map = new LinkedHashMap<>();
         map.put("serving", SERVING);
         map.put("outbox", OUTBOX);
-        map.put("cache", CACHE);
-        map.put("downstream_projection", DOWNSTREAM_PROJECTION);
         return map;
     }
 
@@ -103,8 +98,6 @@ public class ErasureReceiptTargetName {
         Map<String, ErasureReceiptTargetNameEnum> map = new HashMap<>();
         map.put("serving", ErasureReceiptTargetNameEnum.SERVING);
         map.put("outbox", ErasureReceiptTargetNameEnum.OUTBOX);
-        map.put("cache", ErasureReceiptTargetNameEnum.CACHE);
-        map.put("downstream_projection", ErasureReceiptTargetNameEnum.DOWNSTREAM_PROJECTION);
         return map;
     }
 
@@ -112,8 +105,6 @@ public class ErasureReceiptTargetName {
 
         SERVING("serving"),
         OUTBOX("outbox"),
-        CACHE("cache"),
-        DOWNSTREAM_PROJECTION("downstream_projection"),
         ;
 
         private final String value;

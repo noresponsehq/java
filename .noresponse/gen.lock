@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: ba5997fb67e54f548da348761e5e8fb6
+  docChecksum: 455a311ae65bf29a7623ce0c8f16158d
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 15.0.19
-  configChecksum: 3189ed9c8a6f3ebc61d42774e9055f4c
+  releaseVersion: 16.0.0
+  configChecksum: 858b889699c647f6ff2e396e62505547
 features:
   java:
     additionalDependencies: 0.1.0
@@ -849,7 +849,7 @@ trackedFiles:
   docs/models/shared/ErasureReceiptTarget.md:
     last_write_checksum: sha1:6297091b60f690307594b99b53214c0c06e0efdc
   docs/models/shared/ErasureReceiptTargetName.md:
-    last_write_checksum: sha1:971738373e3dfd99a5d8dcbc4524e689ada62182
+    last_write_checksum: sha1:00c6a716108530a271ee84c1bdacac92a69d02ce
   docs/models/shared/ErasureReceiptTargetStatus.md:
     last_write_checksum: sha1:d3216e809ea816370b8ed68310d8cee09c46fe5b
   docs/models/shared/ErrorCode.md:
@@ -1627,7 +1627,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:b3258b8b797477161c56f79fd9ba7d22816b2f04
+    last_write_checksum: sha1:08108fcdec9620e4c103c8a305494c2833cc8205
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1723,7 +1723,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:f515ffffb46833f474e7f97ea7c933cf7fcb9caa
+    last_write_checksum: sha1:1a11813e9dda380438b73fbdc402dcd5db0375de
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -3345,7 +3345,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/ErasureReceiptTarget.java:
     last_write_checksum: sha1:a4ab208175ad05c0450acce311ab3de410dcb71e
   src/main/java/org/noresponse/models/shared/ErasureReceiptTargetName.java:
-    last_write_checksum: sha1:0ab8cd731b5a4b65c51eb4187505fd3197dadde1
+    last_write_checksum: sha1:cf2a46fc3ade1f7c32cc4aa05045f7bdc790bdc0
   src/main/java/org/noresponse/models/shared/ErasureReceiptTargetStatus.java:
     last_write_checksum: sha1:57a1b662530052b78d3d1fa3582af4a9bdfb5771
   src/main/java/org/noresponse/models/shared/ErrorCode.java:
@@ -6576,7 +6576,7 @@ examples:
           erasure_id: "<id>"
       responses:
         "200":
-          application/json: {"id": "0123456789abcdef0123456789abcdef", "kind": "account", "status": "propagating", "assessments_deleted": 2, "requested_at": "2026-10-14T09:00:00.412Z", "targets": [{"name": "serving", "status": "completed", "completed_at": "2026-10-14T09:00:00.412Z"}, {"name": "outbox", "status": "completed", "completed_at": "2026-10-14T09:00:00.412Z"}, {"name": "cache", "status": "pending"}, {"name": "downstream_projection", "status": "pending"}], "backup_policy": "Backup and point-in-time recovery copies expire under the configured backup retention policy. Serving-system completion does not certify deletion from backups."}
+          application/json: {"id": "0123456789abcdef0123456789abcdef", "kind": "account", "status": "completed", "assessments_deleted": 2, "requested_at": "2026-10-14T09:00:00.412Z", "completed_at": "2026-10-14T09:00:00.412Z", "targets": [{"name": "serving", "status": "completed", "completed_at": "2026-10-14T09:00:00.412Z"}, {"name": "outbox", "status": "completed", "completed_at": "2026-10-14T09:00:00.412Z"}], "backup_policy": "Backup and point-in-time recovery copies expire under the configured backup retention policy. Serving-system completion does not certify deletion from backups."}
   createCustomerExport:
     noresponse-default-create-customer-export:
       parameters:
