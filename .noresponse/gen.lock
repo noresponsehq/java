@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 952c7f16-d386-4fe0-af81-096d641c3117
 management:
-  docChecksum: 640e6890d71c46ef0a5a2f3c0fb76946
+  docChecksum: b2db3ee472712c1613bd8e4784a5e910
   docVersion: "1"
   speakeasyVersion: internal
   generationVersion: internal
-  releaseVersion: 18.0.1
-  configChecksum: 5b275c4593558ae92c49fdb42b295ab8
+  releaseVersion: 19.0.0
+  configChecksum: 32f356d5b72ac6db17d3e1c68424513e
 features:
   java:
     additionalDependencies: 0.1.0
@@ -953,7 +953,7 @@ trackedFiles:
   docs/models/shared/InvestigationReport.md:
     last_write_checksum: sha1:d97a4749042459663c675951cfce51a3ee940436
   docs/models/shared/InvestigationRequest.md:
-    last_write_checksum: sha1:eecb83bff8b7918442459c20557c69dc27c66792
+    last_write_checksum: sha1:47b81c90f7946d5b5733c5437f6ee64ff7ac1a8f
   docs/models/shared/InvestigationStatus.md:
     last_write_checksum: sha1:fdbe6f3a3ff7a6683cd963916d805de1bdca93f5
   docs/models/shared/InvestigationsList.md:
@@ -1163,7 +1163,7 @@ trackedFiles:
   docs/models/shared/PersonRole.md:
     last_write_checksum: sha1:7dbd9a5f866911258dd0cfc4d7e503b1d14711e1
   docs/models/shared/PersonSchedule.md:
-    last_write_checksum: sha1:8567d07685df81dd370d9fc122f2fd5b8803f765
+    last_write_checksum: sha1:17f099b53edc432fb9ebdf3209758f2880ea23eb
   docs/models/shared/PersonScheduleRequest.md:
     last_write_checksum: sha1:75ddc1d5e9e7ee9ceafe6622007494abc2dfd800
   docs/models/shared/PhoneEnrichment.md:
@@ -1411,7 +1411,7 @@ trackedFiles:
   docs/models/shared/ScreeningProfile.md:
     last_write_checksum: sha1:f52c5175872b6774761521e78659e156637ee4e0
   docs/models/shared/ScreeningRequest.md:
-    last_write_checksum: sha1:d5219d82e67fbe96f5b8b292a456dc4df1c86f2e
+    last_write_checksum: sha1:61655a2013965ccf8cb0ba56908362a8bfbcce1e
   docs/models/shared/ScreeningSpend.md:
     last_write_checksum: sha1:62f6132f83c10a46a83e72a5c79ae6d425d972aa
   docs/models/shared/ScreeningSpendLine.md:
@@ -1553,7 +1553,7 @@ trackedFiles:
   docs/models/shared/WorkspacePerson.md:
     last_write_checksum: sha1:3a584c6a73554e7b3890d7daec69ae978e22939b
   docs/models/shared/WorkspacePersonReport.md:
-    last_write_checksum: sha1:d0cf13741298f074467e60abd81f3facd5be63de
+    last_write_checksum: sha1:0b9eb77ffeb9788341a23ab7ae648eab83018ac5
   docs/models/shared/WorkspacePersonRequest.md:
     last_write_checksum: sha1:2abb39ab40c5e8b2d773590df2be7f0a843e8e34
   docs/models/shared/WorkspacePersonResult.md:
@@ -1623,7 +1623,7 @@ trackedFiles:
   docs/utils/Blob.md:
     last_write_checksum: sha1:8dbd6b0d6342420863080143a950c9d4b24fdb7d
   gradle.properties:
-    last_write_checksum: sha1:ec1f2d0387819588a26ecf45a02a81c3fdcab124
+    last_write_checksum: sha1:4beb1d4529dafd0d2e72bcff56992eba63db4cb0
   gradle/wrapper/gradle-wrapper.jar:
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
   gradle/wrapper/gradle-wrapper.properties:
@@ -1719,7 +1719,7 @@ trackedFiles:
   src/main/java/org/noresponse/Reviews.java:
     last_write_checksum: sha1:90a0e8aead81cdd618547f1d256d4dd34cafe71f
   src/main/java/org/noresponse/SDKConfiguration.java:
-    last_write_checksum: sha1:7f2cecc628ff44cbc25d83a71aa1d5ae8b5e0072
+    last_write_checksum: sha1:7f93f1fa6faac954a8965bb8547aa08a2c0c7d5f
   src/main/java/org/noresponse/SecuritySource.java:
     last_write_checksum: sha1:91a9aae3bd46658731382e780a850ab59bb9fb64
   src/main/java/org/noresponse/Settings.java:
@@ -3457,7 +3457,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/InvestigationReport.java:
     last_write_checksum: sha1:e513987940ac8bc4a324dbc84eabe1ee2612106e
   src/main/java/org/noresponse/models/shared/InvestigationRequest.java:
-    last_write_checksum: sha1:635b7a48a1f3d0bfe2fba71040ad374ab82959e5
+    last_write_checksum: sha1:a4a9ba7685740ee9df9b0bfe08b08c40c38a342a
   src/main/java/org/noresponse/models/shared/InvestigationStatus.java:
     last_write_checksum: sha1:2fe8c9c9c916a31f034d7dc7cc426f501ba8d890
   src/main/java/org/noresponse/models/shared/InvestigationsList.java:
@@ -3667,7 +3667,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/PersonRole.java:
     last_write_checksum: sha1:991e704dd8d7085ac994ef4a16718d7072580b9b
   src/main/java/org/noresponse/models/shared/PersonSchedule.java:
-    last_write_checksum: sha1:4e1a06d8b406175efc609ebd9de6369a926233e7
+    last_write_checksum: sha1:32ef33bf67774a568a3ff7c4f6893cb3a6156b20
   src/main/java/org/noresponse/models/shared/PersonScheduleRequest.java:
     last_write_checksum: sha1:7a0d99991fbef7ee60a382afb3401dd7a88fee19
   src/main/java/org/noresponse/models/shared/PhoneEnrichment.java:
@@ -3915,7 +3915,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/ScreeningProfile.java:
     last_write_checksum: sha1:60a9b678192c9dca4f80cb8e70b66991e5bec5e1
   src/main/java/org/noresponse/models/shared/ScreeningRequest.java:
-    last_write_checksum: sha1:71982c3a7ee2b77022234b830d2d563be8c9e962
+    last_write_checksum: sha1:291d4689d41d15b5dc8542bdd9728c0c162a4796
   src/main/java/org/noresponse/models/shared/ScreeningSpend.java:
     last_write_checksum: sha1:30feb220997ad64a5bc90f925d03892e011cbef4
   src/main/java/org/noresponse/models/shared/ScreeningSpendLine.java:
@@ -4061,7 +4061,7 @@ trackedFiles:
   src/main/java/org/noresponse/models/shared/WorkspacePerson.java:
     last_write_checksum: sha1:bbf70c2081eabb538d2d9998dbaa379c82feffeb
   src/main/java/org/noresponse/models/shared/WorkspacePersonReport.java:
-    last_write_checksum: sha1:333d04226e57a2ab7dba4306bffccbdac4b90fc1
+    last_write_checksum: sha1:74576584de8f8830820a3692c6ba6d740787a549
   src/main/java/org/noresponse/models/shared/WorkspacePersonRequest.java:
     last_write_checksum: sha1:e610f77e2e552382af8482872489ee827ee91c31
   src/main/java/org/noresponse/models/shared/WorkspacePersonResult.java:

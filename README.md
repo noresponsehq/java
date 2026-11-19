@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v18.0.1'
+    implementation 'com.github.noresponsehq:java:v19.0.0'
 }
 ```
 
@@ -39,7 +39,7 @@ dependencies {
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v18.0.1</version>
+  <version>v19.0.0</version>
 </dependency>
 ```
 
@@ -63,7 +63,7 @@ public class Investigate {
         ).call().workspacePersonResult().orElseThrow();
         var job = client.investigations().create().idempotencyKey("case-1042-investigation-1").body(
                 InvestigationRequest.builder().personId(created.person().id())
-                        .depth(ScreeningDepth.STANDARD).platforms(List.of("x")).build()
+                        .depth(ScreeningDepth.STANDARD).build()
         ).call().investigation().orElseThrow();
         System.out.println(job.id());
     }

@@ -6,10 +6,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import java.lang.Deprecated;
 import java.lang.Override;
 import java.lang.String;
-import java.util.List;
 import java.util.Optional;
 import org.noresponse.utils.Utils;
 
@@ -22,19 +20,6 @@ public class InvestigationRequest {
 
     @JsonProperty("depth")
     private ScreeningDepth depth;
-
-    /**
-     * Deprecated: leave it out. Without it the investigation is a full search: every platform a connector
-     * serves in the environment when the investigation starts, which the investigation then lists, each
-     * searched only with the identifiers its connector takes. A list sent here still limits the
-     * investigation until a later contract release removes the field.
-     *
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("platforms")
-    @Deprecated
-    private List<String> platforms;
 
     @JsonProperty("person_id")
     private String personId;
@@ -50,35 +35,20 @@ public class InvestigationRequest {
     @JsonCreator
     public InvestigationRequest(
             @JsonProperty("depth") @Nonnull ScreeningDepth depth,
-            @JsonProperty("platforms") @Nullable List<String> platforms,
             @JsonProperty("person_id") @Nonnull String personId,
             @JsonProperty("enrichment") @Nullable EnrichmentChange enrichment) {
         this.depth = Optional.ofNullable(depth).orElseThrow(() -> new IllegalArgumentException("depth cannot be null"));
-        this.platforms = platforms;
         this.personId = Optional.ofNullable(personId)
                 .orElseThrow(() -> new IllegalArgumentException("personId cannot be null"));
         this.enrichment = enrichment;
     }
 
     public InvestigationRequest(@Nonnull ScreeningDepth depth, @Nonnull String personId) {
-        this(depth, null, personId, null);
+        this(depth, personId, null);
     }
 
     public ScreeningDepth depth() {
         return this.depth;
-    }
-
-    /**
-     * Deprecated: leave it out. Without it the investigation is a full search: every platform a connector
-     * serves in the environment when the investigation starts, which the investigation then lists, each
-     * searched only with the identifiers its connector takes. A list sent here still limits the
-     * investigation until a later contract release removes the field.
-     *
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-     */
-    @Deprecated
-    public Optional<List<String>> platforms() {
-        return Optional.ofNullable(this.platforms);
     }
 
     public String personId() {
@@ -99,20 +69,6 @@ public class InvestigationRequest {
 
     public InvestigationRequest withDepth(@Nonnull ScreeningDepth depth) {
         this.depth = Utils.checkNotNull(depth, "depth");
-        return this;
-    }
-
-    /**
-     * Deprecated: leave it out. Without it the investigation is a full search: every platform a connector
-     * serves in the environment when the investigation starts, which the investigation then lists, each
-     * searched only with the identifiers its connector takes. A list sent here still limits the
-     * investigation until a later contract release removes the field.
-     *
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-     */
-    @Deprecated
-    public InvestigationRequest withPlatforms(@Nullable List<String> platforms) {
-        this.platforms = platforms;
         return this;
     }
 
@@ -140,37 +96,25 @@ public class InvestigationRequest {
         }
         InvestigationRequest other = (InvestigationRequest) o;
         return Utils.enhancedDeepEquals(this.depth, other.depth)
-                && Utils.enhancedDeepEquals(this.platforms, other.platforms)
                 && Utils.enhancedDeepEquals(this.personId, other.personId)
                 && Utils.enhancedDeepEquals(this.enrichment, other.enrichment);
     }
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(depth, platforms, personId, enrichment);
+        return Utils.enhancedHash(depth, personId, enrichment);
     }
 
     @Override
     public String toString() {
         return Utils.toString(
-                InvestigationRequest.class,
-                "depth",
-                depth,
-                "platforms",
-                platforms,
-                "personId",
-                personId,
-                "enrichment",
-                enrichment);
+                InvestigationRequest.class, "depth", depth, "personId", personId, "enrichment", enrichment);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
 
         private ScreeningDepth depth;
-
-        @Deprecated
-        private List<String> platforms;
 
         private String personId;
 
@@ -182,20 +126,6 @@ public class InvestigationRequest {
 
         public Builder depth(@Nonnull ScreeningDepth depth) {
             this.depth = Utils.checkNotNull(depth, "depth");
-            return this;
-        }
-
-        /**
-         * Deprecated: leave it out. Without it the investigation is a full search: every platform a connector
-         * serves in the environment when the investigation starts, which the investigation then lists, each
-         * searched only with the identifiers its connector takes. A list sent here still limits the
-         * investigation until a later contract release removes the field.
-         *
-         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-         */
-        @Deprecated
-        public Builder platforms(@Nullable List<String> platforms) {
-            this.platforms = platforms;
             return this;
         }
 
@@ -214,7 +144,7 @@ public class InvestigationRequest {
         }
 
         public InvestigationRequest build() {
-            return new InvestigationRequest(depth, platforms, personId, enrichment);
+            return new InvestigationRequest(depth, personId, enrichment);
         }
     }
 }

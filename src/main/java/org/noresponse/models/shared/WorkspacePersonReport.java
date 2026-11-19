@@ -173,9 +173,9 @@ public class WorkspacePersonReport {
 
     /**
      * The person's rerun schedule. Each due run starts a full investigation of the person, as POST
-     * /v1/investigations with no platforms does, and its changes are stored as changes. The schedule lives
-     * in the database and the worker runs it, so it survives restarts and releases; each due run starts
-     * exactly one investigation.
+     * /v1/investigations does, and its changes are stored as changes. The schedule lives in the database
+     * and the worker runs it, so it survives restarts and releases; each due run starts exactly one
+     * investigation.
      */
     @JsonProperty("schedule")
     private PersonSchedule schedule;
@@ -439,9 +439,9 @@ public class WorkspacePersonReport {
 
     /**
      * The person's rerun schedule. Each due run starts a full investigation of the person, as POST
-     * /v1/investigations with no platforms does, and its changes are stored as changes. The schedule lives
-     * in the database and the worker runs it, so it survives restarts and releases; each due run starts
-     * exactly one investigation.
+     * /v1/investigations does, and its changes are stored as changes. The schedule lives in the database
+     * and the worker runs it, so it survives restarts and releases; each due run starts exactly one
+     * investigation.
      */
     public PersonSchedule schedule() {
         return this.schedule;
@@ -636,9 +636,9 @@ public class WorkspacePersonReport {
 
     /**
      * The person's rerun schedule. Each due run starts a full investigation of the person, as POST
-     * /v1/investigations with no platforms does, and its changes are stored as changes. The schedule lives
-     * in the database and the worker runs it, so it survives restarts and releases; each due run starts
-     * exactly one investigation.
+     * /v1/investigations does, and its changes are stored as changes. The schedule lives in the database
+     * and the worker runs it, so it survives restarts and releases; each due run starts exactly one
+     * investigation.
      */
     public WorkspacePersonReport withSchedule(@Nonnull PersonSchedule schedule) {
         this.schedule = Utils.checkNotNull(schedule, "schedule");
@@ -997,9 +997,9 @@ public class WorkspacePersonReport {
 
         /**
          * The person's rerun schedule. Each due run starts a full investigation of the person, as POST
-         * /v1/investigations with no platforms does, and its changes are stored as changes. The schedule lives
-         * in the database and the worker runs it, so it survives restarts and releases; each due run starts
-         * exactly one investigation.
+         * /v1/investigations does, and its changes are stored as changes. The schedule lives in the database
+         * and the worker runs it, so it survives restarts and releases; each due run starts exactly one
+         * investigation.
          */
         public Builder schedule(@Nonnull PersonSchedule schedule) {
             this.schedule = Utils.checkNotNull(schedule, "schedule");
