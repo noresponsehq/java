@@ -456,19 +456,20 @@ public class Groups {
      * supplied with that reference replaces those details.
      *
      * <p>A shared email or phone only suggests matches and does not merge people. Each person's match and
-     * coverage in the group come from their latest investigation; a changed identity sets aside
-     * investigations started before the change, and prior investigation history remains available.
-     * Identities are encrypted under the workspace key.
+     * coverage in the group come from their latest investigation. The add queues one standard screening of
+     * the group's people with no investigation yet, unless another screening of the group is running, no
+     * platform is offered or it would pass the daily screening cap; a screening started on the group
+     * replaces that queued one; a changed identity sets aside investigations started before the change,
+     * and prior investigation history remains available.
      *
-     * <p>Idempotency-Key is required: the same key and body return the original import result with
-     * Idempotent-Replayed: true while its people remain retained. An expired or deleted imported person
-     * answers 404; expired or deleted match suggestions are omitted. A different body answers 409
-     * idempotency_key_reused.
+     * <p>Identities are encrypted under the workspace key. Idempotency-Key is required: the same key and body
+     * return the original import result with Idempotent-Replayed: true while its people remain retained.
+     * An expired or deleted imported person answers 404; expired or deleted match suggestions are omitted.
      *
-     * <p>A group holds at most 20000 people. The people_write scope grants this operation; groups is also
-     * accepted. Suggested matches require people-read access.
+     * <p>A different body answers 409 idempotency_key_reused. A group holds at most 20000 people. The
+     * people_write scope grants this operation; groups is also accepted.
      *
-     * <p>The API key selects the workspace and environment.
+     * <p>Suggested matches require people-read access. The API key selects the workspace and environment.
      *
      * @return The call builder
      */
@@ -484,19 +485,20 @@ public class Groups {
      * supplied with that reference replaces those details.
      *
      * <p>A shared email or phone only suggests matches and does not merge people. Each person's match and
-     * coverage in the group come from their latest investigation; a changed identity sets aside
-     * investigations started before the change, and prior investigation history remains available.
-     * Identities are encrypted under the workspace key.
+     * coverage in the group come from their latest investigation. The add queues one standard screening of
+     * the group's people with no investigation yet, unless another screening of the group is running, no
+     * platform is offered or it would pass the daily screening cap; a screening started on the group
+     * replaces that queued one; a changed identity sets aside investigations started before the change,
+     * and prior investigation history remains available.
      *
-     * <p>Idempotency-Key is required: the same key and body return the original import result with
-     * Idempotent-Replayed: true while its people remain retained. An expired or deleted imported person
-     * answers 404; expired or deleted match suggestions are omitted. A different body answers 409
-     * idempotency_key_reused.
+     * <p>Identities are encrypted under the workspace key. Idempotency-Key is required: the same key and body
+     * return the original import result with Idempotent-Replayed: true while its people remain retained.
+     * An expired or deleted imported person answers 404; expired or deleted match suggestions are omitted.
      *
-     * <p>A group holds at most 20000 people. The people_write scope grants this operation; groups is also
-     * accepted. Suggested matches require people-read access.
+     * <p>A different body answers 409 idempotency_key_reused. A group holds at most 20000 people. The
+     * people_write scope grants this operation; groups is also accepted.
      *
-     * <p>The API key selects the workspace and environment.
+     * <p>Suggested matches require people-read access. The API key selects the workspace and environment.
      *
      * @param groupId
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
@@ -517,19 +519,20 @@ public class Groups {
      * supplied with that reference replaces those details.
      *
      * <p>A shared email or phone only suggests matches and does not merge people. Each person's match and
-     * coverage in the group come from their latest investigation; a changed identity sets aside
-     * investigations started before the change, and prior investigation history remains available.
-     * Identities are encrypted under the workspace key.
+     * coverage in the group come from their latest investigation. The add queues one standard screening of
+     * the group's people with no investigation yet, unless another screening of the group is running, no
+     * platform is offered or it would pass the daily screening cap; a screening started on the group
+     * replaces that queued one; a changed identity sets aside investigations started before the change,
+     * and prior investigation history remains available.
      *
-     * <p>Idempotency-Key is required: the same key and body return the original import result with
-     * Idempotent-Replayed: true while its people remain retained. An expired or deleted imported person
-     * answers 404; expired or deleted match suggestions are omitted. A different body answers 409
-     * idempotency_key_reused.
+     * <p>Identities are encrypted under the workspace key. Idempotency-Key is required: the same key and body
+     * return the original import result with Idempotent-Replayed: true while its people remain retained.
+     * An expired or deleted imported person answers 404; expired or deleted match suggestions are omitted.
      *
-     * <p>A group holds at most 20000 people. The people_write scope grants this operation; groups is also
-     * accepted. Suggested matches require people-read access.
+     * <p>A different body answers 409 idempotency_key_reused. A group holds at most 20000 people. The
+     * people_write scope grants this operation; groups is also accepted.
      *
-     * <p>The API key selects the workspace and environment.
+     * <p>Suggested matches require people-read access. The API key selects the workspace and environment.
      *
      * @param groupId
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
