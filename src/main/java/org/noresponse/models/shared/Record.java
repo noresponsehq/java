@@ -135,7 +135,8 @@ public class Record {
      * For a record that is not the person's, the other person it belongs with: records that share this
      * number share strong values, such as an email or a full name with a phone, and score as one person
      * against each other. Absent on the person's own records and on a record that matches nobody else. A
-     * value that more than 20 strangers hold groups nobody.
+     * value that more than 20 strangers hold groups nobody, and a record that agrees with what you sent
+     * has none.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("other_person")
@@ -302,7 +303,8 @@ public class Record {
      * For a record that is not the person's, the other person it belongs with: records that share this
      * number share strong values, such as an email or a full name with a phone, and score as one person
      * against each other. Absent on the person's own records and on a record that matches nobody else. A
-     * value that more than 20 strangers hold groups nobody.
+     * value that more than 20 strangers hold groups nobody, and a record that agrees with what you sent
+     * has none.
      */
     public Optional<Long> otherPerson() {
         return Optional.ofNullable(this.otherPerson);
@@ -442,7 +444,8 @@ public class Record {
      * For a record that is not the person's, the other person it belongs with: records that share this
      * number share strong values, such as an email or a full name with a phone, and score as one person
      * against each other. Absent on the person's own records and on a record that matches nobody else. A
-     * value that more than 20 strangers hold groups nobody.
+     * value that more than 20 strangers hold groups nobody, and a record that agrees with what you sent
+     * has none.
      */
     public Record withOtherPerson(@Nullable Long otherPerson) {
         this.otherPerson = otherPerson;
@@ -686,7 +689,8 @@ public class Record {
          * For a record that is not the person's, the other person it belongs with: records that share this
          * number share strong values, such as an email or a full name with a phone, and score as one person
          * against each other. Absent on the person's own records and on a record that matches nobody else. A
-         * value that more than 20 strangers hold groups nobody.
+         * value that more than 20 strangers hold groups nobody, and a record that agrees with what you sent
+         * has none.
          */
         public Builder otherPerson(@Nullable Long otherPerson) {
             this.otherPerson = otherPerson;
