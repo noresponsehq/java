@@ -21,6 +21,9 @@ import org.noresponse.models.operations.JudgeWorkspacePersonRecordResponse;
 import org.noresponse.models.operations.ListWorkspacePeopleRequest;
 import org.noresponse.models.operations.ListWorkspacePeopleRequestBuilder;
 import org.noresponse.models.operations.ListWorkspacePeopleResponse;
+import org.noresponse.models.operations.ReviewWorkspacePersonChangeRequest;
+import org.noresponse.models.operations.ReviewWorkspacePersonChangeRequestBuilder;
+import org.noresponse.models.operations.ReviewWorkspacePersonChangeResponse;
 import org.noresponse.models.operations.RunWorkspacePersonSearchRequest;
 import org.noresponse.models.operations.RunWorkspacePersonSearchRequestBuilder;
 import org.noresponse.models.operations.RunWorkspacePersonSearchResponse;
@@ -36,6 +39,7 @@ import org.noresponse.operations.DeleteWorkspacePerson;
 import org.noresponse.operations.GetWorkspacePerson;
 import org.noresponse.operations.JudgeWorkspacePersonRecord;
 import org.noresponse.operations.ListWorkspacePeople;
+import org.noresponse.operations.ReviewWorkspacePersonChange;
 import org.noresponse.operations.RunWorkspacePersonSearch;
 import org.noresponse.operations.StartWorkspacePersonSearch;
 import org.noresponse.utils.Headers;
@@ -656,6 +660,80 @@ public class People {
         RunWorkspacePersonSearchRequest request = new RunWorkspacePersonSearchRequest(personId, searchId, body);
         RequestOperation<RunWorkspacePersonSearchRequest, RunWorkspacePersonSearchResponse> operation =
                 new RunWorkspacePersonSearch.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Mark a change on a workspace person reviewed.
+     *
+     * <p>Marks one change between a person's investigations reviewed, so it sorts below the unreviewed ones.
+     * Reviewing again keeps the first reviewer and time. Reviewing a change is not a decision on the
+     * person.
+     *
+     * <p>The body is an empty object. Each review is audited as person.change_reviewed. The decisions scope
+     * grants this operation.
+     *
+     * <p>Explicit evidence.read restrictions withhold before and after. The groups scope is also accepted for
+     * existing integrations. The API key selects the workspace and environment.
+     *
+     * @return The call builder
+     */
+    public ReviewWorkspacePersonChangeRequestBuilder reviewChange() {
+        return new ReviewWorkspacePersonChangeRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Mark a change on a workspace person reviewed.
+     *
+     * <p>Marks one change between a person's investigations reviewed, so it sorts below the unreviewed ones.
+     * Reviewing again keeps the first reviewer and time. Reviewing a change is not a decision on the
+     * person.
+     *
+     * <p>The body is an empty object. Each review is audited as person.change_reviewed. The decisions scope
+     * grants this operation.
+     *
+     * <p>Explicit evidence.read restrictions withhold before and after. The groups scope is also accepted for
+     * existing integrations. The API key selects the workspace and environment.
+     *
+     * @param personId
+     * @param changeId
+     * @param body An empty object.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ReviewWorkspacePersonChangeResponse reviewChange(
+            @Nonnull String personId, @Nonnull String changeId, @Nonnull ScreeningCancelRequest body) {
+        return reviewChange(personId, changeId, body, null);
+    }
+
+    /**
+     * Mark a change on a workspace person reviewed.
+     *
+     * <p>Marks one change between a person's investigations reviewed, so it sorts below the unreviewed ones.
+     * Reviewing again keeps the first reviewer and time. Reviewing a change is not a decision on the
+     * person.
+     *
+     * <p>The body is an empty object. Each review is audited as person.change_reviewed. The decisions scope
+     * grants this operation.
+     *
+     * <p>Explicit evidence.read restrictions withhold before and after. The groups scope is also accepted for
+     * existing integrations. The API key selects the workspace and environment.
+     *
+     * @param personId
+     * @param changeId
+     * @param body An empty object.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ReviewWorkspacePersonChangeResponse reviewChange(
+            @Nonnull String personId,
+            @Nonnull String changeId,
+            @Nonnull ScreeningCancelRequest body,
+            @Nullable Options options) {
+        ReviewWorkspacePersonChangeRequest request = new ReviewWorkspacePersonChangeRequest(personId, changeId, body);
+        RequestOperation<ReviewWorkspacePersonChangeRequest, ReviewWorkspacePersonChangeResponse> operation =
+                new ReviewWorkspacePersonChange.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 }

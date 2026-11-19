@@ -13,6 +13,7 @@ Workspace people, submitted identity, source evidence and expiry.
 * [judgeRecord](#judgerecord) - Join one of a workspace person's records to them, or reject it.
 * [startSearch](#startsearch) - Search again on a value of one of a workspace person's records.
 * [runSearch](#runsearch) - Run a counted password or hash search on a workspace person.
+* [reviewChange](#reviewchange) - Mark a change on a workspace person reviewed.
 
 ## list
 
@@ -458,6 +459,73 @@ public class Application {
 ### Response
 
 **[RunWorkspacePersonSearchResponse](../../models/operations/RunWorkspacePersonSearchResponse.md)**
+
+### Errors
+
+| Error Type                              | Status Code                             | Content Type                            |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| models/errors/BadRequestException       | 400                                     | application/problem+json                |
+| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
+| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
+| models/errors/NotFoundException         | 404                                     | application/problem+json                |
+| models/errors/ConflictException         | 409                                     | application/problem+json                |
+| models/errors/RateLimitException        | 429                                     | application/problem+json                |
+| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
+
+## reviewChange
+
+Marks one change between a person's investigations reviewed, so it sorts below the unreviewed ones. Reviewing again keeps the first reviewer and time. Reviewing a change is not a decision on the person. The body is an empty object. Each review is audited as person.change_reviewed. The decisions scope grants this operation. Explicit evidence.read restrictions withhold before and after. The groups scope is also accepted for existing integrations. The API key selects the workspace and environment.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="reviewWorkspacePersonChange" method="post" path="/v1/people/{person_id}/changes/{change_id}/review" -->
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.noresponse.NoResponse;
+import org.noresponse.models.errors.AuthenticationException;
+import org.noresponse.models.errors.BadRequestException;
+import org.noresponse.models.errors.ConflictException;
+import org.noresponse.models.errors.NotFoundException;
+import org.noresponse.models.errors.PermissionDeniedException;
+import org.noresponse.models.errors.RateLimitException;
+import org.noresponse.models.operations.ReviewWorkspacePersonChangeResponse;
+import org.noresponse.models.shared.ScreeningCancelRequest;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        NoResponse sdk = NoResponse.builder()
+                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
+            .build();
+
+        ReviewWorkspacePersonChangeResponse res = sdk.people().reviewChange()
+                .personId("per_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .changeId("chg_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
+                .body(ScreeningCancelRequest.builder()
+                    .build())
+                .call();
+
+        if (res.personChange().isPresent()) {
+            System.out.println(res.personChange().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                               | Type                                                                    | Required                                                                | Description                                                             | Example                                                                 |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `personId`                                                              | *String*                                                                | :heavy_check_mark:                                                      | N/A                                                                     | per_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                          |
+| `changeId`                                                              | *String*                                                                | :heavy_check_mark:                                                      | N/A                                                                     | chg_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                          |
+| `body`                                                                  | [ScreeningCancelRequest](../../models/shared/ScreeningCancelRequest.md) | :heavy_check_mark:                                                      | N/A                                                                     |                                                                         |
+
+### Response
+
+**[ReviewWorkspacePersonChangeResponse](../../models/operations/ReviewWorkspacePersonChangeResponse.md)**
 
 ### Errors
 

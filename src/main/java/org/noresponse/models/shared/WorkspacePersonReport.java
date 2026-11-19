@@ -170,6 +170,14 @@ public class WorkspacePersonReport {
     @JsonProperty("written_profile")
     private JsonNullable<WrittenProfile> writtenProfile;
 
+    /**
+     * What changed between each settled investigation of this person and the one before it, unreviewed
+     * first, then most significant, then newest. The first investigation records no changes. When
+     * evidence.read is denied, before and after are withheld.
+     */
+    @JsonProperty("changes")
+    private List<PersonChange> changes;
+
     @JsonCreator
     public WorkspacePersonReport(
             @JsonProperty("external_id") @Nullable String externalId,
@@ -193,7 +201,8 @@ public class WorkspacePersonReport {
             @JsonProperty("suggested_searches") @Nonnull List<SuggestedSearch> suggestedSearches,
             @JsonProperty("evidence_restricted") @Nullable Boolean evidenceRestricted,
             @JsonProperty("evidence_investigation") @Nullable Investigation evidenceInvestigation,
-            @JsonProperty("written_profile") @Nullable WrittenProfile writtenProfile) {
+            @JsonProperty("written_profile") @Nullable WrittenProfile writtenProfile,
+            @JsonProperty("changes") @Nonnull List<PersonChange> changes) {
         this.externalId = externalId;
         this.name = name;
         this.email = email;
@@ -222,6 +231,8 @@ public class WorkspacePersonReport {
         this.evidenceRestricted = evidenceRestricted;
         this.evidenceInvestigation = JsonNullable.of(evidenceInvestigation);
         this.writtenProfile = JsonNullable.of(writtenProfile);
+        this.changes =
+                Optional.ofNullable(changes).orElseThrow(() -> new IllegalArgumentException("changes cannot be null"));
     }
 
     public WorkspacePersonReport(
@@ -233,7 +244,8 @@ public class WorkspacePersonReport {
             @Nonnull List<ScreeningFinding> findings,
             @Nonnull List<ScreeningPost> posts,
             @Nonnull List<ScreeningMedia> media,
-            @Nonnull List<SuggestedSearch> suggestedSearches) {
+            @Nonnull List<SuggestedSearch> suggestedSearches,
+            @Nonnull List<PersonChange> changes) {
         this(
                 null,
                 null,
@@ -256,7 +268,8 @@ public class WorkspacePersonReport {
                 suggestedSearches,
                 null,
                 null,
-                null);
+                null,
+                changes);
     }
 
     /**
@@ -416,6 +429,15 @@ public class WorkspacePersonReport {
      */
     public JsonNullable<WrittenProfile> writtenProfile() {
         return this.writtenProfile;
+    }
+
+    /**
+     * What changed between each settled investigation of this person and the one before it, unreviewed
+     * first, then most significant, then newest. The first investigation records no changes. When
+     * evidence.read is denied, before and after are withheld.
+     */
+    public List<PersonChange> changes() {
+        return this.changes;
     }
 
     public static Builder builder() {
@@ -603,6 +625,16 @@ public class WorkspacePersonReport {
         return this;
     }
 
+    /**
+     * What changed between each settled investigation of this person and the one before it, unreviewed
+     * first, then most significant, then newest. The first investigation records no changes. When
+     * evidence.read is denied, before and after are withheld.
+     */
+    public WorkspacePersonReport withChanges(@Nonnull List<PersonChange> changes) {
+        this.changes = Utils.checkNotNull(changes, "changes");
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -633,7 +665,8 @@ public class WorkspacePersonReport {
                 && Utils.enhancedDeepEquals(this.suggestedSearches, other.suggestedSearches)
                 && Utils.enhancedDeepEquals(this.evidenceRestricted, other.evidenceRestricted)
                 && Utils.enhancedDeepEquals(this.evidenceInvestigation, other.evidenceInvestigation)
-                && Utils.enhancedDeepEquals(this.writtenProfile, other.writtenProfile);
+                && Utils.enhancedDeepEquals(this.writtenProfile, other.writtenProfile)
+                && Utils.enhancedDeepEquals(this.changes, other.changes);
     }
 
     @Override
@@ -660,7 +693,8 @@ public class WorkspacePersonReport {
                 suggestedSearches,
                 evidenceRestricted,
                 evidenceInvestigation,
-                writtenProfile);
+                writtenProfile,
+                changes);
     }
 
     @Override
@@ -710,7 +744,9 @@ public class WorkspacePersonReport {
                 "evidenceInvestigation",
                 evidenceInvestigation,
                 "writtenProfile",
-                writtenProfile);
+                writtenProfile,
+                "changes",
+                changes);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -759,6 +795,8 @@ public class WorkspacePersonReport {
         private Investigation evidenceInvestigation;
 
         private WrittenProfile writtenProfile;
+
+        private List<PersonChange> changes;
 
         private Builder() {
             // force use of static builder() method
@@ -945,6 +983,16 @@ public class WorkspacePersonReport {
             return this;
         }
 
+        /**
+         * What changed between each settled investigation of this person and the one before it, unreviewed
+         * first, then most significant, then newest. The first investigation records no changes. When
+         * evidence.read is denied, before and after are withheld.
+         */
+        public Builder changes(@Nonnull List<PersonChange> changes) {
+            this.changes = Utils.checkNotNull(changes, "changes");
+            return this;
+        }
+
         public WorkspacePersonReport build() {
             return new WorkspacePersonReport(
                     externalId,
@@ -968,7 +1016,8 @@ public class WorkspacePersonReport {
                     suggestedSearches,
                     evidenceRestricted,
                     evidenceInvestigation,
-                    writtenProfile);
+                    writtenProfile,
+                    changes);
         }
     }
 }

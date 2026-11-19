@@ -12,6 +12,7 @@ import org.noresponse.models.operations.DeleteWorkspacePersonRequest;
 import org.noresponse.models.operations.GetWorkspacePersonRequest;
 import org.noresponse.models.operations.JudgeWorkspacePersonRecordRequest;
 import org.noresponse.models.operations.ListWorkspacePeopleRequest;
+import org.noresponse.models.operations.ReviewWorkspacePersonChangeRequest;
 import org.noresponse.models.operations.RunWorkspacePersonSearchRequest;
 import org.noresponse.models.operations.StartWorkspacePersonSearchRequest;
 import org.noresponse.models.operations.async.CreateWorkspacePersonRequestBuilder;
@@ -24,6 +25,8 @@ import org.noresponse.models.operations.async.JudgeWorkspacePersonRecordRequestB
 import org.noresponse.models.operations.async.JudgeWorkspacePersonRecordResponse;
 import org.noresponse.models.operations.async.ListWorkspacePeopleRequestBuilder;
 import org.noresponse.models.operations.async.ListWorkspacePeopleResponse;
+import org.noresponse.models.operations.async.ReviewWorkspacePersonChangeRequestBuilder;
+import org.noresponse.models.operations.async.ReviewWorkspacePersonChangeResponse;
 import org.noresponse.models.operations.async.RunWorkspacePersonSearchRequestBuilder;
 import org.noresponse.models.operations.async.RunWorkspacePersonSearchResponse;
 import org.noresponse.models.operations.async.StartWorkspacePersonSearchRequestBuilder;
@@ -37,6 +40,7 @@ import org.noresponse.operations.DeleteWorkspacePerson;
 import org.noresponse.operations.GetWorkspacePerson;
 import org.noresponse.operations.JudgeWorkspacePersonRecord;
 import org.noresponse.operations.ListWorkspacePeople;
+import org.noresponse.operations.ReviewWorkspacePersonChange;
 import org.noresponse.operations.RunWorkspacePersonSearch;
 import org.noresponse.operations.StartWorkspacePersonSearch;
 import org.noresponse.utils.Headers;
@@ -646,6 +650,78 @@ public class AsyncPeople {
         RunWorkspacePersonSearchRequest request = new RunWorkspacePersonSearchRequest(personId, searchId, body);
         AsyncRequestOperation<RunWorkspacePersonSearchRequest, RunWorkspacePersonSearchResponse> operation =
                 new RunWorkspacePersonSearch.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
+        return operation.doRequest(request).thenCompose(operation::handleResponse);
+    }
+
+    /**
+     * Mark a change on a workspace person reviewed.
+     *
+     * <p>Marks one change between a person's investigations reviewed, so it sorts below the unreviewed ones.
+     * Reviewing again keeps the first reviewer and time. Reviewing a change is not a decision on the
+     * person.
+     *
+     * <p>The body is an empty object. Each review is audited as person.change_reviewed. The decisions scope
+     * grants this operation.
+     *
+     * <p>Explicit evidence.read restrictions withhold before and after. The groups scope is also accepted for
+     * existing integrations. The API key selects the workspace and environment.
+     *
+     * @return The async call builder
+     */
+    public ReviewWorkspacePersonChangeRequestBuilder reviewChange() {
+        return new ReviewWorkspacePersonChangeRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Mark a change on a workspace person reviewed.
+     *
+     * <p>Marks one change between a person's investigations reviewed, so it sorts below the unreviewed ones.
+     * Reviewing again keeps the first reviewer and time. Reviewing a change is not a decision on the
+     * person.
+     *
+     * <p>The body is an empty object. Each review is audited as person.change_reviewed. The decisions scope
+     * grants this operation.
+     *
+     * <p>Explicit evidence.read restrictions withhold before and after. The groups scope is also accepted for
+     * existing integrations. The API key selects the workspace and environment.
+     *
+     * @param personId
+     * @param changeId
+     * @param body An empty object.
+     * @return {@code CompletableFuture<ReviewWorkspacePersonChangeResponse>} - The async response
+     */
+    public CompletableFuture<ReviewWorkspacePersonChangeResponse> reviewChange(
+            @Nonnull String personId, @Nonnull String changeId, @Nonnull ScreeningCancelRequest body) {
+        return reviewChange(personId, changeId, body, null);
+    }
+
+    /**
+     * Mark a change on a workspace person reviewed.
+     *
+     * <p>Marks one change between a person's investigations reviewed, so it sorts below the unreviewed ones.
+     * Reviewing again keeps the first reviewer and time. Reviewing a change is not a decision on the
+     * person.
+     *
+     * <p>The body is an empty object. Each review is audited as person.change_reviewed. The decisions scope
+     * grants this operation.
+     *
+     * <p>Explicit evidence.read restrictions withhold before and after. The groups scope is also accepted for
+     * existing integrations. The API key selects the workspace and environment.
+     *
+     * @param personId
+     * @param changeId
+     * @param body An empty object.
+     * @param options additional options
+     * @return {@code CompletableFuture<ReviewWorkspacePersonChangeResponse>} - The async response
+     */
+    public CompletableFuture<ReviewWorkspacePersonChangeResponse> reviewChange(
+            @Nonnull String personId,
+            @Nonnull String changeId,
+            @Nonnull ScreeningCancelRequest body,
+            @Nullable Options options) {
+        ReviewWorkspacePersonChangeRequest request = new ReviewWorkspacePersonChangeRequest(personId, changeId, body);
+        AsyncRequestOperation<ReviewWorkspacePersonChangeRequest, ReviewWorkspacePersonChangeResponse> operation =
+                new ReviewWorkspacePersonChange.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 }
