@@ -53,8 +53,7 @@ public class ScreeningCompleted {
     private String errorCode;
 
     /**
-     * Every person the screening set out to reach: those no screening had reached and those on watch or
-     * escalated.
+     * Every person the screening set out to reach: those no screening had reached.
      */
     @JsonProperty("people_total")
     private long peopleTotal;
@@ -196,8 +195,7 @@ public class ScreeningCompleted {
     }
 
     /**
-     * Every person the screening set out to reach: those no screening had reached and those on watch or
-     * escalated.
+     * Every person the screening set out to reach: those no screening had reached.
      */
     public long peopleTotal() {
         return this.peopleTotal;
@@ -295,8 +293,7 @@ public class ScreeningCompleted {
     }
 
     /**
-     * Every person the screening set out to reach: those no screening had reached and those on watch or
-     * escalated.
+     * Every person the screening set out to reach: those no screening had reached.
      */
     public ScreeningCompleted withPeopleTotal(long peopleTotal) {
         this.peopleTotal = peopleTotal;
@@ -499,8 +496,7 @@ public class ScreeningCompleted {
         }
 
         /**
-         * Every person the screening set out to reach: those no screening had reached and those on watch or
-         * escalated.
+         * Every person the screening set out to reach: those no screening had reached.
          */
         public Builder peopleTotal(long peopleTotal) {
             this.peopleTotal = peopleTotal;

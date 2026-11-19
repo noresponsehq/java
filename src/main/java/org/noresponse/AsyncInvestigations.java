@@ -226,7 +226,11 @@ public class AsyncInvestigations {
     /**
      * Record an investigation decision.
      *
-     * <p>Record an investigation decision. The API key determines the workspace and environment.
+     * <p>Record an investigation decision. Deprecated: decisions are leaving people and groups. The console
+     * no longer records them and no screening reads them.
+     *
+     * <p>This route is removed in the next contract release; stop calling it. The API key determines the
+     * workspace and environment.
      *
      * @return The async call builder
      */
@@ -237,7 +241,11 @@ public class AsyncInvestigations {
     /**
      * Record an investigation decision.
      *
-     * <p>Record an investigation decision. The API key determines the workspace and environment.
+     * <p>Record an investigation decision. Deprecated: decisions are leaving people and groups. The console
+     * no longer records them and no screening reads them.
+     *
+     * <p>This route is removed in the next contract release; stop calling it. The API key determines the
+     * workspace and environment.
      *
      * @param investigationId
      * @param body Records a decision on a person.

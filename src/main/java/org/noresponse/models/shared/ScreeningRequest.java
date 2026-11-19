@@ -15,7 +15,7 @@ import org.noresponse.utils.Utils;
 /**
  * ScreeningRequest
  *
- * <p>Screens the group's people no screening has reached and everyone on watch or escalated.
+ * <p>Screens the group's people no screening has reached.
  */
 public class ScreeningRequest {
 

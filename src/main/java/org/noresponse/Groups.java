@@ -676,7 +676,10 @@ public class Groups {
      * Record a decision on a person.
      *
      * <p>Marks the person cleared, watch or escalated with a note. Decisions are kept in order; the latest is
-     * the person's. The next screening refreshes everyone on watch or escalated.
+     * the person's. A decision changes nothing else: no screening reads it.
+     *
+     * <p>Deprecated: decisions are leaving people and groups. The console no longer records them and no
+     * screening reads them. This route is removed in the next contract release; stop calling it.
      *
      * <p>The decisions scope grants this operation. Explicit evidence.read restrictions override default
      * evidence access. The groups scope is also accepted for existing integrations.
@@ -693,7 +696,10 @@ public class Groups {
      * Record a decision on a person.
      *
      * <p>Marks the person cleared, watch or escalated with a note. Decisions are kept in order; the latest is
-     * the person's. The next screening refreshes everyone on watch or escalated.
+     * the person's. A decision changes nothing else: no screening reads it.
+     *
+     * <p>Deprecated: decisions are leaving people and groups. The console no longer records them and no
+     * screening reads them. This route is removed in the next contract release; stop calling it.
      *
      * <p>The decisions scope grants this operation. Explicit evidence.read restrictions override default
      * evidence access. The groups scope is also accepted for existing integrations.
@@ -1100,10 +1106,10 @@ public class Groups {
     /**
      * Start a screening.
      *
-     * <p>Queues a screening of every person no screening has reached and everyone on watch or escalated. One
-     * screening of a group runs at a time; it finishes completed, partial (some people not covered,
-     * counted in people_failed) or failed, and fails with error_code expired after 24 hours.
-     * Idempotency-Key is required and binds the body for the screening's life.
+     * <p>Queues a screening of every person no screening has reached. One screening of a group runs at a
+     * time; it finishes completed, partial (some people not covered, counted in people_failed) or failed,
+     * and fails with error_code expired after 24 hours. Idempotency-Key is required and binds the body for
+     * the screening's life.
      *
      * <p>The 202 body carries estimated_spend, what the selected people would cost at the depth and
      * platforms. A screening whose estimate exceeds the environment's screening_daily_cap, less the day's
@@ -1126,10 +1132,10 @@ public class Groups {
     /**
      * Start a screening.
      *
-     * <p>Queues a screening of every person no screening has reached and everyone on watch or escalated. One
-     * screening of a group runs at a time; it finishes completed, partial (some people not covered,
-     * counted in people_failed) or failed, and fails with error_code expired after 24 hours.
-     * Idempotency-Key is required and binds the body for the screening's life.
+     * <p>Queues a screening of every person no screening has reached. One screening of a group runs at a
+     * time; it finishes completed, partial (some people not covered, counted in people_failed) or failed,
+     * and fails with error_code expired after 24 hours. Idempotency-Key is required and binds the body for
+     * the screening's life.
      *
      * <p>The 202 body carries estimated_spend, what the selected people would cost at the depth and
      * platforms. A screening whose estimate exceeds the environment's screening_daily_cap, less the day's
@@ -1145,7 +1151,7 @@ public class Groups {
      *
      * @param groupId
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
-     * @param body Screens the group's people no screening has reached and everyone on watch or escalated.
+     * @param body Screens the group's people no screening has reached.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
@@ -1157,10 +1163,10 @@ public class Groups {
     /**
      * Start a screening.
      *
-     * <p>Queues a screening of every person no screening has reached and everyone on watch or escalated. One
-     * screening of a group runs at a time; it finishes completed, partial (some people not covered,
-     * counted in people_failed) or failed, and fails with error_code expired after 24 hours.
-     * Idempotency-Key is required and binds the body for the screening's life.
+     * <p>Queues a screening of every person no screening has reached. One screening of a group runs at a
+     * time; it finishes completed, partial (some people not covered, counted in people_failed) or failed,
+     * and fails with error_code expired after 24 hours. Idempotency-Key is required and binds the body for
+     * the screening's life.
      *
      * <p>The 202 body carries estimated_spend, what the selected people would cost at the depth and
      * platforms. A screening whose estimate exceeds the environment's screening_daily_cap, less the day's
@@ -1176,7 +1182,7 @@ public class Groups {
      *
      * @param groupId
      * @param idempotencyKey Opaque client key, 16 to 128 characters of [A-Za-z0-9._:-] (a UUID or ULID fits). Scoped to the workspace principal and bound to the canonical body for 24 hours.
-     * @param body Screens the group's people no screening has reached and everyone on watch or escalated.
+     * @param body Screens the group's people no screening has reached.
      * @param options additional options
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
