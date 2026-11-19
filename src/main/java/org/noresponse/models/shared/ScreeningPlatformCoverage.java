@@ -34,6 +34,9 @@ public class ScreeningPlatformCoverage {
     @JsonProperty("status")
     private ScreeningPlatformCoverageStatus status;
 
+    /**
+     * Accounts found on the platform: at most 5, the best candidates the search kept.
+     */
     @JsonProperty("accounts_found")
     private long accountsFound;
 
@@ -76,6 +79,9 @@ public class ScreeningPlatformCoverage {
         return this.status;
     }
 
+    /**
+     * Accounts found on the platform: at most 5, the best candidates the search kept.
+     */
     public long accountsFound() {
         return this.accountsFound;
     }
@@ -112,6 +118,9 @@ public class ScreeningPlatformCoverage {
         return this;
     }
 
+    /**
+     * Accounts found on the platform: at most 5, the best candidates the search kept.
+     */
     public ScreeningPlatformCoverage withAccountsFound(long accountsFound) {
         this.accountsFound = accountsFound;
         return this;
@@ -195,6 +204,9 @@ public class ScreeningPlatformCoverage {
             return this;
         }
 
+        /**
+         * Accounts found on the platform: at most 5, the best candidates the search kept.
+         */
         public Builder accountsFound(long accountsFound) {
             this.accountsFound = accountsFound;
             return this;
