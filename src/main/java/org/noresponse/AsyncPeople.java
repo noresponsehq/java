@@ -337,9 +337,7 @@ public class AsyncPeople {
      * person.record_judged.
      *
      * <p>The decisions scope grants this operation. Explicit evidence.read restrictions override default
-     * evidence access. The groups scope is also accepted for existing integrations.
-     *
-     * <p>The API key selects the workspace and environment.
+     * evidence access. The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -362,9 +360,7 @@ public class AsyncPeople {
      * person.record_judged.
      *
      * <p>The decisions scope grants this operation. Explicit evidence.read restrictions override default
-     * evidence access. The groups scope is also accepted for existing integrations.
-     *
-     * <p>The API key selects the workspace and environment.
+     * evidence access. The API key selects the workspace and environment.
      *
      * @param personId
      * @param body A reviewer's verdict on whether one of a person's lookup records is theirs.
@@ -390,9 +386,7 @@ public class AsyncPeople {
      * person.record_judged.
      *
      * <p>The decisions scope grants this operation. Explicit evidence.read restrictions override default
-     * evidence access. The groups scope is also accepted for existing integrations.
-     *
-     * <p>The API key selects the workspace and environment.
+     * evidence access. The API key selects the workspace and environment.
      *
      * @param personId
      * @param body A reviewer's verdict on whether one of a person's lookup records is theirs.
@@ -452,8 +446,7 @@ public class AsyncPeople {
      * <p>Use a new key for a deliberate new operation. The investigations scope grants this operation.
      * Explicit evidence.read restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
-     * environment.
+     * <p>The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -506,8 +499,7 @@ public class AsyncPeople {
      * <p>Use a new key for a deliberate new operation. The investigations scope grants this operation.
      * Explicit evidence.read restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
-     * environment.
+     * <p>The API key selects the workspace and environment.
      *
      * @param personId
      * @param body The value to search again, named by the record and field that hold it rather than sent again.
@@ -563,8 +555,7 @@ public class AsyncPeople {
      * <p>Use a new key for a deliberate new operation. The investigations scope grants this operation.
      * Explicit evidence.read restrictions override default evidence access.
      *
-     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
-     * environment.
+     * <p>The API key selects the workspace and environment.
      *
      * @param personId
      * @param idempotencyKey Opaque request key, 16 to 128 characters. Repeating the key and request returns the same resource in its current state while it is retained. A different request with the same key answers 409. Use a new key for a deliberate new operation. Keys are scoped to the environment and operation; person searches also scope them to the group and person.
@@ -591,9 +582,7 @@ public class AsyncPeople {
      * run is audited as person.search_run.
      *
      * <p>The investigations scope grants this operation. Explicit evidence.read restrictions override default
-     * evidence access. The groups scope is also accepted for existing integrations.
-     *
-     * <p>The API key selects the workspace and environment.
+     * evidence access. The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -612,9 +601,7 @@ public class AsyncPeople {
      * run is audited as person.search_run.
      *
      * <p>The investigations scope grants this operation. Explicit evidence.read restrictions override default
-     * evidence access. The groups scope is also accepted for existing integrations.
-     *
-     * <p>The API key selects the workspace and environment.
+     * evidence access. The API key selects the workspace and environment.
      *
      * @param personId
      * @param searchId
@@ -637,9 +624,7 @@ public class AsyncPeople {
      * run is audited as person.search_run.
      *
      * <p>The investigations scope grants this operation. Explicit evidence.read restrictions override default
-     * evidence access. The groups scope is also accepted for existing integrations.
-     *
-     * <p>The API key selects the workspace and environment.
+     * evidence access. The API key selects the workspace and environment.
      *
      * @param personId
      * @param searchId
@@ -668,8 +653,8 @@ public class AsyncPeople {
      * <p>The body is an empty object. Each review is audited as person.change_reviewed. The decisions scope
      * grants this operation.
      *
-     * <p>Explicit evidence.read restrictions withhold before and after. The groups scope is also accepted for
-     * existing integrations. The API key selects the workspace and environment.
+     * <p>Explicit evidence.read restrictions withhold before and after. The API key selects the workspace and
+     * environment.
      *
      * @return The async call builder
      */
@@ -687,8 +672,8 @@ public class AsyncPeople {
      * <p>The body is an empty object. Each review is audited as person.change_reviewed. The decisions scope
      * grants this operation.
      *
-     * <p>Explicit evidence.read restrictions withhold before and after. The groups scope is also accepted for
-     * existing integrations. The API key selects the workspace and environment.
+     * <p>Explicit evidence.read restrictions withhold before and after. The API key selects the workspace and
+     * environment.
      *
      * @param personId
      * @param changeId
@@ -710,8 +695,8 @@ public class AsyncPeople {
      * <p>The body is an empty object. Each review is audited as person.change_reviewed. The decisions scope
      * grants this operation.
      *
-     * <p>Explicit evidence.read restrictions withhold before and after. The groups scope is also accepted for
-     * existing integrations. The API key selects the workspace and environment.
+     * <p>Explicit evidence.read restrictions withhold before and after. The API key selects the workspace and
+     * environment.
      *
      * @param personId
      * @param changeId
@@ -742,8 +727,7 @@ public class AsyncPeople {
      * nor repeats a run. Each change is audited as person.schedule_changed. The investigations scope
      * grants this operation.
      *
-     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
-     * environment.
+     * <p>The API key selects the workspace and environment.
      *
      * @return The async call builder
      */
@@ -763,8 +747,7 @@ public class AsyncPeople {
      * nor repeats a run. Each change is audited as person.schedule_changed. The investigations scope
      * grants this operation.
      *
-     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
-     * environment.
+     * <p>The API key selects the workspace and environment.
      *
      * @param personId
      * @param body The schedule to set.
@@ -787,8 +770,7 @@ public class AsyncPeople {
      * nor repeats a run. Each change is audited as person.schedule_changed. The investigations scope
      * grants this operation.
      *
-     * <p>The groups scope is also accepted for existing integrations. The API key selects the workspace and
-     * environment.
+     * <p>The API key selects the workspace and environment.
      *
      * @param personId
      * @param body The schedule to set.

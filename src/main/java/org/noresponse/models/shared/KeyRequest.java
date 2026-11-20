@@ -15,16 +15,18 @@ import org.noresponse.utils.Utils;
 /**
  * KeyRequest
  *
- * <p>Creates a key whose scopes are bounded by the issuer capabilities in this environment. Delete is
- * owner-only. A service key outlives its creator; a personal key belongs to the authenticated member
- * and is revoked on membership or authority changes.
+ * <p>Creates a key whose scopes are bounded by the issuer capabilities in this environment. Existing
+ * group keys retain access to group routes. To issue a new key, choose the individual scopes needed
+ * for its operations.
  *
- * <p>request_id deduplicates creation: retry returns 200 metadata without the secret; changed parameters
- * answer 409. Team scopes members and members_manage are explicitly workspace-wide, live-only, and
- * delegated by a current full owner. Personal credentials cannot hold management or members_manage.
+ * <p>Delete is owner-only. A service key outlives its creator; a personal key belongs to the
+ * authenticated member and is revoked on membership or authority changes. request_id deduplicates
+ * creation: retry returns 200 metadata without the secret; changed parameters answer 409.
  *
- * <p>Legacy management includes policy publication; use settings without policy_publish for configuration
- * preparation and retention-only edits.
+ * <p>Team scopes members and members_manage are explicitly workspace-wide, live-only, and delegated by a
+ * current full owner. Personal credentials cannot hold management or members_manage. Legacy management
+ * includes policy publication; use settings without policy_publish for configuration preparation and
+ * retention-only edits.
  */
 public class KeyRequest {
     /**
@@ -35,7 +37,7 @@ public class KeyRequest {
     private KeyEnvironment environment;
 
     /**
-     * The key's scopes, each at most once.
+     * Scopes for the new key. The legacy groups scope is reserved for existing keys.
      */
     @JsonProperty("scopes")
     private List<KeyRequestScope> scopes;
@@ -119,7 +121,7 @@ public class KeyRequest {
     }
 
     /**
-     * The key's scopes, each at most once.
+     * Scopes for the new key. The legacy groups scope is reserved for existing keys.
      */
     public List<KeyRequestScope> scopes() {
         return this.scopes;
@@ -183,7 +185,7 @@ public class KeyRequest {
     }
 
     /**
-     * The key's scopes, each at most once.
+     * Scopes for the new key. The legacy groups scope is reserved for existing keys.
      */
     public KeyRequest withScopes(@Nonnull List<KeyRequestScope> scopes) {
         this.scopes = Utils.checkNotNull(scopes, "scopes");
@@ -319,7 +321,7 @@ public class KeyRequest {
         }
 
         /**
-         * The key's scopes, each at most once.
+         * Scopes for the new key. The legacy groups scope is reserved for existing keys.
          */
         public Builder scopes(@Nonnull List<KeyRequestScope> scopes) {
             this.scopes = Utils.checkNotNull(scopes, "scopes");
