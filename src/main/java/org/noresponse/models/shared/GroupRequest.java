@@ -26,6 +26,20 @@ public class GroupRequest {
     private String name;
 
     /**
+     * What the group's people share: an event, an organisation, a place or another attribute.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("type")
+    private GroupType type;
+
+    /**
+     * The attribute its people share, such as the employer's or the place's name.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("attribute")
+    private String attribute;
+
+    /**
      * Optional event start; null for an ongoing group.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -70,6 +84,8 @@ public class GroupRequest {
     @JsonCreator
     public GroupRequest(
             @JsonProperty("name") @Nonnull String name,
+            @JsonProperty("type") @Nullable GroupType type,
+            @JsonProperty("attribute") @Nullable String attribute,
             @JsonProperty("starts_at") @Nullable JsonNullable<String> startsAt,
             @JsonProperty("ends_at") @Nullable JsonNullable<String> endsAt,
             @JsonProperty("venue") @Nullable String venue,
@@ -77,6 +93,8 @@ public class GroupRequest {
             @JsonProperty("principals") @Nullable List<Principal> principals,
             @JsonProperty("topics") @Nullable List<String> topics) {
         this.name = Optional.ofNullable(name).orElseThrow(() -> new IllegalArgumentException("name cannot be null"));
+        this.type = type;
+        this.attribute = attribute;
         this.startsAt = Optional.ofNullable(startsAt).orElse(JsonNullable.undefined());
         this.endsAt = Optional.ofNullable(endsAt).orElse(JsonNullable.undefined());
         this.venue = venue;
@@ -86,7 +104,7 @@ public class GroupRequest {
     }
 
     public GroupRequest(@Nonnull String name) {
-        this(name, null, null, null, null, null, null);
+        this(name, null, null, null, null, null, null, null, null);
     }
 
     /**
@@ -94,6 +112,20 @@ public class GroupRequest {
      */
     public String name() {
         return this.name;
+    }
+
+    /**
+     * What the group's people share: an event, an organisation, a place or another attribute.
+     */
+    public Optional<GroupType> type() {
+        return Optional.ofNullable(this.type);
+    }
+
+    /**
+     * The attribute its people share, such as the employer's or the place's name.
+     */
+    public Optional<String> attribute() {
+        return Optional.ofNullable(this.attribute);
     }
 
     /**
@@ -147,6 +179,22 @@ public class GroupRequest {
      */
     public GroupRequest withName(@Nonnull String name) {
         this.name = Utils.checkNotNull(name, "name");
+        return this;
+    }
+
+    /**
+     * What the group's people share: an event, an organisation, a place or another attribute.
+     */
+    public GroupRequest withType(@Nullable GroupType type) {
+        this.type = type;
+        return this;
+    }
+
+    /**
+     * The attribute its people share, such as the employer's or the place's name.
+     */
+    public GroupRequest withAttribute(@Nullable String attribute) {
+        this.attribute = attribute;
         return this;
     }
 
@@ -208,6 +256,8 @@ public class GroupRequest {
         }
         GroupRequest other = (GroupRequest) o;
         return Utils.enhancedDeepEquals(this.name, other.name)
+                && Utils.enhancedDeepEquals(this.type, other.type)
+                && Utils.enhancedDeepEquals(this.attribute, other.attribute)
                 && Utils.enhancedDeepEquals(this.startsAt, other.startsAt)
                 && Utils.enhancedDeepEquals(this.endsAt, other.endsAt)
                 && Utils.enhancedDeepEquals(this.venue, other.venue)
@@ -218,7 +268,7 @@ public class GroupRequest {
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(name, startsAt, endsAt, venue, host, principals, topics);
+        return Utils.enhancedHash(name, type, attribute, startsAt, endsAt, venue, host, principals, topics);
     }
 
     @Override
@@ -227,6 +277,10 @@ public class GroupRequest {
                 GroupRequest.class,
                 "name",
                 name,
+                "type",
+                type,
+                "attribute",
+                attribute,
                 "startsAt",
                 startsAt,
                 "endsAt",
@@ -245,6 +299,10 @@ public class GroupRequest {
     public static final class Builder {
 
         private String name;
+
+        private GroupType type;
+
+        private String attribute;
 
         private JsonNullable<String> startsAt;
 
@@ -267,6 +325,22 @@ public class GroupRequest {
          */
         public Builder name(@Nonnull String name) {
             this.name = Utils.checkNotNull(name, "name");
+            return this;
+        }
+
+        /**
+         * What the group's people share: an event, an organisation, a place or another attribute.
+         */
+        public Builder type(@Nullable GroupType type) {
+            this.type = type;
+            return this;
+        }
+
+        /**
+         * The attribute its people share, such as the employer's or the place's name.
+         */
+        public Builder attribute(@Nullable String attribute) {
+            this.attribute = attribute;
             return this;
         }
 
@@ -319,7 +393,7 @@ public class GroupRequest {
         }
 
         public GroupRequest build() {
-            return new GroupRequest(name, startsAt, endsAt, venue, host, principals, topics);
+            return new GroupRequest(name, type, attribute, startsAt, endsAt, venue, host, principals, topics);
         }
     }
 }

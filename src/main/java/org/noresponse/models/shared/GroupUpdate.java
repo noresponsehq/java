@@ -27,6 +27,13 @@ public class GroupUpdate {
     private String name;
 
     /**
+     * The attribute its people share. Omit to keep the current value.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("attribute")
+    private String attribute;
+
+    /**
      * Optional event start; null for an ongoing group. Omit to keep the current value; send null to clear
      * it.
      */
@@ -81,6 +88,7 @@ public class GroupUpdate {
     @JsonCreator
     public GroupUpdate(
             @JsonProperty("name") @Nullable String name,
+            @JsonProperty("attribute") @Nullable String attribute,
             @JsonProperty("starts_at") @Nullable JsonNullable<String> startsAt,
             @JsonProperty("ends_at") @Nullable JsonNullable<String> endsAt,
             @JsonProperty("venue") @Nullable String venue,
@@ -89,6 +97,7 @@ public class GroupUpdate {
             @JsonProperty("topics") @Nullable List<String> topics,
             @JsonProperty("expected_version") @Nullable Long expectedVersion) {
         this.name = name;
+        this.attribute = attribute;
         this.startsAt = Optional.ofNullable(startsAt).orElse(JsonNullable.undefined());
         this.endsAt = Optional.ofNullable(endsAt).orElse(JsonNullable.undefined());
         this.venue = venue;
@@ -99,7 +108,7 @@ public class GroupUpdate {
     }
 
     public GroupUpdate() {
-        this(null, null, null, null, null, null, null, null);
+        this(null, null, null, null, null, null, null, null, null);
     }
 
     /**
@@ -107,6 +116,13 @@ public class GroupUpdate {
      */
     public Optional<String> name() {
         return Optional.ofNullable(this.name);
+    }
+
+    /**
+     * The attribute its people share. Omit to keep the current value.
+     */
+    public Optional<String> attribute() {
+        return Optional.ofNullable(this.attribute);
     }
 
     /**
@@ -170,6 +186,14 @@ public class GroupUpdate {
      */
     public GroupUpdate withName(@Nullable String name) {
         this.name = name;
+        return this;
+    }
+
+    /**
+     * The attribute its people share. Omit to keep the current value.
+     */
+    public GroupUpdate withAttribute(@Nullable String attribute) {
+        this.attribute = attribute;
         return this;
     }
 
@@ -242,6 +266,7 @@ public class GroupUpdate {
         }
         GroupUpdate other = (GroupUpdate) o;
         return Utils.enhancedDeepEquals(this.name, other.name)
+                && Utils.enhancedDeepEquals(this.attribute, other.attribute)
                 && Utils.enhancedDeepEquals(this.startsAt, other.startsAt)
                 && Utils.enhancedDeepEquals(this.endsAt, other.endsAt)
                 && Utils.enhancedDeepEquals(this.venue, other.venue)
@@ -253,7 +278,7 @@ public class GroupUpdate {
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(name, startsAt, endsAt, venue, host, principals, topics, expectedVersion);
+        return Utils.enhancedHash(name, attribute, startsAt, endsAt, venue, host, principals, topics, expectedVersion);
     }
 
     @Override
@@ -262,6 +287,8 @@ public class GroupUpdate {
                 GroupUpdate.class,
                 "name",
                 name,
+                "attribute",
+                attribute,
                 "startsAt",
                 startsAt,
                 "endsAt",
@@ -282,6 +309,8 @@ public class GroupUpdate {
     public static final class Builder {
 
         private String name;
+
+        private String attribute;
 
         private JsonNullable<String> startsAt;
 
@@ -306,6 +335,14 @@ public class GroupUpdate {
          */
         public Builder name(@Nullable String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * The attribute its people share. Omit to keep the current value.
+         */
+        public Builder attribute(@Nullable String attribute) {
+            this.attribute = attribute;
             return this;
         }
 
@@ -369,7 +406,7 @@ public class GroupUpdate {
         }
 
         public GroupUpdate build() {
-            return new GroupUpdate(name, startsAt, endsAt, venue, host, principals, topics, expectedVersion);
+            return new GroupUpdate(name, attribute, startsAt, endsAt, venue, host, principals, topics, expectedVersion);
         }
     }
 }

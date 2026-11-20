@@ -34,6 +34,18 @@ public class Group {
     private String name;
 
     /**
+     * What the group's people share: an event, an organisation, a place or another attribute.
+     */
+    @JsonProperty("type")
+    private GroupType type;
+
+    /**
+     * The attribute its people share. Empty when none was given.
+     */
+    @JsonProperty("attribute")
+    private String attribute;
+
+    /**
      * Optional event start; null for an ongoing group.
      */
     @JsonInclude(Include.ALWAYS)
@@ -102,6 +114,8 @@ public class Group {
             @JsonProperty("id") @Nonnull String id,
             @JsonProperty("environment") @Nonnull AuditSettingsEnvironment environment,
             @JsonProperty("name") @Nonnull String name,
+            @JsonProperty("type") @Nonnull GroupType type,
+            @JsonProperty("attribute") @Nonnull String attribute,
             @JsonProperty("starts_at") @Nullable String startsAt,
             @JsonProperty("ends_at") @Nullable String endsAt,
             @JsonProperty("venue") @Nullable String venue,
@@ -117,6 +131,9 @@ public class Group {
         this.environment = Optional.ofNullable(environment)
                 .orElseThrow(() -> new IllegalArgumentException("environment cannot be null"));
         this.name = Optional.ofNullable(name).orElseThrow(() -> new IllegalArgumentException("name cannot be null"));
+        this.type = Optional.ofNullable(type).orElseThrow(() -> new IllegalArgumentException("type cannot be null"));
+        this.attribute = Optional.ofNullable(attribute)
+                .orElseThrow(() -> new IllegalArgumentException("attribute cannot be null"));
         this.startsAt = JsonNullable.of(startsAt);
         this.endsAt = JsonNullable.of(endsAt);
         this.venue = venue;
@@ -139,6 +156,8 @@ public class Group {
             @Nonnull String id,
             @Nonnull AuditSettingsEnvironment environment,
             @Nonnull String name,
+            @Nonnull GroupType type,
+            @Nonnull String attribute,
             @Nonnull List<Principal> principals,
             @Nonnull List<String> topics,
             long people,
@@ -150,6 +169,8 @@ public class Group {
                 id,
                 environment,
                 name,
+                type,
+                attribute,
                 null,
                 null,
                 null,
@@ -176,6 +197,20 @@ public class Group {
      */
     public String name() {
         return this.name;
+    }
+
+    /**
+     * What the group's people share: an event, an organisation, a place or another attribute.
+     */
+    public GroupType type() {
+        return this.type;
+    }
+
+    /**
+     * The attribute its people share. Empty when none was given.
+     */
+    public String attribute() {
+        return this.attribute;
     }
 
     /**
@@ -268,6 +303,22 @@ public class Group {
      */
     public Group withName(@Nonnull String name) {
         this.name = Utils.checkNotNull(name, "name");
+        return this;
+    }
+
+    /**
+     * What the group's people share: an event, an organisation, a place or another attribute.
+     */
+    public Group withType(@Nonnull GroupType type) {
+        this.type = Utils.checkNotNull(type, "type");
+        return this;
+    }
+
+    /**
+     * The attribute its people share. Empty when none was given.
+     */
+    public Group withAttribute(@Nonnull String attribute) {
+        this.attribute = Utils.checkNotNull(attribute, "attribute");
         return this;
     }
 
@@ -365,6 +416,8 @@ public class Group {
         return Utils.enhancedDeepEquals(this.id, other.id)
                 && Utils.enhancedDeepEquals(this.environment, other.environment)
                 && Utils.enhancedDeepEquals(this.name, other.name)
+                && Utils.enhancedDeepEquals(this.type, other.type)
+                && Utils.enhancedDeepEquals(this.attribute, other.attribute)
                 && Utils.enhancedDeepEquals(this.startsAt, other.startsAt)
                 && Utils.enhancedDeepEquals(this.endsAt, other.endsAt)
                 && Utils.enhancedDeepEquals(this.venue, other.venue)
@@ -384,6 +437,8 @@ public class Group {
                 id,
                 environment,
                 name,
+                type,
+                attribute,
                 startsAt,
                 endsAt,
                 venue,
@@ -407,6 +462,10 @@ public class Group {
                 environment,
                 "name",
                 name,
+                "type",
+                type,
+                "attribute",
+                attribute,
                 "startsAt",
                 startsAt,
                 "endsAt",
@@ -439,6 +498,10 @@ public class Group {
         private AuditSettingsEnvironment environment;
 
         private String name;
+
+        private GroupType type;
+
+        private String attribute;
 
         private String startsAt;
 
@@ -481,6 +544,22 @@ public class Group {
          */
         public Builder name(@Nonnull String name) {
             this.name = Utils.checkNotNull(name, "name");
+            return this;
+        }
+
+        /**
+         * What the group's people share: an event, an organisation, a place or another attribute.
+         */
+        public Builder type(@Nonnull GroupType type) {
+            this.type = Utils.checkNotNull(type, "type");
+            return this;
+        }
+
+        /**
+         * The attribute its people share. Empty when none was given.
+         */
+        public Builder attribute(@Nonnull String attribute) {
+            this.attribute = Utils.checkNotNull(attribute, "attribute");
             return this;
         }
 
@@ -571,6 +650,8 @@ public class Group {
                     id,
                     environment,
                     name,
+                    type,
+                    attribute,
                     startsAt,
                     endsAt,
                     venue,

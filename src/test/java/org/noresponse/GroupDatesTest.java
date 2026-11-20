@@ -17,7 +17,7 @@ class GroupDatesTest {
         assertTrue(mapper.valueToTree(body).get("ends_at").isNull());
         body = body.withStartsAt("2026-12-03T09:00:00Z");
         assertEquals("2026-12-03T09:00:00Z", mapper.valueToTree(body).get("starts_at").asText());
-        var group = mapper.readValue("{\"id\":\"grp_example\",\"environment\":\"test\",\"name\":\"Harbour building\",\"starts_at\":null,\"ends_at\":null,\"principals\":[],\"topics\":[],\"people\":0,\"version\":1,\"created_by\":\"test\",\"created_at\":\"2026-11-15T10:00:00Z\",\"updated_at\":\"2026-11-15T10:00:00Z\"}", Group.class);
+        var group = mapper.readValue("{\"id\":\"grp_example\",\"environment\":\"test\",\"name\":\"Harbour building\",\"type\":\"event\",\"attribute\":\"\",\"starts_at\":null,\"ends_at\":null,\"principals\":[],\"topics\":[],\"people\":0,\"version\":1,\"created_by\":\"test\",\"created_at\":\"2026-11-15T10:00:00Z\",\"updated_at\":\"2026-11-15T10:00:00Z\"}", Group.class);
         assertTrue(group.startsAt().isPresent());
         assertNull(group.startsAt().get());
         assertTrue(group.endsAt().isPresent());

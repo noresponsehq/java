@@ -108,6 +108,7 @@ import org.noresponse.models.errors.PermissionDeniedException;
 import org.noresponse.models.errors.RateLimitException;
 import org.noresponse.models.operations.CreateGroupResponse;
 import org.noresponse.models.shared.GroupRequest;
+import org.noresponse.models.shared.GroupType;
 import org.noresponse.models.shared.Principal;
 
 public class Application {
@@ -122,6 +123,8 @@ public class Application {
                 .idempotencyKey("request-01JA2Z8K6Q4V7W9XBCDEFGHJKM")
                 .body(GroupRequest.builder()
                     .name("Annual shareholder meeting")
+                    .type(GroupType.ORGANISATION)
+                    .attribute("Example Fund")
                     .startsAt("2026-01-01T00:00:00Z")
                     .endsAt("2026-01-02T00:00:00Z")
                     .venue("Example Convention Centre")
@@ -263,6 +266,7 @@ public class Application {
                 .groupId("grp_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
                 .body(GroupUpdate.builder()
                     .name("Annual shareholder meeting")
+                    .attribute("Example Fund")
                     .startsAt("2026-01-01T00:00:00Z")
                     .endsAt("2026-01-02T00:00:00Z")
                     .venue("Example Convention Centre")
