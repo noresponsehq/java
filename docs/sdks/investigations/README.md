@@ -2,14 +2,13 @@
 
 ## Overview
 
-Person investigation jobs, retained results and contextual decisions.
+Person investigation jobs and retained results.
 
 ### Available Operations
 
 * [list](#list) - List investigation history.
 * [create](#create) - Start an investigation for a person.
 * [get](#get) - Read an investigation and its evidence.
-* [review](#review) - Record an investigation decision.
 * [cancel](#cancel) - Cancel an investigation
 
 ## list
@@ -145,7 +144,7 @@ public class Application {
 
 ## get
 
-Returns this investigation's status, coverage, source records, posts, media and contextual review history. Full evidence is returned by default; explicit evidence.read denial keeps submitted person details, status, coverage and decision summaries and hides collected evidence and free-text notes. The read is durably audited as person.viewed. The API key selects the workspace and environment. Missing, foreign or expired results answer 404.
+Returns this investigation's status, coverage, source records, posts and media. Full evidence is returned by default; explicit evidence.read denial keeps submitted person details, status and coverage, and hides collected evidence. The read is durably audited as person.viewed. The API key selects the workspace and environment. Missing, foreign or expired results answer 404.
 
 ### Example Usage
 
@@ -191,74 +190,6 @@ public class Application {
 ### Response
 
 **[GetInvestigationResponse](../../models/operations/GetInvestigationResponse.md)**
-
-### Errors
-
-| Error Type                              | Status Code                             | Content Type                            |
-| --------------------------------------- | --------------------------------------- | --------------------------------------- |
-| models/errors/BadRequestException       | 400                                     | application/problem+json                |
-| models/errors/AuthenticationException   | 401                                     | application/problem+json                |
-| models/errors/PermissionDeniedException | 403                                     | application/problem+json                |
-| models/errors/NotFoundException         | 404                                     | application/problem+json                |
-| models/errors/ConflictException         | 409                                     | application/problem+json                |
-| models/errors/RateLimitException        | 429                                     | application/problem+json                |
-| models/errors/APIStatusException        | 4XX, 5XX                                | \*/\*                                   |
-
-## review
-
-Record an investigation decision. Deprecated: decisions are leaving people and groups. The console no longer records them and no screening reads them. This route is removed in the next contract release; stop calling it. The API key determines the workspace and environment.
-
-### Example Usage
-
-<!-- UsageSnippet language="java" operationID="reviewInvestigation" method="post" path="/v1/investigations/{investigation_id}/reviews" -->
-```java
-package hello.world;
-
-import java.lang.Exception;
-import org.noresponse.NoResponse;
-import org.noresponse.models.errors.AuthenticationException;
-import org.noresponse.models.errors.BadRequestException;
-import org.noresponse.models.errors.ConflictException;
-import org.noresponse.models.errors.NotFoundException;
-import org.noresponse.models.errors.PermissionDeniedException;
-import org.noresponse.models.errors.RateLimitException;
-import org.noresponse.models.operations.ReviewInvestigationResponse;
-import org.noresponse.models.shared.PersonDecision;
-import org.noresponse.models.shared.PersonReviewRequest;
-
-public class Application {
-
-    public static void main(String[] args) throws Exception {
-
-        NoResponse sdk = NoResponse.builder()
-                .apiKey(System.getenv().getOrDefault("NORESPONSE_API_KEY", ""))
-            .build();
-
-        ReviewInvestigationResponse res = sdk.investigations().review()
-                .investigationId("inv_01JA2Z8K6Q4V7W9XBCDEFGHJKM")
-                .body(PersonReviewRequest.builder()
-                    .decision(PersonDecision.WATCH)
-                    .note("Known to the venue team.")
-                    .build())
-                .call();
-
-        if (res.investigation().isPresent()) {
-            System.out.println(res.investigation().get());
-        }
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                         | Type                                                              | Required                                                          | Description                                                       | Example                                                           |
-| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
-| `investigationId`                                                 | *String*                                                          | :heavy_check_mark:                                                | N/A                                                               | inv_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                    |
-| `body`                                                            | [PersonReviewRequest](../../models/shared/PersonReviewRequest.md) | :heavy_check_mark:                                                | N/A                                                               |                                                                   |
-
-### Response
-
-**[ReviewInvestigationResponse](../../models/operations/ReviewInvestigationResponse.md)**
 
 ### Errors
 

@@ -27,25 +27,6 @@ public class Investigation {
     @JsonProperty("spend")
     private ScreeningSpend spend;
 
-    /**
-     * The latest reviewer decision, or null before any.
-     */
-    @JsonInclude(Include.ALWAYS)
-    @JsonProperty("decision")
-    private JsonNullable<PersonDecision> decision;
-
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("decision_note")
-    private String decisionNote;
-
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("decided_by")
-    private String decidedBy;
-
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("decided_at")
-    private String decidedAt;
-
     @JsonProperty("id")
     private String id;
 
@@ -94,10 +75,6 @@ public class Investigation {
     public Investigation(
             @JsonProperty("coverage") @Nonnull ScreeningCoverage coverage,
             @JsonProperty("spend") @Nonnull ScreeningSpend spend,
-            @JsonProperty("decision") @Nullable PersonDecision decision,
-            @JsonProperty("decision_note") @Nullable String decisionNote,
-            @JsonProperty("decided_by") @Nullable String decidedBy,
-            @JsonProperty("decided_at") @Nullable String decidedAt,
             @JsonProperty("id") @Nonnull String id,
             @JsonProperty("person_id") @Nonnull String personId,
             @JsonProperty("group_id") @Nullable String groupId,
@@ -114,10 +91,6 @@ public class Investigation {
         this.coverage = Optional.ofNullable(coverage)
                 .orElseThrow(() -> new IllegalArgumentException("coverage cannot be null"));
         this.spend = Optional.ofNullable(spend).orElseThrow(() -> new IllegalArgumentException("spend cannot be null"));
-        this.decision = JsonNullable.of(decision);
-        this.decisionNote = decisionNote;
-        this.decidedBy = decidedBy;
-        this.decidedAt = decidedAt;
         this.id = Optional.ofNullable(id).orElseThrow(() -> new IllegalArgumentException("id cannot be null"));
         this.personId = Optional.ofNullable(personId)
                 .orElseThrow(() -> new IllegalArgumentException("personId cannot be null"));
@@ -153,10 +126,6 @@ public class Investigation {
         this(
                 coverage,
                 spend,
-                null,
-                null,
-                null,
-                null,
                 id,
                 personId,
                 null,
@@ -185,25 +154,6 @@ public class Investigation {
      */
     public ScreeningSpend spend() {
         return this.spend;
-    }
-
-    /**
-     * The latest reviewer decision, or null before any.
-     */
-    public JsonNullable<PersonDecision> decision() {
-        return this.decision;
-    }
-
-    public Optional<String> decisionNote() {
-        return Optional.ofNullable(this.decisionNote);
-    }
-
-    public Optional<String> decidedBy() {
-        return Optional.ofNullable(this.decidedBy);
-    }
-
-    public Optional<String> decidedAt() {
-        return Optional.ofNullable(this.decidedAt);
     }
 
     public String id() {
@@ -276,29 +226,6 @@ public class Investigation {
      */
     public Investigation withSpend(@Nonnull ScreeningSpend spend) {
         this.spend = Utils.checkNotNull(spend, "spend");
-        return this;
-    }
-
-    /**
-     * The latest reviewer decision, or null before any.
-     */
-    public Investigation withDecision(@Nullable PersonDecision decision) {
-        this.decision = JsonNullable.of(decision);
-        return this;
-    }
-
-    public Investigation withDecisionNote(@Nullable String decisionNote) {
-        this.decisionNote = decisionNote;
-        return this;
-    }
-
-    public Investigation withDecidedBy(@Nullable String decidedBy) {
-        this.decidedBy = decidedBy;
-        return this;
-    }
-
-    public Investigation withDecidedAt(@Nullable String decidedAt) {
-        this.decidedAt = decidedAt;
         return this;
     }
 
@@ -378,10 +305,6 @@ public class Investigation {
         Investigation other = (Investigation) o;
         return Utils.enhancedDeepEquals(this.coverage, other.coverage)
                 && Utils.enhancedDeepEquals(this.spend, other.spend)
-                && Utils.enhancedDeepEquals(this.decision, other.decision)
-                && Utils.enhancedDeepEquals(this.decisionNote, other.decisionNote)
-                && Utils.enhancedDeepEquals(this.decidedBy, other.decidedBy)
-                && Utils.enhancedDeepEquals(this.decidedAt, other.decidedAt)
                 && Utils.enhancedDeepEquals(this.id, other.id)
                 && Utils.enhancedDeepEquals(this.personId, other.personId)
                 && Utils.enhancedDeepEquals(this.groupId, other.groupId)
@@ -402,10 +325,6 @@ public class Investigation {
         return Utils.enhancedHash(
                 coverage,
                 spend,
-                decision,
-                decisionNote,
-                decidedBy,
-                decidedAt,
                 id,
                 personId,
                 groupId,
@@ -429,14 +348,6 @@ public class Investigation {
                 coverage,
                 "spend",
                 spend,
-                "decision",
-                decision,
-                "decisionNote",
-                decisionNote,
-                "decidedBy",
-                decidedBy,
-                "decidedAt",
-                decidedAt,
                 "id",
                 id,
                 "personId",
@@ -471,14 +382,6 @@ public class Investigation {
         private ScreeningCoverage coverage;
 
         private ScreeningSpend spend;
-
-        private PersonDecision decision;
-
-        private String decisionNote;
-
-        private String decidedBy;
-
-        private String decidedAt;
 
         private String id;
 
@@ -524,29 +427,6 @@ public class Investigation {
          */
         public Builder spend(@Nonnull ScreeningSpend spend) {
             this.spend = Utils.checkNotNull(spend, "spend");
-            return this;
-        }
-
-        /**
-         * The latest reviewer decision, or null before any.
-         */
-        public Builder decision(@Nullable PersonDecision decision) {
-            this.decision = decision;
-            return this;
-        }
-
-        public Builder decisionNote(@Nullable String decisionNote) {
-            this.decisionNote = decisionNote;
-            return this;
-        }
-
-        public Builder decidedBy(@Nullable String decidedBy) {
-            this.decidedBy = decidedBy;
-            return this;
-        }
-
-        public Builder decidedAt(@Nullable String decidedAt) {
-            this.decidedAt = decidedAt;
             return this;
         }
 
@@ -619,10 +499,6 @@ public class Investigation {
             return new Investigation(
                     coverage,
                     spend,
-                    decision,
-                    decisionNote,
-                    decidedBy,
-                    decidedAt,
                     id,
                     personId,
                     groupId,

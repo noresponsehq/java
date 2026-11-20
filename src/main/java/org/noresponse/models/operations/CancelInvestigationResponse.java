@@ -31,7 +31,7 @@ public class CancelInvestigationResponse implements Response {
     private HttpResponse<InputStream> rawResponse;
 
     /**
-     * Record an investigation decision.
+     * The investigation after the cancel request.
      */
     private Investigation investigation;
 
@@ -85,7 +85,7 @@ public class CancelInvestigationResponse implements Response {
     }
 
     /**
-     * Record an investigation decision.
+     * The investigation after the cancel request.
      */
     public Optional<Investigation> investigation() {
         return Optional.ofNullable(this.investigation);
@@ -124,7 +124,7 @@ public class CancelInvestigationResponse implements Response {
     }
 
     /**
-     * Record an investigation decision.
+     * The investigation after the cancel request.
      */
     public CancelInvestigationResponse withInvestigation(@Nullable Investigation investigation) {
         this.investigation = investigation;
@@ -215,7 +215,7 @@ public class CancelInvestigationResponse implements Response {
         }
 
         /**
-         * Record an investigation decision.
+         * The investigation after the cancel request.
          */
         public Builder investigation(@Nullable Investigation investigation) {
             this.investigation = investigation;

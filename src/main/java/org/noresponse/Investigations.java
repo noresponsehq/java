@@ -18,22 +18,17 @@ import org.noresponse.models.operations.GetInvestigationResponse;
 import org.noresponse.models.operations.ListInvestigationsRequest;
 import org.noresponse.models.operations.ListInvestigationsRequestBuilder;
 import org.noresponse.models.operations.ListInvestigationsResponse;
-import org.noresponse.models.operations.ReviewInvestigationRequest;
-import org.noresponse.models.operations.ReviewInvestigationRequestBuilder;
-import org.noresponse.models.operations.ReviewInvestigationResponse;
 import org.noresponse.models.shared.InvestigationRequest;
-import org.noresponse.models.shared.PersonReviewRequest;
 import org.noresponse.models.shared.ScreeningCancelRequest;
 import org.noresponse.operations.CancelInvestigation;
 import org.noresponse.operations.CreateInvestigation;
 import org.noresponse.operations.GetInvestigation;
 import org.noresponse.operations.ListInvestigations;
-import org.noresponse.operations.ReviewInvestigation;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 
 /**
- * Person investigation jobs, retained results and contextual decisions.
+ * Person investigation jobs and retained results.
  */
 public class Investigations {
     private static final Headers _headers = Headers.EMPTY;
@@ -174,10 +169,9 @@ public class Investigations {
     /**
      * Read an investigation and its evidence.
      *
-     * <p>Returns this investigation's status, coverage, source records, posts, media and contextual review
-     * history. Full evidence is returned by default; explicit evidence.read denial keeps submitted person
-     * details, status, coverage and decision summaries and hides collected evidence and free-text notes.
-     * The read is durably audited as person.viewed.
+     * <p>Returns this investigation's status, coverage, source records, posts and media. Full evidence is
+     * returned by default; explicit evidence.read denial keeps submitted person details, status and
+     * coverage, and hides collected evidence. The read is durably audited as person.viewed.
      *
      * <p>The API key selects the workspace and environment. Missing, foreign or expired results answer 404.
      *
@@ -190,10 +184,9 @@ public class Investigations {
     /**
      * Read an investigation and its evidence.
      *
-     * <p>Returns this investigation's status, coverage, source records, posts, media and contextual review
-     * history. Full evidence is returned by default; explicit evidence.read denial keeps submitted person
-     * details, status, coverage and decision summaries and hides collected evidence and free-text notes.
-     * The read is durably audited as person.viewed.
+     * <p>Returns this investigation's status, coverage, source records, posts and media. Full evidence is
+     * returned by default; explicit evidence.read denial keeps submitted person details, status and
+     * coverage, and hides collected evidence. The read is durably audited as person.viewed.
      *
      * <p>The API key selects the workspace and environment. Missing, foreign or expired results answer 404.
      *
@@ -208,10 +201,9 @@ public class Investigations {
     /**
      * Read an investigation and its evidence.
      *
-     * <p>Returns this investigation's status, coverage, source records, posts, media and contextual review
-     * history. Full evidence is returned by default; explicit evidence.read denial keeps submitted person
-     * details, status, coverage and decision summaries and hides collected evidence and free-text notes.
-     * The read is durably audited as person.viewed.
+     * <p>Returns this investigation's status, coverage, source records, posts and media. Full evidence is
+     * returned by default; explicit evidence.read denial keeps submitted person details, status and
+     * coverage, and hides collected evidence. The read is durably audited as person.viewed.
      *
      * <p>The API key selects the workspace and environment. Missing, foreign or expired results answer 404.
      *
@@ -224,42 +216,6 @@ public class Investigations {
         GetInvestigationRequest request = new GetInvestigationRequest(investigationId);
         RequestOperation<GetInvestigationRequest, GetInvestigationResponse> operation =
                 new GetInvestigation.Sync(sdkConfiguration, options, _headers);
-        return operation.handleResponse(operation.doRequest(request));
-    }
-
-    /**
-     * Record an investigation decision.
-     *
-     * <p>Record an investigation decision. Deprecated: decisions are leaving people and groups. The console
-     * no longer records them and no screening reads them.
-     *
-     * <p>This route is removed in the next contract release; stop calling it. The API key determines the
-     * workspace and environment.
-     *
-     * @return The call builder
-     */
-    public ReviewInvestigationRequestBuilder review() {
-        return new ReviewInvestigationRequestBuilder(sdkConfiguration);
-    }
-
-    /**
-     * Record an investigation decision.
-     *
-     * <p>Record an investigation decision. Deprecated: decisions are leaving people and groups. The console
-     * no longer records them and no screening reads them.
-     *
-     * <p>This route is removed in the next contract release; stop calling it. The API key determines the
-     * workspace and environment.
-     *
-     * @param investigationId
-     * @param body Records a decision on a person.
-     * @return The response from the API call
-     * @throws RuntimeException subclass if the API call fails
-     */
-    public ReviewInvestigationResponse review(@Nonnull String investigationId, @Nonnull PersonReviewRequest body) {
-        ReviewInvestigationRequest request = new ReviewInvestigationRequest(investigationId, body);
-        RequestOperation<ReviewInvestigationRequest, ReviewInvestigationResponse> operation =
-                new ReviewInvestigation.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

@@ -38,12 +38,6 @@ public class InvestigationReport {
     private List<ScreeningMedia> media;
 
     /**
-     * Every recorded decision, oldest first.
-     */
-    @JsonProperty("reviews")
-    private List<PersonReview> reviews;
-
-    /**
      * What the signup check's lookups found for a person: account presence for the email, phone and
      * usernames (the person's handles), the phone lookup, the email domain's registration and the breach
      * search. Nothing here sets a match state.
@@ -53,9 +47,8 @@ public class InvestigationReport {
     private ScreeningLookup lookup;
 
     /**
-     * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
-     * remain available. Collected records, profiles, posts, media, discovered values and free-text
-     * decision notes are withheld.
+     * True when evidence.read is explicitly denied. Submitted details, coverage and job status remain
+     * available. Collected records, profiles, posts, media and discovered values are withheld.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("evidence_restricted")
@@ -72,7 +65,6 @@ public class InvestigationReport {
             @JsonProperty("profiles") @Nonnull List<ScreeningProfile> profiles,
             @JsonProperty("posts") @Nonnull List<ScreeningPost> posts,
             @JsonProperty("media") @Nonnull List<ScreeningMedia> media,
-            @JsonProperty("reviews") @Nonnull List<PersonReview> reviews,
             @JsonProperty("lookup") @Nullable ScreeningLookup lookup,
             @JsonProperty("evidence_restricted") @Nullable Boolean evidenceRestricted,
             @JsonProperty("person") @Nonnull WorkspacePerson person,
@@ -81,8 +73,6 @@ public class InvestigationReport {
                 .orElseThrow(() -> new IllegalArgumentException("profiles cannot be null"));
         this.posts = Optional.ofNullable(posts).orElseThrow(() -> new IllegalArgumentException("posts cannot be null"));
         this.media = Optional.ofNullable(media).orElseThrow(() -> new IllegalArgumentException("media cannot be null"));
-        this.reviews =
-                Optional.ofNullable(reviews).orElseThrow(() -> new IllegalArgumentException("reviews cannot be null"));
         this.lookup = lookup;
         this.evidenceRestricted = evidenceRestricted;
         this.person =
@@ -95,10 +85,9 @@ public class InvestigationReport {
             @Nonnull List<ScreeningProfile> profiles,
             @Nonnull List<ScreeningPost> posts,
             @Nonnull List<ScreeningMedia> media,
-            @Nonnull List<PersonReview> reviews,
             @Nonnull WorkspacePerson person,
             @Nonnull Investigation investigation) {
-        this(profiles, posts, media, reviews, null, null, person, investigation);
+        this(profiles, posts, media, null, null, person, investigation);
     }
 
     /**
@@ -123,13 +112,6 @@ public class InvestigationReport {
     }
 
     /**
-     * Every recorded decision, oldest first.
-     */
-    public List<PersonReview> reviews() {
-        return this.reviews;
-    }
-
-    /**
      * What the signup check's lookups found for a person: account presence for the email, phone and
      * usernames (the person's handles), the phone lookup, the email domain's registration and the breach
      * search. Nothing here sets a match state.
@@ -139,9 +121,8 @@ public class InvestigationReport {
     }
 
     /**
-     * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
-     * remain available. Collected records, profiles, posts, media, discovered values and free-text
-     * decision notes are withheld.
+     * True when evidence.read is explicitly denied. Submitted details, coverage and job status remain
+     * available. Collected records, profiles, posts, media and discovered values are withheld.
      */
     public Optional<Boolean> evidenceRestricted() {
         return Optional.ofNullable(this.evidenceRestricted);
@@ -184,14 +165,6 @@ public class InvestigationReport {
     }
 
     /**
-     * Every recorded decision, oldest first.
-     */
-    public InvestigationReport withReviews(@Nonnull List<PersonReview> reviews) {
-        this.reviews = Utils.checkNotNull(reviews, "reviews");
-        return this;
-    }
-
-    /**
      * What the signup check's lookups found for a person: account presence for the email, phone and
      * usernames (the person's handles), the phone lookup, the email domain's registration and the breach
      * search. Nothing here sets a match state.
@@ -202,9 +175,8 @@ public class InvestigationReport {
     }
 
     /**
-     * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
-     * remain available. Collected records, profiles, posts, media, discovered values and free-text
-     * decision notes are withheld.
+     * True when evidence.read is explicitly denied. Submitted details, coverage and job status remain
+     * available. Collected records, profiles, posts, media and discovered values are withheld.
      */
     public InvestigationReport withEvidenceRestricted(@Nullable Boolean evidenceRestricted) {
         this.evidenceRestricted = evidenceRestricted;
@@ -233,7 +205,6 @@ public class InvestigationReport {
         return Utils.enhancedDeepEquals(this.profiles, other.profiles)
                 && Utils.enhancedDeepEquals(this.posts, other.posts)
                 && Utils.enhancedDeepEquals(this.media, other.media)
-                && Utils.enhancedDeepEquals(this.reviews, other.reviews)
                 && Utils.enhancedDeepEquals(this.lookup, other.lookup)
                 && Utils.enhancedDeepEquals(this.evidenceRestricted, other.evidenceRestricted)
                 && Utils.enhancedDeepEquals(this.person, other.person)
@@ -242,7 +213,7 @@ public class InvestigationReport {
 
     @Override
     public int hashCode() {
-        return Utils.enhancedHash(profiles, posts, media, reviews, lookup, evidenceRestricted, person, investigation);
+        return Utils.enhancedHash(profiles, posts, media, lookup, evidenceRestricted, person, investigation);
     }
 
     @Override
@@ -255,8 +226,6 @@ public class InvestigationReport {
                 posts,
                 "media",
                 media,
-                "reviews",
-                reviews,
                 "lookup",
                 lookup,
                 "evidenceRestricted",
@@ -275,8 +244,6 @@ public class InvestigationReport {
         private List<ScreeningPost> posts;
 
         private List<ScreeningMedia> media;
-
-        private List<PersonReview> reviews;
 
         private ScreeningLookup lookup;
 
@@ -315,14 +282,6 @@ public class InvestigationReport {
         }
 
         /**
-         * Every recorded decision, oldest first.
-         */
-        public Builder reviews(@Nonnull List<PersonReview> reviews) {
-            this.reviews = Utils.checkNotNull(reviews, "reviews");
-            return this;
-        }
-
-        /**
          * What the signup check's lookups found for a person: account presence for the email, phone and
          * usernames (the person's handles), the phone lookup, the email domain's registration and the breach
          * search. Nothing here sets a match state.
@@ -333,9 +292,8 @@ public class InvestigationReport {
         }
 
         /**
-         * True when evidence.read is explicitly denied. Submitted details, coverage, job status and decisions
-         * remain available. Collected records, profiles, posts, media, discovered values and free-text
-         * decision notes are withheld.
+         * True when evidence.read is explicitly denied. Submitted details, coverage and job status remain
+         * available. Collected records, profiles, posts, media and discovered values are withheld.
          */
         public Builder evidenceRestricted(@Nullable Boolean evidenceRestricted) {
             this.evidenceRestricted = evidenceRestricted;
@@ -353,8 +311,7 @@ public class InvestigationReport {
         }
 
         public InvestigationReport build() {
-            return new InvestigationReport(
-                    profiles, posts, media, reviews, lookup, evidenceRestricted, person, investigation);
+            return new InvestigationReport(profiles, posts, media, lookup, evidenceRestricted, person, investigation);
         }
     }
 }

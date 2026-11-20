@@ -678,10 +678,10 @@ public class Groups {
     /**
      * Record a decision on a person.
      *
-     * <p>Marks the person's latest finished investigation cleared, watch or escalated with a note, as POST
-     * /v1/investigations/{investigation_id}/reviews does; a person with no finished investigation answers
-     * 409 group_conflict. Decisions are kept in order; the latest is the person's until a newer
-     * investigation finishes. A decision changes nothing else: no screening reads it.
+     * <p>Marks the person's latest finished investigation cleared, watch or escalated with a note; a person
+     * with no finished investigation answers 409 group_conflict. Decisions are kept in order; the latest
+     * is the person's until a newer investigation finishes. A decision changes nothing else: no screening
+     * reads it.
      *
      * <p>Deprecated: decisions are leaving people and groups. The console no longer records them and no
      * screening reads them. This route is removed in the next contract release; stop calling it.
@@ -700,10 +700,10 @@ public class Groups {
     /**
      * Record a decision on a person.
      *
-     * <p>Marks the person's latest finished investigation cleared, watch or escalated with a note, as POST
-     * /v1/investigations/{investigation_id}/reviews does; a person with no finished investigation answers
-     * 409 group_conflict. Decisions are kept in order; the latest is the person's until a newer
-     * investigation finishes. A decision changes nothing else: no screening reads it.
+     * <p>Marks the person's latest finished investigation cleared, watch or escalated with a note; a person
+     * with no finished investigation answers 409 group_conflict. Decisions are kept in order; the latest
+     * is the person's until a newer investigation finishes. A decision changes nothing else: no screening
+     * reads it.
      *
      * <p>Deprecated: decisions are leaving people and groups. The console no longer records them and no
      * screening reads them. This route is removed in the next contract release; stop calling it.

@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.noresponsehq:java:v19.0.6'
+    implementation 'com.github.noresponsehq:java:v20.0.0'
 }
 ```
 
@@ -39,7 +39,7 @@ dependencies {
 <dependency>
   <groupId>com.github.noresponsehq</groupId>
   <artifactId>java</artifactId>
-  <version>v19.0.6</version>
+  <version>v20.0.0</version>
 </dependency>
 ```
 
@@ -74,7 +74,7 @@ After `investigation.completed`, use `client.investigations().get().investigatio
 
 The API key selects the workspace and environment. This flow needs `people_write` to create a person, `investigations` to start work, and `people` to read the report. Save the investigation id and key: retry the same work with the same key; use a new key for a deliberate new investigation. A person can belong to several groups or none. Their `expires_at` comes from workspace retention.
 
-Evidence is included by default for pre-verified customers. An explicit evidence restriction keeps submitted details, status, coverage and decision summaries, and withholds collected records, profiles, posts, media and discovered identifiers. Each investigation and group keeps its own review context.
+Evidence is included by default for pre-verified customers. An explicit evidence restriction keeps submitted details, status and coverage, and withholds collected records, profiles, posts, media and discovered identifiers.
 
 ## Assess a signup
 

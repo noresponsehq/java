@@ -11,8 +11,8 @@ import org.noresponse.utils.Headers;
  * people for screening and context-specific decisions.
  *
  * <p>Account creation, login and purchase assessments use the same engine. People-read access includes
- * evidence by default; explicit evidence restrictions retain submitted details, job status, coverage
- * and decision summaries. Keep the API key on your server.
+ * evidence by default; explicit evidence restrictions retain submitted details, job status and
+ * coverage. Keep the API key on your server.
  */
 public class AsyncNoResponse {
     private static final Headers _headers = Headers.EMPTY;
@@ -97,7 +97,7 @@ public class AsyncNoResponse {
      */
     private final AsyncPeople people;
     /**
-     * Person investigation jobs, retained results and contextual decisions.
+     * Person investigation jobs and retained results.
      */
     private final AsyncInvestigations investigations;
     /**
@@ -221,7 +221,7 @@ public class AsyncNoResponse {
         return people;
     }
     /**
-     * Person investigation jobs, retained results and contextual decisions.
+     * Person investigation jobs and retained results.
      */
     public AsyncInvestigations investigations() {
         return investigations;

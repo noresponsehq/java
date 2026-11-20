@@ -21,7 +21,7 @@ import org.noresponse.utils.Utils;
  * purchase assessments use the same engine.
  *
  * <p>People-read access includes evidence by default; explicit evidence restrictions retain submitted
- * details, job status, coverage and decision summaries. Keep the API key on your server.
+ * details, job status and coverage. Keep the API key on your server.
  */
 public class NoResponse {
     private static final Headers _headers = Headers.EMPTY;
@@ -137,7 +137,7 @@ public class NoResponse {
     private final People people;
 
     /**
-     * Person investigation jobs, retained results and contextual decisions.
+     * Person investigation jobs and retained results.
      */
     private final Investigations investigations;
 
@@ -282,7 +282,7 @@ public class NoResponse {
     }
 
     /**
-     * Person investigation jobs, retained results and contextual decisions.
+     * Person investigation jobs and retained results.
      */
     public Investigations investigations() {
         return investigations;

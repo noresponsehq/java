@@ -1,9 +1,0 @@
-# ReviewInvestigationRequest
-
-
-## Fields
-
-| Field                                                             | Setter Type                                                       | Getter Type                                                       | Required                                                          | Description                                                       | Example                                                           |
-| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
-| `investigationId`                                                 | *String*                                                          | *String*                                                          | :heavy_check_mark:                                                | N/A                                                               | inv_01JA2Z8K6Q4V7W9XBCDEFGHJKM                                    |
-| `body`                                                            | [PersonReviewRequest](../../models/shared/PersonReviewRequest.md) | [PersonReviewRequest](../../models/shared/PersonReviewRequest.md) | :heavy_check_mark:                                                | N/A                                                               |                                                                   |

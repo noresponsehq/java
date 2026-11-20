@@ -11,7 +11,6 @@ import org.noresponse.models.operations.CancelInvestigationRequest;
 import org.noresponse.models.operations.CreateInvestigationRequest;
 import org.noresponse.models.operations.GetInvestigationRequest;
 import org.noresponse.models.operations.ListInvestigationsRequest;
-import org.noresponse.models.operations.ReviewInvestigationRequest;
 import org.noresponse.models.operations.async.CancelInvestigationRequestBuilder;
 import org.noresponse.models.operations.async.CancelInvestigationResponse;
 import org.noresponse.models.operations.async.CreateInvestigationRequestBuilder;
@@ -20,21 +19,17 @@ import org.noresponse.models.operations.async.GetInvestigationRequestBuilder;
 import org.noresponse.models.operations.async.GetInvestigationResponse;
 import org.noresponse.models.operations.async.ListInvestigationsRequestBuilder;
 import org.noresponse.models.operations.async.ListInvestigationsResponse;
-import org.noresponse.models.operations.async.ReviewInvestigationRequestBuilder;
-import org.noresponse.models.operations.async.ReviewInvestigationResponse;
 import org.noresponse.models.shared.InvestigationRequest;
-import org.noresponse.models.shared.PersonReviewRequest;
 import org.noresponse.models.shared.ScreeningCancelRequest;
 import org.noresponse.operations.CancelInvestigation;
 import org.noresponse.operations.CreateInvestigation;
 import org.noresponse.operations.GetInvestigation;
 import org.noresponse.operations.ListInvestigations;
-import org.noresponse.operations.ReviewInvestigation;
 import org.noresponse.utils.Headers;
 import org.noresponse.utils.Options;
 
 /**
- * Person investigation jobs, retained results and contextual decisions.
+ * Person investigation jobs and retained results.
  */
 public class AsyncInvestigations {
     private static final Headers _headers = Headers.EMPTY;
@@ -172,10 +167,9 @@ public class AsyncInvestigations {
     /**
      * Read an investigation and its evidence.
      *
-     * <p>Returns this investigation's status, coverage, source records, posts, media and contextual review
-     * history. Full evidence is returned by default; explicit evidence.read denial keeps submitted person
-     * details, status, coverage and decision summaries and hides collected evidence and free-text notes.
-     * The read is durably audited as person.viewed.
+     * <p>Returns this investigation's status, coverage, source records, posts and media. Full evidence is
+     * returned by default; explicit evidence.read denial keeps submitted person details, status and
+     * coverage, and hides collected evidence. The read is durably audited as person.viewed.
      *
      * <p>The API key selects the workspace and environment. Missing, foreign or expired results answer 404.
      *
@@ -188,10 +182,9 @@ public class AsyncInvestigations {
     /**
      * Read an investigation and its evidence.
      *
-     * <p>Returns this investigation's status, coverage, source records, posts, media and contextual review
-     * history. Full evidence is returned by default; explicit evidence.read denial keeps submitted person
-     * details, status, coverage and decision summaries and hides collected evidence and free-text notes.
-     * The read is durably audited as person.viewed.
+     * <p>Returns this investigation's status, coverage, source records, posts and media. Full evidence is
+     * returned by default; explicit evidence.read denial keeps submitted person details, status and
+     * coverage, and hides collected evidence. The read is durably audited as person.viewed.
      *
      * <p>The API key selects the workspace and environment. Missing, foreign or expired results answer 404.
      *
@@ -205,10 +198,9 @@ public class AsyncInvestigations {
     /**
      * Read an investigation and its evidence.
      *
-     * <p>Returns this investigation's status, coverage, source records, posts, media and contextual review
-     * history. Full evidence is returned by default; explicit evidence.read denial keeps submitted person
-     * details, status, coverage and decision summaries and hides collected evidence and free-text notes.
-     * The read is durably audited as person.viewed.
+     * <p>Returns this investigation's status, coverage, source records, posts and media. Full evidence is
+     * returned by default; explicit evidence.read denial keeps submitted person details, status and
+     * coverage, and hides collected evidence. The read is durably audited as person.viewed.
      *
      * <p>The API key selects the workspace and environment. Missing, foreign or expired results answer 404.
      *
@@ -220,42 +212,6 @@ public class AsyncInvestigations {
         GetInvestigationRequest request = new GetInvestigationRequest(investigationId);
         AsyncRequestOperation<GetInvestigationRequest, GetInvestigationResponse> operation =
                 new GetInvestigation.Async(sdkConfiguration, options, sdkConfiguration.retryScheduler(), _headers);
-        return operation.doRequest(request).thenCompose(operation::handleResponse);
-    }
-
-    /**
-     * Record an investigation decision.
-     *
-     * <p>Record an investigation decision. Deprecated: decisions are leaving people and groups. The console
-     * no longer records them and no screening reads them.
-     *
-     * <p>This route is removed in the next contract release; stop calling it. The API key determines the
-     * workspace and environment.
-     *
-     * @return The async call builder
-     */
-    public ReviewInvestigationRequestBuilder review() {
-        return new ReviewInvestigationRequestBuilder(sdkConfiguration);
-    }
-
-    /**
-     * Record an investigation decision.
-     *
-     * <p>Record an investigation decision. Deprecated: decisions are leaving people and groups. The console
-     * no longer records them and no screening reads them.
-     *
-     * <p>This route is removed in the next contract release; stop calling it. The API key determines the
-     * workspace and environment.
-     *
-     * @param investigationId
-     * @param body Records a decision on a person.
-     * @return {@code CompletableFuture<ReviewInvestigationResponse>} - The async response
-     */
-    public CompletableFuture<ReviewInvestigationResponse> review(
-            @Nonnull String investigationId, @Nonnull PersonReviewRequest body) {
-        ReviewInvestigationRequest request = new ReviewInvestigationRequest(investigationId, body);
-        AsyncRequestOperation<ReviewInvestigationRequest, ReviewInvestigationResponse> operation =
-                new ReviewInvestigation.Async(sdkConfiguration, _headers);
         return operation.doRequest(request).thenCompose(operation::handleResponse);
     }
 
